@@ -52053,7 +52053,7 @@
 							"visibility": "public"
 						}
 					],
-					"documentation": "场景：\n用户可以查看到自己的认证信息和认证状态。\n如果用户注册了承包商，且通过审核，可以看到自己作为承包商的认证信息。\n\n承包商数据：\n信用等级\n信用积分\n\n以下进行列表，分为四列，分别是大类、项目、状态、信用积分\n基本信息：即帐号注册信息\n企业基本信息：\n-公司全称\n-营业执照\n-组织机构代码证\n-税务登记证\n-开户行信息（银行名称+账号）\n-经营范围\n-企业类型\n-企业成立时间\n-企业营业期限\n-法人姓名\n-法人身份证号\n-法人身份证扫描件\n-联系人姓名\n-联系人手机号码\n-企业办公地址\n-企业电子邮箱\n-法人授权书（如果帐号真实姓名与法人姓名不一致，需要法人授权书）\n-工程范围（多个，十大类工程选择）\n企业资质：\n-资质证书（多个）\n-安全生产许可证（多个）\n-专利技术证（多个）\n-体系认证证书（多个）\n交易记录：\n-中标次数\n-按时完工次数\n评价记录\n-综合打分评价（打分换算）\n-投诉次数（-x分/次）\n\n特别说明：\n由于建筑行业挂靠现象特别多，为了招揽更多的客户，在这里我们不限制一个企业对应一个帐号，即可以出现一个企业有多个帐号申请认证，且通过。\n在投标过程中，为了避免出现一家公司多个帐号同时投标，因此将按照以下规则处理，某个项目投标只能有一家公司一个帐号：\n1）没有信用积分的按照先到先得；\n2）有信用积分的，按照积分最高的得；\n3）信用积分相同的，按照先到先得；",
+					"documentation": "场景：\n用户可以查看到自己的认证信息和认证状态。\n如果用户注册了承包商，且通过审核，可以看到自己作为承包商的认证信息。\n\n承包商数据：\n信用等级\n信用积分\n\n以下进行列表，分为四列，分别是大类、项目、状态、信用积分\n基本信息：即帐号注册信息\n企业基本信息：\n-公司全称\n-营业执照\n-组织机构代码证\n-税务登记证\n-开户行信息（银行名称+账号）\n-经营范围\n-企业类型\n-企业成立时间\n-企业营业期限\n-法人姓名\n-法人身份证号\n-法人身份证扫描件\n-联系人姓名\n-联系人手机号码\n-企业办公地址\n-企业电子邮箱\n-法人授权书（如果帐号真实姓名与法人姓名不一致，需要法人授权书）\n-企业介绍：\n-工程范围（多个，十大类工程选择）\n企业资质：\n-资质证书（多个）\n-安全生产许可证（多个）\n-专利技术证（多个）\n-体系认证证书（多个）\n交易记录：\n-中标次数\n-按时完工次数\n评价记录\n-综合打分评价（打分换算）\n-投诉次数（-x分/次）\n\n特别说明：\n由于建筑行业挂靠现象特别多，为了招揽更多的客户，在这里我们不限制一个企业对应一个帐号，即可以出现一个企业有多个帐号申请认证，且通过。\n在投标过程中，为了避免出现一家公司多个帐号同时投标，因此将按照以下规则处理，某个项目投标只能有一家公司一个帐号：\n1）没有信用积分的按照先到先得；\n2）有信用积分的，按照积分最高的得；\n3）信用积分相同的，按照先到先得；",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -52210,7 +52210,7 @@
 							"visibility": "public"
 						}
 					],
-					"documentation": "场景：\n用户可以查看到自己的认证信息和认证状态。\n如果用户注册了发包方，且通过审核，可以看到自己作为发包方的认证信息。\n\n发包方数据：\n信用等级\n信用积分\n\n以下进行列表，分为四列，分别是大类、项目、状态、信用积分\n基本信息：即帐号注册信息\n企业基本信息：\n-公司全称\n-营业执照\n-组织机构代码证\n-税务登记证\n-开户行信息（银行名称+账号）\n-经营范围\n-企业类型\n-企业成立时间\n-企业营业期限\n-法人姓名\n-法人身份证号\n-法人身份证扫描件\n-联系人姓名\n-联系人手机号码\n-企业办公地址\n-企业电子邮箱\n-法人授权书（如果帐号真实姓名与法人姓名不一致，需要法人授权书）\n企业资质：\n-资质证书（多个）\n-其他证书（多个）\n交易记录：\n-发包次数\n-按时付款次数（+x分/次）\n-逾期付款次数（-x分/次）\n评价记录\n-综合打分评价（打分换算）\n-投诉次数（-x分/次）\n\n特别说明：\n一个帐号对应一个发包方，一个发包方对应一个帐号",
+					"documentation": "场景：\n用户可以查看到自己的认证信息和认证状态。\n如果用户注册了发包方，且通过审核，可以看到自己作为发包方的认证信息。\n\n发包方数据：\n信用等级\n信用积分\n\n以下进行列表，分为四列，分别是大类、项目、状态、信用积分\n基本信息：即帐号注册信息\n企业基本信息：\n-公司全称\n-营业执照\n-组织机构代码证\n-税务登记证\n-开户行信息（银行名称+账号）\n-经营范围\n-企业类型\n-企业成立时间\n-企业营业期限\n-法人姓名\n-法人身份证号\n-法人身份证扫描件\n-联系人姓名\n-联系人手机号码\n-企业办公地址\n-企业电子邮箱\n-法人授权书（如果帐号真实姓名与法人姓名不一致，需要法人授权书）\n企业介绍：\n企业资质：\n-资质证书（多个）\n-其他证书（多个）\n交易记录：\n-发包次数\n-按时付款次数（+x分/次）\n-逾期付款次数（-x分/次）\n评价记录\n-综合打分评价（打分换算）\n-投诉次数（-x分/次）\n\n特别说明：\n一个帐号对应一个发包方，一个发包方对应一个帐号",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -62023,9 +62023,579 @@
 					"_parent": {
 						"$ref": "AAAAAAFFxl38KT9O4MM="
 					},
-					"name": "资金管理",
+					"name": "后台管理",
 					"visible": true,
-					"defaultDiagram": false
+					"defaultDiagram": false,
+					"ownedViews": [
+						{
+							"_type": "UMLActorView",
+							"_id": "AAAAAAFQPl2uPGY/KRA=",
+							"_parent": {
+								"$ref": "AAAAAAFQPkpC9yfpHgM="
+							},
+							"model": {
+								"$ref": "AAAAAAFQPl2uN2Y99wI="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFQPl2uPWZAGYA=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl2uPGY/KRA="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl2uN2Y99wI="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl2uPmZBNPM=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl2uPWZAGYA="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl2uPmZCfC8=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl2uPWZAGYA="
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;1",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 773,
+											"top": 1389,
+											"width": 40,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "财务",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl2uPmZDJZI=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl2uPWZAGYA="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 127,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "(from Use Case View)",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl2uPmZE3PI=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl2uPWZAGYA="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 1,
+											"verticalAlignment": 5
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 768,
+									"top": 1382,
+									"width": 50,
+									"height": 25,
+									"autoResize": false,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFQPl2uPmZBNPM="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFQPl2uPmZCfC8="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFQPl2uPmZDJZI="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFQPl2uPmZE3PI="
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "AAAAAAFQPl2uPmZF4Cs=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl2uPGY/KRA="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl2uN2Y99wI="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "AAAAAAFQPl2uP2ZGGuU=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl2uPGY/KRA="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl2uN2Y99wI="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "AAAAAAFQPl2uQGZH8kY=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl2uPGY/KRA="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl2uN2Y99wI="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "AAAAAAFQPl2uQWZIPgU=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl2uPGY/KRA="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl2uN2Y99wI="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 768,
+							"top": 1328,
+							"width": 50,
+							"height": 80,
+							"autoResize": false,
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showNamespace": false,
+							"showProperty": true,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "AAAAAAFQPl2uPWZAGYA="
+							},
+							"wordWrap": false,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": true,
+							"showOperationSignature": true,
+							"attributeCompartment": {
+								"$ref": "AAAAAAFQPl2uPmZF4Cs="
+							},
+							"operationCompartment": {
+								"$ref": "AAAAAAFQPl2uP2ZGGuU="
+							},
+							"receptionCompartment": {
+								"$ref": "AAAAAAFQPl2uQGZH8kY="
+							},
+							"templateParameterCompartment": {
+								"$ref": "AAAAAAFQPl2uQWZIPgU="
+							}
+						},
+						{
+							"_type": "UMLActorView",
+							"_id": "AAAAAAFQPl3OW2ZpksI=",
+							"_parent": {
+								"$ref": "AAAAAAFQPkpC9yfpHgM="
+							},
+							"model": {
+								"$ref": "AAAAAAFQPl3OW2Zn5Hw="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFQPl3OW2ZqdG4=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl3OW2ZpksI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl3OW2Zn5Hw="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl3OXGZryJk=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl3OW2ZqdG4="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl3OXGZskW8=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl3OW2ZqdG4="
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;1",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 765,
+											"top": 1653,
+											"width": 40,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "运营",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl3OXGZtG/0=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl3OW2ZqdG4="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 127,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"text": "(from Use Case View)",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFQPl3OXGZu7mo=",
+											"_parent": {
+												"$ref": "AAAAAAFQPl3OW2ZqdG4="
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#000000",
+											"fillColor": "#ffffff",
+											"fontColor": "#000000",
+											"font": "Arial;13;0",
+											"showShadow": true,
+											"containerChangeable": false,
+											"containerExtending": false,
+											"left": 0,
+											"top": 0,
+											"width": 0,
+											"height": 13,
+											"autoResize": false,
+											"underline": false,
+											"horizontalAlignment": 1,
+											"verticalAlignment": 5
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 760,
+									"top": 1646,
+									"width": 50,
+									"height": 25,
+									"autoResize": false,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFQPl3OXGZryJk="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFQPl3OXGZskW8="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFQPl3OXGZtG/0="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFQPl3OXGZu7mo="
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "AAAAAAFQPl3OXGZvw/c=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl3OW2ZpksI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl3OW2Zn5Hw="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "AAAAAAFQPl3OXGZwBBA=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl3OW2ZpksI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl3OW2Zn5Hw="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "AAAAAAFQPl3OXWZxMLQ=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl3OW2ZpksI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl3OW2Zn5Hw="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "AAAAAAFQPl3OXWZyYVY=",
+									"_parent": {
+										"$ref": "AAAAAAFQPl3OW2ZpksI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQPl3OW2Zn5Hw="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 0,
+									"top": 0,
+									"width": 10,
+									"height": 10,
+									"autoResize": false
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 760,
+							"top": 1592,
+							"width": 50,
+							"height": 80,
+							"autoResize": false,
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showNamespace": false,
+							"showProperty": true,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "AAAAAAFQPl3OW2ZqdG4="
+							},
+							"wordWrap": false,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": true,
+							"showOperationSignature": true,
+							"attributeCompartment": {
+								"$ref": "AAAAAAFQPl3OXGZvw/c="
+							},
+							"operationCompartment": {
+								"$ref": "AAAAAAFQPl3OXGZwBBA="
+							},
+							"receptionCompartment": {
+								"$ref": "AAAAAAFQPl3OXWZxMLQ="
+							},
+							"templateParameterCompartment": {
+								"$ref": "AAAAAAFQPl3OXWZyYVY="
+							}
+						}
+					]
 				},
 				{
 					"_type": "UMLUseCase",
@@ -62117,6 +62687,30 @@
 					},
 					"name": "提现",
 					"documentation": "场景：\n用户可以向平台方发起提现申请，平台方通过银行转账方式进行提现\n\n输入：\n时间\n提现金额\n备注\n\n输出：\n提交提现申请成功|提现申请失败\n\n输出：",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLActor",
+					"_id": "AAAAAAFQPl2uN2Y99wI=",
+					"_parent": {
+						"$ref": "AAAAAAFFxl38KT9O4MM="
+					},
+					"name": "财务",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLActor",
+					"_id": "AAAAAAFQPl3OW2Zn5Hw=",
+					"_parent": {
+						"$ref": "AAAAAAFFxl38KT9O4MM="
+					},
+					"name": "运营",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,

@@ -59,11 +59,12 @@ token|是|用户令牌
             "projectCcope":"xxx",
             "description":"xxx",
             "website":"xxx",
-            "address":"xxx"
-            ,certifications:[
-            {"certificationCertId":1,"certificationId":12,"certificationContent":"http://wxe.com/fdsfeirn"},
-            {"certificationCertId":2,"certificationId":22,"certificationContent":"http://wxe.com/fdsfei3rn"}
-            ]
+            "address":"xxx",
+	    "certifications":[{
+	        "certificationCertId":1,
+	        "certificationId":12,
+	        "certificationContent":"http://wxe.com/fdsfeirn"
+	    }]
             },
         "audit":{
             "companyName":"OK#",
@@ -332,7 +333,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	    "token":"2",	
+	    "token":"36552",	
 	    "legalPersonName":"张三",
 	    "legalPersonIdCardNum":"420923199205049230121"
             "legalPersonIdCardProsUrl":"法人身份证正面地址",
@@ -425,7 +426,7 @@ token|是|用户令牌
 	     "taxRegistrationUrl":"税务证书上传地址",
 	     "organizationCodeNum":"3w3454676",
 	     "organizationCodeUrl":"组织机构代码证上传地址"
-     }
+        }
     }
 
 错误时的JSON数据包示例：
@@ -612,7 +613,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	    "token":2,	
+	    "token":"26789",	
 	    "bank":"招商银行",
 	    "subBranch":"支行",
 	    "bankCardNum":"",
@@ -689,7 +690,13 @@ token|是|用户令牌
     {"errcode":0,"errmsg":"查询招标人行业资质成功",
 	"certificateInfo":{ 
 	   "projectCategoryId":[1,3,5],
-	   "enterpriseQualification":[{"certificationCertId":1,"certificationId":12,"certificationName":"桩工程一级资质","certificationContent":"http://wxe.com/fdsfeirn","expiryDate":"2016-09-12"}],
+	   "enterpriseQualification":[{
+	       "certificationCertId":1,
+	       "certificationId":12,
+	       "certificationName":"桩工程一级资质",
+	       "certificationContent":"http://wxe.com/fdsfeirn",
+	       "expiryDate":"2016-09-12"
+	   }],
 	 }  
     }
 
@@ -728,7 +735,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	    "token":2,	
+	    "token":"98762",	
 	    "projectCategoryId":[1,3,5],
 	    "enterpriseQualification":
 		    [{"certificateId":2,"certificateUrl":"","action":"ADD","certificationCertId":1},
@@ -787,7 +794,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	    "token":"2"
+	    "token":"25678"
         }
     } 
 

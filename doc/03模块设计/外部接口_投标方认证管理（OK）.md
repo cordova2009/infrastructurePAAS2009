@@ -689,7 +689,13 @@ token|是|用户令牌
     {"errcode":0,"errmsg":"查询投标人行业资质成功",
 	"certificateInfo":{ 
 	   "projectCategoryId":[1,3,5],
-	   "enterpriseQualification":[{"certificationCertId":1,"certificationId":12,"certificationName":"桩工程一级资质","certificationContent":"http://wxe.com/fdsfeirn","expiryDate":"2016-09-12"}],
+	   "enterpriseQualification":[{
+	       "certificationCertId":1,
+	       "certificationId":12,
+	       "certificationName":"桩工程一级资质",
+	       "certificationContent":"http://wxe.com/fdsfeirn",
+	       "expiryDate":"2016-09-12"
+	    }],
 	 }  
     }
 
@@ -730,9 +736,12 @@ POST数据格式：JSON
         {
 	    "token":2,	
 	    "projectCategoryId":[1,3,5],
-	    "enterpriseQualification":
-		    [{"certificateId":2,"certificateUrl":"","action":"ADD","certificationCertId":1},
-		    {"certificateId":3,"certificateUrl":"","action":"DEL","certificationCertId":1}]
+	    "enterpriseQualification":[{
+		"certificateId":2,
+		"certificateUrl":"",
+		"action":"ADD",
+		"certificationCertId":1
+	    }]
 	   
         }
     } 

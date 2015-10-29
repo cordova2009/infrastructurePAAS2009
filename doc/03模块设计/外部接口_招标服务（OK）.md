@@ -44,8 +44,8 @@ status|是|查询列表状态（发布中的，实施中，已结束）
 	"projectCategoryId":3,
 	"objectId":"32456",
 	"objectName":"7665",
-	"objcetOffer":30000000,
-	"objectEvaluate":30000000,
+	"objcetOffer":"30000000",
+	"objectEvaluate":"30000000",
 	"winBidCompany":"XXX公司",
 	"isEvaluate":"OK#",
 	"isOpenBid":"OK#"}]
@@ -167,7 +167,7 @@ objectId|是|标的编号
 	     "biderCompany":"投标公司",
 	     "biderId":"4536789",
 	     "bidDate":"2015-06-25 11:35:23",
-	     "objectOffer":5000000,
+	     "objectOffer":"5000000",
 	     "fileUrl":"URL"}]
     }
 
@@ -261,7 +261,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-            "token":4,
+            "token":"467",
 	    "bidId":"zb90887",
 	    "star":5,
 	    "tags":["速度够快","质量很高"],
@@ -341,13 +341,13 @@ token|是|用户令牌
 	    "projectName":"金域华府3期工程开发",
 	    "projectNum":"ZF9767575645",
 	    "objectName":"土石购买招标",
-	    "objectEvaluate":300000000,
-	    "predictTotalInvestment":800000000000,
+	    "objectEvaluate":"300000000",
+	    "predictTotalInvestment":"800000000000",
 	    "objectContent":"购买5吨水泥",
 	    "projectAddress":"深圳龙华区民塘路",
 	    "bidEvaluationMethod":"评标方法",
 	    "picketageMethod":"定标方法",
-	    "tenderBond":50000,
+	    "tenderBond":"50000",
 	    "projectIntroduce":"工程项目概况",
 	    "enterpriseQualification":[{"certificateId":2,"certificateNum":4},{"certificateId":3,"certificateNum":2}],
 	    "objectPrincipalDemand":"项目负责人要求",
@@ -378,7 +378,7 @@ token|是|用户令牌
 	    "answerEndTime":"2015-05-23",
 	    "payType":"",
 	    "payPeriod":12
-	    "payList":[{"period":1,"intervalTime":60,"paySum":45465}]
+	    "payList":[{"period":1,"intervalTime":60,"paySum":"45465"}]
 	    
         }
     } 
@@ -483,7 +483,7 @@ token|是|用户令牌
  
     {"errcode":0,"errmsg":"查询用户招标资质成功",
      "info":{
-	"isInvitation":"NO#",
+	"isInvitation":"FLS",
 	"remark":"非会员只能发布一次招标。"
 	}
     }
@@ -627,8 +627,7 @@ projectCompanyPhone|否|建设单位联系电话
 
 正常时的返回JSON数据包示例：
  
-    {"errcode":0,"errmsg":"保存招标基础信息成功",
-	 "objectId":"35656"
+    {"errcode":0,"errmsg":"保存招标基础信息成功", "objectId":"35656"
     }
 
 错误时的JSON数据包示例：
@@ -663,7 +662,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	     "token":5,
+	     "token":"87875",
 	     "objectId":"35656"
 	 }
      }
@@ -683,13 +682,15 @@ objectId|是|招标Id
 正常时的返回JSON数据包示例：
  
     {"errcode":0,"errmsg":"查询未完成招标基础信息成功",
-	"projectName":"金域华府3期工程开发",
-	"projectNum":"ZF9767575645",
-	"projectIntroduce":"工程项目概况",
-	"predictTotalInvestment":800000000000,
-	"projectCompany":"建设单位",
-	"projectCompanyAgent":"建设单位经办人",
-	"projectCompanyPhone":"1234523456"
+	"info":{
+		"projectName":"金域华府3期工程开发",
+		"projectNum":"ZF9767575645",
+		"projectIntroduce":"工程项目概况",
+		"predictTotalInvestment":"800000000000",
+		"projectCompany":"建设单位",
+		"projectCompanyAgent":"建设单位经办人",
+		"projectCompanyPhone":"1234523456"
+	}
 
     }
 
@@ -730,7 +731,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	     "token":5,
+	     "token":"45678u5",
 	     "objectId":"35656",
 	     "projectName":"金域华府3期工程开发",
 	     "projectNum":"ZF9767575645",
@@ -888,7 +889,7 @@ certificateId|是|证书Id
 certificateNum|是|要求数量
 performanceDemand|是|业绩要求
 performanceName|是|业绩名称
-performanceNum|是|业绩名称
+performanceNum|是|业绩数量
 objectPrincipalDemand|是|项目负责人要求
 otherDemand|是|其他要求
 
@@ -976,7 +977,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	     "token":5,
+	     "token":"546785",
 	     "objectId":"35656"
 	 }
      }
@@ -1032,7 +1033,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	    "attachments":[{"attachmentNme":"标书","attachmentUrl":"http://www.baidu.com"}],
+	    "attachments":[{"attachmentNme":"标书","attachmentUrl":"http://www.baidu.com"}]
 	
 	 }
      }
@@ -1083,7 +1084,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	     "token":"5",
+	     "token":"58960",
 	     "objectId":"35656"
 	 }
      }
@@ -1209,10 +1210,11 @@ signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,
 正常时的返回JSON数据包示例：
  
     {"errcode":0,"errmsg":"查询证书列表成功",
-	"info":{
-	    "list":[{"name":"",
-	    "bidId":5}]
-	}
+	"list":[{
+	    "name":"",
+	    "bidId":5
+	    }]
+	
     }
 
 错误时的JSON数据包示例：
@@ -1366,7 +1368,7 @@ POST数据格式：JSON
         },        
         "body":
         {
-	     "token":5,
+	     "token":"674895",
 	     "objectId":"35656"
 	 }
      }
@@ -1390,6 +1392,7 @@ objectId|是|招标Id
 		"answerStartTime":"2015-05-23",
 	        "answerEndTime":"2015-05-23",
 		"QQ":"",
+		"QQtoken":"QQ口令",
 		"email":"",
 		"address":"",
 		"answerTime":"",
@@ -1443,7 +1446,7 @@ POST数据格式：JSON
 		"address":"",
 		"answerTime":"",
 		"telPhone":"1387654"
-	    },
+	    }
 	     
 	 }
      }
@@ -1522,10 +1525,10 @@ objectId|是|招标Id
 正常时的返回JSON数据包示例：
  
     {"errcode":0,"errmsg":"保证金查询成功",
-    "info":{
+     "info":{
 	"satisfy":"YES",
-	"bidBond":50000,
-	"tenderBond":50000
+	"bidBond":"50000",
+	"tenderBond":"50000"
         }
     }
 
@@ -1563,7 +1566,9 @@ POST数据格式：JSON
         },        
         "body":
         {
-	     "tenderBond":"50000"
+	     "objectId":"546758980",
+	     "token":"356578",
+	     "tenderBond":50000
 	 }
      }
 
@@ -1574,7 +1579,8 @@ timestamp|是|时间戳
 nonce|是|随机数
 signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
 tenderBond|是|投标保证金
-
+token|是|用户令牌
+objectId|是|招标Id
 
 2）返回说明
 

@@ -1,15 +1,15 @@
-###²éÑ¯ÎÒµÄÍ¶±êÈËÈÏÖ¤ĞÅÏ¢½Ó¿Ú
+###æŸ¥è¯¢æˆ‘çš„æŠ•æ ‡äººè®¤è¯ä¿¡æ¯æ¥å£
 
-¸Ã½Ó¿ÚÓÃÓÚ²éÑ¯×ÊÖÊÈÏÖ¤½á¹û£¬»¹¿ÉÒÔÓÃÓÚÏÂÒ»´ÎµÄ×ÊÖÊÈÏÖ¤£¬»ñÈ¡ĞÅÏ¢¡£
+è¯¥æ¥å£ç”¨äºæŸ¥è¯¢èµ„è´¨è®¤è¯ç»“æœï¼Œè¿˜å¯ä»¥ç”¨äºä¸‹ä¸€æ¬¡çš„èµ„è´¨è®¤è¯ï¼Œè·å–ä¿¡æ¯ã€‚
 
-Ç°ÖÃ£ºÏÈµÇÂ¼
+å‰ç½®ï¼šå…ˆç™»å½•
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
     http://ip:port/if/verifyBider/bidderCertificateResult
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -26,20 +26,20 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"²éÑ¯Í¶±ê·½×ÊÖÊÈÏÖ¤½á¹û³É¹¦",
+    {"errcode":0,"errmsg":"æŸ¥è¯¢æŠ•æ ‡æ–¹èµ„è´¨è®¤è¯ç»“æœæˆåŠŸ",
         "apply":{
             "companyName":"xxx",
             "legalPerson":"xxx",
@@ -94,47 +94,47 @@ token|ÊÇ|ÓÃ»§ÁîÅÆ
     }
 
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"²éÑ¯Í¶±ê×ÊÖÊÈÏÖ¤½á¹ûÊ§°Ü£¬ÆäËü´íÎó"}
+    {"errcode":10000,"errmsg":"æŸ¥è¯¢æŠ•æ ‡èµ„è´¨è®¤è¯ç»“æœå¤±è´¥ï¼Œå…¶å®ƒé”™è¯¯"}
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-companyName|ÊÇ|¹«Ë¾Ãû³ÆÈÏÖ¤½á¹û 
-legalPerson|ÊÇ|¹«Ë¾·¨ÈËÈÏÖ¤½á¹û 
-regTime|ÊÇ|ÆóÒµ³ÉÁ¢Ê±¼äÈÏÖ¤½á¹û
-contactName|ÊÇ|ÁªÏµÈËÈÏÖ¤½á¹û
-contactMobileNum|ÊÇ|  ÁªÏµÈËÊÖ»úºÅÂëÈÏÖ¤½á¹û
-businessLicense|ÊÇ|ÓªÒµÖ´ÕÕÈÏÖ¤½á¹û
-orgCodeCertificate|ÊÇ|×éÖ¯»ú¹¹´úÂëÖ¤ÈÏÖ¤½á¹û
-taxRegistrationCertificate|ÊÇ|Ë°ÎñµÇ¼ÇÖ¤ÈÏÖ¤½á¹û
-newBusinessLicense|ÊÇ|3ºÏ1Ö¤ÈÏÖ¤½á¹û
-businessLicenseExpireTime|ÊÇ|ÆóÒµÓªÒµÆÚÏŞÈÏÖ¤½á¹û
-legalPersonIdentity|ÊÇ|·¨ÈËÉí·İÖ¤ºÅÈÏÖ¤½á¹û
-legalPersonIdentityPic|ÊÇ|·¨ÈËÉí·İÖ¤É¨Ãè¼şÈÏÖ¤½á¹û
-email|ÊÇ|ÆóÒµµç×ÓÓÊÏäÈÏÖ¤½á¹û
-legalPersonAuthorityBook|ÊÇ|·¨ÈËÊÚÈ¨ÊéÈÏÖ¤½á¹û
-projectCcope|ÊÇ|¹¤³Ì·¶Î§ÈÏÖ¤½á¹û
-description|ÊÇ|¹«Ë¾¼ò½éÈÏÖ¤½á¹û
-website|ÊÇ|¹«Ë¾ÍøÖ·ÈÏÖ¤½á¹û
-address|ÊÇ|ÆóÒµ°ì¹«µØÖ·ÈÏÖ¤½á¹û
-certificationCertId|ÊÇ|Ö¤Êé¼ÇÂ¼id
-certificationId|ÊÇ|Ö¤ÊéÀà±ğid
-certificationContent|ÊÇ|Ö¤ÊéÄÚÈİ
+companyName|æ˜¯|å…¬å¸åç§°è®¤è¯ç»“æœ 
+legalPerson|æ˜¯|å…¬å¸æ³•äººè®¤è¯ç»“æœ 
+regTime|æ˜¯|ä¼ä¸šæˆç«‹æ—¶é—´è®¤è¯ç»“æœ
+contactName|æ˜¯|è”ç³»äººè®¤è¯ç»“æœ
+contactMobileNum|æ˜¯|  è”ç³»äººæ‰‹æœºå·ç è®¤è¯ç»“æœ
+businessLicense|æ˜¯|è¥ä¸šæ‰§ç…§è®¤è¯ç»“æœ
+orgCodeCertificate|æ˜¯|ç»„ç»‡æœºæ„ä»£ç è¯è®¤è¯ç»“æœ
+taxRegistrationCertificate|æ˜¯|ç¨åŠ¡ç™»è®°è¯è®¤è¯ç»“æœ
+newBusinessLicense|æ˜¯|3åˆ1è¯è®¤è¯ç»“æœ
+businessLicenseExpireTime|æ˜¯|ä¼ä¸šè¥ä¸šæœŸé™è®¤è¯ç»“æœ
+legalPersonIdentity|æ˜¯|æ³•äººèº«ä»½è¯å·è®¤è¯ç»“æœ
+legalPersonIdentityPic|æ˜¯|æ³•äººèº«ä»½è¯æ‰«æä»¶è®¤è¯ç»“æœ
+email|æ˜¯|ä¼ä¸šç”µå­é‚®ç®±è®¤è¯ç»“æœ
+legalPersonAuthorityBook|æ˜¯|æ³•äººæˆæƒä¹¦è®¤è¯ç»“æœ
+projectCcope|æ˜¯|å·¥ç¨‹èŒƒå›´è®¤è¯ç»“æœ
+description|æ˜¯|å…¬å¸ç®€ä»‹è®¤è¯ç»“æœ
+website|æ˜¯|å…¬å¸ç½‘å€è®¤è¯ç»“æœ
+address|æ˜¯|ä¼ä¸šåŠå…¬åœ°å€è®¤è¯ç»“æœ
+certificationCertId|æ˜¯|è¯ä¹¦è®°å½•id
+certificationId|æ˜¯|è¯ä¹¦ç±»åˆ«id
+certificationContent|æ˜¯|è¯ä¹¦å†…å®¹
 
 
-###²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË»ù±¾ĞÅÏ¢½Ó¿Ú
+###æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯æ¥å£
 
-²éÑ¯±£´æµÄÍ¶±êÈËÈÏÖ¤ÉêÇëÊ±µÄµÚÒ»²½»ù±¾ĞÅÏ¢µÄ½Ó¿Ú
+æŸ¥è¯¢ä¿å­˜çš„æŠ•æ ‡äººè®¤è¯ç”³è¯·æ—¶çš„ç¬¬ä¸€æ­¥åŸºæœ¬ä¿¡æ¯çš„æ¥å£
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
      http://ip:port/if/verifyBider/queryBiderBaseInfo
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -149,53 +149,53 @@ POSTÊı¾İ¸ñÊ½£ºJSON
         }
     } 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË»ù±¾ĞÅÏ¢³É¹¦",
+    {"errcode":0,"errmsg":"æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯æˆåŠŸ",
 	"baseInfo":{
-		"companyName":"ÉîÛÚ·äÄñÓéÀÖ¼¼ÊõÓĞÏŞ¹«Ë¾",
-		"companyShortName":"·äÄñÓéÀÖ",
-		"description":"¹«Ë¾¼ò½é",
+		"companyName":"æ·±åœ³èœ‚é¸Ÿå¨±ä¹æŠ€æœ¯æœ‰é™å…¬å¸",
+		"companyShortName":"èœ‚é¸Ÿå¨±ä¹",
+		"description":"å…¬å¸ç®€ä»‹",
 		"registeredCapital":"",
 		"telphone":"",
 		"email":""
 	}
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË»ù±¾ĞÅÏ¢Ê§°Ü"}
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+    {"errcode":10000,"errmsg":"æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯å¤±è´¥"}
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-companyName|ÊÇ|¹«Ë¾È«³Æ
-companyShortName|ÊÇ|¹«Ë¾¼ò³Æ
-description|ÊÇ|description
-registeredCapital|ÊÇ|×¢²á×Ê±¾
-telphone|ÊÇ|°ì¹«µç»°
-email|ÊÇ|¹«Ë¾ÓÊÏä
+companyName|æ˜¯|å…¬å¸å…¨ç§°
+companyShortName|æ˜¯|å…¬å¸ç®€ç§°
+description|æ˜¯|description
+registeredCapital|æ˜¯|æ³¨å†Œèµ„æœ¬
+telphone|æ˜¯|åŠå…¬ç”µè¯
+email|æ˜¯|å…¬å¸é‚®ç®±
 
 
-###±£´æÍ¶±êÈË»ù±¾ĞÅÏ¢½Ó¿Ú
+###ä¿å­˜æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯æ¥å£
 
-±£´æÍ¶±êÈËÈÏÖ¤ÉêÇëÊ±µÄµÚÒ»²½»ù±¾ĞÅÏ¢µÄ½Ó¿Ú
+ä¿å­˜æŠ•æ ‡äººè®¤è¯ç”³è¯·æ—¶çš„ç¬¬ä¸€æ­¥åŸºæœ¬ä¿¡æ¯çš„æ¥å£
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
      http://ip:port/if/verifyBider/saveBiderBaseInfo
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -208,56 +208,56 @@ POSTÊı¾İ¸ñÊ½£ºJSON
         {
 	    "token":"342567",
 	    "companyLogoUrl":""
-	    "companyName":"ÉîÛÚ·äÄñÓéÀÖ¼¼ÊõÓĞÏŞ¹«Ë¾",
-	    "companyShortName":"·äÄñÓéÀÖ",
-	    "description":"¹«Ë¾¼ò½é",
+	    "companyName":"æ·±åœ³èœ‚é¸Ÿå¨±ä¹æŠ€æœ¯æœ‰é™å…¬å¸",
+	    "companyShortName":"èœ‚é¸Ÿå¨±ä¹",
+	    "description":"å…¬å¸ç®€ä»‹",
 	    "registeredCapital":"",
 	    "telphone":"",
 	    "email":""
         }
     } 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
-companyLogoUrl|ÊÇ|¹«Ë¾Logo
-companyName|ÊÇ|¹«Ë¾È«³Æ
-companyShortName|ÊÇ|¹«Ë¾¼ò³Æ
-description|ÊÇ|¹«Ë¾¼ò½é
-registeredCapital|ÊÇ|×¢²á×Ê±¾
-telphone|ÊÇ|°ì¹«µç»°
-email|ÊÇ|¹«Ë¾ÓÊÏä
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
+companyLogoUrl|æ˜¯|å…¬å¸Logo
+companyName|æ˜¯|å…¬å¸å…¨ç§°
+companyShortName|æ˜¯|å…¬å¸ç®€ç§°
+description|æ˜¯|å…¬å¸ç®€ä»‹
+registeredCapital|æ˜¯|æ³¨å†Œèµ„æœ¬
+telphone|æ˜¯|åŠå…¬ç”µè¯
+email|æ˜¯|å…¬å¸é‚®ç®±
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"±£´æÍ¶±êÈË»ù±¾ĞÅÏ¢³É¹¦"
+    {"errcode":0,"errmsg":"ä¿å­˜æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯æˆåŠŸ"
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"±£´æÍ¶±êÈË»ù±¾ĞÅÏ¢Ê§°Ü"}
-
-
-
-###²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË»ù±¾ĞÅÏ¢½Ó¿Ú
-
-ÈÏÖ¤Í¶±êÈËµÚ¶ş²½£¬²éÑ¯±£´æµÄÍ¶±êÈË·¨ÈËĞÅÏ¢½Ó¿Ú
+    {"errcode":10000,"errmsg":"ä¿å­˜æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯å¤±è´¥"}
 
 
-httpÇëÇó·½Ê½: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+###æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººåŸºæœ¬ä¿¡æ¯æ¥å£
+
+è®¤è¯æŠ•æ ‡äººç¬¬äºŒæ­¥ï¼ŒæŸ¥è¯¢ä¿å­˜çš„æŠ•æ ‡äººæ³•äººä¿¡æ¯æ¥å£
+
+
+httpè¯·æ±‚æ–¹å¼: post
+
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/queryBiderLegalnInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -273,55 +273,55 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"²éÑ¯Í¶±êÈË·¨ÈËĞÅÏ¢³É¹¦",
+    {"errcode":0,"errmsg":"æŸ¥è¯¢æŠ•æ ‡äººæ³•äººä¿¡æ¯æˆåŠŸ",
 	"legalnInfo":{
-		"legalPersonName":"ÕÅÈı",
+		"legalPersonName":"å¼ ä¸‰",
 		"legalPersonIdentityCardName":"420923199205049230121",
-		"legalPersonIdCardProsUrl":"·¨ÈËÉí·İÖ¤ÕıÃæµØÖ·",
-		"legalPersonIdCardConsUrl":"·¨ÈËÉí·İÖ¤·´ÃæµØÖ·",
+		"legalPersonIdCardProsUrl":"æ³•äººèº«ä»½è¯æ­£é¢åœ°å€",
+		"legalPersonIdCardConsUrl":"æ³•äººèº«ä»½è¯åé¢åœ°å€",
 		"legalPersonAuthorizationUrl":""
 	}
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"²éÑ¯Í¶±êÈË·¨ÈËĞÅÏ¢Ê§°Ü"}
+    {"errcode":10000,"errmsg":"æŸ¥è¯¢æŠ•æ ‡äººæ³•äººä¿¡æ¯å¤±è´¥"}
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-token|ÊÇ|ÓÃ»§ÁîÅÆ
-legalPersonName|ÊÇ|·¨ÈËĞÕÃû
-legalPersonIdentityCardName|ÊÇ|·¨ÈËÉí·İÖ¤ºÅ
-legalPersonIdCardProsUrl|ÊÇ|·¨ÈËÉí·İÖ¤ÕıÃæÉÏ´«µØÖ·
-legalPersonIdCardConsUrl|ÊÇ|·¨ÈËÉí·İÖ¤·´ÃæÉÏ´«µØÖ·
-legalPersonAuthorizationUrl|·ñ|·¨ÈËÊÚÈ¨ÊéÉÏ´«µØÖ·
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
+legalPersonName|æ˜¯|æ³•äººå§“å
+legalPersonIdentityCardName|æ˜¯|æ³•äººèº«ä»½è¯å·
+legalPersonIdCardProsUrl|æ˜¯|æ³•äººèº«ä»½è¯æ­£é¢ä¸Šä¼ åœ°å€
+legalPersonIdCardConsUrl|æ˜¯|æ³•äººèº«ä»½è¯åé¢ä¸Šä¼ åœ°å€
+legalPersonAuthorizationUrl|å¦|æ³•äººæˆæƒä¹¦ä¸Šä¼ åœ°å€
 
 
-###±£´æÍ¶±êÈË·¨ÈËĞÅÏ¢½Ó¿Ú
+###ä¿å­˜æŠ•æ ‡äººæ³•äººä¿¡æ¯æ¥å£
 
-ÈÏÖ¤Í¶±êÈËµÚ¶ş²½£¬±£´æÍ¶±êÈË·¨ÈËĞÅÏ¢½Ó¿Ú
+è®¤è¯æŠ•æ ‡äººç¬¬äºŒæ­¥ï¼Œä¿å­˜æŠ•æ ‡äººæ³•äººä¿¡æ¯æ¥å£
 
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/saveBiderLegalnInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -333,54 +333,54 @@ POSTÊı¾İ¸ñÊ½£ºJSON
         "body":
         {
 	    "token":"2",	
-	    "legalPersonName":"ÕÅÈı",
+	    "legalPersonName":"å¼ ä¸‰",
 	    "legalPersonIdCardNum":"420923199205049230121"
-            "legalPersonIdCardProsUrl":"·¨ÈËÉí·İÖ¤ÕıÃæµØÖ·",
-	    "legalPersonIdCardConsUrl":"·¨ÈËÉí·İÖ¤·´ÃæµØÖ·",
+            "legalPersonIdCardProsUrl":"æ³•äººèº«ä»½è¯æ­£é¢åœ°å€",
+	    "legalPersonIdCardConsUrl":"æ³•äººèº«ä»½è¯åé¢åœ°å€",
 	    "legalPersonAuthorizationUrl":""
 
         }
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
-legalPersonName|ÊÇ|·¨ÈËĞÕÃû
-legalPersonIdCardNum|ÊÇ|·¨ÈËÉí·İÖ¤ºÅ
-legalPersonIdCardProsUrl|ÊÇ|·¨ÈËÉí·İÖ¤ÕıÃæÉÏ´«µØÖ·
-legalPersonIdCardConsUrl|ÊÇ|·¨ÈËÉí·İÖ¤·´ÃæÉÏ´«µØÖ·
-legalPersonAuthorizationUrl|·ñ|·¨ÈËÊÚÈ¨ÊéÉÏ´«µØÖ·
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
+legalPersonName|æ˜¯|æ³•äººå§“å
+legalPersonIdCardNum|æ˜¯|æ³•äººèº«ä»½è¯å·
+legalPersonIdCardProsUrl|æ˜¯|æ³•äººèº«ä»½è¯æ­£é¢ä¸Šä¼ åœ°å€
+legalPersonIdCardConsUrl|æ˜¯|æ³•äººèº«ä»½è¯åé¢ä¸Šä¼ åœ°å€
+legalPersonAuthorizationUrl|å¦|æ³•äººæˆæƒä¹¦ä¸Šä¼ åœ°å€
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"±£´æÍ¶±êÈË·¨ÈËĞÅÏ¢³É¹¦"
+    {"errcode":0,"errmsg":"ä¿å­˜æŠ•æ ‡äººæ³•äººä¿¡æ¯æˆåŠŸ"
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"±£´æÍ¶±êÈË·¨ÈËĞÅÏ¢Ê§°Ü"}
-
-
-###²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢½Ó¿Ú
-
-²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢
+    {"errcode":10000,"errmsg":"ä¿å­˜æŠ•æ ‡äººæ³•äººä¿¡æ¯å¤±è´¥"}
 
 
-httpÇëÇó·½Ê½: post
+###æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯æ¥å£
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯
+
+
+httpè¯·æ±‚æ–¹å¼: post
+
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/queryBiderCompanyInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -397,71 +397,71 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
     {
-     "errcode":0,"errmsg":"²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢³É¹¦",
+     "errcode":0,"errmsg":"æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯æˆåŠŸ",
      "companyInfo":{
-	     "businessScope":"¾­Óª·¶Î§",
+	     "businessScope":"ç»è¥èŒƒå›´",
 	     "regTime":"2014-04-05",
-	     "operationPeriod":"¹«Ë¾ÓªÒµÆÚÏŞ",
+	     "operationPeriod":"å…¬å¸è¥ä¸šæœŸé™",
 	     "address":"",
 	     "businessLicenseType":"",
 	     "newBusinessLicenseNum":"",
 	     "newBusinessLicenseUrl":"",
 	     "businessLicenseNum":"36544789",
-	     "businessLicenseUrl":"ÓªÒµÖ´ÕÕÉÏ´«µØÖ·",
+	     "businessLicenseUrl":"è¥ä¸šæ‰§ç…§ä¸Šä¼ åœ°å€",
 	     "taxRegistrationNum":"2434567",
-	     "taxRegistrationUrl":"Ë°ÎñÖ¤ÊéÉÏ´«µØÖ·",
+	     "taxRegistrationUrl":"ç¨åŠ¡è¯ä¹¦ä¸Šä¼ åœ°å€",
 	     "organizationCodeNum":"3w3454676",
-	     "organizationCodeUrl":"×éÖ¯»ú¹¹´úÂëÖ¤ÉÏ´«µØÖ·"
+	     "organizationCodeUrl":"ç»„ç»‡æœºæ„ä»£ç è¯ä¸Šä¼ åœ°å€"
      }
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢Ê§°Ü"}
+    {"errcode":10000,"errmsg":"æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯å¤±è´¥"}
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-businessScope|ÊÇ|¾­Óª·¶Î§
-regTime|ÊÇ|×¢²áÊ±¼ä
-operationPeriod|ÊÇ|¹«Ë¾ÓªÒµÆÚÏŞ
-address|ÊÇ|¹«Ë¾µØÖ·
-businessLicenseType|ÊÇ|ÓªÒµÖ´ÕÕÀàĞÍ,OLD,ÈıÖ¤²»ºÏÒ»£¬NEW£¬ÈıÖ¤ºÏÒ»
-newBusinessLicenseNum|ÊÇ|ÈıºÏÒ»Ö´ÕÕºÅ
-newBusinessLicenseUrl|ÊÇ|ÈıºÏÒ»Ö´ÕÕÉÏ´«Id
-businessLicenseNum|ÊÇ|ÓªÒµÖ´ÕÕºÅ
-businessLicenseUrl|ÊÇ|ÓªÒµÖ´ÕÕÉÏ´«µØÖ·
-taxRegistrationNum|ÊÇ|Ë°ÎñÖ¤Êé±àºÅ
-taxRegistrationUrl|ÊÇ|Ë°ÎñÖ¤ÊéÉÏ´«µØÖ·
-organizationCodeNum|ÊÇ|×éÖ¯»ú¹¹´úÂë
-organizationCodeUrl|ÊÇ|×éÖ¯»ú¹¹´úÂëÖ¤ÉÏ´«µØÖ·
+businessScope|æ˜¯|ç»è¥èŒƒå›´
+regTime|æ˜¯|æ³¨å†Œæ—¶é—´
+operationPeriod|æ˜¯|å…¬å¸è¥ä¸šæœŸé™
+address|æ˜¯|å…¬å¸åœ°å€
+businessLicenseType|æ˜¯|è¥ä¸šæ‰§ç…§ç±»å‹,OLD,ä¸‰è¯ä¸åˆä¸€ï¼ŒNEWï¼Œä¸‰è¯åˆä¸€
+newBusinessLicenseNum|æ˜¯|ä¸‰åˆä¸€æ‰§ç…§å·
+newBusinessLicenseUrl|æ˜¯|ä¸‰åˆä¸€æ‰§ç…§ä¸Šä¼ Id
+businessLicenseNum|æ˜¯|è¥ä¸šæ‰§ç…§å·
+businessLicenseUrl|æ˜¯|è¥ä¸šæ‰§ç…§ä¸Šä¼ åœ°å€
+taxRegistrationNum|æ˜¯|ç¨åŠ¡è¯ä¹¦ç¼–å·
+taxRegistrationUrl|æ˜¯|ç¨åŠ¡è¯ä¹¦ä¸Šä¼ åœ°å€
+organizationCodeNum|æ˜¯|ç»„ç»‡æœºæ„ä»£ç 
+organizationCodeUrl|æ˜¯|ç»„ç»‡æœºæ„ä»£ç è¯ä¸Šä¼ åœ°å€
 
 
-###±£´æÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢½Ó¿Ú
+###ä¿å­˜æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯æ¥å£
 
-±£´æÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢½Ó¿Ú
+ä¿å­˜æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯æ¥å£
 
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/saveBiderCompanyInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -473,73 +473,73 @@ POSTÊı¾İ¸ñÊ½£ºJSON
         "body":
         {
 	    "token":"53645768",	
-	    "businessScope":"¾­Óª·¶Î§",
+	    "businessScope":"ç»è¥èŒƒå›´",
 	    "regTime":"2014-04-05",
-	    "operationPeriod":"¹«Ë¾ÓªÒµÆÚÏŞ",
+	    "operationPeriod":"å…¬å¸è¥ä¸šæœŸé™",
 	    "address":"",
 	    "businessLicenseType":"",
 	    "newBusinessLicenseNum":"",
 	    "newBusinessLicenseUrl":"",
 	    "businessLicenseNum":"36544789",
-	    "businessLicenseUrl":"ÓªÒµÖ´ÕÕÉÏ´«µØÖ·",
+	    "businessLicenseUrl":"è¥ä¸šæ‰§ç…§ä¸Šä¼ åœ°å€",
 	    "taxRegistrationNum":"2434567",
-	    "taxRegistrationUrl":"Ë°ÎñÖ¤ÊéÉÏ´«µØÖ·",
+	    "taxRegistrationUrl":"ç¨åŠ¡è¯ä¹¦ä¸Šä¼ åœ°å€",
 	    "organizationCodeNum":"3w3454676",
-	    "organizationCodeUrl":"×éÖ¯»ú¹¹´úÂëÖ¤ÉÏ´«µØÖ·",
+	    "organizationCodeUrl":"ç»„ç»‡æœºæ„ä»£ç è¯ä¸Šä¼ åœ°å€",
 	   
 
         }
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
-businessScope|ÊÇ|¾­Óª·¶Î§
-regTime|ÊÇ|×¢²áÊ±¼ä
-operationPeriod|ÊÇ|¹«Ë¾ÓªÒµÆÚÏŞ
-address|ÊÇ|¹«Ë¾µØÖ·
-registeredCapital|ÊÇ|×¢²á×Ê±¾
-businessLicenseType|ÊÇ|ÓªÒµÖ´ÕÕÀàĞÍ
-newBusinessLicenseNum|ÊÇ|ÈıºÏÒ»Ö´ÕÕºÅ
-newBusinessLicenseUrl|ÊÇ|ÈıºÏÒ»Ö´ÕÕÉÏ´«Id
-businessLicenseNum|ÊÇ|ÓªÒµÖ´ÕÕºÅ
-businessLicenseUrl|ÊÇ|ÓªÒµÖ´ÕÕÉÏ´«µØÖ·
-taxRegistrationNum|ÊÇ|Ë°ÎñÖ¤Êé±àºÅ
-taxRegistrationUrl|ÊÇ|Ë°ÎñÖ¤ÊéÉÏ´«µØÖ·
-organizationCodeNum|ÊÇ|×éÖ¯»ú¹¹´úÂë
-organizationCodeUrl|ÊÇ|×éÖ¯»ú¹¹´úÂëÖ¤ÉÏ´«µØÖ·
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
+businessScope|æ˜¯|ç»è¥èŒƒå›´
+regTime|æ˜¯|æ³¨å†Œæ—¶é—´
+operationPeriod|æ˜¯|å…¬å¸è¥ä¸šæœŸé™
+address|æ˜¯|å…¬å¸åœ°å€
+registeredCapital|æ˜¯|æ³¨å†Œèµ„æœ¬
+businessLicenseType|æ˜¯|è¥ä¸šæ‰§ç…§ç±»å‹
+newBusinessLicenseNum|æ˜¯|ä¸‰åˆä¸€æ‰§ç…§å·
+newBusinessLicenseUrl|æ˜¯|ä¸‰åˆä¸€æ‰§ç…§ä¸Šä¼ Id
+businessLicenseNum|æ˜¯|è¥ä¸šæ‰§ç…§å·
+businessLicenseUrl|æ˜¯|è¥ä¸šæ‰§ç…§ä¸Šä¼ åœ°å€
+taxRegistrationNum|æ˜¯|ç¨åŠ¡è¯ä¹¦ç¼–å·
+taxRegistrationUrl|æ˜¯|ç¨åŠ¡è¯ä¹¦ä¸Šä¼ åœ°å€
+organizationCodeNum|æ˜¯|ç»„ç»‡æœºæ„ä»£ç 
+organizationCodeUrl|æ˜¯|ç»„ç»‡æœºæ„ä»£ç è¯ä¸Šä¼ åœ°å€
 
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"±£´æÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢³É¹¦"
+    {"errcode":0,"errmsg":"ä¿å­˜æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯æˆåŠŸ"
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"±£´æÍ¶±êÈË¹«Ë¾×¢²áĞÅÏ¢Ê§°Ü"}
-
-
-###²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË¿ª»§ĞĞĞÅÏ¢½Ó¿Ú
-
-²éÑ¯Î´Íê³ÉµÄÍ¶±êÈË¿ª»§ĞĞĞÅÏ¢½Ó¿Ú
+    {"errcode":10000,"errmsg":"ä¿å­˜æŠ•æ ‡äººå…¬å¸æ³¨å†Œä¿¡æ¯å¤±è´¥"}
 
 
-httpÇëÇó·½Ê½: post
+###æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººå¼€æˆ·è¡Œä¿¡æ¯æ¥å£
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººå¼€æˆ·è¡Œä¿¡æ¯æ¥å£
+
+
+httpè¯·æ±‚æ–¹å¼: post
+
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/queryBiderBankInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -556,52 +556,52 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"Í¶±ê·½ÈÏÖ¤ĞÅÏ¢±£´æ³É¹¦",	
+    {"errcode":0,"errmsg":"æŠ•æ ‡æ–¹è®¤è¯ä¿¡æ¯ä¿å­˜æˆåŠŸ",	
 	"bankInfo":{ 
-	    "bank":"ÕĞÉÌÒøĞĞ",
-	    "subBranch":"Ö§ĞĞ",
+	    "bank":"æ‹›å•†é“¶è¡Œ",
+	    "subBranch":"æ”¯è¡Œ",
 	    "bankCardNum":"256478968",
-	    "accountName":"ÕË»§Ãû³Æ"
+	    "accountName":"è´¦æˆ·åç§°"
 	    }
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"Í¶±ê·½ÈÏÖ¤ĞÅÏ¢±£´æÊ§°Ü"}
+    {"errcode":10000,"errmsg":"æŠ•æ ‡æ–¹è®¤è¯ä¿¡æ¯ä¿å­˜å¤±è´¥"}
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-bank|ÊÇ|¿ª»§ÒøĞĞ
-subBranch|ÊÇ|¿ª»§Ö§ĞĞ
-bankCardNum|ÊÇ|ÒøĞĞÕË»§
-accountName|ÊÇ|ÕË»§Ãû³Æ
+bank|æ˜¯|å¼€æˆ·é“¶è¡Œ
+subBranch|æ˜¯|å¼€æˆ·æ”¯è¡Œ
+bankCardNum|æ˜¯|é“¶è¡Œè´¦æˆ·
+accountName|æ˜¯|è´¦æˆ·åç§°
 
 
-###±£´æÍ¶±êÈË¿ª»§ĞĞĞÅÏ¢½Ó¿Ú
+###ä¿å­˜æŠ•æ ‡äººå¼€æˆ·è¡Œä¿¡æ¯æ¥å£
 
-Ç°¶ËÒ³ÃæÍ¨¹ı¸Ã½Ó¿ÚÈÏÖ¤Í¶±ê·½ĞÅÏ¢
+å‰ç«¯é¡µé¢é€šè¿‡è¯¥æ¥å£è®¤è¯æŠ•æ ‡æ–¹ä¿¡æ¯
 
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/saveBiderBankInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -613,51 +613,51 @@ POSTÊı¾İ¸ñÊ½£ºJSON
         "body":
         {
 	    "token":2,	
-	    "bank":"ÕĞÉÌÒøĞĞ",
-	    "subBranch":"Ö§ĞĞ",
+	    "bank":"æ‹›å•†é“¶è¡Œ",
+	    "subBranch":"æ”¯è¡Œ",
 	    "bankCardNum":"",
-	    "accountName":"ÕË»§Ãû³Æ",
+	    "accountName":"è´¦æˆ·åç§°",
 
         }
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
-bank|ÊÇ|¿ª»§ÒøĞĞ
-subBranch|ÊÇ|¿ª»§Ö§ĞĞ
-bankCardNum|ÊÇ|ÒøĞĞÕË»§
-accountName|ÊÇ|ÕË»§Ãû³Æ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
+bank|æ˜¯|å¼€æˆ·é“¶è¡Œ
+subBranch|æ˜¯|å¼€æˆ·æ”¯è¡Œ
+bankCardNum|æ˜¯|é“¶è¡Œè´¦æˆ·
+accountName|æ˜¯|è´¦æˆ·åç§°
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"±£´æÍ¶±êÈË¿ª»§ĞĞĞÅÏ¢³É¹¦"
+    {"errcode":0,"errmsg":"ä¿å­˜æŠ•æ ‡äººå¼€æˆ·è¡Œä¿¡æ¯æˆåŠŸ"
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"±£´æÍ¶±êÈË¿ª»§ĞĞĞÅÏ¢Ê§°Ü"}
+    {"errcode":10000,"errmsg":"ä¿å­˜æŠ•æ ‡äººå¼€æˆ·è¡Œä¿¡æ¯å¤±è´¥"}
 
-###²éÑ¯Î´Íê³ÉµÄÍ¶±êÈËĞĞÒµ×ÊÖÊ½Ó¿Ú
+###æŸ¥è¯¢æœªå®Œæˆçš„æŠ•æ ‡äººè¡Œä¸šèµ„è´¨æ¥å£
 
-Ç°¶ËÒ³ÃæÍ¨¹ı¸Ã½Ó¿ÚÈÏÖ¤Í¶±ê·½ĞÅÏ¢
+å‰ç«¯é¡µé¢é€šè¿‡è¯¥æ¥å£è®¤è¯æŠ•æ ‡æ–¹ä¿¡æ¯
 
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/queryBiderCertificateInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -673,57 +673,57 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"²éÑ¯Í¶±êÈËĞĞÒµ×ÊÖÊ³É¹¦",
+    {"errcode":0,"errmsg":"æŸ¥è¯¢æŠ•æ ‡äººè¡Œä¸šèµ„è´¨æˆåŠŸ",
 	"certificateInfo":{ 
 	   "projectCategoryId":[1,3,5],
 	   "enterpriseQualification":[{
 	       "certificationCertId":1,
 	       "certificationId":12,
-	       "certificationName":"×®¹¤³ÌÒ»¼¶×ÊÖÊ",
+	       "certificationName":"æ¡©å·¥ç¨‹ä¸€çº§èµ„è´¨",
 	       "certificationContent":"http://wxe.com/fdsfeirn",
 	       "expiryDate":"2016-09-12"
 	    }],
 	 }  
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"²éÑ¯Í¶±êÈËĞĞÒµ×ÊÖÊÊ§°Ü"}
+    {"errcode":10000,"errmsg":"æŸ¥è¯¢æŠ•æ ‡äººè¡Œä¸šèµ„è´¨å¤±è´¥"}
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-projectCategoryId|ÊÇ|¹¤³ÌÀà±ğ
-enterpriseQualification.certificateId|ÊÇ|×ÊÖÊÖ¤ÊéId
-enterpriseQualification.certificationCertId|ÊÇ|¼ÇÂ¼Id
-enterpriseQualification.certificationContent|ÊÇ|Ö¤ÊéÉÏ´«µØÖ·
-enterpriseQualification.expiryDate|ÊÇ|ÓĞĞ§ÆÚ
+projectCategoryId|æ˜¯|å·¥ç¨‹ç±»åˆ«
+enterpriseQualification.certificateId|æ˜¯|èµ„è´¨è¯ä¹¦Id
+enterpriseQualification.certificationCertId|æ˜¯|è®°å½•Id
+enterpriseQualification.certificationContent|æ˜¯|è¯ä¹¦ä¸Šä¼ åœ°å€
+enterpriseQualification.expiryDate|æ˜¯|æœ‰æ•ˆæœŸ
 
-###±£´æÍ¶±êÈËĞĞÒµ×ÊÖÊ½Ó¿Ú
+###ä¿å­˜æŠ•æ ‡äººè¡Œä¸šèµ„è´¨æ¥å£
 
-Ç°¶ËÒ³ÃæÍ¨¹ı¸Ã½Ó¿Ú±£´æÍ¶±êÈËĞĞÒµ×ÊÖÊ
+å‰ç«¯é¡µé¢é€šè¿‡è¯¥æ¥å£ä¿å­˜æŠ•æ ‡äººè¡Œä¸šèµ„è´¨
 
 
-httpÇëÇó·½Ê½: post
+httpè¯·æ±‚æ–¹å¼: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/saveBiderCertificateInfo
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -747,45 +747,45 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
-projectCategoryId|ÊÇ|¹¤³ÌÀà±ğ
-enterpriseQualification.certificateId|ÊÇ|×ÊÖÊÖ¤ÊéId
-enterpriseQualification.certificateUrl|ÊÇ|×ÊÖÊÖ¤ÊéÉÏ´«µØÖ·
-enterpriseQualification.action|ÊÇ|Ò³Ãæ×´Ì¬ "ADD""DEL""UPT"
-enterpriseQualification.certificationCertId|·ñ|Ô­Ö¤Êé¼ÇÂ¼Id
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
+projectCategoryId|æ˜¯|å·¥ç¨‹ç±»åˆ«
+enterpriseQualification.certificateId|æ˜¯|èµ„è´¨è¯ä¹¦Id
+enterpriseQualification.certificateUrl|æ˜¯|èµ„è´¨è¯ä¹¦ä¸Šä¼ åœ°å€
+enterpriseQualification.action|æ˜¯|é¡µé¢çŠ¶æ€ "ADD""DEL""UPT"
+enterpriseQualification.certificationCertId|å¦|åŸè¯ä¹¦è®°å½•Id
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"±£´æÍ¶±êÈËĞĞÒµ×ÊÖÊ³É¹¦"
+    {"errcode":0,"errmsg":"ä¿å­˜æŠ•æ ‡äººè¡Œä¸šèµ„è´¨æˆåŠŸ"
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"±£´æÍ¶±êÈËĞĞÒµ×ÊÖÊÊ§°Ü"}
-
-
-
-###Ìá½»Í¶±êÈËÈÏÖ¤ÉêÇë½Ó¿Ú
-
-Ç°¶ËÒ³ÃæÍ¨¹ı¸Ã½Ó¿ÚÈÏÖ¤Í¶±ê·½ĞÅÏ¢,´Ë½Ó¿ÚÒªÅĞ¶Ï×ÊÁÏÊÇ·ñÆëÈ«£¬×´Ì¬ÊÇ·ñÎªĞÂÔö£¬²»Í¨¹ı
+    {"errcode":10000,"errmsg":"ä¿å­˜æŠ•æ ‡äººè¡Œä¸šèµ„è´¨å¤±è´¥"}
 
 
-httpÇëÇó·½Ê½: post
 
-Ç°ÖÃÌõ¼ş£ºÓÃ»§±ØĞëÏÈµÇÂ¼
+###æäº¤æŠ•æ ‡äººè®¤è¯ç”³è¯·æ¥å£
+
+å‰ç«¯é¡µé¢é€šè¿‡è¯¥æ¥å£è®¤è¯æŠ•æ ‡æ–¹ä¿¡æ¯,æ­¤æ¥å£è¦åˆ¤æ–­èµ„æ–™æ˜¯å¦é½å…¨ï¼ŒçŠ¶æ€æ˜¯å¦ä¸ºæ–°å¢ï¼Œä¸é€šè¿‡
+
+
+httpè¯·æ±‚æ–¹å¼: post
+
+å‰ç½®æ¡ä»¶ï¼šç”¨æˆ·å¿…é¡»å…ˆç™»å½•
 
     http://ip:port/if/verifyBider/submitBiderApplication
 
 
-POSTÊı¾İ¸ñÊ½£ºJSON
+POSTæ•°æ®æ ¼å¼ï¼šJSON
 
     {
         "app":{
@@ -801,21 +801,21 @@ POSTÊı¾İ¸ñÊ½£ºJSON
     } 
 
 
-²ÎÊı|ÊÇ·ñ±ØĞë|ËµÃ÷
+å‚æ•°|æ˜¯å¦å¿…é¡»|è¯´æ˜
 ----|----|-----
-appId|ÊÇ|Ó¦ÓÃID
-timestamp|ÊÇ|Ê±¼ä´Á
-nonce|ÊÇ|Ëæ»úÊı
-signature|ÊÇ|Ç©ÃûÖµ,MD5(°´ÖµµÄ×ÖµäË³ĞòÅÅÁĞ×éºÏ³É×Ö·û´®(appId,appKey,app.nonce,app.timeStamp))
-token|ÊÇ|ÓÃ»§ÁîÅÆ
+appId|æ˜¯|åº”ç”¨ID
+timestamp|æ˜¯|æ—¶é—´æˆ³
+nonce|æ˜¯|éšæœºæ•°
+signature|æ˜¯|ç­¾åå€¼,MD5(æŒ‰å€¼çš„å­—å…¸é¡ºåºæ’åˆ—ç»„åˆæˆå­—ç¬¦ä¸²(appId,appKey,app.nonce,app.timeStamp))
+token|æ˜¯|ç”¨æˆ·ä»¤ç‰Œ
 
-2£©·µ»ØËµÃ÷
+2ï¼‰è¿”å›è¯´æ˜
 
-Õı³£Ê±µÄ·µ»ØJSONÊı¾İ°üÊ¾Àı£º
+æ­£å¸¸æ—¶çš„è¿”å›JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
  
-    {"errcode":0,"errmsg":"Ìá½»Í¶±êÈËÈÏÖ¤ÉêÇë³É¹¦"
+    {"errcode":0,"errmsg":"æäº¤æŠ•æ ‡äººè®¤è¯ç”³è¯·æˆåŠŸ"
     }
 
-´íÎóÊ±µÄJSONÊı¾İ°üÊ¾Àı£º
+é”™è¯¯æ—¶çš„JSONæ•°æ®åŒ…ç¤ºä¾‹ï¼š
 
-    {"errcode":10000,"errmsg":"Ìá½»Í¶±êÈËÈÏÖ¤ÉêÇëÊ§°Ü"}
+    {"errcode":10000,"errmsg":"æäº¤æŠ•æ ‡äººè®¤è¯ç”³è¯·å¤±è´¥"}

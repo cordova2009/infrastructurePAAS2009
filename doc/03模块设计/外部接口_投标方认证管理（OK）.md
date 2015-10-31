@@ -1,4 +1,9 @@
-###查询我的投标人认证信息接口
+#目的
+【补充完善】
+
+#接口
+
+##查询我的投标人认证信息接口
 
 该接口用于查询资质认证结果，还可以用于下一次的资质认证，获取信息。
 
@@ -124,7 +129,7 @@ certificationId|是|证书类别id
 certificationContent|是|证书内容
 
 
-###查询未完成的投标人基本信息接口
+##查询未完成的投标人基本信息接口
 
 查询保存的投标人认证申请时的第一步基本信息的接口
 
@@ -185,7 +190,7 @@ telphone|是|办公电话
 email|是|公司邮箱
 
 
-###保存投标人基本信息接口
+##保存投标人基本信息接口
 
 保存投标人认证申请时的第一步基本信息的接口
 
@@ -245,7 +250,7 @@ email|是|公司邮箱
 
 
 
-###查询未完成的投标人基本信息接口
+##查询未完成的投标人基本信息接口
 
 认证投标人第二步，查询保存的投标人法人信息接口
 
@@ -309,7 +314,7 @@ legalPersonIdCardConsUrl|是|法人身份证反面上传地址
 legalPersonAuthorizationUrl|否|法人授权书上传地址
 
 
-###保存投标人法人信息接口
+##保存投标人法人信息接口
 
 认证投标人第二步，保存投标人法人信息接口
 
@@ -368,7 +373,7 @@ legalPersonAuthorizationUrl|否|法人授权书上传地址
     {"errcode":10000,"errmsg":"保存投标人法人信息失败"}
 
 
-###查询未完成的投标人公司注册信息接口
+##查询未完成的投标人公司注册信息接口
 
 查询未完成的投标人公司注册信息
 
@@ -449,7 +454,7 @@ organizationCodeNum|是|组织机构代码
 organizationCodeUrl|是|组织机构代码证上传地址
 
 
-###保存投标人公司注册信息接口
+##保存投标人公司注册信息接口
 
 保存投标人公司注册信息接口
 
@@ -527,7 +532,7 @@ organizationCodeUrl|是|组织机构代码证上传地址
     {"errcode":10000,"errmsg":"保存投标人公司注册信息失败"}
 
 
-###查询未完成的投标人开户行信息接口
+##查询未完成的投标人开户行信息接口
 
 查询未完成的投标人开户行信息接口
 
@@ -589,7 +594,7 @@ bankCardNum|是|银行账户
 accountName|是|账户名称
 
 
-###保存投标人开户行信息接口
+##保存投标人开户行信息接口
 
 前端页面通过该接口认证投标方信息
 
@@ -645,7 +650,7 @@ accountName|是|账户名称
 
     {"errcode":10000,"errmsg":"保存投标人开户行信息失败"}
 
-###查询未完成的投标人行业资质接口
+##查询未完成的投标人行业资质接口
 
 前端页面通过该接口认证投标方信息
 
@@ -711,9 +716,9 @@ enterpriseQualification.certificationCertId|是|记录Id
 enterpriseQualification.certificationContent|是|证书上传地址
 enterpriseQualification.expiryDate|是|有效期
 
-###保存投标人行业资质接口
+##保存投标人企业资质接口
 
-前端页面通过该接口保存投标人行业资质
+前端页面通过该接口保存投标人企业资质
 
 
 http请求方式: post
@@ -735,8 +740,8 @@ POST数据格式：JSON
         "body":
         {
 	    "token":2,	
-	    "projectCategoryId":[1,3,5],
 	    "enterpriseQualification":[{
+            "projectCategoryId":"",
 		"certificateId":2,
 		"certificateUrl":"",
 		"action":"ADD",
@@ -773,7 +778,7 @@ enterpriseQualification.certificationCertId|否|原证书记录Id
 
 
 
-###提交投标人认证申请接口
+##提交投标人认证申请接口
 
 前端页面通过该接口认证投标方信息,此接口要判断资料是否齐全，状态是否为新增，不通过
 

@@ -1,5 +1,11 @@
-###我的招标列表接口
+#目的
+【补充完善】
 
+#接口
+
+##查询我的招标列表接口
+
+【豆豆修改】
 我的》招标管理》工程标的管理的界面显示的内容
 
 http请求方式: post
@@ -16,13 +22,13 @@ POST数据格式：JSON
             "nonce":"NONCE",
             "signature":"SIGNATURE"
         }
-	"body":{
-	    "token":"2134356",
-	    "status":"",
-	    "pageIndex":0,
-	    "pageSize":10
-	}
-    } 
+        "body":{
+            "token":"USER_TOKEN",
+            "status":"",
+            "pageIndex":0,
+            "pageSize":10
+        }
+        } 
 
 
 参数|是否必须|说明
@@ -39,17 +45,18 @@ status|是|查询列表状态（发布中的，实施中，已结束）
 
 正常时的返回JSON数据包示例：
  
-    {"errcode":0,"errmsg":"查询我的招标列表成功","pageSize":10,"pageIndex":0,"total":100,
-    "list":[{
-	"projectCategoryId":3,
-	"objectId":"32456",
-	"objectName":"7665",
-	"objcetOffer":"30000000",
-	"objectEvaluate":"30000000",
-	"winBidCompany":"XXX公司",
-	"isEvaluate":"OK#",
-	"isOpenBid":"OK#"}]
-    }
+    {
+        "errcode":0,"errmsg":"查询我的招标列表成功","pageSize":10,"pageIndex":0,"total":100,
+        "list":[{
+        "projectCategoryId":3,
+        "objectId":"32456",
+        "objectName":"7665",
+        "objcetOffer":"30000000",
+        "objectEvaluate":"30000000",
+        "winBidCompany":"XXX公司",
+        "isEvaluate":"OK#",
+        "isOpenBid":"OK#"}]
+        }
 
 
 错误时的JSON数据包示例：
@@ -69,7 +76,7 @@ isEvaluate|否|是否可以评价
 isOpenBid|否|是否可以开标
 
 
-###我的招标概况查询接口
+##查询我的招标概况接口
 
 查询用户所有标的的总概况
 
@@ -106,10 +113,11 @@ token|是|用户令牌
 
 正常时的返回JSON数据包示例：
  
-    {"errcode":0,"errmsg":"查询我的招标概况查询接口成功",
-	"publishedNum":3,
-	"constructNum":3,
-	"doneNum":2
+    {
+        "errcode":0,"errmsg":"查询我的招标概况查询接口成功",
+        "bidingNum":3,
+        "doingNum":3,
+        "doneNum":2
     }
 
 
@@ -120,12 +128,11 @@ token|是|用户令牌
 
 参数|是否必须|说明
 ----|----|-----
-publishedNum|是|发布中的数量
-constructNum|是|实施中的数量
+bidingNum|是|投标中的数量
+doingNum|是|实施中的数量
 doneNum|是|已完成的数量
 
-
-###我的招标投标列表接口
+##我的招标投标列表接口
 
 查询工程投标列表
 
@@ -186,7 +193,7 @@ list.bidDate|是|投标日期
 list.objectOffer|是|投标金额
 list.fileUrl|是|投标文件下载地址
 
-###我的招标评标概况接口
+##我的招标评标概况接口
 
 查询我的招标评标概况列表
 
@@ -239,7 +246,7 @@ tenderNum|是|参与投标数量
 objectName|否|标的名称
 
 
-###招标方给投标方评价接口
+##招标方给投标方评价接口
 
 招投标完成后,招标方给投标方打分和评价
 
@@ -291,7 +298,7 @@ content|是|评价内容
     {"errcode":10000,"errmsg":"评价失败，请重新再试！"}
 
 
-###查看我的招标项目详情接口
+##查看我的招标项目详情接口
 
 查看我的招标项目详情
 
@@ -438,7 +445,7 @@ payList.intervalTime|是|间隔下期付款天数
 payList.paySum|是|付款金额
 
 
-###查询招标资质接口
+##查询招标资质接口
 
 用户招标前，前端网页通过该接口查询该用户是否有招标权限
 
@@ -502,7 +509,7 @@ remark|否|备注，没有权限说明原因
 
 检查是否认证过招标方;检查是否为会员;非会员的时候，检查是否发布过一次标的。
 
-###查询未完成招标基础信息接口
+##查询未完成招标基础信息接口
 
 查询未完成招标基础信息
 
@@ -571,7 +578,7 @@ objectCompanyAgent|否|建设单位经办人
 objectCompanyPhone|否|建设单位联系电话
 
 
-###保存招标基础信息接口
+##保存招标基础信息接口
 
 保存招标基础信息
 
@@ -639,7 +646,7 @@ projectCompanyPhone|否|建设单位联系电话
 objectId|是|招标Id
 
 
-###查询未完成招标详细信息接口
+##查询未完成招标详细信息接口
 
 查询未完成招标详细信息
 
@@ -708,7 +715,7 @@ projectCompany|否|建设单位
 projectCompanyAgent|否|建设单位经办人
 projectCompanyPhone|否|建设单位联系电话
 
-###保存招标详细信息接口
+##保存招标详细信息接口
 
 保存招标详细信息
 
@@ -772,7 +779,7 @@ projectCompanyPhone|否|建设单位联系电话
     {"errcode":10000,"errmsg":"保存招标详细信息失败，其它错误"}
 
 
-###查询证书列表接口
+##查询证书列表接口
 
 用于选择证书时的下拉框显示
 
@@ -825,7 +832,7 @@ enterpriseQualification|是|企业资质要求
 certificateId|是|证书Id
 certificateName|是|证书名称（包含级别）
 
-###查询未完成招标项目要求信息接口
+##查询未完成招标项目要求信息接口
 
 查询未完成招标项目要求信息
 
@@ -893,7 +900,7 @@ performanceNum|是|业绩数量
 objectPrincipalDemand|是|项目负责人要求
 otherDemand|是|其他要求
 
-###保存招标项目要求信息接口
+##保存招标项目要求信息接口
 
 保存未完成招标基础信息
 
@@ -954,7 +961,7 @@ otherDemand|是|其他要求
 
     {"errcode":10000,"errmsg":"保存招标项目要求信息失败，其它错误"}
 
-###查询未完成招标附件接口
+##查询未完成招标附件接口
 
 查询未完成招标附件
 
@@ -1010,7 +1017,7 @@ objectId|是|招标Id
 attachments.attachmentNme|是|附件名称
 attachments.attachmentUrl|是|附件地址
 
-###保存招标附件接口
+##保存招标附件接口
 
 保存招标附件
 
@@ -1061,7 +1068,7 @@ attachments.attachmentUrl|是|附件地址
 
     {"errcode":10000,"errmsg":"保存招标附件失败，其它错误"}
 
-###查询未完成招标方式接口
+##查询未完成招标方式接口
 
 查询未完成招标方式
 
@@ -1120,7 +1127,7 @@ objectMethod|是|招标方式
 inviteTender.name|否|邀请投标人姓名
 inviteTender.bidId|否|邀请投标人Id
 
-###保存招标附件接口
+##保存招标附件接口
 
 保存招标附件
 
@@ -1174,7 +1181,7 @@ inviteTender.bidId|否|邀请投标人Id
 
 
 
-###查询所有投标方接口
+##查询所有投标方接口
 
 查询所有投标方
 
@@ -1227,7 +1234,7 @@ list.name|是|邀请投标人姓名
 list.bidId|是|邀请投标人Id
 
 
-###查询未完成招标时间要求接口
+##查询未完成招标时间要求接口
 
 查询未完成招标时间要求
 
@@ -1289,7 +1296,7 @@ noticeEndTime|是|公告结束时间
 tenderEndTime|是|投标截止时间
 openTime|是|开标时间
 
-###保存招标时间要求接口
+##保存招标时间要求接口
 
 保存招标时间要求
 
@@ -1345,7 +1352,7 @@ openTime|是|开标时间
     {"errcode":10000,"errmsg":"保存招标时间要求失败，其它错误"}
 
 
-###查询未完成招标答疑方式接口
+##查询未完成招标答疑方式接口
 
 查询未完成招标答疑方式
 
@@ -1415,7 +1422,7 @@ answer.telPhone|否|答疑电话
 answer.answerEndTime|否|答疑截止时间
 answer.answerStartTime|否|答疑开始时间
 
-###保存招标答疑方式接口
+##保存招标答疑方式接口
 
 保存招标答疑方式
 
@@ -1480,7 +1487,7 @@ answerStartTime|否|答疑开始时间
     {"errcode":10000,"errmsg":"保存招标答疑方式失败，其它错误"}
 
 
-###查询未完成的保证金信息接口
+##查询未完成的保证金信息接口
 
 查询未完成的保证金信息
 
@@ -1543,7 +1550,7 @@ satisfy|是|账户余额是否足够YES,足够，NO#，不够
 bidBond|是|招标保证金
 tenderBond|是|投标保证金
 
-###保存保证金信息接口
+##保存保证金信息接口
 
 保存保证金信息
 
@@ -1595,7 +1602,7 @@ objectId|是|招标Id
 
 
 
-###发布标的接口
+##发布标的接口
 
 发布标的
 

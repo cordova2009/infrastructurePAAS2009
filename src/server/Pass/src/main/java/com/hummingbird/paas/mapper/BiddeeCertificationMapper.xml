@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.BiddeeCertificationMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BiddeeCertification" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tenderer_id" property="tenderer_id" jdbcType="INTEGER" />
+    <result column="certification_id" property="certification_id" jdbcType="INTEGER" />
+    <result column="certification_name" property="certification_name" jdbcType="VARCHAR" />
+    <result column="certification_content" property="certification_content" jdbcType="VARCHAR" />
+    <result column="expire_time" property="expire_time" jdbcType="DATE" />
+    <result column="applicable_region" property="applicable_region" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tenderer_id, certification_id, certification_name, certification_content, expire_time, 
+    applicable_region
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_biddee_certification
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_qyzz_biddee_certification
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
+    insert into t_qyzz_biddee_certification (id, tenderer_id, certification_id, 
+      certification_name, certification_content, 
+      expire_time, applicable_region)
+    values (#{id,jdbcType=INTEGER}, #{tenderer_id,jdbcType=INTEGER}, #{certification_id,jdbcType=INTEGER}, 
+      #{certification_name,jdbcType=VARCHAR}, #{certification_content,jdbcType=VARCHAR}, 
+      #{expire_time,jdbcType=DATE}, #{applicable_region,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
+    insert into t_qyzz_biddee_certification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tenderer_id != null" >
+        tenderer_id,
+      </if>
+      <if test="certification_id != null" >
+        certification_id,
+      </if>
+      <if test="certification_name != null" >
+        certification_name,
+      </if>
+      <if test="certification_content != null" >
+        certification_content,
+      </if>
+      <if test="expire_time != null" >
+        expire_time,
+      </if>
+      <if test="applicable_region != null" >
+        applicable_region,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tenderer_id != null" >
+        #{tenderer_id,jdbcType=INTEGER},
+      </if>
+      <if test="certification_id != null" >
+        #{certification_id,jdbcType=INTEGER},
+      </if>
+      <if test="certification_name != null" >
+        #{certification_name,jdbcType=VARCHAR},
+      </if>
+      <if test="certification_content != null" >
+        #{certification_content,jdbcType=VARCHAR},
+      </if>
+      <if test="expire_time != null" >
+        #{expire_time,jdbcType=DATE},
+      </if>
+      <if test="applicable_region != null" >
+        #{applicable_region,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
+    update t_qyzz_biddee_certification
+    <set >
+      <if test="tenderer_id != null" >
+        tenderer_id = #{tenderer_id,jdbcType=INTEGER},
+      </if>
+      <if test="certification_id != null" >
+        certification_id = #{certification_id,jdbcType=INTEGER},
+      </if>
+      <if test="certification_name != null" >
+        certification_name = #{certification_name,jdbcType=VARCHAR},
+      </if>
+      <if test="certification_content != null" >
+        certification_content = #{certification_content,jdbcType=VARCHAR},
+      </if>
+      <if test="expire_time != null" >
+        expire_time = #{expire_time,jdbcType=DATE},
+      </if>
+      <if test="applicable_region != null" >
+        applicable_region = #{applicable_region,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
+    update t_qyzz_biddee_certification
+    set tenderer_id = #{tenderer_id,jdbcType=INTEGER},
+      certification_id = #{certification_id,jdbcType=INTEGER},
+      certification_name = #{certification_name,jdbcType=VARCHAR},
+      certification_content = #{certification_content,jdbcType=VARCHAR},
+      expire_time = #{expire_time,jdbcType=DATE},
+      applicable_region = #{applicable_region,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.UserAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.UserAuth" >
+    <id column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="real_name" property="real_name" jdbcType="VARCHAR" />
+    <result column="identity_no" property="identity_no" jdbcType="VARCHAR" />
+    <result column="real_name_verify" property="real_name_verify" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, real_name, identity_no, real_name_verify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_auth
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_auth
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.UserAuth" >
+    insert into t_user_auth (user_id, real_name, identity_no, 
+      real_name_verify)
+    values (#{user_id,jdbcType=INTEGER}, #{real_name,jdbcType=VARCHAR}, #{identity_no,jdbcType=VARCHAR}, 
+      #{real_name_verify,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserAuth" >
+    insert into t_user_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="real_name != null" >
+        real_name,
+      </if>
+      <if test="identity_no != null" >
+        identity_no,
+      </if>
+      <if test="real_name_verify != null" >
+        real_name_verify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="real_name != null" >
+        #{real_name,jdbcType=VARCHAR},
+      </if>
+      <if test="identity_no != null" >
+        #{identity_no,jdbcType=VARCHAR},
+      </if>
+      <if test="real_name_verify != null" >
+        #{real_name_verify,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserAuth" >
+    update t_user_auth
+    <set >
+      <if test="real_name != null" >
+        real_name = #{real_name,jdbcType=VARCHAR},
+      </if>
+      <if test="identity_no != null" >
+        identity_no = #{identity_no,jdbcType=VARCHAR},
+      </if>
+      <if test="real_name_verify != null" >
+        real_name_verify = #{real_name_verify,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserAuth" >
+    update t_user_auth
+    set real_name = #{real_name,jdbcType=VARCHAR},
+      identity_no = #{identity_no,jdbcType=VARCHAR},
+      real_name_verify = #{real_name_verify,jdbcType=VARCHAR}
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+</mapper>

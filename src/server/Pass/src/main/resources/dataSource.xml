@@ -62,7 +62,7 @@
 		<constructor-arg index="1" value="BATCH" />			
 	</bean> -->
 	
-	<!-- 自动扫描com.pass.mapper包下的Mapper接口,并实现其功能  -->
+	<!-- 自动扫描com.paas.mapper包下的Mapper接口,并实现其功能  -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.hummingbird.paas.mapper" />
 		<!-- <property name="sessioinFactory" ref="sqlSessionFactory"></property> -->

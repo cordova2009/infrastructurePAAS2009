@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.ProjectAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectAccount" >
+    <id column="account_id" property="account_id" jdbcType="VARCHAR" />
+    <result column="remaining_sum" property="remaining_sum" jdbcType="INTEGER" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="frozen_sum" property="frozen_sum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    account_id, remaining_sum, signature, insert_time, update_time, remark, status, frozen_sum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_account
+    where account_id = #{account_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_project_account
+    where account_id = #{account_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectAccount" >
+    insert into t_project_account (account_id, remaining_sum, signature, 
+      insert_time, update_time, remark, 
+      status, frozen_sum)
+    values (#{account_id,jdbcType=VARCHAR}, #{remaining_sum,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
+      #{insert_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{frozen_sum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectAccount" >
+    insert into t_project_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account_id != null" >
+        account_id,
+      </if>
+      <if test="remaining_sum != null" >
+        remaining_sum,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+      <if test="insert_time != null" >
+        insert_time,
+      </if>
+      <if test="update_time != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="frozen_sum != null" >
+        frozen_sum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account_id != null" >
+        #{account_id,jdbcType=VARCHAR},
+      </if>
+      <if test="remaining_sum != null" >
+        #{remaining_sum,jdbcType=INTEGER},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="insert_time != null" >
+        #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null" >
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="frozen_sum != null" >
+        #{frozen_sum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectAccount" >
+    update t_project_account
+    <set >
+      <if test="remaining_sum != null" >
+        remaining_sum = #{remaining_sum,jdbcType=INTEGER},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="insert_time != null" >
+        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null" >
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="frozen_sum != null" >
+        frozen_sum = #{frozen_sum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where account_id = #{account_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectAccount" >
+    update t_project_account
+    set remaining_sum = #{remaining_sum,jdbcType=INTEGER},
+      signature = #{signature,jdbcType=VARCHAR},
+      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      frozen_sum = #{frozen_sum,jdbcType=INTEGER}
+    where account_id = #{account_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

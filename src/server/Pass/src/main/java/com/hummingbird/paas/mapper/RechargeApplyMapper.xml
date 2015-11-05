@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.RechargeApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.RechargeApply" >
+    <id column="order_id" property="order_id" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="voucher" property="voucher" jdbcType="VARCHAR" />
+    <result column="voucher_pic" property="voucher_pic" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bank_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, amount, insert_time, user_id, status, bank, voucher, voucher_pic, bank_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ddgl_recharge_apply
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_ddgl_recharge_apply
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.RechargeApply" >
+    insert into t_ddgl_recharge_apply (order_id, amount, insert_time, 
+      user_id, status, bank, 
+      voucher, voucher_pic, bank_id
+      )
+    values (#{order_id,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, #{insert_time,jdbcType=TIMESTAMP}, 
+      #{user_id,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, 
+      #{voucher,jdbcType=VARCHAR}, #{voucher_pic,jdbcType=VARCHAR}, #{bank_id,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.RechargeApply" >
+    insert into t_ddgl_recharge_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="insert_time != null" >
+        insert_time,
+      </if>
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="voucher != null" >
+        voucher,
+      </if>
+      <if test="voucher_pic != null" >
+        voucher_pic,
+      </if>
+      <if test="bank_id != null" >
+        bank_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="insert_time != null" >
+        #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher != null" >
+        #{voucher,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher_pic != null" >
+        #{voucher_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="bank_id != null" >
+        #{bank_id,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.RechargeApply" >
+    update t_ddgl_recharge_apply
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="insert_time != null" >
+        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher != null" >
+        voucher = #{voucher,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher_pic != null" >
+        voucher_pic = #{voucher_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="bank_id != null" >
+        bank_id = #{bank_id,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.RechargeApply" >
+    update t_ddgl_recharge_apply
+    set amount = #{amount,jdbcType=INTEGER},
+      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      user_id = #{user_id,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      voucher = #{voucher,jdbcType=VARCHAR},
+      voucher_pic = #{voucher_pic,jdbcType=VARCHAR},
+      bank_id = #{bank_id,jdbcType=VARCHAR}
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

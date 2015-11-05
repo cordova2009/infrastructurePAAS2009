@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.ProjectAccountOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectAccountOrder" >
+    <id column="order_id" property="order_id" jdbcType="INTEGER" />
+    <result column="account_id" property="account_id" jdbcType="INTEGER" />
+    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="INTEGER" />
+    <result column="object_id" property="object_id" jdbcType="INTEGER" />
+    <result column="balance" property="balance" jdbcType="INTEGER" />
+    <result column="app_order_id" property="app_order_id" jdbcType="VARCHAR" />
+    <result column="external_order_id" property="external_order_id" jdbcType="VARCHAR" />
+    <result column="peer_account_type" property="peer_account_type" jdbcType="VARCHAR" />
+    <result column="peer_account_id" property="peer_account_id" jdbcType="VARCHAR" />
+    <result column="peer_account_unit" property="peer_account_unit" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="original_order_id" property="original_order_id" jdbcType="VARCHAR" />
+    <result column="original_table" property="original_table" jdbcType="VARCHAR" />
+    <result column="flow_direction" property="flow_direction" jdbcType="VARCHAR" />
+    <result column="app_id" property="app_id" jdbcType="VARCHAR" />
+    <result column="app_name" property="app_name" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="app_alias" property="app_alias" jdbcType="VARCHAR" />
+    <result column="app_alias2" property="app_alias2" jdbcType="VARCHAR" />
+    <result column="external_order_time" property="external_order_time" jdbcType="TIMESTAMP" />
+    <result column="frozen_sum_snapshot" property="frozen_sum_snapshot" jdbcType="INTEGER" />
+    <result column="product_name" property="product_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, account_id, insert_time, type, sum, object_id, balance, app_order_id, external_order_id, 
+    peer_account_type, peer_account_id, peer_account_unit, remark, status, original_order_id, 
+    original_table, flow_direction, app_id, app_name, method, app_alias, app_alias2, 
+    external_order_time, frozen_sum_snapshot, product_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_account_order
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_project_account_order
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectAccountOrder" >
+    insert into t_project_account_order (order_id, account_id, insert_time, 
+      type, sum, object_id, 
+      balance, app_order_id, external_order_id, 
+      peer_account_type, peer_account_id, peer_account_unit, 
+      remark, status, original_order_id, 
+      original_table, flow_direction, app_id, 
+      app_name, method, app_alias, 
+      app_alias2, external_order_time, frozen_sum_snapshot, 
+      product_name)
+    values (#{order_id,jdbcType=INTEGER}, #{account_id,jdbcType=INTEGER}, #{insert_time,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER}, #{object_id,jdbcType=INTEGER}, 
+      #{balance,jdbcType=INTEGER}, #{app_order_id,jdbcType=VARCHAR}, #{external_order_id,jdbcType=VARCHAR}, 
+      #{peer_account_type,jdbcType=VARCHAR}, #{peer_account_id,jdbcType=VARCHAR}, #{peer_account_unit,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{original_order_id,jdbcType=VARCHAR}, 
+      #{original_table,jdbcType=VARCHAR}, #{flow_direction,jdbcType=VARCHAR}, #{app_id,jdbcType=VARCHAR}, 
+      #{app_name,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{app_alias,jdbcType=VARCHAR}, 
+      #{app_alias2,jdbcType=VARCHAR}, #{external_order_time,jdbcType=TIMESTAMP}, #{frozen_sum_snapshot,jdbcType=INTEGER}, 
+      #{product_name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectAccountOrder" >
+    insert into t_project_account_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="account_id != null" >
+        account_id,
+      </if>
+      <if test="insert_time != null" >
+        insert_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sum != null" >
+        sum,
+      </if>
+      <if test="object_id != null" >
+        object_id,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="app_order_id != null" >
+        app_order_id,
+      </if>
+      <if test="external_order_id != null" >
+        external_order_id,
+      </if>
+      <if test="peer_account_type != null" >
+        peer_account_type,
+      </if>
+      <if test="peer_account_id != null" >
+        peer_account_id,
+      </if>
+      <if test="peer_account_unit != null" >
+        peer_account_unit,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="original_order_id != null" >
+        original_order_id,
+      </if>
+      <if test="original_table != null" >
+        original_table,
+      </if>
+      <if test="flow_direction != null" >
+        flow_direction,
+      </if>
+      <if test="app_id != null" >
+        app_id,
+      </if>
+      <if test="app_name != null" >
+        app_name,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="app_alias != null" >
+        app_alias,
+      </if>
+      <if test="app_alias2 != null" >
+        app_alias2,
+      </if>
+      <if test="external_order_time != null" >
+        external_order_time,
+      </if>
+      <if test="frozen_sum_snapshot != null" >
+        frozen_sum_snapshot,
+      </if>
+      <if test="product_name != null" >
+        product_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        #{order_id,jdbcType=INTEGER},
+      </if>
+      <if test="account_id != null" >
+        #{account_id,jdbcType=INTEGER},
+      </if>
+      <if test="insert_time != null" >
+        #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null" >
+        #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="object_id != null" >
+        #{object_id,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="app_order_id != null" >
+        #{app_order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="external_order_id != null" >
+        #{external_order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="peer_account_type != null" >
+        #{peer_account_type,jdbcType=VARCHAR},
+      </if>
+      <if test="peer_account_id != null" >
+        #{peer_account_id,jdbcType=VARCHAR},
+      </if>
+      <if test="peer_account_unit != null" >
+        #{peer_account_unit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="original_order_id != null" >
+        #{original_order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="original_table != null" >
+        #{original_table,jdbcType=VARCHAR},
+      </if>
+      <if test="flow_direction != null" >
+        #{flow_direction,jdbcType=VARCHAR},
+      </if>
+      <if test="app_id != null" >
+        #{app_id,jdbcType=VARCHAR},
+      </if>
+      <if test="app_name != null" >
+        #{app_name,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="app_alias != null" >
+        #{app_alias,jdbcType=VARCHAR},
+      </if>
+      <if test="app_alias2 != null" >
+        #{app_alias2,jdbcType=VARCHAR},
+      </if>
+      <if test="external_order_time != null" >
+        #{external_order_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frozen_sum_snapshot != null" >
+        #{frozen_sum_snapshot,jdbcType=INTEGER},
+      </if>
+      <if test="product_name != null" >
+        #{product_name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectAccountOrder" >
+    update t_project_account_order
+    <set >
+      <if test="account_id != null" >
+        account_id = #{account_id,jdbcType=INTEGER},
+      </if>
+      <if test="insert_time != null" >
+        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null" >
+        sum = #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="object_id != null" >
+        object_id = #{object_id,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="app_order_id != null" >
+        app_order_id = #{app_order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="external_order_id != null" >
+        external_order_id = #{external_order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="peer_account_type != null" >
+        peer_account_type = #{peer_account_type,jdbcType=VARCHAR},
+      </if>
+      <if test="peer_account_id != null" >
+        peer_account_id = #{peer_account_id,jdbcType=VARCHAR},
+      </if>
+      <if test="peer_account_unit != null" >
+        peer_account_unit = #{peer_account_unit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="original_order_id != null" >
+        original_order_id = #{original_order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="original_table != null" >
+        original_table = #{original_table,jdbcType=VARCHAR},
+      </if>
+      <if test="flow_direction != null" >
+        flow_direction = #{flow_direction,jdbcType=VARCHAR},
+      </if>
+      <if test="app_id != null" >
+        app_id = #{app_id,jdbcType=VARCHAR},
+      </if>
+      <if test="app_name != null" >
+        app_name = #{app_name,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="app_alias != null" >
+        app_alias = #{app_alias,jdbcType=VARCHAR},
+      </if>
+      <if test="app_alias2 != null" >
+        app_alias2 = #{app_alias2,jdbcType=VARCHAR},
+      </if>
+      <if test="external_order_time != null" >
+        external_order_time = #{external_order_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frozen_sum_snapshot != null" >
+        frozen_sum_snapshot = #{frozen_sum_snapshot,jdbcType=INTEGER},
+      </if>
+      <if test="product_name != null" >
+        product_name = #{product_name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectAccountOrder" >
+    update t_project_account_order
+    set account_id = #{account_id,jdbcType=INTEGER},
+      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      sum = #{sum,jdbcType=INTEGER},
+      object_id = #{object_id,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=INTEGER},
+      app_order_id = #{app_order_id,jdbcType=VARCHAR},
+      external_order_id = #{external_order_id,jdbcType=VARCHAR},
+      peer_account_type = #{peer_account_type,jdbcType=VARCHAR},
+      peer_account_id = #{peer_account_id,jdbcType=VARCHAR},
+      peer_account_unit = #{peer_account_unit,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      original_order_id = #{original_order_id,jdbcType=VARCHAR},
+      original_table = #{original_table,jdbcType=VARCHAR},
+      flow_direction = #{flow_direction,jdbcType=VARCHAR},
+      app_id = #{app_id,jdbcType=VARCHAR},
+      app_name = #{app_name,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      app_alias = #{app_alias,jdbcType=VARCHAR},
+      app_alias2 = #{app_alias2,jdbcType=VARCHAR},
+      external_order_time = #{external_order_time,jdbcType=TIMESTAMP},
+      frozen_sum_snapshot = #{frozen_sum_snapshot,jdbcType=INTEGER},
+      product_name = #{product_name,jdbcType=VARCHAR}
+    where order_id = #{order_id,jdbcType=INTEGER}
+  </update>
+</mapper>

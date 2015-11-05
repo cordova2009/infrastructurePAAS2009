@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.TagRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.TagRelation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tag_name" property="tag_name" jdbcType="VARCHAR" />
+    <result column="ref_value_id" property="ref_value_id" jdbcType="VARCHAR" />
+    <result column="ref_id" property="ref_id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="tag_id" property="tag_id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tag_name, ref_value_id, ref_id, type, insert_time, tag_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bqxt_tag_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_bqxt_tag_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.TagRelation" >
+    insert into t_bqxt_tag_relation (id, tag_name, ref_value_id, 
+      ref_id, type, insert_time, 
+      tag_id)
+    values (#{id,jdbcType=INTEGER}, #{tag_name,jdbcType=VARCHAR}, #{ref_value_id,jdbcType=VARCHAR}, 
+      #{ref_id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, 
+      #{tag_id,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.TagRelation" >
+    insert into t_bqxt_tag_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tag_name != null" >
+        tag_name,
+      </if>
+      <if test="ref_value_id != null" >
+        ref_value_id,
+      </if>
+      <if test="ref_id != null" >
+        ref_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="insert_time != null" >
+        insert_time,
+      </if>
+      <if test="tag_id != null" >
+        tag_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tag_name != null" >
+        #{tag_name,jdbcType=VARCHAR},
+      </if>
+      <if test="ref_value_id != null" >
+        #{ref_value_id,jdbcType=VARCHAR},
+      </if>
+      <if test="ref_id != null" >
+        #{ref_id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="insert_time != null" >
+        #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tag_id != null" >
+        #{tag_id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.TagRelation" >
+    update t_bqxt_tag_relation
+    <set >
+      <if test="tag_name != null" >
+        tag_name = #{tag_name,jdbcType=VARCHAR},
+      </if>
+      <if test="ref_value_id != null" >
+        ref_value_id = #{ref_value_id,jdbcType=VARCHAR},
+      </if>
+      <if test="ref_id != null" >
+        ref_id = #{ref_id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="insert_time != null" >
+        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tag_id != null" >
+        tag_id = #{tag_id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.TagRelation" >
+    update t_bqxt_tag_relation
+    set tag_name = #{tag_name,jdbcType=VARCHAR},
+      ref_value_id = #{ref_value_id,jdbcType=VARCHAR},
+      ref_id = #{ref_id,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      tag_id = #{tag_id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.UserBankcardMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.UserBankcard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user" property="user" jdbcType="VARCHAR" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="bank_name" property="bank_name" jdbcType="VARCHAR" />
+    <result column="bank_branch_name" property="bank_branch_name" jdbcType="VARCHAR" />
+    <result column="account_no" property="account_no" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="account_name" property="account_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user, user_id, bank_name, bank_branch_name, account_no, province, city, account_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_bankcard
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_bankcard
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.UserBankcard" >
+    insert into t_user_bankcard (id, user, user_id, 
+      bank_name, bank_branch_name, account_no, 
+      province, city, account_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{user,jdbcType=VARCHAR}, #{user_id,jdbcType=INTEGER}, 
+      #{bank_name,jdbcType=VARCHAR}, #{bank_branch_name,jdbcType=VARCHAR}, #{account_no,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{account_name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserBankcard" >
+    insert into t_user_bankcard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="user != null" >
+        user,
+      </if>
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="bank_name != null" >
+        bank_name,
+      </if>
+      <if test="bank_branch_name != null" >
+        bank_branch_name,
+      </if>
+      <if test="account_no != null" >
+        account_no,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="account_name != null" >
+        account_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="user != null" >
+        #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="bank_name != null" >
+        #{bank_name,jdbcType=VARCHAR},
+      </if>
+      <if test="bank_branch_name != null" >
+        #{bank_branch_name,jdbcType=VARCHAR},
+      </if>
+      <if test="account_no != null" >
+        #{account_no,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="account_name != null" >
+        #{account_name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserBankcard" >
+    update t_user_bankcard
+    <set >
+      <if test="user != null" >
+        user = #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="bank_name != null" >
+        bank_name = #{bank_name,jdbcType=VARCHAR},
+      </if>
+      <if test="bank_branch_name != null" >
+        bank_branch_name = #{bank_branch_name,jdbcType=VARCHAR},
+      </if>
+      <if test="account_no != null" >
+        account_no = #{account_no,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="account_name != null" >
+        account_name = #{account_name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserBankcard" >
+    update t_user_bankcard
+    set user = #{user,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER},
+      bank_name = #{bank_name,jdbcType=VARCHAR},
+      bank_branch_name = #{bank_branch_name,jdbcType=VARCHAR},
+      account_no = #{account_no,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      account_name = #{account_name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

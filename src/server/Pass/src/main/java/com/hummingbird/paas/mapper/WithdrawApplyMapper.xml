@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.WithdrawApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.WithdrawApply" >
+    <id column="order_id" property="order_id" jdbcType="VARCHAR" />
+    <result column="withdraw_amount" property="withdraw_amount" jdbcType="INTEGER" />
+    <result column="commission_fees" property="commission_fees" jdbcType="INTEGER" />
+    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="user_bankcard_id" property="user_bankcard_id" jdbcType="INTEGER" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, withdraw_amount, commission_fees, insert_time, user_bankcard_id, user_id, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ddgl_withdraw_apply
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_ddgl_withdraw_apply
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
+    insert into t_ddgl_withdraw_apply (order_id, withdraw_amount, commission_fees, 
+      insert_time, user_bankcard_id, user_id, 
+      status)
+    values (#{order_id,jdbcType=VARCHAR}, #{withdraw_amount,jdbcType=INTEGER}, #{commission_fees,jdbcType=INTEGER}, 
+      #{insert_time,jdbcType=TIMESTAMP}, #{user_bankcard_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
+    insert into t_ddgl_withdraw_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="withdraw_amount != null" >
+        withdraw_amount,
+      </if>
+      <if test="commission_fees != null" >
+        commission_fees,
+      </if>
+      <if test="insert_time != null" >
+        insert_time,
+      </if>
+      <if test="user_bankcard_id != null" >
+        user_bankcard_id,
+      </if>
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="order_id != null" >
+        #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="withdraw_amount != null" >
+        #{withdraw_amount,jdbcType=INTEGER},
+      </if>
+      <if test="commission_fees != null" >
+        #{commission_fees,jdbcType=INTEGER},
+      </if>
+      <if test="insert_time != null" >
+        #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user_bankcard_id != null" >
+        #{user_bankcard_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
+    update t_ddgl_withdraw_apply
+    <set >
+      <if test="withdraw_amount != null" >
+        withdraw_amount = #{withdraw_amount,jdbcType=INTEGER},
+      </if>
+      <if test="commission_fees != null" >
+        commission_fees = #{commission_fees,jdbcType=INTEGER},
+      </if>
+      <if test="insert_time != null" >
+        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user_bankcard_id != null" >
+        user_bankcard_id = #{user_bankcard_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
+    update t_ddgl_withdraw_apply
+    set withdraw_amount = #{withdraw_amount,jdbcType=INTEGER},
+      commission_fees = #{commission_fees,jdbcType=INTEGER},
+      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      user_bankcard_id = #{user_bankcard_id,jdbcType=INTEGER},
+      user_id = #{user_id,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where order_id = #{order_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.BidderCreditMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidderCredit" >
+    <id column="bidder_id" property="bidder_id" jdbcType="INTEGER" />
+    <result column="credit_score" property="credit_score" jdbcType="INTEGER" />
+    <result column="baseinfo_credit_score" property="baseinfo_credit_score" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bidder_id, credit_score, baseinfo_credit_score
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_xyjf_bidder_credit
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_xyjf_bidder_credit
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCredit" >
+    insert into t_xyjf_bidder_credit (bidder_id, credit_score, baseinfo_credit_score
+      )
+    values (#{bidder_id,jdbcType=INTEGER}, #{credit_score,jdbcType=INTEGER}, #{baseinfo_credit_score,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidderCredit" >
+    insert into t_xyjf_bidder_credit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bidder_id != null" >
+        bidder_id,
+      </if>
+      <if test="credit_score != null" >
+        credit_score,
+      </if>
+      <if test="baseinfo_credit_score != null" >
+        baseinfo_credit_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bidder_id != null" >
+        #{bidder_id,jdbcType=INTEGER},
+      </if>
+      <if test="credit_score != null" >
+        #{credit_score,jdbcType=INTEGER},
+      </if>
+      <if test="baseinfo_credit_score != null" >
+        #{baseinfo_credit_score,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidderCredit" >
+    update t_xyjf_bidder_credit
+    <set >
+      <if test="credit_score != null" >
+        credit_score = #{credit_score,jdbcType=INTEGER},
+      </if>
+      <if test="baseinfo_credit_score != null" >
+        baseinfo_credit_score = #{baseinfo_credit_score,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidderCredit" >
+    update t_xyjf_bidder_credit
+    set credit_score = #{credit_score,jdbcType=INTEGER},
+      baseinfo_credit_score = #{baseinfo_credit_score,jdbcType=INTEGER}
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </update>
+</mapper>

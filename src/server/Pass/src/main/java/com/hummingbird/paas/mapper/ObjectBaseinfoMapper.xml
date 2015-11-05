@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.ObjectBaseinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ObjectBaseinfo" >
+    <id column="object_id" property="object_id" jdbcType="VARCHAR" />
+    <result column="announcement_begin_time" property="announcement_begin_time" jdbcType="TIMESTAMP" />
+    <result column="announcement_end_time" property="announcement_end_time" jdbcType="TIMESTAMP" />
+    <result column="question_end_time" property="question_end_time" jdbcType="TIMESTAMP" />
+    <result column="answer_question_start_time" property="answer_question_start_time" jdbcType="TIMESTAMP" />
+    <result column="answer_question_end_time" property="answer_question_end_time" jdbcType="TIMESTAMP" />
+    <result column="bidding_end_time" property="bidding_end_time" jdbcType="TIMESTAMP" />
+    <result column="bidding_document_fetch_start_time" property="bidding_document_fetch_start_time" jdbcType="TIMESTAMP" />
+    <result column="bidding_no" property="bidding_no" jdbcType="VARCHAR" />
+    <result column="object_scope" property="object_scope" jdbcType="VARCHAR" />
+    <result column="object_description" property="object_description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    object_id, announcement_begin_time, announcement_end_time, question_end_time, answer_question_start_time, 
+    answer_question_end_time, bidding_end_time, bidding_document_fetch_start_time, bidding_no, 
+    object_scope, object_description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_baseinfo
+    where object_id = #{object_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_ztgl_object_baseinfo
+    where object_id = #{object_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectBaseinfo" >
+    insert into t_ztgl_object_baseinfo (object_id, announcement_begin_time, 
+      announcement_end_time, question_end_time, 
+      answer_question_start_time, answer_question_end_time, 
+      bidding_end_time, bidding_document_fetch_start_time, 
+      bidding_no, object_scope, object_description
+      )
+    values (#{object_id,jdbcType=VARCHAR}, #{announcement_begin_time,jdbcType=TIMESTAMP}, 
+      #{announcement_end_time,jdbcType=TIMESTAMP}, #{question_end_time,jdbcType=TIMESTAMP}, 
+      #{answer_question_start_time,jdbcType=TIMESTAMP}, #{answer_question_end_time,jdbcType=TIMESTAMP}, 
+      #{bidding_end_time,jdbcType=TIMESTAMP}, #{bidding_document_fetch_start_time,jdbcType=TIMESTAMP}, 
+      #{bidding_no,jdbcType=VARCHAR}, #{object_scope,jdbcType=VARCHAR}, #{object_description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBaseinfo" >
+    insert into t_ztgl_object_baseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="object_id != null" >
+        object_id,
+      </if>
+      <if test="announcement_begin_time != null" >
+        announcement_begin_time,
+      </if>
+      <if test="announcement_end_time != null" >
+        announcement_end_time,
+      </if>
+      <if test="question_end_time != null" >
+        question_end_time,
+      </if>
+      <if test="answer_question_start_time != null" >
+        answer_question_start_time,
+      </if>
+      <if test="answer_question_end_time != null" >
+        answer_question_end_time,
+      </if>
+      <if test="bidding_end_time != null" >
+        bidding_end_time,
+      </if>
+      <if test="bidding_document_fetch_start_time != null" >
+        bidding_document_fetch_start_time,
+      </if>
+      <if test="bidding_no != null" >
+        bidding_no,
+      </if>
+      <if test="object_scope != null" >
+        object_scope,
+      </if>
+      <if test="object_description != null" >
+        object_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="object_id != null" >
+        #{object_id,jdbcType=VARCHAR},
+      </if>
+      <if test="announcement_begin_time != null" >
+        #{announcement_begin_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="announcement_end_time != null" >
+        #{announcement_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="question_end_time != null" >
+        #{question_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answer_question_start_time != null" >
+        #{answer_question_start_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answer_question_end_time != null" >
+        #{answer_question_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidding_end_time != null" >
+        #{bidding_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidding_document_fetch_start_time != null" >
+        #{bidding_document_fetch_start_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidding_no != null" >
+        #{bidding_no,jdbcType=VARCHAR},
+      </if>
+      <if test="object_scope != null" >
+        #{object_scope,jdbcType=VARCHAR},
+      </if>
+      <if test="object_description != null" >
+        #{object_description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ObjectBaseinfo" >
+    update t_ztgl_object_baseinfo
+    <set >
+      <if test="announcement_begin_time != null" >
+        announcement_begin_time = #{announcement_begin_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="announcement_end_time != null" >
+        announcement_end_time = #{announcement_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="question_end_time != null" >
+        question_end_time = #{question_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answer_question_start_time != null" >
+        answer_question_start_time = #{answer_question_start_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answer_question_end_time != null" >
+        answer_question_end_time = #{answer_question_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidding_end_time != null" >
+        bidding_end_time = #{bidding_end_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidding_document_fetch_start_time != null" >
+        bidding_document_fetch_start_time = #{bidding_document_fetch_start_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidding_no != null" >
+        bidding_no = #{bidding_no,jdbcType=VARCHAR},
+      </if>
+      <if test="object_scope != null" >
+        object_scope = #{object_scope,jdbcType=VARCHAR},
+      </if>
+      <if test="object_description != null" >
+        object_description = #{object_description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where object_id = #{object_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ObjectBaseinfo" >
+    update t_ztgl_object_baseinfo
+    set announcement_begin_time = #{announcement_begin_time,jdbcType=TIMESTAMP},
+      announcement_end_time = #{announcement_end_time,jdbcType=TIMESTAMP},
+      question_end_time = #{question_end_time,jdbcType=TIMESTAMP},
+      answer_question_start_time = #{answer_question_start_time,jdbcType=TIMESTAMP},
+      answer_question_end_time = #{answer_question_end_time,jdbcType=TIMESTAMP},
+      bidding_end_time = #{bidding_end_time,jdbcType=TIMESTAMP},
+      bidding_document_fetch_start_time = #{bidding_document_fetch_start_time,jdbcType=TIMESTAMP},
+      bidding_no = #{bidding_no,jdbcType=VARCHAR},
+      object_scope = #{object_scope,jdbcType=VARCHAR},
+      object_description = #{object_description,jdbcType=VARCHAR}
+    where object_id = #{object_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

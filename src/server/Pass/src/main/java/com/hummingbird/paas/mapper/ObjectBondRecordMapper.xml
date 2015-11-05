@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.ObjectBondRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ObjectBondRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
+    <result column="bond_amount" property="bond_amount" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="company_type" property="company_type" jdbcType="VARCHAR" />
+    <result column="company_id" property="company_id" jdbcType="VARCHAR" />
+    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
+    <result column="bond_type" property="bond_type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, object_id, bond_amount, type, insert_time, company_type, company_id, order_id, 
+    bond_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_bond_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_ztgl_object_bond_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
+    insert into t_ztgl_object_bond_record (id, object_id, bond_amount, 
+      type, insert_time, company_type, 
+      company_id, order_id, bond_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}, #{bond_amount,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, #{company_type,jdbcType=VARCHAR}, 
+      #{company_id,jdbcType=VARCHAR}, #{order_id,jdbcType=VARCHAR}, #{bond_type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
+    insert into t_ztgl_object_bond_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="object_id != null" >
+        object_id,
+      </if>
+      <if test="bond_amount != null" >
+        bond_amount,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="insert_time != null" >
+        insert_time,
+      </if>
+      <if test="company_type != null" >
+        company_type,
+      </if>
+      <if test="company_id != null" >
+        company_id,
+      </if>
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="bond_type != null" >
+        bond_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="object_id != null" >
+        #{object_id,jdbcType=VARCHAR},
+      </if>
+      <if test="bond_amount != null" >
+        #{bond_amount,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="insert_time != null" >
+        #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="company_type != null" >
+        #{company_type,jdbcType=VARCHAR},
+      </if>
+      <if test="company_id != null" >
+        #{company_id,jdbcType=VARCHAR},
+      </if>
+      <if test="order_id != null" >
+        #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="bond_type != null" >
+        #{bond_type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
+    update t_ztgl_object_bond_record
+    <set >
+      <if test="object_id != null" >
+        object_id = #{object_id,jdbcType=VARCHAR},
+      </if>
+      <if test="bond_amount != null" >
+        bond_amount = #{bond_amount,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="insert_time != null" >
+        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="company_type != null" >
+        company_type = #{company_type,jdbcType=VARCHAR},
+      </if>
+      <if test="company_id != null" >
+        company_id = #{company_id,jdbcType=VARCHAR},
+      </if>
+      <if test="order_id != null" >
+        order_id = #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="bond_type != null" >
+        bond_type = #{bond_type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
+    update t_ztgl_object_bond_record
+    set object_id = #{object_id,jdbcType=VARCHAR},
+      bond_amount = #{bond_amount,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      company_type = #{company_type,jdbcType=VARCHAR},
+      company_id = #{company_id,jdbcType=VARCHAR},
+      order_id = #{order_id,jdbcType=VARCHAR},
+      bond_type = #{bond_type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

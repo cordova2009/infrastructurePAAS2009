@@ -12,22 +12,22 @@ public class CertificationType {
     /**
      * 资质证书组别,一级证书，二级证书等标识归在一组
      */
-    private String certification_groupname;
+    private String certificationGroupname;
 
     /**
      * 资质证书级别，分0,1，2,3，0为特级
      */
-    private Integer certification_level;
+    private Integer certificationLevel;
 
     /**
      * 资质证书名称
      */
-    private String certification_name;
+    private String certificationName;
 
     /**
      * 可否认证,CAN 必须认证，NON不要认证，NKN不知道要不要认证
      */
-    private String can_verify;
+    private String canVerify;
 
     /**
      * @return 资质证书id
@@ -47,61 +47,61 @@ public class CertificationType {
     /**
      * @return 资质证书组别,一级证书，二级证书等标识归在一组
      */
-    public String getCertification_groupname() {
-        return certification_groupname;
+    public String getCertificationGroupname() {
+        return certificationGroupname;
     }
 
     /**
      * @param certificationGroupname 
 	 *            资质证书组别,一级证书，二级证书等标识归在一组
      */
-    public void setCertification_groupname(String certification_groupname) {
-        this.certification_groupname = certification_groupname == null ? null : certification_groupname.trim();
+    public void setCertificationGroupname(String certificationGroupname) {
+        this.certificationGroupname = certificationGroupname == null ? null : certificationGroupname.trim();
     }
 
     /**
      * @return 资质证书级别，分0,1，2,3，0为特级
      */
-    public Integer getCertification_level() {
-        return certification_level;
+    public Integer getCertificationLevel() {
+        return certificationLevel;
     }
 
     /**
      * @param certificationLevel 
 	 *            资质证书级别，分0,1，2,3，0为特级
      */
-    public void setCertification_level(Integer certification_level) {
-        this.certification_level = certification_level;
+    public void setCertificationLevel(Integer certificationLevel) {
+        this.certificationLevel = certificationLevel;
     }
 
     /**
      * @return 资质证书名称
      */
-    public String getCertification_name() {
-        return certification_name;
+    public String getCertificationName() {
+        return certificationName;
     }
 
     /**
      * @param certificationName 
 	 *            资质证书名称
      */
-    public void setCertification_name(String certification_name) {
-        this.certification_name = certification_name == null ? null : certification_name.trim();
+    public void setCertificationName(String certificationName) {
+        this.certificationName = certificationName == null ? null : certificationName.trim();
     }
 
     /**
      * @return 可否认证,CAN 必须认证，NON不要认证，NKN不知道要不要认证
      */
-    public String getCan_verify() {
-        return can_verify;
+    public String getCanVerify() {
+        return canVerify;
     }
 
     /**
      * @param canVerify 
 	 *            可否认证,CAN 必须认证，NON不要认证，NKN不知道要不要认证
      */
-    public void setCan_verify(String can_verify) {
-        this.can_verify = can_verify == null ? null : can_verify.trim();
+    public void setCanVerify(String canVerify) {
+        this.canVerify = canVerify == null ? null : canVerify.trim();
     }
 
     @Override
@@ -117,10 +117,10 @@ public class CertificationType {
         }
         CertificationType other = (CertificationType) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getCertification_groupname() == null ? other.getCertification_groupname() == null : this.getCertification_groupname().equals(other.getCertification_groupname()))
-            && (this.getCertification_level() == null ? other.getCertification_level() == null : this.getCertification_level().equals(other.getCertification_level()))
-            && (this.getCertification_name() == null ? other.getCertification_name() == null : this.getCertification_name().equals(other.getCertification_name()))
-            && (this.getCan_verify() == null ? other.getCan_verify() == null : this.getCan_verify().equals(other.getCan_verify()));
+            && (this.getCertificationGroupname() == null ? other.getCertificationGroupname() == null : this.getCertificationGroupname().equals(other.getCertificationGroupname()))
+            && (this.getCertificationLevel() == null ? other.getCertificationLevel() == null : this.getCertificationLevel().equals(other.getCertificationLevel()))
+            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
+            && (this.getCanVerify() == null ? other.getCanVerify() == null : this.getCanVerify().equals(other.getCanVerify()));
     }
 
     @Override
@@ -128,10 +128,10 @@ public class CertificationType {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getCertification_groupname() == null) ? 0 : getCertification_groupname().hashCode());
-        result = prime * result + ((getCertification_level() == null) ? 0 : getCertification_level().hashCode());
-        result = prime * result + ((getCertification_name() == null) ? 0 : getCertification_name().hashCode());
-        result = prime * result + ((getCan_verify() == null) ? 0 : getCan_verify().hashCode());
+        result = prime * result + ((getCertificationGroupname() == null) ? 0 : getCertificationGroupname().hashCode());
+        result = prime * result + ((getCertificationLevel() == null) ? 0 : getCertificationLevel().hashCode());
+        result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
+        result = prime * result + ((getCanVerify() == null) ? 0 : getCanVerify().hashCode());
         return result;
     }
 }

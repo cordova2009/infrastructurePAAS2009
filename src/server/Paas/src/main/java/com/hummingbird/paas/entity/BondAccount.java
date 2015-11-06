@@ -9,7 +9,7 @@ public class BondAccount {
     /**
      * 帐户id
      */
-    private String account_id;
+    private String accountId;
 
     /**
      * 帐户余额
@@ -24,12 +24,12 @@ public class BondAccount {
     /**
      * 插入时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 备注
@@ -44,16 +44,16 @@ public class BondAccount {
     /**
      * @return 帐户id
      */
-    public String getAccount_id() {
-        return account_id;
+    public String getAccountId() {
+        return accountId;
     }
 
     /**
      * @param accountId 
 	 *            帐户id
      */
-    public void setAccount_id(String account_id) {
-        this.account_id = account_id == null ? null : account_id.trim();
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     /**
@@ -89,31 +89,31 @@ public class BondAccount {
     /**
      * @return 插入时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            插入时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 更新时间
      */
-    public Date getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
     /**
      * @param updateTime 
 	 *            更新时间
      */
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     /**
@@ -158,11 +158,11 @@ public class BondAccount {
             return false;
         }
         BondAccount other = (BondAccount) that;
-        return (this.getAccount_id() == null ? other.getAccount_id() == null : this.getAccount_id().equals(other.getAccount_id()))
+        return (this.getAccountId() == null ? other.getAccountId() == null : this.getAccountId().equals(other.getAccountId()))
             && (this.getBalance() == null ? other.getBalance() == null : this.getBalance().equals(other.getBalance()))
             && (this.getSignature() == null ? other.getSignature() == null : this.getSignature().equals(other.getSignature()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
@@ -171,11 +171,11 @@ public class BondAccount {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getAccount_id() == null) ? 0 : getAccount_id().hashCode());
+        result = prime * result + ((getAccountId() == null) ? 0 : getAccountId().hashCode());
         result = prime * result + ((getBalance() == null) ? 0 : getBalance().hashCode());
         result = prime * result + ((getSignature() == null) ? 0 : getSignature().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;

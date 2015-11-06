@@ -12,17 +12,17 @@ public class ObjectBondSetting {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 招标方保证金
      */
-    private Integer biddee_bond;
+    private Integer biddeeBond;
 
     /**
      * 投标方保证金
      */
-    private Integer bidder_bid_bond;
+    private Integer bidderBidBond;
 
     /**
      * @return id
@@ -42,46 +42,46 @@ public class ObjectBondSetting {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 招标方保证金
      */
-    public Integer getBiddee_bond() {
-        return biddee_bond;
+    public Integer getBiddeeBond() {
+        return biddeeBond;
     }
 
     /**
      * @param biddeeBond 
 	 *            招标方保证金
      */
-    public void setBiddee_bond(Integer biddee_bond) {
-        this.biddee_bond = biddee_bond;
+    public void setBiddeeBond(Integer biddeeBond) {
+        this.biddeeBond = biddeeBond;
     }
 
     /**
      * @return 投标方保证金
      */
-    public Integer getBidder_bid_bond() {
-        return bidder_bid_bond;
+    public Integer getBidderBidBond() {
+        return bidderBidBond;
     }
 
     /**
      * @param bidderBidBond 
 	 *            投标方保证金
      */
-    public void setBidder_bid_bond(Integer bidder_bid_bond) {
-        this.bidder_bid_bond = bidder_bid_bond;
+    public void setBidderBidBond(Integer bidderBidBond) {
+        this.bidderBidBond = bidderBidBond;
     }
 
     @Override
@@ -97,9 +97,9 @@ public class ObjectBondSetting {
         }
         ObjectBondSetting other = (ObjectBondSetting) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getBiddee_bond() == null ? other.getBiddee_bond() == null : this.getBiddee_bond().equals(other.getBiddee_bond()))
-            && (this.getBidder_bid_bond() == null ? other.getBidder_bid_bond() == null : this.getBidder_bid_bond().equals(other.getBidder_bid_bond()));
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getBiddeeBond() == null ? other.getBiddeeBond() == null : this.getBiddeeBond().equals(other.getBiddeeBond()))
+            && (this.getBidderBidBond() == null ? other.getBidderBidBond() == null : this.getBidderBidBond().equals(other.getBidderBidBond()));
     }
 
     @Override
@@ -107,9 +107,9 @@ public class ObjectBondSetting {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getBiddee_bond() == null) ? 0 : getBiddee_bond().hashCode());
-        result = prime * result + ((getBidder_bid_bond() == null) ? 0 : getBidder_bid_bond().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getBiddeeBond() == null) ? 0 : getBiddeeBond().hashCode());
+        result = prime * result + ((getBidderBidBond() == null) ? 0 : getBidderBidBond().hashCode());
         return result;
     }
 }

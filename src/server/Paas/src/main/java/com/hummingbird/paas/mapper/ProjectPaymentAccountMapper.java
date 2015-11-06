@@ -6,7 +6,7 @@ public interface ProjectPaymentAccountMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(String account_id);
+    int deleteByPrimaryKey(String accountId);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface ProjectPaymentAccountMapper {
     /**
      * 根据主键查询记录
      */
-    ProjectPaymentAccount selectByPrimaryKey(String account_id);
+    ProjectPaymentAccount selectByPrimaryKey(String accountId);
 
     /**
      * 根据主键更新属性不为空的记录

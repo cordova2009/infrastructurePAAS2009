@@ -14,12 +14,12 @@ public class ProjectPaymentPay {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 期数
      */
-    private Integer current_period;
+    private Integer currentPeriod;
 
     /**
      * 金额,单位分
@@ -29,12 +29,12 @@ public class ProjectPaymentPay {
     /**
      * 应支付时间
      */
-    private Date should_pay_time;
+    private Date shouldPayTime;
 
     /**
      * 支付时间
      */
-    private Date pay_time;
+    private Date payTime;
 
     /**
      * 状态,CRT待支付,OK#已支付,FLS支付失败
@@ -44,22 +44,22 @@ public class ProjectPaymentPay {
     /**
      * 总金额
      */
-    private Integer total_amount;
+    private Integer totalAmount;
 
     /**
      * 剩余期数
      */
-    private Integer left_period;
+    private Integer leftPeriod;
 
     /**
      * 剩余金额,单位分
      */
-    private Integer left_amount;
+    private Integer leftAmount;
 
     /**
      * 总期数
      */
-    private Integer total_period;
+    private Integer totalPeriod;
 
     /**
      * 银行
@@ -74,22 +74,22 @@ public class ProjectPaymentPay {
     /**
      * 凭证上传地址
      */
-    private String voucher_pic;
+    private String voucherPic;
 
     /**
      * 转帐日期
      */
-    private Date transfer_date;
+    private Date transferDate;
 
     /**
      * 订单号
      */
-    private String order_id;
+    private String orderId;
 
     /**
      * 银行id
      */
-    private String bank_id;
+    private String bankId;
 
     /**
      * @return 主键
@@ -109,31 +109,31 @@ public class ProjectPaymentPay {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 期数
      */
-    public Integer getCurrent_period() {
-        return current_period;
+    public Integer getCurrentPeriod() {
+        return currentPeriod;
     }
 
     /**
      * @param currentPeriod 
 	 *            期数
      */
-    public void setCurrent_period(Integer current_period) {
-        this.current_period = current_period;
+    public void setCurrentPeriod(Integer currentPeriod) {
+        this.currentPeriod = currentPeriod;
     }
 
     /**
@@ -154,31 +154,31 @@ public class ProjectPaymentPay {
     /**
      * @return 应支付时间
      */
-    public Date getShould_pay_time() {
-        return should_pay_time;
+    public Date getShouldPayTime() {
+        return shouldPayTime;
     }
 
     /**
      * @param shouldPayTime 
 	 *            应支付时间
      */
-    public void setShould_pay_time(Date should_pay_time) {
-        this.should_pay_time = should_pay_time;
+    public void setShouldPayTime(Date shouldPayTime) {
+        this.shouldPayTime = shouldPayTime;
     }
 
     /**
      * @return 支付时间
      */
-    public Date getPay_time() {
-        return pay_time;
+    public Date getPayTime() {
+        return payTime;
     }
 
     /**
      * @param payTime 
 	 *            支付时间
      */
-    public void setPay_time(Date pay_time) {
-        this.pay_time = pay_time;
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
     }
 
     /**
@@ -199,61 +199,61 @@ public class ProjectPaymentPay {
     /**
      * @return 总金额
      */
-    public Integer getTotal_amount() {
-        return total_amount;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
     /**
      * @param totalAmount 
 	 *            总金额
      */
-    public void setTotal_amount(Integer total_amount) {
-        this.total_amount = total_amount;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**
      * @return 剩余期数
      */
-    public Integer getLeft_period() {
-        return left_period;
+    public Integer getLeftPeriod() {
+        return leftPeriod;
     }
 
     /**
      * @param leftPeriod 
 	 *            剩余期数
      */
-    public void setLeft_period(Integer left_period) {
-        this.left_period = left_period;
+    public void setLeftPeriod(Integer leftPeriod) {
+        this.leftPeriod = leftPeriod;
     }
 
     /**
      * @return 剩余金额,单位分
      */
-    public Integer getLeft_amount() {
-        return left_amount;
+    public Integer getLeftAmount() {
+        return leftAmount;
     }
 
     /**
      * @param leftAmount 
 	 *            剩余金额,单位分
      */
-    public void setLeft_amount(Integer left_amount) {
-        this.left_amount = left_amount;
+    public void setLeftAmount(Integer leftAmount) {
+        this.leftAmount = leftAmount;
     }
 
     /**
      * @return 总期数
      */
-    public Integer getTotal_period() {
-        return total_period;
+    public Integer getTotalPeriod() {
+        return totalPeriod;
     }
 
     /**
      * @param totalPeriod 
 	 *            总期数
      */
-    public void setTotal_period(Integer total_period) {
-        this.total_period = total_period;
+    public void setTotalPeriod(Integer totalPeriod) {
+        this.totalPeriod = totalPeriod;
     }
 
     /**
@@ -289,61 +289,61 @@ public class ProjectPaymentPay {
     /**
      * @return 凭证上传地址
      */
-    public String getVoucher_pic() {
-        return voucher_pic;
+    public String getVoucherPic() {
+        return voucherPic;
     }
 
     /**
      * @param voucherPic 
 	 *            凭证上传地址
      */
-    public void setVoucher_pic(String voucher_pic) {
-        this.voucher_pic = voucher_pic == null ? null : voucher_pic.trim();
+    public void setVoucherPic(String voucherPic) {
+        this.voucherPic = voucherPic == null ? null : voucherPic.trim();
     }
 
     /**
      * @return 转帐日期
      */
-    public Date getTransfer_date() {
-        return transfer_date;
+    public Date getTransferDate() {
+        return transferDate;
     }
 
     /**
      * @param transferDate 
 	 *            转帐日期
      */
-    public void setTransfer_date(Date transfer_date) {
-        this.transfer_date = transfer_date;
+    public void setTransferDate(Date transferDate) {
+        this.transferDate = transferDate;
     }
 
     /**
      * @return 订单号
      */
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单号
      */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id == null ? null : order_id.trim();
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
      * @return 银行id
      */
-    public String getBank_id() {
-        return bank_id;
+    public String getBankId() {
+        return bankId;
     }
 
     /**
      * @param bankId 
 	 *            银行id
      */
-    public void setBank_id(String bank_id) {
-        this.bank_id = bank_id == null ? null : bank_id.trim();
+    public void setBankId(String bankId) {
+        this.bankId = bankId == null ? null : bankId.trim();
     }
 
     @Override
@@ -359,22 +359,22 @@ public class ProjectPaymentPay {
         }
         ProjectPaymentPay other = (ProjectPaymentPay) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getCurrent_period() == null ? other.getCurrent_period() == null : this.getCurrent_period().equals(other.getCurrent_period()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getCurrentPeriod() == null ? other.getCurrentPeriod() == null : this.getCurrentPeriod().equals(other.getCurrentPeriod()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getShould_pay_time() == null ? other.getShould_pay_time() == null : this.getShould_pay_time().equals(other.getShould_pay_time()))
-            && (this.getPay_time() == null ? other.getPay_time() == null : this.getPay_time().equals(other.getPay_time()))
+            && (this.getShouldPayTime() == null ? other.getShouldPayTime() == null : this.getShouldPayTime().equals(other.getShouldPayTime()))
+            && (this.getPayTime() == null ? other.getPayTime() == null : this.getPayTime().equals(other.getPayTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getTotal_amount() == null ? other.getTotal_amount() == null : this.getTotal_amount().equals(other.getTotal_amount()))
-            && (this.getLeft_period() == null ? other.getLeft_period() == null : this.getLeft_period().equals(other.getLeft_period()))
-            && (this.getLeft_amount() == null ? other.getLeft_amount() == null : this.getLeft_amount().equals(other.getLeft_amount()))
-            && (this.getTotal_period() == null ? other.getTotal_period() == null : this.getTotal_period().equals(other.getTotal_period()))
+            && (this.getTotalAmount() == null ? other.getTotalAmount() == null : this.getTotalAmount().equals(other.getTotalAmount()))
+            && (this.getLeftPeriod() == null ? other.getLeftPeriod() == null : this.getLeftPeriod().equals(other.getLeftPeriod()))
+            && (this.getLeftAmount() == null ? other.getLeftAmount() == null : this.getLeftAmount().equals(other.getLeftAmount()))
+            && (this.getTotalPeriod() == null ? other.getTotalPeriod() == null : this.getTotalPeriod().equals(other.getTotalPeriod()))
             && (this.getBank() == null ? other.getBank() == null : this.getBank().equals(other.getBank()))
             && (this.getVoucher() == null ? other.getVoucher() == null : this.getVoucher().equals(other.getVoucher()))
-            && (this.getVoucher_pic() == null ? other.getVoucher_pic() == null : this.getVoucher_pic().equals(other.getVoucher_pic()))
-            && (this.getTransfer_date() == null ? other.getTransfer_date() == null : this.getTransfer_date().equals(other.getTransfer_date()))
-            && (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
-            && (this.getBank_id() == null ? other.getBank_id() == null : this.getBank_id().equals(other.getBank_id()));
+            && (this.getVoucherPic() == null ? other.getVoucherPic() == null : this.getVoucherPic().equals(other.getVoucherPic()))
+            && (this.getTransferDate() == null ? other.getTransferDate() == null : this.getTransferDate().equals(other.getTransferDate()))
+            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()));
     }
 
     @Override
@@ -382,22 +382,22 @@ public class ProjectPaymentPay {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getCurrent_period() == null) ? 0 : getCurrent_period().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getCurrentPeriod() == null) ? 0 : getCurrentPeriod().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getShould_pay_time() == null) ? 0 : getShould_pay_time().hashCode());
-        result = prime * result + ((getPay_time() == null) ? 0 : getPay_time().hashCode());
+        result = prime * result + ((getShouldPayTime() == null) ? 0 : getShouldPayTime().hashCode());
+        result = prime * result + ((getPayTime() == null) ? 0 : getPayTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getTotal_amount() == null) ? 0 : getTotal_amount().hashCode());
-        result = prime * result + ((getLeft_period() == null) ? 0 : getLeft_period().hashCode());
-        result = prime * result + ((getLeft_amount() == null) ? 0 : getLeft_amount().hashCode());
-        result = prime * result + ((getTotal_period() == null) ? 0 : getTotal_period().hashCode());
+        result = prime * result + ((getTotalAmount() == null) ? 0 : getTotalAmount().hashCode());
+        result = prime * result + ((getLeftPeriod() == null) ? 0 : getLeftPeriod().hashCode());
+        result = prime * result + ((getLeftAmount() == null) ? 0 : getLeftAmount().hashCode());
+        result = prime * result + ((getTotalPeriod() == null) ? 0 : getTotalPeriod().hashCode());
         result = prime * result + ((getBank() == null) ? 0 : getBank().hashCode());
         result = prime * result + ((getVoucher() == null) ? 0 : getVoucher().hashCode());
-        result = prime * result + ((getVoucher_pic() == null) ? 0 : getVoucher_pic().hashCode());
-        result = prime * result + ((getTransfer_date() == null) ? 0 : getTransfer_date().hashCode());
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
-        result = prime * result + ((getBank_id() == null) ? 0 : getBank_id().hashCode());
+        result = prime * result + ((getVoucherPic() == null) ? 0 : getVoucherPic().hashCode());
+        result = prime * result + ((getTransferDate() == null) ? 0 : getTransferDate().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
         return result;
     }
 }

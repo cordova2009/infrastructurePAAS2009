@@ -9,27 +9,27 @@ public class Order {
     /**
      * 订单号
      */
-    private Integer order_id;
+    private Integer orderId;
 
     /**
      * 创建时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 产品id
      */
-    private String product_id;
+    private String productId;
 
     /**
      * 数量
      */
-    private Integer product_count;
+    private Integer productCount;
 
     /**
      * 单价，单位为分
      */
-    private Integer product_price;
+    private Integer productPrice;
 
     /**
      * 总价，单位为分
@@ -39,32 +39,32 @@ public class Order {
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 创建人,用户id
      */
-    private String create_by;
+    private String createBy;
 
     /**
      * 支付类型,ALI支付宝，AAC平台帐户
      */
-    private String pay_type;
+    private String payType;
 
     /**
      * 产品描述
      */
-    private String product_desc;
+    private String productDesc;
 
     /**
      * 支付状态,CRT待支付，OK#已支付，FLS支付失败
      */
-    private String pay_status;
+    private String payStatus;
 
     /**
      * 应用id
      */
-    private String app_id;
+    private String appId;
 
     /**
      * 产品折扣
@@ -74,81 +74,81 @@ public class Order {
     /**
      * 折后价格
      */
-    private Integer real_amount;
+    private Integer realAmount;
 
     /**
      * @return 订单号
      */
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单号
      */
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     /**
      * @return 创建时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            创建时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 产品id
      */
-    public String getProduct_id() {
-        return product_id;
+    public String getProductId() {
+        return productId;
     }
 
     /**
      * @param productId 
 	 *            产品id
      */
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id == null ? null : product_id.trim();
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
     }
 
     /**
      * @return 数量
      */
-    public Integer getProduct_count() {
-        return product_count;
+    public Integer getProductCount() {
+        return productCount;
     }
 
     /**
      * @param productCount 
 	 *            数量
      */
-    public void setProduct_count(Integer product_count) {
-        this.product_count = product_count;
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
     }
 
     /**
      * @return 单价，单位为分
      */
-    public Integer getProduct_price() {
-        return product_price;
+    public Integer getProductPrice() {
+        return productPrice;
     }
 
     /**
      * @param productPrice 
 	 *            单价，单位为分
      */
-    public void setProduct_price(Integer product_price) {
-        this.product_price = product_price;
+    public void setProductPrice(Integer productPrice) {
+        this.productPrice = productPrice;
     }
 
     /**
@@ -169,91 +169,91 @@ public class Order {
     /**
      * @return 更新时间
      */
-    public Date getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
     /**
      * @param updateTime 
 	 *            更新时间
      */
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     /**
      * @return 创建人,用户id
      */
-    public String getCreate_by() {
-        return create_by;
+    public String getCreateBy() {
+        return createBy;
     }
 
     /**
      * @param createBy 
 	 *            创建人,用户id
      */
-    public void setCreate_by(String create_by) {
-        this.create_by = create_by == null ? null : create_by.trim();
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
     }
 
     /**
      * @return 支付类型,ALI支付宝，AAC平台帐户
      */
-    public String getPay_type() {
-        return pay_type;
+    public String getPayType() {
+        return payType;
     }
 
     /**
      * @param payType 
 	 *            支付类型,ALI支付宝，AAC平台帐户
      */
-    public void setPay_type(String pay_type) {
-        this.pay_type = pay_type == null ? null : pay_type.trim();
+    public void setPayType(String payType) {
+        this.payType = payType == null ? null : payType.trim();
     }
 
     /**
      * @return 产品描述
      */
-    public String getProduct_desc() {
-        return product_desc;
+    public String getProductDesc() {
+        return productDesc;
     }
 
     /**
      * @param productDesc 
 	 *            产品描述
      */
-    public void setProduct_desc(String product_desc) {
-        this.product_desc = product_desc == null ? null : product_desc.trim();
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc == null ? null : productDesc.trim();
     }
 
     /**
      * @return 支付状态,CRT待支付，OK#已支付，FLS支付失败
      */
-    public String getPay_status() {
-        return pay_status;
+    public String getPayStatus() {
+        return payStatus;
     }
 
     /**
      * @param payStatus 
 	 *            支付状态,CRT待支付，OK#已支付，FLS支付失败
      */
-    public void setPay_status(String pay_status) {
-        this.pay_status = pay_status == null ? null : pay_status.trim();
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus == null ? null : payStatus.trim();
     }
 
     /**
      * @return 应用id
      */
-    public String getApp_id() {
-        return app_id;
+    public String getAppId() {
+        return appId;
     }
 
     /**
      * @param appId 
 	 *            应用id
      */
-    public void setApp_id(String app_id) {
-        this.app_id = app_id == null ? null : app_id.trim();
+    public void setAppId(String appId) {
+        this.appId = appId == null ? null : appId.trim();
     }
 
     /**
@@ -274,16 +274,16 @@ public class Order {
     /**
      * @return 折后价格
      */
-    public Integer getReal_amount() {
-        return real_amount;
+    public Integer getRealAmount() {
+        return realAmount;
     }
 
     /**
      * @param realAmount 
 	 *            折后价格
      */
-    public void setReal_amount(Integer real_amount) {
-        this.real_amount = real_amount;
+    public void setRealAmount(Integer realAmount) {
+        this.realAmount = realAmount;
     }
 
     @Override
@@ -298,40 +298,40 @@ public class Order {
             return false;
         }
         Order other = (Order) that;
-        return (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getProduct_id() == null ? other.getProduct_id() == null : this.getProduct_id().equals(other.getProduct_id()))
-            && (this.getProduct_count() == null ? other.getProduct_count() == null : this.getProduct_count().equals(other.getProduct_count()))
-            && (this.getProduct_price() == null ? other.getProduct_price() == null : this.getProduct_price().equals(other.getProduct_price()))
+        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()))
+            && (this.getProductCount() == null ? other.getProductCount() == null : this.getProductCount().equals(other.getProductCount()))
+            && (this.getProductPrice() == null ? other.getProductPrice() == null : this.getProductPrice().equals(other.getProductPrice()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
-            && (this.getCreate_by() == null ? other.getCreate_by() == null : this.getCreate_by().equals(other.getCreate_by()))
-            && (this.getPay_type() == null ? other.getPay_type() == null : this.getPay_type().equals(other.getPay_type()))
-            && (this.getProduct_desc() == null ? other.getProduct_desc() == null : this.getProduct_desc().equals(other.getProduct_desc()))
-            && (this.getPay_status() == null ? other.getPay_status() == null : this.getPay_status().equals(other.getPay_status()))
-            && (this.getApp_id() == null ? other.getApp_id() == null : this.getApp_id().equals(other.getApp_id()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+            && (this.getPayType() == null ? other.getPayType() == null : this.getPayType().equals(other.getPayType()))
+            && (this.getProductDesc() == null ? other.getProductDesc() == null : this.getProductDesc().equals(other.getProductDesc()))
+            && (this.getPayStatus() == null ? other.getPayStatus() == null : this.getPayStatus().equals(other.getPayStatus()))
+            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
             && (this.getDiscount() == null ? other.getDiscount() == null : this.getDiscount().equals(other.getDiscount()))
-            && (this.getReal_amount() == null ? other.getReal_amount() == null : this.getReal_amount().equals(other.getReal_amount()));
+            && (this.getRealAmount() == null ? other.getRealAmount() == null : this.getRealAmount().equals(other.getRealAmount()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getProduct_id() == null) ? 0 : getProduct_id().hashCode());
-        result = prime * result + ((getProduct_count() == null) ? 0 : getProduct_count().hashCode());
-        result = prime * result + ((getProduct_price() == null) ? 0 : getProduct_price().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
+        result = prime * result + ((getProductCount() == null) ? 0 : getProductCount().hashCode());
+        result = prime * result + ((getProductPrice() == null) ? 0 : getProductPrice().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
-        result = prime * result + ((getCreate_by() == null) ? 0 : getCreate_by().hashCode());
-        result = prime * result + ((getPay_type() == null) ? 0 : getPay_type().hashCode());
-        result = prime * result + ((getProduct_desc() == null) ? 0 : getProduct_desc().hashCode());
-        result = prime * result + ((getPay_status() == null) ? 0 : getPay_status().hashCode());
-        result = prime * result + ((getApp_id() == null) ? 0 : getApp_id().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
+        result = prime * result + ((getPayType() == null) ? 0 : getPayType().hashCode());
+        result = prime * result + ((getProductDesc() == null) ? 0 : getProductDesc().hashCode());
+        result = prime * result + ((getPayStatus() == null) ? 0 : getPayStatus().hashCode());
+        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
         result = prime * result + ((getDiscount() == null) ? 0 : getDiscount().hashCode());
-        result = prime * result + ((getReal_amount() == null) ? 0 : getReal_amount().hashCode());
+        result = prime * result + ((getRealAmount() == null) ? 0 : getRealAmount().hashCode());
         return result;
     }
 }

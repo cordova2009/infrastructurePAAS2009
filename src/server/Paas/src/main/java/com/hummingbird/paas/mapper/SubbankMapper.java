@@ -6,7 +6,7 @@ public interface SubbankMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(String subbank_id);
+    int deleteByPrimaryKey(String subbankId);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface SubbankMapper {
     /**
      * 根据主键查询记录
      */
-    Subbank selectByPrimaryKey(String subbank_id);
+    Subbank selectByPrimaryKey(String subbankId);
 
     /**
      * 根据主键更新属性不为空的记录

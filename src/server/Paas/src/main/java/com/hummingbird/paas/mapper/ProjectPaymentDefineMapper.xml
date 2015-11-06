@@ -3,9 +3,9 @@
 <mapper namespace="com.hummingbird.paas.mapper.ProjectPaymentDefineMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentDefine" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="pay_type" property="pay_type" jdbcType="VARCHAR" />
-    <result column="pay_period" property="pay_period" jdbcType="INTEGER" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="pay_period" property="payPeriod" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, pay_type, pay_period
@@ -23,8 +23,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
     insert into t_project_payment_define (id, object_id, pay_type, 
       pay_period)
-    values (#{id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}, #{pay_type,jdbcType=VARCHAR}, 
-      #{pay_period,jdbcType=INTEGER})
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
+      #{payPeriod,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
     insert into t_project_payment_define
@@ -32,13 +32,13 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="pay_type != null" >
+      <if test="payType != null" >
         pay_type,
       </if>
-      <if test="pay_period != null" >
+      <if test="payPeriod != null" >
         pay_period,
       </if>
     </trim>
@@ -46,37 +46,37 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="pay_type != null" >
-        #{pay_type,jdbcType=VARCHAR},
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
       </if>
-      <if test="pay_period != null" >
-        #{pay_period,jdbcType=INTEGER},
+      <if test="payPeriod != null" >
+        #{payPeriod,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
     update t_project_payment_define
     <set >
-      <if test="object_id != null" >
-        object_id = #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="pay_type != null" >
-        pay_type = #{pay_type,jdbcType=VARCHAR},
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=VARCHAR},
       </if>
-      <if test="pay_period != null" >
-        pay_period = #{pay_period,jdbcType=INTEGER},
+      <if test="payPeriod != null" >
+        pay_period = #{payPeriod,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
     update t_project_payment_define
-    set object_id = #{object_id,jdbcType=VARCHAR},
-      pay_type = #{pay_type,jdbcType=VARCHAR},
-      pay_period = #{pay_period,jdbcType=INTEGER}
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      pay_period = #{payPeriod,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

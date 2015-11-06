@@ -14,17 +14,17 @@ public class BidderUpgrade {
     /**
      * 承包商id
      */
-    private Integer bidder_id;
+    private Integer bidderId;
 
     /**
      * 会员级别，STD标准会员，ADV高级会员
      */
-    private String member_level;
+    private String memberLevel;
 
     /**
      * 升级时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 升级价格，单位为分
@@ -49,46 +49,46 @@ public class BidderUpgrade {
     /**
      * @return 承包商id
      */
-    public Integer getBidder_id() {
-        return bidder_id;
+    public Integer getBidderId() {
+        return bidderId;
     }
 
     /**
      * @param bidderId 
 	 *            承包商id
      */
-    public void setBidder_id(Integer bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setBidderId(Integer bidderId) {
+        this.bidderId = bidderId;
     }
 
     /**
      * @return 会员级别，STD标准会员，ADV高级会员
      */
-    public String getMember_level() {
-        return member_level;
+    public String getMemberLevel() {
+        return memberLevel;
     }
 
     /**
      * @param memberLevel 
 	 *            会员级别，STD标准会员，ADV高级会员
      */
-    public void setMember_level(String member_level) {
-        this.member_level = member_level == null ? null : member_level.trim();
+    public void setMemberLevel(String memberLevel) {
+        this.memberLevel = memberLevel == null ? null : memberLevel.trim();
     }
 
     /**
      * @return 升级时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            升级时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
@@ -119,9 +119,9 @@ public class BidderUpgrade {
         }
         BidderUpgrade other = (BidderUpgrade) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBidder_id() == null ? other.getBidder_id() == null : this.getBidder_id().equals(other.getBidder_id()))
-            && (this.getMember_level() == null ? other.getMember_level() == null : this.getMember_level().equals(other.getMember_level()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
+            && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
+            && (this.getMemberLevel() == null ? other.getMemberLevel() == null : this.getMemberLevel().equals(other.getMemberLevel()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()));
     }
 
@@ -130,9 +130,9 @@ public class BidderUpgrade {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBidder_id() == null) ? 0 : getBidder_id().hashCode());
-        result = prime * result + ((getMember_level() == null) ? 0 : getMember_level().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
+        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
+        result = prime * result + ((getMemberLevel() == null) ? 0 : getMemberLevel().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
         return result;
     }

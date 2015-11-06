@@ -3,8 +3,8 @@
 <mapper namespace="com.hummingbird.paas.mapper.NotifySettingMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.NotifySetting" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="access_way" property="access_way" jdbcType="VARCHAR" />
-    <result column="access_class_name" property="access_class_name" jdbcType="VARCHAR" />
+    <result column="access_way" property="accessWay" jdbcType="VARCHAR" />
+    <result column="access_class_name" property="accessClassName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, access_way, access_class_name
@@ -22,7 +22,7 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.NotifySetting" >
     insert into t_tzxt_notify_setting (id, access_way, access_class_name
       )
-    values (#{id,jdbcType=VARCHAR}, #{access_way,jdbcType=VARCHAR}, #{access_class_name,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{accessWay,jdbcType=VARCHAR}, #{accessClassName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.NotifySetting" >
@@ -31,10 +31,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="access_way != null" >
+      <if test="accessWay != null" >
         access_way,
       </if>
-      <if test="access_class_name != null" >
+      <if test="accessClassName != null" >
         access_class_name,
       </if>
     </trim>
@@ -42,30 +42,30 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="access_way != null" >
-        #{access_way,jdbcType=VARCHAR},
+      <if test="accessWay != null" >
+        #{accessWay,jdbcType=VARCHAR},
       </if>
-      <if test="access_class_name != null" >
-        #{access_class_name,jdbcType=VARCHAR},
+      <if test="accessClassName != null" >
+        #{accessClassName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.NotifySetting" >
     update t_tzxt_notify_setting
     <set >
-      <if test="access_way != null" >
-        access_way = #{access_way,jdbcType=VARCHAR},
+      <if test="accessWay != null" >
+        access_way = #{accessWay,jdbcType=VARCHAR},
       </if>
-      <if test="access_class_name != null" >
-        access_class_name = #{access_class_name,jdbcType=VARCHAR},
+      <if test="accessClassName != null" >
+        access_class_name = #{accessClassName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.NotifySetting" >
     update t_tzxt_notify_setting
-    set access_way = #{access_way,jdbcType=VARCHAR},
-      access_class_name = #{access_class_name,jdbcType=VARCHAR}
+    set access_way = #{accessWay,jdbcType=VARCHAR},
+      access_class_name = #{accessClassName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

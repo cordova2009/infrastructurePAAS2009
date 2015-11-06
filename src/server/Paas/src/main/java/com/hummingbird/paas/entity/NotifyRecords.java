@@ -14,17 +14,17 @@ public class NotifyRecords {
     /**
      * app_id
      */
-    private String app_id;
+    private String appId;
 
     /**
      * 新增时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 状态,CRT待通知，OK#已通知，FLS通知失败
@@ -34,12 +34,12 @@ public class NotifyRecords {
     /**
      * 通知类型,EMAIL# 邮件,SMS### 短信,WECHAT 微信
      */
-    private String notify_type;
+    private String notifyType;
 
     /**
      * 通知参数
      */
-    private String notify_data;
+    private String notifyData;
 
     /**
      * @return id
@@ -59,46 +59,46 @@ public class NotifyRecords {
     /**
      * @return app_id
      */
-    public String getApp_id() {
-        return app_id;
+    public String getAppId() {
+        return appId;
     }
 
     /**
      * @param appId 
 	 *            app_id
      */
-    public void setApp_id(String app_id) {
-        this.app_id = app_id == null ? null : app_id.trim();
+    public void setAppId(String appId) {
+        this.appId = appId == null ? null : appId.trim();
     }
 
     /**
      * @return 新增时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            新增时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 更新时间
      */
-    public Date getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
     /**
      * @param updateTime 
 	 *            更新时间
      */
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     /**
@@ -119,31 +119,31 @@ public class NotifyRecords {
     /**
      * @return 通知类型,EMAIL# 邮件,SMS### 短信,WECHAT 微信
      */
-    public String getNotify_type() {
-        return notify_type;
+    public String getNotifyType() {
+        return notifyType;
     }
 
     /**
      * @param notifyType 
 	 *            通知类型,EMAIL# 邮件,SMS### 短信,WECHAT 微信
      */
-    public void setNotify_type(String notify_type) {
-        this.notify_type = notify_type == null ? null : notify_type.trim();
+    public void setNotifyType(String notifyType) {
+        this.notifyType = notifyType == null ? null : notifyType.trim();
     }
 
     /**
      * @return 通知参数
      */
-    public String getNotify_data() {
-        return notify_data;
+    public String getNotifyData() {
+        return notifyData;
     }
 
     /**
      * @param notifyData 
 	 *            通知参数
      */
-    public void setNotify_data(String notify_data) {
-        this.notify_data = notify_data == null ? null : notify_data.trim();
+    public void setNotifyData(String notifyData) {
+        this.notifyData = notifyData == null ? null : notifyData.trim();
     }
 
     @Override
@@ -159,12 +159,12 @@ public class NotifyRecords {
         }
         NotifyRecords other = (NotifyRecords) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getApp_id() == null ? other.getApp_id() == null : this.getApp_id().equals(other.getApp_id()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
+            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getNotify_type() == null ? other.getNotify_type() == null : this.getNotify_type().equals(other.getNotify_type()))
-            && (this.getNotify_data() == null ? other.getNotify_data() == null : this.getNotify_data().equals(other.getNotify_data()));
+            && (this.getNotifyType() == null ? other.getNotifyType() == null : this.getNotifyType().equals(other.getNotifyType()))
+            && (this.getNotifyData() == null ? other.getNotifyData() == null : this.getNotifyData().equals(other.getNotifyData()));
     }
 
     @Override
@@ -172,12 +172,12 @@ public class NotifyRecords {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getApp_id() == null) ? 0 : getApp_id().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
+        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getNotify_type() == null) ? 0 : getNotify_type().hashCode());
-        result = prime * result + ((getNotify_data() == null) ? 0 : getNotify_data().hashCode());
+        result = prime * result + ((getNotifyType() == null) ? 0 : getNotifyType().hashCode());
+        result = prime * result + ((getNotifyData() == null) ? 0 : getNotifyData().hashCode());
         return result;
     }
 }

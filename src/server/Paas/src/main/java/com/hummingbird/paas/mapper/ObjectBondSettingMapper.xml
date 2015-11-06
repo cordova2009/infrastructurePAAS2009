@@ -3,9 +3,9 @@
 <mapper namespace="com.hummingbird.paas.mapper.ObjectBondSettingMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ObjectBondSetting" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="biddee_bond" property="biddee_bond" jdbcType="INTEGER" />
-    <result column="bidder_bid_bond" property="bidder_bid_bond" jdbcType="INTEGER" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="biddee_bond" property="biddeeBond" jdbcType="INTEGER" />
+    <result column="bidder_bid_bond" property="bidderBidBond" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, biddee_bond, bidder_bid_bond
@@ -23,8 +23,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     insert into t_ztgl_object_bond_setting (id, object_id, biddee_bond, 
       bidder_bid_bond)
-    values (#{id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}, #{biddee_bond,jdbcType=INTEGER}, 
-      #{bidder_bid_bond,jdbcType=INTEGER})
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{biddeeBond,jdbcType=INTEGER}, 
+      #{bidderBidBond,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     insert into t_ztgl_object_bond_setting
@@ -32,13 +32,13 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="biddee_bond != null" >
+      <if test="biddeeBond != null" >
         biddee_bond,
       </if>
-      <if test="bidder_bid_bond != null" >
+      <if test="bidderBidBond != null" >
         bidder_bid_bond,
       </if>
     </trim>
@@ -46,37 +46,37 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_bond != null" >
-        #{biddee_bond,jdbcType=INTEGER},
+      <if test="biddeeBond != null" >
+        #{biddeeBond,jdbcType=INTEGER},
       </if>
-      <if test="bidder_bid_bond != null" >
-        #{bidder_bid_bond,jdbcType=INTEGER},
+      <if test="bidderBidBond != null" >
+        #{bidderBidBond,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     update t_ztgl_object_bond_setting
     <set >
-      <if test="object_id != null" >
-        object_id = #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_bond != null" >
-        biddee_bond = #{biddee_bond,jdbcType=INTEGER},
+      <if test="biddeeBond != null" >
+        biddee_bond = #{biddeeBond,jdbcType=INTEGER},
       </if>
-      <if test="bidder_bid_bond != null" >
-        bidder_bid_bond = #{bidder_bid_bond,jdbcType=INTEGER},
+      <if test="bidderBidBond != null" >
+        bidder_bid_bond = #{bidderBidBond,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     update t_ztgl_object_bond_setting
-    set object_id = #{object_id,jdbcType=VARCHAR},
-      biddee_bond = #{biddee_bond,jdbcType=INTEGER},
-      bidder_bid_bond = #{bidder_bid_bond,jdbcType=INTEGER}
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      biddee_bond = #{biddeeBond,jdbcType=INTEGER},
+      bidder_bid_bond = #{bidderBidBond,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

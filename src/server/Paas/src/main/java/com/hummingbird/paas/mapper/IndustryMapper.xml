@@ -3,7 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.IndustryMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Industry" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="industry_name" property="industry_name" jdbcType="VARCHAR" />
+    <result column="industry_name" property="industryName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, industry_name
@@ -20,7 +20,7 @@
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.Industry" >
     insert into t_base_industry (id, industry_name)
-    values (#{id,jdbcType=VARCHAR}, #{industry_name,jdbcType=VARCHAR})
+    values (#{id,jdbcType=VARCHAR}, #{industryName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Industry" >
     insert into t_base_industry
@@ -28,7 +28,7 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="industry_name != null" >
+      <if test="industryName != null" >
         industry_name,
       </if>
     </trim>
@@ -36,23 +36,23 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="industry_name != null" >
-        #{industry_name,jdbcType=VARCHAR},
+      <if test="industryName != null" >
+        #{industryName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Industry" >
     update t_base_industry
     <set >
-      <if test="industry_name != null" >
-        industry_name = #{industry_name,jdbcType=VARCHAR},
+      <if test="industryName != null" >
+        industry_name = #{industryName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Industry" >
     update t_base_industry
-    set industry_name = #{industry_name,jdbcType=VARCHAR}
+    set industry_name = #{industryName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

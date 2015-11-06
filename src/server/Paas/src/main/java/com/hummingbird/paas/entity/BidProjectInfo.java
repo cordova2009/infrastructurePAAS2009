@@ -9,52 +9,52 @@ public class BidProjectInfo {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 工程标的估价
      */
-    private Integer evaluation_amount;
+    private Integer evaluationAmount;
 
     /**
      * 工程预计开始时间
      */
-    private String project_expect_start_date;
+    private String projectExpectStartDate;
 
     /**
      * 工程预计结束时间
      */
-    private String project_expect_end_date;
+    private String projectExpectEndDate;
 
     /**
      * 招标方经办人
      */
-    private String biddee_company_principal;
+    private String biddeeCompanyPrincipal;
 
     /**
      * 招标方办公电话
      */
-    private String biddee_company_telephone;
+    private String biddeeCompanyTelephone;
 
     /**
      * 工程名称
      */
-    private String project_name;
+    private String projectName;
 
     /**
      * 工程编号
      */
-    private String project_no;
+    private String projectNo;
 
     /**
      * 工程项目概况
      */
-    private String project_situation;
+    private String projectSituation;
 
     /**
      * 工程计划总投资
      */
-    private String project_expect_investment;
+    private String projectExpectInvestment;
 
     /**
      * 建设单位
@@ -64,52 +64,52 @@ public class BidProjectInfo {
     /**
      * 建设单位经办人
      */
-    private String employer_principal;
+    private String employerPrincipal;
 
     /**
      * 建设单位办公电话
      */
-    private String employer_telephone;
+    private String employerTelephone;
 
     /**
      * 项目负责人要求
      */
-    private String project_manager_requirement;
+    private String projectManagerRequirement;
 
     /**
      * 其它要求
      */
-    private String other_requirement;
+    private String otherRequirement;
 
     /**
      * 工程地点所在镇区，使用区域表id
      */
-    private String project_site_town;
+    private String projectSiteTown;
 
     /**
      * 工程地点所在城市，使用区域表id
      */
-    private String project_site_city;
+    private String projectSiteCity;
 
     /**
      * 工程地点所在省份，使用区域表id
      */
-    private String project_site_province;
+    private String projectSiteProvince;
 
     /**
      * 工程地点
      */
-    private String project_site;
+    private String projectSite;
 
     /**
      * 工程规模及特征
      */
-    private String project_scale;
+    private String projectScale;
 
     /**
      * 承包方式
      */
-    private String contract_type;
+    private String contractType;
 
     /**
      * 采用币种,CNY人民币,USD美元
@@ -119,231 +119,231 @@ public class BidProjectInfo {
     /**
      * 标准工期,单位是日历天
      */
-    private Integer project_expect_period;
+    private Integer projectExpectPeriod;
 
     /**
      * 中标通知书附件
      */
-    private String letter_of_acceptance_url;
+    private String letterOfAcceptanceUrl;
 
     /**
      * 工程施工证明类型,转包,建设单位
      */
-    private String construction_prove_type;
+    private String constructionProveType;
 
     /**
      * 工程最晚工期,计划施工总工期不超过xxx日历天
      */
-    private Integer project_period_deadline;
+    private Integer projectPeriodDeadline;
 
     /**
      * 国有土地使用证有效期
      */
-    private Date land_use_certificate_enddate;
+    private Date landUseCertificateEnddate;
 
     /**
      * 建设用地规划许可证有效期
      */
-    private Date construction_land_use_permit_enddate;
+    private Date constructionLandUsePermitEnddate;
 
     /**
      * 建设工程规划许可证有效期
      */
-    private Date building_permit_enddate;
+    private Date buildingPermitEnddate;
 
     /**
      * 国有土地使用证编号
      */
-    private String land_use_certificate_No;
+    private String landUseCertificateNo;
 
     /**
      * 建设用地规划许可证编号
      */
-    private String construction_land_use_permit_No;
+    private String constructionLandUsePermitNo;
 
     /**
      * 建设工程规划许可证编号
      */
-    private String building_permit_No;
+    private String buildingPermitNo;
 
     /**
      * 建设工程施工许可证编号
      */
-    private String building_construction_permit_No;
+    private String buildingConstructionPermitNo;
 
     /**
      * 建设工程施工许可证附件
      */
-    private String building_construction_permit_url;
+    private String buildingConstructionPermitUrl;
 
     /**
      * 建设工程施工许可证有效期
      */
-    private Date building_construction_permit_enddate;
+    private Date buildingConstructionPermitEnddate;
 
     /**
      * 国有土地使用证附件
      */
-    private String land_use_certificate_url;
+    private String landUseCertificateUrl;
 
     /**
      * 建设用地规划许可证附件
      */
-    private String construction_land_use_permit_url;
+    private String constructionLandUsePermitUrl;
 
     /**
      * 建设工程规划许可证附件
      */
-    private String building_permit_url;
+    private String buildingPermitUrl;
 
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 工程标的估价
      */
-    public Integer getEvaluation_amount() {
-        return evaluation_amount;
+    public Integer getEvaluationAmount() {
+        return evaluationAmount;
     }
 
     /**
      * @param evaluationAmount 
 	 *            工程标的估价
      */
-    public void setEvaluation_amount(Integer evaluation_amount) {
-        this.evaluation_amount = evaluation_amount;
+    public void setEvaluationAmount(Integer evaluationAmount) {
+        this.evaluationAmount = evaluationAmount;
     }
 
     /**
      * @return 工程预计开始时间
      */
-    public String getProject_expect_start_date() {
-        return project_expect_start_date;
+    public String getProjectExpectStartDate() {
+        return projectExpectStartDate;
     }
 
     /**
      * @param projectExpectStartDate 
 	 *            工程预计开始时间
      */
-    public void setProject_expect_start_date(String project_expect_start_date) {
-        this.project_expect_start_date = project_expect_start_date == null ? null : project_expect_start_date.trim();
+    public void setProjectExpectStartDate(String projectExpectStartDate) {
+        this.projectExpectStartDate = projectExpectStartDate == null ? null : projectExpectStartDate.trim();
     }
 
     /**
      * @return 工程预计结束时间
      */
-    public String getProject_expect_end_date() {
-        return project_expect_end_date;
+    public String getProjectExpectEndDate() {
+        return projectExpectEndDate;
     }
 
     /**
      * @param projectExpectEndDate 
 	 *            工程预计结束时间
      */
-    public void setProject_expect_end_date(String project_expect_end_date) {
-        this.project_expect_end_date = project_expect_end_date == null ? null : project_expect_end_date.trim();
+    public void setProjectExpectEndDate(String projectExpectEndDate) {
+        this.projectExpectEndDate = projectExpectEndDate == null ? null : projectExpectEndDate.trim();
     }
 
     /**
      * @return 招标方经办人
      */
-    public String getBiddee_company_principal() {
-        return biddee_company_principal;
+    public String getBiddeeCompanyPrincipal() {
+        return biddeeCompanyPrincipal;
     }
 
     /**
      * @param biddeeCompanyPrincipal 
 	 *            招标方经办人
      */
-    public void setBiddee_company_principal(String biddee_company_principal) {
-        this.biddee_company_principal = biddee_company_principal == null ? null : biddee_company_principal.trim();
+    public void setBiddeeCompanyPrincipal(String biddeeCompanyPrincipal) {
+        this.biddeeCompanyPrincipal = biddeeCompanyPrincipal == null ? null : biddeeCompanyPrincipal.trim();
     }
 
     /**
      * @return 招标方办公电话
      */
-    public String getBiddee_company_telephone() {
-        return biddee_company_telephone;
+    public String getBiddeeCompanyTelephone() {
+        return biddeeCompanyTelephone;
     }
 
     /**
      * @param biddeeCompanyTelephone 
 	 *            招标方办公电话
      */
-    public void setBiddee_company_telephone(String biddee_company_telephone) {
-        this.biddee_company_telephone = biddee_company_telephone == null ? null : biddee_company_telephone.trim();
+    public void setBiddeeCompanyTelephone(String biddeeCompanyTelephone) {
+        this.biddeeCompanyTelephone = biddeeCompanyTelephone == null ? null : biddeeCompanyTelephone.trim();
     }
 
     /**
      * @return 工程名称
      */
-    public String getProject_name() {
-        return project_name;
+    public String getProjectName() {
+        return projectName;
     }
 
     /**
      * @param projectName 
 	 *            工程名称
      */
-    public void setProject_name(String project_name) {
-        this.project_name = project_name == null ? null : project_name.trim();
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
     }
 
     /**
      * @return 工程编号
      */
-    public String getProject_no() {
-        return project_no;
+    public String getProjectNo() {
+        return projectNo;
     }
 
     /**
      * @param projectNo 
 	 *            工程编号
      */
-    public void setProject_no(String project_no) {
-        this.project_no = project_no == null ? null : project_no.trim();
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo == null ? null : projectNo.trim();
     }
 
     /**
      * @return 工程项目概况
      */
-    public String getProject_situation() {
-        return project_situation;
+    public String getProjectSituation() {
+        return projectSituation;
     }
 
     /**
      * @param projectSituation 
 	 *            工程项目概况
      */
-    public void setProject_situation(String project_situation) {
-        this.project_situation = project_situation == null ? null : project_situation.trim();
+    public void setProjectSituation(String projectSituation) {
+        this.projectSituation = projectSituation == null ? null : projectSituation.trim();
     }
 
     /**
      * @return 工程计划总投资
      */
-    public String getProject_expect_investment() {
-        return project_expect_investment;
+    public String getProjectExpectInvestment() {
+        return projectExpectInvestment;
     }
 
     /**
      * @param projectExpectInvestment 
 	 *            工程计划总投资
      */
-    public void setProject_expect_investment(String project_expect_investment) {
-        this.project_expect_investment = project_expect_investment == null ? null : project_expect_investment.trim();
+    public void setProjectExpectInvestment(String projectExpectInvestment) {
+        this.projectExpectInvestment = projectExpectInvestment == null ? null : projectExpectInvestment.trim();
     }
 
     /**
@@ -364,151 +364,151 @@ public class BidProjectInfo {
     /**
      * @return 建设单位经办人
      */
-    public String getEmployer_principal() {
-        return employer_principal;
+    public String getEmployerPrincipal() {
+        return employerPrincipal;
     }
 
     /**
      * @param employerPrincipal 
 	 *            建设单位经办人
      */
-    public void setEmployer_principal(String employer_principal) {
-        this.employer_principal = employer_principal == null ? null : employer_principal.trim();
+    public void setEmployerPrincipal(String employerPrincipal) {
+        this.employerPrincipal = employerPrincipal == null ? null : employerPrincipal.trim();
     }
 
     /**
      * @return 建设单位办公电话
      */
-    public String getEmployer_telephone() {
-        return employer_telephone;
+    public String getEmployerTelephone() {
+        return employerTelephone;
     }
 
     /**
      * @param employerTelephone 
 	 *            建设单位办公电话
      */
-    public void setEmployer_telephone(String employer_telephone) {
-        this.employer_telephone = employer_telephone == null ? null : employer_telephone.trim();
+    public void setEmployerTelephone(String employerTelephone) {
+        this.employerTelephone = employerTelephone == null ? null : employerTelephone.trim();
     }
 
     /**
      * @return 项目负责人要求
      */
-    public String getProject_manager_requirement() {
-        return project_manager_requirement;
+    public String getProjectManagerRequirement() {
+        return projectManagerRequirement;
     }
 
     /**
      * @param projectManagerRequirement 
 	 *            项目负责人要求
      */
-    public void setProject_manager_requirement(String project_manager_requirement) {
-        this.project_manager_requirement = project_manager_requirement == null ? null : project_manager_requirement.trim();
+    public void setProjectManagerRequirement(String projectManagerRequirement) {
+        this.projectManagerRequirement = projectManagerRequirement == null ? null : projectManagerRequirement.trim();
     }
 
     /**
      * @return 其它要求
      */
-    public String getOther_requirement() {
-        return other_requirement;
+    public String getOtherRequirement() {
+        return otherRequirement;
     }
 
     /**
      * @param otherRequirement 
 	 *            其它要求
      */
-    public void setOther_requirement(String other_requirement) {
-        this.other_requirement = other_requirement == null ? null : other_requirement.trim();
+    public void setOtherRequirement(String otherRequirement) {
+        this.otherRequirement = otherRequirement == null ? null : otherRequirement.trim();
     }
 
     /**
      * @return 工程地点所在镇区，使用区域表id
      */
-    public String getProject_site_town() {
-        return project_site_town;
+    public String getProjectSiteTown() {
+        return projectSiteTown;
     }
 
     /**
      * @param projectSiteTown 
 	 *            工程地点所在镇区，使用区域表id
      */
-    public void setProject_site_town(String project_site_town) {
-        this.project_site_town = project_site_town == null ? null : project_site_town.trim();
+    public void setProjectSiteTown(String projectSiteTown) {
+        this.projectSiteTown = projectSiteTown == null ? null : projectSiteTown.trim();
     }
 
     /**
      * @return 工程地点所在城市，使用区域表id
      */
-    public String getProject_site_city() {
-        return project_site_city;
+    public String getProjectSiteCity() {
+        return projectSiteCity;
     }
 
     /**
      * @param projectSiteCity 
 	 *            工程地点所在城市，使用区域表id
      */
-    public void setProject_site_city(String project_site_city) {
-        this.project_site_city = project_site_city == null ? null : project_site_city.trim();
+    public void setProjectSiteCity(String projectSiteCity) {
+        this.projectSiteCity = projectSiteCity == null ? null : projectSiteCity.trim();
     }
 
     /**
      * @return 工程地点所在省份，使用区域表id
      */
-    public String getProject_site_province() {
-        return project_site_province;
+    public String getProjectSiteProvince() {
+        return projectSiteProvince;
     }
 
     /**
      * @param projectSiteProvince 
 	 *            工程地点所在省份，使用区域表id
      */
-    public void setProject_site_province(String project_site_province) {
-        this.project_site_province = project_site_province == null ? null : project_site_province.trim();
+    public void setProjectSiteProvince(String projectSiteProvince) {
+        this.projectSiteProvince = projectSiteProvince == null ? null : projectSiteProvince.trim();
     }
 
     /**
      * @return 工程地点
      */
-    public String getProject_site() {
-        return project_site;
+    public String getProjectSite() {
+        return projectSite;
     }
 
     /**
      * @param projectSite 
 	 *            工程地点
      */
-    public void setProject_site(String project_site) {
-        this.project_site = project_site == null ? null : project_site.trim();
+    public void setProjectSite(String projectSite) {
+        this.projectSite = projectSite == null ? null : projectSite.trim();
     }
 
     /**
      * @return 工程规模及特征
      */
-    public String getProject_scale() {
-        return project_scale;
+    public String getProjectScale() {
+        return projectScale;
     }
 
     /**
      * @param projectScale 
 	 *            工程规模及特征
      */
-    public void setProject_scale(String project_scale) {
-        this.project_scale = project_scale == null ? null : project_scale.trim();
+    public void setProjectScale(String projectScale) {
+        this.projectScale = projectScale == null ? null : projectScale.trim();
     }
 
     /**
      * @return 承包方式
      */
-    public String getContract_type() {
-        return contract_type;
+    public String getContractType() {
+        return contractType;
     }
 
     /**
      * @param contractType 
 	 *            承包方式
      */
-    public void setContract_type(String contract_type) {
-        this.contract_type = contract_type == null ? null : contract_type.trim();
+    public void setContractType(String contractType) {
+        this.contractType = contractType == null ? null : contractType.trim();
     }
 
     /**
@@ -529,241 +529,241 @@ public class BidProjectInfo {
     /**
      * @return 标准工期,单位是日历天
      */
-    public Integer getProject_expect_period() {
-        return project_expect_period;
+    public Integer getProjectExpectPeriod() {
+        return projectExpectPeriod;
     }
 
     /**
      * @param projectExpectPeriod 
 	 *            标准工期,单位是日历天
      */
-    public void setProject_expect_period(Integer project_expect_period) {
-        this.project_expect_period = project_expect_period;
+    public void setProjectExpectPeriod(Integer projectExpectPeriod) {
+        this.projectExpectPeriod = projectExpectPeriod;
     }
 
     /**
      * @return 中标通知书附件
      */
-    public String getLetter_of_acceptance_url() {
-        return letter_of_acceptance_url;
+    public String getLetterOfAcceptanceUrl() {
+        return letterOfAcceptanceUrl;
     }
 
     /**
      * @param letterOfAcceptanceUrl 
 	 *            中标通知书附件
      */
-    public void setLetter_of_acceptance_url(String letter_of_acceptance_url) {
-        this.letter_of_acceptance_url = letter_of_acceptance_url == null ? null : letter_of_acceptance_url.trim();
+    public void setLetterOfAcceptanceUrl(String letterOfAcceptanceUrl) {
+        this.letterOfAcceptanceUrl = letterOfAcceptanceUrl == null ? null : letterOfAcceptanceUrl.trim();
     }
 
     /**
      * @return 工程施工证明类型,转包,建设单位
      */
-    public String getConstruction_prove_type() {
-        return construction_prove_type;
+    public String getConstructionProveType() {
+        return constructionProveType;
     }
 
     /**
      * @param constructionProveType 
 	 *            工程施工证明类型,转包,建设单位
      */
-    public void setConstruction_prove_type(String construction_prove_type) {
-        this.construction_prove_type = construction_prove_type == null ? null : construction_prove_type.trim();
+    public void setConstructionProveType(String constructionProveType) {
+        this.constructionProveType = constructionProveType == null ? null : constructionProveType.trim();
     }
 
     /**
      * @return 工程最晚工期,计划施工总工期不超过xxx日历天
      */
-    public Integer getProject_period_deadline() {
-        return project_period_deadline;
+    public Integer getProjectPeriodDeadline() {
+        return projectPeriodDeadline;
     }
 
     /**
      * @param projectPeriodDeadline 
 	 *            工程最晚工期,计划施工总工期不超过xxx日历天
      */
-    public void setProject_period_deadline(Integer project_period_deadline) {
-        this.project_period_deadline = project_period_deadline;
+    public void setProjectPeriodDeadline(Integer projectPeriodDeadline) {
+        this.projectPeriodDeadline = projectPeriodDeadline;
     }
 
     /**
      * @return 国有土地使用证有效期
      */
-    public Date getLand_use_certificate_enddate() {
-        return land_use_certificate_enddate;
+    public Date getLandUseCertificateEnddate() {
+        return landUseCertificateEnddate;
     }
 
     /**
      * @param landUseCertificateEnddate 
 	 *            国有土地使用证有效期
      */
-    public void setLand_use_certificate_enddate(Date land_use_certificate_enddate) {
-        this.land_use_certificate_enddate = land_use_certificate_enddate;
+    public void setLandUseCertificateEnddate(Date landUseCertificateEnddate) {
+        this.landUseCertificateEnddate = landUseCertificateEnddate;
     }
 
     /**
      * @return 建设用地规划许可证有效期
      */
-    public Date getConstruction_land_use_permit_enddate() {
-        return construction_land_use_permit_enddate;
+    public Date getConstructionLandUsePermitEnddate() {
+        return constructionLandUsePermitEnddate;
     }
 
     /**
      * @param constructionLandUsePermitEnddate 
 	 *            建设用地规划许可证有效期
      */
-    public void setConstruction_land_use_permit_enddate(Date construction_land_use_permit_enddate) {
-        this.construction_land_use_permit_enddate = construction_land_use_permit_enddate;
+    public void setConstructionLandUsePermitEnddate(Date constructionLandUsePermitEnddate) {
+        this.constructionLandUsePermitEnddate = constructionLandUsePermitEnddate;
     }
 
     /**
      * @return 建设工程规划许可证有效期
      */
-    public Date getBuilding_permit_enddate() {
-        return building_permit_enddate;
+    public Date getBuildingPermitEnddate() {
+        return buildingPermitEnddate;
     }
 
     /**
      * @param buildingPermitEnddate 
 	 *            建设工程规划许可证有效期
      */
-    public void setBuilding_permit_enddate(Date building_permit_enddate) {
-        this.building_permit_enddate = building_permit_enddate;
+    public void setBuildingPermitEnddate(Date buildingPermitEnddate) {
+        this.buildingPermitEnddate = buildingPermitEnddate;
     }
 
     /**
      * @return 国有土地使用证编号
      */
-    public String getLand_use_certificate_No() {
-        return land_use_certificate_No;
+    public String getLandUseCertificateNo() {
+        return landUseCertificateNo;
     }
 
     /**
      * @param landUseCertificateNo 
 	 *            国有土地使用证编号
      */
-    public void setLand_use_certificate_No(String land_use_certificate_No) {
-        this.land_use_certificate_No = land_use_certificate_No == null ? null : land_use_certificate_No.trim();
+    public void setLandUseCertificateNo(String landUseCertificateNo) {
+        this.landUseCertificateNo = landUseCertificateNo == null ? null : landUseCertificateNo.trim();
     }
 
     /**
      * @return 建设用地规划许可证编号
      */
-    public String getConstruction_land_use_permit_No() {
-        return construction_land_use_permit_No;
+    public String getConstructionLandUsePermitNo() {
+        return constructionLandUsePermitNo;
     }
 
     /**
      * @param constructionLandUsePermitNo 
 	 *            建设用地规划许可证编号
      */
-    public void setConstruction_land_use_permit_No(String construction_land_use_permit_No) {
-        this.construction_land_use_permit_No = construction_land_use_permit_No == null ? null : construction_land_use_permit_No.trim();
+    public void setConstructionLandUsePermitNo(String constructionLandUsePermitNo) {
+        this.constructionLandUsePermitNo = constructionLandUsePermitNo == null ? null : constructionLandUsePermitNo.trim();
     }
 
     /**
      * @return 建设工程规划许可证编号
      */
-    public String getBuilding_permit_No() {
-        return building_permit_No;
+    public String getBuildingPermitNo() {
+        return buildingPermitNo;
     }
 
     /**
      * @param buildingPermitNo 
 	 *            建设工程规划许可证编号
      */
-    public void setBuilding_permit_No(String building_permit_No) {
-        this.building_permit_No = building_permit_No == null ? null : building_permit_No.trim();
+    public void setBuildingPermitNo(String buildingPermitNo) {
+        this.buildingPermitNo = buildingPermitNo == null ? null : buildingPermitNo.trim();
     }
 
     /**
      * @return 建设工程施工许可证编号
      */
-    public String getBuilding_construction_permit_No() {
-        return building_construction_permit_No;
+    public String getBuildingConstructionPermitNo() {
+        return buildingConstructionPermitNo;
     }
 
     /**
      * @param buildingConstructionPermitNo 
 	 *            建设工程施工许可证编号
      */
-    public void setBuilding_construction_permit_No(String building_construction_permit_No) {
-        this.building_construction_permit_No = building_construction_permit_No == null ? null : building_construction_permit_No.trim();
+    public void setBuildingConstructionPermitNo(String buildingConstructionPermitNo) {
+        this.buildingConstructionPermitNo = buildingConstructionPermitNo == null ? null : buildingConstructionPermitNo.trim();
     }
 
     /**
      * @return 建设工程施工许可证附件
      */
-    public String getBuilding_construction_permit_url() {
-        return building_construction_permit_url;
+    public String getBuildingConstructionPermitUrl() {
+        return buildingConstructionPermitUrl;
     }
 
     /**
      * @param buildingConstructionPermitUrl 
 	 *            建设工程施工许可证附件
      */
-    public void setBuilding_construction_permit_url(String building_construction_permit_url) {
-        this.building_construction_permit_url = building_construction_permit_url == null ? null : building_construction_permit_url.trim();
+    public void setBuildingConstructionPermitUrl(String buildingConstructionPermitUrl) {
+        this.buildingConstructionPermitUrl = buildingConstructionPermitUrl == null ? null : buildingConstructionPermitUrl.trim();
     }
 
     /**
      * @return 建设工程施工许可证有效期
      */
-    public Date getBuilding_construction_permit_enddate() {
-        return building_construction_permit_enddate;
+    public Date getBuildingConstructionPermitEnddate() {
+        return buildingConstructionPermitEnddate;
     }
 
     /**
      * @param buildingConstructionPermitEnddate 
 	 *            建设工程施工许可证有效期
      */
-    public void setBuilding_construction_permit_enddate(Date building_construction_permit_enddate) {
-        this.building_construction_permit_enddate = building_construction_permit_enddate;
+    public void setBuildingConstructionPermitEnddate(Date buildingConstructionPermitEnddate) {
+        this.buildingConstructionPermitEnddate = buildingConstructionPermitEnddate;
     }
 
     /**
      * @return 国有土地使用证附件
      */
-    public String getLand_use_certificate_url() {
-        return land_use_certificate_url;
+    public String getLandUseCertificateUrl() {
+        return landUseCertificateUrl;
     }
 
     /**
      * @param landUseCertificateUrl 
 	 *            国有土地使用证附件
      */
-    public void setLand_use_certificate_url(String land_use_certificate_url) {
-        this.land_use_certificate_url = land_use_certificate_url == null ? null : land_use_certificate_url.trim();
+    public void setLandUseCertificateUrl(String landUseCertificateUrl) {
+        this.landUseCertificateUrl = landUseCertificateUrl == null ? null : landUseCertificateUrl.trim();
     }
 
     /**
      * @return 建设用地规划许可证附件
      */
-    public String getConstruction_land_use_permit_url() {
-        return construction_land_use_permit_url;
+    public String getConstructionLandUsePermitUrl() {
+        return constructionLandUsePermitUrl;
     }
 
     /**
      * @param constructionLandUsePermitUrl 
 	 *            建设用地规划许可证附件
      */
-    public void setConstruction_land_use_permit_url(String construction_land_use_permit_url) {
-        this.construction_land_use_permit_url = construction_land_use_permit_url == null ? null : construction_land_use_permit_url.trim();
+    public void setConstructionLandUsePermitUrl(String constructionLandUsePermitUrl) {
+        this.constructionLandUsePermitUrl = constructionLandUsePermitUrl == null ? null : constructionLandUsePermitUrl.trim();
     }
 
     /**
      * @return 建设工程规划许可证附件
      */
-    public String getBuilding_permit_url() {
-        return building_permit_url;
+    public String getBuildingPermitUrl() {
+        return buildingPermitUrl;
     }
 
     /**
      * @param buildingPermitUrl 
 	 *            建设工程规划许可证附件
      */
-    public void setBuilding_permit_url(String building_permit_url) {
-        this.building_permit_url = building_permit_url == null ? null : building_permit_url.trim();
+    public void setBuildingPermitUrl(String buildingPermitUrl) {
+        this.buildingPermitUrl = buildingPermitUrl == null ? null : buildingPermitUrl.trim();
     }
 
     @Override
@@ -778,88 +778,88 @@ public class BidProjectInfo {
             return false;
         }
         BidProjectInfo other = (BidProjectInfo) that;
-        return (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getEvaluation_amount() == null ? other.getEvaluation_amount() == null : this.getEvaluation_amount().equals(other.getEvaluation_amount()))
-            && (this.getProject_expect_start_date() == null ? other.getProject_expect_start_date() == null : this.getProject_expect_start_date().equals(other.getProject_expect_start_date()))
-            && (this.getProject_expect_end_date() == null ? other.getProject_expect_end_date() == null : this.getProject_expect_end_date().equals(other.getProject_expect_end_date()))
-            && (this.getBiddee_company_principal() == null ? other.getBiddee_company_principal() == null : this.getBiddee_company_principal().equals(other.getBiddee_company_principal()))
-            && (this.getBiddee_company_telephone() == null ? other.getBiddee_company_telephone() == null : this.getBiddee_company_telephone().equals(other.getBiddee_company_telephone()))
-            && (this.getProject_name() == null ? other.getProject_name() == null : this.getProject_name().equals(other.getProject_name()))
-            && (this.getProject_no() == null ? other.getProject_no() == null : this.getProject_no().equals(other.getProject_no()))
-            && (this.getProject_situation() == null ? other.getProject_situation() == null : this.getProject_situation().equals(other.getProject_situation()))
-            && (this.getProject_expect_investment() == null ? other.getProject_expect_investment() == null : this.getProject_expect_investment().equals(other.getProject_expect_investment()))
+        return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getEvaluationAmount() == null ? other.getEvaluationAmount() == null : this.getEvaluationAmount().equals(other.getEvaluationAmount()))
+            && (this.getProjectExpectStartDate() == null ? other.getProjectExpectStartDate() == null : this.getProjectExpectStartDate().equals(other.getProjectExpectStartDate()))
+            && (this.getProjectExpectEndDate() == null ? other.getProjectExpectEndDate() == null : this.getProjectExpectEndDate().equals(other.getProjectExpectEndDate()))
+            && (this.getBiddeeCompanyPrincipal() == null ? other.getBiddeeCompanyPrincipal() == null : this.getBiddeeCompanyPrincipal().equals(other.getBiddeeCompanyPrincipal()))
+            && (this.getBiddeeCompanyTelephone() == null ? other.getBiddeeCompanyTelephone() == null : this.getBiddeeCompanyTelephone().equals(other.getBiddeeCompanyTelephone()))
+            && (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName()))
+            && (this.getProjectNo() == null ? other.getProjectNo() == null : this.getProjectNo().equals(other.getProjectNo()))
+            && (this.getProjectSituation() == null ? other.getProjectSituation() == null : this.getProjectSituation().equals(other.getProjectSituation()))
+            && (this.getProjectExpectInvestment() == null ? other.getProjectExpectInvestment() == null : this.getProjectExpectInvestment().equals(other.getProjectExpectInvestment()))
             && (this.getEmployer() == null ? other.getEmployer() == null : this.getEmployer().equals(other.getEmployer()))
-            && (this.getEmployer_principal() == null ? other.getEmployer_principal() == null : this.getEmployer_principal().equals(other.getEmployer_principal()))
-            && (this.getEmployer_telephone() == null ? other.getEmployer_telephone() == null : this.getEmployer_telephone().equals(other.getEmployer_telephone()))
-            && (this.getProject_manager_requirement() == null ? other.getProject_manager_requirement() == null : this.getProject_manager_requirement().equals(other.getProject_manager_requirement()))
-            && (this.getOther_requirement() == null ? other.getOther_requirement() == null : this.getOther_requirement().equals(other.getOther_requirement()))
-            && (this.getProject_site_town() == null ? other.getProject_site_town() == null : this.getProject_site_town().equals(other.getProject_site_town()))
-            && (this.getProject_site_city() == null ? other.getProject_site_city() == null : this.getProject_site_city().equals(other.getProject_site_city()))
-            && (this.getProject_site_province() == null ? other.getProject_site_province() == null : this.getProject_site_province().equals(other.getProject_site_province()))
-            && (this.getProject_site() == null ? other.getProject_site() == null : this.getProject_site().equals(other.getProject_site()))
-            && (this.getProject_scale() == null ? other.getProject_scale() == null : this.getProject_scale().equals(other.getProject_scale()))
-            && (this.getContract_type() == null ? other.getContract_type() == null : this.getContract_type().equals(other.getContract_type()))
+            && (this.getEmployerPrincipal() == null ? other.getEmployerPrincipal() == null : this.getEmployerPrincipal().equals(other.getEmployerPrincipal()))
+            && (this.getEmployerTelephone() == null ? other.getEmployerTelephone() == null : this.getEmployerTelephone().equals(other.getEmployerTelephone()))
+            && (this.getProjectManagerRequirement() == null ? other.getProjectManagerRequirement() == null : this.getProjectManagerRequirement().equals(other.getProjectManagerRequirement()))
+            && (this.getOtherRequirement() == null ? other.getOtherRequirement() == null : this.getOtherRequirement().equals(other.getOtherRequirement()))
+            && (this.getProjectSiteTown() == null ? other.getProjectSiteTown() == null : this.getProjectSiteTown().equals(other.getProjectSiteTown()))
+            && (this.getProjectSiteCity() == null ? other.getProjectSiteCity() == null : this.getProjectSiteCity().equals(other.getProjectSiteCity()))
+            && (this.getProjectSiteProvince() == null ? other.getProjectSiteProvince() == null : this.getProjectSiteProvince().equals(other.getProjectSiteProvince()))
+            && (this.getProjectSite() == null ? other.getProjectSite() == null : this.getProjectSite().equals(other.getProjectSite()))
+            && (this.getProjectScale() == null ? other.getProjectScale() == null : this.getProjectScale().equals(other.getProjectScale()))
+            && (this.getContractType() == null ? other.getContractType() == null : this.getContractType().equals(other.getContractType()))
             && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()))
-            && (this.getProject_expect_period() == null ? other.getProject_expect_period() == null : this.getProject_expect_period().equals(other.getProject_expect_period()))
-            && (this.getLetter_of_acceptance_url() == null ? other.getLetter_of_acceptance_url() == null : this.getLetter_of_acceptance_url().equals(other.getLetter_of_acceptance_url()))
-            && (this.getConstruction_prove_type() == null ? other.getConstruction_prove_type() == null : this.getConstruction_prove_type().equals(other.getConstruction_prove_type()))
-            && (this.getProject_period_deadline() == null ? other.getProject_period_deadline() == null : this.getProject_period_deadline().equals(other.getProject_period_deadline()))
-            && (this.getLand_use_certificate_enddate() == null ? other.getLand_use_certificate_enddate() == null : this.getLand_use_certificate_enddate().equals(other.getLand_use_certificate_enddate()))
-            && (this.getConstruction_land_use_permit_enddate() == null ? other.getConstruction_land_use_permit_enddate() == null : this.getConstruction_land_use_permit_enddate().equals(other.getConstruction_land_use_permit_enddate()))
-            && (this.getBuilding_permit_enddate() == null ? other.getBuilding_permit_enddate() == null : this.getBuilding_permit_enddate().equals(other.getBuilding_permit_enddate()))
-            && (this.getLand_use_certificate_No() == null ? other.getLand_use_certificate_No() == null : this.getLand_use_certificate_No().equals(other.getLand_use_certificate_No()))
-            && (this.getConstruction_land_use_permit_No() == null ? other.getConstruction_land_use_permit_No() == null : this.getConstruction_land_use_permit_No().equals(other.getConstruction_land_use_permit_No()))
-            && (this.getBuilding_permit_No() == null ? other.getBuilding_permit_No() == null : this.getBuilding_permit_No().equals(other.getBuilding_permit_No()))
-            && (this.getBuilding_construction_permit_No() == null ? other.getBuilding_construction_permit_No() == null : this.getBuilding_construction_permit_No().equals(other.getBuilding_construction_permit_No()))
-            && (this.getBuilding_construction_permit_url() == null ? other.getBuilding_construction_permit_url() == null : this.getBuilding_construction_permit_url().equals(other.getBuilding_construction_permit_url()))
-            && (this.getBuilding_construction_permit_enddate() == null ? other.getBuilding_construction_permit_enddate() == null : this.getBuilding_construction_permit_enddate().equals(other.getBuilding_construction_permit_enddate()))
-            && (this.getLand_use_certificate_url() == null ? other.getLand_use_certificate_url() == null : this.getLand_use_certificate_url().equals(other.getLand_use_certificate_url()))
-            && (this.getConstruction_land_use_permit_url() == null ? other.getConstruction_land_use_permit_url() == null : this.getConstruction_land_use_permit_url().equals(other.getConstruction_land_use_permit_url()))
-            && (this.getBuilding_permit_url() == null ? other.getBuilding_permit_url() == null : this.getBuilding_permit_url().equals(other.getBuilding_permit_url()));
+            && (this.getProjectExpectPeriod() == null ? other.getProjectExpectPeriod() == null : this.getProjectExpectPeriod().equals(other.getProjectExpectPeriod()))
+            && (this.getLetterOfAcceptanceUrl() == null ? other.getLetterOfAcceptanceUrl() == null : this.getLetterOfAcceptanceUrl().equals(other.getLetterOfAcceptanceUrl()))
+            && (this.getConstructionProveType() == null ? other.getConstructionProveType() == null : this.getConstructionProveType().equals(other.getConstructionProveType()))
+            && (this.getProjectPeriodDeadline() == null ? other.getProjectPeriodDeadline() == null : this.getProjectPeriodDeadline().equals(other.getProjectPeriodDeadline()))
+            && (this.getLandUseCertificateEnddate() == null ? other.getLandUseCertificateEnddate() == null : this.getLandUseCertificateEnddate().equals(other.getLandUseCertificateEnddate()))
+            && (this.getConstructionLandUsePermitEnddate() == null ? other.getConstructionLandUsePermitEnddate() == null : this.getConstructionLandUsePermitEnddate().equals(other.getConstructionLandUsePermitEnddate()))
+            && (this.getBuildingPermitEnddate() == null ? other.getBuildingPermitEnddate() == null : this.getBuildingPermitEnddate().equals(other.getBuildingPermitEnddate()))
+            && (this.getLandUseCertificateNo() == null ? other.getLandUseCertificateNo() == null : this.getLandUseCertificateNo().equals(other.getLandUseCertificateNo()))
+            && (this.getConstructionLandUsePermitNo() == null ? other.getConstructionLandUsePermitNo() == null : this.getConstructionLandUsePermitNo().equals(other.getConstructionLandUsePermitNo()))
+            && (this.getBuildingPermitNo() == null ? other.getBuildingPermitNo() == null : this.getBuildingPermitNo().equals(other.getBuildingPermitNo()))
+            && (this.getBuildingConstructionPermitNo() == null ? other.getBuildingConstructionPermitNo() == null : this.getBuildingConstructionPermitNo().equals(other.getBuildingConstructionPermitNo()))
+            && (this.getBuildingConstructionPermitUrl() == null ? other.getBuildingConstructionPermitUrl() == null : this.getBuildingConstructionPermitUrl().equals(other.getBuildingConstructionPermitUrl()))
+            && (this.getBuildingConstructionPermitEnddate() == null ? other.getBuildingConstructionPermitEnddate() == null : this.getBuildingConstructionPermitEnddate().equals(other.getBuildingConstructionPermitEnddate()))
+            && (this.getLandUseCertificateUrl() == null ? other.getLandUseCertificateUrl() == null : this.getLandUseCertificateUrl().equals(other.getLandUseCertificateUrl()))
+            && (this.getConstructionLandUsePermitUrl() == null ? other.getConstructionLandUsePermitUrl() == null : this.getConstructionLandUsePermitUrl().equals(other.getConstructionLandUsePermitUrl()))
+            && (this.getBuildingPermitUrl() == null ? other.getBuildingPermitUrl() == null : this.getBuildingPermitUrl().equals(other.getBuildingPermitUrl()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getEvaluation_amount() == null) ? 0 : getEvaluation_amount().hashCode());
-        result = prime * result + ((getProject_expect_start_date() == null) ? 0 : getProject_expect_start_date().hashCode());
-        result = prime * result + ((getProject_expect_end_date() == null) ? 0 : getProject_expect_end_date().hashCode());
-        result = prime * result + ((getBiddee_company_principal() == null) ? 0 : getBiddee_company_principal().hashCode());
-        result = prime * result + ((getBiddee_company_telephone() == null) ? 0 : getBiddee_company_telephone().hashCode());
-        result = prime * result + ((getProject_name() == null) ? 0 : getProject_name().hashCode());
-        result = prime * result + ((getProject_no() == null) ? 0 : getProject_no().hashCode());
-        result = prime * result + ((getProject_situation() == null) ? 0 : getProject_situation().hashCode());
-        result = prime * result + ((getProject_expect_investment() == null) ? 0 : getProject_expect_investment().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
+        result = prime * result + ((getProjectExpectStartDate() == null) ? 0 : getProjectExpectStartDate().hashCode());
+        result = prime * result + ((getProjectExpectEndDate() == null) ? 0 : getProjectExpectEndDate().hashCode());
+        result = prime * result + ((getBiddeeCompanyPrincipal() == null) ? 0 : getBiddeeCompanyPrincipal().hashCode());
+        result = prime * result + ((getBiddeeCompanyTelephone() == null) ? 0 : getBiddeeCompanyTelephone().hashCode());
+        result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
+        result = prime * result + ((getProjectNo() == null) ? 0 : getProjectNo().hashCode());
+        result = prime * result + ((getProjectSituation() == null) ? 0 : getProjectSituation().hashCode());
+        result = prime * result + ((getProjectExpectInvestment() == null) ? 0 : getProjectExpectInvestment().hashCode());
         result = prime * result + ((getEmployer() == null) ? 0 : getEmployer().hashCode());
-        result = prime * result + ((getEmployer_principal() == null) ? 0 : getEmployer_principal().hashCode());
-        result = prime * result + ((getEmployer_telephone() == null) ? 0 : getEmployer_telephone().hashCode());
-        result = prime * result + ((getProject_manager_requirement() == null) ? 0 : getProject_manager_requirement().hashCode());
-        result = prime * result + ((getOther_requirement() == null) ? 0 : getOther_requirement().hashCode());
-        result = prime * result + ((getProject_site_town() == null) ? 0 : getProject_site_town().hashCode());
-        result = prime * result + ((getProject_site_city() == null) ? 0 : getProject_site_city().hashCode());
-        result = prime * result + ((getProject_site_province() == null) ? 0 : getProject_site_province().hashCode());
-        result = prime * result + ((getProject_site() == null) ? 0 : getProject_site().hashCode());
-        result = prime * result + ((getProject_scale() == null) ? 0 : getProject_scale().hashCode());
-        result = prime * result + ((getContract_type() == null) ? 0 : getContract_type().hashCode());
+        result = prime * result + ((getEmployerPrincipal() == null) ? 0 : getEmployerPrincipal().hashCode());
+        result = prime * result + ((getEmployerTelephone() == null) ? 0 : getEmployerTelephone().hashCode());
+        result = prime * result + ((getProjectManagerRequirement() == null) ? 0 : getProjectManagerRequirement().hashCode());
+        result = prime * result + ((getOtherRequirement() == null) ? 0 : getOtherRequirement().hashCode());
+        result = prime * result + ((getProjectSiteTown() == null) ? 0 : getProjectSiteTown().hashCode());
+        result = prime * result + ((getProjectSiteCity() == null) ? 0 : getProjectSiteCity().hashCode());
+        result = prime * result + ((getProjectSiteProvince() == null) ? 0 : getProjectSiteProvince().hashCode());
+        result = prime * result + ((getProjectSite() == null) ? 0 : getProjectSite().hashCode());
+        result = prime * result + ((getProjectScale() == null) ? 0 : getProjectScale().hashCode());
+        result = prime * result + ((getContractType() == null) ? 0 : getContractType().hashCode());
         result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
-        result = prime * result + ((getProject_expect_period() == null) ? 0 : getProject_expect_period().hashCode());
-        result = prime * result + ((getLetter_of_acceptance_url() == null) ? 0 : getLetter_of_acceptance_url().hashCode());
-        result = prime * result + ((getConstruction_prove_type() == null) ? 0 : getConstruction_prove_type().hashCode());
-        result = prime * result + ((getProject_period_deadline() == null) ? 0 : getProject_period_deadline().hashCode());
-        result = prime * result + ((getLand_use_certificate_enddate() == null) ? 0 : getLand_use_certificate_enddate().hashCode());
-        result = prime * result + ((getConstruction_land_use_permit_enddate() == null) ? 0 : getConstruction_land_use_permit_enddate().hashCode());
-        result = prime * result + ((getBuilding_permit_enddate() == null) ? 0 : getBuilding_permit_enddate().hashCode());
-        result = prime * result + ((getLand_use_certificate_No() == null) ? 0 : getLand_use_certificate_No().hashCode());
-        result = prime * result + ((getConstruction_land_use_permit_No() == null) ? 0 : getConstruction_land_use_permit_No().hashCode());
-        result = prime * result + ((getBuilding_permit_No() == null) ? 0 : getBuilding_permit_No().hashCode());
-        result = prime * result + ((getBuilding_construction_permit_No() == null) ? 0 : getBuilding_construction_permit_No().hashCode());
-        result = prime * result + ((getBuilding_construction_permit_url() == null) ? 0 : getBuilding_construction_permit_url().hashCode());
-        result = prime * result + ((getBuilding_construction_permit_enddate() == null) ? 0 : getBuilding_construction_permit_enddate().hashCode());
-        result = prime * result + ((getLand_use_certificate_url() == null) ? 0 : getLand_use_certificate_url().hashCode());
-        result = prime * result + ((getConstruction_land_use_permit_url() == null) ? 0 : getConstruction_land_use_permit_url().hashCode());
-        result = prime * result + ((getBuilding_permit_url() == null) ? 0 : getBuilding_permit_url().hashCode());
+        result = prime * result + ((getProjectExpectPeriod() == null) ? 0 : getProjectExpectPeriod().hashCode());
+        result = prime * result + ((getLetterOfAcceptanceUrl() == null) ? 0 : getLetterOfAcceptanceUrl().hashCode());
+        result = prime * result + ((getConstructionProveType() == null) ? 0 : getConstructionProveType().hashCode());
+        result = prime * result + ((getProjectPeriodDeadline() == null) ? 0 : getProjectPeriodDeadline().hashCode());
+        result = prime * result + ((getLandUseCertificateEnddate() == null) ? 0 : getLandUseCertificateEnddate().hashCode());
+        result = prime * result + ((getConstructionLandUsePermitEnddate() == null) ? 0 : getConstructionLandUsePermitEnddate().hashCode());
+        result = prime * result + ((getBuildingPermitEnddate() == null) ? 0 : getBuildingPermitEnddate().hashCode());
+        result = prime * result + ((getLandUseCertificateNo() == null) ? 0 : getLandUseCertificateNo().hashCode());
+        result = prime * result + ((getConstructionLandUsePermitNo() == null) ? 0 : getConstructionLandUsePermitNo().hashCode());
+        result = prime * result + ((getBuildingPermitNo() == null) ? 0 : getBuildingPermitNo().hashCode());
+        result = prime * result + ((getBuildingConstructionPermitNo() == null) ? 0 : getBuildingConstructionPermitNo().hashCode());
+        result = prime * result + ((getBuildingConstructionPermitUrl() == null) ? 0 : getBuildingConstructionPermitUrl().hashCode());
+        result = prime * result + ((getBuildingConstructionPermitEnddate() == null) ? 0 : getBuildingConstructionPermitEnddate().hashCode());
+        result = prime * result + ((getLandUseCertificateUrl() == null) ? 0 : getLandUseCertificateUrl().hashCode());
+        result = prime * result + ((getConstructionLandUsePermitUrl() == null) ? 0 : getConstructionLandUsePermitUrl().hashCode());
+        result = prime * result + ((getBuildingPermitUrl() == null) ? 0 : getBuildingPermitUrl().hashCode());
         return result;
     }
 }

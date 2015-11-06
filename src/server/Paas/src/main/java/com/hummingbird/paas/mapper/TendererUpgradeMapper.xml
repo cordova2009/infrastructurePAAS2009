@@ -3,9 +3,9 @@
 <mapper namespace="com.hummingbird.paas.mapper.TendererUpgradeMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.TendererUpgrade" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="tenderer_id" property="tenderer_id" jdbcType="INTEGER" />
-    <result column="member_level" property="member_level" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="tenderer_id" property="tendererId" jdbcType="INTEGER" />
+    <result column="member_level" property="memberLevel" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.TendererUpgrade" >
     insert into t_hygl_tenderer_upgrade (id, tenderer_id, member_level, 
       insert_time, amount)
-    values (#{id,jdbcType=INTEGER}, #{tenderer_id,jdbcType=INTEGER}, #{member_level,jdbcType=VARCHAR}, 
-      #{insert_time,jdbcType=TIMESTAMP}, #{amount,jdbcType=INTEGER})
+    values (#{id,jdbcType=INTEGER}, #{tendererId,jdbcType=INTEGER}, #{memberLevel,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{amount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.TendererUpgrade" >
     insert into t_hygl_tenderer_upgrade
@@ -33,13 +33,13 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="tenderer_id != null" >
+      <if test="tendererId != null" >
         tenderer_id,
       </if>
-      <if test="member_level != null" >
+      <if test="memberLevel != null" >
         member_level,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
       <if test="amount != null" >
@@ -50,14 +50,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="tenderer_id != null" >
-        #{tenderer_id,jdbcType=INTEGER},
+      <if test="tendererId != null" >
+        #{tendererId,jdbcType=INTEGER},
       </if>
-      <if test="member_level != null" >
-        #{member_level,jdbcType=VARCHAR},
+      <if test="memberLevel != null" >
+        #{memberLevel,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
       <if test="amount != null" >
         #{amount,jdbcType=INTEGER},
@@ -67,14 +67,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.TendererUpgrade" >
     update t_hygl_tenderer_upgrade
     <set >
-      <if test="tenderer_id != null" >
-        tenderer_id = #{tenderer_id,jdbcType=INTEGER},
+      <if test="tendererId != null" >
+        tenderer_id = #{tendererId,jdbcType=INTEGER},
       </if>
-      <if test="member_level != null" >
-        member_level = #{member_level,jdbcType=VARCHAR},
+      <if test="memberLevel != null" >
+        member_level = #{memberLevel,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
       <if test="amount != null" >
         amount = #{amount,jdbcType=INTEGER},
@@ -84,9 +84,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.TendererUpgrade" >
     update t_hygl_tenderer_upgrade
-    set tenderer_id = #{tenderer_id,jdbcType=INTEGER},
-      member_level = #{member_level,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+    set tenderer_id = #{tendererId,jdbcType=INTEGER},
+      member_level = #{memberLevel,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
       amount = #{amount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

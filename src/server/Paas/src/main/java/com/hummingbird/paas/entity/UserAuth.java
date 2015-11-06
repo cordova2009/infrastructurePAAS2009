@@ -7,81 +7,81 @@ public class UserAuth {
     /**
      * 用户id
      */
-    private Integer user_id;
+    private Integer userId;
 
     /**
      * 真实姓名
      */
-    private String real_name;
+    private String realName;
 
     /**
      * 身份证号
      */
-    private String identity_no;
+    private String identityNo;
 
     /**
      * 认证结果,OK# 认证通过，FLS认证不通过，CRT 待认证
      */
-    private String real_name_verify;
+    private String realNameVerify;
 
     /**
      * @return 用户id
      */
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * @param userId 
 	 *            用户id
      */
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
      * @return 真实姓名
      */
-    public String getReal_name() {
-        return real_name;
+    public String getRealName() {
+        return realName;
     }
 
     /**
      * @param realName 
 	 *            真实姓名
      */
-    public void setReal_name(String real_name) {
-        this.real_name = real_name == null ? null : real_name.trim();
+    public void setRealName(String realName) {
+        this.realName = realName == null ? null : realName.trim();
     }
 
     /**
      * @return 身份证号
      */
-    public String getIdentity_no() {
-        return identity_no;
+    public String getIdentityNo() {
+        return identityNo;
     }
 
     /**
      * @param identityNo 
 	 *            身份证号
      */
-    public void setIdentity_no(String identity_no) {
-        this.identity_no = identity_no == null ? null : identity_no.trim();
+    public void setIdentityNo(String identityNo) {
+        this.identityNo = identityNo == null ? null : identityNo.trim();
     }
 
     /**
      * @return 认证结果,OK# 认证通过，FLS认证不通过，CRT 待认证
      */
-    public String getReal_name_verify() {
-        return real_name_verify;
+    public String getRealNameVerify() {
+        return realNameVerify;
     }
 
     /**
      * @param realNameVerify 
 	 *            认证结果,OK# 认证通过，FLS认证不通过，CRT 待认证
      */
-    public void setReal_name_verify(String real_name_verify) {
-        this.real_name_verify = real_name_verify == null ? null : real_name_verify.trim();
+    public void setRealNameVerify(String realNameVerify) {
+        this.realNameVerify = realNameVerify == null ? null : realNameVerify.trim();
     }
 
     @Override
@@ -96,20 +96,20 @@ public class UserAuth {
             return false;
         }
         UserAuth other = (UserAuth) that;
-        return (this.getUser_id() == null ? other.getUser_id() == null : this.getUser_id().equals(other.getUser_id()))
-            && (this.getReal_name() == null ? other.getReal_name() == null : this.getReal_name().equals(other.getReal_name()))
-            && (this.getIdentity_no() == null ? other.getIdentity_no() == null : this.getIdentity_no().equals(other.getIdentity_no()))
-            && (this.getReal_name_verify() == null ? other.getReal_name_verify() == null : this.getReal_name_verify().equals(other.getReal_name_verify()));
+        return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getRealName() == null ? other.getRealName() == null : this.getRealName().equals(other.getRealName()))
+            && (this.getIdentityNo() == null ? other.getIdentityNo() == null : this.getIdentityNo().equals(other.getIdentityNo()))
+            && (this.getRealNameVerify() == null ? other.getRealNameVerify() == null : this.getRealNameVerify().equals(other.getRealNameVerify()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getUser_id() == null) ? 0 : getUser_id().hashCode());
-        result = prime * result + ((getReal_name() == null) ? 0 : getReal_name().hashCode());
-        result = prime * result + ((getIdentity_no() == null) ? 0 : getIdentity_no().hashCode());
-        result = prime * result + ((getReal_name_verify() == null) ? 0 : getReal_name_verify().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getRealName() == null) ? 0 : getRealName().hashCode());
+        result = prime * result + ((getIdentityNo() == null) ? 0 : getIdentityNo().hashCode());
+        result = prime * result + ((getRealNameVerify() == null) ? 0 : getRealNameVerify().hashCode());
         return result;
     }
 }

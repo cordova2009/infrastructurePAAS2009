@@ -14,12 +14,12 @@ public class RawNotifyRecords {
     /**
      * 新增时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 应用id
      */
-    private String app_id;
+    private String appId;
 
     /**
      * 状态,OK#接受请求,FLS拒绝请求
@@ -49,31 +49,31 @@ public class RawNotifyRecords {
     /**
      * @return 新增时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            新增时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 应用id
      */
-    public String getApp_id() {
-        return app_id;
+    public String getAppId() {
+        return appId;
     }
 
     /**
      * @param appId 
 	 *            应用id
      */
-    public void setApp_id(String app_id) {
-        this.app_id = app_id == null ? null : app_id.trim();
+    public void setAppId(String appId) {
+        this.appId = appId == null ? null : appId.trim();
     }
 
     /**
@@ -119,8 +119,8 @@ public class RawNotifyRecords {
         }
         RawNotifyRecords other = (RawNotifyRecords) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getApp_id() == null ? other.getApp_id() == null : this.getApp_id().equals(other.getApp_id()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getData() == null ? other.getData() == null : this.getData().equals(other.getData()));
     }
@@ -130,8 +130,8 @@ public class RawNotifyRecords {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getApp_id() == null) ? 0 : getApp_id().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getData() == null) ? 0 : getData().hashCode());
         return result;

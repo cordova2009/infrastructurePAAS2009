@@ -12,22 +12,22 @@ public class ObjectCertificationRequirement {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 资质id
      */
-    private Integer certification_id;
+    private Integer certificationId;
 
     /**
      * 资质名称
      */
-    private String certification_name;
+    private String certificationName;
 
     /**
      * 资质数量
      */
-    private Integer certification_count;
+    private Integer certificationCount;
 
     /**
      * @return 主键
@@ -47,61 +47,61 @@ public class ObjectCertificationRequirement {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 资质id
      */
-    public Integer getCertification_id() {
-        return certification_id;
+    public Integer getCertificationId() {
+        return certificationId;
     }
 
     /**
      * @param certificationId 
 	 *            资质id
      */
-    public void setCertification_id(Integer certification_id) {
-        this.certification_id = certification_id;
+    public void setCertificationId(Integer certificationId) {
+        this.certificationId = certificationId;
     }
 
     /**
      * @return 资质名称
      */
-    public String getCertification_name() {
-        return certification_name;
+    public String getCertificationName() {
+        return certificationName;
     }
 
     /**
      * @param certificationName 
 	 *            资质名称
      */
-    public void setCertification_name(String certification_name) {
-        this.certification_name = certification_name == null ? null : certification_name.trim();
+    public void setCertificationName(String certificationName) {
+        this.certificationName = certificationName == null ? null : certificationName.trim();
     }
 
     /**
      * @return 资质数量
      */
-    public Integer getCertification_count() {
-        return certification_count;
+    public Integer getCertificationCount() {
+        return certificationCount;
     }
 
     /**
      * @param certificationCount 
 	 *            资质数量
      */
-    public void setCertification_count(Integer certification_count) {
-        this.certification_count = certification_count;
+    public void setCertificationCount(Integer certificationCount) {
+        this.certificationCount = certificationCount;
     }
 
     @Override
@@ -117,10 +117,10 @@ public class ObjectCertificationRequirement {
         }
         ObjectCertificationRequirement other = (ObjectCertificationRequirement) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getCertification_id() == null ? other.getCertification_id() == null : this.getCertification_id().equals(other.getCertification_id()))
-            && (this.getCertification_name() == null ? other.getCertification_name() == null : this.getCertification_name().equals(other.getCertification_name()))
-            && (this.getCertification_count() == null ? other.getCertification_count() == null : this.getCertification_count().equals(other.getCertification_count()));
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
+            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
+            && (this.getCertificationCount() == null ? other.getCertificationCount() == null : this.getCertificationCount().equals(other.getCertificationCount()));
     }
 
     @Override
@@ -128,10 +128,10 @@ public class ObjectCertificationRequirement {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getCertification_id() == null) ? 0 : getCertification_id().hashCode());
-        result = prime * result + ((getCertification_name() == null) ? 0 : getCertification_name().hashCode());
-        result = prime * result + ((getCertification_count() == null) ? 0 : getCertification_count().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
+        result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
+        result = prime * result + ((getCertificationCount() == null) ? 0 : getCertificationCount().hashCode());
         return result;
     }
 }

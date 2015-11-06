@@ -4,12 +4,12 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.TagType" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parent_id" jdbcType="INTEGER" />
-    <result column="customer_type" property="customer_type" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="customer_type" property="customerType" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="type_name" property="type_name" jdbcType="VARCHAR" />
-    <result column="create_by" property="create_by" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, type, parent_id, customer_type, status, type_name, create_by, insert_time
@@ -28,9 +28,9 @@
     insert into t_bqfl_tag_type (id, type, parent_id, 
       customer_type, status, type_name, 
       create_by, insert_time)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{parent_id,jdbcType=INTEGER}, 
-      #{customer_type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type_name,jdbcType=VARCHAR}, 
-      #{create_by,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP})
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{customerType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.TagType" >
     insert into t_bqfl_tag_type
@@ -41,22 +41,22 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="parent_id != null" >
+      <if test="parentId != null" >
         parent_id,
       </if>
-      <if test="customer_type != null" >
+      <if test="customerType != null" >
         customer_type,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="type_name != null" >
+      <if test="typeName != null" >
         type_name,
       </if>
-      <if test="create_by != null" >
+      <if test="createBy != null" >
         create_by,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
     </trim>
@@ -67,23 +67,23 @@
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="parent_id != null" >
-        #{parent_id,jdbcType=INTEGER},
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="customer_type != null" >
-        #{customer_type,jdbcType=VARCHAR},
+      <if test="customerType != null" >
+        #{customerType,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="type_name != null" >
-        #{type_name,jdbcType=VARCHAR},
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="create_by != null" >
-        #{create_by,jdbcType=VARCHAR},
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -93,23 +93,23 @@
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="parent_id != null" >
-        parent_id = #{parent_id,jdbcType=INTEGER},
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="customer_type != null" >
-        customer_type = #{customer_type,jdbcType=VARCHAR},
+      <if test="customerType != null" >
+        customer_type = #{customerType,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="type_name != null" >
-        type_name = #{type_name,jdbcType=VARCHAR},
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="create_by != null" >
-        create_by = #{create_by,jdbcType=VARCHAR},
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -117,12 +117,12 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.TagType" >
     update t_bqfl_tag_type
     set type = #{type,jdbcType=VARCHAR},
-      parent_id = #{parent_id,jdbcType=INTEGER},
-      customer_type = #{customer_type,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      customer_type = #{customerType,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      type_name = #{type_name,jdbcType=VARCHAR},
-      create_by = #{create_by,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP}
+      type_name = #{typeName,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

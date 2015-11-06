@@ -2,44 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.BidProjectInfoMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidProjectInfo" >
-    <id column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="evaluation_amount" property="evaluation_amount" jdbcType="INTEGER" />
-    <result column="project_expect_start_date" property="project_expect_start_date" jdbcType="VARCHAR" />
-    <result column="project_expect_end_date" property="project_expect_end_date" jdbcType="VARCHAR" />
-    <result column="biddee_company_principal" property="biddee_company_principal" jdbcType="VARCHAR" />
-    <result column="biddee_company_telephone" property="biddee_company_telephone" jdbcType="VARCHAR" />
-    <result column="project_name" property="project_name" jdbcType="VARCHAR" />
-    <result column="project_no" property="project_no" jdbcType="VARCHAR" />
-    <result column="project_situation" property="project_situation" jdbcType="VARCHAR" />
-    <result column="project_expect_investment" property="project_expect_investment" jdbcType="VARCHAR" />
+    <id column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
+    <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
+    <result column="project_expect_end_date" property="projectExpectEndDate" jdbcType="VARCHAR" />
+    <result column="biddee_company_principal" property="biddeeCompanyPrincipal" jdbcType="VARCHAR" />
+    <result column="biddee_company_telephone" property="biddeeCompanyTelephone" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="project_situation" property="projectSituation" jdbcType="VARCHAR" />
+    <result column="project_expect_investment" property="projectExpectInvestment" jdbcType="VARCHAR" />
     <result column="employer" property="employer" jdbcType="VARCHAR" />
-    <result column="employer_principal" property="employer_principal" jdbcType="VARCHAR" />
-    <result column="employer_telephone" property="employer_telephone" jdbcType="VARCHAR" />
-    <result column="project_manager_requirement" property="project_manager_requirement" jdbcType="VARCHAR" />
-    <result column="other_requirement" property="other_requirement" jdbcType="VARCHAR" />
-    <result column="project_site_town" property="project_site_town" jdbcType="VARCHAR" />
-    <result column="project_site_city" property="project_site_city" jdbcType="VARCHAR" />
-    <result column="project_site_province" property="project_site_province" jdbcType="VARCHAR" />
-    <result column="project_site" property="project_site" jdbcType="VARCHAR" />
-    <result column="project_scale" property="project_scale" jdbcType="VARCHAR" />
-    <result column="contract_type" property="contract_type" jdbcType="VARCHAR" />
+    <result column="employer_principal" property="employerPrincipal" jdbcType="VARCHAR" />
+    <result column="employer_telephone" property="employerTelephone" jdbcType="VARCHAR" />
+    <result column="project_manager_requirement" property="projectManagerRequirement" jdbcType="VARCHAR" />
+    <result column="other_requirement" property="otherRequirement" jdbcType="VARCHAR" />
+    <result column="project_site_town" property="projectSiteTown" jdbcType="VARCHAR" />
+    <result column="project_site_city" property="projectSiteCity" jdbcType="VARCHAR" />
+    <result column="project_site_province" property="projectSiteProvince" jdbcType="VARCHAR" />
+    <result column="project_site" property="projectSite" jdbcType="VARCHAR" />
+    <result column="project_scale" property="projectScale" jdbcType="VARCHAR" />
+    <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
-    <result column="project_expect_period" property="project_expect_period" jdbcType="INTEGER" />
-    <result column="letter_of_acceptance_url" property="letter_of_acceptance_url" jdbcType="VARCHAR" />
-    <result column="construction_prove_type" property="construction_prove_type" jdbcType="VARCHAR" />
-    <result column="project_period_deadline" property="project_period_deadline" jdbcType="INTEGER" />
-    <result column="land_use_certificate_enddate" property="land_use_certificate_enddate" jdbcType="DATE" />
-    <result column="construction_land_use_permit_enddate" property="construction_land_use_permit_enddate" jdbcType="DATE" />
-    <result column="building_permit_enddate" property="building_permit_enddate" jdbcType="DATE" />
-    <result column="land_use_certificate_No" property="land_use_certificate_No" jdbcType="VARCHAR" />
-    <result column="construction_land_use_permit_No" property="construction_land_use_permit_No" jdbcType="VARCHAR" />
-    <result column="building_permit_No" property="building_permit_No" jdbcType="VARCHAR" />
-    <result column="building_construction_permit_No" property="building_construction_permit_No" jdbcType="VARCHAR" />
-    <result column="building_construction_permit_url" property="building_construction_permit_url" jdbcType="VARCHAR" />
-    <result column="building_construction_permit_enddate" property="building_construction_permit_enddate" jdbcType="DATE" />
-    <result column="land_use_certificate_url" property="land_use_certificate_url" jdbcType="VARCHAR" />
-    <result column="construction_land_use_permit_url" property="construction_land_use_permit_url" jdbcType="VARCHAR" />
-    <result column="building_permit_url" property="building_permit_url" jdbcType="VARCHAR" />
+    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
+    <result column="letter_of_acceptance_url" property="letterOfAcceptanceUrl" jdbcType="VARCHAR" />
+    <result column="construction_prove_type" property="constructionProveType" jdbcType="VARCHAR" />
+    <result column="project_period_deadline" property="projectPeriodDeadline" jdbcType="INTEGER" />
+    <result column="land_use_certificate_enddate" property="landUseCertificateEnddate" jdbcType="DATE" />
+    <result column="construction_land_use_permit_enddate" property="constructionLandUsePermitEnddate" jdbcType="DATE" />
+    <result column="building_permit_enddate" property="buildingPermitEnddate" jdbcType="DATE" />
+    <result column="land_use_certificate_No" property="landUseCertificateNo" jdbcType="VARCHAR" />
+    <result column="construction_land_use_permit_No" property="constructionLandUsePermitNo" jdbcType="VARCHAR" />
+    <result column="building_permit_No" property="buildingPermitNo" jdbcType="VARCHAR" />
+    <result column="building_construction_permit_No" property="buildingConstructionPermitNo" jdbcType="VARCHAR" />
+    <result column="building_construction_permit_url" property="buildingConstructionPermitUrl" jdbcType="VARCHAR" />
+    <result column="building_construction_permit_enddate" property="buildingConstructionPermitEnddate" jdbcType="DATE" />
+    <result column="land_use_certificate_url" property="landUseCertificateUrl" jdbcType="VARCHAR" />
+    <result column="construction_land_use_permit_url" property="constructionLandUsePermitUrl" jdbcType="VARCHAR" />
+    <result column="building_permit_url" property="buildingPermitUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     object_id, evaluation_amount, project_expect_start_date, project_expect_end_date, 
@@ -57,17 +57,17 @@
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_bid_project_info
-    where object_id = #{object_id,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_bid_project_info
-    where object_id = #{object_id,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidProjectInfo" >
     insert into t_ztgl_bid_project_info (object_id, evaluation_amount, project_expect_start_date, 
       project_expect_end_date, biddee_company_principal, 
-      biddee_company_telephone, project_name, 
-      project_no, project_situation, project_expect_investment, 
+      biddee_company_telephone, project_name, project_no, 
+      project_situation, project_expect_investment, 
       employer, employer_principal, employer_telephone, 
       project_manager_requirement, other_requirement, 
       project_site_town, project_site_city, project_site_province, 
@@ -81,415 +81,415 @@
       building_construction_permit_enddate, land_use_certificate_url, 
       construction_land_use_permit_url, building_permit_url
       )
-    values (#{object_id,jdbcType=VARCHAR}, #{evaluation_amount,jdbcType=INTEGER}, #{project_expect_start_date,jdbcType=VARCHAR}, 
-      #{project_expect_end_date,jdbcType=VARCHAR}, #{biddee_company_principal,jdbcType=VARCHAR}, 
-      #{biddee_company_telephone,jdbcType=VARCHAR}, #{project_name,jdbcType=VARCHAR}, 
-      #{project_no,jdbcType=VARCHAR}, #{project_situation,jdbcType=VARCHAR}, #{project_expect_investment,jdbcType=VARCHAR}, 
-      #{employer,jdbcType=VARCHAR}, #{employer_principal,jdbcType=VARCHAR}, #{employer_telephone,jdbcType=VARCHAR}, 
-      #{project_manager_requirement,jdbcType=VARCHAR}, #{other_requirement,jdbcType=VARCHAR}, 
-      #{project_site_town,jdbcType=VARCHAR}, #{project_site_city,jdbcType=VARCHAR}, #{project_site_province,jdbcType=VARCHAR}, 
-      #{project_site,jdbcType=VARCHAR}, #{project_scale,jdbcType=VARCHAR}, #{contract_type,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{project_expect_period,jdbcType=INTEGER}, #{letter_of_acceptance_url,jdbcType=VARCHAR}, 
-      #{construction_prove_type,jdbcType=VARCHAR}, #{project_period_deadline,jdbcType=INTEGER}, 
-      #{land_use_certificate_enddate,jdbcType=DATE}, #{construction_land_use_permit_enddate,jdbcType=DATE}, 
-      #{building_permit_enddate,jdbcType=DATE}, #{land_use_certificate_No,jdbcType=VARCHAR}, 
-      #{construction_land_use_permit_No,jdbcType=VARCHAR}, #{building_permit_No,jdbcType=VARCHAR}, 
-      #{building_construction_permit_No,jdbcType=VARCHAR}, #{building_construction_permit_url,jdbcType=VARCHAR}, 
-      #{building_construction_permit_enddate,jdbcType=DATE}, #{land_use_certificate_url,jdbcType=VARCHAR}, 
-      #{construction_land_use_permit_url,jdbcType=VARCHAR}, #{building_permit_url,jdbcType=VARCHAR}
+    values (#{objectId,jdbcType=VARCHAR}, #{evaluationAmount,jdbcType=INTEGER}, #{projectExpectStartDate,jdbcType=VARCHAR}, 
+      #{projectExpectEndDate,jdbcType=VARCHAR}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, 
+      #{biddeeCompanyTelephone,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
+      #{projectSituation,jdbcType=VARCHAR}, #{projectExpectInvestment,jdbcType=VARCHAR}, 
+      #{employer,jdbcType=VARCHAR}, #{employerPrincipal,jdbcType=VARCHAR}, #{employerTelephone,jdbcType=VARCHAR}, 
+      #{projectManagerRequirement,jdbcType=VARCHAR}, #{otherRequirement,jdbcType=VARCHAR}, 
+      #{projectSiteTown,jdbcType=VARCHAR}, #{projectSiteCity,jdbcType=VARCHAR}, #{projectSiteProvince,jdbcType=VARCHAR}, 
+      #{projectSite,jdbcType=VARCHAR}, #{projectScale,jdbcType=VARCHAR}, #{contractType,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{projectExpectPeriod,jdbcType=INTEGER}, #{letterOfAcceptanceUrl,jdbcType=VARCHAR}, 
+      #{constructionProveType,jdbcType=VARCHAR}, #{projectPeriodDeadline,jdbcType=INTEGER}, 
+      #{landUseCertificateEnddate,jdbcType=DATE}, #{constructionLandUsePermitEnddate,jdbcType=DATE}, 
+      #{buildingPermitEnddate,jdbcType=DATE}, #{landUseCertificateNo,jdbcType=VARCHAR}, 
+      #{constructionLandUsePermitNo,jdbcType=VARCHAR}, #{buildingPermitNo,jdbcType=VARCHAR}, 
+      #{buildingConstructionPermitNo,jdbcType=VARCHAR}, #{buildingConstructionPermitUrl,jdbcType=VARCHAR}, 
+      #{buildingConstructionPermitEnddate,jdbcType=DATE}, #{landUseCertificateUrl,jdbcType=VARCHAR}, 
+      #{constructionLandUsePermitUrl,jdbcType=VARCHAR}, #{buildingPermitUrl,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidProjectInfo" >
     insert into t_ztgl_bid_project_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="evaluation_amount != null" >
+      <if test="evaluationAmount != null" >
         evaluation_amount,
       </if>
-      <if test="project_expect_start_date != null" >
+      <if test="projectExpectStartDate != null" >
         project_expect_start_date,
       </if>
-      <if test="project_expect_end_date != null" >
+      <if test="projectExpectEndDate != null" >
         project_expect_end_date,
       </if>
-      <if test="biddee_company_principal != null" >
+      <if test="biddeeCompanyPrincipal != null" >
         biddee_company_principal,
       </if>
-      <if test="biddee_company_telephone != null" >
+      <if test="biddeeCompanyTelephone != null" >
         biddee_company_telephone,
       </if>
-      <if test="project_name != null" >
+      <if test="projectName != null" >
         project_name,
       </if>
-      <if test="project_no != null" >
+      <if test="projectNo != null" >
         project_no,
       </if>
-      <if test="project_situation != null" >
+      <if test="projectSituation != null" >
         project_situation,
       </if>
-      <if test="project_expect_investment != null" >
+      <if test="projectExpectInvestment != null" >
         project_expect_investment,
       </if>
       <if test="employer != null" >
         employer,
       </if>
-      <if test="employer_principal != null" >
+      <if test="employerPrincipal != null" >
         employer_principal,
       </if>
-      <if test="employer_telephone != null" >
+      <if test="employerTelephone != null" >
         employer_telephone,
       </if>
-      <if test="project_manager_requirement != null" >
+      <if test="projectManagerRequirement != null" >
         project_manager_requirement,
       </if>
-      <if test="other_requirement != null" >
+      <if test="otherRequirement != null" >
         other_requirement,
       </if>
-      <if test="project_site_town != null" >
+      <if test="projectSiteTown != null" >
         project_site_town,
       </if>
-      <if test="project_site_city != null" >
+      <if test="projectSiteCity != null" >
         project_site_city,
       </if>
-      <if test="project_site_province != null" >
+      <if test="projectSiteProvince != null" >
         project_site_province,
       </if>
-      <if test="project_site != null" >
+      <if test="projectSite != null" >
         project_site,
       </if>
-      <if test="project_scale != null" >
+      <if test="projectScale != null" >
         project_scale,
       </if>
-      <if test="contract_type != null" >
+      <if test="contractType != null" >
         contract_type,
       </if>
       <if test="currency != null" >
         currency,
       </if>
-      <if test="project_expect_period != null" >
+      <if test="projectExpectPeriod != null" >
         project_expect_period,
       </if>
-      <if test="letter_of_acceptance_url != null" >
+      <if test="letterOfAcceptanceUrl != null" >
         letter_of_acceptance_url,
       </if>
-      <if test="construction_prove_type != null" >
+      <if test="constructionProveType != null" >
         construction_prove_type,
       </if>
-      <if test="project_period_deadline != null" >
+      <if test="projectPeriodDeadline != null" >
         project_period_deadline,
       </if>
-      <if test="land_use_certificate_enddate != null" >
+      <if test="landUseCertificateEnddate != null" >
         land_use_certificate_enddate,
       </if>
-      <if test="construction_land_use_permit_enddate != null" >
+      <if test="constructionLandUsePermitEnddate != null" >
         construction_land_use_permit_enddate,
       </if>
-      <if test="building_permit_enddate != null" >
+      <if test="buildingPermitEnddate != null" >
         building_permit_enddate,
       </if>
-      <if test="land_use_certificate_No != null" >
+      <if test="landUseCertificateNo != null" >
         land_use_certificate_No,
       </if>
-      <if test="construction_land_use_permit_No != null" >
+      <if test="constructionLandUsePermitNo != null" >
         construction_land_use_permit_No,
       </if>
-      <if test="building_permit_No != null" >
+      <if test="buildingPermitNo != null" >
         building_permit_No,
       </if>
-      <if test="building_construction_permit_No != null" >
+      <if test="buildingConstructionPermitNo != null" >
         building_construction_permit_No,
       </if>
-      <if test="building_construction_permit_url != null" >
+      <if test="buildingConstructionPermitUrl != null" >
         building_construction_permit_url,
       </if>
-      <if test="building_construction_permit_enddate != null" >
+      <if test="buildingConstructionPermitEnddate != null" >
         building_construction_permit_enddate,
       </if>
-      <if test="land_use_certificate_url != null" >
+      <if test="landUseCertificateUrl != null" >
         land_use_certificate_url,
       </if>
-      <if test="construction_land_use_permit_url != null" >
+      <if test="constructionLandUsePermitUrl != null" >
         construction_land_use_permit_url,
       </if>
-      <if test="building_permit_url != null" >
+      <if test="buildingPermitUrl != null" >
         building_permit_url,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="evaluation_amount != null" >
-        #{evaluation_amount,jdbcType=INTEGER},
+      <if test="evaluationAmount != null" >
+        #{evaluationAmount,jdbcType=INTEGER},
       </if>
-      <if test="project_expect_start_date != null" >
-        #{project_expect_start_date,jdbcType=VARCHAR},
+      <if test="projectExpectStartDate != null" >
+        #{projectExpectStartDate,jdbcType=VARCHAR},
       </if>
-      <if test="project_expect_end_date != null" >
-        #{project_expect_end_date,jdbcType=VARCHAR},
+      <if test="projectExpectEndDate != null" >
+        #{projectExpectEndDate,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_company_principal != null" >
-        #{biddee_company_principal,jdbcType=VARCHAR},
+      <if test="biddeeCompanyPrincipal != null" >
+        #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_company_telephone != null" >
-        #{biddee_company_telephone,jdbcType=VARCHAR},
+      <if test="biddeeCompanyTelephone != null" >
+        #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       </if>
-      <if test="project_name != null" >
-        #{project_name,jdbcType=VARCHAR},
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="project_no != null" >
-        #{project_no,jdbcType=VARCHAR},
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
       </if>
-      <if test="project_situation != null" >
-        #{project_situation,jdbcType=VARCHAR},
+      <if test="projectSituation != null" >
+        #{projectSituation,jdbcType=VARCHAR},
       </if>
-      <if test="project_expect_investment != null" >
-        #{project_expect_investment,jdbcType=VARCHAR},
+      <if test="projectExpectInvestment != null" >
+        #{projectExpectInvestment,jdbcType=VARCHAR},
       </if>
       <if test="employer != null" >
         #{employer,jdbcType=VARCHAR},
       </if>
-      <if test="employer_principal != null" >
-        #{employer_principal,jdbcType=VARCHAR},
+      <if test="employerPrincipal != null" >
+        #{employerPrincipal,jdbcType=VARCHAR},
       </if>
-      <if test="employer_telephone != null" >
-        #{employer_telephone,jdbcType=VARCHAR},
+      <if test="employerTelephone != null" >
+        #{employerTelephone,jdbcType=VARCHAR},
       </if>
-      <if test="project_manager_requirement != null" >
-        #{project_manager_requirement,jdbcType=VARCHAR},
+      <if test="projectManagerRequirement != null" >
+        #{projectManagerRequirement,jdbcType=VARCHAR},
       </if>
-      <if test="other_requirement != null" >
-        #{other_requirement,jdbcType=VARCHAR},
+      <if test="otherRequirement != null" >
+        #{otherRequirement,jdbcType=VARCHAR},
       </if>
-      <if test="project_site_town != null" >
-        #{project_site_town,jdbcType=VARCHAR},
+      <if test="projectSiteTown != null" >
+        #{projectSiteTown,jdbcType=VARCHAR},
       </if>
-      <if test="project_site_city != null" >
-        #{project_site_city,jdbcType=VARCHAR},
+      <if test="projectSiteCity != null" >
+        #{projectSiteCity,jdbcType=VARCHAR},
       </if>
-      <if test="project_site_province != null" >
-        #{project_site_province,jdbcType=VARCHAR},
+      <if test="projectSiteProvince != null" >
+        #{projectSiteProvince,jdbcType=VARCHAR},
       </if>
-      <if test="project_site != null" >
-        #{project_site,jdbcType=VARCHAR},
+      <if test="projectSite != null" >
+        #{projectSite,jdbcType=VARCHAR},
       </if>
-      <if test="project_scale != null" >
-        #{project_scale,jdbcType=VARCHAR},
+      <if test="projectScale != null" >
+        #{projectScale,jdbcType=VARCHAR},
       </if>
-      <if test="contract_type != null" >
-        #{contract_type,jdbcType=VARCHAR},
+      <if test="contractType != null" >
+        #{contractType,jdbcType=VARCHAR},
       </if>
       <if test="currency != null" >
         #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="project_expect_period != null" >
-        #{project_expect_period,jdbcType=INTEGER},
+      <if test="projectExpectPeriod != null" >
+        #{projectExpectPeriod,jdbcType=INTEGER},
       </if>
-      <if test="letter_of_acceptance_url != null" >
-        #{letter_of_acceptance_url,jdbcType=VARCHAR},
+      <if test="letterOfAcceptanceUrl != null" >
+        #{letterOfAcceptanceUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_prove_type != null" >
-        #{construction_prove_type,jdbcType=VARCHAR},
+      <if test="constructionProveType != null" >
+        #{constructionProveType,jdbcType=VARCHAR},
       </if>
-      <if test="project_period_deadline != null" >
-        #{project_period_deadline,jdbcType=INTEGER},
+      <if test="projectPeriodDeadline != null" >
+        #{projectPeriodDeadline,jdbcType=INTEGER},
       </if>
-      <if test="land_use_certificate_enddate != null" >
-        #{land_use_certificate_enddate,jdbcType=DATE},
+      <if test="landUseCertificateEnddate != null" >
+        #{landUseCertificateEnddate,jdbcType=DATE},
       </if>
-      <if test="construction_land_use_permit_enddate != null" >
-        #{construction_land_use_permit_enddate,jdbcType=DATE},
+      <if test="constructionLandUsePermitEnddate != null" >
+        #{constructionLandUsePermitEnddate,jdbcType=DATE},
       </if>
-      <if test="building_permit_enddate != null" >
-        #{building_permit_enddate,jdbcType=DATE},
+      <if test="buildingPermitEnddate != null" >
+        #{buildingPermitEnddate,jdbcType=DATE},
       </if>
-      <if test="land_use_certificate_No != null" >
-        #{land_use_certificate_No,jdbcType=VARCHAR},
+      <if test="landUseCertificateNo != null" >
+        #{landUseCertificateNo,jdbcType=VARCHAR},
       </if>
-      <if test="construction_land_use_permit_No != null" >
-        #{construction_land_use_permit_No,jdbcType=VARCHAR},
+      <if test="constructionLandUsePermitNo != null" >
+        #{constructionLandUsePermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="building_permit_No != null" >
-        #{building_permit_No,jdbcType=VARCHAR},
+      <if test="buildingPermitNo != null" >
+        #{buildingPermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="building_construction_permit_No != null" >
-        #{building_construction_permit_No,jdbcType=VARCHAR},
+      <if test="buildingConstructionPermitNo != null" >
+        #{buildingConstructionPermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="building_construction_permit_url != null" >
-        #{building_construction_permit_url,jdbcType=VARCHAR},
+      <if test="buildingConstructionPermitUrl != null" >
+        #{buildingConstructionPermitUrl,jdbcType=VARCHAR},
       </if>
-      <if test="building_construction_permit_enddate != null" >
-        #{building_construction_permit_enddate,jdbcType=DATE},
+      <if test="buildingConstructionPermitEnddate != null" >
+        #{buildingConstructionPermitEnddate,jdbcType=DATE},
       </if>
-      <if test="land_use_certificate_url != null" >
-        #{land_use_certificate_url,jdbcType=VARCHAR},
+      <if test="landUseCertificateUrl != null" >
+        #{landUseCertificateUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_land_use_permit_url != null" >
-        #{construction_land_use_permit_url,jdbcType=VARCHAR},
+      <if test="constructionLandUsePermitUrl != null" >
+        #{constructionLandUsePermitUrl,jdbcType=VARCHAR},
       </if>
-      <if test="building_permit_url != null" >
-        #{building_permit_url,jdbcType=VARCHAR},
+      <if test="buildingPermitUrl != null" >
+        #{buildingPermitUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidProjectInfo" >
     update t_ztgl_bid_project_info
     <set >
-      <if test="evaluation_amount != null" >
-        evaluation_amount = #{evaluation_amount,jdbcType=INTEGER},
+      <if test="evaluationAmount != null" >
+        evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
       </if>
-      <if test="project_expect_start_date != null" >
-        project_expect_start_date = #{project_expect_start_date,jdbcType=VARCHAR},
+      <if test="projectExpectStartDate != null" >
+        project_expect_start_date = #{projectExpectStartDate,jdbcType=VARCHAR},
       </if>
-      <if test="project_expect_end_date != null" >
-        project_expect_end_date = #{project_expect_end_date,jdbcType=VARCHAR},
+      <if test="projectExpectEndDate != null" >
+        project_expect_end_date = #{projectExpectEndDate,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_company_principal != null" >
-        biddee_company_principal = #{biddee_company_principal,jdbcType=VARCHAR},
+      <if test="biddeeCompanyPrincipal != null" >
+        biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_company_telephone != null" >
-        biddee_company_telephone = #{biddee_company_telephone,jdbcType=VARCHAR},
+      <if test="biddeeCompanyTelephone != null" >
+        biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       </if>
-      <if test="project_name != null" >
-        project_name = #{project_name,jdbcType=VARCHAR},
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="project_no != null" >
-        project_no = #{project_no,jdbcType=VARCHAR},
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
       </if>
-      <if test="project_situation != null" >
-        project_situation = #{project_situation,jdbcType=VARCHAR},
+      <if test="projectSituation != null" >
+        project_situation = #{projectSituation,jdbcType=VARCHAR},
       </if>
-      <if test="project_expect_investment != null" >
-        project_expect_investment = #{project_expect_investment,jdbcType=VARCHAR},
+      <if test="projectExpectInvestment != null" >
+        project_expect_investment = #{projectExpectInvestment,jdbcType=VARCHAR},
       </if>
       <if test="employer != null" >
         employer = #{employer,jdbcType=VARCHAR},
       </if>
-      <if test="employer_principal != null" >
-        employer_principal = #{employer_principal,jdbcType=VARCHAR},
+      <if test="employerPrincipal != null" >
+        employer_principal = #{employerPrincipal,jdbcType=VARCHAR},
       </if>
-      <if test="employer_telephone != null" >
-        employer_telephone = #{employer_telephone,jdbcType=VARCHAR},
+      <if test="employerTelephone != null" >
+        employer_telephone = #{employerTelephone,jdbcType=VARCHAR},
       </if>
-      <if test="project_manager_requirement != null" >
-        project_manager_requirement = #{project_manager_requirement,jdbcType=VARCHAR},
+      <if test="projectManagerRequirement != null" >
+        project_manager_requirement = #{projectManagerRequirement,jdbcType=VARCHAR},
       </if>
-      <if test="other_requirement != null" >
-        other_requirement = #{other_requirement,jdbcType=VARCHAR},
+      <if test="otherRequirement != null" >
+        other_requirement = #{otherRequirement,jdbcType=VARCHAR},
       </if>
-      <if test="project_site_town != null" >
-        project_site_town = #{project_site_town,jdbcType=VARCHAR},
+      <if test="projectSiteTown != null" >
+        project_site_town = #{projectSiteTown,jdbcType=VARCHAR},
       </if>
-      <if test="project_site_city != null" >
-        project_site_city = #{project_site_city,jdbcType=VARCHAR},
+      <if test="projectSiteCity != null" >
+        project_site_city = #{projectSiteCity,jdbcType=VARCHAR},
       </if>
-      <if test="project_site_province != null" >
-        project_site_province = #{project_site_province,jdbcType=VARCHAR},
+      <if test="projectSiteProvince != null" >
+        project_site_province = #{projectSiteProvince,jdbcType=VARCHAR},
       </if>
-      <if test="project_site != null" >
-        project_site = #{project_site,jdbcType=VARCHAR},
+      <if test="projectSite != null" >
+        project_site = #{projectSite,jdbcType=VARCHAR},
       </if>
-      <if test="project_scale != null" >
-        project_scale = #{project_scale,jdbcType=VARCHAR},
+      <if test="projectScale != null" >
+        project_scale = #{projectScale,jdbcType=VARCHAR},
       </if>
-      <if test="contract_type != null" >
-        contract_type = #{contract_type,jdbcType=VARCHAR},
+      <if test="contractType != null" >
+        contract_type = #{contractType,jdbcType=VARCHAR},
       </if>
       <if test="currency != null" >
         currency = #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="project_expect_period != null" >
-        project_expect_period = #{project_expect_period,jdbcType=INTEGER},
+      <if test="projectExpectPeriod != null" >
+        project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       </if>
-      <if test="letter_of_acceptance_url != null" >
-        letter_of_acceptance_url = #{letter_of_acceptance_url,jdbcType=VARCHAR},
+      <if test="letterOfAcceptanceUrl != null" >
+        letter_of_acceptance_url = #{letterOfAcceptanceUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_prove_type != null" >
-        construction_prove_type = #{construction_prove_type,jdbcType=VARCHAR},
+      <if test="constructionProveType != null" >
+        construction_prove_type = #{constructionProveType,jdbcType=VARCHAR},
       </if>
-      <if test="project_period_deadline != null" >
-        project_period_deadline = #{project_period_deadline,jdbcType=INTEGER},
+      <if test="projectPeriodDeadline != null" >
+        project_period_deadline = #{projectPeriodDeadline,jdbcType=INTEGER},
       </if>
-      <if test="land_use_certificate_enddate != null" >
-        land_use_certificate_enddate = #{land_use_certificate_enddate,jdbcType=DATE},
+      <if test="landUseCertificateEnddate != null" >
+        land_use_certificate_enddate = #{landUseCertificateEnddate,jdbcType=DATE},
       </if>
-      <if test="construction_land_use_permit_enddate != null" >
-        construction_land_use_permit_enddate = #{construction_land_use_permit_enddate,jdbcType=DATE},
+      <if test="constructionLandUsePermitEnddate != null" >
+        construction_land_use_permit_enddate = #{constructionLandUsePermitEnddate,jdbcType=DATE},
       </if>
-      <if test="building_permit_enddate != null" >
-        building_permit_enddate = #{building_permit_enddate,jdbcType=DATE},
+      <if test="buildingPermitEnddate != null" >
+        building_permit_enddate = #{buildingPermitEnddate,jdbcType=DATE},
       </if>
-      <if test="land_use_certificate_No != null" >
-        land_use_certificate_No = #{land_use_certificate_No,jdbcType=VARCHAR},
+      <if test="landUseCertificateNo != null" >
+        land_use_certificate_No = #{landUseCertificateNo,jdbcType=VARCHAR},
       </if>
-      <if test="construction_land_use_permit_No != null" >
-        construction_land_use_permit_No = #{construction_land_use_permit_No,jdbcType=VARCHAR},
+      <if test="constructionLandUsePermitNo != null" >
+        construction_land_use_permit_No = #{constructionLandUsePermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="building_permit_No != null" >
-        building_permit_No = #{building_permit_No,jdbcType=VARCHAR},
+      <if test="buildingPermitNo != null" >
+        building_permit_No = #{buildingPermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="building_construction_permit_No != null" >
-        building_construction_permit_No = #{building_construction_permit_No,jdbcType=VARCHAR},
+      <if test="buildingConstructionPermitNo != null" >
+        building_construction_permit_No = #{buildingConstructionPermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="building_construction_permit_url != null" >
-        building_construction_permit_url = #{building_construction_permit_url,jdbcType=VARCHAR},
+      <if test="buildingConstructionPermitUrl != null" >
+        building_construction_permit_url = #{buildingConstructionPermitUrl,jdbcType=VARCHAR},
       </if>
-      <if test="building_construction_permit_enddate != null" >
-        building_construction_permit_enddate = #{building_construction_permit_enddate,jdbcType=DATE},
+      <if test="buildingConstructionPermitEnddate != null" >
+        building_construction_permit_enddate = #{buildingConstructionPermitEnddate,jdbcType=DATE},
       </if>
-      <if test="land_use_certificate_url != null" >
-        land_use_certificate_url = #{land_use_certificate_url,jdbcType=VARCHAR},
+      <if test="landUseCertificateUrl != null" >
+        land_use_certificate_url = #{landUseCertificateUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_land_use_permit_url != null" >
-        construction_land_use_permit_url = #{construction_land_use_permit_url,jdbcType=VARCHAR},
+      <if test="constructionLandUsePermitUrl != null" >
+        construction_land_use_permit_url = #{constructionLandUsePermitUrl,jdbcType=VARCHAR},
       </if>
-      <if test="building_permit_url != null" >
-        building_permit_url = #{building_permit_url,jdbcType=VARCHAR},
+      <if test="buildingPermitUrl != null" >
+        building_permit_url = #{buildingPermitUrl,jdbcType=VARCHAR},
       </if>
     </set>
-    where object_id = #{object_id,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidProjectInfo" >
     update t_ztgl_bid_project_info
-    set evaluation_amount = #{evaluation_amount,jdbcType=INTEGER},
-      project_expect_start_date = #{project_expect_start_date,jdbcType=VARCHAR},
-      project_expect_end_date = #{project_expect_end_date,jdbcType=VARCHAR},
-      biddee_company_principal = #{biddee_company_principal,jdbcType=VARCHAR},
-      biddee_company_telephone = #{biddee_company_telephone,jdbcType=VARCHAR},
-      project_name = #{project_name,jdbcType=VARCHAR},
-      project_no = #{project_no,jdbcType=VARCHAR},
-      project_situation = #{project_situation,jdbcType=VARCHAR},
-      project_expect_investment = #{project_expect_investment,jdbcType=VARCHAR},
+    set evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
+      project_expect_start_date = #{projectExpectStartDate,jdbcType=VARCHAR},
+      project_expect_end_date = #{projectExpectEndDate,jdbcType=VARCHAR},
+      biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
+      biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      project_situation = #{projectSituation,jdbcType=VARCHAR},
+      project_expect_investment = #{projectExpectInvestment,jdbcType=VARCHAR},
       employer = #{employer,jdbcType=VARCHAR},
-      employer_principal = #{employer_principal,jdbcType=VARCHAR},
-      employer_telephone = #{employer_telephone,jdbcType=VARCHAR},
-      project_manager_requirement = #{project_manager_requirement,jdbcType=VARCHAR},
-      other_requirement = #{other_requirement,jdbcType=VARCHAR},
-      project_site_town = #{project_site_town,jdbcType=VARCHAR},
-      project_site_city = #{project_site_city,jdbcType=VARCHAR},
-      project_site_province = #{project_site_province,jdbcType=VARCHAR},
-      project_site = #{project_site,jdbcType=VARCHAR},
-      project_scale = #{project_scale,jdbcType=VARCHAR},
-      contract_type = #{contract_type,jdbcType=VARCHAR},
+      employer_principal = #{employerPrincipal,jdbcType=VARCHAR},
+      employer_telephone = #{employerTelephone,jdbcType=VARCHAR},
+      project_manager_requirement = #{projectManagerRequirement,jdbcType=VARCHAR},
+      other_requirement = #{otherRequirement,jdbcType=VARCHAR},
+      project_site_town = #{projectSiteTown,jdbcType=VARCHAR},
+      project_site_city = #{projectSiteCity,jdbcType=VARCHAR},
+      project_site_province = #{projectSiteProvince,jdbcType=VARCHAR},
+      project_site = #{projectSite,jdbcType=VARCHAR},
+      project_scale = #{projectScale,jdbcType=VARCHAR},
+      contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
-      project_expect_period = #{project_expect_period,jdbcType=INTEGER},
-      letter_of_acceptance_url = #{letter_of_acceptance_url,jdbcType=VARCHAR},
-      construction_prove_type = #{construction_prove_type,jdbcType=VARCHAR},
-      project_period_deadline = #{project_period_deadline,jdbcType=INTEGER},
-      land_use_certificate_enddate = #{land_use_certificate_enddate,jdbcType=DATE},
-      construction_land_use_permit_enddate = #{construction_land_use_permit_enddate,jdbcType=DATE},
-      building_permit_enddate = #{building_permit_enddate,jdbcType=DATE},
-      land_use_certificate_No = #{land_use_certificate_No,jdbcType=VARCHAR},
-      construction_land_use_permit_No = #{construction_land_use_permit_No,jdbcType=VARCHAR},
-      building_permit_No = #{building_permit_No,jdbcType=VARCHAR},
-      building_construction_permit_No = #{building_construction_permit_No,jdbcType=VARCHAR},
-      building_construction_permit_url = #{building_construction_permit_url,jdbcType=VARCHAR},
-      building_construction_permit_enddate = #{building_construction_permit_enddate,jdbcType=DATE},
-      land_use_certificate_url = #{land_use_certificate_url,jdbcType=VARCHAR},
-      construction_land_use_permit_url = #{construction_land_use_permit_url,jdbcType=VARCHAR},
-      building_permit_url = #{building_permit_url,jdbcType=VARCHAR}
-    where object_id = #{object_id,jdbcType=VARCHAR}
+      project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
+      letter_of_acceptance_url = #{letterOfAcceptanceUrl,jdbcType=VARCHAR},
+      construction_prove_type = #{constructionProveType,jdbcType=VARCHAR},
+      project_period_deadline = #{projectPeriodDeadline,jdbcType=INTEGER},
+      land_use_certificate_enddate = #{landUseCertificateEnddate,jdbcType=DATE},
+      construction_land_use_permit_enddate = #{constructionLandUsePermitEnddate,jdbcType=DATE},
+      building_permit_enddate = #{buildingPermitEnddate,jdbcType=DATE},
+      land_use_certificate_No = #{landUseCertificateNo,jdbcType=VARCHAR},
+      construction_land_use_permit_No = #{constructionLandUsePermitNo,jdbcType=VARCHAR},
+      building_permit_No = #{buildingPermitNo,jdbcType=VARCHAR},
+      building_construction_permit_No = #{buildingConstructionPermitNo,jdbcType=VARCHAR},
+      building_construction_permit_url = #{buildingConstructionPermitUrl,jdbcType=VARCHAR},
+      building_construction_permit_enddate = #{buildingConstructionPermitEnddate,jdbcType=DATE},
+      land_use_certificate_url = #{landUseCertificateUrl,jdbcType=VARCHAR},
+      construction_land_use_permit_url = #{constructionLandUsePermitUrl,jdbcType=VARCHAR},
+      building_permit_url = #{buildingPermitUrl,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

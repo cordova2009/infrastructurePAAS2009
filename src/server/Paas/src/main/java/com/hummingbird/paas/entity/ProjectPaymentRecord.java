@@ -14,12 +14,12 @@ public class ProjectPaymentRecord {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 期数
      */
-    private Integer current_period;
+    private Integer currentPeriod;
 
     /**
      * 金额
@@ -29,7 +29,7 @@ public class ProjectPaymentRecord {
     /**
      * 时间
      */
-    private Date pay_time;
+    private Date payTime;
 
     /**
      * 类型，PAY支付工程款，REV接收工程款
@@ -39,12 +39,12 @@ public class ProjectPaymentRecord {
     /**
      * 认证招投标类型，TER发包商，BIR承包商
      */
-    private Integer company_type;
+    private Integer companyType;
 
     /**
      * 认证提出方id
      */
-    private Integer company_id;
+    private Integer companyId;
 
     /**
      * @return 主键
@@ -64,31 +64,31 @@ public class ProjectPaymentRecord {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 期数
      */
-    public Integer getCurrent_period() {
-        return current_period;
+    public Integer getCurrentPeriod() {
+        return currentPeriod;
     }
 
     /**
      * @param currentPeriod 
 	 *            期数
      */
-    public void setCurrent_period(Integer current_period) {
-        this.current_period = current_period;
+    public void setCurrentPeriod(Integer currentPeriod) {
+        this.currentPeriod = currentPeriod;
     }
 
     /**
@@ -109,16 +109,16 @@ public class ProjectPaymentRecord {
     /**
      * @return 时间
      */
-    public Date getPay_time() {
-        return pay_time;
+    public Date getPayTime() {
+        return payTime;
     }
 
     /**
      * @param payTime 
 	 *            时间
      */
-    public void setPay_time(Date pay_time) {
-        this.pay_time = pay_time;
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
     }
 
     /**
@@ -139,31 +139,31 @@ public class ProjectPaymentRecord {
     /**
      * @return 认证招投标类型，TER发包商，BIR承包商
      */
-    public Integer getCompany_type() {
-        return company_type;
+    public Integer getCompanyType() {
+        return companyType;
     }
 
     /**
      * @param companyType 
 	 *            认证招投标类型，TER发包商，BIR承包商
      */
-    public void setCompany_type(Integer company_type) {
-        this.company_type = company_type;
+    public void setCompanyType(Integer companyType) {
+        this.companyType = companyType;
     }
 
     /**
      * @return 认证提出方id
      */
-    public Integer getCompany_id() {
-        return company_id;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
     /**
      * @param companyId 
 	 *            认证提出方id
      */
-    public void setCompany_id(Integer company_id) {
-        this.company_id = company_id;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     @Override
@@ -179,13 +179,13 @@ public class ProjectPaymentRecord {
         }
         ProjectPaymentRecord other = (ProjectPaymentRecord) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getCurrent_period() == null ? other.getCurrent_period() == null : this.getCurrent_period().equals(other.getCurrent_period()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getCurrentPeriod() == null ? other.getCurrentPeriod() == null : this.getCurrentPeriod().equals(other.getCurrentPeriod()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getPay_time() == null ? other.getPay_time() == null : this.getPay_time().equals(other.getPay_time()))
+            && (this.getPayTime() == null ? other.getPayTime() == null : this.getPayTime().equals(other.getPayTime()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getCompany_type() == null ? other.getCompany_type() == null : this.getCompany_type().equals(other.getCompany_type()))
-            && (this.getCompany_id() == null ? other.getCompany_id() == null : this.getCompany_id().equals(other.getCompany_id()));
+            && (this.getCompanyType() == null ? other.getCompanyType() == null : this.getCompanyType().equals(other.getCompanyType()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -193,13 +193,13 @@ public class ProjectPaymentRecord {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getCurrent_period() == null) ? 0 : getCurrent_period().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getCurrentPeriod() == null) ? 0 : getCurrentPeriod().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getPay_time() == null) ? 0 : getPay_time().hashCode());
+        result = prime * result + ((getPayTime() == null) ? 0 : getPayTime().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getCompany_type() == null) ? 0 : getCompany_type().hashCode());
-        result = prime * result + ((getCompany_id() == null) ? 0 : getCompany_id().hashCode());
+        result = prime * result + ((getCompanyType() == null) ? 0 : getCompanyType().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         return result;
     }
 }

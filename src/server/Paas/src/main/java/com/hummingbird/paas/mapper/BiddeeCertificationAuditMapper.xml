@@ -3,9 +3,9 @@
 <mapper namespace="com.hummingbird.paas.mapper.BiddeeCertificationAuditMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BiddeeCertificationAudit" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="certification_certicate_id" property="certification_certicate_id" jdbcType="INTEGER" />
-    <result column="audit_time" property="audit_time" jdbcType="TIMESTAMP" />
-    <result column="audit_status" property="audit_status" jdbcType="VARCHAR" />
+    <result column="certification_certicate_id" property="certificationCerticateId" jdbcType="INTEGER" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BiddeeCertificationAudit" >
     insert into t_qyzz_biddee_certification_audit (id, certification_certicate_id, audit_time, 
       audit_status, auditor)
-    values (#{id,jdbcType=INTEGER}, #{certification_certicate_id,jdbcType=INTEGER}, #{audit_time,jdbcType=TIMESTAMP}, 
-      #{audit_status,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER})
+    values (#{id,jdbcType=INTEGER}, #{certificationCerticateId,jdbcType=INTEGER}, #{auditTime,jdbcType=TIMESTAMP}, 
+      #{auditStatus,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BiddeeCertificationAudit" >
     insert into t_qyzz_biddee_certification_audit
@@ -33,13 +33,13 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="certification_certicate_id != null" >
+      <if test="certificationCerticateId != null" >
         certification_certicate_id,
       </if>
-      <if test="audit_time != null" >
+      <if test="auditTime != null" >
         audit_time,
       </if>
-      <if test="audit_status != null" >
+      <if test="auditStatus != null" >
         audit_status,
       </if>
       <if test="auditor != null" >
@@ -50,14 +50,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="certification_certicate_id != null" >
-        #{certification_certicate_id,jdbcType=INTEGER},
+      <if test="certificationCerticateId != null" >
+        #{certificationCerticateId,jdbcType=INTEGER},
       </if>
-      <if test="audit_time != null" >
-        #{audit_time,jdbcType=TIMESTAMP},
+      <if test="auditTime != null" >
+        #{auditTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_status != null" >
-        #{audit_status,jdbcType=VARCHAR},
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=INTEGER},
@@ -67,14 +67,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BiddeeCertificationAudit" >
     update t_qyzz_biddee_certification_audit
     <set >
-      <if test="certification_certicate_id != null" >
-        certification_certicate_id = #{certification_certicate_id,jdbcType=INTEGER},
+      <if test="certificationCerticateId != null" >
+        certification_certicate_id = #{certificationCerticateId,jdbcType=INTEGER},
       </if>
-      <if test="audit_time != null" >
-        audit_time = #{audit_time,jdbcType=TIMESTAMP},
+      <if test="auditTime != null" >
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_status != null" >
-        audit_status = #{audit_status,jdbcType=VARCHAR},
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=INTEGER},
@@ -84,9 +84,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BiddeeCertificationAudit" >
     update t_qyzz_biddee_certification_audit
-    set certification_certicate_id = #{certification_certicate_id,jdbcType=INTEGER},
-      audit_time = #{audit_time,jdbcType=TIMESTAMP},
-      audit_status = #{audit_status,jdbcType=VARCHAR},
+    set certification_certicate_id = #{certificationCerticateId,jdbcType=INTEGER},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
       auditor = #{auditor,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

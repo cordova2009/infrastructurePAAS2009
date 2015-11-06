@@ -6,7 +6,7 @@ public interface ObjectBaseinfoMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(String object_id);
+    int deleteByPrimaryKey(String objectId);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface ObjectBaseinfoMapper {
     /**
      * 根据主键查询记录
      */
-    ObjectBaseinfo selectByPrimaryKey(String object_id);
+    ObjectBaseinfo selectByPrimaryKey(String objectId);
 
     /**
      * 根据主键更新属性不为空的记录

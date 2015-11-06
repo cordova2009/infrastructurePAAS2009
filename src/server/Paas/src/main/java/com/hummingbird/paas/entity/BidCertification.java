@@ -12,22 +12,22 @@ public class BidCertification {
     /**
      * 投标id
      */
-    private Integer bid_id;
+    private Integer bidId;
 
     /**
      * 资质id
      */
-    private Integer certification_id;
+    private Integer certificationId;
 
     /**
      * 资质内容
      */
-    private String certification_pic;
+    private String certificationPic;
 
     /**
      * 资质名称
      */
-    private String certification_name;
+    private String certificationName;
 
     /**
      * @return 主键
@@ -47,61 +47,61 @@ public class BidCertification {
     /**
      * @return 投标id
      */
-    public Integer getBid_id() {
-        return bid_id;
+    public Integer getBidId() {
+        return bidId;
     }
 
     /**
      * @param bidId 
 	 *            投标id
      */
-    public void setBid_id(Integer bid_id) {
-        this.bid_id = bid_id;
+    public void setBidId(Integer bidId) {
+        this.bidId = bidId;
     }
 
     /**
      * @return 资质id
      */
-    public Integer getCertification_id() {
-        return certification_id;
+    public Integer getCertificationId() {
+        return certificationId;
     }
 
     /**
      * @param certificationId 
 	 *            资质id
      */
-    public void setCertification_id(Integer certification_id) {
-        this.certification_id = certification_id;
+    public void setCertificationId(Integer certificationId) {
+        this.certificationId = certificationId;
     }
 
     /**
      * @return 资质内容
      */
-    public String getCertification_pic() {
-        return certification_pic;
+    public String getCertificationPic() {
+        return certificationPic;
     }
 
     /**
      * @param certificationPic 
 	 *            资质内容
      */
-    public void setCertification_pic(String certification_pic) {
-        this.certification_pic = certification_pic == null ? null : certification_pic.trim();
+    public void setCertificationPic(String certificationPic) {
+        this.certificationPic = certificationPic == null ? null : certificationPic.trim();
     }
 
     /**
      * @return 资质名称
      */
-    public String getCertification_name() {
-        return certification_name;
+    public String getCertificationName() {
+        return certificationName;
     }
 
     /**
      * @param certificationName 
 	 *            资质名称
      */
-    public void setCertification_name(String certification_name) {
-        this.certification_name = certification_name == null ? null : certification_name.trim();
+    public void setCertificationName(String certificationName) {
+        this.certificationName = certificationName == null ? null : certificationName.trim();
     }
 
     @Override
@@ -117,10 +117,10 @@ public class BidCertification {
         }
         BidCertification other = (BidCertification) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBid_id() == null ? other.getBid_id() == null : this.getBid_id().equals(other.getBid_id()))
-            && (this.getCertification_id() == null ? other.getCertification_id() == null : this.getCertification_id().equals(other.getCertification_id()))
-            && (this.getCertification_pic() == null ? other.getCertification_pic() == null : this.getCertification_pic().equals(other.getCertification_pic()))
-            && (this.getCertification_name() == null ? other.getCertification_name() == null : this.getCertification_name().equals(other.getCertification_name()));
+            && (this.getBidId() == null ? other.getBidId() == null : this.getBidId().equals(other.getBidId()))
+            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
+            && (this.getCertificationPic() == null ? other.getCertificationPic() == null : this.getCertificationPic().equals(other.getCertificationPic()))
+            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()));
     }
 
     @Override
@@ -128,10 +128,10 @@ public class BidCertification {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBid_id() == null) ? 0 : getBid_id().hashCode());
-        result = prime * result + ((getCertification_id() == null) ? 0 : getCertification_id().hashCode());
-        result = prime * result + ((getCertification_pic() == null) ? 0 : getCertification_pic().hashCode());
-        result = prime * result + ((getCertification_name() == null) ? 0 : getCertification_name().hashCode());
+        result = prime * result + ((getBidId() == null) ? 0 : getBidId().hashCode());
+        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
+        result = prime * result + ((getCertificationPic() == null) ? 0 : getCertificationPic().hashCode());
+        result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
         return result;
     }
 }

@@ -9,32 +9,32 @@ public class Appinfo {
     /**
      * appId
      */
-    private String appId;
+    private String appid;
 
     /**
      * appName
      */
-    private String appName;
+    private String appname;
 
     /**
      * appKey
      */
-    private String appKey;
+    private String appkey;
 
     /**
      * appCert
      */
-    private String appCert;
+    private String appcert;
 
     /**
      * insertTime
      */
-    private Date insertTime;
+    private Date inserttime;
 
     /**
      * updateTime
      */
-    private Date updateTime;
+    private Date updatetime;
 
     /**
      * 状态,OK#正常，OFF 下线
@@ -44,96 +44,96 @@ public class Appinfo {
     /**
      * appPublicKey
      */
-    private String appPublicKey;
+    private String apppublickey;
 
     /**
      * @return appId
      */
-    public String getAppId() {
-        return appId;
+    public String getAppid() {
+        return appid;
     }
 
     /**
      * @param appid 
 	 *            appId
      */
-    public void setAppId(String appId) {
-        this.appId = appId == null ? null : appId.trim();
+    public void setAppid(String appid) {
+        this.appid = appid == null ? null : appid.trim();
     }
 
     /**
      * @return appName
      */
-    public String getAppName() {
-        return appName;
+    public String getAppname() {
+        return appname;
     }
 
     /**
      * @param appname 
 	 *            appName
      */
-    public void setAppName(String appName) {
-        this.appName = appName == null ? null : appName.trim();
+    public void setAppname(String appname) {
+        this.appname = appname == null ? null : appname.trim();
     }
 
     /**
      * @return appKey
      */
-    public String getAppKey() {
-        return appKey;
+    public String getAppkey() {
+        return appkey;
     }
 
     /**
      * @param appkey 
 	 *            appKey
      */
-    public void setAppKey(String appKey) {
-        this.appKey = appKey == null ? null : appKey.trim();
+    public void setAppkey(String appkey) {
+        this.appkey = appkey == null ? null : appkey.trim();
     }
 
     /**
      * @return appCert
      */
-    public String getAppCert() {
-        return appCert;
+    public String getAppcert() {
+        return appcert;
     }
 
     /**
      * @param appcert 
 	 *            appCert
      */
-    public void setAppCert(String appCert) {
-        this.appCert = appCert == null ? null : appCert.trim();
+    public void setAppcert(String appcert) {
+        this.appcert = appcert == null ? null : appcert.trim();
     }
 
     /**
      * @return insertTime
      */
-    public Date getInsertTime() {
-        return insertTime;
+    public Date getInserttime() {
+        return inserttime;
     }
 
     /**
      * @param inserttime 
 	 *            insertTime
      */
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
+    public void setInserttime(Date inserttime) {
+        this.inserttime = inserttime;
     }
 
     /**
      * @return updateTime
      */
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
     /**
      * @param updatetime 
 	 *            updateTime
      */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
     /**
@@ -154,16 +154,16 @@ public class Appinfo {
     /**
      * @return appPublicKey
      */
-    public String getAppPublicKey() {
-        return appPublicKey;
+    public String getApppublickey() {
+        return apppublickey;
     }
 
     /**
      * @param apppublickey 
 	 *            appPublicKey
      */
-    public void setAppPublicKey(String appPublicKey) {
-        this.appPublicKey = appPublicKey == null ? null : appPublicKey.trim();
+    public void setApppublickey(String apppublickey) {
+        this.apppublickey = apppublickey == null ? null : apppublickey.trim();
     }
 
     @Override
@@ -178,28 +178,28 @@ public class Appinfo {
             return false;
         }
         Appinfo other = (Appinfo) that;
-        return (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
-            && (this.getAppName() == null ? other.getAppName() == null : this.getAppName().equals(other.getAppName()))
-            && (this.getAppKey() == null ? other.getAppKey() == null : this.getAppKey().equals(other.getAppKey()))
-            && (this.getAppCert() == null ? other.getAppCert() == null : this.getAppCert().equals(other.getAppCert()))
-            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+        return (this.getAppid() == null ? other.getAppid() == null : this.getAppid().equals(other.getAppid()))
+            && (this.getAppname() == null ? other.getAppname() == null : this.getAppname().equals(other.getAppname()))
+            && (this.getAppkey() == null ? other.getAppkey() == null : this.getAppkey().equals(other.getAppkey()))
+            && (this.getAppcert() == null ? other.getAppcert() == null : this.getAppcert().equals(other.getAppcert()))
+            && (this.getInserttime() == null ? other.getInserttime() == null : this.getInserttime().equals(other.getInserttime()))
+            && (this.getUpdatetime() == null ? other.getUpdatetime() == null : this.getUpdatetime().equals(other.getUpdatetime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getAppPublicKey() == null ? other.getAppPublicKey() == null : this.getAppPublicKey().equals(other.getAppPublicKey()));
+            && (this.getApppublickey() == null ? other.getApppublickey() == null : this.getApppublickey().equals(other.getApppublickey()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
-        result = prime * result + ((getAppName() == null) ? 0 : getAppName().hashCode());
-        result = prime * result + ((getAppKey() == null) ? 0 : getAppKey().hashCode());
-        result = prime * result + ((getAppCert() == null) ? 0 : getAppCert().hashCode());
-        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getAppid() == null) ? 0 : getAppid().hashCode());
+        result = prime * result + ((getAppname() == null) ? 0 : getAppname().hashCode());
+        result = prime * result + ((getAppkey() == null) ? 0 : getAppkey().hashCode());
+        result = prime * result + ((getAppcert() == null) ? 0 : getAppcert().hashCode());
+        result = prime * result + ((getInserttime() == null) ? 0 : getInserttime().hashCode());
+        result = prime * result + ((getUpdatetime() == null) ? 0 : getUpdatetime().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getAppPublicKey() == null) ? 0 : getAppPublicKey().hashCode());
+        result = prime * result + ((getApppublickey() == null) ? 0 : getApppublickey().hashCode());
         return result;
     }
 }

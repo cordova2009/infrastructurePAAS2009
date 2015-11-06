@@ -3,8 +3,8 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidInviteBidderMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidInviteBidder" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bidder_id" property="bidder_id" jdbcType="INTEGER" />
-    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
+    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_id, object_id
@@ -22,7 +22,7 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidInviteBidder" >
     insert into t_ztgl_bid_invite_bidder (id, bidder_id, object_id
       )
-    values (#{id,jdbcType=INTEGER}, #{bidder_id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{bidderId,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidInviteBidder" >
@@ -31,10 +31,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="bidder_id != null" >
+      <if test="bidderId != null" >
         bidder_id,
       </if>
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
     </trim>
@@ -42,30 +42,30 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="bidder_id != null" >
-        #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidInviteBidder" >
     update t_ztgl_bid_invite_bidder
     <set >
-      <if test="bidder_id != null" >
-        bidder_id = #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        bidder_id = #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        object_id = #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidInviteBidder" >
     update t_ztgl_bid_invite_bidder
-    set bidder_id = #{bidder_id,jdbcType=INTEGER},
-      object_id = #{object_id,jdbcType=VARCHAR}
+    set bidder_id = #{bidderId,jdbcType=INTEGER},
+      object_id = #{objectId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.BankMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Bank" >
-    <id column="bank_id" property="bank_id" jdbcType="VARCHAR" />
-    <result column="bank_name" property="bank_name" jdbcType="VARCHAR" />
+    <id column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     bank_id, bank_name
@@ -12,47 +12,47 @@
     select 
     <include refid="Base_Column_List" />
     from t_base_bank
-    where bank_id = #{bank_id,jdbcType=VARCHAR}
+    where bank_id = #{bankId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_base_bank
-    where bank_id = #{bank_id,jdbcType=VARCHAR}
+    where bank_id = #{bankId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.Bank" >
     insert into t_base_bank (bank_id, bank_name)
-    values (#{bank_id,jdbcType=VARCHAR}, #{bank_name,jdbcType=VARCHAR})
+    values (#{bankId,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Bank" >
     insert into t_base_bank
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="bank_id != null" >
+      <if test="bankId != null" >
         bank_id,
       </if>
-      <if test="bank_name != null" >
+      <if test="bankName != null" >
         bank_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="bank_id != null" >
-        #{bank_id,jdbcType=VARCHAR},
+      <if test="bankId != null" >
+        #{bankId,jdbcType=VARCHAR},
       </if>
-      <if test="bank_name != null" >
-        #{bank_name,jdbcType=VARCHAR},
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Bank" >
     update t_base_bank
     <set >
-      <if test="bank_name != null" >
-        bank_name = #{bank_name,jdbcType=VARCHAR},
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
       </if>
     </set>
-    where bank_id = #{bank_id,jdbcType=VARCHAR}
+    where bank_id = #{bankId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Bank" >
     update t_base_bank
-    set bank_name = #{bank_name,jdbcType=VARCHAR}
-    where bank_id = #{bank_id,jdbcType=VARCHAR}
+    set bank_name = #{bankName,jdbcType=VARCHAR}
+    where bank_id = #{bankId,jdbcType=VARCHAR}
   </update>
 </mapper>

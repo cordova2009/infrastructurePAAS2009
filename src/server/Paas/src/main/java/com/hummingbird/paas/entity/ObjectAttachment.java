@@ -14,27 +14,27 @@ public class ObjectAttachment {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 附件名称
      */
-    private String attachment_name;
+    private String attachmentName;
 
     /**
      * 附件url
      */
-    private String attachment_url;
+    private String attachmentUrl;
 
     /**
      * 新增时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 新增人
      */
-    private String insert_by;
+    private String insertBy;
 
     /**
      * @return id
@@ -54,76 +54,76 @@ public class ObjectAttachment {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 附件名称
      */
-    public String getAttachment_name() {
-        return attachment_name;
+    public String getAttachmentName() {
+        return attachmentName;
     }
 
     /**
      * @param attachmentName 
 	 *            附件名称
      */
-    public void setAttachment_name(String attachment_name) {
-        this.attachment_name = attachment_name == null ? null : attachment_name.trim();
+    public void setAttachmentName(String attachmentName) {
+        this.attachmentName = attachmentName == null ? null : attachmentName.trim();
     }
 
     /**
      * @return 附件url
      */
-    public String getAttachment_url() {
-        return attachment_url;
+    public String getAttachmentUrl() {
+        return attachmentUrl;
     }
 
     /**
      * @param attachmentUrl 
 	 *            附件url
      */
-    public void setAttachment_url(String attachment_url) {
-        this.attachment_url = attachment_url == null ? null : attachment_url.trim();
+    public void setAttachmentUrl(String attachmentUrl) {
+        this.attachmentUrl = attachmentUrl == null ? null : attachmentUrl.trim();
     }
 
     /**
      * @return 新增时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            新增时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 新增人
      */
-    public String getInsert_by() {
-        return insert_by;
+    public String getInsertBy() {
+        return insertBy;
     }
 
     /**
      * @param insertBy 
 	 *            新增人
      */
-    public void setInsert_by(String insert_by) {
-        this.insert_by = insert_by == null ? null : insert_by.trim();
+    public void setInsertBy(String insertBy) {
+        this.insertBy = insertBy == null ? null : insertBy.trim();
     }
 
     @Override
@@ -139,11 +139,11 @@ public class ObjectAttachment {
         }
         ObjectAttachment other = (ObjectAttachment) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getAttachment_name() == null ? other.getAttachment_name() == null : this.getAttachment_name().equals(other.getAttachment_name()))
-            && (this.getAttachment_url() == null ? other.getAttachment_url() == null : this.getAttachment_url().equals(other.getAttachment_url()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getInsert_by() == null ? other.getInsert_by() == null : this.getInsert_by().equals(other.getInsert_by()));
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getAttachmentName() == null ? other.getAttachmentName() == null : this.getAttachmentName().equals(other.getAttachmentName()))
+            && (this.getAttachmentUrl() == null ? other.getAttachmentUrl() == null : this.getAttachmentUrl().equals(other.getAttachmentUrl()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getInsertBy() == null ? other.getInsertBy() == null : this.getInsertBy().equals(other.getInsertBy()));
     }
 
     @Override
@@ -151,11 +151,11 @@ public class ObjectAttachment {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getAttachment_name() == null) ? 0 : getAttachment_name().hashCode());
-        result = prime * result + ((getAttachment_url() == null) ? 0 : getAttachment_url().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getInsert_by() == null) ? 0 : getInsert_by().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getAttachmentName() == null) ? 0 : getAttachmentName().hashCode());
+        result = prime * result + ((getAttachmentUrl() == null) ? 0 : getAttachmentUrl().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getInsertBy() == null) ? 0 : getInsertBy().hashCode());
         return result;
     }
 }

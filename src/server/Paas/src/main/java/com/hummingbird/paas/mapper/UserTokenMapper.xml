@@ -3,11 +3,11 @@
 <mapper namespace="com.hummingbird.paas.mapper.UserTokenMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.UserToken" >
     <id column="token" property="token" jdbcType="VARCHAR" />
-    <result column="userId" property="userId" jdbcType="BIGINT" />
-    <result column="expireIn" property="expireIn" jdbcType="INTEGER" />
-    <result column="appId" property="appId" jdbcType="VARCHAR" />
-    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
-    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userid" jdbcType="BIGINT" />
+    <result column="expireIn" property="expirein" jdbcType="INTEGER" />
+    <result column="appId" property="appid" jdbcType="VARCHAR" />
+    <result column="insertTime" property="inserttime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     token, userId, expireIn, appId, insertTime, updateTime
@@ -26,8 +26,8 @@
     insert into t_user_token (token, userId, expireIn, 
       appId, insertTime, updateTime
       )
-    values (#{token,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{expireIn,jdbcType=INTEGER}, 
-      #{appId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+    values (#{token,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT}, #{expirein,jdbcType=INTEGER}, 
+      #{appid,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserToken" >
@@ -36,19 +36,19 @@
       <if test="token != null" >
         token,
       </if>
-      <if test="userId != null" >
+      <if test="userid != null" >
         userId,
       </if>
-      <if test="expireIn != null" >
+      <if test="expirein != null" >
         expireIn,
       </if>
-      <if test="appId != null" >
+      <if test="appid != null" >
         appId,
       </if>
-      <if test="insertTime != null" >
+      <if test="inserttime != null" >
         insertTime,
       </if>
-      <if test="updateTime != null" >
+      <if test="updatetime != null" >
         updateTime,
       </if>
     </trim>
@@ -56,51 +56,51 @@
       <if test="token != null" >
         #{token,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
       </if>
-      <if test="expireIn != null" >
-        #{expireIn,jdbcType=INTEGER},
+      <if test="expirein != null" >
+        #{expirein,jdbcType=INTEGER},
       </if>
-      <if test="appId != null" >
-        #{appId,jdbcType=VARCHAR},
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
       </if>
-      <if test="insertTime != null" >
-        #{insertTime,jdbcType=TIMESTAMP},
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserToken" >
     update t_user_token
     <set >
-      <if test="userId != null" >
-        userId = #{userId,jdbcType=BIGINT},
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=BIGINT},
       </if>
-      <if test="expireIn != null" >
-        expireIn = #{expireIn,jdbcType=INTEGER},
+      <if test="expirein != null" >
+        expireIn = #{expirein,jdbcType=INTEGER},
       </if>
-      <if test="appId != null" >
-        appId = #{appId,jdbcType=VARCHAR},
+      <if test="appid != null" >
+        appId = #{appid,jdbcType=VARCHAR},
       </if>
-      <if test="insertTime != null" >
-        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      <if test="inserttime != null" >
+        insertTime = #{inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where token = #{token,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserToken" >
     update t_user_token
-    set userId = #{userId,jdbcType=BIGINT},
-      expireIn = #{expireIn,jdbcType=INTEGER},
-      appId = #{appId,jdbcType=VARCHAR},
-      insertTime = #{insertTime,jdbcType=TIMESTAMP},
-      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    set userId = #{userid,jdbcType=BIGINT},
+      expireIn = #{expirein,jdbcType=INTEGER},
+      appId = #{appid,jdbcType=VARCHAR},
+      insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where token = #{token,jdbcType=VARCHAR}
   </update>
 </mapper>

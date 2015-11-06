@@ -3,14 +3,14 @@
 <mapper namespace="com.hummingbird.paas.mapper.CertificateAuditHistoryMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.CertificateAuditHistory" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="company_type" property="company_type" jdbcType="VARCHAR" />
-    <result column="company_id" property="company_id" jdbcType="INTEGER" />
-    <result column="apply_time" property="apply_time" jdbcType="TIMESTAMP" />
-    <result column="audit_time" property="audit_time" jdbcType="TIMESTAMP" />
-    <result column="audit_status" property="audit_status" jdbcType="VARCHAR" />
+    <result column="company_type" property="companyType" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="VARCHAR" />
-    <result column="apply_desc" property="apply_desc" jdbcType="VARCHAR" />
-    <result column="audit_desc" property="audit_desc" jdbcType="VARCHAR" />
+    <result column="apply_desc" property="applyDesc" jdbcType="VARCHAR" />
+    <result column="audit_desc" property="auditDesc" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, company_type, company_id, apply_time, audit_time, audit_status, auditor, apply_desc, 
@@ -31,9 +31,9 @@
       apply_time, audit_time, audit_status, 
       auditor, apply_desc, audit_desc
       )
-    values (#{id,jdbcType=INTEGER}, #{company_type,jdbcType=VARCHAR}, #{company_id,jdbcType=INTEGER}, 
-      #{apply_time,jdbcType=TIMESTAMP}, #{audit_time,jdbcType=TIMESTAMP}, #{audit_status,jdbcType=VARCHAR}, 
-      #{auditor,jdbcType=VARCHAR}, #{apply_desc,jdbcType=VARCHAR}, #{audit_desc,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{companyType,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, 
+      #{applyTime,jdbcType=TIMESTAMP}, #{auditTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{auditor,jdbcType=VARCHAR}, #{applyDesc,jdbcType=VARCHAR}, #{auditDesc,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.CertificateAuditHistory" >
@@ -42,28 +42,28 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="company_type != null" >
+      <if test="companyType != null" >
         company_type,
       </if>
-      <if test="company_id != null" >
+      <if test="companyId != null" >
         company_id,
       </if>
-      <if test="apply_time != null" >
+      <if test="applyTime != null" >
         apply_time,
       </if>
-      <if test="audit_time != null" >
+      <if test="auditTime != null" >
         audit_time,
       </if>
-      <if test="audit_status != null" >
+      <if test="auditStatus != null" >
         audit_status,
       </if>
       <if test="auditor != null" >
         auditor,
       </if>
-      <if test="apply_desc != null" >
+      <if test="applyDesc != null" >
         apply_desc,
       </if>
-      <if test="audit_desc != null" >
+      <if test="auditDesc != null" >
         audit_desc,
       </if>
     </trim>
@@ -71,72 +71,72 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="company_type != null" >
-        #{company_type,jdbcType=VARCHAR},
+      <if test="companyType != null" >
+        #{companyType,jdbcType=VARCHAR},
       </if>
-      <if test="company_id != null" >
-        #{company_id,jdbcType=INTEGER},
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="apply_time != null" >
-        #{apply_time,jdbcType=TIMESTAMP},
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_time != null" >
-        #{audit_time,jdbcType=TIMESTAMP},
+      <if test="auditTime != null" >
+        #{auditTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_status != null" >
-        #{audit_status,jdbcType=VARCHAR},
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=VARCHAR},
       </if>
-      <if test="apply_desc != null" >
-        #{apply_desc,jdbcType=VARCHAR},
+      <if test="applyDesc != null" >
+        #{applyDesc,jdbcType=VARCHAR},
       </if>
-      <if test="audit_desc != null" >
-        #{audit_desc,jdbcType=VARCHAR},
+      <if test="auditDesc != null" >
+        #{auditDesc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.CertificateAuditHistory" >
     update t_qyzz_certificate_audit_history
     <set >
-      <if test="company_type != null" >
-        company_type = #{company_type,jdbcType=VARCHAR},
+      <if test="companyType != null" >
+        company_type = #{companyType,jdbcType=VARCHAR},
       </if>
-      <if test="company_id != null" >
-        company_id = #{company_id,jdbcType=INTEGER},
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="apply_time != null" >
-        apply_time = #{apply_time,jdbcType=TIMESTAMP},
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_time != null" >
-        audit_time = #{audit_time,jdbcType=TIMESTAMP},
+      <if test="auditTime != null" >
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_status != null" >
-        audit_status = #{audit_status,jdbcType=VARCHAR},
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=VARCHAR},
       </if>
-      <if test="apply_desc != null" >
-        apply_desc = #{apply_desc,jdbcType=VARCHAR},
+      <if test="applyDesc != null" >
+        apply_desc = #{applyDesc,jdbcType=VARCHAR},
       </if>
-      <if test="audit_desc != null" >
-        audit_desc = #{audit_desc,jdbcType=VARCHAR},
+      <if test="auditDesc != null" >
+        audit_desc = #{auditDesc,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.CertificateAuditHistory" >
     update t_qyzz_certificate_audit_history
-    set company_type = #{company_type,jdbcType=VARCHAR},
-      company_id = #{company_id,jdbcType=INTEGER},
-      apply_time = #{apply_time,jdbcType=TIMESTAMP},
-      audit_time = #{audit_time,jdbcType=TIMESTAMP},
-      audit_status = #{audit_status,jdbcType=VARCHAR},
+    set company_type = #{companyType,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=INTEGER},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
       auditor = #{auditor,jdbcType=VARCHAR},
-      apply_desc = #{apply_desc,jdbcType=VARCHAR},
-      audit_desc = #{audit_desc,jdbcType=VARCHAR}
+      apply_desc = #{applyDesc,jdbcType=VARCHAR},
+      audit_desc = #{auditDesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

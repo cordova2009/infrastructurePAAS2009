@@ -14,27 +14,27 @@ public class CertificateAuditHistory {
     /**
      * 认证招投标类型，TER发包商，BIR承包商
      */
-    private String company_type;
+    private String companyType;
 
     /**
      * 认证提出方id
      */
-    private Integer company_id;
+    private Integer companyId;
 
     /**
      * 认证提出时间
      */
-    private Date apply_time;
+    private Date applyTime;
 
     /**
      * 认证审核时间
      */
-    private Date audit_time;
+    private Date auditTime;
 
     /**
      * 认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String audit_status;
+    private String auditStatus;
 
     /**
      * 认证审核人
@@ -44,12 +44,12 @@ public class CertificateAuditHistory {
     /**
      * 认证申请摘要
      */
-    private String apply_desc;
+    private String applyDesc;
 
     /**
      * 认证审核结果备注
      */
-    private String audit_desc;
+    private String auditDesc;
 
     /**
      * @return id
@@ -69,76 +69,76 @@ public class CertificateAuditHistory {
     /**
      * @return 认证招投标类型，TER发包商，BIR承包商
      */
-    public String getCompany_type() {
-        return company_type;
+    public String getCompanyType() {
+        return companyType;
     }
 
     /**
      * @param companyType 
 	 *            认证招投标类型，TER发包商，BIR承包商
      */
-    public void setCompany_type(String company_type) {
-        this.company_type = company_type == null ? null : company_type.trim();
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType == null ? null : companyType.trim();
     }
 
     /**
      * @return 认证提出方id
      */
-    public Integer getCompany_id() {
-        return company_id;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
     /**
      * @param companyId 
 	 *            认证提出方id
      */
-    public void setCompany_id(Integer company_id) {
-        this.company_id = company_id;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     /**
      * @return 认证提出时间
      */
-    public Date getApply_time() {
-        return apply_time;
+    public Date getApplyTime() {
+        return applyTime;
     }
 
     /**
      * @param applyTime 
 	 *            认证提出时间
      */
-    public void setApply_time(Date apply_time) {
-        this.apply_time = apply_time;
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
     }
 
     /**
      * @return 认证审核时间
      */
-    public Date getAudit_time() {
-        return audit_time;
+    public Date getAuditTime() {
+        return auditTime;
     }
 
     /**
      * @param auditTime 
 	 *            认证审核时间
      */
-    public void setAudit_time(Date audit_time) {
-        this.audit_time = audit_time;
+    public void setAuditTime(Date auditTime) {
+        this.auditTime = auditTime;
     }
 
     /**
      * @return 认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getAudit_status() {
-        return audit_status;
+    public String getAuditStatus() {
+        return auditStatus;
     }
 
     /**
      * @param auditStatus 
 	 *            认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setAudit_status(String audit_status) {
-        this.audit_status = audit_status == null ? null : audit_status.trim();
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus == null ? null : auditStatus.trim();
     }
 
     /**
@@ -159,31 +159,31 @@ public class CertificateAuditHistory {
     /**
      * @return 认证申请摘要
      */
-    public String getApply_desc() {
-        return apply_desc;
+    public String getApplyDesc() {
+        return applyDesc;
     }
 
     /**
      * @param applyDesc 
 	 *            认证申请摘要
      */
-    public void setApply_desc(String apply_desc) {
-        this.apply_desc = apply_desc == null ? null : apply_desc.trim();
+    public void setApplyDesc(String applyDesc) {
+        this.applyDesc = applyDesc == null ? null : applyDesc.trim();
     }
 
     /**
      * @return 认证审核结果备注
      */
-    public String getAudit_desc() {
-        return audit_desc;
+    public String getAuditDesc() {
+        return auditDesc;
     }
 
     /**
      * @param auditDesc 
 	 *            认证审核结果备注
      */
-    public void setAudit_desc(String audit_desc) {
-        this.audit_desc = audit_desc == null ? null : audit_desc.trim();
+    public void setAuditDesc(String auditDesc) {
+        this.auditDesc = auditDesc == null ? null : auditDesc.trim();
     }
 
     @Override
@@ -199,14 +199,14 @@ public class CertificateAuditHistory {
         }
         CertificateAuditHistory other = (CertificateAuditHistory) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getCompany_type() == null ? other.getCompany_type() == null : this.getCompany_type().equals(other.getCompany_type()))
-            && (this.getCompany_id() == null ? other.getCompany_id() == null : this.getCompany_id().equals(other.getCompany_id()))
-            && (this.getApply_time() == null ? other.getApply_time() == null : this.getApply_time().equals(other.getApply_time()))
-            && (this.getAudit_time() == null ? other.getAudit_time() == null : this.getAudit_time().equals(other.getAudit_time()))
-            && (this.getAudit_status() == null ? other.getAudit_status() == null : this.getAudit_status().equals(other.getAudit_status()))
+            && (this.getCompanyType() == null ? other.getCompanyType() == null : this.getCompanyType().equals(other.getCompanyType()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getApplyTime() == null ? other.getApplyTime() == null : this.getApplyTime().equals(other.getApplyTime()))
+            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
             && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()))
-            && (this.getApply_desc() == null ? other.getApply_desc() == null : this.getApply_desc().equals(other.getApply_desc()))
-            && (this.getAudit_desc() == null ? other.getAudit_desc() == null : this.getAudit_desc().equals(other.getAudit_desc()));
+            && (this.getApplyDesc() == null ? other.getApplyDesc() == null : this.getApplyDesc().equals(other.getApplyDesc()))
+            && (this.getAuditDesc() == null ? other.getAuditDesc() == null : this.getAuditDesc().equals(other.getAuditDesc()));
     }
 
     @Override
@@ -214,14 +214,14 @@ public class CertificateAuditHistory {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getCompany_type() == null) ? 0 : getCompany_type().hashCode());
-        result = prime * result + ((getCompany_id() == null) ? 0 : getCompany_id().hashCode());
-        result = prime * result + ((getApply_time() == null) ? 0 : getApply_time().hashCode());
-        result = prime * result + ((getAudit_time() == null) ? 0 : getAudit_time().hashCode());
-        result = prime * result + ((getAudit_status() == null) ? 0 : getAudit_status().hashCode());
+        result = prime * result + ((getCompanyType() == null) ? 0 : getCompanyType().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getApplyTime() == null) ? 0 : getApplyTime().hashCode());
+        result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
         result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
-        result = prime * result + ((getApply_desc() == null) ? 0 : getApply_desc().hashCode());
-        result = prime * result + ((getAudit_desc() == null) ? 0 : getAudit_desc().hashCode());
+        result = prime * result + ((getApplyDesc() == null) ? 0 : getApplyDesc().hashCode());
+        result = prime * result + ((getAuditDesc() == null) ? 0 : getAuditDesc().hashCode());
         return result;
     }
 }

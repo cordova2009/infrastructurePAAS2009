@@ -3,14 +3,14 @@
 <mapper namespace="com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectEvaluationBidder" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="project_id" property="project_id" jdbcType="INTEGER" />
-    <result column="biddee_id" property="biddee_id" jdbcType="INTEGER" />
-    <result column="bidder_id" property="bidder_id" jdbcType="INTEGER" />
-    <result column="evaluation_content" property="evaluation_content" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
+    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="evaluation_content" property="evaluationContent" jdbcType="VARCHAR" />
     <result column="score" property="score" jdbcType="INTEGER" />
-    <result column="star_count" property="star_count" jdbcType="INTEGER" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="insert_by" property="insert_by" jdbcType="VARCHAR" />
+    <result column="star_count" property="starCount" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="insert_by" property="insertBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, project_id, biddee_id, bidder_id, evaluation_content, score, star_count, insert_time, 
@@ -31,9 +31,9 @@
       bidder_id, evaluation_content, score, 
       star_count, insert_time, insert_by
       )
-    values (#{id,jdbcType=INTEGER}, #{project_id,jdbcType=INTEGER}, #{biddee_id,jdbcType=INTEGER}, 
-      #{bidder_id,jdbcType=INTEGER}, #{evaluation_content,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
-      #{star_count,jdbcType=INTEGER}, #{insert_time,jdbcType=TIMESTAMP}, #{insert_by,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{biddeeId,jdbcType=INTEGER}, 
+      #{bidderId,jdbcType=INTEGER}, #{evaluationContent,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{starCount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectEvaluationBidder" >
@@ -42,28 +42,28 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="project_id != null" >
+      <if test="projectId != null" >
         project_id,
       </if>
-      <if test="biddee_id != null" >
+      <if test="biddeeId != null" >
         biddee_id,
       </if>
-      <if test="bidder_id != null" >
+      <if test="bidderId != null" >
         bidder_id,
       </if>
-      <if test="evaluation_content != null" >
+      <if test="evaluationContent != null" >
         evaluation_content,
       </if>
       <if test="score != null" >
         score,
       </if>
-      <if test="star_count != null" >
+      <if test="starCount != null" >
         star_count,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="insert_by != null" >
+      <if test="insertBy != null" >
         insert_by,
       </if>
     </trim>
@@ -71,72 +71,72 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="project_id != null" >
-        #{project_id,jdbcType=INTEGER},
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
       </if>
-      <if test="biddee_id != null" >
-        #{biddee_id,jdbcType=INTEGER},
+      <if test="biddeeId != null" >
+        #{biddeeId,jdbcType=INTEGER},
       </if>
-      <if test="bidder_id != null" >
-        #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="evaluation_content != null" >
-        #{evaluation_content,jdbcType=VARCHAR},
+      <if test="evaluationContent != null" >
+        #{evaluationContent,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
         #{score,jdbcType=INTEGER},
       </if>
-      <if test="star_count != null" >
-        #{star_count,jdbcType=INTEGER},
+      <if test="starCount != null" >
+        #{starCount,jdbcType=INTEGER},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="insert_by != null" >
-        #{insert_by,jdbcType=VARCHAR},
+      <if test="insertBy != null" >
+        #{insertBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectEvaluationBidder" >
     update t_gcgl_project_evaluation_bidder
     <set >
-      <if test="project_id != null" >
-        project_id = #{project_id,jdbcType=INTEGER},
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
       </if>
-      <if test="biddee_id != null" >
-        biddee_id = #{biddee_id,jdbcType=INTEGER},
+      <if test="biddeeId != null" >
+        biddee_id = #{biddeeId,jdbcType=INTEGER},
       </if>
-      <if test="bidder_id != null" >
-        bidder_id = #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        bidder_id = #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="evaluation_content != null" >
-        evaluation_content = #{evaluation_content,jdbcType=VARCHAR},
+      <if test="evaluationContent != null" >
+        evaluation_content = #{evaluationContent,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
         score = #{score,jdbcType=INTEGER},
       </if>
-      <if test="star_count != null" >
-        star_count = #{star_count,jdbcType=INTEGER},
+      <if test="starCount != null" >
+        star_count = #{starCount,jdbcType=INTEGER},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="insert_by != null" >
-        insert_by = #{insert_by,jdbcType=VARCHAR},
+      <if test="insertBy != null" >
+        insert_by = #{insertBy,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectEvaluationBidder" >
     update t_gcgl_project_evaluation_bidder
-    set project_id = #{project_id,jdbcType=INTEGER},
-      biddee_id = #{biddee_id,jdbcType=INTEGER},
-      bidder_id = #{bidder_id,jdbcType=INTEGER},
-      evaluation_content = #{evaluation_content,jdbcType=VARCHAR},
+    set project_id = #{projectId,jdbcType=INTEGER},
+      biddee_id = #{biddeeId,jdbcType=INTEGER},
+      bidder_id = #{bidderId,jdbcType=INTEGER},
+      evaluation_content = #{evaluationContent,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER},
-      star_count = #{star_count,jdbcType=INTEGER},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      insert_by = #{insert_by,jdbcType=VARCHAR}
+      star_count = #{starCount,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

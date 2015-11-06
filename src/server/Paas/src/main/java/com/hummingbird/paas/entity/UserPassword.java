@@ -7,7 +7,7 @@ public class UserPassword {
     /**
      * 用户id
      */
-    private Integer user_id;
+    private Integer userId;
 
     /**
      * 登录密码
@@ -17,21 +17,21 @@ public class UserPassword {
     /**
      * 交易密码
      */
-    private String trade_password;
+    private String tradePassword;
 
     /**
      * @return 用户id
      */
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * @param userId 
 	 *            用户id
      */
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -52,16 +52,16 @@ public class UserPassword {
     /**
      * @return 交易密码
      */
-    public String getTrade_password() {
-        return trade_password;
+    public String getTradePassword() {
+        return tradePassword;
     }
 
     /**
      * @param tradePassword 
 	 *            交易密码
      */
-    public void setTrade_password(String trade_password) {
-        this.trade_password = trade_password == null ? null : trade_password.trim();
+    public void setTradePassword(String tradePassword) {
+        this.tradePassword = tradePassword == null ? null : tradePassword.trim();
     }
 
     @Override
@@ -76,18 +76,18 @@ public class UserPassword {
             return false;
         }
         UserPassword other = (UserPassword) that;
-        return (this.getUser_id() == null ? other.getUser_id() == null : this.getUser_id().equals(other.getUser_id()))
+        return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getTrade_password() == null ? other.getTrade_password() == null : this.getTrade_password().equals(other.getTrade_password()));
+            && (this.getTradePassword() == null ? other.getTradePassword() == null : this.getTradePassword().equals(other.getTradePassword()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getUser_id() == null) ? 0 : getUser_id().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
-        result = prime * result + ((getTrade_password() == null) ? 0 : getTrade_password().hashCode());
+        result = prime * result + ((getTradePassword() == null) ? 0 : getTradePassword().hashCode());
         return result;
     }
 }

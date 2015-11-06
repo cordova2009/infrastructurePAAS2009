@@ -3,11 +3,11 @@
 <mapper namespace="com.hummingbird.paas.mapper.OrderProductMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.OrderProduct" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="product_name" property="product_name" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="product_category_id" property="product_category_id" jdbcType="INTEGER" />
+    <result column="product_category_id" property="productCategoryId" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="VARCHAR" />
-    <result column="product_description" property="product_description" jdbcType="VARCHAR" />
+    <result column="product_description" property="productDescription" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, product_name, status, product_category_id, price, product_description
@@ -26,8 +26,8 @@
     insert into t_ddgl_order_product (id, product_name, status, 
       product_category_id, price, product_description
       )
-    values (#{id,jdbcType=VARCHAR}, #{product_name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{product_category_id,jdbcType=INTEGER}, #{price,jdbcType=VARCHAR}, #{product_description,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{productCategoryId,jdbcType=INTEGER}, #{price,jdbcType=VARCHAR}, #{productDescription,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.OrderProduct" >
@@ -36,19 +36,19 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="product_name != null" >
+      <if test="productName != null" >
         product_name,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="product_category_id != null" >
+      <if test="productCategoryId != null" >
         product_category_id,
       </if>
       <if test="price != null" >
         price,
       </if>
-      <if test="product_description != null" >
+      <if test="productDescription != null" >
         product_description,
       </if>
     </trim>
@@ -56,51 +56,51 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="product_name != null" >
-        #{product_name,jdbcType=VARCHAR},
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="product_category_id != null" >
-        #{product_category_id,jdbcType=INTEGER},
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         #{price,jdbcType=VARCHAR},
       </if>
-      <if test="product_description != null" >
-        #{product_description,jdbcType=VARCHAR},
+      <if test="productDescription != null" >
+        #{productDescription,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.OrderProduct" >
     update t_ddgl_order_product
     <set >
-      <if test="product_name != null" >
-        product_name = #{product_name,jdbcType=VARCHAR},
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="product_category_id != null" >
-        product_category_id = #{product_category_id,jdbcType=INTEGER},
+      <if test="productCategoryId != null" >
+        product_category_id = #{productCategoryId,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=VARCHAR},
       </if>
-      <if test="product_description != null" >
-        product_description = #{product_description,jdbcType=VARCHAR},
+      <if test="productDescription != null" >
+        product_description = #{productDescription,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.OrderProduct" >
     update t_ddgl_order_product
-    set product_name = #{product_name,jdbcType=VARCHAR},
+    set product_name = #{productName,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      product_category_id = #{product_category_id,jdbcType=INTEGER},
+      product_category_id = #{productCategoryId,jdbcType=INTEGER},
       price = #{price,jdbcType=VARCHAR},
-      product_description = #{product_description,jdbcType=VARCHAR}
+      product_description = #{productDescription,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

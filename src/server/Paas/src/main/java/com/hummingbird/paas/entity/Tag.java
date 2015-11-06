@@ -14,12 +14,12 @@ public class Tag {
     /**
      * 标签分类
      */
-    private Integer type_id;
+    private Integer typeId;
 
     /**
      * 标签值
      */
-    private String tag_name;
+    private String tagName;
 
     /**
      * 状态，OK#正常，FLS停止
@@ -29,12 +29,12 @@ public class Tag {
     /**
      * 创建人
      */
-    private String create_by;
+    private String createBy;
 
     /**
      * 创建时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * @return id
@@ -54,31 +54,31 @@ public class Tag {
     /**
      * @return 标签分类
      */
-    public Integer getType_id() {
-        return type_id;
+    public Integer getTypeId() {
+        return typeId;
     }
 
     /**
      * @param typeId 
 	 *            标签分类
      */
-    public void setType_id(Integer type_id) {
-        this.type_id = type_id;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     /**
      * @return 标签值
      */
-    public String getTag_name() {
-        return tag_name;
+    public String getTagName() {
+        return tagName;
     }
 
     /**
      * @param tagName 
 	 *            标签值
      */
-    public void setTag_name(String tag_name) {
-        this.tag_name = tag_name == null ? null : tag_name.trim();
+    public void setTagName(String tagName) {
+        this.tagName = tagName == null ? null : tagName.trim();
     }
 
     /**
@@ -99,31 +99,31 @@ public class Tag {
     /**
      * @return 创建人
      */
-    public String getCreate_by() {
-        return create_by;
+    public String getCreateBy() {
+        return createBy;
     }
 
     /**
      * @param createBy 
 	 *            创建人
      */
-    public void setCreate_by(String create_by) {
-        this.create_by = create_by == null ? null : create_by.trim();
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
     }
 
     /**
      * @return 创建时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            创建时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     @Override
@@ -139,11 +139,11 @@ public class Tag {
         }
         Tag other = (Tag) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getType_id() == null ? other.getType_id() == null : this.getType_id().equals(other.getType_id()))
-            && (this.getTag_name() == null ? other.getTag_name() == null : this.getTag_name().equals(other.getTag_name()))
+            && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()))
+            && (this.getTagName() == null ? other.getTagName() == null : this.getTagName().equals(other.getTagName()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getCreate_by() == null ? other.getCreate_by() == null : this.getCreate_by().equals(other.getCreate_by()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()));
+            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()));
     }
 
     @Override
@@ -151,11 +151,11 @@ public class Tag {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getType_id() == null) ? 0 : getType_id().hashCode());
-        result = prime * result + ((getTag_name() == null) ? 0 : getTag_name().hashCode());
+        result = prime * result + ((getTypeId() == null) ? 0 : getTypeId().hashCode());
+        result = prime * result + ((getTagName() == null) ? 0 : getTagName().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getCreate_by() == null) ? 0 : getCreate_by().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
+        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         return result;
     }
 }

@@ -7,17 +7,17 @@ public class Subbank {
     /**
      * 支行id
      */
-    private String subbank_id;
+    private String subbankId;
 
     /**
      * 银行id
      */
-    private String bank_id;
+    private String bankId;
 
     /**
      * 支行名称
      */
-    private String subbank_name;
+    private String subbankName;
 
     /**
      * 省份,由区域表id表示
@@ -37,46 +37,46 @@ public class Subbank {
     /**
      * @return 支行id
      */
-    public String getSubbank_id() {
-        return subbank_id;
+    public String getSubbankId() {
+        return subbankId;
     }
 
     /**
      * @param subbankId 
 	 *            支行id
      */
-    public void setSubbank_id(String subbank_id) {
-        this.subbank_id = subbank_id == null ? null : subbank_id.trim();
+    public void setSubbankId(String subbankId) {
+        this.subbankId = subbankId == null ? null : subbankId.trim();
     }
 
     /**
      * @return 银行id
      */
-    public String getBank_id() {
-        return bank_id;
+    public String getBankId() {
+        return bankId;
     }
 
     /**
      * @param bankId 
 	 *            银行id
      */
-    public void setBank_id(String bank_id) {
-        this.bank_id = bank_id == null ? null : bank_id.trim();
+    public void setBankId(String bankId) {
+        this.bankId = bankId == null ? null : bankId.trim();
     }
 
     /**
      * @return 支行名称
      */
-    public String getSubbank_name() {
-        return subbank_name;
+    public String getSubbankName() {
+        return subbankName;
     }
 
     /**
      * @param subbankName 
 	 *            支行名称
      */
-    public void setSubbank_name(String subbank_name) {
-        this.subbank_name = subbank_name == null ? null : subbank_name.trim();
+    public void setSubbankName(String subbankName) {
+        this.subbankName = subbankName == null ? null : subbankName.trim();
     }
 
     /**
@@ -136,9 +136,9 @@ public class Subbank {
             return false;
         }
         Subbank other = (Subbank) that;
-        return (this.getSubbank_id() == null ? other.getSubbank_id() == null : this.getSubbank_id().equals(other.getSubbank_id()))
-            && (this.getBank_id() == null ? other.getBank_id() == null : this.getBank_id().equals(other.getBank_id()))
-            && (this.getSubbank_name() == null ? other.getSubbank_name() == null : this.getSubbank_name().equals(other.getSubbank_name()))
+        return (this.getSubbankId() == null ? other.getSubbankId() == null : this.getSubbankId().equals(other.getSubbankId()))
+            && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()))
+            && (this.getSubbankName() == null ? other.getSubbankName() == null : this.getSubbankName().equals(other.getSubbankName()))
             && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
@@ -148,9 +148,9 @@ public class Subbank {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getSubbank_id() == null) ? 0 : getSubbank_id().hashCode());
-        result = prime * result + ((getBank_id() == null) ? 0 : getBank_id().hashCode());
-        result = prime * result + ((getSubbank_name() == null) ? 0 : getSubbank_name().hashCode());
+        result = prime * result + ((getSubbankId() == null) ? 0 : getSubbankId().hashCode());
+        result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
+        result = prime * result + ((getSubbankName() == null) ? 0 : getSubbankName().hashCode());
         result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());

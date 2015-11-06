@@ -3,38 +3,38 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidRecordMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidRecord" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="bidder_id" property="bidder_id" jdbcType="INTEGER" />
-    <result column="bid_amount" property="bid_amount" jdbcType="INTEGER" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="bid_amount" property="bidAmount" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="audit_time" property="audit_time" jdbcType="TIMESTAMP" />
-    <result column="audit_status" property="audit_status" jdbcType="VARCHAR" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="INTEGER" />
-    <result column="bid_status" property="bid_status" jdbcType="VARCHAR" />
-    <result column="project_start_time" property="project_start_time" jdbcType="DATE" />
-    <result column="project_description" property="project_description" jdbcType="VARCHAR" />
-    <result column="project_end_time" property="project_end_time" jdbcType="DATE" />
-    <result column="pm_certification_No" property="pm_certification_No" jdbcType="VARCHAR" />
-    <result column="constructor_certification_No" property="constructor_certification_No" jdbcType="VARCHAR" />
-    <result column="safety_permit_No" property="safety_permit_No" jdbcType="VARCHAR" />
-    <result column="pm_safety_certification_No" property="pm_safety_certification_No" jdbcType="VARCHAR" />
-    <result column="pm_certification_url" property="pm_certification_url" jdbcType="VARCHAR" />
-    <result column="constructor_certification_url" property="constructor_certification_url" jdbcType="VARCHAR" />
-    <result column="safety_permit_url" property="safety_permit_url" jdbcType="VARCHAR" />
-    <result column="pm_safety_certification_url" property="pm_safety_certification_url" jdbcType="VARCHAR" />
-    <result column="pm_certification_endtime" property="pm_certification_endtime" jdbcType="DATE" />
-    <result column="constructor_certification_endtime" property="constructor_certification_endtime" jdbcType="DATE" />
-    <result column="safety_permit_endtime" property="safety_permit_endtime" jdbcType="DATE" />
-    <result column="pm_safety_certification_endtime" property="pm_safety_certification_endtime" jdbcType="DATE" />
-    <result column="bank_guarantee_No" property="bank_guarantee_No" jdbcType="VARCHAR" />
-    <result column="bank_guarantee_url" property="bank_guarantee_url" jdbcType="VARCHAR" />
-    <result column="bank_guarantee_amount" property="bank_guarantee_amount" jdbcType="INTEGER" />
-    <result column="project_quotation_url" property="project_quotation_url" jdbcType="VARCHAR" />
-    <result column="construction_commitment_url" property="construction_commitment_url" jdbcType="VARCHAR" />
-    <result column="construction_end_date" property="construction_end_date" jdbcType="VARCHAR" />
-    <result column="construction_start_date" property="construction_start_date" jdbcType="VARCHAR" />
-    <result column="technical_standard_url" property="technical_standard_url" jdbcType="VARCHAR" />
+    <result column="bid_status" property="bidStatus" jdbcType="VARCHAR" />
+    <result column="project_start_time" property="projectStartTime" jdbcType="DATE" />
+    <result column="project_description" property="projectDescription" jdbcType="VARCHAR" />
+    <result column="project_end_time" property="projectEndTime" jdbcType="DATE" />
+    <result column="pm_certification_No" property="pmCertificationNo" jdbcType="VARCHAR" />
+    <result column="constructor_certification_No" property="constructorCertificationNo" jdbcType="VARCHAR" />
+    <result column="safety_permit_No" property="safetyPermitNo" jdbcType="VARCHAR" />
+    <result column="pm_safety_certification_No" property="pmSafetyCertificationNo" jdbcType="VARCHAR" />
+    <result column="pm_certification_url" property="pmCertificationUrl" jdbcType="VARCHAR" />
+    <result column="constructor_certification_url" property="constructorCertificationUrl" jdbcType="VARCHAR" />
+    <result column="safety_permit_url" property="safetyPermitUrl" jdbcType="VARCHAR" />
+    <result column="pm_safety_certification_url" property="pmSafetyCertificationUrl" jdbcType="VARCHAR" />
+    <result column="pm_certification_endtime" property="pmCertificationEndtime" jdbcType="DATE" />
+    <result column="constructor_certification_endtime" property="constructorCertificationEndtime" jdbcType="DATE" />
+    <result column="safety_permit_endtime" property="safetyPermitEndtime" jdbcType="DATE" />
+    <result column="pm_safety_certification_endtime" property="pmSafetyCertificationEndtime" jdbcType="DATE" />
+    <result column="bank_guarantee_No" property="bankGuaranteeNo" jdbcType="VARCHAR" />
+    <result column="bank_guarantee_url" property="bankGuaranteeUrl" jdbcType="VARCHAR" />
+    <result column="bank_guarantee_amount" property="bankGuaranteeAmount" jdbcType="INTEGER" />
+    <result column="project_quotation_url" property="projectQuotationUrl" jdbcType="VARCHAR" />
+    <result column="construction_commitment_url" property="constructionCommitmentUrl" jdbcType="VARCHAR" />
+    <result column="construction_end_date" property="constructionEndDate" jdbcType="VARCHAR" />
+    <result column="construction_start_date" property="constructionStartDate" jdbcType="VARCHAR" />
+    <result column="technical_standard_url" property="technicalStandardUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, bidder_id, bid_amount, insert_time, status, audit_time, audit_status, 
@@ -66,26 +66,24 @@
       safety_permit_url, pm_safety_certification_url, 
       pm_certification_endtime, constructor_certification_endtime, 
       safety_permit_endtime, pm_safety_certification_endtime, 
-      bank_guarantee_No, bank_guarantee_url, 
-      bank_guarantee_amount, project_quotation_url, 
-      construction_commitment_url, construction_end_date, 
-      construction_start_date, technical_standard_url
-      )
-    values (#{id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}, #{bidder_id,jdbcType=INTEGER}, 
-      #{bid_amount,jdbcType=INTEGER}, #{insert_time,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
-      #{audit_time,jdbcType=TIMESTAMP}, #{audit_status,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER}, 
-      #{bid_status,jdbcType=VARCHAR}, #{project_start_time,jdbcType=DATE}, #{project_description,jdbcType=VARCHAR}, 
-      #{project_end_time,jdbcType=DATE}, #{pm_certification_No,jdbcType=VARCHAR}, #{constructor_certification_No,jdbcType=VARCHAR}, 
-      #{safety_permit_No,jdbcType=VARCHAR}, #{pm_safety_certification_No,jdbcType=VARCHAR}, 
-      #{pm_certification_url,jdbcType=VARCHAR}, #{constructor_certification_url,jdbcType=VARCHAR}, 
-      #{safety_permit_url,jdbcType=VARCHAR}, #{pm_safety_certification_url,jdbcType=VARCHAR}, 
-      #{pm_certification_endtime,jdbcType=DATE}, #{constructor_certification_endtime,jdbcType=DATE}, 
-      #{safety_permit_endtime,jdbcType=DATE}, #{pm_safety_certification_endtime,jdbcType=DATE}, 
-      #{bank_guarantee_No,jdbcType=VARCHAR}, #{bank_guarantee_url,jdbcType=VARCHAR}, 
-      #{bank_guarantee_amount,jdbcType=INTEGER}, #{project_quotation_url,jdbcType=VARCHAR}, 
-      #{construction_commitment_url,jdbcType=VARCHAR}, #{construction_end_date,jdbcType=VARCHAR}, 
-      #{construction_start_date,jdbcType=VARCHAR}, #{technical_standard_url,jdbcType=VARCHAR}
-      )
+      bank_guarantee_No, bank_guarantee_url, bank_guarantee_amount, 
+      project_quotation_url, construction_commitment_url, 
+      construction_end_date, construction_start_date, 
+      technical_standard_url)
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{bidderId,jdbcType=INTEGER}, 
+      #{bidAmount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{auditTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER}, 
+      #{bidStatus,jdbcType=VARCHAR}, #{projectStartTime,jdbcType=DATE}, #{projectDescription,jdbcType=VARCHAR}, 
+      #{projectEndTime,jdbcType=DATE}, #{pmCertificationNo,jdbcType=VARCHAR}, #{constructorCertificationNo,jdbcType=VARCHAR}, 
+      #{safetyPermitNo,jdbcType=VARCHAR}, #{pmSafetyCertificationNo,jdbcType=VARCHAR}, 
+      #{pmCertificationUrl,jdbcType=VARCHAR}, #{constructorCertificationUrl,jdbcType=VARCHAR}, 
+      #{safetyPermitUrl,jdbcType=VARCHAR}, #{pmSafetyCertificationUrl,jdbcType=VARCHAR}, 
+      #{pmCertificationEndtime,jdbcType=DATE}, #{constructorCertificationEndtime,jdbcType=DATE}, 
+      #{safetyPermitEndtime,jdbcType=DATE}, #{pmSafetyCertificationEndtime,jdbcType=DATE}, 
+      #{bankGuaranteeNo,jdbcType=VARCHAR}, #{bankGuaranteeUrl,jdbcType=VARCHAR}, #{bankGuaranteeAmount,jdbcType=INTEGER}, 
+      #{projectQuotationUrl,jdbcType=VARCHAR}, #{constructionCommitmentUrl,jdbcType=VARCHAR}, 
+      #{constructionEndDate,jdbcType=VARCHAR}, #{constructionStartDate,jdbcType=VARCHAR}, 
+      #{technicalStandardUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidRecord" >
     insert into t_ztgl_bid_record
@@ -93,100 +91,100 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="bidder_id != null" >
+      <if test="bidderId != null" >
         bidder_id,
       </if>
-      <if test="bid_amount != null" >
+      <if test="bidAmount != null" >
         bid_amount,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="audit_time != null" >
+      <if test="auditTime != null" >
         audit_time,
       </if>
-      <if test="audit_status != null" >
+      <if test="auditStatus != null" >
         audit_status,
       </if>
       <if test="auditor != null" >
         auditor,
       </if>
-      <if test="bid_status != null" >
+      <if test="bidStatus != null" >
         bid_status,
       </if>
-      <if test="project_start_time != null" >
+      <if test="projectStartTime != null" >
         project_start_time,
       </if>
-      <if test="project_description != null" >
+      <if test="projectDescription != null" >
         project_description,
       </if>
-      <if test="project_end_time != null" >
+      <if test="projectEndTime != null" >
         project_end_time,
       </if>
-      <if test="pm_certification_No != null" >
+      <if test="pmCertificationNo != null" >
         pm_certification_No,
       </if>
-      <if test="constructor_certification_No != null" >
+      <if test="constructorCertificationNo != null" >
         constructor_certification_No,
       </if>
-      <if test="safety_permit_No != null" >
+      <if test="safetyPermitNo != null" >
         safety_permit_No,
       </if>
-      <if test="pm_safety_certification_No != null" >
+      <if test="pmSafetyCertificationNo != null" >
         pm_safety_certification_No,
       </if>
-      <if test="pm_certification_url != null" >
+      <if test="pmCertificationUrl != null" >
         pm_certification_url,
       </if>
-      <if test="constructor_certification_url != null" >
+      <if test="constructorCertificationUrl != null" >
         constructor_certification_url,
       </if>
-      <if test="safety_permit_url != null" >
+      <if test="safetyPermitUrl != null" >
         safety_permit_url,
       </if>
-      <if test="pm_safety_certification_url != null" >
+      <if test="pmSafetyCertificationUrl != null" >
         pm_safety_certification_url,
       </if>
-      <if test="pm_certification_endtime != null" >
+      <if test="pmCertificationEndtime != null" >
         pm_certification_endtime,
       </if>
-      <if test="constructor_certification_endtime != null" >
+      <if test="constructorCertificationEndtime != null" >
         constructor_certification_endtime,
       </if>
-      <if test="safety_permit_endtime != null" >
+      <if test="safetyPermitEndtime != null" >
         safety_permit_endtime,
       </if>
-      <if test="pm_safety_certification_endtime != null" >
+      <if test="pmSafetyCertificationEndtime != null" >
         pm_safety_certification_endtime,
       </if>
-      <if test="bank_guarantee_No != null" >
+      <if test="bankGuaranteeNo != null" >
         bank_guarantee_No,
       </if>
-      <if test="bank_guarantee_url != null" >
+      <if test="bankGuaranteeUrl != null" >
         bank_guarantee_url,
       </if>
-      <if test="bank_guarantee_amount != null" >
+      <if test="bankGuaranteeAmount != null" >
         bank_guarantee_amount,
       </if>
-      <if test="project_quotation_url != null" >
+      <if test="projectQuotationUrl != null" >
         project_quotation_url,
       </if>
-      <if test="construction_commitment_url != null" >
+      <if test="constructionCommitmentUrl != null" >
         construction_commitment_url,
       </if>
-      <if test="construction_end_date != null" >
+      <if test="constructionEndDate != null" >
         construction_end_date,
       </if>
-      <if test="construction_start_date != null" >
+      <if test="constructionStartDate != null" >
         construction_start_date,
       </if>
-      <if test="technical_standard_url != null" >
+      <if test="technicalStandardUrl != null" >
         technical_standard_url,
       </if>
     </trim>
@@ -194,240 +192,240 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="bidder_id != null" >
-        #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="bid_amount != null" >
-        #{bid_amount,jdbcType=INTEGER},
+      <if test="bidAmount != null" >
+        #{bidAmount,jdbcType=INTEGER},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="audit_time != null" >
-        #{audit_time,jdbcType=TIMESTAMP},
+      <if test="auditTime != null" >
+        #{auditTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_status != null" >
-        #{audit_status,jdbcType=VARCHAR},
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=INTEGER},
       </if>
-      <if test="bid_status != null" >
-        #{bid_status,jdbcType=VARCHAR},
+      <if test="bidStatus != null" >
+        #{bidStatus,jdbcType=VARCHAR},
       </if>
-      <if test="project_start_time != null" >
-        #{project_start_time,jdbcType=DATE},
+      <if test="projectStartTime != null" >
+        #{projectStartTime,jdbcType=DATE},
       </if>
-      <if test="project_description != null" >
-        #{project_description,jdbcType=VARCHAR},
+      <if test="projectDescription != null" >
+        #{projectDescription,jdbcType=VARCHAR},
       </if>
-      <if test="project_end_time != null" >
-        #{project_end_time,jdbcType=DATE},
+      <if test="projectEndTime != null" >
+        #{projectEndTime,jdbcType=DATE},
       </if>
-      <if test="pm_certification_No != null" >
-        #{pm_certification_No,jdbcType=VARCHAR},
+      <if test="pmCertificationNo != null" >
+        #{pmCertificationNo,jdbcType=VARCHAR},
       </if>
-      <if test="constructor_certification_No != null" >
-        #{constructor_certification_No,jdbcType=VARCHAR},
+      <if test="constructorCertificationNo != null" >
+        #{constructorCertificationNo,jdbcType=VARCHAR},
       </if>
-      <if test="safety_permit_No != null" >
-        #{safety_permit_No,jdbcType=VARCHAR},
+      <if test="safetyPermitNo != null" >
+        #{safetyPermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="pm_safety_certification_No != null" >
-        #{pm_safety_certification_No,jdbcType=VARCHAR},
+      <if test="pmSafetyCertificationNo != null" >
+        #{pmSafetyCertificationNo,jdbcType=VARCHAR},
       </if>
-      <if test="pm_certification_url != null" >
-        #{pm_certification_url,jdbcType=VARCHAR},
+      <if test="pmCertificationUrl != null" >
+        #{pmCertificationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="constructor_certification_url != null" >
-        #{constructor_certification_url,jdbcType=VARCHAR},
+      <if test="constructorCertificationUrl != null" >
+        #{constructorCertificationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="safety_permit_url != null" >
-        #{safety_permit_url,jdbcType=VARCHAR},
+      <if test="safetyPermitUrl != null" >
+        #{safetyPermitUrl,jdbcType=VARCHAR},
       </if>
-      <if test="pm_safety_certification_url != null" >
-        #{pm_safety_certification_url,jdbcType=VARCHAR},
+      <if test="pmSafetyCertificationUrl != null" >
+        #{pmSafetyCertificationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="pm_certification_endtime != null" >
-        #{pm_certification_endtime,jdbcType=DATE},
+      <if test="pmCertificationEndtime != null" >
+        #{pmCertificationEndtime,jdbcType=DATE},
       </if>
-      <if test="constructor_certification_endtime != null" >
-        #{constructor_certification_endtime,jdbcType=DATE},
+      <if test="constructorCertificationEndtime != null" >
+        #{constructorCertificationEndtime,jdbcType=DATE},
       </if>
-      <if test="safety_permit_endtime != null" >
-        #{safety_permit_endtime,jdbcType=DATE},
+      <if test="safetyPermitEndtime != null" >
+        #{safetyPermitEndtime,jdbcType=DATE},
       </if>
-      <if test="pm_safety_certification_endtime != null" >
-        #{pm_safety_certification_endtime,jdbcType=DATE},
+      <if test="pmSafetyCertificationEndtime != null" >
+        #{pmSafetyCertificationEndtime,jdbcType=DATE},
       </if>
-      <if test="bank_guarantee_No != null" >
-        #{bank_guarantee_No,jdbcType=VARCHAR},
+      <if test="bankGuaranteeNo != null" >
+        #{bankGuaranteeNo,jdbcType=VARCHAR},
       </if>
-      <if test="bank_guarantee_url != null" >
-        #{bank_guarantee_url,jdbcType=VARCHAR},
+      <if test="bankGuaranteeUrl != null" >
+        #{bankGuaranteeUrl,jdbcType=VARCHAR},
       </if>
-      <if test="bank_guarantee_amount != null" >
-        #{bank_guarantee_amount,jdbcType=INTEGER},
+      <if test="bankGuaranteeAmount != null" >
+        #{bankGuaranteeAmount,jdbcType=INTEGER},
       </if>
-      <if test="project_quotation_url != null" >
-        #{project_quotation_url,jdbcType=VARCHAR},
+      <if test="projectQuotationUrl != null" >
+        #{projectQuotationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_commitment_url != null" >
-        #{construction_commitment_url,jdbcType=VARCHAR},
+      <if test="constructionCommitmentUrl != null" >
+        #{constructionCommitmentUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_end_date != null" >
-        #{construction_end_date,jdbcType=VARCHAR},
+      <if test="constructionEndDate != null" >
+        #{constructionEndDate,jdbcType=VARCHAR},
       </if>
-      <if test="construction_start_date != null" >
-        #{construction_start_date,jdbcType=VARCHAR},
+      <if test="constructionStartDate != null" >
+        #{constructionStartDate,jdbcType=VARCHAR},
       </if>
-      <if test="technical_standard_url != null" >
-        #{technical_standard_url,jdbcType=VARCHAR},
+      <if test="technicalStandardUrl != null" >
+        #{technicalStandardUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidRecord" >
     update t_ztgl_bid_record
     <set >
-      <if test="object_id != null" >
-        object_id = #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="bidder_id != null" >
-        bidder_id = #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        bidder_id = #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="bid_amount != null" >
-        bid_amount = #{bid_amount,jdbcType=INTEGER},
+      <if test="bidAmount != null" >
+        bid_amount = #{bidAmount,jdbcType=INTEGER},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="audit_time != null" >
-        audit_time = #{audit_time,jdbcType=TIMESTAMP},
+      <if test="auditTime != null" >
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="audit_status != null" >
-        audit_status = #{audit_status,jdbcType=VARCHAR},
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=INTEGER},
       </if>
-      <if test="bid_status != null" >
-        bid_status = #{bid_status,jdbcType=VARCHAR},
+      <if test="bidStatus != null" >
+        bid_status = #{bidStatus,jdbcType=VARCHAR},
       </if>
-      <if test="project_start_time != null" >
-        project_start_time = #{project_start_time,jdbcType=DATE},
+      <if test="projectStartTime != null" >
+        project_start_time = #{projectStartTime,jdbcType=DATE},
       </if>
-      <if test="project_description != null" >
-        project_description = #{project_description,jdbcType=VARCHAR},
+      <if test="projectDescription != null" >
+        project_description = #{projectDescription,jdbcType=VARCHAR},
       </if>
-      <if test="project_end_time != null" >
-        project_end_time = #{project_end_time,jdbcType=DATE},
+      <if test="projectEndTime != null" >
+        project_end_time = #{projectEndTime,jdbcType=DATE},
       </if>
-      <if test="pm_certification_No != null" >
-        pm_certification_No = #{pm_certification_No,jdbcType=VARCHAR},
+      <if test="pmCertificationNo != null" >
+        pm_certification_No = #{pmCertificationNo,jdbcType=VARCHAR},
       </if>
-      <if test="constructor_certification_No != null" >
-        constructor_certification_No = #{constructor_certification_No,jdbcType=VARCHAR},
+      <if test="constructorCertificationNo != null" >
+        constructor_certification_No = #{constructorCertificationNo,jdbcType=VARCHAR},
       </if>
-      <if test="safety_permit_No != null" >
-        safety_permit_No = #{safety_permit_No,jdbcType=VARCHAR},
+      <if test="safetyPermitNo != null" >
+        safety_permit_No = #{safetyPermitNo,jdbcType=VARCHAR},
       </if>
-      <if test="pm_safety_certification_No != null" >
-        pm_safety_certification_No = #{pm_safety_certification_No,jdbcType=VARCHAR},
+      <if test="pmSafetyCertificationNo != null" >
+        pm_safety_certification_No = #{pmSafetyCertificationNo,jdbcType=VARCHAR},
       </if>
-      <if test="pm_certification_url != null" >
-        pm_certification_url = #{pm_certification_url,jdbcType=VARCHAR},
+      <if test="pmCertificationUrl != null" >
+        pm_certification_url = #{pmCertificationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="constructor_certification_url != null" >
-        constructor_certification_url = #{constructor_certification_url,jdbcType=VARCHAR},
+      <if test="constructorCertificationUrl != null" >
+        constructor_certification_url = #{constructorCertificationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="safety_permit_url != null" >
-        safety_permit_url = #{safety_permit_url,jdbcType=VARCHAR},
+      <if test="safetyPermitUrl != null" >
+        safety_permit_url = #{safetyPermitUrl,jdbcType=VARCHAR},
       </if>
-      <if test="pm_safety_certification_url != null" >
-        pm_safety_certification_url = #{pm_safety_certification_url,jdbcType=VARCHAR},
+      <if test="pmSafetyCertificationUrl != null" >
+        pm_safety_certification_url = #{pmSafetyCertificationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="pm_certification_endtime != null" >
-        pm_certification_endtime = #{pm_certification_endtime,jdbcType=DATE},
+      <if test="pmCertificationEndtime != null" >
+        pm_certification_endtime = #{pmCertificationEndtime,jdbcType=DATE},
       </if>
-      <if test="constructor_certification_endtime != null" >
-        constructor_certification_endtime = #{constructor_certification_endtime,jdbcType=DATE},
+      <if test="constructorCertificationEndtime != null" >
+        constructor_certification_endtime = #{constructorCertificationEndtime,jdbcType=DATE},
       </if>
-      <if test="safety_permit_endtime != null" >
-        safety_permit_endtime = #{safety_permit_endtime,jdbcType=DATE},
+      <if test="safetyPermitEndtime != null" >
+        safety_permit_endtime = #{safetyPermitEndtime,jdbcType=DATE},
       </if>
-      <if test="pm_safety_certification_endtime != null" >
-        pm_safety_certification_endtime = #{pm_safety_certification_endtime,jdbcType=DATE},
+      <if test="pmSafetyCertificationEndtime != null" >
+        pm_safety_certification_endtime = #{pmSafetyCertificationEndtime,jdbcType=DATE},
       </if>
-      <if test="bank_guarantee_No != null" >
-        bank_guarantee_No = #{bank_guarantee_No,jdbcType=VARCHAR},
+      <if test="bankGuaranteeNo != null" >
+        bank_guarantee_No = #{bankGuaranteeNo,jdbcType=VARCHAR},
       </if>
-      <if test="bank_guarantee_url != null" >
-        bank_guarantee_url = #{bank_guarantee_url,jdbcType=VARCHAR},
+      <if test="bankGuaranteeUrl != null" >
+        bank_guarantee_url = #{bankGuaranteeUrl,jdbcType=VARCHAR},
       </if>
-      <if test="bank_guarantee_amount != null" >
-        bank_guarantee_amount = #{bank_guarantee_amount,jdbcType=INTEGER},
+      <if test="bankGuaranteeAmount != null" >
+        bank_guarantee_amount = #{bankGuaranteeAmount,jdbcType=INTEGER},
       </if>
-      <if test="project_quotation_url != null" >
-        project_quotation_url = #{project_quotation_url,jdbcType=VARCHAR},
+      <if test="projectQuotationUrl != null" >
+        project_quotation_url = #{projectQuotationUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_commitment_url != null" >
-        construction_commitment_url = #{construction_commitment_url,jdbcType=VARCHAR},
+      <if test="constructionCommitmentUrl != null" >
+        construction_commitment_url = #{constructionCommitmentUrl,jdbcType=VARCHAR},
       </if>
-      <if test="construction_end_date != null" >
-        construction_end_date = #{construction_end_date,jdbcType=VARCHAR},
+      <if test="constructionEndDate != null" >
+        construction_end_date = #{constructionEndDate,jdbcType=VARCHAR},
       </if>
-      <if test="construction_start_date != null" >
-        construction_start_date = #{construction_start_date,jdbcType=VARCHAR},
+      <if test="constructionStartDate != null" >
+        construction_start_date = #{constructionStartDate,jdbcType=VARCHAR},
       </if>
-      <if test="technical_standard_url != null" >
-        technical_standard_url = #{technical_standard_url,jdbcType=VARCHAR},
+      <if test="technicalStandardUrl != null" >
+        technical_standard_url = #{technicalStandardUrl,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidRecord" >
     update t_ztgl_bid_record
-    set object_id = #{object_id,jdbcType=VARCHAR},
-      bidder_id = #{bidder_id,jdbcType=INTEGER},
-      bid_amount = #{bid_amount,jdbcType=INTEGER},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      bidder_id = #{bidderId,jdbcType=INTEGER},
+      bid_amount = #{bidAmount,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
-      audit_time = #{audit_time,jdbcType=TIMESTAMP},
-      audit_status = #{audit_status,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
       auditor = #{auditor,jdbcType=INTEGER},
-      bid_status = #{bid_status,jdbcType=VARCHAR},
-      project_start_time = #{project_start_time,jdbcType=DATE},
-      project_description = #{project_description,jdbcType=VARCHAR},
-      project_end_time = #{project_end_time,jdbcType=DATE},
-      pm_certification_No = #{pm_certification_No,jdbcType=VARCHAR},
-      constructor_certification_No = #{constructor_certification_No,jdbcType=VARCHAR},
-      safety_permit_No = #{safety_permit_No,jdbcType=VARCHAR},
-      pm_safety_certification_No = #{pm_safety_certification_No,jdbcType=VARCHAR},
-      pm_certification_url = #{pm_certification_url,jdbcType=VARCHAR},
-      constructor_certification_url = #{constructor_certification_url,jdbcType=VARCHAR},
-      safety_permit_url = #{safety_permit_url,jdbcType=VARCHAR},
-      pm_safety_certification_url = #{pm_safety_certification_url,jdbcType=VARCHAR},
-      pm_certification_endtime = #{pm_certification_endtime,jdbcType=DATE},
-      constructor_certification_endtime = #{constructor_certification_endtime,jdbcType=DATE},
-      safety_permit_endtime = #{safety_permit_endtime,jdbcType=DATE},
-      pm_safety_certification_endtime = #{pm_safety_certification_endtime,jdbcType=DATE},
-      bank_guarantee_No = #{bank_guarantee_No,jdbcType=VARCHAR},
-      bank_guarantee_url = #{bank_guarantee_url,jdbcType=VARCHAR},
-      bank_guarantee_amount = #{bank_guarantee_amount,jdbcType=INTEGER},
-      project_quotation_url = #{project_quotation_url,jdbcType=VARCHAR},
-      construction_commitment_url = #{construction_commitment_url,jdbcType=VARCHAR},
-      construction_end_date = #{construction_end_date,jdbcType=VARCHAR},
-      construction_start_date = #{construction_start_date,jdbcType=VARCHAR},
-      technical_standard_url = #{technical_standard_url,jdbcType=VARCHAR}
+      bid_status = #{bidStatus,jdbcType=VARCHAR},
+      project_start_time = #{projectStartTime,jdbcType=DATE},
+      project_description = #{projectDescription,jdbcType=VARCHAR},
+      project_end_time = #{projectEndTime,jdbcType=DATE},
+      pm_certification_No = #{pmCertificationNo,jdbcType=VARCHAR},
+      constructor_certification_No = #{constructorCertificationNo,jdbcType=VARCHAR},
+      safety_permit_No = #{safetyPermitNo,jdbcType=VARCHAR},
+      pm_safety_certification_No = #{pmSafetyCertificationNo,jdbcType=VARCHAR},
+      pm_certification_url = #{pmCertificationUrl,jdbcType=VARCHAR},
+      constructor_certification_url = #{constructorCertificationUrl,jdbcType=VARCHAR},
+      safety_permit_url = #{safetyPermitUrl,jdbcType=VARCHAR},
+      pm_safety_certification_url = #{pmSafetyCertificationUrl,jdbcType=VARCHAR},
+      pm_certification_endtime = #{pmCertificationEndtime,jdbcType=DATE},
+      constructor_certification_endtime = #{constructorCertificationEndtime,jdbcType=DATE},
+      safety_permit_endtime = #{safetyPermitEndtime,jdbcType=DATE},
+      pm_safety_certification_endtime = #{pmSafetyCertificationEndtime,jdbcType=DATE},
+      bank_guarantee_No = #{bankGuaranteeNo,jdbcType=VARCHAR},
+      bank_guarantee_url = #{bankGuaranteeUrl,jdbcType=VARCHAR},
+      bank_guarantee_amount = #{bankGuaranteeAmount,jdbcType=INTEGER},
+      project_quotation_url = #{projectQuotationUrl,jdbcType=VARCHAR},
+      construction_commitment_url = #{constructionCommitmentUrl,jdbcType=VARCHAR},
+      construction_end_date = #{constructionEndDate,jdbcType=VARCHAR},
+      construction_start_date = #{constructionStartDate,jdbcType=VARCHAR},
+      technical_standard_url = #{technicalStandardUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

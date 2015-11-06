@@ -14,27 +14,27 @@ public class UserToken {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Long userid;
 
     /**
      * 有效时间长度（单位：秒）
      */
-    private Integer expireIn;
+    private Integer expirein;
 
     /**
      * 应用ID
      */
-    private String appId;
+    private String appid;
 
     /**
      * 创建时间（插入时间）
      */
-    private Date insertTime;
+    private Date inserttime;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Date updatetime;
 
     /**
      * @return 用户令牌
@@ -54,76 +54,76 @@ public class UserToken {
     /**
      * @return 用户ID
      */
-    public Long getUserId() {
-        return userId;
+    public Long getUserid() {
+        return userid;
     }
 
     /**
      * @param userid 
 	 *            用户ID
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     /**
      * @return 有效时间长度（单位：秒）
      */
-    public Integer getExpireIn() {
-        return expireIn;
+    public Integer getExpirein() {
+        return expirein;
     }
 
     /**
      * @param expirein 
 	 *            有效时间长度（单位：秒）
      */
-    public void setExpireIn(Integer expireIn) {
-        this.expireIn = expireIn;
+    public void setExpirein(Integer expirein) {
+        this.expirein = expirein;
     }
 
     /**
      * @return 应用ID
      */
-    public String getAppId() {
-        return appId;
+    public String getAppid() {
+        return appid;
     }
 
     /**
      * @param appid 
 	 *            应用ID
      */
-    public void setAppId(String appId) {
-        this.appId = appId == null ? null : appId.trim();
+    public void setAppid(String appid) {
+        this.appid = appid == null ? null : appid.trim();
     }
 
     /**
      * @return 创建时间（插入时间）
      */
-    public Date getInsertTime() {
-        return insertTime;
+    public Date getInserttime() {
+        return inserttime;
     }
 
     /**
      * @param inserttime 
 	 *            创建时间（插入时间）
      */
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
+    public void setInserttime(Date inserttime) {
+        this.inserttime = inserttime;
     }
 
     /**
      * @return 修改时间
      */
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
     /**
      * @param updatetime 
 	 *            修改时间
      */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
     @Override
@@ -139,11 +139,11 @@ public class UserToken {
         }
         UserToken other = (UserToken) that;
         return (this.getToken() == null ? other.getToken() == null : this.getToken().equals(other.getToken()))
-            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getExpireIn() == null ? other.getExpireIn() == null : this.getExpireIn().equals(other.getExpireIn()))
-            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
-            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUserid() == null ? other.getUserid() == null : this.getUserid().equals(other.getUserid()))
+            && (this.getExpirein() == null ? other.getExpirein() == null : this.getExpirein().equals(other.getExpirein()))
+            && (this.getAppid() == null ? other.getAppid() == null : this.getAppid().equals(other.getAppid()))
+            && (this.getInserttime() == null ? other.getInserttime() == null : this.getInserttime().equals(other.getInserttime()))
+            && (this.getUpdatetime() == null ? other.getUpdatetime() == null : this.getUpdatetime().equals(other.getUpdatetime()));
     }
 
     @Override
@@ -151,11 +151,11 @@ public class UserToken {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getToken() == null) ? 0 : getToken().hashCode());
-        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getExpireIn() == null) ? 0 : getExpireIn().hashCode());
-        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
-        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getUserid() == null) ? 0 : getUserid().hashCode());
+        result = prime * result + ((getExpirein() == null) ? 0 : getExpirein().hashCode());
+        result = prime * result + ((getAppid() == null) ? 0 : getAppid().hashCode());
+        result = prime * result + ((getInserttime() == null) ? 0 : getInserttime().hashCode());
+        result = prime * result + ((getUpdatetime() == null) ? 0 : getUpdatetime().hashCode());
         return result;
     }
 }

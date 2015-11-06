@@ -6,7 +6,7 @@ public interface UserAccountcodeMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(Long idt_user_accountcode);
+    int deleteByPrimaryKey(Long idtUserAccountcode);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface UserAccountcodeMapper {
     /**
      * 根据主键查询记录
      */
-    UserAccountcode selectByPrimaryKey(Long idt_user_accountcode);
+    UserAccountcode selectByPrimaryKey(Long idtUserAccountcode);
 
     /**
      * 根据主键更新属性不为空的记录

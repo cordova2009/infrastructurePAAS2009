@@ -3,11 +3,11 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidAttachmentMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidAttachment" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bid_id" property="bid_id" jdbcType="INTEGER" />
-    <result column="attachment_name" property="attachment_name" jdbcType="VARCHAR" />
-    <result column="attachment_url" property="attachment_url" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="insert_by" property="insert_by" jdbcType="VARCHAR" />
+    <result column="bid_id" property="bidId" jdbcType="INTEGER" />
+    <result column="attachment_name" property="attachmentName" jdbcType="VARCHAR" />
+    <result column="attachment_url" property="attachmentUrl" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="insert_by" property="insertBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bid_id, attachment_name, attachment_url, insert_time, insert_by
@@ -26,8 +26,8 @@
     insert into t_ztgl_bid_attachment (id, bid_id, attachment_name, 
       attachment_url, insert_time, insert_by
       )
-    values (#{id,jdbcType=INTEGER}, #{bid_id,jdbcType=INTEGER}, #{attachment_name,jdbcType=VARCHAR}, 
-      #{attachment_url,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, #{insert_by,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{bidId,jdbcType=INTEGER}, #{attachmentName,jdbcType=VARCHAR}, 
+      #{attachmentUrl,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidAttachment" >
@@ -36,19 +36,19 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="bid_id != null" >
+      <if test="bidId != null" >
         bid_id,
       </if>
-      <if test="attachment_name != null" >
+      <if test="attachmentName != null" >
         attachment_name,
       </if>
-      <if test="attachment_url != null" >
+      <if test="attachmentUrl != null" >
         attachment_url,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="insert_by != null" >
+      <if test="insertBy != null" >
         insert_by,
       </if>
     </trim>
@@ -56,51 +56,51 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="bid_id != null" >
-        #{bid_id,jdbcType=INTEGER},
+      <if test="bidId != null" >
+        #{bidId,jdbcType=INTEGER},
       </if>
-      <if test="attachment_name != null" >
-        #{attachment_name,jdbcType=VARCHAR},
+      <if test="attachmentName != null" >
+        #{attachmentName,jdbcType=VARCHAR},
       </if>
-      <if test="attachment_url != null" >
-        #{attachment_url,jdbcType=VARCHAR},
+      <if test="attachmentUrl != null" >
+        #{attachmentUrl,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="insert_by != null" >
-        #{insert_by,jdbcType=VARCHAR},
+      <if test="insertBy != null" >
+        #{insertBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidAttachment" >
     update t_ztgl_bid_attachment
     <set >
-      <if test="bid_id != null" >
-        bid_id = #{bid_id,jdbcType=INTEGER},
+      <if test="bidId != null" >
+        bid_id = #{bidId,jdbcType=INTEGER},
       </if>
-      <if test="attachment_name != null" >
-        attachment_name = #{attachment_name,jdbcType=VARCHAR},
+      <if test="attachmentName != null" >
+        attachment_name = #{attachmentName,jdbcType=VARCHAR},
       </if>
-      <if test="attachment_url != null" >
-        attachment_url = #{attachment_url,jdbcType=VARCHAR},
+      <if test="attachmentUrl != null" >
+        attachment_url = #{attachmentUrl,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="insert_by != null" >
-        insert_by = #{insert_by,jdbcType=VARCHAR},
+      <if test="insertBy != null" >
+        insert_by = #{insertBy,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidAttachment" >
     update t_ztgl_bid_attachment
-    set bid_id = #{bid_id,jdbcType=INTEGER},
-      attachment_name = #{attachment_name,jdbcType=VARCHAR},
-      attachment_url = #{attachment_url,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      insert_by = #{insert_by,jdbcType=VARCHAR}
+    set bid_id = #{bidId,jdbcType=INTEGER},
+      attachment_name = #{attachmentName,jdbcType=VARCHAR},
+      attachment_url = #{attachmentUrl,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

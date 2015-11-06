@@ -3,18 +3,18 @@
 <mapper namespace="com.hummingbird.paas.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
-    <result column="mobile_num" property="mobile_num" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="mobile_num" property="mobileNum" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="district" property="district" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
-    <result column="union_id" property="union_id" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
     <result column="qq" property="qq" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="nick_name" property="nick_name" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="head_image" property="head_image" jdbcType="VARCHAR" />
+    <result column="head_image" property="headImage" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, mobile_num, city, district, insert_time, update_time, union_id, qq, 
@@ -36,11 +36,11 @@
       update_time, union_id, qq, 
       email, nick_name, address, 
       head_image)
-    values (#{id,jdbcType=INTEGER}, #{user_name,jdbcType=VARCHAR}, #{mobile_num,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{union_id,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{nick_name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{head_image,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{unionId,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{headImage,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.User" >
     insert into t_user
@@ -48,10 +48,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="user_name != null" >
+      <if test="userName != null" >
         user_name,
       </if>
-      <if test="mobile_num != null" >
+      <if test="mobileNum != null" >
         mobile_num,
       </if>
       <if test="city != null" >
@@ -60,13 +60,13 @@
       <if test="district != null" >
         district,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="update_time != null" >
+      <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="union_id != null" >
+      <if test="unionId != null" >
         union_id,
       </if>
       <if test="qq != null" >
@@ -75,13 +75,13 @@
       <if test="email != null" >
         email,
       </if>
-      <if test="nick_name != null" >
+      <if test="nickName != null" >
         nick_name,
       </if>
       <if test="address != null" >
         address,
       </if>
-      <if test="head_image != null" >
+      <if test="headImage != null" >
         head_image,
       </if>
     </trim>
@@ -89,11 +89,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="user_name != null" >
-        #{user_name,jdbcType=VARCHAR},
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="mobile_num != null" >
-        #{mobile_num,jdbcType=VARCHAR},
+      <if test="mobileNum != null" >
+        #{mobileNum,jdbcType=VARCHAR},
       </if>
       <if test="city != null" >
         #{city,jdbcType=VARCHAR},
@@ -101,14 +101,14 @@
       <if test="district != null" >
         #{district,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null" >
-        #{update_time,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="union_id != null" >
-        #{union_id,jdbcType=VARCHAR},
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
       </if>
       <if test="qq != null" >
         #{qq,jdbcType=VARCHAR},
@@ -116,25 +116,25 @@
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="nick_name != null" >
-        #{nick_name,jdbcType=VARCHAR},
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="head_image != null" >
-        #{head_image,jdbcType=VARCHAR},
+      <if test="headImage != null" >
+        #{headImage,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.User" >
     update t_user
     <set >
-      <if test="user_name != null" >
-        user_name = #{user_name,jdbcType=VARCHAR},
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="mobile_num != null" >
-        mobile_num = #{mobile_num,jdbcType=VARCHAR},
+      <if test="mobileNum != null" >
+        mobile_num = #{mobileNum,jdbcType=VARCHAR},
       </if>
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
@@ -142,14 +142,14 @@
       <if test="district != null" >
         district = #{district,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null" >
-        update_time = #{update_time,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="union_id != null" >
-        union_id = #{union_id,jdbcType=VARCHAR},
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=VARCHAR},
       </if>
       <if test="qq != null" >
         qq = #{qq,jdbcType=VARCHAR},
@@ -157,32 +157,38 @@
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="nick_name != null" >
-        nick_name = #{nick_name,jdbcType=VARCHAR},
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="head_image != null" >
-        head_image = #{head_image,jdbcType=VARCHAR},
+      <if test="headImage != null" >
+        head_image = #{headImage,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.User" >
     update t_user
-    set user_name = #{user_name,jdbcType=VARCHAR},
-      mobile_num = #{mobile_num,jdbcType=VARCHAR},
+    set user_name = #{userName,jdbcType=VARCHAR},
+      mobile_num = #{mobileNum,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       district = #{district,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      union_id = #{union_id,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      union_id = #{unionId,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      nick_name = #{nick_name,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      head_image = #{head_image,jdbcType=VARCHAR}
+      head_image = #{headImage,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryUserByMobile" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where mobile_num = #{mobileNum,jdbcType=VARCHAR}
+  </select>
 </mapper>

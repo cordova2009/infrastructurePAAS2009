@@ -3,12 +3,12 @@
 <mapper namespace="com.hummingbird.paas.mapper.PaymentAlipayMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.PaymentAlipay" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
-    <result column="trade_id" property="trade_id" jdbcType="VARCHAR" />
-    <result column="pay_status" property="pay_status" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="app_id" property="app_id" jdbcType="VARCHAR" />
-    <result column="product_desc" property="product_desc" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="trade_id" property="tradeId" jdbcType="VARCHAR" />
+    <result column="pay_status" property="payStatus" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="product_desc" property="productDesc" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, order_id, trade_id, pay_status, insert_time, app_id, product_desc
@@ -27,9 +27,9 @@
     insert into t_ddgl_payment_alipay (id, order_id, trade_id, 
       pay_status, insert_time, app_id, 
       product_desc)
-    values (#{id,jdbcType=INTEGER}, #{order_id,jdbcType=VARCHAR}, #{trade_id,jdbcType=VARCHAR}, 
-      #{pay_status,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, #{app_id,jdbcType=VARCHAR}, 
-      #{product_desc,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{tradeId,jdbcType=VARCHAR}, 
+      #{payStatus,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR}, 
+      #{productDesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
     insert into t_ddgl_payment_alipay
@@ -37,22 +37,22 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="order_id != null" >
+      <if test="orderId != null" >
         order_id,
       </if>
-      <if test="trade_id != null" >
+      <if test="tradeId != null" >
         trade_id,
       </if>
-      <if test="pay_status != null" >
+      <if test="payStatus != null" >
         pay_status,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="app_id != null" >
+      <if test="appId != null" >
         app_id,
       </if>
-      <if test="product_desc != null" >
+      <if test="productDesc != null" >
         product_desc,
       </if>
     </trim>
@@ -60,58 +60,58 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="order_id != null" >
-        #{order_id,jdbcType=VARCHAR},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="trade_id != null" >
-        #{trade_id,jdbcType=VARCHAR},
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=VARCHAR},
       </if>
-      <if test="pay_status != null" >
-        #{pay_status,jdbcType=VARCHAR},
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="app_id != null" >
-        #{app_id,jdbcType=VARCHAR},
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
       </if>
-      <if test="product_desc != null" >
-        #{product_desc,jdbcType=VARCHAR},
+      <if test="productDesc != null" >
+        #{productDesc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
     update t_ddgl_payment_alipay
     <set >
-      <if test="order_id != null" >
-        order_id = #{order_id,jdbcType=VARCHAR},
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="trade_id != null" >
-        trade_id = #{trade_id,jdbcType=VARCHAR},
+      <if test="tradeId != null" >
+        trade_id = #{tradeId,jdbcType=VARCHAR},
       </if>
-      <if test="pay_status != null" >
-        pay_status = #{pay_status,jdbcType=VARCHAR},
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="app_id != null" >
-        app_id = #{app_id,jdbcType=VARCHAR},
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
       </if>
-      <if test="product_desc != null" >
-        product_desc = #{product_desc,jdbcType=VARCHAR},
+      <if test="productDesc != null" >
+        product_desc = #{productDesc,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
     update t_ddgl_payment_alipay
-    set order_id = #{order_id,jdbcType=VARCHAR},
-      trade_id = #{trade_id,jdbcType=VARCHAR},
-      pay_status = #{pay_status,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      app_id = #{app_id,jdbcType=VARCHAR},
-      product_desc = #{product_desc,jdbcType=VARCHAR}
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      trade_id = #{tradeId,jdbcType=VARCHAR},
+      pay_status = #{payStatus,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
+      product_desc = #{productDesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

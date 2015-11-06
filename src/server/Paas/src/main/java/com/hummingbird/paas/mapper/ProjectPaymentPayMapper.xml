@@ -3,22 +3,22 @@
 <mapper namespace="com.hummingbird.paas.mapper.ProjectPaymentPayMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentPay" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="current_period" property="current_period" jdbcType="INTEGER" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="current_period" property="currentPeriod" jdbcType="INTEGER" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
-    <result column="should_pay_time" property="should_pay_time" jdbcType="TIMESTAMP" />
-    <result column="pay_time" property="pay_time" jdbcType="TIMESTAMP" />
+    <result column="should_pay_time" property="shouldPayTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="total_amount" property="total_amount" jdbcType="INTEGER" />
-    <result column="left_period" property="left_period" jdbcType="INTEGER" />
-    <result column="left_amount" property="left_amount" jdbcType="INTEGER" />
-    <result column="total_period" property="total_period" jdbcType="INTEGER" />
+    <result column="total_amount" property="totalAmount" jdbcType="INTEGER" />
+    <result column="left_period" property="leftPeriod" jdbcType="INTEGER" />
+    <result column="left_amount" property="leftAmount" jdbcType="INTEGER" />
+    <result column="total_period" property="totalPeriod" jdbcType="INTEGER" />
     <result column="bank" property="bank" jdbcType="VARCHAR" />
     <result column="voucher" property="voucher" jdbcType="VARCHAR" />
-    <result column="voucher_pic" property="voucher_pic" jdbcType="VARCHAR" />
-    <result column="transfer_date" property="transfer_date" jdbcType="DATE" />
-    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
-    <result column="bank_id" property="bank_id" jdbcType="VARCHAR" />
+    <result column="voucher_pic" property="voucherPic" jdbcType="VARCHAR" />
+    <result column="transfer_date" property="transferDate" jdbcType="DATE" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, current_period, amount, should_pay_time, pay_time, status, total_amount, 
@@ -42,12 +42,12 @@
       left_amount, total_period, bank, 
       voucher, voucher_pic, transfer_date, 
       order_id, bank_id)
-    values (#{id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}, #{current_period,jdbcType=INTEGER}, 
-      #{amount,jdbcType=INTEGER}, #{should_pay_time,jdbcType=TIMESTAMP}, #{pay_time,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR}, #{total_amount,jdbcType=INTEGER}, #{left_period,jdbcType=INTEGER}, 
-      #{left_amount,jdbcType=INTEGER}, #{total_period,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
-      #{voucher,jdbcType=VARCHAR}, #{voucher_pic,jdbcType=VARCHAR}, #{transfer_date,jdbcType=DATE}, 
-      #{order_id,jdbcType=VARCHAR}, #{bank_id,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{currentPeriod,jdbcType=INTEGER}, 
+      #{amount,jdbcType=INTEGER}, #{shouldPayTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{totalAmount,jdbcType=INTEGER}, #{leftPeriod,jdbcType=INTEGER}, 
+      #{leftAmount,jdbcType=INTEGER}, #{totalPeriod,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
+      #{voucher,jdbcType=VARCHAR}, #{voucherPic,jdbcType=VARCHAR}, #{transferDate,jdbcType=DATE}, 
+      #{orderId,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentPay" >
     insert into t_gcgl_project_payment_pay
@@ -55,34 +55,34 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="current_period != null" >
+      <if test="currentPeriod != null" >
         current_period,
       </if>
       <if test="amount != null" >
         amount,
       </if>
-      <if test="should_pay_time != null" >
+      <if test="shouldPayTime != null" >
         should_pay_time,
       </if>
-      <if test="pay_time != null" >
+      <if test="payTime != null" >
         pay_time,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="total_amount != null" >
+      <if test="totalAmount != null" >
         total_amount,
       </if>
-      <if test="left_period != null" >
+      <if test="leftPeriod != null" >
         left_period,
       </if>
-      <if test="left_amount != null" >
+      <if test="leftAmount != null" >
         left_amount,
       </if>
-      <if test="total_period != null" >
+      <if test="totalPeriod != null" >
         total_period,
       </if>
       <if test="bank != null" >
@@ -91,16 +91,16 @@
       <if test="voucher != null" >
         voucher,
       </if>
-      <if test="voucher_pic != null" >
+      <if test="voucherPic != null" >
         voucher_pic,
       </if>
-      <if test="transfer_date != null" >
+      <if test="transferDate != null" >
         transfer_date,
       </if>
-      <if test="order_id != null" >
+      <if test="orderId != null" >
         order_id,
       </if>
-      <if test="bank_id != null" >
+      <if test="bankId != null" >
         bank_id,
       </if>
     </trim>
@@ -108,35 +108,35 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="current_period != null" >
-        #{current_period,jdbcType=INTEGER},
+      <if test="currentPeriod != null" >
+        #{currentPeriod,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
         #{amount,jdbcType=INTEGER},
       </if>
-      <if test="should_pay_time != null" >
-        #{should_pay_time,jdbcType=TIMESTAMP},
+      <if test="shouldPayTime != null" >
+        #{shouldPayTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="pay_time != null" >
-        #{pay_time,jdbcType=TIMESTAMP},
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="total_amount != null" >
-        #{total_amount,jdbcType=INTEGER},
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=INTEGER},
       </if>
-      <if test="left_period != null" >
-        #{left_period,jdbcType=INTEGER},
+      <if test="leftPeriod != null" >
+        #{leftPeriod,jdbcType=INTEGER},
       </if>
-      <if test="left_amount != null" >
-        #{left_amount,jdbcType=INTEGER},
+      <if test="leftAmount != null" >
+        #{leftAmount,jdbcType=INTEGER},
       </if>
-      <if test="total_period != null" >
-        #{total_period,jdbcType=INTEGER},
+      <if test="totalPeriod != null" >
+        #{totalPeriod,jdbcType=INTEGER},
       </if>
       <if test="bank != null" >
         #{bank,jdbcType=VARCHAR},
@@ -144,52 +144,52 @@
       <if test="voucher != null" >
         #{voucher,jdbcType=VARCHAR},
       </if>
-      <if test="voucher_pic != null" >
-        #{voucher_pic,jdbcType=VARCHAR},
+      <if test="voucherPic != null" >
+        #{voucherPic,jdbcType=VARCHAR},
       </if>
-      <if test="transfer_date != null" >
-        #{transfer_date,jdbcType=DATE},
+      <if test="transferDate != null" >
+        #{transferDate,jdbcType=DATE},
       </if>
-      <if test="order_id != null" >
-        #{order_id,jdbcType=VARCHAR},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="bank_id != null" >
-        #{bank_id,jdbcType=VARCHAR},
+      <if test="bankId != null" >
+        #{bankId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentPay" >
     update t_gcgl_project_payment_pay
     <set >
-      <if test="object_id != null" >
-        object_id = #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="current_period != null" >
-        current_period = #{current_period,jdbcType=INTEGER},
+      <if test="currentPeriod != null" >
+        current_period = #{currentPeriod,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
         amount = #{amount,jdbcType=INTEGER},
       </if>
-      <if test="should_pay_time != null" >
-        should_pay_time = #{should_pay_time,jdbcType=TIMESTAMP},
+      <if test="shouldPayTime != null" >
+        should_pay_time = #{shouldPayTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="pay_time != null" >
-        pay_time = #{pay_time,jdbcType=TIMESTAMP},
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="total_amount != null" >
-        total_amount = #{total_amount,jdbcType=INTEGER},
+      <if test="totalAmount != null" >
+        total_amount = #{totalAmount,jdbcType=INTEGER},
       </if>
-      <if test="left_period != null" >
-        left_period = #{left_period,jdbcType=INTEGER},
+      <if test="leftPeriod != null" >
+        left_period = #{leftPeriod,jdbcType=INTEGER},
       </if>
-      <if test="left_amount != null" >
-        left_amount = #{left_amount,jdbcType=INTEGER},
+      <if test="leftAmount != null" >
+        left_amount = #{leftAmount,jdbcType=INTEGER},
       </if>
-      <if test="total_period != null" >
-        total_period = #{total_period,jdbcType=INTEGER},
+      <if test="totalPeriod != null" >
+        total_period = #{totalPeriod,jdbcType=INTEGER},
       </if>
       <if test="bank != null" >
         bank = #{bank,jdbcType=VARCHAR},
@@ -197,39 +197,39 @@
       <if test="voucher != null" >
         voucher = #{voucher,jdbcType=VARCHAR},
       </if>
-      <if test="voucher_pic != null" >
-        voucher_pic = #{voucher_pic,jdbcType=VARCHAR},
+      <if test="voucherPic != null" >
+        voucher_pic = #{voucherPic,jdbcType=VARCHAR},
       </if>
-      <if test="transfer_date != null" >
-        transfer_date = #{transfer_date,jdbcType=DATE},
+      <if test="transferDate != null" >
+        transfer_date = #{transferDate,jdbcType=DATE},
       </if>
-      <if test="order_id != null" >
-        order_id = #{order_id,jdbcType=VARCHAR},
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="bank_id != null" >
-        bank_id = #{bank_id,jdbcType=VARCHAR},
+      <if test="bankId != null" >
+        bank_id = #{bankId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentPay" >
     update t_gcgl_project_payment_pay
-    set object_id = #{object_id,jdbcType=VARCHAR},
-      current_period = #{current_period,jdbcType=INTEGER},
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      current_period = #{currentPeriod,jdbcType=INTEGER},
       amount = #{amount,jdbcType=INTEGER},
-      should_pay_time = #{should_pay_time,jdbcType=TIMESTAMP},
-      pay_time = #{pay_time,jdbcType=TIMESTAMP},
+      should_pay_time = #{shouldPayTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
-      total_amount = #{total_amount,jdbcType=INTEGER},
-      left_period = #{left_period,jdbcType=INTEGER},
-      left_amount = #{left_amount,jdbcType=INTEGER},
-      total_period = #{total_period,jdbcType=INTEGER},
+      total_amount = #{totalAmount,jdbcType=INTEGER},
+      left_period = #{leftPeriod,jdbcType=INTEGER},
+      left_amount = #{leftAmount,jdbcType=INTEGER},
+      total_period = #{totalPeriod,jdbcType=INTEGER},
       bank = #{bank,jdbcType=VARCHAR},
       voucher = #{voucher,jdbcType=VARCHAR},
-      voucher_pic = #{voucher_pic,jdbcType=VARCHAR},
-      transfer_date = #{transfer_date,jdbcType=DATE},
-      order_id = #{order_id,jdbcType=VARCHAR},
-      bank_id = #{bank_id,jdbcType=VARCHAR}
+      voucher_pic = #{voucherPic,jdbcType=VARCHAR},
+      transfer_date = #{transferDate,jdbcType=DATE},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      bank_id = #{bankId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

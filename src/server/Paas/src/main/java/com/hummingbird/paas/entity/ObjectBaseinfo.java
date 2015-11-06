@@ -9,221 +9,221 @@ public class ObjectBaseinfo {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 公告发布开始时间
      */
-    private Date announcement_begin_time;
+    private Date announcementBeginTime;
 
     /**
      * 公告发布结束时间
      */
-    private Date announcement_end_time;
+    private Date announcementEndTime;
 
     /**
      * 质疑截止时间
      */
-    private Date question_end_time;
+    private Date questionEndTime;
 
     /**
      * 答疑开始时间
      */
-    private Date answer_question_start_time;
+    private Date answerQuestionStartTime;
 
     /**
      * 答疑截止时间
      */
-    private Date answer_question_end_time;
+    private Date answerQuestionEndTime;
 
     /**
      * 递交投标文件截止时间
      */
-    private Date bidding_end_time;
+    private Date biddingEndTime;
 
     /**
      * 招标文件/资格预审文件获取方式
      */
-    private Date bidding_document_fetch_start_time;
+    private Date biddingDocumentFetchStartTime;
 
     /**
      * 招标编号
      */
-    private String bidding_no;
+    private String biddingNo;
 
     /**
      * 招标项目范围
      */
-    private String object_scope;
+    private String objectScope;
 
     /**
      * 标的内容
      */
-    private String object_description;
+    private String objectDescription;
 
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 公告发布开始时间
      */
-    public Date getAnnouncement_begin_time() {
-        return announcement_begin_time;
+    public Date getAnnouncementBeginTime() {
+        return announcementBeginTime;
     }
 
     /**
      * @param announcementBeginTime 
 	 *            公告发布开始时间
      */
-    public void setAnnouncement_begin_time(Date announcement_begin_time) {
-        this.announcement_begin_time = announcement_begin_time;
+    public void setAnnouncementBeginTime(Date announcementBeginTime) {
+        this.announcementBeginTime = announcementBeginTime;
     }
 
     /**
      * @return 公告发布结束时间
      */
-    public Date getAnnouncement_end_time() {
-        return announcement_end_time;
+    public Date getAnnouncementEndTime() {
+        return announcementEndTime;
     }
 
     /**
      * @param announcementEndTime 
 	 *            公告发布结束时间
      */
-    public void setAnnouncement_end_time(Date announcement_end_time) {
-        this.announcement_end_time = announcement_end_time;
+    public void setAnnouncementEndTime(Date announcementEndTime) {
+        this.announcementEndTime = announcementEndTime;
     }
 
     /**
      * @return 质疑截止时间
      */
-    public Date getQuestion_end_time() {
-        return question_end_time;
+    public Date getQuestionEndTime() {
+        return questionEndTime;
     }
 
     /**
      * @param questionEndTime 
 	 *            质疑截止时间
      */
-    public void setQuestion_end_time(Date question_end_time) {
-        this.question_end_time = question_end_time;
+    public void setQuestionEndTime(Date questionEndTime) {
+        this.questionEndTime = questionEndTime;
     }
 
     /**
      * @return 答疑开始时间
      */
-    public Date getAnswer_question_start_time() {
-        return answer_question_start_time;
+    public Date getAnswerQuestionStartTime() {
+        return answerQuestionStartTime;
     }
 
     /**
      * @param answerQuestionStartTime 
 	 *            答疑开始时间
      */
-    public void setAnswer_question_start_time(Date answer_question_start_time) {
-        this.answer_question_start_time = answer_question_start_time;
+    public void setAnswerQuestionStartTime(Date answerQuestionStartTime) {
+        this.answerQuestionStartTime = answerQuestionStartTime;
     }
 
     /**
      * @return 答疑截止时间
      */
-    public Date getAnswer_question_end_time() {
-        return answer_question_end_time;
+    public Date getAnswerQuestionEndTime() {
+        return answerQuestionEndTime;
     }
 
     /**
      * @param answerQuestionEndTime 
 	 *            答疑截止时间
      */
-    public void setAnswer_question_end_time(Date answer_question_end_time) {
-        this.answer_question_end_time = answer_question_end_time;
+    public void setAnswerQuestionEndTime(Date answerQuestionEndTime) {
+        this.answerQuestionEndTime = answerQuestionEndTime;
     }
 
     /**
      * @return 递交投标文件截止时间
      */
-    public Date getBidding_end_time() {
-        return bidding_end_time;
+    public Date getBiddingEndTime() {
+        return biddingEndTime;
     }
 
     /**
      * @param biddingEndTime 
 	 *            递交投标文件截止时间
      */
-    public void setBidding_end_time(Date bidding_end_time) {
-        this.bidding_end_time = bidding_end_time;
+    public void setBiddingEndTime(Date biddingEndTime) {
+        this.biddingEndTime = biddingEndTime;
     }
 
     /**
      * @return 招标文件/资格预审文件获取方式
      */
-    public Date getBidding_document_fetch_start_time() {
-        return bidding_document_fetch_start_time;
+    public Date getBiddingDocumentFetchStartTime() {
+        return biddingDocumentFetchStartTime;
     }
 
     /**
      * @param biddingDocumentFetchStartTime 
 	 *            招标文件/资格预审文件获取方式
      */
-    public void setBidding_document_fetch_start_time(Date bidding_document_fetch_start_time) {
-        this.bidding_document_fetch_start_time = bidding_document_fetch_start_time;
+    public void setBiddingDocumentFetchStartTime(Date biddingDocumentFetchStartTime) {
+        this.biddingDocumentFetchStartTime = biddingDocumentFetchStartTime;
     }
 
     /**
      * @return 招标编号
      */
-    public String getBidding_no() {
-        return bidding_no;
+    public String getBiddingNo() {
+        return biddingNo;
     }
 
     /**
      * @param biddingNo 
 	 *            招标编号
      */
-    public void setBidding_no(String bidding_no) {
-        this.bidding_no = bidding_no == null ? null : bidding_no.trim();
+    public void setBiddingNo(String biddingNo) {
+        this.biddingNo = biddingNo == null ? null : biddingNo.trim();
     }
 
     /**
      * @return 招标项目范围
      */
-    public String getObject_scope() {
-        return object_scope;
+    public String getObjectScope() {
+        return objectScope;
     }
 
     /**
      * @param objectScope 
 	 *            招标项目范围
      */
-    public void setObject_scope(String object_scope) {
-        this.object_scope = object_scope == null ? null : object_scope.trim();
+    public void setObjectScope(String objectScope) {
+        this.objectScope = objectScope == null ? null : objectScope.trim();
     }
 
     /**
      * @return 标的内容
      */
-    public String getObject_description() {
-        return object_description;
+    public String getObjectDescription() {
+        return objectDescription;
     }
 
     /**
      * @param objectDescription 
 	 *            标的内容
      */
-    public void setObject_description(String object_description) {
-        this.object_description = object_description == null ? null : object_description.trim();
+    public void setObjectDescription(String objectDescription) {
+        this.objectDescription = objectDescription == null ? null : objectDescription.trim();
     }
 
     @Override
@@ -238,34 +238,34 @@ public class ObjectBaseinfo {
             return false;
         }
         ObjectBaseinfo other = (ObjectBaseinfo) that;
-        return (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getAnnouncement_begin_time() == null ? other.getAnnouncement_begin_time() == null : this.getAnnouncement_begin_time().equals(other.getAnnouncement_begin_time()))
-            && (this.getAnnouncement_end_time() == null ? other.getAnnouncement_end_time() == null : this.getAnnouncement_end_time().equals(other.getAnnouncement_end_time()))
-            && (this.getQuestion_end_time() == null ? other.getQuestion_end_time() == null : this.getQuestion_end_time().equals(other.getQuestion_end_time()))
-            && (this.getAnswer_question_start_time() == null ? other.getAnswer_question_start_time() == null : this.getAnswer_question_start_time().equals(other.getAnswer_question_start_time()))
-            && (this.getAnswer_question_end_time() == null ? other.getAnswer_question_end_time() == null : this.getAnswer_question_end_time().equals(other.getAnswer_question_end_time()))
-            && (this.getBidding_end_time() == null ? other.getBidding_end_time() == null : this.getBidding_end_time().equals(other.getBidding_end_time()))
-            && (this.getBidding_document_fetch_start_time() == null ? other.getBidding_document_fetch_start_time() == null : this.getBidding_document_fetch_start_time().equals(other.getBidding_document_fetch_start_time()))
-            && (this.getBidding_no() == null ? other.getBidding_no() == null : this.getBidding_no().equals(other.getBidding_no()))
-            && (this.getObject_scope() == null ? other.getObject_scope() == null : this.getObject_scope().equals(other.getObject_scope()))
-            && (this.getObject_description() == null ? other.getObject_description() == null : this.getObject_description().equals(other.getObject_description()));
+        return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getAnnouncementBeginTime() == null ? other.getAnnouncementBeginTime() == null : this.getAnnouncementBeginTime().equals(other.getAnnouncementBeginTime()))
+            && (this.getAnnouncementEndTime() == null ? other.getAnnouncementEndTime() == null : this.getAnnouncementEndTime().equals(other.getAnnouncementEndTime()))
+            && (this.getQuestionEndTime() == null ? other.getQuestionEndTime() == null : this.getQuestionEndTime().equals(other.getQuestionEndTime()))
+            && (this.getAnswerQuestionStartTime() == null ? other.getAnswerQuestionStartTime() == null : this.getAnswerQuestionStartTime().equals(other.getAnswerQuestionStartTime()))
+            && (this.getAnswerQuestionEndTime() == null ? other.getAnswerQuestionEndTime() == null : this.getAnswerQuestionEndTime().equals(other.getAnswerQuestionEndTime()))
+            && (this.getBiddingEndTime() == null ? other.getBiddingEndTime() == null : this.getBiddingEndTime().equals(other.getBiddingEndTime()))
+            && (this.getBiddingDocumentFetchStartTime() == null ? other.getBiddingDocumentFetchStartTime() == null : this.getBiddingDocumentFetchStartTime().equals(other.getBiddingDocumentFetchStartTime()))
+            && (this.getBiddingNo() == null ? other.getBiddingNo() == null : this.getBiddingNo().equals(other.getBiddingNo()))
+            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
+            && (this.getObjectDescription() == null ? other.getObjectDescription() == null : this.getObjectDescription().equals(other.getObjectDescription()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getAnnouncement_begin_time() == null) ? 0 : getAnnouncement_begin_time().hashCode());
-        result = prime * result + ((getAnnouncement_end_time() == null) ? 0 : getAnnouncement_end_time().hashCode());
-        result = prime * result + ((getQuestion_end_time() == null) ? 0 : getQuestion_end_time().hashCode());
-        result = prime * result + ((getAnswer_question_start_time() == null) ? 0 : getAnswer_question_start_time().hashCode());
-        result = prime * result + ((getAnswer_question_end_time() == null) ? 0 : getAnswer_question_end_time().hashCode());
-        result = prime * result + ((getBidding_end_time() == null) ? 0 : getBidding_end_time().hashCode());
-        result = prime * result + ((getBidding_document_fetch_start_time() == null) ? 0 : getBidding_document_fetch_start_time().hashCode());
-        result = prime * result + ((getBidding_no() == null) ? 0 : getBidding_no().hashCode());
-        result = prime * result + ((getObject_scope() == null) ? 0 : getObject_scope().hashCode());
-        result = prime * result + ((getObject_description() == null) ? 0 : getObject_description().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getAnnouncementBeginTime() == null) ? 0 : getAnnouncementBeginTime().hashCode());
+        result = prime * result + ((getAnnouncementEndTime() == null) ? 0 : getAnnouncementEndTime().hashCode());
+        result = prime * result + ((getQuestionEndTime() == null) ? 0 : getQuestionEndTime().hashCode());
+        result = prime * result + ((getAnswerQuestionStartTime() == null) ? 0 : getAnswerQuestionStartTime().hashCode());
+        result = prime * result + ((getAnswerQuestionEndTime() == null) ? 0 : getAnswerQuestionEndTime().hashCode());
+        result = prime * result + ((getBiddingEndTime() == null) ? 0 : getBiddingEndTime().hashCode());
+        result = prime * result + ((getBiddingDocumentFetchStartTime() == null) ? 0 : getBiddingDocumentFetchStartTime().hashCode());
+        result = prime * result + ((getBiddingNo() == null) ? 0 : getBiddingNo().hashCode());
+        result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
+        result = prime * result + ((getObjectDescription() == null) ? 0 : getObjectDescription().hashCode());
         return result;
     }
 }

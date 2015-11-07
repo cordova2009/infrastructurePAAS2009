@@ -373,6 +373,6 @@
         <url>http://121.199.3.89:8081/nexus/content/repositories/snapshots</url>
     </snapshotRepository>
     </distributionManagement>
-	<name>宝贝空间</name>
+	<name>基建平台</name>
 	<artifactId>babyspace</artifactId>
 </project>

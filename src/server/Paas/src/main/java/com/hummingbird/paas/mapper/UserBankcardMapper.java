@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.UserBankcard;
 
 public interface UserBankcardMapper {
@@ -22,6 +24,11 @@ public interface UserBankcardMapper {
      * 根据主键查询记录
      */
     UserBankcard selectByPrimaryKey(Integer id);
+    
+    /**
+     * 根据token查询记录
+     */
+    List<UserBankcard> selectByToken(String token);
 
     /**
      * 根据主键更新属性不为空的记录

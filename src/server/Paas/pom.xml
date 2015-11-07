@@ -374,5 +374,5 @@
     </snapshotRepository>
     </distributionManagement>
 	<name>基建平台</name>
-	<artifactId>babyspace</artifactId>
+	<artifactId>paas</artifactId>
 </project>

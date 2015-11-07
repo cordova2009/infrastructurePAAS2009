@@ -88,44 +88,12 @@ public class UserCenterController extends BaseController{
 				log.debug(String.format("校验通过，现在为手机号码%s创建帐户",
 						body.getMobileNum()));
 			}
-			/*if (user == null) {
-				
-				
-				// 创建用户
-				user = new User();
-				user.setInsert_time(new Date());
-				user.setMobile_num(body.getMobileNum());
-				user.setPassword(body.getPassword());
-				if(StringUtils.isNotBlank(body.getPaymentCodeMD5())){
-					user.setPaymentcodemd5(loginvo.getLogin().getPaymentCodeMD5());
-				}
-				userSrv.createUser(user,loginvo.getAppId());
-				//测试用户属性
-				if(loginvo.getLogin().getAttrs()!=null&&loginvo.getLogin().getAttrs().length>0){
-					userAttrSrv.addAttr(user.getUserId(),loginvo.getLogin().getAttrs());
-				}
+			if (user == null) {
+				// 注册
+				userSer.saveUser(body, transorder.getApp().getAppId());
 			}
-			UserToken selectToken = tokensrv.getOrCreateToken(loginvo.getApp()
-					.getAppId(), user.getUserId());
-			rm.put("token", selectToken.getToken());
-			rm.put("expireIn", selectToken.getExpirein());
-//			UserToken selectToken = tokensrv.queryToken(loginvo.getApp()
-//					.getAppId(), user.getUserId());
-//			if (selectToken == null) {
-//				// 如果已记录就不处理
-//				UserToken createToken = tokensrv.createToken(loginvo.getApp()
-//						.getAppId(), user.getUserId());
-//				// 返回token和信用信息
-//				rm.put("token", createToken.getToken());
-//				rm.put("expireIn", createToken.getExpirein());
-//			} else {
-//				tokensrv.updateExpireIn(selectToken);
-//				rm.put("token", selectToken.getToken());
-//				rm.put("expireIn", selectToken.getExpirein());
-//			}
-			// 创建帐户，避免新开其它帐户时，旧用户没有创建该帐户而造成问题
-			AccountFactory.createAccounts(user.getUserId());
-			*/
+			
+			
 			
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

@@ -48,18 +48,4 @@ public interface UserSmscodeMapper {
 	 */
 	int deleteAuthCode(UserSmscode record);
 
-	/**
-	 * 获取短信消息码
-	 * @param appId
-	 * @param mobileNum
-	 * @return
-	 */
-	UserSmscode getAuthCode(UserSmscode record);
-	
-	/**
-	 * 删除短消息验证码
-	 * @param record
-	 * @return
-	 */
-	int deleteAuthCode(UserSmscode record);
 }

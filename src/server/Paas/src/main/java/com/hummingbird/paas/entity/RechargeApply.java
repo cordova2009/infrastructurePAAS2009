@@ -9,7 +9,7 @@ public class RechargeApply {
     /**
      * 订单id，RC00日期时间随机数
      */
-    private String order_id;
+    private String orderId;
 
     /**
      * 充值金额
@@ -19,12 +19,12 @@ public class RechargeApply {
     /**
      * 提出时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 用户id
      */
-    private Integer user_id;
+    private Integer userId;
 
     /**
      * 状态,CRT 充值待确定，OK# 充值成功，FLS充值失败
@@ -44,26 +44,26 @@ public class RechargeApply {
     /**
      * 凭证上传地址
      */
-    private String voucher_pic;
+    private String voucherPic;
 
     /**
      * 银行id
      */
-    private String bank_id;
+    private String bankId;
 
     /**
      * @return 订单id，RC00日期时间随机数
      */
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单id，RC00日期时间随机数
      */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id == null ? null : order_id.trim();
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
@@ -84,31 +84,31 @@ public class RechargeApply {
     /**
      * @return 提出时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            提出时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 用户id
      */
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * @param userId 
 	 *            用户id
      */
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -159,31 +159,31 @@ public class RechargeApply {
     /**
      * @return 凭证上传地址
      */
-    public String getVoucher_pic() {
-        return voucher_pic;
+    public String getVoucherPic() {
+        return voucherPic;
     }
 
     /**
      * @param voucherPic 
 	 *            凭证上传地址
      */
-    public void setVoucher_pic(String voucher_pic) {
-        this.voucher_pic = voucher_pic == null ? null : voucher_pic.trim();
+    public void setVoucherPic(String voucherPic) {
+        this.voucherPic = voucherPic == null ? null : voucherPic.trim();
     }
 
     /**
      * @return 银行id
      */
-    public String getBank_id() {
-        return bank_id;
+    public String getBankId() {
+        return bankId;
     }
 
     /**
      * @param bankId 
 	 *            银行id
      */
-    public void setBank_id(String bank_id) {
-        this.bank_id = bank_id == null ? null : bank_id.trim();
+    public void setBankId(String bankId) {
+        this.bankId = bankId == null ? null : bankId.trim();
     }
 
     @Override
@@ -198,30 +198,30 @@ public class RechargeApply {
             return false;
         }
         RechargeApply other = (RechargeApply) that;
-        return (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
+        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getUser_id() == null ? other.getUser_id() == null : this.getUser_id().equals(other.getUser_id()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getBank() == null ? other.getBank() == null : this.getBank().equals(other.getBank()))
             && (this.getVoucher() == null ? other.getVoucher() == null : this.getVoucher().equals(other.getVoucher()))
-            && (this.getVoucher_pic() == null ? other.getVoucher_pic() == null : this.getVoucher_pic().equals(other.getVoucher_pic()))
-            && (this.getBank_id() == null ? other.getBank_id() == null : this.getBank_id().equals(other.getBank_id()));
+            && (this.getVoucherPic() == null ? other.getVoucherPic() == null : this.getVoucherPic().equals(other.getVoucherPic()))
+            && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getUser_id() == null) ? 0 : getUser_id().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getBank() == null) ? 0 : getBank().hashCode());
         result = prime * result + ((getVoucher() == null) ? 0 : getVoucher().hashCode());
-        result = prime * result + ((getVoucher_pic() == null) ? 0 : getVoucher_pic().hashCode());
-        result = prime * result + ((getBank_id() == null) ? 0 : getBank_id().hashCode());
+        result = prime * result + ((getVoucherPic() == null) ? 0 : getVoucherPic().hashCode());
+        result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
         return result;
     }
 }

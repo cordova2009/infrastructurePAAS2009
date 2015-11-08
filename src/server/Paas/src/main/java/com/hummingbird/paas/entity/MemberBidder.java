@@ -14,22 +14,22 @@ public class MemberBidder {
     /**
      * 承包商id
      */
-    private Integer bidder_id;
+    private Integer bidderId;
 
     /**
      * 会员级别，STD标准会员，ADV高级会员
      */
-    private String member_level;
+    private String memberLevel;
 
     /**
      * 会员开始时间
      */
-    private Date start_time;
+    private Date startTime;
 
     /**
      * 会员结束时间
      */
-    private Date end_time;
+    private Date endTime;
 
     /**
      * @return 会员id
@@ -49,61 +49,61 @@ public class MemberBidder {
     /**
      * @return 承包商id
      */
-    public Integer getBidder_id() {
-        return bidder_id;
+    public Integer getBidderId() {
+        return bidderId;
     }
 
     /**
      * @param bidderId 
 	 *            承包商id
      */
-    public void setBidder_id(Integer bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setBidderId(Integer bidderId) {
+        this.bidderId = bidderId;
     }
 
     /**
      * @return 会员级别，STD标准会员，ADV高级会员
      */
-    public String getMember_level() {
-        return member_level;
+    public String getMemberLevel() {
+        return memberLevel;
     }
 
     /**
      * @param memberLevel 
 	 *            会员级别，STD标准会员，ADV高级会员
      */
-    public void setMember_level(String member_level) {
-        this.member_level = member_level == null ? null : member_level.trim();
+    public void setMemberLevel(String memberLevel) {
+        this.memberLevel = memberLevel == null ? null : memberLevel.trim();
     }
 
     /**
      * @return 会员开始时间
      */
-    public Date getStart_time() {
-        return start_time;
+    public Date getStartTime() {
+        return startTime;
     }
 
     /**
      * @param startTime 
 	 *            会员开始时间
      */
-    public void setStart_time(Date start_time) {
-        this.start_time = start_time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     /**
      * @return 会员结束时间
      */
-    public Date getEnd_time() {
-        return end_time;
+    public Date getEndTime() {
+        return endTime;
     }
 
     /**
      * @param endTime 
 	 *            会员结束时间
      */
-    public void setEnd_time(Date end_time) {
-        this.end_time = end_time;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -119,10 +119,10 @@ public class MemberBidder {
         }
         MemberBidder other = (MemberBidder) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBidder_id() == null ? other.getBidder_id() == null : this.getBidder_id().equals(other.getBidder_id()))
-            && (this.getMember_level() == null ? other.getMember_level() == null : this.getMember_level().equals(other.getMember_level()))
-            && (this.getStart_time() == null ? other.getStart_time() == null : this.getStart_time().equals(other.getStart_time()))
-            && (this.getEnd_time() == null ? other.getEnd_time() == null : this.getEnd_time().equals(other.getEnd_time()));
+            && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
+            && (this.getMemberLevel() == null ? other.getMemberLevel() == null : this.getMemberLevel().equals(other.getMemberLevel()))
+            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
     }
 
     @Override
@@ -130,10 +130,10 @@ public class MemberBidder {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBidder_id() == null) ? 0 : getBidder_id().hashCode());
-        result = prime * result + ((getMember_level() == null) ? 0 : getMember_level().hashCode());
-        result = prime * result + ((getStart_time() == null) ? 0 : getStart_time().hashCode());
-        result = prime * result + ((getEnd_time() == null) ? 0 : getEnd_time().hashCode());
+        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
+        result = prime * result + ((getMemberLevel() == null) ? 0 : getMemberLevel().hashCode());
+        result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
+        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         return result;
     }
 }

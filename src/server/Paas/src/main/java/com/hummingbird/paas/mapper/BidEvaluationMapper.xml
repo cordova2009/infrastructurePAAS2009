@@ -3,10 +3,10 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidEvaluationMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidEvaluation" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="bid_id" property="bid_id" jdbcType="INTEGER" />
-    <result column="bid_status" property="bid_status" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="bid_id" property="bidId" jdbcType="INTEGER" />
+    <result column="bid_status" property="bidStatus" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -26,8 +26,8 @@
     insert into t_ztgl_bid_evaluation (id, object_id, bid_id, 
       bid_status, insert_time, remark
       )
-    values (#{id,jdbcType=INTEGER}, #{object_id,jdbcType=VARCHAR}, #{bid_id,jdbcType=INTEGER}, 
-      #{bid_status,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{bidId,jdbcType=INTEGER}, 
+      #{bidStatus,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidEvaluation" >
@@ -36,16 +36,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="bid_id != null" >
+      <if test="bidId != null" >
         bid_id,
       </if>
-      <if test="bid_status != null" >
+      <if test="bidStatus != null" >
         bid_status,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
       <if test="remark != null" >
@@ -56,17 +56,17 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="bid_id != null" >
-        #{bid_id,jdbcType=INTEGER},
+      <if test="bidId != null" >
+        #{bidId,jdbcType=INTEGER},
       </if>
-      <if test="bid_status != null" >
-        #{bid_status,jdbcType=VARCHAR},
+      <if test="bidStatus != null" >
+        #{bidStatus,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -76,17 +76,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidEvaluation" >
     update t_ztgl_bid_evaluation
     <set >
-      <if test="object_id != null" >
-        object_id = #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="bid_id != null" >
-        bid_id = #{bid_id,jdbcType=INTEGER},
+      <if test="bidId != null" >
+        bid_id = #{bidId,jdbcType=INTEGER},
       </if>
-      <if test="bid_status != null" >
-        bid_status = #{bid_status,jdbcType=VARCHAR},
+      <if test="bidStatus != null" >
+        bid_status = #{bidStatus,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -96,10 +96,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidEvaluation" >
     update t_ztgl_bid_evaluation
-    set object_id = #{object_id,jdbcType=VARCHAR},
-      bid_id = #{bid_id,jdbcType=INTEGER},
-      bid_status = #{bid_status,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      bid_id = #{bidId,jdbcType=INTEGER},
+      bid_status = #{bidStatus,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

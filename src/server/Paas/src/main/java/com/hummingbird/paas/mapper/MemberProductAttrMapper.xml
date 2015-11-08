@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.MemberProductAttrMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.MemberProductAttr" >
-    <id column="product_id" property="product_id" jdbcType="VARCHAR" />
-    <result column="product_name" property="product_name" jdbcType="VARCHAR" />
-    <result column="product_expire_length" property="product_expire_length" jdbcType="INTEGER" />
-    <result column="member_type" property="member_type" jdbcType="VARCHAR" />
+    <id column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_expire_length" property="productExpireLength" jdbcType="INTEGER" />
+    <result column="member_type" property="memberType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     product_id, product_name, product_expire_length, member_type
@@ -14,69 +14,69 @@
     select 
     <include refid="Base_Column_List" />
     from t_member_product_attr
-    where product_id = #{product_id,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_member_product_attr
-    where product_id = #{product_id,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.MemberProductAttr" >
     insert into t_member_product_attr (product_id, product_name, product_expire_length, 
       member_type)
-    values (#{product_id,jdbcType=VARCHAR}, #{product_name,jdbcType=VARCHAR}, #{product_expire_length,jdbcType=INTEGER}, 
-      #{member_type,jdbcType=VARCHAR})
+    values (#{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{productExpireLength,jdbcType=INTEGER}, 
+      #{memberType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.MemberProductAttr" >
     insert into t_member_product_attr
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="product_id != null" >
+      <if test="productId != null" >
         product_id,
       </if>
-      <if test="product_name != null" >
+      <if test="productName != null" >
         product_name,
       </if>
-      <if test="product_expire_length != null" >
+      <if test="productExpireLength != null" >
         product_expire_length,
       </if>
-      <if test="member_type != null" >
+      <if test="memberType != null" >
         member_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="product_id != null" >
-        #{product_id,jdbcType=VARCHAR},
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
       </if>
-      <if test="product_name != null" >
-        #{product_name,jdbcType=VARCHAR},
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="product_expire_length != null" >
-        #{product_expire_length,jdbcType=INTEGER},
+      <if test="productExpireLength != null" >
+        #{productExpireLength,jdbcType=INTEGER},
       </if>
-      <if test="member_type != null" >
-        #{member_type,jdbcType=VARCHAR},
+      <if test="memberType != null" >
+        #{memberType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.MemberProductAttr" >
     update t_member_product_attr
     <set >
-      <if test="product_name != null" >
-        product_name = #{product_name,jdbcType=VARCHAR},
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
       </if>
-      <if test="product_expire_length != null" >
-        product_expire_length = #{product_expire_length,jdbcType=INTEGER},
+      <if test="productExpireLength != null" >
+        product_expire_length = #{productExpireLength,jdbcType=INTEGER},
       </if>
-      <if test="member_type != null" >
-        member_type = #{member_type,jdbcType=VARCHAR},
+      <if test="memberType != null" >
+        member_type = #{memberType,jdbcType=VARCHAR},
       </if>
     </set>
-    where product_id = #{product_id,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.MemberProductAttr" >
     update t_member_product_attr
-    set product_name = #{product_name,jdbcType=VARCHAR},
-      product_expire_length = #{product_expire_length,jdbcType=INTEGER},
-      member_type = #{member_type,jdbcType=VARCHAR}
-    where product_id = #{product_id,jdbcType=VARCHAR}
+    set product_name = #{productName,jdbcType=VARCHAR},
+      product_expire_length = #{productExpireLength,jdbcType=INTEGER},
+      member_type = #{memberType,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=VARCHAR}
   </update>
 </mapper>

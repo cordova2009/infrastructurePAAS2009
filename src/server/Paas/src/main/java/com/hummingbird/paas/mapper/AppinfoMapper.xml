@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.AppinfoMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Appinfo" >
-    <id column="appId" property="appId" jdbcType="VARCHAR" />
-    <result column="appName" property="appName" jdbcType="VARCHAR" />
-    <result column="appKey" property="appKey" jdbcType="VARCHAR" />
-    <result column="appCert" property="appCert" jdbcType="VARCHAR" />
-    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
-    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <id column="appId" property="appid" jdbcType="VARCHAR" />
+    <result column="appName" property="appname" jdbcType="VARCHAR" />
+    <result column="appKey" property="appkey" jdbcType="VARCHAR" />
+    <result column="appCert" property="appcert" jdbcType="VARCHAR" />
+    <result column="insertTime" property="inserttime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="CHAR" />
-    <result column="appPublicKey" property="appPublicKey" jdbcType="VARCHAR" />
+    <result column="appPublicKey" property="apppublickey" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     appId, appName, appKey, appCert, insertTime, updateTime, status, appPublicKey
@@ -18,111 +18,111 @@
     select 
     <include refid="Base_Column_List" />
     from t_tzxt_appinfo
-    where appId = #{appId,jdbcType=VARCHAR}
+    where appId = #{appid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_tzxt_appinfo
-    where appId = #{appId,jdbcType=VARCHAR}
+    where appId = #{appid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.Appinfo" >
     insert into t_tzxt_appinfo (appId, appName, appKey, 
       appCert, insertTime, updateTime, 
       status, appPublicKey)
-    values (#{appId,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, 
-      #{appCert,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=CHAR}, #{appPublicKey,jdbcType=VARCHAR})
+    values (#{appid,jdbcType=VARCHAR}, #{appname,jdbcType=VARCHAR}, #{appkey,jdbcType=VARCHAR}, 
+      #{appcert,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=CHAR}, #{apppublickey,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Appinfo" >
     insert into t_tzxt_appinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="appId != null" >
+      <if test="appid != null" >
         appId,
       </if>
-      <if test="appName != null" >
+      <if test="appname != null" >
         appName,
       </if>
-      <if test="appKey != null" >
+      <if test="appkey != null" >
         appKey,
       </if>
-      <if test="appCert != null" >
+      <if test="appcert != null" >
         appCert,
       </if>
-      <if test="insertTime != null" >
+      <if test="inserttime != null" >
         insertTime,
       </if>
-      <if test="updateTime != null" >
+      <if test="updatetime != null" >
         updateTime,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="appPublicKey != null" >
+      <if test="apppublickey != null" >
         appPublicKey,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="appId != null" >
-        #{appId,jdbcType=VARCHAR},
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
       </if>
-      <if test="appName != null" >
-        #{appName,jdbcType=VARCHAR},
+      <if test="appname != null" >
+        #{appname,jdbcType=VARCHAR},
       </if>
-      <if test="appKey != null" >
-        #{appKey,jdbcType=VARCHAR},
+      <if test="appkey != null" >
+        #{appkey,jdbcType=VARCHAR},
       </if>
-      <if test="appCert != null" >
-        #{appCert,jdbcType=VARCHAR},
+      <if test="appcert != null" >
+        #{appcert,jdbcType=VARCHAR},
       </if>
-      <if test="insertTime != null" >
-        #{insertTime,jdbcType=TIMESTAMP},
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=CHAR},
       </if>
-      <if test="appPublicKey != null" >
-        #{appPublicKey,jdbcType=VARCHAR},
+      <if test="apppublickey != null" >
+        #{apppublickey,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Appinfo" >
     update t_tzxt_appinfo
     <set >
-      <if test="appName != null" >
-        appName = #{appName,jdbcType=VARCHAR},
+      <if test="appname != null" >
+        appName = #{appname,jdbcType=VARCHAR},
       </if>
-      <if test="appKey != null" >
-        appKey = #{appKey,jdbcType=VARCHAR},
+      <if test="appkey != null" >
+        appKey = #{appkey,jdbcType=VARCHAR},
       </if>
-      <if test="appCert != null" >
-        appCert = #{appCert,jdbcType=VARCHAR},
+      <if test="appcert != null" >
+        appCert = #{appcert,jdbcType=VARCHAR},
       </if>
-      <if test="insertTime != null" >
-        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      <if test="inserttime != null" >
+        insertTime = #{inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=CHAR},
       </if>
-      <if test="appPublicKey != null" >
-        appPublicKey = #{appPublicKey,jdbcType=VARCHAR},
+      <if test="apppublickey != null" >
+        appPublicKey = #{apppublickey,jdbcType=VARCHAR},
       </if>
     </set>
-    where appId = #{appId,jdbcType=VARCHAR}
+    where appId = #{appid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Appinfo" >
     update t_tzxt_appinfo
-    set appName = #{appName,jdbcType=VARCHAR},
-      appKey = #{appKey,jdbcType=VARCHAR},
-      appCert = #{appCert,jdbcType=VARCHAR},
-      insertTime = #{insertTime,jdbcType=TIMESTAMP},
-      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+    set appName = #{appname,jdbcType=VARCHAR},
+      appKey = #{appkey,jdbcType=VARCHAR},
+      appCert = #{appcert,jdbcType=VARCHAR},
+      insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=CHAR},
-      appPublicKey = #{appPublicKey,jdbcType=VARCHAR}
-    where appId = #{appId,jdbcType=VARCHAR}
+      appPublicKey = #{apppublickey,jdbcType=VARCHAR}
+    where appId = #{appid,jdbcType=VARCHAR}
   </update>
 </mapper>

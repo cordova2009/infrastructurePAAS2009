@@ -14,22 +14,22 @@ public class BidEvaluation {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 投标id
      */
-    private Integer bid_id;
+    private Integer bidId;
 
     /**
      * 评标状态,WIN中标，LOS不中标
      */
-    private String bid_status;
+    private String bidStatus;
 
     /**
      * 插入时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 备注
@@ -54,61 +54,61 @@ public class BidEvaluation {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 投标id
      */
-    public Integer getBid_id() {
-        return bid_id;
+    public Integer getBidId() {
+        return bidId;
     }
 
     /**
      * @param bidId 
 	 *            投标id
      */
-    public void setBid_id(Integer bid_id) {
-        this.bid_id = bid_id;
+    public void setBidId(Integer bidId) {
+        this.bidId = bidId;
     }
 
     /**
      * @return 评标状态,WIN中标，LOS不中标
      */
-    public String getBid_status() {
-        return bid_status;
+    public String getBidStatus() {
+        return bidStatus;
     }
 
     /**
      * @param bidStatus 
 	 *            评标状态,WIN中标，LOS不中标
      */
-    public void setBid_status(String bid_status) {
-        this.bid_status = bid_status == null ? null : bid_status.trim();
+    public void setBidStatus(String bidStatus) {
+        this.bidStatus = bidStatus == null ? null : bidStatus.trim();
     }
 
     /**
      * @return 插入时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            插入时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
@@ -139,10 +139,10 @@ public class BidEvaluation {
         }
         BidEvaluation other = (BidEvaluation) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getBid_id() == null ? other.getBid_id() == null : this.getBid_id().equals(other.getBid_id()))
-            && (this.getBid_status() == null ? other.getBid_status() == null : this.getBid_status().equals(other.getBid_status()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getBidId() == null ? other.getBidId() == null : this.getBidId().equals(other.getBidId()))
+            && (this.getBidStatus() == null ? other.getBidStatus() == null : this.getBidStatus().equals(other.getBidStatus()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
     }
 
@@ -151,10 +151,10 @@ public class BidEvaluation {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getBid_id() == null) ? 0 : getBid_id().hashCode());
-        result = prime * result + ((getBid_status() == null) ? 0 : getBid_status().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getBidId() == null) ? 0 : getBidId().hashCode());
+        result = prime * result + ((getBidStatus() == null) ? 0 : getBidStatus().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         return result;
     }

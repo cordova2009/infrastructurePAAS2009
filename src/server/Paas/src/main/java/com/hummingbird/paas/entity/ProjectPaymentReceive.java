@@ -19,12 +19,12 @@ public class ProjectPaymentReceive {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 期数
      */
-    private Integer current_period;
+    private Integer currentPeriod;
 
     /**
      * 金额,单位分
@@ -34,37 +34,37 @@ public class ProjectPaymentReceive {
     /**
      * 应支付时间
      */
-    private Date should_receive_time;
+    private Date shouldReceiveTime;
 
     /**
      * 支付时间
      */
-    private Date receive_time;
+    private Date receiveTime;
 
     /**
      * 总金额
      */
-    private Integer total_amount;
+    private Integer totalAmount;
 
     /**
      * 剩余期数
      */
-    private Integer left_period;
+    private Integer leftPeriod;
 
     /**
      * 剩余金额,单位分
      */
-    private Integer left_amount;
+    private Integer leftAmount;
 
     /**
      * 总期数
      */
-    private Integer total_period;
+    private Integer totalPeriod;
 
     /**
      * 订单号
      */
-    private String order_id;
+    private String orderId;
 
     /**
      * @return 主键
@@ -99,31 +99,31 @@ public class ProjectPaymentReceive {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 期数
      */
-    public Integer getCurrent_period() {
-        return current_period;
+    public Integer getCurrentPeriod() {
+        return currentPeriod;
     }
 
     /**
      * @param currentPeriod 
 	 *            期数
      */
-    public void setCurrent_period(Integer current_period) {
-        this.current_period = current_period;
+    public void setCurrentPeriod(Integer currentPeriod) {
+        this.currentPeriod = currentPeriod;
     }
 
     /**
@@ -144,106 +144,106 @@ public class ProjectPaymentReceive {
     /**
      * @return 应支付时间
      */
-    public Date getShould_receive_time() {
-        return should_receive_time;
+    public Date getShouldReceiveTime() {
+        return shouldReceiveTime;
     }
 
     /**
      * @param shouldReceiveTime 
 	 *            应支付时间
      */
-    public void setShould_receive_time(Date should_receive_time) {
-        this.should_receive_time = should_receive_time;
+    public void setShouldReceiveTime(Date shouldReceiveTime) {
+        this.shouldReceiveTime = shouldReceiveTime;
     }
 
     /**
      * @return 支付时间
      */
-    public Date getReceive_time() {
-        return receive_time;
+    public Date getReceiveTime() {
+        return receiveTime;
     }
 
     /**
      * @param receiveTime 
 	 *            支付时间
      */
-    public void setReceive_time(Date receive_time) {
-        this.receive_time = receive_time;
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
     }
 
     /**
      * @return 总金额
      */
-    public Integer getTotal_amount() {
-        return total_amount;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
     /**
      * @param totalAmount 
 	 *            总金额
      */
-    public void setTotal_amount(Integer total_amount) {
-        this.total_amount = total_amount;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**
      * @return 剩余期数
      */
-    public Integer getLeft_period() {
-        return left_period;
+    public Integer getLeftPeriod() {
+        return leftPeriod;
     }
 
     /**
      * @param leftPeriod 
 	 *            剩余期数
      */
-    public void setLeft_period(Integer left_period) {
-        this.left_period = left_period;
+    public void setLeftPeriod(Integer leftPeriod) {
+        this.leftPeriod = leftPeriod;
     }
 
     /**
      * @return 剩余金额,单位分
      */
-    public Integer getLeft_amount() {
-        return left_amount;
+    public Integer getLeftAmount() {
+        return leftAmount;
     }
 
     /**
      * @param leftAmount 
 	 *            剩余金额,单位分
      */
-    public void setLeft_amount(Integer left_amount) {
-        this.left_amount = left_amount;
+    public void setLeftAmount(Integer leftAmount) {
+        this.leftAmount = leftAmount;
     }
 
     /**
      * @return 总期数
      */
-    public Integer getTotal_period() {
-        return total_period;
+    public Integer getTotalPeriod() {
+        return totalPeriod;
     }
 
     /**
      * @param totalPeriod 
 	 *            总期数
      */
-    public void setTotal_period(Integer total_period) {
-        this.total_period = total_period;
+    public void setTotalPeriod(Integer totalPeriod) {
+        this.totalPeriod = totalPeriod;
     }
 
     /**
      * @return 订单号
      */
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单号
      */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id == null ? null : order_id.trim();
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     @Override
@@ -260,16 +260,16 @@ public class ProjectPaymentReceive {
         ProjectPaymentReceive other = (ProjectPaymentReceive) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getCurrent_period() == null ? other.getCurrent_period() == null : this.getCurrent_period().equals(other.getCurrent_period()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getCurrentPeriod() == null ? other.getCurrentPeriod() == null : this.getCurrentPeriod().equals(other.getCurrentPeriod()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getShould_receive_time() == null ? other.getShould_receive_time() == null : this.getShould_receive_time().equals(other.getShould_receive_time()))
-            && (this.getReceive_time() == null ? other.getReceive_time() == null : this.getReceive_time().equals(other.getReceive_time()))
-            && (this.getTotal_amount() == null ? other.getTotal_amount() == null : this.getTotal_amount().equals(other.getTotal_amount()))
-            && (this.getLeft_period() == null ? other.getLeft_period() == null : this.getLeft_period().equals(other.getLeft_period()))
-            && (this.getLeft_amount() == null ? other.getLeft_amount() == null : this.getLeft_amount().equals(other.getLeft_amount()))
-            && (this.getTotal_period() == null ? other.getTotal_period() == null : this.getTotal_period().equals(other.getTotal_period()))
-            && (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()));
+            && (this.getShouldReceiveTime() == null ? other.getShouldReceiveTime() == null : this.getShouldReceiveTime().equals(other.getShouldReceiveTime()))
+            && (this.getReceiveTime() == null ? other.getReceiveTime() == null : this.getReceiveTime().equals(other.getReceiveTime()))
+            && (this.getTotalAmount() == null ? other.getTotalAmount() == null : this.getTotalAmount().equals(other.getTotalAmount()))
+            && (this.getLeftPeriod() == null ? other.getLeftPeriod() == null : this.getLeftPeriod().equals(other.getLeftPeriod()))
+            && (this.getLeftAmount() == null ? other.getLeftAmount() == null : this.getLeftAmount().equals(other.getLeftAmount()))
+            && (this.getTotalPeriod() == null ? other.getTotalPeriod() == null : this.getTotalPeriod().equals(other.getTotalPeriod()))
+            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()));
     }
 
     @Override
@@ -278,16 +278,16 @@ public class ProjectPaymentReceive {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getCurrent_period() == null) ? 0 : getCurrent_period().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getCurrentPeriod() == null) ? 0 : getCurrentPeriod().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getShould_receive_time() == null) ? 0 : getShould_receive_time().hashCode());
-        result = prime * result + ((getReceive_time() == null) ? 0 : getReceive_time().hashCode());
-        result = prime * result + ((getTotal_amount() == null) ? 0 : getTotal_amount().hashCode());
-        result = prime * result + ((getLeft_period() == null) ? 0 : getLeft_period().hashCode());
-        result = prime * result + ((getLeft_amount() == null) ? 0 : getLeft_amount().hashCode());
-        result = prime * result + ((getTotal_period() == null) ? 0 : getTotal_period().hashCode());
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
+        result = prime * result + ((getShouldReceiveTime() == null) ? 0 : getShouldReceiveTime().hashCode());
+        result = prime * result + ((getReceiveTime() == null) ? 0 : getReceiveTime().hashCode());
+        result = prime * result + ((getTotalAmount() == null) ? 0 : getTotalAmount().hashCode());
+        result = prime * result + ((getLeftPeriod() == null) ? 0 : getLeftPeriod().hashCode());
+        result = prime * result + ((getLeftAmount() == null) ? 0 : getLeftAmount().hashCode());
+        result = prime * result + ((getTotalPeriod() == null) ? 0 : getTotalPeriod().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         return result;
     }
 }

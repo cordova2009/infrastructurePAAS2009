@@ -12,7 +12,7 @@ public class OrderProduct {
     /**
      * 产品名称
      */
-    private String product_name;
+    private String productName;
 
     /**
      * 产品状态，OK# 正常，OFF下线
@@ -22,7 +22,7 @@ public class OrderProduct {
     /**
      * 产品分类
      */
-    private Integer product_category_id;
+    private Integer productCategoryId;
 
     /**
      * 产品单价,单位为分
@@ -32,7 +32,7 @@ public class OrderProduct {
     /**
      * 产品描述
      */
-    private String product_description;
+    private String productDescription;
 
     /**
      * @return id
@@ -52,16 +52,16 @@ public class OrderProduct {
     /**
      * @return 产品名称
      */
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
     /**
      * @param productName 
 	 *            产品名称
      */
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name == null ? null : product_name.trim();
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : productName.trim();
     }
 
     /**
@@ -82,16 +82,16 @@ public class OrderProduct {
     /**
      * @return 产品分类
      */
-    public Integer getProduct_category_id() {
-        return product_category_id;
+    public Integer getProductCategoryId() {
+        return productCategoryId;
     }
 
     /**
      * @param productCategoryId 
 	 *            产品分类
      */
-    public void setProduct_category_id(Integer product_category_id) {
-        this.product_category_id = product_category_id;
+    public void setProductCategoryId(Integer productCategoryId) {
+        this.productCategoryId = productCategoryId;
     }
 
     /**
@@ -112,16 +112,16 @@ public class OrderProduct {
     /**
      * @return 产品描述
      */
-    public String getProduct_description() {
-        return product_description;
+    public String getProductDescription() {
+        return productDescription;
     }
 
     /**
      * @param productDescription 
 	 *            产品描述
      */
-    public void setProduct_description(String product_description) {
-        this.product_description = product_description == null ? null : product_description.trim();
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription == null ? null : productDescription.trim();
     }
 
     @Override
@@ -137,11 +137,11 @@ public class OrderProduct {
         }
         OrderProduct other = (OrderProduct) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getProduct_name() == null ? other.getProduct_name() == null : this.getProduct_name().equals(other.getProduct_name()))
+            && (this.getProductName() == null ? other.getProductName() == null : this.getProductName().equals(other.getProductName()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getProduct_category_id() == null ? other.getProduct_category_id() == null : this.getProduct_category_id().equals(other.getProduct_category_id()))
+            && (this.getProductCategoryId() == null ? other.getProductCategoryId() == null : this.getProductCategoryId().equals(other.getProductCategoryId()))
             && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
-            && (this.getProduct_description() == null ? other.getProduct_description() == null : this.getProduct_description().equals(other.getProduct_description()));
+            && (this.getProductDescription() == null ? other.getProductDescription() == null : this.getProductDescription().equals(other.getProductDescription()));
     }
 
     @Override
@@ -149,11 +149,11 @@ public class OrderProduct {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getProduct_name() == null) ? 0 : getProduct_name().hashCode());
+        result = prime * result + ((getProductName() == null) ? 0 : getProductName().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getProduct_category_id() == null) ? 0 : getProduct_category_id().hashCode());
+        result = prime * result + ((getProductCategoryId() == null) ? 0 : getProductCategoryId().hashCode());
         result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
-        result = prime * result + ((getProduct_description() == null) ? 0 : getProduct_description().hashCode());
+        result = prime * result + ((getProductDescription() == null) ? 0 : getProductDescription().hashCode());
         return result;
     }
 }

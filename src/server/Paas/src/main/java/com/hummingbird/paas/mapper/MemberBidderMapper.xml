@@ -3,10 +3,10 @@
 <mapper namespace="com.hummingbird.paas.mapper.MemberBidderMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.MemberBidder" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bidder_id" property="bidder_id" jdbcType="INTEGER" />
-    <result column="member_level" property="member_level" jdbcType="VARCHAR" />
-    <result column="start_time" property="start_time" jdbcType="TIMESTAMP" />
-    <result column="end_time" property="end_time" jdbcType="TIMESTAMP" />
+    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="member_level" property="memberLevel" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_id, member_level, start_time, end_time
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.MemberBidder" >
     insert into t_hygl_bidder (id, bidder_id, member_level, 
       start_time, end_time)
-    values (#{id,jdbcType=INTEGER}, #{bidder_id,jdbcType=INTEGER}, #{member_level,jdbcType=VARCHAR}, 
-      #{start_time,jdbcType=TIMESTAMP}, #{end_time,jdbcType=TIMESTAMP})
+    values (#{id,jdbcType=INTEGER}, #{bidderId,jdbcType=INTEGER}, #{memberLevel,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.MemberBidder" >
     insert into t_hygl_bidder
@@ -33,16 +33,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="bidder_id != null" >
+      <if test="bidderId != null" >
         bidder_id,
       </if>
-      <if test="member_level != null" >
+      <if test="memberLevel != null" >
         member_level,
       </if>
-      <if test="start_time != null" >
+      <if test="startTime != null" >
         start_time,
       </if>
-      <if test="end_time != null" >
+      <if test="endTime != null" >
         end_time,
       </if>
     </trim>
@@ -50,44 +50,44 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="bidder_id != null" >
-        #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="member_level != null" >
-        #{member_level,jdbcType=VARCHAR},
+      <if test="memberLevel != null" >
+        #{memberLevel,jdbcType=VARCHAR},
       </if>
-      <if test="start_time != null" >
-        #{start_time,jdbcType=TIMESTAMP},
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="end_time != null" >
-        #{end_time,jdbcType=TIMESTAMP},
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.MemberBidder" >
     update t_hygl_bidder
     <set >
-      <if test="bidder_id != null" >
-        bidder_id = #{bidder_id,jdbcType=INTEGER},
+      <if test="bidderId != null" >
+        bidder_id = #{bidderId,jdbcType=INTEGER},
       </if>
-      <if test="member_level != null" >
-        member_level = #{member_level,jdbcType=VARCHAR},
+      <if test="memberLevel != null" >
+        member_level = #{memberLevel,jdbcType=VARCHAR},
       </if>
-      <if test="start_time != null" >
-        start_time = #{start_time,jdbcType=TIMESTAMP},
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="end_time != null" >
-        end_time = #{end_time,jdbcType=TIMESTAMP},
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.MemberBidder" >
     update t_hygl_bidder
-    set bidder_id = #{bidder_id,jdbcType=INTEGER},
-      member_level = #{member_level,jdbcType=VARCHAR},
-      start_time = #{start_time,jdbcType=TIMESTAMP},
-      end_time = #{end_time,jdbcType=TIMESTAMP}
+    set bidder_id = #{bidderId,jdbcType=INTEGER},
+      member_level = #{memberLevel,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

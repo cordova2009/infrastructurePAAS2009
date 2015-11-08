@@ -12,17 +12,17 @@ public class ProjectPaymentDefine {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 付款类型，ONE一次性，MON按月，PID按期，CUM自定义
      */
-    private String pay_type;
+    private String payType;
 
     /**
      * 付款期数，一次性时为1，按月时为月数，按周期为首付+尾款+周期数，自定义为所有定义的记录数
      */
-    private Integer pay_period;
+    private Integer payPeriod;
 
     /**
      * @return id
@@ -42,46 +42,46 @@ public class ProjectPaymentDefine {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 付款类型，ONE一次性，MON按月，PID按期，CUM自定义
      */
-    public String getPay_type() {
-        return pay_type;
+    public String getPayType() {
+        return payType;
     }
 
     /**
      * @param payType 
 	 *            付款类型，ONE一次性，MON按月，PID按期，CUM自定义
      */
-    public void setPay_type(String pay_type) {
-        this.pay_type = pay_type == null ? null : pay_type.trim();
+    public void setPayType(String payType) {
+        this.payType = payType == null ? null : payType.trim();
     }
 
     /**
      * @return 付款期数，一次性时为1，按月时为月数，按周期为首付+尾款+周期数，自定义为所有定义的记录数
      */
-    public Integer getPay_period() {
-        return pay_period;
+    public Integer getPayPeriod() {
+        return payPeriod;
     }
 
     /**
      * @param payPeriod 
 	 *            付款期数，一次性时为1，按月时为月数，按周期为首付+尾款+周期数，自定义为所有定义的记录数
      */
-    public void setPay_period(Integer pay_period) {
-        this.pay_period = pay_period;
+    public void setPayPeriod(Integer payPeriod) {
+        this.payPeriod = payPeriod;
     }
 
     @Override
@@ -97,9 +97,9 @@ public class ProjectPaymentDefine {
         }
         ProjectPaymentDefine other = (ProjectPaymentDefine) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getPay_type() == null ? other.getPay_type() == null : this.getPay_type().equals(other.getPay_type()))
-            && (this.getPay_period() == null ? other.getPay_period() == null : this.getPay_period().equals(other.getPay_period()));
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getPayType() == null ? other.getPayType() == null : this.getPayType().equals(other.getPayType()))
+            && (this.getPayPeriod() == null ? other.getPayPeriod() == null : this.getPayPeriod().equals(other.getPayPeriod()));
     }
 
     @Override
@@ -107,9 +107,9 @@ public class ProjectPaymentDefine {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getPay_type() == null) ? 0 : getPay_type().hashCode());
-        result = prime * result + ((getPay_period() == null) ? 0 : getPay_period().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getPayType() == null) ? 0 : getPayType().hashCode());
+        result = prime * result + ((getPayPeriod() == null) ? 0 : getPayPeriod().hashCode());
         return result;
     }
 }

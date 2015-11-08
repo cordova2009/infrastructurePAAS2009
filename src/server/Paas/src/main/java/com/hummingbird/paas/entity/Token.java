@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * t_user_token
  */
-public class UserToken {
+public class Token {
     /**
      * 用户令牌
      */
@@ -14,7 +14,7 @@ public class UserToken {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 有效时间长度（单位：秒）
@@ -51,82 +51,49 @@ public class UserToken {
         this.token = token == null ? null : token.trim();
     }
 
-    /**
-     * @return 用户ID
-     */
-    public Long getUserId() {
-        return userId;
-    }
+   
 
-    /**
-     * @param userid 
-	 *            用户ID
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public Integer getUserId() {
+		return userId;
+	}
 
-    /**
-     * @return 有效时间长度（单位：秒）
-     */
-    public Integer getExpireIn() {
-        return expireIn;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    /**
-     * @param expirein 
-	 *            有效时间长度（单位：秒）
-     */
-    public void setExpireIn(Integer expireIn) {
-        this.expireIn = expireIn;
-    }
+	public Integer getExpireIn() {
+		return expireIn;
+	}
 
-    /**
-     * @return 应用ID
-     */
-    public String getAppId() {
-        return appId;
-    }
+	public void setExpireIn(Integer expireIn) {
+		this.expireIn = expireIn;
+	}
 
-    /**
-     * @param appid 
-	 *            应用ID
-     */
-    public void setAppId(String appId) {
-        this.appId = appId == null ? null : appId.trim();
-    }
+	public String getAppId() {
+		return appId;
+	}
 
-    /**
-     * @return 创建时间（插入时间）
-     */
-    public Date getInsertTime() {
-        return insertTime;
-    }
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
 
-    /**
-     * @param inserttime 
-	 *            创建时间（插入时间）
-     */
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
-    }
+	public Date getInsertTime() {
+		return insertTime;
+	}
 
-    /**
-     * @return 修改时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public void setInsertTime(Date insertTime) {
+		this.insertTime = insertTime;
+	}
 
-    /**
-     * @param updatetime 
-	 *            修改时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
-    @Override
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	@Override
     public boolean equals(Object that) {
         if (this == that) {
             return true;
@@ -137,7 +104,7 @@ public class UserToken {
         if (getClass() != that.getClass()) {
             return false;
         }
-        UserToken other = (UserToken) that;
+        Token other = (Token) that;
         return (this.getToken() == null ? other.getToken() == null : this.getToken().equals(other.getToken()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getExpireIn() == null ? other.getExpireIn() == null : this.getExpireIn().equals(other.getExpireIn()))

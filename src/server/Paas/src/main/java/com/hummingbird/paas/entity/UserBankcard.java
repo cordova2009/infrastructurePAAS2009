@@ -17,22 +17,22 @@ public class UserBankcard {
     /**
      * 用户id
      */
-    private Integer user_id;
+    private Integer userId;
 
     /**
      * 银行名称
      */
-    private String bank_name;
+    private String bankName;
 
     /**
      * 支行名称
      */
-    private String bank_branch_name;
+    private String bankBranchName;
 
     /**
      * 银行帐号
      */
-    private String account_no;
+    private String accountNo;
 
     /**
      * 省份-存中文
@@ -47,7 +47,7 @@ public class UserBankcard {
     /**
      * 开户人名称
      */
-    private String account_name;
+    private String accountName;
 
     /**
      * @return id
@@ -82,61 +82,61 @@ public class UserBankcard {
     /**
      * @return 用户id
      */
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * @param userId 
 	 *            用户id
      */
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
      * @return 银行名称
      */
-    public String getBank_name() {
-        return bank_name;
+    public String getBankName() {
+        return bankName;
     }
 
     /**
      * @param bankName 
 	 *            银行名称
      */
-    public void setBank_name(String bank_name) {
-        this.bank_name = bank_name == null ? null : bank_name.trim();
+    public void setBankName(String bankName) {
+        this.bankName = bankName == null ? null : bankName.trim();
     }
 
     /**
      * @return 支行名称
      */
-    public String getBank_branch_name() {
-        return bank_branch_name;
+    public String getBankBranchName() {
+        return bankBranchName;
     }
 
     /**
      * @param bankBranchName 
 	 *            支行名称
      */
-    public void setBank_branch_name(String bank_branch_name) {
-        this.bank_branch_name = bank_branch_name == null ? null : bank_branch_name.trim();
+    public void setBankBranchName(String bankBranchName) {
+        this.bankBranchName = bankBranchName == null ? null : bankBranchName.trim();
     }
 
     /**
      * @return 银行帐号
      */
-    public String getAccount_no() {
-        return account_no;
+    public String getAccountNo() {
+        return accountNo;
     }
 
     /**
      * @param accountNo 
 	 *            银行帐号
      */
-    public void setAccount_no(String account_no) {
-        this.account_no = account_no == null ? null : account_no.trim();
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo == null ? null : accountNo.trim();
     }
 
     /**
@@ -172,16 +172,16 @@ public class UserBankcard {
     /**
      * @return 开户人名称
      */
-    public String getAccount_name() {
-        return account_name;
+    public String getAccountName() {
+        return accountName;
     }
 
     /**
      * @param accountName 
 	 *            开户人名称
      */
-    public void setAccount_name(String account_name) {
-        this.account_name = account_name == null ? null : account_name.trim();
+    public void setAccountName(String accountName) {
+        this.accountName = accountName == null ? null : accountName.trim();
     }
 
     @Override
@@ -198,13 +198,13 @@ public class UserBankcard {
         UserBankcard other = (UserBankcard) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
-            && (this.getUser_id() == null ? other.getUser_id() == null : this.getUser_id().equals(other.getUser_id()))
-            && (this.getBank_name() == null ? other.getBank_name() == null : this.getBank_name().equals(other.getBank_name()))
-            && (this.getBank_branch_name() == null ? other.getBank_branch_name() == null : this.getBank_branch_name().equals(other.getBank_branch_name()))
-            && (this.getAccount_no() == null ? other.getAccount_no() == null : this.getAccount_no().equals(other.getAccount_no()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getBankName() == null ? other.getBankName() == null : this.getBankName().equals(other.getBankName()))
+            && (this.getBankBranchName() == null ? other.getBankBranchName() == null : this.getBankBranchName().equals(other.getBankBranchName()))
+            && (this.getAccountNo() == null ? other.getAccountNo() == null : this.getAccountNo().equals(other.getAccountNo()))
             && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
-            && (this.getAccount_name() == null ? other.getAccount_name() == null : this.getAccount_name().equals(other.getAccount_name()));
+            && (this.getAccountName() == null ? other.getAccountName() == null : this.getAccountName().equals(other.getAccountName()));
     }
 
     @Override
@@ -213,13 +213,13 @@ public class UserBankcard {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
-        result = prime * result + ((getUser_id() == null) ? 0 : getUser_id().hashCode());
-        result = prime * result + ((getBank_name() == null) ? 0 : getBank_name().hashCode());
-        result = prime * result + ((getBank_branch_name() == null) ? 0 : getBank_branch_name().hashCode());
-        result = prime * result + ((getAccount_no() == null) ? 0 : getAccount_no().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getBankName() == null) ? 0 : getBankName().hashCode());
+        result = prime * result + ((getBankBranchName() == null) ? 0 : getBankBranchName().hashCode());
+        result = prime * result + ((getAccountNo() == null) ? 0 : getAccountNo().hashCode());
         result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
-        result = prime * result + ((getAccount_name() == null) ? 0 : getAccount_name().hashCode());
+        result = prime * result + ((getAccountName() == null) ? 0 : getAccountName().hashCode());
         return result;
     }
 }

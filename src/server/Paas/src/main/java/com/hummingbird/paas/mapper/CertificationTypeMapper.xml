@@ -3,10 +3,10 @@
 <mapper namespace="com.hummingbird.paas.mapper.CertificationTypeMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.CertificationType" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="certification_groupname" property="certification_groupname" jdbcType="VARCHAR" />
-    <result column="certification_level" property="certification_level" jdbcType="INTEGER" />
-    <result column="certification_name" property="certification_name" jdbcType="VARCHAR" />
-    <result column="can_verify" property="can_verify" jdbcType="VARCHAR" />
+    <result column="certification_groupname" property="certificationGroupname" jdbcType="VARCHAR" />
+    <result column="certification_level" property="certificationLevel" jdbcType="INTEGER" />
+    <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
+    <result column="can_verify" property="canVerify" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, certification_groupname, certification_level, certification_name, can_verify
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.CertificationType" >
     insert into t_base_certification_type (id, certification_groupname, certification_level, 
       certification_name, can_verify)
-    values (#{id,jdbcType=INTEGER}, #{certification_groupname,jdbcType=VARCHAR}, #{certification_level,jdbcType=INTEGER}, 
-      #{certification_name,jdbcType=VARCHAR}, #{can_verify,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{certificationGroupname,jdbcType=VARCHAR}, #{certificationLevel,jdbcType=INTEGER}, 
+      #{certificationName,jdbcType=VARCHAR}, #{canVerify,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.CertificationType" >
     insert into t_base_certification_type
@@ -33,16 +33,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="certification_groupname != null" >
+      <if test="certificationGroupname != null" >
         certification_groupname,
       </if>
-      <if test="certification_level != null" >
+      <if test="certificationLevel != null" >
         certification_level,
       </if>
-      <if test="certification_name != null" >
+      <if test="certificationName != null" >
         certification_name,
       </if>
-      <if test="can_verify != null" >
+      <if test="canVerify != null" >
         can_verify,
       </if>
     </trim>
@@ -50,44 +50,44 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="certification_groupname != null" >
-        #{certification_groupname,jdbcType=VARCHAR},
+      <if test="certificationGroupname != null" >
+        #{certificationGroupname,jdbcType=VARCHAR},
       </if>
-      <if test="certification_level != null" >
-        #{certification_level,jdbcType=INTEGER},
+      <if test="certificationLevel != null" >
+        #{certificationLevel,jdbcType=INTEGER},
       </if>
-      <if test="certification_name != null" >
-        #{certification_name,jdbcType=VARCHAR},
+      <if test="certificationName != null" >
+        #{certificationName,jdbcType=VARCHAR},
       </if>
-      <if test="can_verify != null" >
-        #{can_verify,jdbcType=VARCHAR},
+      <if test="canVerify != null" >
+        #{canVerify,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.CertificationType" >
     update t_base_certification_type
     <set >
-      <if test="certification_groupname != null" >
-        certification_groupname = #{certification_groupname,jdbcType=VARCHAR},
+      <if test="certificationGroupname != null" >
+        certification_groupname = #{certificationGroupname,jdbcType=VARCHAR},
       </if>
-      <if test="certification_level != null" >
-        certification_level = #{certification_level,jdbcType=INTEGER},
+      <if test="certificationLevel != null" >
+        certification_level = #{certificationLevel,jdbcType=INTEGER},
       </if>
-      <if test="certification_name != null" >
-        certification_name = #{certification_name,jdbcType=VARCHAR},
+      <if test="certificationName != null" >
+        certification_name = #{certificationName,jdbcType=VARCHAR},
       </if>
-      <if test="can_verify != null" >
-        can_verify = #{can_verify,jdbcType=VARCHAR},
+      <if test="canVerify != null" >
+        can_verify = #{canVerify,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.CertificationType" >
     update t_base_certification_type
-    set certification_groupname = #{certification_groupname,jdbcType=VARCHAR},
-      certification_level = #{certification_level,jdbcType=INTEGER},
-      certification_name = #{certification_name,jdbcType=VARCHAR},
-      can_verify = #{can_verify,jdbcType=VARCHAR}
+    set certification_groupname = #{certificationGroupname,jdbcType=VARCHAR},
+      certification_level = #{certificationLevel,jdbcType=INTEGER},
+      certification_name = #{certificationName,jdbcType=VARCHAR},
+      can_verify = #{canVerify,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

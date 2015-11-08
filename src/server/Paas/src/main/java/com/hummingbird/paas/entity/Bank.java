@@ -7,41 +7,41 @@ public class Bank {
     /**
      * 银行id，ICBC 工行 等
      */
-    private String bank_id;
+    private String bankId;
 
     /**
      * 银行名称
      */
-    private String bank_name;
+    private String bankName;
 
     /**
      * @return 银行id，ICBC 工行 等
      */
-    public String getBank_id() {
-        return bank_id;
+    public String getBankId() {
+        return bankId;
     }
 
     /**
      * @param bankId 
 	 *            银行id，ICBC 工行 等
      */
-    public void setBank_id(String bank_id) {
-        this.bank_id = bank_id == null ? null : bank_id.trim();
+    public void setBankId(String bankId) {
+        this.bankId = bankId == null ? null : bankId.trim();
     }
 
     /**
      * @return 银行名称
      */
-    public String getBank_name() {
-        return bank_name;
+    public String getBankName() {
+        return bankName;
     }
 
     /**
      * @param bankName 
 	 *            银行名称
      */
-    public void setBank_name(String bank_name) {
-        this.bank_name = bank_name == null ? null : bank_name.trim();
+    public void setBankName(String bankName) {
+        this.bankName = bankName == null ? null : bankName.trim();
     }
 
     @Override
@@ -56,16 +56,16 @@ public class Bank {
             return false;
         }
         Bank other = (Bank) that;
-        return (this.getBank_id() == null ? other.getBank_id() == null : this.getBank_id().equals(other.getBank_id()))
-            && (this.getBank_name() == null ? other.getBank_name() == null : this.getBank_name().equals(other.getBank_name()));
+        return (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()))
+            && (this.getBankName() == null ? other.getBankName() == null : this.getBankName().equals(other.getBankName()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getBank_id() == null) ? 0 : getBank_id().hashCode());
-        result = prime * result + ((getBank_name() == null) ? 0 : getBank_name().hashCode());
+        result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
+        result = prime * result + ((getBankName() == null) ? 0 : getBankName().hashCode());
         return result;
     }
 }

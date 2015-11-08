@@ -2,36 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.ProjectMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Project" >
-    <id column="object_id" property="object_id" jdbcType="VARCHAR" />
-    <result column="biddee_id" property="biddee_id" jdbcType="INTEGER" />
-    <result column="object_no" property="object_no" jdbcType="VARCHAR" />
-    <result column="object_name" property="object_name" jdbcType="VARCHAR" />
-    <result column="object_amount" property="object_amount" jdbcType="INTEGER" />
-    <result column="object_publish_type" property="object_publish_type" jdbcType="VARCHAR" />
-    <result column="object_status" property="object_status" jdbcType="VARCHAR" />
-    <result column="win_bid_amount" property="win_bid_amount" jdbcType="VARCHAR" />
-    <result column="win_bidder_id" property="win_bidder_id" jdbcType="INTEGER" />
-    <result column="industry_id" property="industry_id" jdbcType="VARCHAR" />
-    <result column="sector_id" property="sector_id" jdbcType="VARCHAR" />
+    <id column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
+    <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
+    <result column="object_name" property="objectName" jdbcType="VARCHAR" />
+    <result column="object_amount" property="objectAmount" jdbcType="INTEGER" />
+    <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
+    <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bidder_id" property="winBidderId" jdbcType="INTEGER" />
+    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="sector_id" property="sectorId" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="INTEGER" />
     <result column="district" property="district" jdbcType="INTEGER" />
-    <result column="biddee_company_principal" property="biddee_company_principal" jdbcType="VARCHAR" />
-    <result column="biddee_company_telephone" property="biddee_company_telephone" jdbcType="VARCHAR" />
-    <result column="bid_open_date" property="bid_open_date" jdbcType="DATE" />
-    <result column="project_expect_period" property="project_expect_period" jdbcType="INTEGER" />
-    <result column="certification_checkup_type" property="certification_checkup_type" jdbcType="VARCHAR" />
-    <result column="bid_evaluation_type" property="bid_evaluation_type" jdbcType="VARCHAR" />
-    <result column="bid_evaluation_site" property="bid_evaluation_site" jdbcType="VARCHAR" />
-    <result column="bid_winner_determine_way" property="bid_winner_determine_way" jdbcType="VARCHAR" />
-    <result column="vote_win_way" property="vote_win_way" jdbcType="VARCHAR" />
-    <result column="bid_bond_amount" property="bid_bond_amount" jdbcType="INTEGER" />
-    <result column="need_business_standard" property="need_business_standard" jdbcType="VARCHAR" />
-    <result column="need_technical_standard" property="need_technical_standard" jdbcType="VARCHAR" />
-    <result column="need_certification_checkup_file" property="need_certification_checkup_file" jdbcType="VARCHAR" />
-    <result column="need_pm_certification" property="need_pm_certification" jdbcType="VARCHAR" />
-    <result column="need_constructor_certification" property="need_constructor_certification" jdbcType="VARCHAR" />
-    <result column="need_safety_permit" property="need_safety_permit" jdbcType="VARCHAR" />
-    <result column="need_pm_safety_certification" property="need_pm_safety_certification" jdbcType="VARCHAR" />
+    <result column="biddee_company_principal" property="biddeeCompanyPrincipal" jdbcType="VARCHAR" />
+    <result column="biddee_company_telephone" property="biddeeCompanyTelephone" jdbcType="VARCHAR" />
+    <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
+    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
+    <result column="certification_checkup_type" property="certificationCheckupType" jdbcType="VARCHAR" />
+    <result column="bid_evaluation_type" property="bidEvaluationType" jdbcType="VARCHAR" />
+    <result column="bid_evaluation_site" property="bidEvaluationSite" jdbcType="VARCHAR" />
+    <result column="bid_winner_determine_way" property="bidWinnerDetermineWay" jdbcType="VARCHAR" />
+    <result column="vote_win_way" property="voteWinWay" jdbcType="VARCHAR" />
+    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="INTEGER" />
+    <result column="need_business_standard" property="needBusinessStandard" jdbcType="VARCHAR" />
+    <result column="need_technical_standard" property="needTechnicalStandard" jdbcType="VARCHAR" />
+    <result column="need_certification_checkup_file" property="needCertificationCheckupFile" jdbcType="VARCHAR" />
+    <result column="need_pm_certification" property="needPmCertification" jdbcType="VARCHAR" />
+    <result column="need_constructor_certification" property="needConstructorCertification" jdbcType="VARCHAR" />
+    <result column="need_safety_permit" property="needSafetyPermit" jdbcType="VARCHAR" />
+    <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
@@ -45,11 +45,11 @@
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_project
-    where object_id = #{object_id,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_project
-    where object_id = #{object_id,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.Project" >
     insert into t_ztgl_project (object_id, biddee_id, object_no, 
@@ -58,61 +58,59 @@
       industry_id, sector_id, province, 
       district, biddee_company_principal, biddee_company_telephone, 
       bid_open_date, project_expect_period, certification_checkup_type, 
-      bid_evaluation_type, bid_evaluation_site, 
-      bid_winner_determine_way, vote_win_way, 
-      bid_bond_amount, need_business_standard, 
+      bid_evaluation_type, bid_evaluation_site, bid_winner_determine_way, 
+      vote_win_way, bid_bond_amount, need_business_standard, 
       need_technical_standard, need_certification_checkup_file, 
       need_pm_certification, need_constructor_certification, 
       need_safety_permit, need_pm_safety_certification
       )
-    values (#{object_id,jdbcType=VARCHAR}, #{biddee_id,jdbcType=INTEGER}, #{object_no,jdbcType=VARCHAR}, 
-      #{object_name,jdbcType=VARCHAR}, #{object_amount,jdbcType=INTEGER}, #{object_publish_type,jdbcType=VARCHAR}, 
-      #{object_status,jdbcType=VARCHAR}, #{win_bid_amount,jdbcType=VARCHAR}, #{win_bidder_id,jdbcType=INTEGER}, 
-      #{industry_id,jdbcType=VARCHAR}, #{sector_id,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
-      #{district,jdbcType=INTEGER}, #{biddee_company_principal,jdbcType=VARCHAR}, #{biddee_company_telephone,jdbcType=VARCHAR}, 
-      #{bid_open_date,jdbcType=DATE}, #{project_expect_period,jdbcType=INTEGER}, #{certification_checkup_type,jdbcType=VARCHAR}, 
-      #{bid_evaluation_type,jdbcType=VARCHAR}, #{bid_evaluation_site,jdbcType=VARCHAR}, 
-      #{bid_winner_determine_way,jdbcType=VARCHAR}, #{vote_win_way,jdbcType=VARCHAR}, 
-      #{bid_bond_amount,jdbcType=INTEGER}, #{need_business_standard,jdbcType=VARCHAR}, 
-      #{need_technical_standard,jdbcType=VARCHAR}, #{need_certification_checkup_file,jdbcType=VARCHAR}, 
-      #{need_pm_certification,jdbcType=VARCHAR}, #{need_constructor_certification,jdbcType=VARCHAR}, 
-      #{need_safety_permit,jdbcType=VARCHAR}, #{need_pm_safety_certification,jdbcType=VARCHAR}
+    values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
+      #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=INTEGER}, #{objectPublishType,jdbcType=VARCHAR}, 
+      #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
+      #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
+      #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
+      #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{certificationCheckupType,jdbcType=VARCHAR}, 
+      #{bidEvaluationType,jdbcType=VARCHAR}, #{bidEvaluationSite,jdbcType=VARCHAR}, #{bidWinnerDetermineWay,jdbcType=VARCHAR}, 
+      #{voteWinWay,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=INTEGER}, #{needBusinessStandard,jdbcType=VARCHAR}, 
+      #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
+      #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
+      #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Project" >
     insert into t_ztgl_project
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="object_id != null" >
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="biddee_id != null" >
+      <if test="biddeeId != null" >
         biddee_id,
       </if>
-      <if test="object_no != null" >
+      <if test="objectNo != null" >
         object_no,
       </if>
-      <if test="object_name != null" >
+      <if test="objectName != null" >
         object_name,
       </if>
-      <if test="object_amount != null" >
+      <if test="objectAmount != null" >
         object_amount,
       </if>
-      <if test="object_publish_type != null" >
+      <if test="objectPublishType != null" >
         object_publish_type,
       </if>
-      <if test="object_status != null" >
+      <if test="objectStatus != null" >
         object_status,
       </if>
-      <if test="win_bid_amount != null" >
+      <if test="winBidAmount != null" >
         win_bid_amount,
       </if>
-      <if test="win_bidder_id != null" >
+      <if test="winBidderId != null" >
         win_bidder_id,
       </if>
-      <if test="industry_id != null" >
+      <if test="industryId != null" >
         industry_id,
       </if>
-      <if test="sector_id != null" >
+      <if test="sectorId != null" >
         sector_id,
       </if>
       <if test="province != null" >
@@ -121,91 +119,91 @@
       <if test="district != null" >
         district,
       </if>
-      <if test="biddee_company_principal != null" >
+      <if test="biddeeCompanyPrincipal != null" >
         biddee_company_principal,
       </if>
-      <if test="biddee_company_telephone != null" >
+      <if test="biddeeCompanyTelephone != null" >
         biddee_company_telephone,
       </if>
-      <if test="bid_open_date != null" >
+      <if test="bidOpenDate != null" >
         bid_open_date,
       </if>
-      <if test="project_expect_period != null" >
+      <if test="projectExpectPeriod != null" >
         project_expect_period,
       </if>
-      <if test="certification_checkup_type != null" >
+      <if test="certificationCheckupType != null" >
         certification_checkup_type,
       </if>
-      <if test="bid_evaluation_type != null" >
+      <if test="bidEvaluationType != null" >
         bid_evaluation_type,
       </if>
-      <if test="bid_evaluation_site != null" >
+      <if test="bidEvaluationSite != null" >
         bid_evaluation_site,
       </if>
-      <if test="bid_winner_determine_way != null" >
+      <if test="bidWinnerDetermineWay != null" >
         bid_winner_determine_way,
       </if>
-      <if test="vote_win_way != null" >
+      <if test="voteWinWay != null" >
         vote_win_way,
       </if>
-      <if test="bid_bond_amount != null" >
+      <if test="bidBondAmount != null" >
         bid_bond_amount,
       </if>
-      <if test="need_business_standard != null" >
+      <if test="needBusinessStandard != null" >
         need_business_standard,
       </if>
-      <if test="need_technical_standard != null" >
+      <if test="needTechnicalStandard != null" >
         need_technical_standard,
       </if>
-      <if test="need_certification_checkup_file != null" >
+      <if test="needCertificationCheckupFile != null" >
         need_certification_checkup_file,
       </if>
-      <if test="need_pm_certification != null" >
+      <if test="needPmCertification != null" >
         need_pm_certification,
       </if>
-      <if test="need_constructor_certification != null" >
+      <if test="needConstructorCertification != null" >
         need_constructor_certification,
       </if>
-      <if test="need_safety_permit != null" >
+      <if test="needSafetyPermit != null" >
         need_safety_permit,
       </if>
-      <if test="need_pm_safety_certification != null" >
+      <if test="needPmSafetyCertification != null" >
         need_pm_safety_certification,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="object_id != null" >
-        #{object_id,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_id != null" >
-        #{biddee_id,jdbcType=INTEGER},
+      <if test="biddeeId != null" >
+        #{biddeeId,jdbcType=INTEGER},
       </if>
-      <if test="object_no != null" >
-        #{object_no,jdbcType=VARCHAR},
+      <if test="objectNo != null" >
+        #{objectNo,jdbcType=VARCHAR},
       </if>
-      <if test="object_name != null" >
-        #{object_name,jdbcType=VARCHAR},
+      <if test="objectName != null" >
+        #{objectName,jdbcType=VARCHAR},
       </if>
-      <if test="object_amount != null" >
-        #{object_amount,jdbcType=INTEGER},
+      <if test="objectAmount != null" >
+        #{objectAmount,jdbcType=INTEGER},
       </if>
-      <if test="object_publish_type != null" >
-        #{object_publish_type,jdbcType=VARCHAR},
+      <if test="objectPublishType != null" >
+        #{objectPublishType,jdbcType=VARCHAR},
       </if>
-      <if test="object_status != null" >
-        #{object_status,jdbcType=VARCHAR},
+      <if test="objectStatus != null" >
+        #{objectStatus,jdbcType=VARCHAR},
       </if>
-      <if test="win_bid_amount != null" >
-        #{win_bid_amount,jdbcType=VARCHAR},
+      <if test="winBidAmount != null" >
+        #{winBidAmount,jdbcType=VARCHAR},
       </if>
-      <if test="win_bidder_id != null" >
-        #{win_bidder_id,jdbcType=INTEGER},
+      <if test="winBidderId != null" >
+        #{winBidderId,jdbcType=INTEGER},
       </if>
-      <if test="industry_id != null" >
-        #{industry_id,jdbcType=VARCHAR},
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
       </if>
-      <if test="sector_id != null" >
-        #{sector_id,jdbcType=VARCHAR},
+      <if test="sectorId != null" >
+        #{sectorId,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         #{province,jdbcType=INTEGER},
@@ -213,91 +211,91 @@
       <if test="district != null" >
         #{district,jdbcType=INTEGER},
       </if>
-      <if test="biddee_company_principal != null" >
-        #{biddee_company_principal,jdbcType=VARCHAR},
+      <if test="biddeeCompanyPrincipal != null" >
+        #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_company_telephone != null" >
-        #{biddee_company_telephone,jdbcType=VARCHAR},
+      <if test="biddeeCompanyTelephone != null" >
+        #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       </if>
-      <if test="bid_open_date != null" >
-        #{bid_open_date,jdbcType=DATE},
+      <if test="bidOpenDate != null" >
+        #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="project_expect_period != null" >
-        #{project_expect_period,jdbcType=INTEGER},
+      <if test="projectExpectPeriod != null" >
+        #{projectExpectPeriod,jdbcType=INTEGER},
       </if>
-      <if test="certification_checkup_type != null" >
-        #{certification_checkup_type,jdbcType=VARCHAR},
+      <if test="certificationCheckupType != null" >
+        #{certificationCheckupType,jdbcType=VARCHAR},
       </if>
-      <if test="bid_evaluation_type != null" >
-        #{bid_evaluation_type,jdbcType=VARCHAR},
+      <if test="bidEvaluationType != null" >
+        #{bidEvaluationType,jdbcType=VARCHAR},
       </if>
-      <if test="bid_evaluation_site != null" >
-        #{bid_evaluation_site,jdbcType=VARCHAR},
+      <if test="bidEvaluationSite != null" >
+        #{bidEvaluationSite,jdbcType=VARCHAR},
       </if>
-      <if test="bid_winner_determine_way != null" >
-        #{bid_winner_determine_way,jdbcType=VARCHAR},
+      <if test="bidWinnerDetermineWay != null" >
+        #{bidWinnerDetermineWay,jdbcType=VARCHAR},
       </if>
-      <if test="vote_win_way != null" >
-        #{vote_win_way,jdbcType=VARCHAR},
+      <if test="voteWinWay != null" >
+        #{voteWinWay,jdbcType=VARCHAR},
       </if>
-      <if test="bid_bond_amount != null" >
-        #{bid_bond_amount,jdbcType=INTEGER},
+      <if test="bidBondAmount != null" >
+        #{bidBondAmount,jdbcType=INTEGER},
       </if>
-      <if test="need_business_standard != null" >
-        #{need_business_standard,jdbcType=VARCHAR},
+      <if test="needBusinessStandard != null" >
+        #{needBusinessStandard,jdbcType=VARCHAR},
       </if>
-      <if test="need_technical_standard != null" >
-        #{need_technical_standard,jdbcType=VARCHAR},
+      <if test="needTechnicalStandard != null" >
+        #{needTechnicalStandard,jdbcType=VARCHAR},
       </if>
-      <if test="need_certification_checkup_file != null" >
-        #{need_certification_checkup_file,jdbcType=VARCHAR},
+      <if test="needCertificationCheckupFile != null" >
+        #{needCertificationCheckupFile,jdbcType=VARCHAR},
       </if>
-      <if test="need_pm_certification != null" >
-        #{need_pm_certification,jdbcType=VARCHAR},
+      <if test="needPmCertification != null" >
+        #{needPmCertification,jdbcType=VARCHAR},
       </if>
-      <if test="need_constructor_certification != null" >
-        #{need_constructor_certification,jdbcType=VARCHAR},
+      <if test="needConstructorCertification != null" >
+        #{needConstructorCertification,jdbcType=VARCHAR},
       </if>
-      <if test="need_safety_permit != null" >
-        #{need_safety_permit,jdbcType=VARCHAR},
+      <if test="needSafetyPermit != null" >
+        #{needSafetyPermit,jdbcType=VARCHAR},
       </if>
-      <if test="need_pm_safety_certification != null" >
-        #{need_pm_safety_certification,jdbcType=VARCHAR},
+      <if test="needPmSafetyCertification != null" >
+        #{needPmSafetyCertification,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Project" >
     update t_ztgl_project
     <set >
-      <if test="biddee_id != null" >
-        biddee_id = #{biddee_id,jdbcType=INTEGER},
+      <if test="biddeeId != null" >
+        biddee_id = #{biddeeId,jdbcType=INTEGER},
       </if>
-      <if test="object_no != null" >
-        object_no = #{object_no,jdbcType=VARCHAR},
+      <if test="objectNo != null" >
+        object_no = #{objectNo,jdbcType=VARCHAR},
       </if>
-      <if test="object_name != null" >
-        object_name = #{object_name,jdbcType=VARCHAR},
+      <if test="objectName != null" >
+        object_name = #{objectName,jdbcType=VARCHAR},
       </if>
-      <if test="object_amount != null" >
-        object_amount = #{object_amount,jdbcType=INTEGER},
+      <if test="objectAmount != null" >
+        object_amount = #{objectAmount,jdbcType=INTEGER},
       </if>
-      <if test="object_publish_type != null" >
-        object_publish_type = #{object_publish_type,jdbcType=VARCHAR},
+      <if test="objectPublishType != null" >
+        object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
       </if>
-      <if test="object_status != null" >
-        object_status = #{object_status,jdbcType=VARCHAR},
+      <if test="objectStatus != null" >
+        object_status = #{objectStatus,jdbcType=VARCHAR},
       </if>
-      <if test="win_bid_amount != null" >
-        win_bid_amount = #{win_bid_amount,jdbcType=VARCHAR},
+      <if test="winBidAmount != null" >
+        win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
       </if>
-      <if test="win_bidder_id != null" >
-        win_bidder_id = #{win_bidder_id,jdbcType=INTEGER},
+      <if test="winBidderId != null" >
+        win_bidder_id = #{winBidderId,jdbcType=INTEGER},
       </if>
-      <if test="industry_id != null" >
-        industry_id = #{industry_id,jdbcType=VARCHAR},
+      <if test="industryId != null" >
+        industry_id = #{industryId,jdbcType=VARCHAR},
       </if>
-      <if test="sector_id != null" >
-        sector_id = #{sector_id,jdbcType=VARCHAR},
+      <if test="sectorId != null" >
+        sector_id = #{sectorId,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         province = #{province,jdbcType=INTEGER},
@@ -305,91 +303,91 @@
       <if test="district != null" >
         district = #{district,jdbcType=INTEGER},
       </if>
-      <if test="biddee_company_principal != null" >
-        biddee_company_principal = #{biddee_company_principal,jdbcType=VARCHAR},
+      <if test="biddeeCompanyPrincipal != null" >
+        biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       </if>
-      <if test="biddee_company_telephone != null" >
-        biddee_company_telephone = #{biddee_company_telephone,jdbcType=VARCHAR},
+      <if test="biddeeCompanyTelephone != null" >
+        biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       </if>
-      <if test="bid_open_date != null" >
-        bid_open_date = #{bid_open_date,jdbcType=DATE},
+      <if test="bidOpenDate != null" >
+        bid_open_date = #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="project_expect_period != null" >
-        project_expect_period = #{project_expect_period,jdbcType=INTEGER},
+      <if test="projectExpectPeriod != null" >
+        project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       </if>
-      <if test="certification_checkup_type != null" >
-        certification_checkup_type = #{certification_checkup_type,jdbcType=VARCHAR},
+      <if test="certificationCheckupType != null" >
+        certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},
       </if>
-      <if test="bid_evaluation_type != null" >
-        bid_evaluation_type = #{bid_evaluation_type,jdbcType=VARCHAR},
+      <if test="bidEvaluationType != null" >
+        bid_evaluation_type = #{bidEvaluationType,jdbcType=VARCHAR},
       </if>
-      <if test="bid_evaluation_site != null" >
-        bid_evaluation_site = #{bid_evaluation_site,jdbcType=VARCHAR},
+      <if test="bidEvaluationSite != null" >
+        bid_evaluation_site = #{bidEvaluationSite,jdbcType=VARCHAR},
       </if>
-      <if test="bid_winner_determine_way != null" >
-        bid_winner_determine_way = #{bid_winner_determine_way,jdbcType=VARCHAR},
+      <if test="bidWinnerDetermineWay != null" >
+        bid_winner_determine_way = #{bidWinnerDetermineWay,jdbcType=VARCHAR},
       </if>
-      <if test="vote_win_way != null" >
-        vote_win_way = #{vote_win_way,jdbcType=VARCHAR},
+      <if test="voteWinWay != null" >
+        vote_win_way = #{voteWinWay,jdbcType=VARCHAR},
       </if>
-      <if test="bid_bond_amount != null" >
-        bid_bond_amount = #{bid_bond_amount,jdbcType=INTEGER},
+      <if test="bidBondAmount != null" >
+        bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
       </if>
-      <if test="need_business_standard != null" >
-        need_business_standard = #{need_business_standard,jdbcType=VARCHAR},
+      <if test="needBusinessStandard != null" >
+        need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
       </if>
-      <if test="need_technical_standard != null" >
-        need_technical_standard = #{need_technical_standard,jdbcType=VARCHAR},
+      <if test="needTechnicalStandard != null" >
+        need_technical_standard = #{needTechnicalStandard,jdbcType=VARCHAR},
       </if>
-      <if test="need_certification_checkup_file != null" >
-        need_certification_checkup_file = #{need_certification_checkup_file,jdbcType=VARCHAR},
+      <if test="needCertificationCheckupFile != null" >
+        need_certification_checkup_file = #{needCertificationCheckupFile,jdbcType=VARCHAR},
       </if>
-      <if test="need_pm_certification != null" >
-        need_pm_certification = #{need_pm_certification,jdbcType=VARCHAR},
+      <if test="needPmCertification != null" >
+        need_pm_certification = #{needPmCertification,jdbcType=VARCHAR},
       </if>
-      <if test="need_constructor_certification != null" >
-        need_constructor_certification = #{need_constructor_certification,jdbcType=VARCHAR},
+      <if test="needConstructorCertification != null" >
+        need_constructor_certification = #{needConstructorCertification,jdbcType=VARCHAR},
       </if>
-      <if test="need_safety_permit != null" >
-        need_safety_permit = #{need_safety_permit,jdbcType=VARCHAR},
+      <if test="needSafetyPermit != null" >
+        need_safety_permit = #{needSafetyPermit,jdbcType=VARCHAR},
       </if>
-      <if test="need_pm_safety_certification != null" >
-        need_pm_safety_certification = #{need_pm_safety_certification,jdbcType=VARCHAR},
+      <if test="needPmSafetyCertification != null" >
+        need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
       </if>
     </set>
-    where object_id = #{object_id,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Project" >
     update t_ztgl_project
-    set biddee_id = #{biddee_id,jdbcType=INTEGER},
-      object_no = #{object_no,jdbcType=VARCHAR},
-      object_name = #{object_name,jdbcType=VARCHAR},
-      object_amount = #{object_amount,jdbcType=INTEGER},
-      object_publish_type = #{object_publish_type,jdbcType=VARCHAR},
-      object_status = #{object_status,jdbcType=VARCHAR},
-      win_bid_amount = #{win_bid_amount,jdbcType=VARCHAR},
-      win_bidder_id = #{win_bidder_id,jdbcType=INTEGER},
-      industry_id = #{industry_id,jdbcType=VARCHAR},
-      sector_id = #{sector_id,jdbcType=VARCHAR},
+    set biddee_id = #{biddeeId,jdbcType=INTEGER},
+      object_no = #{objectNo,jdbcType=VARCHAR},
+      object_name = #{objectName,jdbcType=VARCHAR},
+      object_amount = #{objectAmount,jdbcType=INTEGER},
+      object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
+      object_status = #{objectStatus,jdbcType=VARCHAR},
+      win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
+      win_bidder_id = #{winBidderId,jdbcType=INTEGER},
+      industry_id = #{industryId,jdbcType=VARCHAR},
+      sector_id = #{sectorId,jdbcType=VARCHAR},
       province = #{province,jdbcType=INTEGER},
       district = #{district,jdbcType=INTEGER},
-      biddee_company_principal = #{biddee_company_principal,jdbcType=VARCHAR},
-      biddee_company_telephone = #{biddee_company_telephone,jdbcType=VARCHAR},
-      bid_open_date = #{bid_open_date,jdbcType=DATE},
-      project_expect_period = #{project_expect_period,jdbcType=INTEGER},
-      certification_checkup_type = #{certification_checkup_type,jdbcType=VARCHAR},
-      bid_evaluation_type = #{bid_evaluation_type,jdbcType=VARCHAR},
-      bid_evaluation_site = #{bid_evaluation_site,jdbcType=VARCHAR},
-      bid_winner_determine_way = #{bid_winner_determine_way,jdbcType=VARCHAR},
-      vote_win_way = #{vote_win_way,jdbcType=VARCHAR},
-      bid_bond_amount = #{bid_bond_amount,jdbcType=INTEGER},
-      need_business_standard = #{need_business_standard,jdbcType=VARCHAR},
-      need_technical_standard = #{need_technical_standard,jdbcType=VARCHAR},
-      need_certification_checkup_file = #{need_certification_checkup_file,jdbcType=VARCHAR},
-      need_pm_certification = #{need_pm_certification,jdbcType=VARCHAR},
-      need_constructor_certification = #{need_constructor_certification,jdbcType=VARCHAR},
-      need_safety_permit = #{need_safety_permit,jdbcType=VARCHAR},
-      need_pm_safety_certification = #{need_pm_safety_certification,jdbcType=VARCHAR}
-    where object_id = #{object_id,jdbcType=VARCHAR}
+      biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
+      biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
+      bid_open_date = #{bidOpenDate,jdbcType=DATE},
+      project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
+      certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},
+      bid_evaluation_type = #{bidEvaluationType,jdbcType=VARCHAR},
+      bid_evaluation_site = #{bidEvaluationSite,jdbcType=VARCHAR},
+      bid_winner_determine_way = #{bidWinnerDetermineWay,jdbcType=VARCHAR},
+      vote_win_way = #{voteWinWay,jdbcType=VARCHAR},
+      bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
+      need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
+      need_technical_standard = #{needTechnicalStandard,jdbcType=VARCHAR},
+      need_certification_checkup_file = #{needCertificationCheckupFile,jdbcType=VARCHAR},
+      need_pm_certification = #{needPmCertification,jdbcType=VARCHAR},
+      need_constructor_certification = #{needConstructorCertification,jdbcType=VARCHAR},
+      need_safety_permit = #{needSafetyPermit,jdbcType=VARCHAR},
+      need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -6,7 +6,7 @@ public interface UserSmscodeMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(Integer idt_user_smscode);
+    int deleteByPrimaryKey(Integer idtUserSmscode);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface UserSmscodeMapper {
     /**
      * 根据主键查询记录
      */
-    UserSmscode selectByPrimaryKey(Integer idt_user_smscode);
+    UserSmscode selectByPrimaryKey(Integer idtUserSmscode);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -32,4 +32,20 @@ public interface UserSmscodeMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(UserSmscode record);
+
+	/**
+	 * 获取短信消息码
+	 * @param appId
+	 * @param mobileNum
+	 * @return
+	 */
+	UserSmscode getAuthCode(UserSmscode record);
+	
+	/**
+	 * 删除短消息验证码
+	 * @param record
+	 * @return
+	 */
+	int deleteAuthCode(UserSmscode record);
+
 }

@@ -7,81 +7,81 @@ public class MemberProductAttr {
     /**
      * 产品id
      */
-    private String product_id;
+    private String productId;
 
     /**
      * 产品名称
      */
-    private String product_name;
+    private String productName;
 
     /**
      * 产品有效期,单位为天
      */
-    private Integer product_expire_length;
+    private Integer productExpireLength;
 
     /**
      * 会员对象,TEE招标，TER投标
      */
-    private String member_type;
+    private String memberType;
 
     /**
      * @return 产品id
      */
-    public String getProduct_id() {
-        return product_id;
+    public String getProductId() {
+        return productId;
     }
 
     /**
      * @param productId 
 	 *            产品id
      */
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id == null ? null : product_id.trim();
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
     }
 
     /**
      * @return 产品名称
      */
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
     /**
      * @param productName 
 	 *            产品名称
      */
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name == null ? null : product_name.trim();
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : productName.trim();
     }
 
     /**
      * @return 产品有效期,单位为天
      */
-    public Integer getProduct_expire_length() {
-        return product_expire_length;
+    public Integer getProductExpireLength() {
+        return productExpireLength;
     }
 
     /**
      * @param productExpireLength 
 	 *            产品有效期,单位为天
      */
-    public void setProduct_expire_length(Integer product_expire_length) {
-        this.product_expire_length = product_expire_length;
+    public void setProductExpireLength(Integer productExpireLength) {
+        this.productExpireLength = productExpireLength;
     }
 
     /**
      * @return 会员对象,TEE招标，TER投标
      */
-    public String getMember_type() {
-        return member_type;
+    public String getMemberType() {
+        return memberType;
     }
 
     /**
      * @param memberType 
 	 *            会员对象,TEE招标，TER投标
      */
-    public void setMember_type(String member_type) {
-        this.member_type = member_type == null ? null : member_type.trim();
+    public void setMemberType(String memberType) {
+        this.memberType = memberType == null ? null : memberType.trim();
     }
 
     @Override
@@ -96,20 +96,20 @@ public class MemberProductAttr {
             return false;
         }
         MemberProductAttr other = (MemberProductAttr) that;
-        return (this.getProduct_id() == null ? other.getProduct_id() == null : this.getProduct_id().equals(other.getProduct_id()))
-            && (this.getProduct_name() == null ? other.getProduct_name() == null : this.getProduct_name().equals(other.getProduct_name()))
-            && (this.getProduct_expire_length() == null ? other.getProduct_expire_length() == null : this.getProduct_expire_length().equals(other.getProduct_expire_length()))
-            && (this.getMember_type() == null ? other.getMember_type() == null : this.getMember_type().equals(other.getMember_type()));
+        return (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()))
+            && (this.getProductName() == null ? other.getProductName() == null : this.getProductName().equals(other.getProductName()))
+            && (this.getProductExpireLength() == null ? other.getProductExpireLength() == null : this.getProductExpireLength().equals(other.getProductExpireLength()))
+            && (this.getMemberType() == null ? other.getMemberType() == null : this.getMemberType().equals(other.getMemberType()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getProduct_id() == null) ? 0 : getProduct_id().hashCode());
-        result = prime * result + ((getProduct_name() == null) ? 0 : getProduct_name().hashCode());
-        result = prime * result + ((getProduct_expire_length() == null) ? 0 : getProduct_expire_length().hashCode());
-        result = prime * result + ((getMember_type() == null) ? 0 : getMember_type().hashCode());
+        result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
+        result = prime * result + ((getProductName() == null) ? 0 : getProductName().hashCode());
+        result = prime * result + ((getProductExpireLength() == null) ? 0 : getProductExpireLength().hashCode());
+        result = prime * result + ((getMemberType() == null) ? 0 : getMemberType().hashCode());
         return result;
     }
 }

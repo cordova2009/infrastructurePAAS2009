@@ -14,17 +14,17 @@ public class BidderCertificationAudit {
     /**
      * 申请id
      */
-    private Integer certification_certicate_id;
+    private Integer certificationCerticateId;
 
     /**
      * 审核时间
      */
-    private Date audit_time;
+    private Date auditTime;
 
     /**
      * 认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String audit_status;
+    private String auditStatus;
 
     /**
      * 审核人
@@ -49,46 +49,46 @@ public class BidderCertificationAudit {
     /**
      * @return 申请id
      */
-    public Integer getCertification_certicate_id() {
-        return certification_certicate_id;
+    public Integer getCertificationCerticateId() {
+        return certificationCerticateId;
     }
 
     /**
      * @param certificationCerticateId 
 	 *            申请id
      */
-    public void setCertification_certicate_id(Integer certification_certicate_id) {
-        this.certification_certicate_id = certification_certicate_id;
+    public void setCertificationCerticateId(Integer certificationCerticateId) {
+        this.certificationCerticateId = certificationCerticateId;
     }
 
     /**
      * @return 审核时间
      */
-    public Date getAudit_time() {
-        return audit_time;
+    public Date getAuditTime() {
+        return auditTime;
     }
 
     /**
      * @param auditTime 
 	 *            审核时间
      */
-    public void setAudit_time(Date audit_time) {
-        this.audit_time = audit_time;
+    public void setAuditTime(Date auditTime) {
+        this.auditTime = auditTime;
     }
 
     /**
      * @return 认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getAudit_status() {
-        return audit_status;
+    public String getAuditStatus() {
+        return auditStatus;
     }
 
     /**
      * @param auditStatus 
 	 *            认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setAudit_status(String audit_status) {
-        this.audit_status = audit_status == null ? null : audit_status.trim();
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus == null ? null : auditStatus.trim();
     }
 
     /**
@@ -119,9 +119,9 @@ public class BidderCertificationAudit {
         }
         BidderCertificationAudit other = (BidderCertificationAudit) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getCertification_certicate_id() == null ? other.getCertification_certicate_id() == null : this.getCertification_certicate_id().equals(other.getCertification_certicate_id()))
-            && (this.getAudit_time() == null ? other.getAudit_time() == null : this.getAudit_time().equals(other.getAudit_time()))
-            && (this.getAudit_status() == null ? other.getAudit_status() == null : this.getAudit_status().equals(other.getAudit_status()))
+            && (this.getCertificationCerticateId() == null ? other.getCertificationCerticateId() == null : this.getCertificationCerticateId().equals(other.getCertificationCerticateId()))
+            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
             && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()));
     }
 
@@ -130,9 +130,9 @@ public class BidderCertificationAudit {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getCertification_certicate_id() == null) ? 0 : getCertification_certicate_id().hashCode());
-        result = prime * result + ((getAudit_time() == null) ? 0 : getAudit_time().hashCode());
-        result = prime * result + ((getAudit_status() == null) ? 0 : getAudit_status().hashCode());
+        result = prime * result + ((getCertificationCerticateId() == null) ? 0 : getCertificationCerticateId().hashCode());
+        result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
         result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
         return result;
     }

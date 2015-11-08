@@ -6,7 +6,7 @@ public interface ProjectStatusMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(String project_id);
+    int deleteByPrimaryKey(String projectId);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface ProjectStatusMapper {
     /**
      * 根据主键查询记录
      */
-    ProjectStatus selectByPrimaryKey(String project_id);
+    ProjectStatus selectByPrimaryKey(String projectId);
 
     /**
      * 根据主键更新属性不为空的记录

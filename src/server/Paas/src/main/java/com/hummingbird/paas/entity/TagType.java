@@ -19,12 +19,12 @@ public class TagType {
     /**
      * 上级标签分类
      */
-    private Integer parent_id;
+    private Integer parentId;
 
     /**
      * 自定义分类,0否，1是
      */
-    private String customer_type;
+    private String customerType;
 
     /**
      * 状态，OK#正常，FLS停止
@@ -34,17 +34,17 @@ public class TagType {
     /**
      * 分类名称
      */
-    private String type_name;
+    private String typeName;
 
     /**
      * 创建人
      */
-    private String create_by;
+    private String createBy;
 
     /**
      * 创建时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * @return id
@@ -79,31 +79,31 @@ public class TagType {
     /**
      * @return 上级标签分类
      */
-    public Integer getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
     /**
      * @param parentId 
 	 *            上级标签分类
      */
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     /**
      * @return 自定义分类,0否，1是
      */
-    public String getCustomer_type() {
-        return customer_type;
+    public String getCustomerType() {
+        return customerType;
     }
 
     /**
      * @param customerType 
 	 *            自定义分类,0否，1是
      */
-    public void setCustomer_type(String customer_type) {
-        this.customer_type = customer_type == null ? null : customer_type.trim();
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType == null ? null : customerType.trim();
     }
 
     /**
@@ -124,46 +124,46 @@ public class TagType {
     /**
      * @return 分类名称
      */
-    public String getType_name() {
-        return type_name;
+    public String getTypeName() {
+        return typeName;
     }
 
     /**
      * @param typeName 
 	 *            分类名称
      */
-    public void setType_name(String type_name) {
-        this.type_name = type_name == null ? null : type_name.trim();
+    public void setTypeName(String typeName) {
+        this.typeName = typeName == null ? null : typeName.trim();
     }
 
     /**
      * @return 创建人
      */
-    public String getCreate_by() {
-        return create_by;
+    public String getCreateBy() {
+        return createBy;
     }
 
     /**
      * @param createBy 
 	 *            创建人
      */
-    public void setCreate_by(String create_by) {
-        this.create_by = create_by == null ? null : create_by.trim();
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy == null ? null : createBy.trim();
     }
 
     /**
      * @return 创建时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            创建时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     @Override
@@ -180,12 +180,12 @@ public class TagType {
         TagType other = (TagType) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getParent_id() == null ? other.getParent_id() == null : this.getParent_id().equals(other.getParent_id()))
-            && (this.getCustomer_type() == null ? other.getCustomer_type() == null : this.getCustomer_type().equals(other.getCustomer_type()))
+            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
+            && (this.getCustomerType() == null ? other.getCustomerType() == null : this.getCustomerType().equals(other.getCustomerType()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getType_name() == null ? other.getType_name() == null : this.getType_name().equals(other.getType_name()))
-            && (this.getCreate_by() == null ? other.getCreate_by() == null : this.getCreate_by().equals(other.getCreate_by()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()));
+            && (this.getTypeName() == null ? other.getTypeName() == null : this.getTypeName().equals(other.getTypeName()))
+            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()));
     }
 
     @Override
@@ -194,12 +194,12 @@ public class TagType {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getParent_id() == null) ? 0 : getParent_id().hashCode());
-        result = prime * result + ((getCustomer_type() == null) ? 0 : getCustomer_type().hashCode());
+        result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
+        result = prime * result + ((getCustomerType() == null) ? 0 : getCustomerType().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getType_name() == null) ? 0 : getType_name().hashCode());
-        result = prime * result + ((getCreate_by() == null) ? 0 : getCreate_by().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
+        result = prime * result + ((getTypeName() == null) ? 0 : getTypeName().hashCode());
+        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         return result;
     }
 }

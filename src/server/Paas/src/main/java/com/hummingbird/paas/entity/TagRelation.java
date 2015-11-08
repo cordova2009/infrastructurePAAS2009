@@ -14,17 +14,17 @@ public class TagRelation {
     /**
      * 标签名
      */
-    private String tag_name;
+    private String tagName;
 
     /**
      * 引用表id
      */
-    private String ref_value_id;
+    private String refValueId;
 
     /**
      * 引用表标识,可以为表名
      */
-    private String ref_id;
+    private String refId;
 
     /**
      * 类型，标签类型
@@ -34,12 +34,12 @@ public class TagRelation {
     /**
      * 插入时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 标签id
      */
-    private Integer tag_id;
+    private Integer tagId;
 
     /**
      * @return id
@@ -59,46 +59,46 @@ public class TagRelation {
     /**
      * @return 标签名
      */
-    public String getTag_name() {
-        return tag_name;
+    public String getTagName() {
+        return tagName;
     }
 
     /**
      * @param tagName 
 	 *            标签名
      */
-    public void setTag_name(String tag_name) {
-        this.tag_name = tag_name == null ? null : tag_name.trim();
+    public void setTagName(String tagName) {
+        this.tagName = tagName == null ? null : tagName.trim();
     }
 
     /**
      * @return 引用表id
      */
-    public String getRef_value_id() {
-        return ref_value_id;
+    public String getRefValueId() {
+        return refValueId;
     }
 
     /**
      * @param refValueId 
 	 *            引用表id
      */
-    public void setRef_value_id(String ref_value_id) {
-        this.ref_value_id = ref_value_id == null ? null : ref_value_id.trim();
+    public void setRefValueId(String refValueId) {
+        this.refValueId = refValueId == null ? null : refValueId.trim();
     }
 
     /**
      * @return 引用表标识,可以为表名
      */
-    public String getRef_id() {
-        return ref_id;
+    public String getRefId() {
+        return refId;
     }
 
     /**
      * @param refId 
 	 *            引用表标识,可以为表名
      */
-    public void setRef_id(String ref_id) {
-        this.ref_id = ref_id == null ? null : ref_id.trim();
+    public void setRefId(String refId) {
+        this.refId = refId == null ? null : refId.trim();
     }
 
     /**
@@ -119,31 +119,31 @@ public class TagRelation {
     /**
      * @return 插入时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            插入时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 标签id
      */
-    public Integer getTag_id() {
-        return tag_id;
+    public Integer getTagId() {
+        return tagId;
     }
 
     /**
      * @param tagId 
 	 *            标签id
      */
-    public void setTag_id(Integer tag_id) {
-        this.tag_id = tag_id;
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
     }
 
     @Override
@@ -159,12 +159,12 @@ public class TagRelation {
         }
         TagRelation other = (TagRelation) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getTag_name() == null ? other.getTag_name() == null : this.getTag_name().equals(other.getTag_name()))
-            && (this.getRef_value_id() == null ? other.getRef_value_id() == null : this.getRef_value_id().equals(other.getRef_value_id()))
-            && (this.getRef_id() == null ? other.getRef_id() == null : this.getRef_id().equals(other.getRef_id()))
+            && (this.getTagName() == null ? other.getTagName() == null : this.getTagName().equals(other.getTagName()))
+            && (this.getRefValueId() == null ? other.getRefValueId() == null : this.getRefValueId().equals(other.getRefValueId()))
+            && (this.getRefId() == null ? other.getRefId() == null : this.getRefId().equals(other.getRefId()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getTag_id() == null ? other.getTag_id() == null : this.getTag_id().equals(other.getTag_id()));
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getTagId() == null ? other.getTagId() == null : this.getTagId().equals(other.getTagId()));
     }
 
     @Override
@@ -172,12 +172,12 @@ public class TagRelation {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getTag_name() == null) ? 0 : getTag_name().hashCode());
-        result = prime * result + ((getRef_value_id() == null) ? 0 : getRef_value_id().hashCode());
-        result = prime * result + ((getRef_id() == null) ? 0 : getRef_id().hashCode());
+        result = prime * result + ((getTagName() == null) ? 0 : getTagName().hashCode());
+        result = prime * result + ((getRefValueId() == null) ? 0 : getRefValueId().hashCode());
+        result = prime * result + ((getRefId() == null) ? 0 : getRefId().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getTag_id() == null) ? 0 : getTag_id().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getTagId() == null) ? 0 : getTagId().hashCode());
         return result;
     }
 }

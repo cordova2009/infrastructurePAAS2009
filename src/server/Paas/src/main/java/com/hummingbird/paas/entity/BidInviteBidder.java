@@ -12,12 +12,12 @@ public class BidInviteBidder {
     /**
      * 投标人
      */
-    private Integer bidder_id;
+    private Integer bidderId;
 
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * @return id
@@ -37,31 +37,31 @@ public class BidInviteBidder {
     /**
      * @return 投标人
      */
-    public Integer getBidder_id() {
-        return bidder_id;
+    public Integer getBidderId() {
+        return bidderId;
     }
 
     /**
      * @param bidderId 
 	 *            投标人
      */
-    public void setBidder_id(Integer bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setBidderId(Integer bidderId) {
+        this.bidderId = bidderId;
     }
 
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     @Override
@@ -77,8 +77,8 @@ public class BidInviteBidder {
         }
         BidInviteBidder other = (BidInviteBidder) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBidder_id() == null ? other.getBidder_id() == null : this.getBidder_id().equals(other.getBidder_id()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()));
+            && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()));
     }
 
     @Override
@@ -86,8 +86,8 @@ public class BidInviteBidder {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBidder_id() == null) ? 0 : getBidder_id().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
+        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         return result;
     }
 }

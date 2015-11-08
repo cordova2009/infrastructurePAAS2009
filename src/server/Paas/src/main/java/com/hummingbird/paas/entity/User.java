@@ -14,12 +14,12 @@ public class User {
     /**
      * user_name
      */
-    private String user_name;
+    private String userName;
 
     /**
      * mobile_num
      */
-    private String mobile_num;
+    private String mobileNum;
 
     /**
      * city
@@ -34,17 +34,17 @@ public class User {
     /**
      * insert_time
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * update_time
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * union_id
      */
-    private String union_id;
+    private String unionId;
 
     /**
      * qq
@@ -59,7 +59,7 @@ public class User {
     /**
      * 昵称
      */
-    private String nick_name;
+    private String nickName;
 
     /**
      * 地址
@@ -69,7 +69,7 @@ public class User {
     /**
      * 头像
      */
-    private String head_image;
+    private String headImage;
 
     /**
      * @return id
@@ -89,31 +89,31 @@ public class User {
     /**
      * @return user_name
      */
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      * @param userName 
 	 *            user_name
      */
-    public void setUser_name(String user_name) {
-        this.user_name = user_name == null ? null : user_name.trim();
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     /**
      * @return mobile_num
      */
-    public String getMobile_num() {
-        return mobile_num;
+    public String getMobileNum() {
+        return mobileNum;
     }
 
     /**
      * @param mobileNum 
 	 *            mobile_num
      */
-    public void setMobile_num(String mobile_num) {
-        this.mobile_num = mobile_num == null ? null : mobile_num.trim();
+    public void setMobileNum(String mobileNum) {
+        this.mobileNum = mobileNum == null ? null : mobileNum.trim();
     }
 
     /**
@@ -149,46 +149,46 @@ public class User {
     /**
      * @return insert_time
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            insert_time
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return update_time
      */
-    public Date getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
     /**
      * @param updateTime 
 	 *            update_time
      */
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     /**
      * @return union_id
      */
-    public String getUnion_id() {
-        return union_id;
+    public String getUnionId() {
+        return unionId;
     }
 
     /**
      * @param unionId 
 	 *            union_id
      */
-    public void setUnion_id(String union_id) {
-        this.union_id = union_id == null ? null : union_id.trim();
+    public void setUnionId(String unionId) {
+        this.unionId = unionId == null ? null : unionId.trim();
     }
 
     /**
@@ -224,16 +224,16 @@ public class User {
     /**
      * @return 昵称
      */
-    public String getNick_name() {
-        return nick_name;
+    public String getNickName() {
+        return nickName;
     }
 
     /**
      * @param nickName 
 	 *            昵称
      */
-    public void setNick_name(String nick_name) {
-        this.nick_name = nick_name == null ? null : nick_name.trim();
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     /**
@@ -254,16 +254,16 @@ public class User {
     /**
      * @return 头像
      */
-    public String getHead_image() {
-        return head_image;
+    public String getHeadImage() {
+        return headImage;
     }
 
     /**
      * @param headImage 
 	 *            头像
      */
-    public void setHead_image(String head_image) {
-        this.head_image = head_image == null ? null : head_image.trim();
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage == null ? null : headImage.trim();
     }
 
     @Override
@@ -279,18 +279,18 @@ public class User {
         }
         User other = (User) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUser_name() == null ? other.getUser_name() == null : this.getUser_name().equals(other.getUser_name()))
-            && (this.getMobile_num() == null ? other.getMobile_num() == null : this.getMobile_num().equals(other.getMobile_num()))
+            && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
+            && (this.getMobileNum() == null ? other.getMobileNum() == null : this.getMobileNum().equals(other.getMobileNum()))
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
             && (this.getDistrict() == null ? other.getDistrict() == null : this.getDistrict().equals(other.getDistrict()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
-            && (this.getUnion_id() == null ? other.getUnion_id() == null : this.getUnion_id().equals(other.getUnion_id()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getUnionId() == null ? other.getUnionId() == null : this.getUnionId().equals(other.getUnionId()))
             && (this.getQq() == null ? other.getQq() == null : this.getQq().equals(other.getQq()))
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getNick_name() == null ? other.getNick_name() == null : this.getNick_name().equals(other.getNick_name()))
+            && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
-            && (this.getHead_image() == null ? other.getHead_image() == null : this.getHead_image().equals(other.getHead_image()));
+            && (this.getHeadImage() == null ? other.getHeadImage() == null : this.getHeadImage().equals(other.getHeadImage()));
     }
 
     @Override
@@ -298,18 +298,18 @@ public class User {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getUser_name() == null) ? 0 : getUser_name().hashCode());
-        result = prime * result + ((getMobile_num() == null) ? 0 : getMobile_num().hashCode());
+        result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
+        result = prime * result + ((getMobileNum() == null) ? 0 : getMobileNum().hashCode());
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getDistrict() == null) ? 0 : getDistrict().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
-        result = prime * result + ((getUnion_id() == null) ? 0 : getUnion_id().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getUnionId() == null) ? 0 : getUnionId().hashCode());
         result = prime * result + ((getQq() == null) ? 0 : getQq().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        result = prime * result + ((getNick_name() == null) ? 0 : getNick_name().hashCode());
+        result = prime * result + ((getNickName() == null) ? 0 : getNickName().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
-        result = prime * result + ((getHead_image() == null) ? 0 : getHead_image().hashCode());
+        result = prime * result + ((getHeadImage() == null) ? 0 : getHeadImage().hashCode());
         return result;
     }
 }

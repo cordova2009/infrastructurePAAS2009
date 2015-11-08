@@ -14,17 +14,17 @@ public class BiddeeBidCreditScore {
     /**
      * 发包方id
      */
-    private Integer tenderer_id;
+    private Integer tendererId;
 
     /**
      * 记录时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 标的id
      */
-    private Integer object_id;
+    private Integer objectId;
 
     /**
      * 分数
@@ -34,7 +34,7 @@ public class BiddeeBidCreditScore {
     /**
      * 承包商id,哪个承包商评价的
      */
-    private Integer bidder_id;
+    private Integer bidderId;
 
     /**
      * @return id
@@ -54,46 +54,46 @@ public class BiddeeBidCreditScore {
     /**
      * @return 发包方id
      */
-    public Integer getTenderer_id() {
-        return tenderer_id;
+    public Integer getTendererId() {
+        return tendererId;
     }
 
     /**
      * @param tendererId 
 	 *            发包方id
      */
-    public void setTenderer_id(Integer tenderer_id) {
-        this.tenderer_id = tenderer_id;
+    public void setTendererId(Integer tendererId) {
+        this.tendererId = tendererId;
     }
 
     /**
      * @return 记录时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            记录时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 标的id
      */
-    public Integer getObject_id() {
-        return object_id;
+    public Integer getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(Integer object_id) {
-        this.object_id = object_id;
+    public void setObjectId(Integer objectId) {
+        this.objectId = objectId;
     }
 
     /**
@@ -114,16 +114,16 @@ public class BiddeeBidCreditScore {
     /**
      * @return 承包商id,哪个承包商评价的
      */
-    public Integer getBidder_id() {
-        return bidder_id;
+    public Integer getBidderId() {
+        return bidderId;
     }
 
     /**
      * @param bidderId 
 	 *            承包商id,哪个承包商评价的
      */
-    public void setBidder_id(Integer bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setBidderId(Integer bidderId) {
+        this.bidderId = bidderId;
     }
 
     @Override
@@ -139,11 +139,11 @@ public class BiddeeBidCreditScore {
         }
         BiddeeBidCreditScore other = (BiddeeBidCreditScore) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getTenderer_id() == null ? other.getTenderer_id() == null : this.getTenderer_id().equals(other.getTenderer_id()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
+            && (this.getTendererId() == null ? other.getTendererId() == null : this.getTendererId().equals(other.getTendererId()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getScore() == null ? other.getScore() == null : this.getScore().equals(other.getScore()))
-            && (this.getBidder_id() == null ? other.getBidder_id() == null : this.getBidder_id().equals(other.getBidder_id()));
+            && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()));
     }
 
     @Override
@@ -151,11 +151,11 @@ public class BiddeeBidCreditScore {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getTenderer_id() == null) ? 0 : getTenderer_id().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
+        result = prime * result + ((getTendererId() == null) ? 0 : getTendererId().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getScore() == null) ? 0 : getScore().hashCode());
-        result = prime * result + ((getBidder_id() == null) ? 0 : getBidder_id().hashCode());
+        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
         return result;
     }
 }

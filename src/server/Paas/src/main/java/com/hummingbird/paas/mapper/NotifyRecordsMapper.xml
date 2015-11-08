@@ -3,12 +3,12 @@
 <mapper namespace="com.hummingbird.paas.mapper.NotifyRecordsMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.NotifyRecords" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="app_id" property="app_id" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="notify_type" property="notify_type" jdbcType="VARCHAR" />
-    <result column="notify_data" property="notify_data" jdbcType="VARCHAR" />
+    <result column="notify_type" property="notifyType" jdbcType="VARCHAR" />
+    <result column="notify_data" property="notifyData" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, app_id, insert_time, update_time, status, notify_type, notify_data
@@ -27,9 +27,9 @@
     insert into t_tzxt_notify_records (id, app_id, insert_time, 
       update_time, status, notify_type, 
       notify_data)
-    values (#{id,jdbcType=INTEGER}, #{app_id,jdbcType=VARCHAR}, #{insert_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{notify_type,jdbcType=VARCHAR}, 
-      #{notify_data,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{notifyType,jdbcType=VARCHAR}, 
+      #{notifyData,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.NotifyRecords" >
     insert into t_tzxt_notify_records
@@ -37,22 +37,22 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="app_id != null" >
+      <if test="appId != null" >
         app_id,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="update_time != null" >
+      <if test="updateTime != null" >
         update_time,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="notify_type != null" >
+      <if test="notifyType != null" >
         notify_type,
       </if>
-      <if test="notify_data != null" >
+      <if test="notifyData != null" >
         notify_data,
       </if>
     </trim>
@@ -60,58 +60,58 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="app_id != null" >
-        #{app_id,jdbcType=VARCHAR},
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null" >
-        #{update_time,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="notify_type != null" >
-        #{notify_type,jdbcType=VARCHAR},
+      <if test="notifyType != null" >
+        #{notifyType,jdbcType=VARCHAR},
       </if>
-      <if test="notify_data != null" >
-        #{notify_data,jdbcType=VARCHAR},
+      <if test="notifyData != null" >
+        #{notifyData,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.NotifyRecords" >
     update t_tzxt_notify_records
     <set >
-      <if test="app_id != null" >
-        app_id = #{app_id,jdbcType=VARCHAR},
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null" >
-        update_time = #{update_time,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="notify_type != null" >
-        notify_type = #{notify_type,jdbcType=VARCHAR},
+      <if test="notifyType != null" >
+        notify_type = #{notifyType,jdbcType=VARCHAR},
       </if>
-      <if test="notify_data != null" >
-        notify_data = #{notify_data,jdbcType=VARCHAR},
+      <if test="notifyData != null" >
+        notify_data = #{notifyData,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.NotifyRecords" >
     update t_tzxt_notify_records
-    set app_id = #{app_id,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
+    set app_id = #{appId,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
-      notify_type = #{notify_type,jdbcType=VARCHAR},
-      notify_data = #{notify_data,jdbcType=VARCHAR}
+      notify_type = #{notifyType,jdbcType=VARCHAR},
+      notify_data = #{notifyData,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

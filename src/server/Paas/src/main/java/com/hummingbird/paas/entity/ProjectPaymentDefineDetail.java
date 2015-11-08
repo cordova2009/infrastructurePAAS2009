@@ -14,7 +14,7 @@ public class ProjectPaymentDefineDetail {
     /**
      * 付款定义id
      */
-    private Integer project_payment_define_id;
+    private Integer projectPaymentDefineId;
 
     /**
      * 期数，从第1期开始
@@ -24,12 +24,12 @@ public class ProjectPaymentDefineDetail {
     /**
      * 支付日期
      */
-    private Date pay_time;
+    private Date payTime;
 
     /**
      * 支付金额，单位为分
      */
-    private Integer pay_sum;
+    private Integer paySum;
 
     /**
      * @return id
@@ -49,16 +49,16 @@ public class ProjectPaymentDefineDetail {
     /**
      * @return 付款定义id
      */
-    public Integer getProject_payment_define_id() {
-        return project_payment_define_id;
+    public Integer getProjectPaymentDefineId() {
+        return projectPaymentDefineId;
     }
 
     /**
      * @param projectPaymentDefineId 
 	 *            付款定义id
      */
-    public void setProject_payment_define_id(Integer project_payment_define_id) {
-        this.project_payment_define_id = project_payment_define_id;
+    public void setProjectPaymentDefineId(Integer projectPaymentDefineId) {
+        this.projectPaymentDefineId = projectPaymentDefineId;
     }
 
     /**
@@ -79,31 +79,31 @@ public class ProjectPaymentDefineDetail {
     /**
      * @return 支付日期
      */
-    public Date getPay_time() {
-        return pay_time;
+    public Date getPayTime() {
+        return payTime;
     }
 
     /**
      * @param payTime 
 	 *            支付日期
      */
-    public void setPay_time(Date pay_time) {
-        this.pay_time = pay_time;
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
     }
 
     /**
      * @return 支付金额，单位为分
      */
-    public Integer getPay_sum() {
-        return pay_sum;
+    public Integer getPaySum() {
+        return paySum;
     }
 
     /**
      * @param paySum 
 	 *            支付金额，单位为分
      */
-    public void setPay_sum(Integer pay_sum) {
-        this.pay_sum = pay_sum;
+    public void setPaySum(Integer paySum) {
+        this.paySum = paySum;
     }
 
     @Override
@@ -119,10 +119,10 @@ public class ProjectPaymentDefineDetail {
         }
         ProjectPaymentDefineDetail other = (ProjectPaymentDefineDetail) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getProject_payment_define_id() == null ? other.getProject_payment_define_id() == null : this.getProject_payment_define_id().equals(other.getProject_payment_define_id()))
+            && (this.getProjectPaymentDefineId() == null ? other.getProjectPaymentDefineId() == null : this.getProjectPaymentDefineId().equals(other.getProjectPaymentDefineId()))
             && (this.getPeriod() == null ? other.getPeriod() == null : this.getPeriod().equals(other.getPeriod()))
-            && (this.getPay_time() == null ? other.getPay_time() == null : this.getPay_time().equals(other.getPay_time()))
-            && (this.getPay_sum() == null ? other.getPay_sum() == null : this.getPay_sum().equals(other.getPay_sum()));
+            && (this.getPayTime() == null ? other.getPayTime() == null : this.getPayTime().equals(other.getPayTime()))
+            && (this.getPaySum() == null ? other.getPaySum() == null : this.getPaySum().equals(other.getPaySum()));
     }
 
     @Override
@@ -130,10 +130,10 @@ public class ProjectPaymentDefineDetail {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getProject_payment_define_id() == null) ? 0 : getProject_payment_define_id().hashCode());
+        result = prime * result + ((getProjectPaymentDefineId() == null) ? 0 : getProjectPaymentDefineId().hashCode());
         result = prime * result + ((getPeriod() == null) ? 0 : getPeriod().hashCode());
-        result = prime * result + ((getPay_time() == null) ? 0 : getPay_time().hashCode());
-        result = prime * result + ((getPay_sum() == null) ? 0 : getPay_sum().hashCode());
+        result = prime * result + ((getPayTime() == null) ? 0 : getPayTime().hashCode());
+        result = prime * result + ((getPaySum() == null) ? 0 : getPaySum().hashCode());
         return result;
     }
 }

@@ -6,7 +6,7 @@ public interface BiddeeCreditMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(Integer tenderer_id);
+    int deleteByPrimaryKey(Integer tendererId);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface BiddeeCreditMapper {
     /**
      * 根据主键查询记录
      */
-    BiddeeCredit selectByPrimaryKey(Integer tenderer_id);
+    BiddeeCredit selectByPrimaryKey(Integer tendererId);
 
     /**
      * 根据主键更新属性不为空的记录

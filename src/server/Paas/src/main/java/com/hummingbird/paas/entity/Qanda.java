@@ -7,37 +7,37 @@ public class Qanda {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * qq群答疑, YES 是,NO# 否
      */
-    private String is_qq_answer;
+    private String isQqAnswer;
 
     /**
      * email答疑,YES 是,NO# 否
      */
-    private String is_email_answer;
+    private String isEmailAnswer;
 
     /**
      * 电话答疑,YES 是,NO# 否
      */
-    private String is_tel_answer;
+    private String isTelAnswer;
 
     /**
      * 现场答疑,YES 是,NO# 否
      */
-    private String is_meetng_answer;
+    private String isMeetngAnswer;
 
     /**
      * qq群号
      */
-    private String qq_no;
+    private String qqNo;
 
     /**
      * qq群密码
      */
-    private String qq_password;
+    private String qqPassword;
 
     /**
      * 电话号码
@@ -57,116 +57,116 @@ public class Qanda {
     /**
      * 现场答疑,答疑时间
      */
-    private String answer_time;
+    private String answerTime;
 
     /**
      * 现场答疑,答疑日期
      */
-    private String answer_date;
+    private String answerDate;
 
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return qq群答疑, YES 是,NO# 否
      */
-    public String getIs_qq_answer() {
-        return is_qq_answer;
+    public String getIsQqAnswer() {
+        return isQqAnswer;
     }
 
     /**
      * @param isQqAnswer 
 	 *            qq群答疑, YES 是,NO# 否
      */
-    public void setIs_qq_answer(String is_qq_answer) {
-        this.is_qq_answer = is_qq_answer == null ? null : is_qq_answer.trim();
+    public void setIsQqAnswer(String isQqAnswer) {
+        this.isQqAnswer = isQqAnswer == null ? null : isQqAnswer.trim();
     }
 
     /**
      * @return email答疑,YES 是,NO# 否
      */
-    public String getIs_email_answer() {
-        return is_email_answer;
+    public String getIsEmailAnswer() {
+        return isEmailAnswer;
     }
 
     /**
      * @param isEmailAnswer 
 	 *            email答疑,YES 是,NO# 否
      */
-    public void setIs_email_answer(String is_email_answer) {
-        this.is_email_answer = is_email_answer == null ? null : is_email_answer.trim();
+    public void setIsEmailAnswer(String isEmailAnswer) {
+        this.isEmailAnswer = isEmailAnswer == null ? null : isEmailAnswer.trim();
     }
 
     /**
      * @return 电话答疑,YES 是,NO# 否
      */
-    public String getIs_tel_answer() {
-        return is_tel_answer;
+    public String getIsTelAnswer() {
+        return isTelAnswer;
     }
 
     /**
      * @param isTelAnswer 
 	 *            电话答疑,YES 是,NO# 否
      */
-    public void setIs_tel_answer(String is_tel_answer) {
-        this.is_tel_answer = is_tel_answer == null ? null : is_tel_answer.trim();
+    public void setIsTelAnswer(String isTelAnswer) {
+        this.isTelAnswer = isTelAnswer == null ? null : isTelAnswer.trim();
     }
 
     /**
      * @return 现场答疑,YES 是,NO# 否
      */
-    public String getIs_meetng_answer() {
-        return is_meetng_answer;
+    public String getIsMeetngAnswer() {
+        return isMeetngAnswer;
     }
 
     /**
      * @param isMeetngAnswer 
 	 *            现场答疑,YES 是,NO# 否
      */
-    public void setIs_meetng_answer(String is_meetng_answer) {
-        this.is_meetng_answer = is_meetng_answer == null ? null : is_meetng_answer.trim();
+    public void setIsMeetngAnswer(String isMeetngAnswer) {
+        this.isMeetngAnswer = isMeetngAnswer == null ? null : isMeetngAnswer.trim();
     }
 
     /**
      * @return qq群号
      */
-    public String getQq_no() {
-        return qq_no;
+    public String getQqNo() {
+        return qqNo;
     }
 
     /**
      * @param qqNo 
 	 *            qq群号
      */
-    public void setQq_no(String qq_no) {
-        this.qq_no = qq_no == null ? null : qq_no.trim();
+    public void setQqNo(String qqNo) {
+        this.qqNo = qqNo == null ? null : qqNo.trim();
     }
 
     /**
      * @return qq群密码
      */
-    public String getQq_password() {
-        return qq_password;
+    public String getQqPassword() {
+        return qqPassword;
     }
 
     /**
      * @param qqPassword 
 	 *            qq群密码
      */
-    public void setQq_password(String qq_password) {
-        this.qq_password = qq_password == null ? null : qq_password.trim();
+    public void setQqPassword(String qqPassword) {
+        this.qqPassword = qqPassword == null ? null : qqPassword.trim();
     }
 
     /**
@@ -217,31 +217,31 @@ public class Qanda {
     /**
      * @return 现场答疑,答疑时间
      */
-    public String getAnswer_time() {
-        return answer_time;
+    public String getAnswerTime() {
+        return answerTime;
     }
 
     /**
      * @param answerTime 
 	 *            现场答疑,答疑时间
      */
-    public void setAnswer_time(String answer_time) {
-        this.answer_time = answer_time == null ? null : answer_time.trim();
+    public void setAnswerTime(String answerTime) {
+        this.answerTime = answerTime == null ? null : answerTime.trim();
     }
 
     /**
      * @return 现场答疑,答疑日期
      */
-    public String getAnswer_date() {
-        return answer_date;
+    public String getAnswerDate() {
+        return answerDate;
     }
 
     /**
      * @param answerDate 
 	 *            现场答疑,答疑日期
      */
-    public void setAnswer_date(String answer_date) {
-        this.answer_date = answer_date == null ? null : answer_date.trim();
+    public void setAnswerDate(String answerDate) {
+        this.answerDate = answerDate == null ? null : answerDate.trim();
     }
 
     @Override
@@ -256,36 +256,36 @@ public class Qanda {
             return false;
         }
         Qanda other = (Qanda) that;
-        return (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getIs_qq_answer() == null ? other.getIs_qq_answer() == null : this.getIs_qq_answer().equals(other.getIs_qq_answer()))
-            && (this.getIs_email_answer() == null ? other.getIs_email_answer() == null : this.getIs_email_answer().equals(other.getIs_email_answer()))
-            && (this.getIs_tel_answer() == null ? other.getIs_tel_answer() == null : this.getIs_tel_answer().equals(other.getIs_tel_answer()))
-            && (this.getIs_meetng_answer() == null ? other.getIs_meetng_answer() == null : this.getIs_meetng_answer().equals(other.getIs_meetng_answer()))
-            && (this.getQq_no() == null ? other.getQq_no() == null : this.getQq_no().equals(other.getQq_no()))
-            && (this.getQq_password() == null ? other.getQq_password() == null : this.getQq_password().equals(other.getQq_password()))
+        return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getIsQqAnswer() == null ? other.getIsQqAnswer() == null : this.getIsQqAnswer().equals(other.getIsQqAnswer()))
+            && (this.getIsEmailAnswer() == null ? other.getIsEmailAnswer() == null : this.getIsEmailAnswer().equals(other.getIsEmailAnswer()))
+            && (this.getIsTelAnswer() == null ? other.getIsTelAnswer() == null : this.getIsTelAnswer().equals(other.getIsTelAnswer()))
+            && (this.getIsMeetngAnswer() == null ? other.getIsMeetngAnswer() == null : this.getIsMeetngAnswer().equals(other.getIsMeetngAnswer()))
+            && (this.getQqNo() == null ? other.getQqNo() == null : this.getQqNo().equals(other.getQqNo()))
+            && (this.getQqPassword() == null ? other.getQqPassword() == null : this.getQqPassword().equals(other.getQqPassword()))
             && (this.getTelephone() == null ? other.getTelephone() == null : this.getTelephone().equals(other.getTelephone()))
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
-            && (this.getAnswer_time() == null ? other.getAnswer_time() == null : this.getAnswer_time().equals(other.getAnswer_time()))
-            && (this.getAnswer_date() == null ? other.getAnswer_date() == null : this.getAnswer_date().equals(other.getAnswer_date()));
+            && (this.getAnswerTime() == null ? other.getAnswerTime() == null : this.getAnswerTime().equals(other.getAnswerTime()))
+            && (this.getAnswerDate() == null ? other.getAnswerDate() == null : this.getAnswerDate().equals(other.getAnswerDate()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getIs_qq_answer() == null) ? 0 : getIs_qq_answer().hashCode());
-        result = prime * result + ((getIs_email_answer() == null) ? 0 : getIs_email_answer().hashCode());
-        result = prime * result + ((getIs_tel_answer() == null) ? 0 : getIs_tel_answer().hashCode());
-        result = prime * result + ((getIs_meetng_answer() == null) ? 0 : getIs_meetng_answer().hashCode());
-        result = prime * result + ((getQq_no() == null) ? 0 : getQq_no().hashCode());
-        result = prime * result + ((getQq_password() == null) ? 0 : getQq_password().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getIsQqAnswer() == null) ? 0 : getIsQqAnswer().hashCode());
+        result = prime * result + ((getIsEmailAnswer() == null) ? 0 : getIsEmailAnswer().hashCode());
+        result = prime * result + ((getIsTelAnswer() == null) ? 0 : getIsTelAnswer().hashCode());
+        result = prime * result + ((getIsMeetngAnswer() == null) ? 0 : getIsMeetngAnswer().hashCode());
+        result = prime * result + ((getQqNo() == null) ? 0 : getQqNo().hashCode());
+        result = prime * result + ((getQqPassword() == null) ? 0 : getQqPassword().hashCode());
         result = prime * result + ((getTelephone() == null) ? 0 : getTelephone().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
-        result = prime * result + ((getAnswer_time() == null) ? 0 : getAnswer_time().hashCode());
-        result = prime * result + ((getAnswer_date() == null) ? 0 : getAnswer_date().hashCode());
+        result = prime * result + ((getAnswerTime() == null) ? 0 : getAnswerTime().hashCode());
+        result = prime * result + ((getAnswerDate() == null) ? 0 : getAnswerDate().hashCode());
         return result;
     }
 }

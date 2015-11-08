@@ -12,7 +12,7 @@ public class MemberProductPrivilege {
     /**
      * 会员产品id
      */
-    private Integer product_id;
+    private Integer productId;
 
     /**
      * 特权
@@ -37,16 +37,16 @@ public class MemberProductPrivilege {
     /**
      * @return 会员产品id
      */
-    public Integer getProduct_id() {
-        return product_id;
+    public Integer getProductId() {
+        return productId;
     }
 
     /**
      * @param productId 
 	 *            会员产品id
      */
-    public void setProduct_id(Integer product_id) {
-        this.product_id = product_id;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     /**
@@ -77,7 +77,7 @@ public class MemberProductPrivilege {
         }
         MemberProductPrivilege other = (MemberProductPrivilege) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getProduct_id() == null ? other.getProduct_id() == null : this.getProduct_id().equals(other.getProduct_id()))
+            && (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()))
             && (this.getPrivilege() == null ? other.getPrivilege() == null : this.getPrivilege().equals(other.getPrivilege()));
     }
 
@@ -86,7 +86,7 @@ public class MemberProductPrivilege {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getProduct_id() == null) ? 0 : getProduct_id().hashCode());
+        result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
         result = prime * result + ((getPrivilege() == null) ? 0 : getPrivilege().hashCode());
         return result;
     }

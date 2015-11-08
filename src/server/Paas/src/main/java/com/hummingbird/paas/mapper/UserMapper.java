@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.User;
 
 public interface UserMapper {
@@ -32,4 +34,9 @@ public interface UserMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(User record);
+
+	/**
+     * 根据手机号码查询用户信息
+     */
+    List<User> queryUserByMobile(String mobileNum);
 }

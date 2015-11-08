@@ -12,7 +12,7 @@ public class Industry {
     /**
      * 行业名称
      */
-    private String industry_name;
+    private String industryName;
 
     /**
      * @return 行业id
@@ -32,16 +32,16 @@ public class Industry {
     /**
      * @return 行业名称
      */
-    public String getIndustry_name() {
-        return industry_name;
+    public String getIndustryName() {
+        return industryName;
     }
 
     /**
      * @param industryName 
 	 *            行业名称
      */
-    public void setIndustry_name(String industry_name) {
-        this.industry_name = industry_name == null ? null : industry_name.trim();
+    public void setIndustryName(String industryName) {
+        this.industryName = industryName == null ? null : industryName.trim();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Industry {
         }
         Industry other = (Industry) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getIndustry_name() == null ? other.getIndustry_name() == null : this.getIndustry_name().equals(other.getIndustry_name()));
+            && (this.getIndustryName() == null ? other.getIndustryName() == null : this.getIndustryName().equals(other.getIndustryName()));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Industry {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getIndustry_name() == null) ? 0 : getIndustry_name().hashCode());
+        result = prime * result + ((getIndustryName() == null) ? 0 : getIndustryName().hashCode());
         return result;
     }
 }

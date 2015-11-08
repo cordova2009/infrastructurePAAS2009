@@ -14,32 +14,32 @@ public class PaymentAlipay {
     /**
      * 订单号
      */
-    private String order_id;
+    private String orderId;
 
     /**
      * 支付宝订单号
      */
-    private String trade_id;
+    private String tradeId;
 
     /**
      * 支付状态,CRT待支付，OK#已支付，FLS支付失败
      */
-    private String pay_status;
+    private String payStatus;
 
     /**
      * 新增时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 应用id
      */
-    private String app_id;
+    private String appId;
 
     /**
      * 产品描述
      */
-    private String product_desc;
+    private String productDesc;
 
     /**
      * @return id
@@ -59,91 +59,91 @@ public class PaymentAlipay {
     /**
      * @return 订单号
      */
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单号
      */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id == null ? null : order_id.trim();
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
      * @return 支付宝订单号
      */
-    public String getTrade_id() {
-        return trade_id;
+    public String getTradeId() {
+        return tradeId;
     }
 
     /**
      * @param tradeId 
 	 *            支付宝订单号
      */
-    public void setTrade_id(String trade_id) {
-        this.trade_id = trade_id == null ? null : trade_id.trim();
+    public void setTradeId(String tradeId) {
+        this.tradeId = tradeId == null ? null : tradeId.trim();
     }
 
     /**
      * @return 支付状态,CRT待支付，OK#已支付，FLS支付失败
      */
-    public String getPay_status() {
-        return pay_status;
+    public String getPayStatus() {
+        return payStatus;
     }
 
     /**
      * @param payStatus 
 	 *            支付状态,CRT待支付，OK#已支付，FLS支付失败
      */
-    public void setPay_status(String pay_status) {
-        this.pay_status = pay_status == null ? null : pay_status.trim();
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus == null ? null : payStatus.trim();
     }
 
     /**
      * @return 新增时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            新增时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 应用id
      */
-    public String getApp_id() {
-        return app_id;
+    public String getAppId() {
+        return appId;
     }
 
     /**
      * @param appId 
 	 *            应用id
      */
-    public void setApp_id(String app_id) {
-        this.app_id = app_id == null ? null : app_id.trim();
+    public void setAppId(String appId) {
+        this.appId = appId == null ? null : appId.trim();
     }
 
     /**
      * @return 产品描述
      */
-    public String getProduct_desc() {
-        return product_desc;
+    public String getProductDesc() {
+        return productDesc;
     }
 
     /**
      * @param productDesc 
 	 *            产品描述
      */
-    public void setProduct_desc(String product_desc) {
-        this.product_desc = product_desc == null ? null : product_desc.trim();
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc == null ? null : productDesc.trim();
     }
 
     @Override
@@ -159,12 +159,12 @@ public class PaymentAlipay {
         }
         PaymentAlipay other = (PaymentAlipay) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
-            && (this.getTrade_id() == null ? other.getTrade_id() == null : this.getTrade_id().equals(other.getTrade_id()))
-            && (this.getPay_status() == null ? other.getPay_status() == null : this.getPay_status().equals(other.getPay_status()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getApp_id() == null ? other.getApp_id() == null : this.getApp_id().equals(other.getApp_id()))
-            && (this.getProduct_desc() == null ? other.getProduct_desc() == null : this.getProduct_desc().equals(other.getProduct_desc()));
+            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getTradeId() == null ? other.getTradeId() == null : this.getTradeId().equals(other.getTradeId()))
+            && (this.getPayStatus() == null ? other.getPayStatus() == null : this.getPayStatus().equals(other.getPayStatus()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
+            && (this.getProductDesc() == null ? other.getProductDesc() == null : this.getProductDesc().equals(other.getProductDesc()));
     }
 
     @Override
@@ -172,12 +172,12 @@ public class PaymentAlipay {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
-        result = prime * result + ((getTrade_id() == null) ? 0 : getTrade_id().hashCode());
-        result = prime * result + ((getPay_status() == null) ? 0 : getPay_status().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getApp_id() == null) ? 0 : getApp_id().hashCode());
-        result = prime * result + ((getProduct_desc() == null) ? 0 : getProduct_desc().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getTradeId() == null) ? 0 : getTradeId().hashCode());
+        result = prime * result + ((getPayStatus() == null) ? 0 : getPayStatus().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
+        result = prime * result + ((getProductDesc() == null) ? 0 : getProductDesc().hashCode());
         return result;
     }
 }

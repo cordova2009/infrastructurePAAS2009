@@ -3,10 +3,10 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidCertificationMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidCertification" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bid_id" property="bid_id" jdbcType="INTEGER" />
-    <result column="certification_id" property="certification_id" jdbcType="INTEGER" />
-    <result column="certification_pic" property="certification_pic" jdbcType="VARCHAR" />
-    <result column="certification_name" property="certification_name" jdbcType="VARCHAR" />
+    <result column="bid_id" property="bidId" jdbcType="INTEGER" />
+    <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
+    <result column="certification_pic" property="certificationPic" jdbcType="VARCHAR" />
+    <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bid_id, certification_id, certification_pic, certification_name
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidCertification" >
     insert into t_ztgl_bid_certification (id, bid_id, certification_id, 
       certification_pic, certification_name)
-    values (#{id,jdbcType=INTEGER}, #{bid_id,jdbcType=INTEGER}, #{certification_id,jdbcType=INTEGER}, 
-      #{certification_pic,jdbcType=VARCHAR}, #{certification_name,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{bidId,jdbcType=INTEGER}, #{certificationId,jdbcType=INTEGER}, 
+      #{certificationPic,jdbcType=VARCHAR}, #{certificationName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidCertification" >
     insert into t_ztgl_bid_certification
@@ -33,16 +33,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="bid_id != null" >
+      <if test="bidId != null" >
         bid_id,
       </if>
-      <if test="certification_id != null" >
+      <if test="certificationId != null" >
         certification_id,
       </if>
-      <if test="certification_pic != null" >
+      <if test="certificationPic != null" >
         certification_pic,
       </if>
-      <if test="certification_name != null" >
+      <if test="certificationName != null" >
         certification_name,
       </if>
     </trim>
@@ -50,44 +50,44 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="bid_id != null" >
-        #{bid_id,jdbcType=INTEGER},
+      <if test="bidId != null" >
+        #{bidId,jdbcType=INTEGER},
       </if>
-      <if test="certification_id != null" >
-        #{certification_id,jdbcType=INTEGER},
+      <if test="certificationId != null" >
+        #{certificationId,jdbcType=INTEGER},
       </if>
-      <if test="certification_pic != null" >
-        #{certification_pic,jdbcType=VARCHAR},
+      <if test="certificationPic != null" >
+        #{certificationPic,jdbcType=VARCHAR},
       </if>
-      <if test="certification_name != null" >
-        #{certification_name,jdbcType=VARCHAR},
+      <if test="certificationName != null" >
+        #{certificationName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BidCertification" >
     update t_ztgl_bid_certification
     <set >
-      <if test="bid_id != null" >
-        bid_id = #{bid_id,jdbcType=INTEGER},
+      <if test="bidId != null" >
+        bid_id = #{bidId,jdbcType=INTEGER},
       </if>
-      <if test="certification_id != null" >
-        certification_id = #{certification_id,jdbcType=INTEGER},
+      <if test="certificationId != null" >
+        certification_id = #{certificationId,jdbcType=INTEGER},
       </if>
-      <if test="certification_pic != null" >
-        certification_pic = #{certification_pic,jdbcType=VARCHAR},
+      <if test="certificationPic != null" >
+        certification_pic = #{certificationPic,jdbcType=VARCHAR},
       </if>
-      <if test="certification_name != null" >
-        certification_name = #{certification_name,jdbcType=VARCHAR},
+      <if test="certificationName != null" >
+        certification_name = #{certificationName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidCertification" >
     update t_ztgl_bid_certification
-    set bid_id = #{bid_id,jdbcType=INTEGER},
-      certification_id = #{certification_id,jdbcType=INTEGER},
-      certification_pic = #{certification_pic,jdbcType=VARCHAR},
-      certification_name = #{certification_name,jdbcType=VARCHAR}
+    set bid_id = #{bidId,jdbcType=INTEGER},
+      certification_id = #{certificationId,jdbcType=INTEGER},
+      certification_pic = #{certificationPic,jdbcType=VARCHAR},
+      certification_name = #{certificationName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

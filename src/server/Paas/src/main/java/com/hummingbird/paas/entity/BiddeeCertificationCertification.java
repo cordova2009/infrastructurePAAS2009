@@ -14,32 +14,32 @@ public class BiddeeCertificationCertification {
     /**
      * 发包方id
      */
-    private Integer biddee_id;
+    private Integer biddeeId;
 
     /**
      * 资质类别
      */
-    private Integer certification_id;
+    private Integer certificationId;
 
     /**
      * 资质名称
      */
-    private String certification_name;
+    private String certificationName;
 
     /**
      * 资质内容
      */
-    private String certification_content;
+    private String certificationContent;
 
     /**
      * 有效期
      */
-    private Date expire_time;
+    private Date expireTime;
 
     /**
      * 适用区域
      */
-    private String applicable_region;
+    private String applicableRegion;
 
     /**
      * @return 主键
@@ -59,91 +59,91 @@ public class BiddeeCertificationCertification {
     /**
      * @return 发包方id
      */
-    public Integer getBiddee_id() {
-        return biddee_id;
+    public Integer getBiddeeId() {
+        return biddeeId;
     }
 
     /**
      * @param biddeeId 
 	 *            发包方id
      */
-    public void setBiddee_id(Integer biddee_id) {
-        this.biddee_id = biddee_id;
+    public void setBiddeeId(Integer biddeeId) {
+        this.biddeeId = biddeeId;
     }
 
     /**
      * @return 资质类别
      */
-    public Integer getCertification_id() {
-        return certification_id;
+    public Integer getCertificationId() {
+        return certificationId;
     }
 
     /**
      * @param certificationId 
 	 *            资质类别
      */
-    public void setCertification_id(Integer certification_id) {
-        this.certification_id = certification_id;
+    public void setCertificationId(Integer certificationId) {
+        this.certificationId = certificationId;
     }
 
     /**
      * @return 资质名称
      */
-    public String getCertification_name() {
-        return certification_name;
+    public String getCertificationName() {
+        return certificationName;
     }
 
     /**
      * @param certificationName 
 	 *            资质名称
      */
-    public void setCertification_name(String certification_name) {
-        this.certification_name = certification_name == null ? null : certification_name.trim();
+    public void setCertificationName(String certificationName) {
+        this.certificationName = certificationName == null ? null : certificationName.trim();
     }
 
     /**
      * @return 资质内容
      */
-    public String getCertification_content() {
-        return certification_content;
+    public String getCertificationContent() {
+        return certificationContent;
     }
 
     /**
      * @param certificationContent 
 	 *            资质内容
      */
-    public void setCertification_content(String certification_content) {
-        this.certification_content = certification_content == null ? null : certification_content.trim();
+    public void setCertificationContent(String certificationContent) {
+        this.certificationContent = certificationContent == null ? null : certificationContent.trim();
     }
 
     /**
      * @return 有效期
      */
-    public Date getExpire_time() {
-        return expire_time;
+    public Date getExpireTime() {
+        return expireTime;
     }
 
     /**
      * @param expireTime 
 	 *            有效期
      */
-    public void setExpire_time(Date expire_time) {
-        this.expire_time = expire_time;
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
     }
 
     /**
      * @return 适用区域
      */
-    public String getApplicable_region() {
-        return applicable_region;
+    public String getApplicableRegion() {
+        return applicableRegion;
     }
 
     /**
      * @param applicableRegion 
 	 *            适用区域
      */
-    public void setApplicable_region(String applicable_region) {
-        this.applicable_region = applicable_region == null ? null : applicable_region.trim();
+    public void setApplicableRegion(String applicableRegion) {
+        this.applicableRegion = applicableRegion == null ? null : applicableRegion.trim();
     }
 
     @Override
@@ -159,12 +159,12 @@ public class BiddeeCertificationCertification {
         }
         BiddeeCertificationCertification other = (BiddeeCertificationCertification) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBiddee_id() == null ? other.getBiddee_id() == null : this.getBiddee_id().equals(other.getBiddee_id()))
-            && (this.getCertification_id() == null ? other.getCertification_id() == null : this.getCertification_id().equals(other.getCertification_id()))
-            && (this.getCertification_name() == null ? other.getCertification_name() == null : this.getCertification_name().equals(other.getCertification_name()))
-            && (this.getCertification_content() == null ? other.getCertification_content() == null : this.getCertification_content().equals(other.getCertification_content()))
-            && (this.getExpire_time() == null ? other.getExpire_time() == null : this.getExpire_time().equals(other.getExpire_time()))
-            && (this.getApplicable_region() == null ? other.getApplicable_region() == null : this.getApplicable_region().equals(other.getApplicable_region()));
+            && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
+            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
+            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
+            && (this.getCertificationContent() == null ? other.getCertificationContent() == null : this.getCertificationContent().equals(other.getCertificationContent()))
+            && (this.getExpireTime() == null ? other.getExpireTime() == null : this.getExpireTime().equals(other.getExpireTime()))
+            && (this.getApplicableRegion() == null ? other.getApplicableRegion() == null : this.getApplicableRegion().equals(other.getApplicableRegion()));
     }
 
     @Override
@@ -172,12 +172,12 @@ public class BiddeeCertificationCertification {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBiddee_id() == null) ? 0 : getBiddee_id().hashCode());
-        result = prime * result + ((getCertification_id() == null) ? 0 : getCertification_id().hashCode());
-        result = prime * result + ((getCertification_name() == null) ? 0 : getCertification_name().hashCode());
-        result = prime * result + ((getCertification_content() == null) ? 0 : getCertification_content().hashCode());
-        result = prime * result + ((getExpire_time() == null) ? 0 : getExpire_time().hashCode());
-        result = prime * result + ((getApplicable_region() == null) ? 0 : getApplicable_region().hashCode());
+        result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
+        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
+        result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
+        result = prime * result + ((getCertificationContent() == null) ? 0 : getCertificationContent().hashCode());
+        result = prime * result + ((getExpireTime() == null) ? 0 : getExpireTime().hashCode());
+        result = prime * result + ((getApplicableRegion() == null) ? 0 : getApplicableRegion().hashCode());
         return result;
     }
 }

@@ -12,12 +12,12 @@ public class IndustryCertification {
     /**
      * 行业id
      */
-    private Integer industry_id;
+    private Integer industryId;
 
     /**
      * 资质证书id
      */
-    private Integer certification_id;
+    private Integer certificationId;
 
     /**
      * @return id
@@ -37,31 +37,31 @@ public class IndustryCertification {
     /**
      * @return 行业id
      */
-    public Integer getIndustry_id() {
-        return industry_id;
+    public Integer getIndustryId() {
+        return industryId;
     }
 
     /**
      * @param industryId 
 	 *            行业id
      */
-    public void setIndustry_id(Integer industry_id) {
-        this.industry_id = industry_id;
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
     }
 
     /**
      * @return 资质证书id
      */
-    public Integer getCertification_id() {
-        return certification_id;
+    public Integer getCertificationId() {
+        return certificationId;
     }
 
     /**
      * @param certificationId 
 	 *            资质证书id
      */
-    public void setCertification_id(Integer certification_id) {
-        this.certification_id = certification_id;
+    public void setCertificationId(Integer certificationId) {
+        this.certificationId = certificationId;
     }
 
     @Override
@@ -77,8 +77,8 @@ public class IndustryCertification {
         }
         IndustryCertification other = (IndustryCertification) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getIndustry_id() == null ? other.getIndustry_id() == null : this.getIndustry_id().equals(other.getIndustry_id()))
-            && (this.getCertification_id() == null ? other.getCertification_id() == null : this.getCertification_id().equals(other.getCertification_id()));
+            && (this.getIndustryId() == null ? other.getIndustryId() == null : this.getIndustryId().equals(other.getIndustryId()))
+            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()));
     }
 
     @Override
@@ -86,8 +86,8 @@ public class IndustryCertification {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getIndustry_id() == null) ? 0 : getIndustry_id().hashCode());
-        result = prime * result + ((getCertification_id() == null) ? 0 : getCertification_id().hashCode());
+        result = prime * result + ((getIndustryId() == null) ? 0 : getIndustryId().hashCode());
+        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
         return result;
     }
 }

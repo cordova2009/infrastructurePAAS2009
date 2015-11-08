@@ -14,12 +14,12 @@ public class ObjectBondRecord {
     /**
      * 标的id
      */
-    private String object_id;
+    private String objectId;
 
     /**
      * 金额，单位为分
      */
-    private Integer bond_amount;
+    private Integer bondAmount;
 
     /**
      * 收缴类型，FOZ冻结（帐户内的钱），PAY缴（保证金，中标后），REV收保证金
@@ -29,27 +29,27 @@ public class ObjectBondRecord {
     /**
      * 处理时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 认证招投标类型，TER发包商，BIR承包商
      */
-    private String company_type;
+    private String companyType;
 
     /**
      * 认证提出方id,记录承包商id或发包方id
      */
-    private String company_id;
+    private String companyId;
 
     /**
      * 订单id
      */
-    private String order_id;
+    private String orderId;
 
     /**
      * 保证金类型,BID投标保证金, WIN中标后交纳的保证金
      */
-    private String bond_type;
+    private String bondType;
 
     /**
      * @return 主键
@@ -69,31 +69,31 @@ public class ObjectBondRecord {
     /**
      * @return 标的id
      */
-    public String getObject_id() {
-        return object_id;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(String object_id) {
-        this.object_id = object_id == null ? null : object_id.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 金额，单位为分
      */
-    public Integer getBond_amount() {
-        return bond_amount;
+    public Integer getBondAmount() {
+        return bondAmount;
     }
 
     /**
      * @param bondAmount 
 	 *            金额，单位为分
      */
-    public void setBond_amount(Integer bond_amount) {
-        this.bond_amount = bond_amount;
+    public void setBondAmount(Integer bondAmount) {
+        this.bondAmount = bondAmount;
     }
 
     /**
@@ -114,76 +114,76 @@ public class ObjectBondRecord {
     /**
      * @return 处理时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            处理时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 认证招投标类型，TER发包商，BIR承包商
      */
-    public String getCompany_type() {
-        return company_type;
+    public String getCompanyType() {
+        return companyType;
     }
 
     /**
      * @param companyType 
 	 *            认证招投标类型，TER发包商，BIR承包商
      */
-    public void setCompany_type(String company_type) {
-        this.company_type = company_type == null ? null : company_type.trim();
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType == null ? null : companyType.trim();
     }
 
     /**
      * @return 认证提出方id,记录承包商id或发包方id
      */
-    public String getCompany_id() {
-        return company_id;
+    public String getCompanyId() {
+        return companyId;
     }
 
     /**
      * @param companyId 
 	 *            认证提出方id,记录承包商id或发包方id
      */
-    public void setCompany_id(String company_id) {
-        this.company_id = company_id == null ? null : company_id.trim();
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId == null ? null : companyId.trim();
     }
 
     /**
      * @return 订单id
      */
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单id
      */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id == null ? null : order_id.trim();
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
      * @return 保证金类型,BID投标保证金, WIN中标后交纳的保证金
      */
-    public String getBond_type() {
-        return bond_type;
+    public String getBondType() {
+        return bondType;
     }
 
     /**
      * @param bondType 
 	 *            保证金类型,BID投标保证金, WIN中标后交纳的保证金
      */
-    public void setBond_type(String bond_type) {
-        this.bond_type = bond_type == null ? null : bond_type.trim();
+    public void setBondType(String bondType) {
+        this.bondType = bondType == null ? null : bondType.trim();
     }
 
     @Override
@@ -199,14 +199,14 @@ public class ObjectBondRecord {
         }
         ObjectBondRecord other = (ObjectBondRecord) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
-            && (this.getBond_amount() == null ? other.getBond_amount() == null : this.getBond_amount().equals(other.getBond_amount()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getBondAmount() == null ? other.getBondAmount() == null : this.getBondAmount().equals(other.getBondAmount()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getCompany_type() == null ? other.getCompany_type() == null : this.getCompany_type().equals(other.getCompany_type()))
-            && (this.getCompany_id() == null ? other.getCompany_id() == null : this.getCompany_id().equals(other.getCompany_id()))
-            && (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
-            && (this.getBond_type() == null ? other.getBond_type() == null : this.getBond_type().equals(other.getBond_type()));
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getCompanyType() == null ? other.getCompanyType() == null : this.getCompanyType().equals(other.getCompanyType()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getBondType() == null ? other.getBondType() == null : this.getBondType().equals(other.getBondType()));
     }
 
     @Override
@@ -214,14 +214,14 @@ public class ObjectBondRecord {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
-        result = prime * result + ((getBond_amount() == null) ? 0 : getBond_amount().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getBondAmount() == null) ? 0 : getBondAmount().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getCompany_type() == null) ? 0 : getCompany_type().hashCode());
-        result = prime * result + ((getCompany_id() == null) ? 0 : getCompany_id().hashCode());
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
-        result = prime * result + ((getBond_type() == null) ? 0 : getBond_type().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getCompanyType() == null) ? 0 : getCompanyType().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getBondType() == null) ? 0 : getBondType().hashCode());
         return result;
     }
 }

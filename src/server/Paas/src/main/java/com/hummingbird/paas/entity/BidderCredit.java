@@ -7,61 +7,61 @@ public class BidderCredit {
     /**
      * 承包商id
      */
-    private Integer bidder_id;
+    private Integer bidderId;
 
     /**
      * 信用积分，它=个人信息信用积分+资质信用积分+招标信用积分
      */
-    private Integer credit_score;
+    private Integer creditScore;
 
     /**
      * 个人信息信用积分
      */
-    private Integer baseinfo_credit_score;
+    private Integer baseinfoCreditScore;
 
     /**
      * @return 承包商id
      */
-    public Integer getBidder_id() {
-        return bidder_id;
+    public Integer getBidderId() {
+        return bidderId;
     }
 
     /**
      * @param bidderId 
 	 *            承包商id
      */
-    public void setBidder_id(Integer bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setBidderId(Integer bidderId) {
+        this.bidderId = bidderId;
     }
 
     /**
      * @return 信用积分，它=个人信息信用积分+资质信用积分+招标信用积分
      */
-    public Integer getCredit_score() {
-        return credit_score;
+    public Integer getCreditScore() {
+        return creditScore;
     }
 
     /**
      * @param creditScore 
 	 *            信用积分，它=个人信息信用积分+资质信用积分+招标信用积分
      */
-    public void setCredit_score(Integer credit_score) {
-        this.credit_score = credit_score;
+    public void setCreditScore(Integer creditScore) {
+        this.creditScore = creditScore;
     }
 
     /**
      * @return 个人信息信用积分
      */
-    public Integer getBaseinfo_credit_score() {
-        return baseinfo_credit_score;
+    public Integer getBaseinfoCreditScore() {
+        return baseinfoCreditScore;
     }
 
     /**
      * @param baseinfoCreditScore 
 	 *            个人信息信用积分
      */
-    public void setBaseinfo_credit_score(Integer baseinfo_credit_score) {
-        this.baseinfo_credit_score = baseinfo_credit_score;
+    public void setBaseinfoCreditScore(Integer baseinfoCreditScore) {
+        this.baseinfoCreditScore = baseinfoCreditScore;
     }
 
     @Override
@@ -76,18 +76,18 @@ public class BidderCredit {
             return false;
         }
         BidderCredit other = (BidderCredit) that;
-        return (this.getBidder_id() == null ? other.getBidder_id() == null : this.getBidder_id().equals(other.getBidder_id()))
-            && (this.getCredit_score() == null ? other.getCredit_score() == null : this.getCredit_score().equals(other.getCredit_score()))
-            && (this.getBaseinfo_credit_score() == null ? other.getBaseinfo_credit_score() == null : this.getBaseinfo_credit_score().equals(other.getBaseinfo_credit_score()));
+        return (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
+            && (this.getCreditScore() == null ? other.getCreditScore() == null : this.getCreditScore().equals(other.getCreditScore()))
+            && (this.getBaseinfoCreditScore() == null ? other.getBaseinfoCreditScore() == null : this.getBaseinfoCreditScore().equals(other.getBaseinfoCreditScore()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getBidder_id() == null) ? 0 : getBidder_id().hashCode());
-        result = prime * result + ((getCredit_score() == null) ? 0 : getCredit_score().hashCode());
-        result = prime * result + ((getBaseinfo_credit_score() == null) ? 0 : getBaseinfo_credit_score().hashCode());
+        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
+        result = prime * result + ((getCreditScore() == null) ? 0 : getCreditScore().hashCode());
+        result = prime * result + ((getBaseinfoCreditScore() == null) ? 0 : getBaseinfoCreditScore().hashCode());
         return result;
     }
 }

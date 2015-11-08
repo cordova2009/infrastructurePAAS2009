@@ -3,8 +3,8 @@
 <mapper namespace="com.hummingbird.paas.mapper.RawNotifyRecordsMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.RawNotifyRecords" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="app_id" property="app_id" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.paas.entity.RawNotifyRecords" extends="BaseResultMap" >
@@ -31,7 +31,7 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.RawNotifyRecords" >
     insert into t_tzxt_raw_notify_records (id, insert_time, app_id, 
       status, data)
-    values (#{id,jdbcType=INTEGER}, #{insert_time,jdbcType=TIMESTAMP}, #{app_id,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{data,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.RawNotifyRecords" >
@@ -40,10 +40,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="app_id != null" >
+      <if test="appId != null" >
         app_id,
       </if>
       <if test="status != null" >
@@ -57,11 +57,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="app_id != null" >
-        #{app_id,jdbcType=VARCHAR},
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
@@ -74,11 +74,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.RawNotifyRecords" >
     update t_tzxt_raw_notify_records
     <set >
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="app_id != null" >
-        app_id = #{app_id,jdbcType=VARCHAR},
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
@@ -91,16 +91,16 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.paas.entity.RawNotifyRecords" >
     update t_tzxt_raw_notify_records
-    set insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      app_id = #{app_id,jdbcType=VARCHAR},
+    set insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       data = #{data,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.RawNotifyRecords" >
     update t_tzxt_raw_notify_records
-    set insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      app_id = #{app_id,jdbcType=VARCHAR},
+    set insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

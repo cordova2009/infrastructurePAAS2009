@@ -3,10 +3,10 @@
 <mapper namespace="com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="project_payment_define_id" property="project_payment_define_id" jdbcType="INTEGER" />
+    <result column="project_payment_define_id" property="projectPaymentDefineId" jdbcType="INTEGER" />
     <result column="period" property="period" jdbcType="INTEGER" />
-    <result column="pay_time" property="pay_time" jdbcType="TIMESTAMP" />
-    <result column="pay_sum" property="pay_sum" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="pay_sum" property="paySum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, project_payment_define_id, period, pay_time, pay_sum
@@ -24,8 +24,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
     insert into t_project_payment_define_detail (id, project_payment_define_id, period, 
       pay_time, pay_sum)
-    values (#{id,jdbcType=INTEGER}, #{project_payment_define_id,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
-      #{pay_time,jdbcType=TIMESTAMP}, #{pay_sum,jdbcType=INTEGER})
+    values (#{id,jdbcType=INTEGER}, #{projectPaymentDefineId,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{paySum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
     insert into t_project_payment_define_detail
@@ -33,16 +33,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="project_payment_define_id != null" >
+      <if test="projectPaymentDefineId != null" >
         project_payment_define_id,
       </if>
       <if test="period != null" >
         period,
       </if>
-      <if test="pay_time != null" >
+      <if test="payTime != null" >
         pay_time,
       </if>
-      <if test="pay_sum != null" >
+      <if test="paySum != null" >
         pay_sum,
       </if>
     </trim>
@@ -50,44 +50,44 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="project_payment_define_id != null" >
-        #{project_payment_define_id,jdbcType=INTEGER},
+      <if test="projectPaymentDefineId != null" >
+        #{projectPaymentDefineId,jdbcType=INTEGER},
       </if>
       <if test="period != null" >
         #{period,jdbcType=INTEGER},
       </if>
-      <if test="pay_time != null" >
-        #{pay_time,jdbcType=TIMESTAMP},
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="pay_sum != null" >
-        #{pay_sum,jdbcType=INTEGER},
+      <if test="paySum != null" >
+        #{paySum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
     update t_project_payment_define_detail
     <set >
-      <if test="project_payment_define_id != null" >
-        project_payment_define_id = #{project_payment_define_id,jdbcType=INTEGER},
+      <if test="projectPaymentDefineId != null" >
+        project_payment_define_id = #{projectPaymentDefineId,jdbcType=INTEGER},
       </if>
       <if test="period != null" >
         period = #{period,jdbcType=INTEGER},
       </if>
-      <if test="pay_time != null" >
-        pay_time = #{pay_time,jdbcType=TIMESTAMP},
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="pay_sum != null" >
-        pay_sum = #{pay_sum,jdbcType=INTEGER},
+      <if test="paySum != null" >
+        pay_sum = #{paySum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
     update t_project_payment_define_detail
-    set project_payment_define_id = #{project_payment_define_id,jdbcType=INTEGER},
+    set project_payment_define_id = #{projectPaymentDefineId,jdbcType=INTEGER},
       period = #{period,jdbcType=INTEGER},
-      pay_time = #{pay_time,jdbcType=TIMESTAMP},
-      pay_sum = #{pay_sum,jdbcType=INTEGER}
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      pay_sum = #{paySum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

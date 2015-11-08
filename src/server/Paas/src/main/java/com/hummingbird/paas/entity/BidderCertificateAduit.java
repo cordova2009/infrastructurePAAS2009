@@ -14,57 +14,57 @@ public class BidderCertificateAduit {
     /**
      * 发包方资质认证历史表id
      */
-    private Integer bidder_certicate_id;
+    private Integer bidderCerticateId;
 
     /**
      * 公司名称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String company_name;
+    private String companyName;
 
     /**
      * 法人名称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String legal_person;
+    private String legalPerson;
 
     /**
      * 企业成立时间认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String reg_time;
+    private String regTime;
 
     /**
      * 联系人认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String contact_name;
+    private String contactName;
 
     /**
      * 联系人手机号码认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String contact_mobile_num;
+    private String contactMobileNum;
 
     /**
      * 营业执照认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String business_license;
+    private String businessLicense;
 
     /**
      * 组织机构代码证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String org_code_certificate;
+    private String orgCodeCertificate;
 
     /**
      * 税务登记证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String tax_registration_certificate;
+    private String taxRegistrationCertificate;
 
     /**
      * 3合1证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String new_business_license;
+    private String newBusinessLicense;
 
     /**
      * 企业营业期限认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String business_license_expire_time;
+    private String businessLicenseExpireTime;
 
     /**
      * 企业电子邮箱认证结果,CRT待认证,OK#已认证,FLS认证失败
@@ -74,12 +74,12 @@ public class BidderCertificateAduit {
     /**
      * 法人授权书认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String legal_person_authority_book;
+    private String legalPersonAuthorityBook;
 
     /**
      * 工程范围认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String project_scope;
+    private String projectScope;
 
     /**
      * 公司简介认证结果,CRT待认证,OK#已认证,FLS认证失败
@@ -99,17 +99,17 @@ public class BidderCertificateAduit {
     /**
      * 公司简称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String short_name;
+    private String shortName;
 
     /**
      * 注册资本认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String registered_capital;
+    private String registeredCapital;
 
     /**
      * 经营范围认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String business_scope;
+    private String businessScope;
 
     /**
      * 企业办公地址认证结果认证结果,CRT待认证,OK#已认证,FLS认证失败
@@ -119,52 +119,52 @@ public class BidderCertificateAduit {
     /**
      * 法人身份证号认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String legal_person_idcard;
+    private String legalPersonIdcard;
 
     /**
      * 法人身份证扫描件(正面)认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String legal_person_idcard_front_url;
+    private String legalPersonIdcardFrontUrl;
 
     /**
      * 法人身份证扫描件(反面)认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String legal_person_idcard_back_url;
+    private String legalPersonIdcardBackUrl;
 
     /**
      * 营业执照扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String business_license_url;
+    private String businessLicenseUrl;
 
     /**
      * 组织机构代码证扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String org_code_certificate_url;
+    private String orgCodeCertificateUrl;
 
     /**
      * 税务登记证扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String tax_registration_certificate_url;
+    private String taxRegistrationCertificateUrl;
 
     /**
      * 统一社会信用代码认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String unified_social_credit_code;
+    private String unifiedSocialCreditCode;
 
     /**
      * 统一社会信用代码扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String unified_social_credit_code_url;
+    private String unifiedSocialCreditCodeUrl;
 
     /**
      * 认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    private String audit_status;
+    private String auditStatus;
 
     /**
      * 插入时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 审核人
@@ -174,7 +174,7 @@ public class BidderCertificateAduit {
     /**
      * 审核时间
      */
-    private Date audit_time;
+    private Date auditTime;
 
     /**
      * @return 主键
@@ -194,166 +194,166 @@ public class BidderCertificateAduit {
     /**
      * @return 发包方资质认证历史表id
      */
-    public Integer getBidder_certicate_id() {
-        return bidder_certicate_id;
+    public Integer getBidderCerticateId() {
+        return bidderCerticateId;
     }
 
     /**
      * @param bidderCerticateId 
 	 *            发包方资质认证历史表id
      */
-    public void setBidder_certicate_id(Integer bidder_certicate_id) {
-        this.bidder_certicate_id = bidder_certicate_id;
+    public void setBidderCerticateId(Integer bidderCerticateId) {
+        this.bidderCerticateId = bidderCerticateId;
     }
 
     /**
      * @return 公司名称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
     /**
      * @param companyName 
 	 *            公司名称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name == null ? null : company_name.trim();
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName == null ? null : companyName.trim();
     }
 
     /**
      * @return 法人名称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getLegal_person() {
-        return legal_person;
+    public String getLegalPerson() {
+        return legalPerson;
     }
 
     /**
      * @param legalPerson 
 	 *            法人名称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setLegal_person(String legal_person) {
-        this.legal_person = legal_person == null ? null : legal_person.trim();
+    public void setLegalPerson(String legalPerson) {
+        this.legalPerson = legalPerson == null ? null : legalPerson.trim();
     }
 
     /**
      * @return 企业成立时间认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getReg_time() {
-        return reg_time;
+    public String getRegTime() {
+        return regTime;
     }
 
     /**
      * @param regTime 
 	 *            企业成立时间认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setReg_time(String reg_time) {
-        this.reg_time = reg_time == null ? null : reg_time.trim();
+    public void setRegTime(String regTime) {
+        this.regTime = regTime == null ? null : regTime.trim();
     }
 
     /**
      * @return 联系人认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getContact_name() {
-        return contact_name;
+    public String getContactName() {
+        return contactName;
     }
 
     /**
      * @param contactName 
 	 *            联系人认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setContact_name(String contact_name) {
-        this.contact_name = contact_name == null ? null : contact_name.trim();
+    public void setContactName(String contactName) {
+        this.contactName = contactName == null ? null : contactName.trim();
     }
 
     /**
      * @return 联系人手机号码认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getContact_mobile_num() {
-        return contact_mobile_num;
+    public String getContactMobileNum() {
+        return contactMobileNum;
     }
 
     /**
      * @param contactMobileNum 
 	 *            联系人手机号码认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setContact_mobile_num(String contact_mobile_num) {
-        this.contact_mobile_num = contact_mobile_num == null ? null : contact_mobile_num.trim();
+    public void setContactMobileNum(String contactMobileNum) {
+        this.contactMobileNum = contactMobileNum == null ? null : contactMobileNum.trim();
     }
 
     /**
      * @return 营业执照认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getBusiness_license() {
-        return business_license;
+    public String getBusinessLicense() {
+        return businessLicense;
     }
 
     /**
      * @param businessLicense 
 	 *            营业执照认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setBusiness_license(String business_license) {
-        this.business_license = business_license == null ? null : business_license.trim();
+    public void setBusinessLicense(String businessLicense) {
+        this.businessLicense = businessLicense == null ? null : businessLicense.trim();
     }
 
     /**
      * @return 组织机构代码证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getOrg_code_certificate() {
-        return org_code_certificate;
+    public String getOrgCodeCertificate() {
+        return orgCodeCertificate;
     }
 
     /**
      * @param orgCodeCertificate 
 	 *            组织机构代码证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setOrg_code_certificate(String org_code_certificate) {
-        this.org_code_certificate = org_code_certificate == null ? null : org_code_certificate.trim();
+    public void setOrgCodeCertificate(String orgCodeCertificate) {
+        this.orgCodeCertificate = orgCodeCertificate == null ? null : orgCodeCertificate.trim();
     }
 
     /**
      * @return 税务登记证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getTax_registration_certificate() {
-        return tax_registration_certificate;
+    public String getTaxRegistrationCertificate() {
+        return taxRegistrationCertificate;
     }
 
     /**
      * @param taxRegistrationCertificate 
 	 *            税务登记证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setTax_registration_certificate(String tax_registration_certificate) {
-        this.tax_registration_certificate = tax_registration_certificate == null ? null : tax_registration_certificate.trim();
+    public void setTaxRegistrationCertificate(String taxRegistrationCertificate) {
+        this.taxRegistrationCertificate = taxRegistrationCertificate == null ? null : taxRegistrationCertificate.trim();
     }
 
     /**
      * @return 3合1证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getNew_business_license() {
-        return new_business_license;
+    public String getNewBusinessLicense() {
+        return newBusinessLicense;
     }
 
     /**
      * @param newBusinessLicense 
 	 *            3合1证认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setNew_business_license(String new_business_license) {
-        this.new_business_license = new_business_license == null ? null : new_business_license.trim();
+    public void setNewBusinessLicense(String newBusinessLicense) {
+        this.newBusinessLicense = newBusinessLicense == null ? null : newBusinessLicense.trim();
     }
 
     /**
      * @return 企业营业期限认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getBusiness_license_expire_time() {
-        return business_license_expire_time;
+    public String getBusinessLicenseExpireTime() {
+        return businessLicenseExpireTime;
     }
 
     /**
      * @param businessLicenseExpireTime 
 	 *            企业营业期限认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setBusiness_license_expire_time(String business_license_expire_time) {
-        this.business_license_expire_time = business_license_expire_time == null ? null : business_license_expire_time.trim();
+    public void setBusinessLicenseExpireTime(String businessLicenseExpireTime) {
+        this.businessLicenseExpireTime = businessLicenseExpireTime == null ? null : businessLicenseExpireTime.trim();
     }
 
     /**
@@ -374,31 +374,31 @@ public class BidderCertificateAduit {
     /**
      * @return 法人授权书认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getLegal_person_authority_book() {
-        return legal_person_authority_book;
+    public String getLegalPersonAuthorityBook() {
+        return legalPersonAuthorityBook;
     }
 
     /**
      * @param legalPersonAuthorityBook 
 	 *            法人授权书认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setLegal_person_authority_book(String legal_person_authority_book) {
-        this.legal_person_authority_book = legal_person_authority_book == null ? null : legal_person_authority_book.trim();
+    public void setLegalPersonAuthorityBook(String legalPersonAuthorityBook) {
+        this.legalPersonAuthorityBook = legalPersonAuthorityBook == null ? null : legalPersonAuthorityBook.trim();
     }
 
     /**
      * @return 工程范围认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getProject_scope() {
-        return project_scope;
+    public String getProjectScope() {
+        return projectScope;
     }
 
     /**
      * @param projectScope 
 	 *            工程范围认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setProject_scope(String project_scope) {
-        this.project_scope = project_scope == null ? null : project_scope.trim();
+    public void setProjectScope(String projectScope) {
+        this.projectScope = projectScope == null ? null : projectScope.trim();
     }
 
     /**
@@ -449,46 +449,46 @@ public class BidderCertificateAduit {
     /**
      * @return 公司简称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getShort_name() {
-        return short_name;
+    public String getShortName() {
+        return shortName;
     }
 
     /**
      * @param shortName 
 	 *            公司简称认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setShort_name(String short_name) {
-        this.short_name = short_name == null ? null : short_name.trim();
+    public void setShortName(String shortName) {
+        this.shortName = shortName == null ? null : shortName.trim();
     }
 
     /**
      * @return 注册资本认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getRegistered_capital() {
-        return registered_capital;
+    public String getRegisteredCapital() {
+        return registeredCapital;
     }
 
     /**
      * @param registeredCapital 
 	 *            注册资本认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setRegistered_capital(String registered_capital) {
-        this.registered_capital = registered_capital == null ? null : registered_capital.trim();
+    public void setRegisteredCapital(String registeredCapital) {
+        this.registeredCapital = registeredCapital == null ? null : registeredCapital.trim();
     }
 
     /**
      * @return 经营范围认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getBusiness_scope() {
-        return business_scope;
+    public String getBusinessScope() {
+        return businessScope;
     }
 
     /**
      * @param businessScope 
 	 *            经营范围认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setBusiness_scope(String business_scope) {
-        this.business_scope = business_scope == null ? null : business_scope.trim();
+    public void setBusinessScope(String businessScope) {
+        this.businessScope = businessScope == null ? null : businessScope.trim();
     }
 
     /**
@@ -509,151 +509,151 @@ public class BidderCertificateAduit {
     /**
      * @return 法人身份证号认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getLegal_person_idcard() {
-        return legal_person_idcard;
+    public String getLegalPersonIdcard() {
+        return legalPersonIdcard;
     }
 
     /**
      * @param legalPersonIdcard 
 	 *            法人身份证号认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setLegal_person_idcard(String legal_person_idcard) {
-        this.legal_person_idcard = legal_person_idcard == null ? null : legal_person_idcard.trim();
+    public void setLegalPersonIdcard(String legalPersonIdcard) {
+        this.legalPersonIdcard = legalPersonIdcard == null ? null : legalPersonIdcard.trim();
     }
 
     /**
      * @return 法人身份证扫描件(正面)认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getLegal_person_idcard_front_url() {
-        return legal_person_idcard_front_url;
+    public String getLegalPersonIdcardFrontUrl() {
+        return legalPersonIdcardFrontUrl;
     }
 
     /**
      * @param legalPersonIdcardFrontUrl 
 	 *            法人身份证扫描件(正面)认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setLegal_person_idcard_front_url(String legal_person_idcard_front_url) {
-        this.legal_person_idcard_front_url = legal_person_idcard_front_url == null ? null : legal_person_idcard_front_url.trim();
+    public void setLegalPersonIdcardFrontUrl(String legalPersonIdcardFrontUrl) {
+        this.legalPersonIdcardFrontUrl = legalPersonIdcardFrontUrl == null ? null : legalPersonIdcardFrontUrl.trim();
     }
 
     /**
      * @return 法人身份证扫描件(反面)认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getLegal_person_idcard_back_url() {
-        return legal_person_idcard_back_url;
+    public String getLegalPersonIdcardBackUrl() {
+        return legalPersonIdcardBackUrl;
     }
 
     /**
      * @param legalPersonIdcardBackUrl 
 	 *            法人身份证扫描件(反面)认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setLegal_person_idcard_back_url(String legal_person_idcard_back_url) {
-        this.legal_person_idcard_back_url = legal_person_idcard_back_url == null ? null : legal_person_idcard_back_url.trim();
+    public void setLegalPersonIdcardBackUrl(String legalPersonIdcardBackUrl) {
+        this.legalPersonIdcardBackUrl = legalPersonIdcardBackUrl == null ? null : legalPersonIdcardBackUrl.trim();
     }
 
     /**
      * @return 营业执照扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getBusiness_license_url() {
-        return business_license_url;
+    public String getBusinessLicenseUrl() {
+        return businessLicenseUrl;
     }
 
     /**
      * @param businessLicenseUrl 
 	 *            营业执照扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setBusiness_license_url(String business_license_url) {
-        this.business_license_url = business_license_url == null ? null : business_license_url.trim();
+    public void setBusinessLicenseUrl(String businessLicenseUrl) {
+        this.businessLicenseUrl = businessLicenseUrl == null ? null : businessLicenseUrl.trim();
     }
 
     /**
      * @return 组织机构代码证扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getOrg_code_certificate_url() {
-        return org_code_certificate_url;
+    public String getOrgCodeCertificateUrl() {
+        return orgCodeCertificateUrl;
     }
 
     /**
      * @param orgCodeCertificateUrl 
 	 *            组织机构代码证扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setOrg_code_certificate_url(String org_code_certificate_url) {
-        this.org_code_certificate_url = org_code_certificate_url == null ? null : org_code_certificate_url.trim();
+    public void setOrgCodeCertificateUrl(String orgCodeCertificateUrl) {
+        this.orgCodeCertificateUrl = orgCodeCertificateUrl == null ? null : orgCodeCertificateUrl.trim();
     }
 
     /**
      * @return 税务登记证扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getTax_registration_certificate_url() {
-        return tax_registration_certificate_url;
+    public String getTaxRegistrationCertificateUrl() {
+        return taxRegistrationCertificateUrl;
     }
 
     /**
      * @param taxRegistrationCertificateUrl 
 	 *            税务登记证扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setTax_registration_certificate_url(String tax_registration_certificate_url) {
-        this.tax_registration_certificate_url = tax_registration_certificate_url == null ? null : tax_registration_certificate_url.trim();
+    public void setTaxRegistrationCertificateUrl(String taxRegistrationCertificateUrl) {
+        this.taxRegistrationCertificateUrl = taxRegistrationCertificateUrl == null ? null : taxRegistrationCertificateUrl.trim();
     }
 
     /**
      * @return 统一社会信用代码认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getUnified_social_credit_code() {
-        return unified_social_credit_code;
+    public String getUnifiedSocialCreditCode() {
+        return unifiedSocialCreditCode;
     }
 
     /**
      * @param unifiedSocialCreditCode 
 	 *            统一社会信用代码认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setUnified_social_credit_code(String unified_social_credit_code) {
-        this.unified_social_credit_code = unified_social_credit_code == null ? null : unified_social_credit_code.trim();
+    public void setUnifiedSocialCreditCode(String unifiedSocialCreditCode) {
+        this.unifiedSocialCreditCode = unifiedSocialCreditCode == null ? null : unifiedSocialCreditCode.trim();
     }
 
     /**
      * @return 统一社会信用代码扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getUnified_social_credit_code_url() {
-        return unified_social_credit_code_url;
+    public String getUnifiedSocialCreditCodeUrl() {
+        return unifiedSocialCreditCodeUrl;
     }
 
     /**
      * @param unifiedSocialCreditCodeUrl 
 	 *            统一社会信用代码扫描件认证结果,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setUnified_social_credit_code_url(String unified_social_credit_code_url) {
-        this.unified_social_credit_code_url = unified_social_credit_code_url == null ? null : unified_social_credit_code_url.trim();
+    public void setUnifiedSocialCreditCodeUrl(String unifiedSocialCreditCodeUrl) {
+        this.unifiedSocialCreditCodeUrl = unifiedSocialCreditCodeUrl == null ? null : unifiedSocialCreditCodeUrl.trim();
     }
 
     /**
      * @return 认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    public String getAudit_status() {
-        return audit_status;
+    public String getAuditStatus() {
+        return auditStatus;
     }
 
     /**
      * @param auditStatus 
 	 *            认证状态,CRT待认证,OK#已认证,FLS认证失败
      */
-    public void setAudit_status(String audit_status) {
-        this.audit_status = audit_status == null ? null : audit_status.trim();
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus == null ? null : auditStatus.trim();
     }
 
     /**
      * @return 插入时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            插入时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
@@ -674,16 +674,16 @@ public class BidderCertificateAduit {
     /**
      * @return 审核时间
      */
-    public Date getAudit_time() {
-        return audit_time;
+    public Date getAuditTime() {
+        return auditTime;
     }
 
     /**
      * @param auditTime 
 	 *            审核时间
      */
-    public void setAudit_time(Date audit_time) {
-        this.audit_time = audit_time;
+    public void setAuditTime(Date auditTime) {
+        this.auditTime = auditTime;
     }
 
     @Override
@@ -699,39 +699,39 @@ public class BidderCertificateAduit {
         }
         BidderCertificateAduit other = (BidderCertificateAduit) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBidder_certicate_id() == null ? other.getBidder_certicate_id() == null : this.getBidder_certicate_id().equals(other.getBidder_certicate_id()))
-            && (this.getCompany_name() == null ? other.getCompany_name() == null : this.getCompany_name().equals(other.getCompany_name()))
-            && (this.getLegal_person() == null ? other.getLegal_person() == null : this.getLegal_person().equals(other.getLegal_person()))
-            && (this.getReg_time() == null ? other.getReg_time() == null : this.getReg_time().equals(other.getReg_time()))
-            && (this.getContact_name() == null ? other.getContact_name() == null : this.getContact_name().equals(other.getContact_name()))
-            && (this.getContact_mobile_num() == null ? other.getContact_mobile_num() == null : this.getContact_mobile_num().equals(other.getContact_mobile_num()))
-            && (this.getBusiness_license() == null ? other.getBusiness_license() == null : this.getBusiness_license().equals(other.getBusiness_license()))
-            && (this.getOrg_code_certificate() == null ? other.getOrg_code_certificate() == null : this.getOrg_code_certificate().equals(other.getOrg_code_certificate()))
-            && (this.getTax_registration_certificate() == null ? other.getTax_registration_certificate() == null : this.getTax_registration_certificate().equals(other.getTax_registration_certificate()))
-            && (this.getNew_business_license() == null ? other.getNew_business_license() == null : this.getNew_business_license().equals(other.getNew_business_license()))
-            && (this.getBusiness_license_expire_time() == null ? other.getBusiness_license_expire_time() == null : this.getBusiness_license_expire_time().equals(other.getBusiness_license_expire_time()))
+            && (this.getBidderCerticateId() == null ? other.getBidderCerticateId() == null : this.getBidderCerticateId().equals(other.getBidderCerticateId()))
+            && (this.getCompanyName() == null ? other.getCompanyName() == null : this.getCompanyName().equals(other.getCompanyName()))
+            && (this.getLegalPerson() == null ? other.getLegalPerson() == null : this.getLegalPerson().equals(other.getLegalPerson()))
+            && (this.getRegTime() == null ? other.getRegTime() == null : this.getRegTime().equals(other.getRegTime()))
+            && (this.getContactName() == null ? other.getContactName() == null : this.getContactName().equals(other.getContactName()))
+            && (this.getContactMobileNum() == null ? other.getContactMobileNum() == null : this.getContactMobileNum().equals(other.getContactMobileNum()))
+            && (this.getBusinessLicense() == null ? other.getBusinessLicense() == null : this.getBusinessLicense().equals(other.getBusinessLicense()))
+            && (this.getOrgCodeCertificate() == null ? other.getOrgCodeCertificate() == null : this.getOrgCodeCertificate().equals(other.getOrgCodeCertificate()))
+            && (this.getTaxRegistrationCertificate() == null ? other.getTaxRegistrationCertificate() == null : this.getTaxRegistrationCertificate().equals(other.getTaxRegistrationCertificate()))
+            && (this.getNewBusinessLicense() == null ? other.getNewBusinessLicense() == null : this.getNewBusinessLicense().equals(other.getNewBusinessLicense()))
+            && (this.getBusinessLicenseExpireTime() == null ? other.getBusinessLicenseExpireTime() == null : this.getBusinessLicenseExpireTime().equals(other.getBusinessLicenseExpireTime()))
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getLegal_person_authority_book() == null ? other.getLegal_person_authority_book() == null : this.getLegal_person_authority_book().equals(other.getLegal_person_authority_book()))
-            && (this.getProject_scope() == null ? other.getProject_scope() == null : this.getProject_scope().equals(other.getProject_scope()))
+            && (this.getLegalPersonAuthorityBook() == null ? other.getLegalPersonAuthorityBook() == null : this.getLegalPersonAuthorityBook().equals(other.getLegalPersonAuthorityBook()))
+            && (this.getProjectScope() == null ? other.getProjectScope() == null : this.getProjectScope().equals(other.getProjectScope()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
             && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()))
             && (this.getLogo() == null ? other.getLogo() == null : this.getLogo().equals(other.getLogo()))
-            && (this.getShort_name() == null ? other.getShort_name() == null : this.getShort_name().equals(other.getShort_name()))
-            && (this.getRegistered_capital() == null ? other.getRegistered_capital() == null : this.getRegistered_capital().equals(other.getRegistered_capital()))
-            && (this.getBusiness_scope() == null ? other.getBusiness_scope() == null : this.getBusiness_scope().equals(other.getBusiness_scope()))
+            && (this.getShortName() == null ? other.getShortName() == null : this.getShortName().equals(other.getShortName()))
+            && (this.getRegisteredCapital() == null ? other.getRegisteredCapital() == null : this.getRegisteredCapital().equals(other.getRegisteredCapital()))
+            && (this.getBusinessScope() == null ? other.getBusinessScope() == null : this.getBusinessScope().equals(other.getBusinessScope()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
-            && (this.getLegal_person_idcard() == null ? other.getLegal_person_idcard() == null : this.getLegal_person_idcard().equals(other.getLegal_person_idcard()))
-            && (this.getLegal_person_idcard_front_url() == null ? other.getLegal_person_idcard_front_url() == null : this.getLegal_person_idcard_front_url().equals(other.getLegal_person_idcard_front_url()))
-            && (this.getLegal_person_idcard_back_url() == null ? other.getLegal_person_idcard_back_url() == null : this.getLegal_person_idcard_back_url().equals(other.getLegal_person_idcard_back_url()))
-            && (this.getBusiness_license_url() == null ? other.getBusiness_license_url() == null : this.getBusiness_license_url().equals(other.getBusiness_license_url()))
-            && (this.getOrg_code_certificate_url() == null ? other.getOrg_code_certificate_url() == null : this.getOrg_code_certificate_url().equals(other.getOrg_code_certificate_url()))
-            && (this.getTax_registration_certificate_url() == null ? other.getTax_registration_certificate_url() == null : this.getTax_registration_certificate_url().equals(other.getTax_registration_certificate_url()))
-            && (this.getUnified_social_credit_code() == null ? other.getUnified_social_credit_code() == null : this.getUnified_social_credit_code().equals(other.getUnified_social_credit_code()))
-            && (this.getUnified_social_credit_code_url() == null ? other.getUnified_social_credit_code_url() == null : this.getUnified_social_credit_code_url().equals(other.getUnified_social_credit_code_url()))
-            && (this.getAudit_status() == null ? other.getAudit_status() == null : this.getAudit_status().equals(other.getAudit_status()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
+            && (this.getLegalPersonIdcard() == null ? other.getLegalPersonIdcard() == null : this.getLegalPersonIdcard().equals(other.getLegalPersonIdcard()))
+            && (this.getLegalPersonIdcardFrontUrl() == null ? other.getLegalPersonIdcardFrontUrl() == null : this.getLegalPersonIdcardFrontUrl().equals(other.getLegalPersonIdcardFrontUrl()))
+            && (this.getLegalPersonIdcardBackUrl() == null ? other.getLegalPersonIdcardBackUrl() == null : this.getLegalPersonIdcardBackUrl().equals(other.getLegalPersonIdcardBackUrl()))
+            && (this.getBusinessLicenseUrl() == null ? other.getBusinessLicenseUrl() == null : this.getBusinessLicenseUrl().equals(other.getBusinessLicenseUrl()))
+            && (this.getOrgCodeCertificateUrl() == null ? other.getOrgCodeCertificateUrl() == null : this.getOrgCodeCertificateUrl().equals(other.getOrgCodeCertificateUrl()))
+            && (this.getTaxRegistrationCertificateUrl() == null ? other.getTaxRegistrationCertificateUrl() == null : this.getTaxRegistrationCertificateUrl().equals(other.getTaxRegistrationCertificateUrl()))
+            && (this.getUnifiedSocialCreditCode() == null ? other.getUnifiedSocialCreditCode() == null : this.getUnifiedSocialCreditCode().equals(other.getUnifiedSocialCreditCode()))
+            && (this.getUnifiedSocialCreditCodeUrl() == null ? other.getUnifiedSocialCreditCodeUrl() == null : this.getUnifiedSocialCreditCodeUrl().equals(other.getUnifiedSocialCreditCodeUrl()))
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()))
-            && (this.getAudit_time() == null ? other.getAudit_time() == null : this.getAudit_time().equals(other.getAudit_time()));
+            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()));
     }
 
     @Override
@@ -739,39 +739,39 @@ public class BidderCertificateAduit {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBidder_certicate_id() == null) ? 0 : getBidder_certicate_id().hashCode());
-        result = prime * result + ((getCompany_name() == null) ? 0 : getCompany_name().hashCode());
-        result = prime * result + ((getLegal_person() == null) ? 0 : getLegal_person().hashCode());
-        result = prime * result + ((getReg_time() == null) ? 0 : getReg_time().hashCode());
-        result = prime * result + ((getContact_name() == null) ? 0 : getContact_name().hashCode());
-        result = prime * result + ((getContact_mobile_num() == null) ? 0 : getContact_mobile_num().hashCode());
-        result = prime * result + ((getBusiness_license() == null) ? 0 : getBusiness_license().hashCode());
-        result = prime * result + ((getOrg_code_certificate() == null) ? 0 : getOrg_code_certificate().hashCode());
-        result = prime * result + ((getTax_registration_certificate() == null) ? 0 : getTax_registration_certificate().hashCode());
-        result = prime * result + ((getNew_business_license() == null) ? 0 : getNew_business_license().hashCode());
-        result = prime * result + ((getBusiness_license_expire_time() == null) ? 0 : getBusiness_license_expire_time().hashCode());
+        result = prime * result + ((getBidderCerticateId() == null) ? 0 : getBidderCerticateId().hashCode());
+        result = prime * result + ((getCompanyName() == null) ? 0 : getCompanyName().hashCode());
+        result = prime * result + ((getLegalPerson() == null) ? 0 : getLegalPerson().hashCode());
+        result = prime * result + ((getRegTime() == null) ? 0 : getRegTime().hashCode());
+        result = prime * result + ((getContactName() == null) ? 0 : getContactName().hashCode());
+        result = prime * result + ((getContactMobileNum() == null) ? 0 : getContactMobileNum().hashCode());
+        result = prime * result + ((getBusinessLicense() == null) ? 0 : getBusinessLicense().hashCode());
+        result = prime * result + ((getOrgCodeCertificate() == null) ? 0 : getOrgCodeCertificate().hashCode());
+        result = prime * result + ((getTaxRegistrationCertificate() == null) ? 0 : getTaxRegistrationCertificate().hashCode());
+        result = prime * result + ((getNewBusinessLicense() == null) ? 0 : getNewBusinessLicense().hashCode());
+        result = prime * result + ((getBusinessLicenseExpireTime() == null) ? 0 : getBusinessLicenseExpireTime().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        result = prime * result + ((getLegal_person_authority_book() == null) ? 0 : getLegal_person_authority_book().hashCode());
-        result = prime * result + ((getProject_scope() == null) ? 0 : getProject_scope().hashCode());
+        result = prime * result + ((getLegalPersonAuthorityBook() == null) ? 0 : getLegalPersonAuthorityBook().hashCode());
+        result = prime * result + ((getProjectScope() == null) ? 0 : getProjectScope().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getWebsite() == null) ? 0 : getWebsite().hashCode());
         result = prime * result + ((getLogo() == null) ? 0 : getLogo().hashCode());
-        result = prime * result + ((getShort_name() == null) ? 0 : getShort_name().hashCode());
-        result = prime * result + ((getRegistered_capital() == null) ? 0 : getRegistered_capital().hashCode());
-        result = prime * result + ((getBusiness_scope() == null) ? 0 : getBusiness_scope().hashCode());
+        result = prime * result + ((getShortName() == null) ? 0 : getShortName().hashCode());
+        result = prime * result + ((getRegisteredCapital() == null) ? 0 : getRegisteredCapital().hashCode());
+        result = prime * result + ((getBusinessScope() == null) ? 0 : getBusinessScope().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
-        result = prime * result + ((getLegal_person_idcard() == null) ? 0 : getLegal_person_idcard().hashCode());
-        result = prime * result + ((getLegal_person_idcard_front_url() == null) ? 0 : getLegal_person_idcard_front_url().hashCode());
-        result = prime * result + ((getLegal_person_idcard_back_url() == null) ? 0 : getLegal_person_idcard_back_url().hashCode());
-        result = prime * result + ((getBusiness_license_url() == null) ? 0 : getBusiness_license_url().hashCode());
-        result = prime * result + ((getOrg_code_certificate_url() == null) ? 0 : getOrg_code_certificate_url().hashCode());
-        result = prime * result + ((getTax_registration_certificate_url() == null) ? 0 : getTax_registration_certificate_url().hashCode());
-        result = prime * result + ((getUnified_social_credit_code() == null) ? 0 : getUnified_social_credit_code().hashCode());
-        result = prime * result + ((getUnified_social_credit_code_url() == null) ? 0 : getUnified_social_credit_code_url().hashCode());
-        result = prime * result + ((getAudit_status() == null) ? 0 : getAudit_status().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
+        result = prime * result + ((getLegalPersonIdcard() == null) ? 0 : getLegalPersonIdcard().hashCode());
+        result = prime * result + ((getLegalPersonIdcardFrontUrl() == null) ? 0 : getLegalPersonIdcardFrontUrl().hashCode());
+        result = prime * result + ((getLegalPersonIdcardBackUrl() == null) ? 0 : getLegalPersonIdcardBackUrl().hashCode());
+        result = prime * result + ((getBusinessLicenseUrl() == null) ? 0 : getBusinessLicenseUrl().hashCode());
+        result = prime * result + ((getOrgCodeCertificateUrl() == null) ? 0 : getOrgCodeCertificateUrl().hashCode());
+        result = prime * result + ((getTaxRegistrationCertificateUrl() == null) ? 0 : getTaxRegistrationCertificateUrl().hashCode());
+        result = prime * result + ((getUnifiedSocialCreditCode() == null) ? 0 : getUnifiedSocialCreditCode().hashCode());
+        result = prime * result + ((getUnifiedSocialCreditCodeUrl() == null) ? 0 : getUnifiedSocialCreditCodeUrl().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
-        result = prime * result + ((getAudit_time() == null) ? 0 : getAudit_time().hashCode());
+        result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
         return result;
     }
 }

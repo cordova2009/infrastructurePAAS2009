@@ -9,17 +9,17 @@ public class ProjectAccountOrder {
     /**
      * 订单id
      */
-    private Integer order_id;
+    private Integer orderId;
 
     /**
      * 帐户id
      */
-    private Integer account_id;
+    private Integer accountId;
 
     /**
      * 插入时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 类别，SBZ收退还保证金，JBZ交纳保证金，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值
@@ -34,7 +34,7 @@ public class ProjectAccountOrder {
     /**
      * 标的id
      */
-    private Integer object_id;
+    private Integer objectId;
 
     /**
      * 结存，即发生该交易后，该账户的结存
@@ -44,27 +44,27 @@ public class ProjectAccountOrder {
     /**
      * app订单号
      */
-    private String app_order_id;
+    private String appOrderId;
 
     /**
      * 外部订单号
      */
-    private String external_order_id;
+    private String externalOrderId;
 
     /**
      * 对方账户类型,PA# 企业工程帐户
      */
-    private String peer_account_type;
+    private String peerAccountType;
 
     /**
      * 对方帐户id
      */
-    private String peer_account_id;
+    private String peerAccountId;
 
     /**
      * 对方的账户发行单位，比如建设银行，如果是营销账户平台管理的账户，填写为“营销账户平台”
      */
-    private String peer_account_unit;
+    private String peerAccountUnit;
 
     /**
      * 备注
@@ -79,27 +79,27 @@ public class ProjectAccountOrder {
     /**
      * 关联订单号
      */
-    private String original_order_id;
+    private String originalOrderId;
 
     /**
      * 关联表名
      */
-    private String original_table;
+    private String originalTable;
 
     /**
      * 流向，IN#-转入，OUT-转出
      */
-    private String flow_direction;
+    private String flowDirection;
 
     /**
      * 应用id
      */
-    private String app_id;
+    private String appId;
 
     /**
      * 应用名称
      */
-    private String app_name;
+    private String appName;
 
     /**
      * 接口方法
@@ -109,71 +109,71 @@ public class ProjectAccountOrder {
     /**
      * app保留字段
      */
-    private String app_alias;
+    private String appAlias;
 
     /**
      * app保留字段2
      */
-    private String app_alias2;
+    private String appAlias2;
 
     /**
      * 外部订单时间
      */
-    private Date external_order_time;
+    private Date externalOrderTime;
 
     /**
      * 冻结余额
      */
-    private Integer frozen_sum_snapshot;
+    private Integer frozenSumSnapshot;
 
     /**
      * 产品名称
      */
-    private String product_name;
+    private String productName;
 
     /**
      * @return 订单id
      */
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单id
      */
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     /**
      * @return 帐户id
      */
-    public Integer getAccount_id() {
-        return account_id;
+    public Integer getAccountId() {
+        return accountId;
     }
 
     /**
      * @param accountId 
 	 *            帐户id
      */
-    public void setAccount_id(Integer account_id) {
-        this.account_id = account_id;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     /**
      * @return 插入时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            插入时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
@@ -209,16 +209,16 @@ public class ProjectAccountOrder {
     /**
      * @return 标的id
      */
-    public Integer getObject_id() {
-        return object_id;
+    public Integer getObjectId() {
+        return objectId;
     }
 
     /**
      * @param objectId 
 	 *            标的id
      */
-    public void setObject_id(Integer object_id) {
-        this.object_id = object_id;
+    public void setObjectId(Integer objectId) {
+        this.objectId = objectId;
     }
 
     /**
@@ -239,76 +239,76 @@ public class ProjectAccountOrder {
     /**
      * @return app订单号
      */
-    public String getApp_order_id() {
-        return app_order_id;
+    public String getAppOrderId() {
+        return appOrderId;
     }
 
     /**
      * @param appOrderId 
 	 *            app订单号
      */
-    public void setApp_order_id(String app_order_id) {
-        this.app_order_id = app_order_id == null ? null : app_order_id.trim();
+    public void setAppOrderId(String appOrderId) {
+        this.appOrderId = appOrderId == null ? null : appOrderId.trim();
     }
 
     /**
      * @return 外部订单号
      */
-    public String getExternal_order_id() {
-        return external_order_id;
+    public String getExternalOrderId() {
+        return externalOrderId;
     }
 
     /**
      * @param externalOrderId 
 	 *            外部订单号
      */
-    public void setExternal_order_id(String external_order_id) {
-        this.external_order_id = external_order_id == null ? null : external_order_id.trim();
+    public void setExternalOrderId(String externalOrderId) {
+        this.externalOrderId = externalOrderId == null ? null : externalOrderId.trim();
     }
 
     /**
      * @return 对方账户类型,PA# 企业工程帐户
      */
-    public String getPeer_account_type() {
-        return peer_account_type;
+    public String getPeerAccountType() {
+        return peerAccountType;
     }
 
     /**
      * @param peerAccountType 
 	 *            对方账户类型,PA# 企业工程帐户
      */
-    public void setPeer_account_type(String peer_account_type) {
-        this.peer_account_type = peer_account_type == null ? null : peer_account_type.trim();
+    public void setPeerAccountType(String peerAccountType) {
+        this.peerAccountType = peerAccountType == null ? null : peerAccountType.trim();
     }
 
     /**
      * @return 对方帐户id
      */
-    public String getPeer_account_id() {
-        return peer_account_id;
+    public String getPeerAccountId() {
+        return peerAccountId;
     }
 
     /**
      * @param peerAccountId 
 	 *            对方帐户id
      */
-    public void setPeer_account_id(String peer_account_id) {
-        this.peer_account_id = peer_account_id == null ? null : peer_account_id.trim();
+    public void setPeerAccountId(String peerAccountId) {
+        this.peerAccountId = peerAccountId == null ? null : peerAccountId.trim();
     }
 
     /**
      * @return 对方的账户发行单位，比如建设银行，如果是营销账户平台管理的账户，填写为“营销账户平台”
      */
-    public String getPeer_account_unit() {
-        return peer_account_unit;
+    public String getPeerAccountUnit() {
+        return peerAccountUnit;
     }
 
     /**
      * @param peerAccountUnit 
 	 *            对方的账户发行单位，比如建设银行，如果是营销账户平台管理的账户，填写为“营销账户平台”
      */
-    public void setPeer_account_unit(String peer_account_unit) {
-        this.peer_account_unit = peer_account_unit == null ? null : peer_account_unit.trim();
+    public void setPeerAccountUnit(String peerAccountUnit) {
+        this.peerAccountUnit = peerAccountUnit == null ? null : peerAccountUnit.trim();
     }
 
     /**
@@ -344,76 +344,76 @@ public class ProjectAccountOrder {
     /**
      * @return 关联订单号
      */
-    public String getOriginal_order_id() {
-        return original_order_id;
+    public String getOriginalOrderId() {
+        return originalOrderId;
     }
 
     /**
      * @param originalOrderId 
 	 *            关联订单号
      */
-    public void setOriginal_order_id(String original_order_id) {
-        this.original_order_id = original_order_id == null ? null : original_order_id.trim();
+    public void setOriginalOrderId(String originalOrderId) {
+        this.originalOrderId = originalOrderId == null ? null : originalOrderId.trim();
     }
 
     /**
      * @return 关联表名
      */
-    public String getOriginal_table() {
-        return original_table;
+    public String getOriginalTable() {
+        return originalTable;
     }
 
     /**
      * @param originalTable 
 	 *            关联表名
      */
-    public void setOriginal_table(String original_table) {
-        this.original_table = original_table == null ? null : original_table.trim();
+    public void setOriginalTable(String originalTable) {
+        this.originalTable = originalTable == null ? null : originalTable.trim();
     }
 
     /**
      * @return 流向，IN#-转入，OUT-转出
      */
-    public String getFlow_direction() {
-        return flow_direction;
+    public String getFlowDirection() {
+        return flowDirection;
     }
 
     /**
      * @param flowDirection 
 	 *            流向，IN#-转入，OUT-转出
      */
-    public void setFlow_direction(String flow_direction) {
-        this.flow_direction = flow_direction == null ? null : flow_direction.trim();
+    public void setFlowDirection(String flowDirection) {
+        this.flowDirection = flowDirection == null ? null : flowDirection.trim();
     }
 
     /**
      * @return 应用id
      */
-    public String getApp_id() {
-        return app_id;
+    public String getAppId() {
+        return appId;
     }
 
     /**
      * @param appId 
 	 *            应用id
      */
-    public void setApp_id(String app_id) {
-        this.app_id = app_id == null ? null : app_id.trim();
+    public void setAppId(String appId) {
+        this.appId = appId == null ? null : appId.trim();
     }
 
     /**
      * @return 应用名称
      */
-    public String getApp_name() {
-        return app_name;
+    public String getAppName() {
+        return appName;
     }
 
     /**
      * @param appName 
 	 *            应用名称
      */
-    public void setApp_name(String app_name) {
-        this.app_name = app_name == null ? null : app_name.trim();
+    public void setAppName(String appName) {
+        this.appName = appName == null ? null : appName.trim();
     }
 
     /**
@@ -434,76 +434,76 @@ public class ProjectAccountOrder {
     /**
      * @return app保留字段
      */
-    public String getApp_alias() {
-        return app_alias;
+    public String getAppAlias() {
+        return appAlias;
     }
 
     /**
      * @param appAlias 
 	 *            app保留字段
      */
-    public void setApp_alias(String app_alias) {
-        this.app_alias = app_alias == null ? null : app_alias.trim();
+    public void setAppAlias(String appAlias) {
+        this.appAlias = appAlias == null ? null : appAlias.trim();
     }
 
     /**
      * @return app保留字段2
      */
-    public String getApp_alias2() {
-        return app_alias2;
+    public String getAppAlias2() {
+        return appAlias2;
     }
 
     /**
      * @param appAlias2 
 	 *            app保留字段2
      */
-    public void setApp_alias2(String app_alias2) {
-        this.app_alias2 = app_alias2 == null ? null : app_alias2.trim();
+    public void setAppAlias2(String appAlias2) {
+        this.appAlias2 = appAlias2 == null ? null : appAlias2.trim();
     }
 
     /**
      * @return 外部订单时间
      */
-    public Date getExternal_order_time() {
-        return external_order_time;
+    public Date getExternalOrderTime() {
+        return externalOrderTime;
     }
 
     /**
      * @param externalOrderTime 
 	 *            外部订单时间
      */
-    public void setExternal_order_time(Date external_order_time) {
-        this.external_order_time = external_order_time;
+    public void setExternalOrderTime(Date externalOrderTime) {
+        this.externalOrderTime = externalOrderTime;
     }
 
     /**
      * @return 冻结余额
      */
-    public Integer getFrozen_sum_snapshot() {
-        return frozen_sum_snapshot;
+    public Integer getFrozenSumSnapshot() {
+        return frozenSumSnapshot;
     }
 
     /**
      * @param frozenSumSnapshot 
 	 *            冻结余额
      */
-    public void setFrozen_sum_snapshot(Integer frozen_sum_snapshot) {
-        this.frozen_sum_snapshot = frozen_sum_snapshot;
+    public void setFrozenSumSnapshot(Integer frozenSumSnapshot) {
+        this.frozenSumSnapshot = frozenSumSnapshot;
     }
 
     /**
      * @return 产品名称
      */
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
     /**
      * @param productName 
 	 *            产品名称
      */
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name == null ? null : product_name.trim();
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : productName.trim();
     }
 
     @Override
@@ -518,62 +518,62 @@ public class ProjectAccountOrder {
             return false;
         }
         ProjectAccountOrder other = (ProjectAccountOrder) that;
-        return (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
-            && (this.getAccount_id() == null ? other.getAccount_id() == null : this.getAccount_id().equals(other.getAccount_id()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
+        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getAccountId() == null ? other.getAccountId() == null : this.getAccountId().equals(other.getAccountId()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getSum() == null ? other.getSum() == null : this.getSum().equals(other.getSum()))
-            && (this.getObject_id() == null ? other.getObject_id() == null : this.getObject_id().equals(other.getObject_id()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getBalance() == null ? other.getBalance() == null : this.getBalance().equals(other.getBalance()))
-            && (this.getApp_order_id() == null ? other.getApp_order_id() == null : this.getApp_order_id().equals(other.getApp_order_id()))
-            && (this.getExternal_order_id() == null ? other.getExternal_order_id() == null : this.getExternal_order_id().equals(other.getExternal_order_id()))
-            && (this.getPeer_account_type() == null ? other.getPeer_account_type() == null : this.getPeer_account_type().equals(other.getPeer_account_type()))
-            && (this.getPeer_account_id() == null ? other.getPeer_account_id() == null : this.getPeer_account_id().equals(other.getPeer_account_id()))
-            && (this.getPeer_account_unit() == null ? other.getPeer_account_unit() == null : this.getPeer_account_unit().equals(other.getPeer_account_unit()))
+            && (this.getAppOrderId() == null ? other.getAppOrderId() == null : this.getAppOrderId().equals(other.getAppOrderId()))
+            && (this.getExternalOrderId() == null ? other.getExternalOrderId() == null : this.getExternalOrderId().equals(other.getExternalOrderId()))
+            && (this.getPeerAccountType() == null ? other.getPeerAccountType() == null : this.getPeerAccountType().equals(other.getPeerAccountType()))
+            && (this.getPeerAccountId() == null ? other.getPeerAccountId() == null : this.getPeerAccountId().equals(other.getPeerAccountId()))
+            && (this.getPeerAccountUnit() == null ? other.getPeerAccountUnit() == null : this.getPeerAccountUnit().equals(other.getPeerAccountUnit()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getOriginal_order_id() == null ? other.getOriginal_order_id() == null : this.getOriginal_order_id().equals(other.getOriginal_order_id()))
-            && (this.getOriginal_table() == null ? other.getOriginal_table() == null : this.getOriginal_table().equals(other.getOriginal_table()))
-            && (this.getFlow_direction() == null ? other.getFlow_direction() == null : this.getFlow_direction().equals(other.getFlow_direction()))
-            && (this.getApp_id() == null ? other.getApp_id() == null : this.getApp_id().equals(other.getApp_id()))
-            && (this.getApp_name() == null ? other.getApp_name() == null : this.getApp_name().equals(other.getApp_name()))
+            && (this.getOriginalOrderId() == null ? other.getOriginalOrderId() == null : this.getOriginalOrderId().equals(other.getOriginalOrderId()))
+            && (this.getOriginalTable() == null ? other.getOriginalTable() == null : this.getOriginalTable().equals(other.getOriginalTable()))
+            && (this.getFlowDirection() == null ? other.getFlowDirection() == null : this.getFlowDirection().equals(other.getFlowDirection()))
+            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
+            && (this.getAppName() == null ? other.getAppName() == null : this.getAppName().equals(other.getAppName()))
             && (this.getMethod() == null ? other.getMethod() == null : this.getMethod().equals(other.getMethod()))
-            && (this.getApp_alias() == null ? other.getApp_alias() == null : this.getApp_alias().equals(other.getApp_alias()))
-            && (this.getApp_alias2() == null ? other.getApp_alias2() == null : this.getApp_alias2().equals(other.getApp_alias2()))
-            && (this.getExternal_order_time() == null ? other.getExternal_order_time() == null : this.getExternal_order_time().equals(other.getExternal_order_time()))
-            && (this.getFrozen_sum_snapshot() == null ? other.getFrozen_sum_snapshot() == null : this.getFrozen_sum_snapshot().equals(other.getFrozen_sum_snapshot()))
-            && (this.getProduct_name() == null ? other.getProduct_name() == null : this.getProduct_name().equals(other.getProduct_name()));
+            && (this.getAppAlias() == null ? other.getAppAlias() == null : this.getAppAlias().equals(other.getAppAlias()))
+            && (this.getAppAlias2() == null ? other.getAppAlias2() == null : this.getAppAlias2().equals(other.getAppAlias2()))
+            && (this.getExternalOrderTime() == null ? other.getExternalOrderTime() == null : this.getExternalOrderTime().equals(other.getExternalOrderTime()))
+            && (this.getFrozenSumSnapshot() == null ? other.getFrozenSumSnapshot() == null : this.getFrozenSumSnapshot().equals(other.getFrozenSumSnapshot()))
+            && (this.getProductName() == null ? other.getProductName() == null : this.getProductName().equals(other.getProductName()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
-        result = prime * result + ((getAccount_id() == null) ? 0 : getAccount_id().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getAccountId() == null) ? 0 : getAccountId().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getSum() == null) ? 0 : getSum().hashCode());
-        result = prime * result + ((getObject_id() == null) ? 0 : getObject_id().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getBalance() == null) ? 0 : getBalance().hashCode());
-        result = prime * result + ((getApp_order_id() == null) ? 0 : getApp_order_id().hashCode());
-        result = prime * result + ((getExternal_order_id() == null) ? 0 : getExternal_order_id().hashCode());
-        result = prime * result + ((getPeer_account_type() == null) ? 0 : getPeer_account_type().hashCode());
-        result = prime * result + ((getPeer_account_id() == null) ? 0 : getPeer_account_id().hashCode());
-        result = prime * result + ((getPeer_account_unit() == null) ? 0 : getPeer_account_unit().hashCode());
+        result = prime * result + ((getAppOrderId() == null) ? 0 : getAppOrderId().hashCode());
+        result = prime * result + ((getExternalOrderId() == null) ? 0 : getExternalOrderId().hashCode());
+        result = prime * result + ((getPeerAccountType() == null) ? 0 : getPeerAccountType().hashCode());
+        result = prime * result + ((getPeerAccountId() == null) ? 0 : getPeerAccountId().hashCode());
+        result = prime * result + ((getPeerAccountUnit() == null) ? 0 : getPeerAccountUnit().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getOriginal_order_id() == null) ? 0 : getOriginal_order_id().hashCode());
-        result = prime * result + ((getOriginal_table() == null) ? 0 : getOriginal_table().hashCode());
-        result = prime * result + ((getFlow_direction() == null) ? 0 : getFlow_direction().hashCode());
-        result = prime * result + ((getApp_id() == null) ? 0 : getApp_id().hashCode());
-        result = prime * result + ((getApp_name() == null) ? 0 : getApp_name().hashCode());
+        result = prime * result + ((getOriginalOrderId() == null) ? 0 : getOriginalOrderId().hashCode());
+        result = prime * result + ((getOriginalTable() == null) ? 0 : getOriginalTable().hashCode());
+        result = prime * result + ((getFlowDirection() == null) ? 0 : getFlowDirection().hashCode());
+        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
+        result = prime * result + ((getAppName() == null) ? 0 : getAppName().hashCode());
         result = prime * result + ((getMethod() == null) ? 0 : getMethod().hashCode());
-        result = prime * result + ((getApp_alias() == null) ? 0 : getApp_alias().hashCode());
-        result = prime * result + ((getApp_alias2() == null) ? 0 : getApp_alias2().hashCode());
-        result = prime * result + ((getExternal_order_time() == null) ? 0 : getExternal_order_time().hashCode());
-        result = prime * result + ((getFrozen_sum_snapshot() == null) ? 0 : getFrozen_sum_snapshot().hashCode());
-        result = prime * result + ((getProduct_name() == null) ? 0 : getProduct_name().hashCode());
+        result = prime * result + ((getAppAlias() == null) ? 0 : getAppAlias().hashCode());
+        result = prime * result + ((getAppAlias2() == null) ? 0 : getAppAlias2().hashCode());
+        result = prime * result + ((getExternalOrderTime() == null) ? 0 : getExternalOrderTime().hashCode());
+        result = prime * result + ((getFrozenSumSnapshot() == null) ? 0 : getFrozenSumSnapshot().hashCode());
+        result = prime * result + ((getProductName() == null) ? 0 : getProductName().hashCode());
         return result;
     }
 }

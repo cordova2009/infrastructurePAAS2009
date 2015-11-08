@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.ProjectPaymentAccountMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentAccount" >
-    <id column="account_id" property="account_id" jdbcType="VARCHAR" />
+    <id column="account_id" property="accountId" jdbcType="VARCHAR" />
     <result column="balance" property="balance" jdbcType="INTEGER" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
-    <result column="insert_time" property="insert_time" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
@@ -17,24 +17,24 @@
     select 
     <include refid="Base_Column_List" />
     from t_project_payment_account
-    where account_id = #{account_id,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_project_payment_account
-    where account_id = #{account_id,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentAccount" >
     insert into t_project_payment_account (account_id, balance, signature, 
       insert_time, update_time, remark, 
       status)
-    values (#{account_id,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
-      #{insert_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+    values (#{accountId,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentAccount" >
     insert into t_project_payment_account
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="account_id != null" >
+      <if test="accountId != null" >
         account_id,
       </if>
       <if test="balance != null" >
@@ -43,10 +43,10 @@
       <if test="signature != null" >
         signature,
       </if>
-      <if test="insert_time != null" >
+      <if test="insertTime != null" >
         insert_time,
       </if>
-      <if test="update_time != null" >
+      <if test="updateTime != null" >
         update_time,
       </if>
       <if test="remark != null" >
@@ -57,8 +57,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="account_id != null" >
-        #{account_id,jdbcType=VARCHAR},
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="balance != null" >
         #{balance,jdbcType=INTEGER},
@@ -66,11 +66,11 @@
       <if test="signature != null" >
         #{signature,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null" >
-        #{update_time,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -89,11 +89,11 @@
       <if test="signature != null" >
         signature = #{signature,jdbcType=VARCHAR},
       </if>
-      <if test="insert_time != null" >
-        insert_time = #{insert_time,jdbcType=TIMESTAMP},
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_time != null" >
-        update_time = #{update_time,jdbcType=TIMESTAMP},
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -102,16 +102,16 @@
         status = #{status,jdbcType=VARCHAR},
       </if>
     </set>
-    where account_id = #{account_id,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentAccount" >
     update t_project_payment_account
     set balance = #{balance,jdbcType=INTEGER},
       signature = #{signature,jdbcType=VARCHAR},
-      insert_time = #{insert_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR}
-    where account_id = #{account_id,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
 </mapper>

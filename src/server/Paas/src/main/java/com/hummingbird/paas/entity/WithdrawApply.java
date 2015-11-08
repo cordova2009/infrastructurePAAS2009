@@ -9,32 +9,32 @@ public class WithdrawApply {
     /**
      * 订单id
      */
-    private String order_id;
+    private String orderId;
 
     /**
      * 提现金额
      */
-    private Integer withdraw_amount;
+    private Integer withdrawAmount;
 
     /**
      * 手续费
      */
-    private Integer commission_fees;
+    private Integer commissionFees;
 
     /**
      * 提出时间
      */
-    private Date insert_time;
+    private Date insertTime;
 
     /**
      * 银行卡
      */
-    private Integer user_bankcard_id;
+    private Integer userBankcardId;
 
     /**
      * 用户id
      */
-    private Integer user_id;
+    private Integer userId;
 
     /**
      * 状态,CRT 申请，OK# 提现成功，FLS提现失败
@@ -44,91 +44,91 @@ public class WithdrawApply {
     /**
      * @return 订单id
      */
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
      * @param orderId 
 	 *            订单id
      */
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id == null ? null : order_id.trim();
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
      * @return 提现金额
      */
-    public Integer getWithdraw_amount() {
-        return withdraw_amount;
+    public Integer getWithdrawAmount() {
+        return withdrawAmount;
     }
 
     /**
      * @param withdrawAmount 
 	 *            提现金额
      */
-    public void setWithdraw_amount(Integer withdraw_amount) {
-        this.withdraw_amount = withdraw_amount;
+    public void setWithdrawAmount(Integer withdrawAmount) {
+        this.withdrawAmount = withdrawAmount;
     }
 
     /**
      * @return 手续费
      */
-    public Integer getCommission_fees() {
-        return commission_fees;
+    public Integer getCommissionFees() {
+        return commissionFees;
     }
 
     /**
      * @param commissionFees 
 	 *            手续费
      */
-    public void setCommission_fees(Integer commission_fees) {
-        this.commission_fees = commission_fees;
+    public void setCommissionFees(Integer commissionFees) {
+        this.commissionFees = commissionFees;
     }
 
     /**
      * @return 提出时间
      */
-    public Date getInsert_time() {
-        return insert_time;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
      * @param insertTime 
 	 *            提出时间
      */
-    public void setInsert_time(Date insert_time) {
-        this.insert_time = insert_time;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
      * @return 银行卡
      */
-    public Integer getUser_bankcard_id() {
-        return user_bankcard_id;
+    public Integer getUserBankcardId() {
+        return userBankcardId;
     }
 
     /**
      * @param userBankcardId 
 	 *            银行卡
      */
-    public void setUser_bankcard_id(Integer user_bankcard_id) {
-        this.user_bankcard_id = user_bankcard_id;
+    public void setUserBankcardId(Integer userBankcardId) {
+        this.userBankcardId = userBankcardId;
     }
 
     /**
      * @return 用户id
      */
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * @param userId 
 	 *            用户id
      */
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -158,12 +158,12 @@ public class WithdrawApply {
             return false;
         }
         WithdrawApply other = (WithdrawApply) that;
-        return (this.getOrder_id() == null ? other.getOrder_id() == null : this.getOrder_id().equals(other.getOrder_id()))
-            && (this.getWithdraw_amount() == null ? other.getWithdraw_amount() == null : this.getWithdraw_amount().equals(other.getWithdraw_amount()))
-            && (this.getCommission_fees() == null ? other.getCommission_fees() == null : this.getCommission_fees().equals(other.getCommission_fees()))
-            && (this.getInsert_time() == null ? other.getInsert_time() == null : this.getInsert_time().equals(other.getInsert_time()))
-            && (this.getUser_bankcard_id() == null ? other.getUser_bankcard_id() == null : this.getUser_bankcard_id().equals(other.getUser_bankcard_id()))
-            && (this.getUser_id() == null ? other.getUser_id() == null : this.getUser_id().equals(other.getUser_id()))
+        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getWithdrawAmount() == null ? other.getWithdrawAmount() == null : this.getWithdrawAmount().equals(other.getWithdrawAmount()))
+            && (this.getCommissionFees() == null ? other.getCommissionFees() == null : this.getCommissionFees().equals(other.getCommissionFees()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getUserBankcardId() == null ? other.getUserBankcardId() == null : this.getUserBankcardId().equals(other.getUserBankcardId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
@@ -171,12 +171,12 @@ public class WithdrawApply {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getOrder_id() == null) ? 0 : getOrder_id().hashCode());
-        result = prime * result + ((getWithdraw_amount() == null) ? 0 : getWithdraw_amount().hashCode());
-        result = prime * result + ((getCommission_fees() == null) ? 0 : getCommission_fees().hashCode());
-        result = prime * result + ((getInsert_time() == null) ? 0 : getInsert_time().hashCode());
-        result = prime * result + ((getUser_bankcard_id() == null) ? 0 : getUser_bankcard_id().hashCode());
-        result = prime * result + ((getUser_id() == null) ? 0 : getUser_id().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getWithdrawAmount() == null) ? 0 : getWithdrawAmount().hashCode());
+        result = prime * result + ((getCommissionFees() == null) ? 0 : getCommissionFees().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getUserBankcardId() == null) ? 0 : getUserBankcardId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }

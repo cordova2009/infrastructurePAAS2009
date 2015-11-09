@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.RegisterBodyVO;
 
+@Service
 public class UserServiceImpl implements UserService{
 
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory

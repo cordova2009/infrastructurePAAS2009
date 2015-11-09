@@ -1,11 +1,13 @@
 package com.hummingbird.paas.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hummingbird.paas.entity.UserSmscode;
 import com.hummingbird.paas.mapper.UserSmscodeMapper;
 import com.hummingbird.paas.services.GeneralService;
 
+@Service
 public class GeneralServiceImpl implements GeneralService{
 
 	

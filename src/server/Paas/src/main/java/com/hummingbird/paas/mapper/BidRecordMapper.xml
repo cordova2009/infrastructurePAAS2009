@@ -36,6 +36,11 @@
     <result column="construction_start_date" property="constructionStartDate" jdbcType="VARCHAR" />
     <result column="technical_standard_url" property="technicalStandardUrl" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="TenderSurveyResultMap" type="com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult" >
+    <result column="bidderNum" property="bidderNum" jdbcType="INTEGER" />
+    <result column="maxBidAmount" property="maxBidAmount" jdbcType="VARCHAR" />
+    <result column="minBidAmount" property="minBidAmount" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, bidder_id, bid_amount, insert_time, status, audit_time, audit_status, 
     auditor, bid_status, project_start_time, project_description, project_end_time, pm_certification_No, 
@@ -50,6 +55,11 @@
     <include refid="Base_Column_List" />
     from t_ztgl_bid_record
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectTenderSurveyByObjectId" resultMap="TenderSurveyResultMap" parameterType="java.lang.String" >
+    select count(*) bidderNum,max(bid_amount)*100 maxBidAmount,min(bid_amount)*100 minBidAmount
+    from t_ztgl_bid_record
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_bid_record

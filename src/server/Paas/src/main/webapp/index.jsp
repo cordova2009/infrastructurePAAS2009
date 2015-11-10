@@ -40,64 +40,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 	</div>
 	<table>
-	<tr><td colspan="6">用户中心</td></tr>
+	<tr><td colspan="6">资金管理</td></tr>
 	<tr>
-		<td><input type="button"  value="设置预约时间"  onclick='setbinding("/appointment/setAttendTime","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"cancidateId\":\"543\"}}")'></td>
-	</tr>
-	<tr>
-		<td><input type="button"  value="ToSpendByCancidateIdBody"  onclick='setbinding("/courseManager/course/toSpendByCancidateId","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"cancidateId\":\"543\"}}")'></td>
-	</tr>
-	<tr>
-		<td><input type="button"  value="微信用户注册"  onclick='setbinding("/userCenter/info/reg","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"openId\":\"oITR0uAkXSsTgY2YaU2ItDN2kh7g\",\"nickname\":\"大师你懂吗\",\"sex\":\"1\",\"language\":\"zh_CN\",\"city\":\"深圳\", \"province\":\"广东\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/PiajxSqBRaEInIaAHHYN9ia0CF5rUljZlhDMHniaoft7MXwXDtLTHuACWyWTePqpvVc2qL6aGZchEUBg5X0RZsxyQ/0\",\"subscribe_time\":\"1440076007\",\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\",\"remark\":\"\",\"subscribe\":\"1\",\"groupid\":\"0\",\"privilege\":\"\"}}")'></td>
-		<td><input type="button"  value="微信用户绑定"  onclick='setbinding("/userCenter/user/bind","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\",\"mobileNum\":\"18600003333\"}}")'></td>
-		<td><input type="button"  value="查询用户信息"  onclick='setbinding("/userCenter/user/query","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\",\"openId\":\"oITR0uAkXSsTgY2YaU2ItDN2kh7g\"}}")'></td>	
-	</tr>
-	<tr><td colspan="6">宝宝课程和扫码上课 </td></tr>
-	<tr>
-		<td><input type="button"  value="宝宝课程查询"  onclick='setbinding("/babyCourse/course/queryBabyCourseList","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\"}}")'></td>
-		<td><input type="button"  value="宝宝耗课历史"  onclick='setbinding("/babyCourse/queryBabyCourseHistoryList","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"schoolName\":\"白云校区\",\"babyName\":\"蚯蚓\",\"orderId\":\"ZJ97898653\",\"pageIndex\":1,\"pageSize\":10}}")'></td>
-		<td><input type="button"  value="扫码上课确认"  onclick='setbinding("/courseManager/course/query","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\",\"courseNum\":2,\"courseName\":\"3215\"}}")'></td>
-		<td><input type="button"  value="扫码上课"  onclick='setbinding("/courseManager/course/spend","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"childId\":543,\"courseName\":\"音律\",\"courseNum\":2,\"orderId\":\"ZJ97898653\",\"type\":\"SPD\",\"remark\":\"正常上课\"}}")'></td>
-	</tr>
-	<tr><td colspan="6">试听预约 </td></tr>
-	<tr>
-		<td><input type="button"  value="线上预约"  onclick='setbinding("/customerDev/candidate/add","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N723232xddIo\",\"mobileNum\":\"13657256331\",\"userName\":\"蝌蚪妈\",\"babyName\":\"蝌蚪\",\"babyBirthday\":\"2012-9-12\",\"babySex\":\"MALE\",\"city\":\"深圳市\",\"district\":\"南山区\"}}")'></td>
-		<td><input type="button"  value="查看是否预约接口"  onclick='setbinding("/customerDev/judgeAppointment","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\"}}")'></td>
-		<td><input type="button"  value="记录预约上课信息"  onclick='setbinding("/courseManager/course/record","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\",\"courseName\":\"3215\"}}")'></td>
-		<td><input type="button"  value="预约分享接口"  onclick='setbinding("/customerDev/share","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":{\"unionId\":\"olbkKt-8vkqpPod-N7i1SzSxddIo\",\"recordId\":43647}}")'></td>
-		
-	</tr>
-	<tr><td colspan="6">广告</td>
+		<td><input type="button"  value="查询我的银行账号信息"  onclick='setbinding("/capitalManage/getMyBankInfo","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
+		<td><input type="button"  value="查询我的资金账户概况"  onclick='setbinding("/capitalManage/queryMyCapitalSurvey","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
+		<td><input type="button"  value="查询我的资金账户流水"  onclick='setbinding("/capitalManage/queryTransactionRecords","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"pageInde\":0,\"pageSize\":1}}")'></td>
+		<td><input type="button"  value="冻结撮合担保金"  onclick='setbinding("/capitalManage/freezeBond","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"objectId":"BH20150201321123\",\"remark":"冻结50000元施工保证金\",\"tradePassword\":\"TRADE_PASSWORD\"}}")'></td>
+		<td><input type="button"  value="解冻施工保证金"  onclick='setbinding("/capitalManage/unfreezeBond","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"orderId\":\"FREEZEBOND_ORDER_ID\"}}")'></td>
+		<td><input type="button"  value="充值申请"  onclick='setbinding("/capitalManage/rechargeApply","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"transferTime\":\"2015-10-12\",\"bankName\":\"中国银行\",\"voucherNo\":\"20150101215522\",\"amount\":100000,\"voucherFileUrl\":\"VOCHER_FILE_URL\"}}")'></td>
+		<td><input type="button"  value="查询充值申请记录"  onclick='setbinding("/capitalManage/queryRechargeApplyList","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
 	</tr>
 	<tr>
-		<td><input type="button"   onclick='setbinding("/advertisement/getAdvertisementList","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"pageIndex\":0,\"pageSize\":10}}")' value="查询广告列表" ></td>
-		<td><input type="button"   onclick='setbinding("/advertisement/getAdvertisementDetail","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"advertisementId\":1}}")' value="获取广告详情" ></td>
-		<td><input type="button"   onclick='setbinding("/babyWonderful/babyWonderfulList","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"pageIndex\":0,\"pageSize\":10}}")' value="查询宝宝精彩列表" ></td>
-		<td><input type="button"   onclick='setbinding("/babyWonderful/queryBabyWonderfulDetail","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\": {\"unionId\":\"13912345678\",\"recordId\":1}}")' value="获取宝宝精彩详情" ></td>
-		<td><input type="button"   onclick='setbinding("/babyWonderful/praise","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"recordId\":1}}")' value="宝宝精彩点赞" ></td>
+		<td><input type="button"  value="提现申请"  onclick='setbinding("/capitalManage/withdrawalsApply","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"amount\":100000,\"bankId\":23,\"tradePassword\":\"TRADE_PASSWORD\"}}")'></td>
+		<td><input type="button"  value="查询申请提现记录"  onclick='setbinding("/capitalManage/withdrawalsApply","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
 	</tr>
+	<tr>用户管理</tr>
 	<tr>
-		<td><input type="button"   onclick='setbinding("/babyWonderful/share","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"recordId\":1}}")' value="宝宝精彩分享" ></td>
-		<td><input type="button"   onclick='setbinding("/knowledgeManager/babyInterlocution/questionList","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"pageIndex\":0,\"pageSize\":10}}")' value="查询宝宝问答列表" ></td>
-		<td><input type="button"   onclick='setbinding("/knowledgeManager/babyInterlocution/submitQuestion","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"title\":\"小孩不说话\",\"desc\":\"我家小孩3岁了,只会叫爸爸妈妈,其它不会讲,请问正常吗\"}}")' value="宝宝问答提问题" ></td>
-		<td><input type="button"   onclick='setbinding("/knowledgeManager/encyclopedia/queryEncyclopediaList","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\": {\"searchKeyword\":\"不爱说话\",\"pageIndex\":0,\"pageSize\":10}}")' value="查询十万个为什么列表" ></td>
-		<td><input type="button"   onclick='setbinding("/knowledgeManager/encyclopedia/queryEncyclopediaDetail","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"recordId\":1}}")' value="查看十万个为什么" ></td>
-	</tr>
-	<tr>
-		<td><input type="button"   onclick='setbinding("/babyMature/queryBabyMatureList","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"pageIndex\":0,\"pageSize\":10}}")' value="查询成长时光列表" ></td>
-		<td><input type="button"   onclick='setbinding("/babyMature/getBabyMature","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"matrueId\":1}}")' value="查看成长时光详情" ></td>
-		<td><input type="button"   onclick='setbinding("/babyMature/addComment","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\":  {\"unionId\":\"13912345678\",\"matrueId\":1,\"replyTo\":1,\"comment\":\"谢谢老师\"}}")' value="成长时光发表评论" ></td>
-		<td><input type="button"   onclick='setbinding("/babyMature/addShareHistory","{\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  },\"body\": {\"unionId\":\"13912345678\",\"recordId\":1} }")' value="成长时光分享" ></td>
-	</tr>
-	<tr>
-		<td><input type="button"   onclick='setbinding("/assistant/leave","{\"body\":{\"assistantId\":1},\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  } }")' value="查询职工离职" ></td>
-	</tr>
-	<tr>
-		<td><input type="button"   onclick='setbinding("/assistant/assign","{\"body\":{\"assistantId\":1,\"cancidateIds\":[1,2]},\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  } }")' value="手动分配用户业务员跟进" ></td>
-	</tr>
-	<tr>
-		<td><input type="button"   onclick='setbinding("/activity/join","{\"body\":{ \"unionId\":\"xfdsfdsf832432\" ,\"activityId\":1},\"app\":{\"appId\":\"babyspace\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  } }")' value="手动分配用户业务员跟进" ></td>
-	</tr>
+		</tr>
+	
 </table>
   </body>
     <script>

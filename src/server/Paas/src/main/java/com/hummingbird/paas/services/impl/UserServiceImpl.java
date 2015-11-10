@@ -4,15 +4,19 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.commonbiz.vo.UserToken;
+import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectAccount;
+import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserAuth;
 import com.hummingbird.paas.entity.UserPassword;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
 import com.hummingbird.paas.mapper.UserAuthMapper;
 import com.hummingbird.paas.mapper.UserMapper;
@@ -22,7 +26,7 @@ import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.RegisterBodyVO;
-
+@Service
 public class UserServiceImpl implements UserService{
 
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
@@ -38,6 +42,8 @@ public class UserServiceImpl implements UserService{
 	ProjectAccountMapper proActDao;
 	@Autowired(required = true)
 	private TokenService tokensrv;
+	@Autowired
+	BidderMapper bidderDao;
 	
 	@Override
 	public User queryUserByMobile(String mobileNum) throws MaAccountException{
@@ -54,8 +60,28 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User queryUserByToken(String token) throws MaAccountException{
-		// TODO Auto-generated method stub
-		return null;
+		Token userToken = tokensrv.getToken(token);
+		if(userToken!=null){
+			User user = userDao.selectByPrimaryKey(userToken.getUserId());
+			if(user==null)
+			{
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("根据用户id[%s]查找不到用户",userToken.getUserId()));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("根据用户id[%s]查找不到用户",userToken.getUserId()));
+				
+			}
+			else{
+				return user;			
+			}
+		}
+		else{
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("token[%s]无效",token));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("token[%s]无效或已过期",token));
+			
+		}
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
@@ -89,8 +115,14 @@ public class UserServiceImpl implements UserService{
 		account.setUserId(userId);
 		AccountValidateUtil.updateAccountSignature(account);
 		proActDao.insert(account);
-		UserToken createToken = tokensrv.createToken(appId,userId);
+		//UserToken createToken = tokensrv.createToken(appId,userId);
 		
+	}
+
+	@Override
+	public Bidder queryBidderByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return bidderDao.selectByUserId(userId);
 	}
 	
 	

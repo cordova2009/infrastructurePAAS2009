@@ -9,12 +9,12 @@ public class ProjectAccountOrder {
     /**
      * 订单id
      */
-    private Integer orderId;
+    private String orderId;
 
     /**
      * 帐户id
      */
-    private Integer accountId;
+    private String accountId;
 
     /**
      * 插入时间
@@ -134,7 +134,7 @@ public class ProjectAccountOrder {
     /**
      * @return 订单id
      */
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
@@ -142,14 +142,14 @@ public class ProjectAccountOrder {
      * @param orderId 
 	 *            订单id
      */
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
      * @return 帐户id
      */
-    public Integer getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
@@ -157,8 +157,8 @@ public class ProjectAccountOrder {
      * @param accountId 
 	 *            帐户id
      */
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     /**

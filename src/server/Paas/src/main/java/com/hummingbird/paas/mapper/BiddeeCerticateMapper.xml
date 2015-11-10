@@ -61,7 +61,7 @@
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee_certicate a inner join t_user_token b on a.user_id = b.userId
-    where  b.token = #{user_id,jdbcType=VARCHAR} and a.status = 'OK#'
+    where  b.token = #{user_id,jdbcType=VARCHAR} and a.status != 'DIS'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee_certicate

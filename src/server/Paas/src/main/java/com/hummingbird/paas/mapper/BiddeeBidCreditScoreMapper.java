@@ -22,6 +22,11 @@ public interface BiddeeBidCreditScoreMapper {
      * 根据主键查询记录
      */
     BiddeeBidCreditScore selectByPrimaryKey(Integer id);
+    
+    /**
+     * 根据招标人id计算招标次数
+     */
+    int countNumByBid(Integer tenderer_id);
 
     /**
      * 根据主键更新属性不为空的记录

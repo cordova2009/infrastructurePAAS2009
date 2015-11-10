@@ -3,7 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.MemberProductPrivilegeMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.MemberProductPrivilege" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
     <result column="privilege" property="privilege" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -22,7 +22,7 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.MemberProductPrivilege" >
     insert into t_ddgl_member_product_privilege (id, product_id, privilege
       )
-    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{privilege,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{privilege,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.MemberProductPrivilege" >
@@ -43,7 +43,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="productId != null" >
-        #{productId,jdbcType=INTEGER},
+        #{productId,jdbcType=VARCHAR},
       </if>
       <if test="privilege != null" >
         #{privilege,jdbcType=VARCHAR},
@@ -54,7 +54,7 @@
     update t_ddgl_member_product_privilege
     <set >
       <if test="productId != null" >
-        product_id = #{productId,jdbcType=INTEGER},
+        product_id = #{productId,jdbcType=VARCHAR},
       </if>
       <if test="privilege != null" >
         privilege = #{privilege,jdbcType=VARCHAR},
@@ -64,7 +64,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.MemberProductPrivilege" >
     update t_ddgl_member_product_privilege
-    set product_id = #{productId,jdbcType=INTEGER},
+    set product_id = #{productId,jdbcType=VARCHAR},
       privilege = #{privilege,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -7,9 +7,9 @@ import java.util.Date;
  */
 public class BidObject {
     /**
-     * 招标编号(平台)
+     * 招标编号(平台),ZB00时间戳随机数
      */
-    private String platformObjectNo;
+    private String objectId;
 
     /**
      * 发包方id
@@ -41,6 +41,9 @@ public class BidObject {
      */
     private String objectStatus;
 
+    /**
+     * 中标金额
+     */
     private String winBidAmount;
 
     /**
@@ -68,10 +71,19 @@ public class BidObject {
      */
     private Integer district;
 
+    /**
+     * 招标方经办人
+     */
     private String biddeeCompanyPrincipal;
 
+    /**
+     * 招标方办公电话
+     */
     private String biddeeCompanyTelephone;
 
+    /**
+     * 开标时间
+     */
     private Date bidOpenDate;
 
     /**
@@ -79,6 +91,9 @@ public class BidObject {
      */
     private Integer projectExpectPeriod;
 
+    /**
+     * 承包方式
+     */
     private String contractType;
 
     /**
@@ -161,20 +176,19 @@ public class BidObject {
      */
     private String objectScope;
 
-
     /**
-     * @return 招标编号(平台)
+     * @return 招标编号(平台),ZB00时间戳随机数
      */
-    public String getPlatformObjectNo() {
-        return platformObjectNo;
+    public String getObjectId() {
+        return objectId;
     }
 
     /**
-     * @param platformObjectNo 
-	 *            招标编号(平台)
+     * @param objectId 
+	 *            招标编号(平台),ZB00时间戳随机数
      */
-    public void setPlatformObjectNo(String platformObjectNo) {
-        this.platformObjectNo = platformObjectNo == null ? null : platformObjectNo.trim();
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
@@ -267,10 +281,17 @@ public class BidObject {
         this.objectStatus = objectStatus == null ? null : objectStatus.trim();
     }
 
+    /**
+     * @return 中标金额
+     */
     public String getWinBidAmount() {
         return winBidAmount;
     }
 
+    /**
+     * @param winBidAmount 
+	 *            中标金额
+     */
     public void setWinBidAmount(String winBidAmount) {
         this.winBidAmount = winBidAmount == null ? null : winBidAmount.trim();
     }
@@ -350,26 +371,47 @@ public class BidObject {
         this.district = district;
     }
 
+    /**
+     * @return 招标方经办人
+     */
     public String getBiddeeCompanyPrincipal() {
         return biddeeCompanyPrincipal;
     }
 
+    /**
+     * @param biddeeCompanyPrincipal 
+	 *            招标方经办人
+     */
     public void setBiddeeCompanyPrincipal(String biddeeCompanyPrincipal) {
         this.biddeeCompanyPrincipal = biddeeCompanyPrincipal == null ? null : biddeeCompanyPrincipal.trim();
     }
 
+    /**
+     * @return 招标方办公电话
+     */
     public String getBiddeeCompanyTelephone() {
         return biddeeCompanyTelephone;
     }
 
+    /**
+     * @param biddeeCompanyTelephone 
+	 *            招标方办公电话
+     */
     public void setBiddeeCompanyTelephone(String biddeeCompanyTelephone) {
         this.biddeeCompanyTelephone = biddeeCompanyTelephone == null ? null : biddeeCompanyTelephone.trim();
     }
 
+    /**
+     * @return 开标时间
+     */
     public Date getBidOpenDate() {
         return bidOpenDate;
     }
 
+    /**
+     * @param bidOpenDate 
+	 *            开标时间
+     */
     public void setBidOpenDate(Date bidOpenDate) {
         this.bidOpenDate = bidOpenDate;
     }
@@ -389,10 +431,17 @@ public class BidObject {
         this.projectExpectPeriod = projectExpectPeriod;
     }
 
+    /**
+     * @return 承包方式
+     */
     public String getContractType() {
         return contractType;
     }
 
+    /**
+     * @param contractType 
+	 *            承包方式
+     */
     public void setContractType(String contractType) {
         this.contractType = contractType == null ? null : contractType.trim();
     }
@@ -637,9 +686,6 @@ public class BidObject {
         this.objectScope = objectScope == null ? null : objectScope.trim();
     }
 
-
-
-
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -652,7 +698,7 @@ public class BidObject {
             return false;
         }
         BidObject other = (BidObject) that;
-        return (this.getPlatformObjectNo() == null ? other.getPlatformObjectNo() == null : this.getPlatformObjectNo().equals(other.getPlatformObjectNo()))
+        return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
             && (this.getObjectNo() == null ? other.getObjectNo() == null : this.getObjectNo().equals(other.getObjectNo()))
             && (this.getObjectName() == null ? other.getObjectName() == null : this.getObjectName().equals(other.getObjectName()))
@@ -692,7 +738,7 @@ public class BidObject {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getPlatformObjectNo() == null) ? 0 : getPlatformObjectNo().hashCode());
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
         result = prime * result + ((getObjectNo() == null) ? 0 : getObjectNo().hashCode());
         result = prime * result + ((getObjectName() == null) ? 0 : getObjectName().hashCode());

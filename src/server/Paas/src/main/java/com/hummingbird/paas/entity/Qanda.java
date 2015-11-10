@@ -5,6 +5,11 @@ package com.hummingbird.paas.entity;
  */
 public class Qanda {
     /**
+     * id
+     */
+    private Integer id;
+
+    /**
      * 标的id
      */
     private String objectId;
@@ -63,6 +68,21 @@ public class Qanda {
      * 现场答疑,答疑日期
      */
     private String answerDate;
+
+    /**
+     * @return id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id 
+	 *            id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * @return 标的id
@@ -256,7 +276,8 @@ public class Qanda {
             return false;
         }
         Qanda other = (Qanda) that;
-        return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getIsQqAnswer() == null ? other.getIsQqAnswer() == null : this.getIsQqAnswer().equals(other.getIsQqAnswer()))
             && (this.getIsEmailAnswer() == null ? other.getIsEmailAnswer() == null : this.getIsEmailAnswer().equals(other.getIsEmailAnswer()))
             && (this.getIsTelAnswer() == null ? other.getIsTelAnswer() == null : this.getIsTelAnswer().equals(other.getIsTelAnswer()))
@@ -274,6 +295,7 @@ public class Qanda {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getIsQqAnswer() == null) ? 0 : getIsQqAnswer().hashCode());
         result = prime * result + ((getIsEmailAnswer() == null) ? 0 : getIsEmailAnswer().hashCode());

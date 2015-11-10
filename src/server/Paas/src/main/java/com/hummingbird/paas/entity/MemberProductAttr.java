@@ -25,6 +25,11 @@ public class MemberProductAttr {
     private String memberType;
 
     /**
+     * 会员级别，STD标准会员，ADV高级会员
+     */
+    private String level;
+
+    /**
      * @return 产品id
      */
     public String getProductId() {
@@ -84,6 +89,21 @@ public class MemberProductAttr {
         this.memberType = memberType == null ? null : memberType.trim();
     }
 
+    /**
+     * @return 会员级别，STD标准会员，ADV高级会员
+     */
+    public String getLevel() {
+        return level;
+    }
+
+    /**
+     * @param level 
+	 *            会员级别，STD标准会员，ADV高级会员
+     */
+    public void setLevel(String level) {
+        this.level = level == null ? null : level.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -99,7 +119,8 @@ public class MemberProductAttr {
         return (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()))
             && (this.getProductName() == null ? other.getProductName() == null : this.getProductName().equals(other.getProductName()))
             && (this.getProductExpireLength() == null ? other.getProductExpireLength() == null : this.getProductExpireLength().equals(other.getProductExpireLength()))
-            && (this.getMemberType() == null ? other.getMemberType() == null : this.getMemberType().equals(other.getMemberType()));
+            && (this.getMemberType() == null ? other.getMemberType() == null : this.getMemberType().equals(other.getMemberType()))
+            && (this.getLevel() == null ? other.getLevel() == null : this.getLevel().equals(other.getLevel()));
     }
 
     @Override
@@ -110,6 +131,7 @@ public class MemberProductAttr {
         result = prime * result + ((getProductName() == null) ? 0 : getProductName().hashCode());
         result = prime * result + ((getProductExpireLength() == null) ? 0 : getProductExpireLength().hashCode());
         result = prime * result + ((getMemberType() == null) ? 0 : getMemberType().hashCode());
+        result = prime * result + ((getLevel() == null) ? 0 : getLevel().hashCode());
         return result;
     }
 }

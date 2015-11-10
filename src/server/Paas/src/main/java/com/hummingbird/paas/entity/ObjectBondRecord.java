@@ -7,9 +7,9 @@ import java.util.Date;
  */
 public class ObjectBondRecord {
     /**
-     * 主键
+     * 订单id,BZ00时间戳+随机数组成
      */
-    private Integer id;
+    private String orderId;
 
     /**
      * 标的id
@@ -39,12 +39,7 @@ public class ObjectBondRecord {
     /**
      * 认证提出方id,记录承包商id或发包方id
      */
-    private String companyId;
-
-    /**
-     * 订单id
-     */
-    private String orderId;
+    private Integer companyId;
 
     /**
      * 保证金类型,BID投标保证金, WIN中标后交纳的保证金
@@ -52,18 +47,18 @@ public class ObjectBondRecord {
     private String bondType;
 
     /**
-     * @return 主键
+     * @return 订单id,BZ00时间戳+随机数组成
      */
-    public Integer getId() {
-        return id;
+    public String getOrderId() {
+        return orderId;
     }
 
     /**
-     * @param id 
-	 *            主键
+     * @param orderId 
+	 *            订单id,BZ00时间戳+随机数组成
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
@@ -144,7 +139,7 @@ public class ObjectBondRecord {
     /**
      * @return 认证提出方id,记录承包商id或发包方id
      */
-    public String getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
@@ -152,23 +147,8 @@ public class ObjectBondRecord {
      * @param companyId 
 	 *            认证提出方id,记录承包商id或发包方id
      */
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId == null ? null : companyId.trim();
-    }
-
-    /**
-     * @return 订单id
-     */
-    public String getOrderId() {
-        return orderId;
-    }
-
-    /**
-     * @param orderId 
-	 *            订单id
-     */
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     /**
@@ -198,14 +178,13 @@ public class ObjectBondRecord {
             return false;
         }
         ObjectBondRecord other = (ObjectBondRecord) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
             && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getBondAmount() == null ? other.getBondAmount() == null : this.getBondAmount().equals(other.getBondAmount()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getCompanyType() == null ? other.getCompanyType() == null : this.getCompanyType().equals(other.getCompanyType()))
             && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
             && (this.getBondType() == null ? other.getBondType() == null : this.getBondType().equals(other.getBondType()));
     }
 
@@ -213,14 +192,13 @@ public class ObjectBondRecord {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getBondAmount() == null) ? 0 : getBondAmount().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getCompanyType() == null) ? 0 : getCompanyType().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         result = prime * result + ((getBondType() == null) ? 0 : getBondType().hashCode());
         return result;
     }

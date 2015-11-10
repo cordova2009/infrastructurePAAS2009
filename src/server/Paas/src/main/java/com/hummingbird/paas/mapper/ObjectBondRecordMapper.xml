@@ -2,45 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.ObjectBondRecordMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ObjectBondRecord" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="bond_amount" property="bondAmount" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="company_type" property="companyType" jdbcType="VARCHAR" />
-    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
-    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
     <result column="bond_type" property="bondType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, object_id, bond_amount, type, insert_time, company_type, company_id, order_id, 
-    bond_type
+    order_id, object_id, bond_amount, type, insert_time, company_type, company_id, bond_type
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_object_bond_record
-    where id = #{id,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_object_bond_record
-    where id = #{id,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
-    insert into t_ztgl_object_bond_record (id, object_id, bond_amount, 
+    insert into t_ztgl_object_bond_record (order_id, object_id, bond_amount, 
       type, insert_time, company_type, 
-      company_id, order_id, bond_type
-      )
-    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{bondAmount,jdbcType=INTEGER}, 
+      company_id, bond_type)
+    values (#{orderId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{bondAmount,jdbcType=INTEGER}, 
       #{type,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{companyType,jdbcType=VARCHAR}, 
-      #{companyId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{bondType,jdbcType=VARCHAR}
-      )
+      #{companyId,jdbcType=INTEGER}, #{bondType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
     insert into t_ztgl_object_bond_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="orderId != null" >
+        order_id,
       </if>
       <if test="objectId != null" >
         object_id,
@@ -60,16 +56,13 @@
       <if test="companyId != null" >
         company_id,
       </if>
-      <if test="orderId != null" >
-        order_id,
-      </if>
       <if test="bondType != null" >
         bond_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="objectId != null" >
         #{objectId,jdbcType=VARCHAR},
@@ -87,10 +80,7 @@
         #{companyType,jdbcType=VARCHAR},
       </if>
       <if test="companyId != null" >
-        #{companyId,jdbcType=VARCHAR},
-      </if>
-      <if test="orderId != null" >
-        #{orderId,jdbcType=VARCHAR},
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="bondType != null" >
         #{bondType,jdbcType=VARCHAR},
@@ -116,16 +106,13 @@
         company_type = #{companyType,jdbcType=VARCHAR},
       </if>
       <if test="companyId != null" >
-        company_id = #{companyId,jdbcType=VARCHAR},
-      </if>
-      <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=VARCHAR},
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="bondType != null" >
         bond_type = #{bondType,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
     update t_ztgl_object_bond_record
@@ -134,9 +121,8 @@
       type = #{type,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       company_type = #{companyType,jdbcType=VARCHAR},
-      company_id = #{companyId,jdbcType=VARCHAR},
-      order_id = #{orderId,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=INTEGER},
       bond_type = #{bondType,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
 </mapper>

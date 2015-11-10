@@ -42,8 +42,25 @@ public class WithdrawApply {
     private String status;
 
     /**
-     * @return 订单id
+     * 银行
      */
+    private String bank;
+
+    /**
+     * 凭证号(平台填)
+     */
+    private String voucher;
+
+    /**
+     * 凭证上传地址
+     */
+    private String voucherPic;
+
+    /**
+     * 银行id
+     */
+    private String bankId;
+
     public String getOrderId() {
         return orderId;
     }
@@ -146,6 +163,66 @@ public class WithdrawApply {
         this.status = status == null ? null : status.trim();
     }
 
+    /**
+     * @return 银行
+     */
+    public String getBank() {
+        return bank;
+    }
+
+    /**
+     * @param bank 
+	 *            银行
+     */
+    public void setBank(String bank) {
+        this.bank = bank == null ? null : bank.trim();
+    }
+
+    /**
+     * @return 凭证号(平台填)
+     */
+    public String getVoucher() {
+        return voucher;
+    }
+
+    /**
+     * @param voucher 
+	 *            凭证号(平台填)
+     */
+    public void setVoucher(String voucher) {
+        this.voucher = voucher == null ? null : voucher.trim();
+    }
+
+    /**
+     * @return 凭证上传地址
+     */
+    public String getVoucherPic() {
+        return voucherPic;
+    }
+
+    /**
+     * @param voucherPic 
+	 *            凭证上传地址
+     */
+    public void setVoucherPic(String voucherPic) {
+        this.voucherPic = voucherPic == null ? null : voucherPic.trim();
+    }
+
+    /**
+     * @return 银行id
+     */
+    public String getBankId() {
+        return bankId;
+    }
+
+    /**
+     * @param bankId 
+	 *            银行id
+     */
+    public void setBankId(String bankId) {
+        this.bankId = bankId == null ? null : bankId.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -164,7 +241,11 @@ public class WithdrawApply {
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getUserBankcardId() == null ? other.getUserBankcardId() == null : this.getUserBankcardId().equals(other.getUserBankcardId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getBank() == null ? other.getBank() == null : this.getBank().equals(other.getBank()))
+            && (this.getVoucher() == null ? other.getVoucher() == null : this.getVoucher().equals(other.getVoucher()))
+            && (this.getVoucherPic() == null ? other.getVoucherPic() == null : this.getVoucherPic().equals(other.getVoucherPic()))
+            && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()));
     }
 
     @Override
@@ -178,6 +259,10 @@ public class WithdrawApply {
         result = prime * result + ((getUserBankcardId() == null) ? 0 : getUserBankcardId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getBank() == null) ? 0 : getBank().hashCode());
+        result = prime * result + ((getVoucher() == null) ? 0 : getVoucher().hashCode());
+        result = prime * result + ((getVoucherPic() == null) ? 0 : getVoucherPic().hashCode());
+        result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
         return result;
     }
 }

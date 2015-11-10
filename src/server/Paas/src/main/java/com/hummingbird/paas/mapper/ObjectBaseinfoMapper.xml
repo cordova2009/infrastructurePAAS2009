@@ -11,13 +11,12 @@
     <result column="bidding_end_time" property="biddingEndTime" jdbcType="TIMESTAMP" />
     <result column="bidding_document_fetch_start_time" property="biddingDocumentFetchStartTime" jdbcType="TIMESTAMP" />
     <result column="bidding_no" property="biddingNo" jdbcType="VARCHAR" />
-    <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="object_description" property="objectDescription" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     object_id, announcement_begin_time, announcement_end_time, question_end_time, answer_question_start_time, 
     answer_question_end_time, bidding_end_time, bidding_document_fetch_start_time, bidding_no, 
-    object_scope, object_description
+    object_description
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -34,14 +33,12 @@
       announcement_end_time, question_end_time, 
       answer_question_start_time, answer_question_end_time, 
       bidding_end_time, bidding_document_fetch_start_time, 
-      bidding_no, object_scope, object_description
-      )
+      bidding_no, object_description)
     values (#{objectId,jdbcType=VARCHAR}, #{announcementBeginTime,jdbcType=TIMESTAMP}, 
       #{announcementEndTime,jdbcType=TIMESTAMP}, #{questionEndTime,jdbcType=TIMESTAMP}, 
       #{answerQuestionStartTime,jdbcType=TIMESTAMP}, #{answerQuestionEndTime,jdbcType=TIMESTAMP}, 
       #{biddingEndTime,jdbcType=TIMESTAMP}, #{biddingDocumentFetchStartTime,jdbcType=TIMESTAMP}, 
-      #{biddingNo,jdbcType=VARCHAR}, #{objectScope,jdbcType=VARCHAR}, #{objectDescription,jdbcType=VARCHAR}
-      )
+      #{biddingNo,jdbcType=VARCHAR}, #{objectDescription,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBaseinfo" >
     insert into t_ztgl_object_baseinfo
@@ -72,9 +69,6 @@
       </if>
       <if test="biddingNo != null" >
         bidding_no,
-      </if>
-      <if test="objectScope != null" >
-        object_scope,
       </if>
       <if test="objectDescription != null" >
         object_description,
@@ -108,9 +102,6 @@
       <if test="biddingNo != null" >
         #{biddingNo,jdbcType=VARCHAR},
       </if>
-      <if test="objectScope != null" >
-        #{objectScope,jdbcType=VARCHAR},
-      </if>
       <if test="objectDescription != null" >
         #{objectDescription,jdbcType=VARCHAR},
       </if>
@@ -143,9 +134,6 @@
       <if test="biddingNo != null" >
         bidding_no = #{biddingNo,jdbcType=VARCHAR},
       </if>
-      <if test="objectScope != null" >
-        object_scope = #{objectScope,jdbcType=VARCHAR},
-      </if>
       <if test="objectDescription != null" >
         object_description = #{objectDescription,jdbcType=VARCHAR},
       </if>
@@ -162,7 +150,6 @@
       bidding_end_time = #{biddingEndTime,jdbcType=TIMESTAMP},
       bidding_document_fetch_start_time = #{biddingDocumentFetchStartTime,jdbcType=TIMESTAMP},
       bidding_no = #{biddingNo,jdbcType=VARCHAR},
-      object_scope = #{objectScope,jdbcType=VARCHAR},
       object_description = #{objectDescription,jdbcType=VARCHAR}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>

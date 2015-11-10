@@ -1,6 +1,7 @@
 package com.hummingbird.paas.mapper;
 
 import com.hummingbird.paas.entity.Project;
+import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 
 public interface ProjectMapper {
     /**
@@ -32,4 +33,6 @@ public interface ProjectMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(Project record);
+    
+    
 }

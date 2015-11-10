@@ -68,6 +68,12 @@ public interface TokenService {
 	 * @return
 	 */
 	public abstract UserToken getOrCreateToken(String appId, int userId);
+
+	/**
+	 * 更新令牌的有效期
+	 * @param token
+	 */
+//	public void renewToken(Token token);
 	
 	
 }

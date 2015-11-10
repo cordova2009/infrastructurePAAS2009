@@ -41,6 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<table>
 	<tr><td colspan="6">资金管理</td></tr>
+	<tr><td colspan="6">招标管理</td></tr>
 	<tr>
 		<td><input type="button"  value="查询我的银行账号信息"  onclick='setbinding("/capitalManage/getMyBankInfo","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
 		<td><input type="button"  value="查询我的资金账户概况"  onclick='setbinding("/capitalManage/queryMyCapitalSurvey","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>

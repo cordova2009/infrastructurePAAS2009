@@ -503,8 +503,8 @@ POST数据格式：JSON
             "biddeeCompanyTelephone":"0755-56432117",
             "currency":"采用币种",
             "contractType":"承包方式",
-            "evaluationAmount":"300000",
-            evaluationAmount|是|工程标的估价
+            "evaluationAmount":"300000"
+            
 	    }
     }
 
@@ -524,7 +524,7 @@ biddeeCompanyPrincipal|是|招标经办人
 biddeeCompanyTelephone|招标办公电话
 currency|是|采用币种
 contractType|是|承包方式
-
+evaluationAmount|是|工程标的估价
 
 2）返回说明
 
@@ -589,7 +589,7 @@ objectId|是|招标项目内部编号
     {
         "errcode":0,"errmsg":"查询未完成招标项目工程信息成功",
     	"projectInfo":{
-            ""
+            
     		"projectName":"金域华府3期工程开发",
     		"projectSite":"深圳市龙岗区杨美",
             "projectScale":"工程规模及特征",

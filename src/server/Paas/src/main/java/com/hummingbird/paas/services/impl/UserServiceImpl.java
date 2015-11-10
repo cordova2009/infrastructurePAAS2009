@@ -27,6 +27,7 @@ import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.RegisterBodyVO;
 @Service
+@Service
 public class UserServiceImpl implements UserService{
 
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory

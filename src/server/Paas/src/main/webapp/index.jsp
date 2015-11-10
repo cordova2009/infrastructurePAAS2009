@@ -40,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 	</div>
 	<table>
+	<tr><td colspan="6">资金管理</td></tr>
 	<tr><td colspan="6">招标管理</td></tr>
 	<tr>
 		<td><input  value="我的招标评标概况接口"  onclick='setbinding("/tender/queryMyObjectTenderSurvey","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },    \"body\":{        \"token\":\"4356576\",        \"objectId\":\"32456\"    }    }")'  type="button" ></td>
@@ -48,9 +49,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="查询未完成招标项目工程信息接口"  onclick='setbinding("/tender/queryObjectProjectInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":{        \"token\":\"12345\",        \"objectId\":\"BH2015082135656\"     }     }")'  type="button" ></td>
 		<td><input  value="保存招标项目工程信息接口"  onclick='setbinding("/tender/saveObjectProjectInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"45678u5\",        \"objectId\":\"BH2015082135656\",        \"projectName\":\"金域华府3期工程开发\",            \"projectSite\":\"工程地点\",            \"projectScale\":\"工程规模及特征\",            \"projectExpectInvestment\":\"工程计划总投资\",            \"employer\":\"建设单位\",            \"employerPrincipal\":\"建设单位经办人\",            \"employerTelephone\":\"建设单位办公电话\" }     }")'  type="button" ></td>
 		<td><input  value="查询未完成招标项目工程要求接口"  onclick='setbinding("/tender/queryProjectRequirementInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":{        \"token\":\"12345\",        \"objectId\":\"BH2015082135656\"     }     }")'  type="button" ></td>
-		
-		
 	</tr>
+	<tr>
+		<td><input type="button"  value="查询我的银行账号信息"  onclick='setbinding("/capitalManage/getMyBankInfo","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
+		<td><input type="button"  value="查询我的资金账户概况"  onclick='setbinding("/capitalManage/queryMyCapitalSurvey","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
+		<td><input type="button"  value="查询我的资金账户流水"  onclick='setbinding("/capitalManage/queryTransactionRecords","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"pageInde\":0,\"pageSize\":1}}")'></td>
+		<td><input type="button"  value="冻结撮合担保金"  onclick='setbinding("/capitalManage/freezeBond","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"objectId":"BH20150201321123\",\"remark":"冻结50000元施工保证金\",\"tradePassword\":\"TRADE_PASSWORD\"}}")'></td>
+		<td><input type="button"  value="解冻施工保证金"  onclick='setbinding("/capitalManage/unfreezeBond","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"orderId\":\"FREEZEBOND_ORDER_ID\"}}")'></td>
+		<td><input type="button"  value="充值申请"  onclick='setbinding("/capitalManage/rechargeApply","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"transferTime\":\"2015-10-12\",\"bankName\":\"中国银行\",\"voucherNo\":\"20150101215522\",\"amount\":100000,\"voucherFileUrl\":\"VOCHER_FILE_URL\"}}")'></td>
+		<td><input type="button"  value="查询充值申请记录"  onclick='setbinding("/capitalManage/queryRechargeApplyList","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
+	</tr>
+	<tr>
+		<td><input type="button"  value="提现申请"  onclick='setbinding("/capitalManage/withdrawalsApply","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\",\"amount\":100000,\"bankId\":23,\"tradePassword\":\"TRADE_PASSWORD\"}}")'></td>
+		<td><input type="button"  value="查询申请提现记录"  onclick='setbinding("/capitalManage/withdrawalsApply","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>
+	</tr>
+	<tr>用户管理</tr>
+	<tr>
+		</tr>
+	
 </table>
   </body>
     <script>

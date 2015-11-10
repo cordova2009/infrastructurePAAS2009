@@ -327,4 +327,29 @@
       product_name = #{productName,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
+  <select id="selectTotalCountByaccountId" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(*)
+    from t_project_account_order
+    where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#"
+  </select>
+  <select id="queryRecordsByAccountId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_account_order
+    where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#"
+    ORDER BY insert_time desc limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="getAccountIncome" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    IFNULL(sum(abs(`sum`)),0) income
+    from t_project_account_order
+    where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#" and flow_direction="IN#"
+  </select>
+  <select id="getAccountOutlay" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    IFNULL(sum(abs(`sum`)),0) outlay
+    from t_project_account_order
+    where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#" and flow_direction="OUT"
+  </select>
 </mapper>

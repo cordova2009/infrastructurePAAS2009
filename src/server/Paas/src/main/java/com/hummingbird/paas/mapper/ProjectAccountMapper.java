@@ -32,4 +32,11 @@ public interface ProjectAccountMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectAccount record);
+    
+    /**
+     * 根据userId查询资金账户
+     * @param userId
+     * @return
+     */
+    ProjectAccount queryAccountInfo(Integer userId);
 }

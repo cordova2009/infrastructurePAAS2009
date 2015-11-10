@@ -32,4 +32,9 @@ public interface BidderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(Bidder record);
+    
+    /**
+     * 根据userId查询记录
+     */
+    Bidder selectByUserId(Integer userId);
 }

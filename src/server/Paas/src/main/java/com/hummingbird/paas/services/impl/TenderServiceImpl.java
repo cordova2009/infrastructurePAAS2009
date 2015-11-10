@@ -234,6 +234,7 @@ public void queryProjectRequirementInfo(String appId,QueryObjectBodyVO body) thr
 			log.debug("查询未完成招标项目工程要求接口开始");
 		}
 	// 请自行调整
+	bpdao.selectByPrimaryKey(body.getObjectId());
 	if(log.isDebugEnabled()){
 			log.debug("查询未完成招标项目工程要求接口完成");
 	}

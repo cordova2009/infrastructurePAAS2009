@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService{
 				ProjectAccountOrder accountOrder=new ProjectAccountOrder();
 				String accountOrderId=AccountGenerationUtil.genNO("PA00");
 				accountOrder.setOrderId(accountOrderId);
-				accountOrder.setType("SBZ");
+				accountOrder.setType("JBZ");
 				accountOrder.setOriginalOrderId(bondorderId);
 				accountOrder.setOriginalTable("t_ztgl_object_bond_record");
 				accountOrder.setRemark(body.getRemark());
@@ -204,7 +204,6 @@ public class OrderServiceImpl implements OrderService{
 		//插入资金账户订单表
 		ProjectAccountOrder accountOrder=new ProjectAccountOrder();
 		String accountOrderId=AccountGenerationUtil.genNO("PA00");
-		//这里数据库的类型好像没有退还保证金
 		accountOrder.setType("SBZ");
 		accountOrder.setOrderId(accountOrderId);
 		accountOrder.setOriginalOrderId(bondorderId);

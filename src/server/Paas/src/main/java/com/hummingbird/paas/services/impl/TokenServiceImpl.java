@@ -193,5 +193,13 @@ public class TokenServiceImpl implements TokenService {
 		//1小时有效
 		return new PropertiesUtil().getInt("usertoken.expirein", 3600);
 	}
+	
+	/**
+	 * 更新令牌的有效期
+	 * @param token
+	 */
+	public void postponeToken(Token token){
+		
+	}
 
 }

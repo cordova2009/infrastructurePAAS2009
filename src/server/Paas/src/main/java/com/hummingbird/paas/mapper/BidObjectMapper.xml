@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.BidObjectMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidObject" >
-    <id column="platform_object_no" property="platformObjectNo" jdbcType="VARCHAR" />
+    <id column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
@@ -36,11 +36,9 @@
     <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
-    <result column="biddee_company_principal2" property="biddeeCompanyPrincipal2" jdbcType="VARCHAR" />
-    <result column="biddee_company_telephone2" property="biddeeCompanyTelephone2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    platform_object_no, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, certification_checkup_type, bid_evaluation_type, bid_evaluation_site, 
@@ -53,14 +51,14 @@
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_object
-    where platform_object_no = #{platformObjectNo,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_object
-    where platform_object_no = #{platformObjectNo,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidObject" >
-    insert into t_ztgl_object (platform_object_no, biddee_id, object_no, 
+    insert into t_ztgl_object (object_id, biddee_id, object_no, 
       object_name, object_amount, object_publish_type, 
       object_status, win_bid_amount, win_bidder_id, 
       industry_id, sector_id, province, 
@@ -73,7 +71,7 @@
       need_pm_certification, need_constructor_certification, 
       need_safety_permit, need_pm_safety_certification, 
       evaluation_amount, object_scope)
-    values (#{platformObjectNo,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
+    values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=INTEGER}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
@@ -90,8 +88,8 @@
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="platformObjectNo != null" >
-        platform_object_no,
+      <if test="objectId != null" >
+        object_id,
       </if>
       <if test="biddeeId != null" >
         biddee_id,
@@ -194,8 +192,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="platformObjectNo != null" >
-        #{platformObjectNo,jdbcType=VARCHAR},
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="biddeeId != null" >
         #{biddeeId,jdbcType=INTEGER},
@@ -401,7 +399,7 @@
         object_scope = #{objectScope,jdbcType=VARCHAR},
       </if>
     </set>
-    where platform_object_no = #{platformObjectNo,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidObject" >
     update t_ztgl_object
@@ -438,6 +436,6 @@
       need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
       evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
       object_scope = #{objectScope,jdbcType=VARCHAR}
-    where platform_object_no = #{platformObjectNo,jdbcType=VARCHAR}
+    where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

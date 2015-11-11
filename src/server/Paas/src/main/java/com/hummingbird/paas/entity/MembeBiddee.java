@@ -14,7 +14,7 @@ public class MembeBiddee {
     /**
      * 发包方id
      */
-    private Integer tendererId;
+    private Integer biddeeId;
 
     /**
      * 会员级别，STD标准会员，ADV高级会员
@@ -49,16 +49,16 @@ public class MembeBiddee {
     /**
      * @return 发包方id
      */
-    public Integer getTendererId() {
-        return tendererId;
+    public Integer getBiddeeId() {
+        return biddeeId;
     }
 
     /**
-     * @param tendererId 
+     * @param biddeeId 
 	 *            发包方id
      */
-    public void setTendererId(Integer tendererId) {
-        this.tendererId = tendererId;
+    public void setBiddeeId(Integer biddeeId) {
+        this.biddeeId = biddeeId;
     }
 
     /**
@@ -119,7 +119,7 @@ public class MembeBiddee {
         }
         MembeBiddee other = (MembeBiddee) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getTendererId() == null ? other.getTendererId() == null : this.getTendererId().equals(other.getTendererId()))
+            && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
             && (this.getMemberLevel() == null ? other.getMemberLevel() == null : this.getMemberLevel().equals(other.getMemberLevel()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
             && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
@@ -130,7 +130,7 @@ public class MembeBiddee {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getTendererId() == null) ? 0 : getTendererId().hashCode());
+        result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
         result = prime * result + ((getMemberLevel() == null) ? 0 : getMemberLevel().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());

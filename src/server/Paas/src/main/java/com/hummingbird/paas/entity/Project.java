@@ -157,6 +157,21 @@ public class Project {
     private String needPmSafetyCertification;
 
     /**
+     * 招标项目范围
+     */
+    private String objectScope;
+
+    /**
+     * 承包方式
+     */
+    private String contractType;
+
+    /**
+     * 采用币种,CNY人民币,USD美元
+     */
+    private String currency;
+
+    /**
      * @return 招标编号(平台)
      */
     public String getObjectId() {
@@ -606,6 +621,51 @@ public class Project {
         this.needPmSafetyCertification = needPmSafetyCertification == null ? null : needPmSafetyCertification.trim();
     }
 
+    /**
+     * @return 招标项目范围
+     */
+    public String getObjectScope() {
+        return objectScope;
+    }
+
+    /**
+     * @param objectScope 
+	 *            招标项目范围
+     */
+    public void setObjectScope(String objectScope) {
+        this.objectScope = objectScope == null ? null : objectScope.trim();
+    }
+
+    /**
+     * @return 承包方式
+     */
+    public String getContractType() {
+        return contractType;
+    }
+
+    /**
+     * @param contractType 
+	 *            承包方式
+     */
+    public void setContractType(String contractType) {
+        this.contractType = contractType == null ? null : contractType.trim();
+    }
+
+    /**
+     * @return 采用币种,CNY人民币,USD美元
+     */
+    public String getCurrency() {
+        return currency;
+    }
+
+    /**
+     * @param currency 
+	 *            采用币种,CNY人民币,USD美元
+     */
+    public void setCurrency(String currency) {
+        this.currency = currency == null ? null : currency.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -647,7 +707,10 @@ public class Project {
             && (this.getNeedPmCertification() == null ? other.getNeedPmCertification() == null : this.getNeedPmCertification().equals(other.getNeedPmCertification()))
             && (this.getNeedConstructorCertification() == null ? other.getNeedConstructorCertification() == null : this.getNeedConstructorCertification().equals(other.getNeedConstructorCertification()))
             && (this.getNeedSafetyPermit() == null ? other.getNeedSafetyPermit() == null : this.getNeedSafetyPermit().equals(other.getNeedSafetyPermit()))
-            && (this.getNeedPmSafetyCertification() == null ? other.getNeedPmSafetyCertification() == null : this.getNeedPmSafetyCertification().equals(other.getNeedPmSafetyCertification()));
+            && (this.getNeedPmSafetyCertification() == null ? other.getNeedPmSafetyCertification() == null : this.getNeedPmSafetyCertification().equals(other.getNeedPmSafetyCertification()))
+            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
+            && (this.getContractType() == null ? other.getContractType() == null : this.getContractType().equals(other.getContractType()))
+            && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()));
     }
 
     @Override
@@ -684,6 +747,9 @@ public class Project {
         result = prime * result + ((getNeedConstructorCertification() == null) ? 0 : getNeedConstructorCertification().hashCode());
         result = prime * result + ((getNeedSafetyPermit() == null) ? 0 : getNeedSafetyPermit().hashCode());
         result = prime * result + ((getNeedPmSafetyCertification() == null) ? 0 : getNeedPmSafetyCertification().hashCode());
+        result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
+        result = prime * result + ((getContractType() == null) ? 0 : getContractType().hashCode());
+        result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
         return result;
     }
 }

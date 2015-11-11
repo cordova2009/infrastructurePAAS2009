@@ -754,7 +754,7 @@ objectId|是|招标项目内部编号
 
 参数|是否必须|说明
 ----|----|-----
-constructionProveType|是|施工证明类型
+constructionProveType|是|施工证明类型,BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
 landUseCertificateNo|否|国有土地使用证编号
 landUseCertificateEndDate|否|国有土地使用证有效期
 landUseCertificateUrl|否|国有土地使用证上传地址

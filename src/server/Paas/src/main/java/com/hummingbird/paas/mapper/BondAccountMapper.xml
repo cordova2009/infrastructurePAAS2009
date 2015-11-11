@@ -3,6 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.BondAccountMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BondAccount" >
     <id column="account_id" property="accountId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="balance" property="balance" jdbcType="INTEGER" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
@@ -11,7 +12,7 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    account_id, balance, signature, insert_time, update_time, remark, status
+    account_id, user_id, balance, signature, insert_time, update_time, remark, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,18 +25,21 @@
     where account_id = #{accountId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BondAccount" >
-    insert into t_bond_account (account_id, balance, signature, 
-      insert_time, update_time, remark, 
-      status)
-    values (#{accountId,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR})
+    insert into t_bond_account (account_id, user_id, balance, 
+      signature, insert_time, update_time, 
+      remark, status)
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, 
+      #{signature,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BondAccount" >
     insert into t_bond_account
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="accountId != null" >
         account_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="balance != null" >
         balance,
@@ -60,6 +64,9 @@
       <if test="accountId != null" >
         #{accountId,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
       <if test="balance != null" >
         #{balance,jdbcType=INTEGER},
       </if>
@@ -83,6 +90,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BondAccount" >
     update t_bond_account
     <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
       <if test="balance != null" >
         balance = #{balance,jdbcType=INTEGER},
       </if>
@@ -106,7 +116,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BondAccount" >
     update t_bond_account
-    set balance = #{balance,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=INTEGER},
       signature = #{signature,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

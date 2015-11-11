@@ -1,3 +1,4 @@
+
 package com.hummingbird.paas.services.impl;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class OrderServiceImpl implements OrderService{
 				String bondorderId=AccountGenerationUtil.genNO("BZ00");
 				bondRecord.setOrderId(bondorderId);
 				//这里的数据库字段类型不对
-				bondRecord.setCompanyId(bidder.getId().toString());
+				bondRecord.setCompanyId(bidder.getId());
 				bondRecord.setInsertTime(new Date());
 				bondRecord.setObjectId(body.getObjectId());
 				bondRecord.setCompanyType("BIR");
@@ -191,10 +192,10 @@ public class OrderServiceImpl implements OrderService{
 		String bondorderId=AccountGenerationUtil.genNO("BZ00");
 		bondRecord.setOrderId(bondorderId);
 		//这里的数据库字段类型不对
-		bondRecord.setCompanyId(bidder.getId().toString());
+		bondRecord.setCompanyId(bidder.getId());
 		bondRecord.setInsertTime(new Date());
 		//这里的数据库字段类型不对
-		//bondRecord.setObjectId(oldActOrd.getObjectId());
+		bondRecord.setObjectId(oldActOrd.getObjectId());
 		bondRecord.setCompanyType("BIR");
 		//REV要像john确定是否为退回保证金的意思
 		bondRecord.setType("REV");
@@ -270,7 +271,7 @@ public class OrderServiceImpl implements OrderService{
 			ApplyListReturnVO returnvo=new ApplyListReturnVO();
 			returnvo.setAmount(apply.getAmount().toString());
 			returnvo.setCreateTime(new Date());
-		//	returnvo.setRechargeTime(转账时间);
+			returnvo.setRechargeTime(转账时间);
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
 			returnvo.setVoucherNo(apply.getVoucher());
@@ -287,7 +288,7 @@ public class OrderServiceImpl implements OrderService{
 		WithdrawApply apply=new WithdrawApply();
 		String applyOrderId=AccountGenerationUtil.genNO("TX00");
 		apply.setOrderId(applyOrderId);
-	//	apply.setCommissionFees(手续费);
+//		apply.setCommissionFees(手续费);
 		apply.setInsertTime(new Date());
 		apply.setStatus("CRT");
 		apply.setUserBankcardId(body.getBankId());
@@ -308,8 +309,8 @@ public class OrderServiceImpl implements OrderService{
 			returnvo.setHandingCharge(apply.getCommissionFees().toString());
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
-		//	returnvo.setWithdrawalsNo(转账凭证号);
-			//returnvo.setWithdrawalsTime(转账时间缺少);
+			returnvo.setWithdrawalsNo(转账凭证号);
+			returnvo.setWithdrawalsTime(转账时间缺少);
 			list.add(returnvo);
 		}
 		return null;

@@ -11,14 +11,6 @@ public class BidProjectInfo {
      */
     private String objectId;
 
-    /**
-     * 工程标的估价
-     */
-    private Integer evaluationAmount;
-
-    /**
-     * 工程预计开始时间
-     */
     private String projectExpectStartDate;
 
     /**
@@ -26,19 +18,6 @@ public class BidProjectInfo {
      */
     private String projectExpectEndDate;
 
-    /**
-     * 招标方经办人
-     */
-    private String biddeeCompanyPrincipal;
-
-    /**
-     * 招标方办公电话
-     */
-    private String biddeeCompanyTelephone;
-
-    /**
-     * 工程名称
-     */
     private String projectName;
 
     /**
@@ -105,16 +84,6 @@ public class BidProjectInfo {
      * 工程规模及特征
      */
     private String projectScale;
-
-    /**
-     * 承包方式
-     */
-    private String contractType;
-
-    /**
-     * 采用币种,CNY人民币,USD美元
-     */
-    private String currency;
 
     /**
      * 标准工期,单位是日历天
@@ -211,24 +180,6 @@ public class BidProjectInfo {
         this.objectId = objectId == null ? null : objectId.trim();
     }
 
-    /**
-     * @return 工程标的估价
-     */
-    public Integer getEvaluationAmount() {
-        return evaluationAmount;
-    }
-
-    /**
-     * @param evaluationAmount 
-	 *            工程标的估价
-     */
-    public void setEvaluationAmount(Integer evaluationAmount) {
-        this.evaluationAmount = evaluationAmount;
-    }
-
-    /**
-     * @return 工程预计开始时间
-     */
     public String getProjectExpectStartDate() {
         return projectExpectStartDate;
     }
@@ -256,39 +207,6 @@ public class BidProjectInfo {
         this.projectExpectEndDate = projectExpectEndDate == null ? null : projectExpectEndDate.trim();
     }
 
-    /**
-     * @return 招标方经办人
-     */
-    public String getBiddeeCompanyPrincipal() {
-        return biddeeCompanyPrincipal;
-    }
-
-    /**
-     * @param biddeeCompanyPrincipal 
-	 *            招标方经办人
-     */
-    public void setBiddeeCompanyPrincipal(String biddeeCompanyPrincipal) {
-        this.biddeeCompanyPrincipal = biddeeCompanyPrincipal == null ? null : biddeeCompanyPrincipal.trim();
-    }
-
-    /**
-     * @return 招标方办公电话
-     */
-    public String getBiddeeCompanyTelephone() {
-        return biddeeCompanyTelephone;
-    }
-
-    /**
-     * @param biddeeCompanyTelephone 
-	 *            招标方办公电话
-     */
-    public void setBiddeeCompanyTelephone(String biddeeCompanyTelephone) {
-        this.biddeeCompanyTelephone = biddeeCompanyTelephone == null ? null : biddeeCompanyTelephone.trim();
-    }
-
-    /**
-     * @return 工程名称
-     */
     public String getProjectName() {
         return projectName;
     }
@@ -494,36 +412,6 @@ public class BidProjectInfo {
      */
     public void setProjectScale(String projectScale) {
         this.projectScale = projectScale == null ? null : projectScale.trim();
-    }
-
-    /**
-     * @return 承包方式
-     */
-    public String getContractType() {
-        return contractType;
-    }
-
-    /**
-     * @param contractType 
-	 *            承包方式
-     */
-    public void setContractType(String contractType) {
-        this.contractType = contractType == null ? null : contractType.trim();
-    }
-
-    /**
-     * @return 采用币种,CNY人民币,USD美元
-     */
-    public String getCurrency() {
-        return currency;
-    }
-
-    /**
-     * @param currency 
-	 *            采用币种,CNY人民币,USD美元
-     */
-    public void setCurrency(String currency) {
-        this.currency = currency == null ? null : currency.trim();
     }
 
     /**
@@ -779,11 +667,8 @@ public class BidProjectInfo {
         }
         BidProjectInfo other = (BidProjectInfo) that;
         return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
-            && (this.getEvaluationAmount() == null ? other.getEvaluationAmount() == null : this.getEvaluationAmount().equals(other.getEvaluationAmount()))
             && (this.getProjectExpectStartDate() == null ? other.getProjectExpectStartDate() == null : this.getProjectExpectStartDate().equals(other.getProjectExpectStartDate()))
             && (this.getProjectExpectEndDate() == null ? other.getProjectExpectEndDate() == null : this.getProjectExpectEndDate().equals(other.getProjectExpectEndDate()))
-            && (this.getBiddeeCompanyPrincipal() == null ? other.getBiddeeCompanyPrincipal() == null : this.getBiddeeCompanyPrincipal().equals(other.getBiddeeCompanyPrincipal()))
-            && (this.getBiddeeCompanyTelephone() == null ? other.getBiddeeCompanyTelephone() == null : this.getBiddeeCompanyTelephone().equals(other.getBiddeeCompanyTelephone()))
             && (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName()))
             && (this.getProjectNo() == null ? other.getProjectNo() == null : this.getProjectNo().equals(other.getProjectNo()))
             && (this.getProjectSituation() == null ? other.getProjectSituation() == null : this.getProjectSituation().equals(other.getProjectSituation()))
@@ -798,8 +683,6 @@ public class BidProjectInfo {
             && (this.getProjectSiteProvince() == null ? other.getProjectSiteProvince() == null : this.getProjectSiteProvince().equals(other.getProjectSiteProvince()))
             && (this.getProjectSite() == null ? other.getProjectSite() == null : this.getProjectSite().equals(other.getProjectSite()))
             && (this.getProjectScale() == null ? other.getProjectScale() == null : this.getProjectScale().equals(other.getProjectScale()))
-            && (this.getContractType() == null ? other.getContractType() == null : this.getContractType().equals(other.getContractType()))
-            && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()))
             && (this.getProjectExpectPeriod() == null ? other.getProjectExpectPeriod() == null : this.getProjectExpectPeriod().equals(other.getProjectExpectPeriod()))
             && (this.getLetterOfAcceptanceUrl() == null ? other.getLetterOfAcceptanceUrl() == null : this.getLetterOfAcceptanceUrl().equals(other.getLetterOfAcceptanceUrl()))
             && (this.getConstructionProveType() == null ? other.getConstructionProveType() == null : this.getConstructionProveType().equals(other.getConstructionProveType()))
@@ -823,11 +706,8 @@ public class BidProjectInfo {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
-        result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
         result = prime * result + ((getProjectExpectStartDate() == null) ? 0 : getProjectExpectStartDate().hashCode());
         result = prime * result + ((getProjectExpectEndDate() == null) ? 0 : getProjectExpectEndDate().hashCode());
-        result = prime * result + ((getBiddeeCompanyPrincipal() == null) ? 0 : getBiddeeCompanyPrincipal().hashCode());
-        result = prime * result + ((getBiddeeCompanyTelephone() == null) ? 0 : getBiddeeCompanyTelephone().hashCode());
         result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
         result = prime * result + ((getProjectNo() == null) ? 0 : getProjectNo().hashCode());
         result = prime * result + ((getProjectSituation() == null) ? 0 : getProjectSituation().hashCode());
@@ -842,8 +722,6 @@ public class BidProjectInfo {
         result = prime * result + ((getProjectSiteProvince() == null) ? 0 : getProjectSiteProvince().hashCode());
         result = prime * result + ((getProjectSite() == null) ? 0 : getProjectSite().hashCode());
         result = prime * result + ((getProjectScale() == null) ? 0 : getProjectScale().hashCode());
-        result = prime * result + ((getContractType() == null) ? 0 : getContractType().hashCode());
-        result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
         result = prime * result + ((getProjectExpectPeriod() == null) ? 0 : getProjectExpectPeriod().hashCode());
         result = prime * result + ((getLetterOfAcceptanceUrl() == null) ? 0 : getLetterOfAcceptanceUrl().hashCode());
         result = prime * result + ((getConstructionProveType() == null) ? 0 : getConstructionProveType().hashCode());

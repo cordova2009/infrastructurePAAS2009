@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hummingbird.paas.mapper.ProjectPaymentAccountOrderMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentAccountOrder" >
-    <id column="order_id" property="orderId" jdbcType="INTEGER" />
-    <result column="account_id" property="accountId" jdbcType="INTEGER" />
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="account_id" property="accountId" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="sum" property="sum" jdbcType="INTEGER" />
@@ -32,15 +32,15 @@
     original_table, flow_direction, app_id, app_name, method, app_alias, app_alias2, 
     external_order_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_project_payment_account_order
-    where order_id = #{orderId,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_project_payment_account_order
-    where order_id = #{orderId,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentAccountOrder" >
     insert into t_project_payment_account_order (order_id, account_id, insert_time, 
@@ -51,7 +51,7 @@
       original_table, flow_direction, app_id, 
       app_name, method, app_alias, 
       app_alias2, external_order_time)
-    values (#{orderId,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
+    values (#{orderId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
       #{type,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER}, #{objectId,jdbcType=INTEGER}, 
       #{balance,jdbcType=INTEGER}, #{appOrderId,jdbcType=VARCHAR}, #{externalOrderId,jdbcType=VARCHAR}, 
       #{peerAccountType,jdbcType=VARCHAR}, #{peerAccountId,jdbcType=VARCHAR}, #{peerAccountUnit,jdbcType=VARCHAR}, 
@@ -135,10 +135,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
-        #{orderId,jdbcType=INTEGER},
+        #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="accountId != null" >
-        #{accountId,jdbcType=INTEGER},
+        #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="insertTime != null" >
         #{insertTime,jdbcType=TIMESTAMP},
@@ -209,7 +209,7 @@
     update t_project_payment_account_order
     <set >
       <if test="accountId != null" >
-        account_id = #{accountId,jdbcType=INTEGER},
+        account_id = #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="insertTime != null" >
         insert_time = #{insertTime,jdbcType=TIMESTAMP},
@@ -275,11 +275,11 @@
         external_order_time = #{externalOrderTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where order_id = #{orderId,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentAccountOrder" >
     update t_project_payment_account_order
-    set account_id = #{accountId,jdbcType=INTEGER},
+    set account_id = #{accountId,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       type = #{type,jdbcType=VARCHAR},
       sum = #{sum,jdbcType=INTEGER},
@@ -301,6 +301,6 @@
       app_alias = #{appAlias,jdbcType=VARCHAR},
       app_alias2 = #{appAlias2,jdbcType=VARCHAR},
       external_order_time = #{externalOrderTime,jdbcType=TIMESTAMP}
-    where order_id = #{orderId,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
 </mapper>

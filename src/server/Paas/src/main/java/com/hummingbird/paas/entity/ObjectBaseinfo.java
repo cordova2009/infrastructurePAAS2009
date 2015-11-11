@@ -51,14 +51,6 @@ public class ObjectBaseinfo {
      */
     private String biddingNo;
 
-    /**
-     * 招标项目范围
-     */
-    private String objectScope;
-
-    /**
-     * 标的内容
-     */
     private String objectDescription;
 
     /**
@@ -196,24 +188,6 @@ public class ObjectBaseinfo {
         this.biddingNo = biddingNo == null ? null : biddingNo.trim();
     }
 
-    /**
-     * @return 招标项目范围
-     */
-    public String getObjectScope() {
-        return objectScope;
-    }
-
-    /**
-     * @param objectScope 
-	 *            招标项目范围
-     */
-    public void setObjectScope(String objectScope) {
-        this.objectScope = objectScope == null ? null : objectScope.trim();
-    }
-
-    /**
-     * @return 标的内容
-     */
     public String getObjectDescription() {
         return objectDescription;
     }
@@ -247,7 +221,6 @@ public class ObjectBaseinfo {
             && (this.getBiddingEndTime() == null ? other.getBiddingEndTime() == null : this.getBiddingEndTime().equals(other.getBiddingEndTime()))
             && (this.getBiddingDocumentFetchStartTime() == null ? other.getBiddingDocumentFetchStartTime() == null : this.getBiddingDocumentFetchStartTime().equals(other.getBiddingDocumentFetchStartTime()))
             && (this.getBiddingNo() == null ? other.getBiddingNo() == null : this.getBiddingNo().equals(other.getBiddingNo()))
-            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
             && (this.getObjectDescription() == null ? other.getObjectDescription() == null : this.getObjectDescription().equals(other.getObjectDescription()));
     }
 
@@ -264,7 +237,6 @@ public class ObjectBaseinfo {
         result = prime * result + ((getBiddingEndTime() == null) ? 0 : getBiddingEndTime().hashCode());
         result = prime * result + ((getBiddingDocumentFetchStartTime() == null) ? 0 : getBiddingDocumentFetchStartTime().hashCode());
         result = prime * result + ((getBiddingNo() == null) ? 0 : getBiddingNo().hashCode());
-        result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
         result = prime * result + ((getObjectDescription() == null) ? 0 : getObjectDescription().hashCode());
         return result;
     }

@@ -12,7 +12,7 @@ public class IndustryCertification {
     /**
      * 行业id
      */
-    private Integer industryId;
+    private String industryId;
 
     /**
      * 资质证书id
@@ -37,7 +37,7 @@ public class IndustryCertification {
     /**
      * @return 行业id
      */
-    public Integer getIndustryId() {
+    public String getIndustryId() {
         return industryId;
     }
 
@@ -45,8 +45,8 @@ public class IndustryCertification {
      * @param industryId 
 	 *            行业id
      */
-    public void setIndustryId(Integer industryId) {
-        this.industryId = industryId;
+    public void setIndustryId(String industryId) {
+        this.industryId = industryId == null ? null : industryId.trim();
     }
 
     /**

@@ -25,11 +25,6 @@ public class ObjectCertificationRequirement {
     private String certificationName;
 
     /**
-     * 资质数量
-     */
-    private Integer certificationCount;
-
-    /**
      * @return 主键
      */
     public Integer getId() {
@@ -89,21 +84,6 @@ public class ObjectCertificationRequirement {
         this.certificationName = certificationName == null ? null : certificationName.trim();
     }
 
-    /**
-     * @return 资质数量
-     */
-    public Integer getCertificationCount() {
-        return certificationCount;
-    }
-
-    /**
-     * @param certificationCount 
-	 *            资质数量
-     */
-    public void setCertificationCount(Integer certificationCount) {
-        this.certificationCount = certificationCount;
-    }
-
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -119,8 +99,7 @@ public class ObjectCertificationRequirement {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
-            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
-            && (this.getCertificationCount() == null ? other.getCertificationCount() == null : this.getCertificationCount().equals(other.getCertificationCount()));
+            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()));
     }
 
     @Override
@@ -131,7 +110,6 @@ public class ObjectCertificationRequirement {
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
         result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
-        result = prime * result + ((getCertificationCount() == null) ? 0 : getCertificationCount().hashCode());
         return result;
     }
 }

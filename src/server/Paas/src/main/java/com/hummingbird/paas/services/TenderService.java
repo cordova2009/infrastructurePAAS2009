@@ -7,6 +7,9 @@ import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
+import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
+import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
+import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 
 /**
  * @author
@@ -64,6 +67,50 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public QueryObjectProjectInfoResult queryObjectProjectInfo(String appId, QueryObjectBodyVO body) throws BusinessException;
+	public QueryObjectProjectInfoResult queryObjectProjectInfo(String appId, QueryObjectBodyVO body)
+			throws BusinessException;
 
+	/**
+	 * 保存招标项目工程信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveObjectProjectInfo(String appId,int userId, SaveObjectProjectInfoBodyVO body) throws BusinessException;
+
+	/**
+ * 查询未完成招标项目工程要求接口
+ * @param appId 应用id
+ * @param queryObjectBodyVO 参数
+ * @return 
+ * @throws BusinessException 
+ */
+public SaveObjectProjectInfoBodyVOResult queryProjectRequirementInfo(String appId,QueryObjectBodyVO queryObjectBodyVO) throws BusinessException;
+	
+/**
+* 保存招标项目工程施工证明接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void saveProjectRequirementInfo(String appId,SaveProjectRequirementInfoBodyVO body) throws BusinessException;
+	
+/**
+* 查询未完成招标项目工程施工证明接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void queryObjectConstructionInfo(String appId,QueryObjectBodyVO body) throws BusinessException;
+
+
+
+	
+	
 }

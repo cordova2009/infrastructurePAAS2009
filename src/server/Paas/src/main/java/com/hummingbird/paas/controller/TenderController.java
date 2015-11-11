@@ -26,130 +26,343 @@ import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
+import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
+import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
+import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 
 /**
- * @author 
+ * @author
  * @date 2015-11-08
  * @version 1.0
- *  
+ * 
  */
 @Controller
-@RequestMapping(value="tender",method=RequestMethod.POST)
+@RequestMapping(value = "tender", method = RequestMethod.POST)
 public class TenderController extends BaseController {
-/*	@Autowired(required = true)
+	@Autowired(required = true)
 	protected TenderService tenderService;
 	@Autowired
 	TokenService tokenSrv;
-		
-	*//**
+
+	/**
 	 * 我的招标评标概况接口
+	 * 
 	 * @return
-	 *//*
-    @RequestMapping(value="/queryMyObjectTenderSurvey",method=RequestMethod.POST)
-	@AccessRequered(methodName = "我的招标评标概况接口",isJson=true,codebase=230100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO",appLog=true)
-	public @ResponseBody ResultModel queryMyObjectTenderSurvey(HttpServletRequest request,HttpServletResponse response) {
+	 */
+	@RequestMapping(value = "/queryMyObjectTenderSurvey", method = RequestMethod.POST)
+	@AccessRequered(methodName = "我的招标评标概况接口", isJson = true, codebase = 230100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO", appLog = true)
+	public @ResponseBody ResultModel queryMyObjectTenderSurvey(HttpServletRequest request,
+			HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<MyObjectTenderSurveyBodyVO> transorder = (BaseTransVO<MyObjectTenderSurveyBodyVO>) super.getParameterObject();
-		String messagebase = "我的招标评标概况接口"; 
-	
-		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
-		
+		String messagebase = "我的招标评标概况接口";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
 		try {
-			//业务数据必填等校验
-			
-			//业务数据逻辑校验
-			if(log.isDebugEnabled()){
+			// 业务数据必填等校验
+
+			// 业务数据逻辑校验
+			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey = tenderService.queryMyObjectTenderSurvey(transorder.getApp().getAppId(),transorder.getBody());
+			MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey = tenderService
+					.queryMyObjectTenderSurvey(transorder.getApp().getAppId(), transorder.getBody());
 			rm.put("survey", queryMyObjectTenderSurvey);
-			
-		}catch (Exception e1) {
+
+		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
-			if(qe!=null)
+			if (qe != null)
 				qe.setSuccessed(false);
 		} finally {
-			if(qe!=null)
+			if (qe != null)
 				EventListenerContainer.getInstance().fireEvent(qe);
 		}
 		return rm;
-		
+
 	}
-	
-	*//**
+
+
+	/**
 	 * 查询未完成招标项目基础信息接口
+	 * 
 	 * @return
-	 *//*
-	@RequestMapping(value="/queryObjectBaseInfo",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询未完成招标项目基础信息接口",isJson=true,codebase=241900,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVO",appLog=true)
-	public @ResponseBody ResultModel queryObjectBaseInfo(HttpServletRequest request,HttpServletResponse response) {
+	 */
+	@RequestMapping(value = "/queryObjectBaseInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询未完成招标项目基础信息接口", isJson = true, codebase = 241900, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVO", appLog = true)
+	public @ResponseBody ResultModel queryObjectBaseInfo(HttpServletRequest request, HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
-		String messagebase = "查询未完成招标项目基础信息接口"; 
-	
-		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
-		
+		String messagebase = "查询未完成招标项目基础信息接口";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
 		try {
-			//业务数据必填等校验
-			Token token = tokenSrv.getToken(transorder.getBody().getToken(),transorder.getApp().getAppId());
-			if(token==null){
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-			//业务数据逻辑校验
-			if(log.isDebugEnabled()){
+			// 业务数据逻辑校验
+			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			QueryObjectBaseInfoBodyVOResult queryObjectBaseInfo = tenderService.queryObjectBaseInfo(transorder.getApp().getAppId(),transorder.getBody());
-			if(queryObjectBaseInfo==null){
-				rm.setErr(rm.getBaseerrcode()+TenderException.ERR_TENDER_INFO_EXCEPTION, "没有相关数据");
-			}
-			else{
-				
+			QueryObjectBaseInfoBodyVOResult queryObjectBaseInfo = tenderService
+					.queryObjectBaseInfo(transorder.getApp().getAppId(), transorder.getBody());
+			if (queryObjectBaseInfo == null) {
+				rm.setErr(rm.getBaseerrcode() + TenderException.ERR_TENDER_INFO_EXCEPTION, "没有相关数据");
+			} else {
+
 				rm.put("baseInfo", queryObjectBaseInfo);
 			}
-			//tokenSrv.renewToken(token);
-			
-		}catch (Exception e1) {
+			// tokenSrv.renewToken(token);
+
+		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
-			if(qe!=null)
+			if (qe != null)
 				qe.setSuccessed(false);
 		} finally {
-			if(qe!=null)
+			if (qe != null)
 				EventListenerContainer.getInstance().fireEvent(qe);
 		}
 		return rm;
-		
+
 	}
-	
-	*//**
+
+	/**
 	 * 保存招标项目基础信息接口
+	 * 
 	 * @return
-	 *//*
-	@RequestMapping(value="/saveObjectBaseInfo",method=RequestMethod.POST)
-	@AccessRequered(methodName = "保存招标项目基础信息接口",isJson=true,codebase=242000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveObjectBaseInfo",appLog=true)
-	public @ResponseBody ResultModel saveObjectBaseInfo(HttpServletRequest request,HttpServletResponse response) {
+	 */
+	@RequestMapping(value = "/saveObjectBaseInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "保存招标项目基础信息接口", isJson = true, codebase = 242000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.SaveObjectBaseInfo", appLog = true)
+	public @ResponseBody ResultModel saveObjectBaseInfo(HttpServletRequest request, HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<SaveObjectBaseInfo> transorder = (BaseTransVO<SaveObjectBaseInfo>) super.getParameterObject();
-		String messagebase = "保存招标项目基础信息接口"; 
+		String messagebase = "保存招标项目基础信息接口";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			// 业务数据逻辑校验
+			if (log.isDebugEnabled()) {
+				log.debug("检验通过，获取请求");
+			}
+			String objectId = tenderService.saveObjectBaseInfo(transorder.getApp().getAppId(), transorder.getBody(),
+					token.getUserId());
+			rm.put("objectId", objectId);
+
+		} catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if (qe != null)
+				qe.setSuccessed(false);
+		} finally {
+			if (qe != null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+
+	}
+
+	/**
+	 * 查询未完成招标项目工程信息接口
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/queryObjectProjectInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询未完成招标项目工程信息接口", isJson = true, codebase = 242100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryObjectBodyVO", appLog = true)
+	public @ResponseBody ResultModel queryObjectProjectInfo(HttpServletRequest request, HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询未完成招标项目工程信息接口";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			// 业务数据逻辑校验
+			if (log.isDebugEnabled()) {
+				log.debug("检验通过，获取请求");
+			}
+			QueryObjectProjectInfoResult queryObjectProjectInfo = tenderService
+					.queryObjectProjectInfo(transorder.getApp().getAppId(), transorder.getBody());
+			if (queryObjectProjectInfo == null) {
+				rm.setErr(rm.getBaseerrcode() + TenderException.ERR_TENDER_INFO_EXCEPTION, "没有相关数据");
+			} else {
+
+				rm.put("projectInfo", queryObjectProjectInfo);
+			}
+
+		} catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if (qe != null)
+				qe.setSuccessed(false);
+		} finally {
+			if (qe != null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+
+	}
+
+	/**
+	 * 保存招标项目工程信息接口
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/saveObjectProjectInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "保存招标项目工程信息接口", isJson = true, codebase = 242200, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO", appLog = true)
+	public @ResponseBody ResultModel saveObjectProjectInfo(HttpServletRequest request, HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<SaveObjectProjectInfoBodyVO> transorder = (BaseTransVO<SaveObjectProjectInfoBodyVO>) super.getParameterObject();
+		String messagebase = "保存招标项目工程信息接口";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			// 业务数据逻辑校验
+			if (log.isDebugEnabled()) {
+				log.debug("检验通过，获取请求");
+			}
+			tenderService.saveObjectProjectInfo(transorder.getApp().getAppId(),token.getUserId(), transorder.getBody());
+
+		} catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if (qe != null)
+				qe.setSuccessed(false);
+		} finally {
+			if (qe != null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+
+	}
+
+	/**
+	 * 查询未完成招标项目工程要求接口
+	 * @return
+	 */
+	@RequestMapping(value="/queryProjectRequirementInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询未完成招标项目工程要求接口",isJson=true,codebase=242500,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryProjectRequirementInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询未完成招标项目工程要求接口"; 
 	
 		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
 		
 		try {
 			//业务数据必填等校验
-			Token token = tokenSrv.getToken(transorder.getBody().getToken(),transorder.getApp().getAppId());
-			if(token==null){
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			Integer userId = token.getUserId();
 			//业务数据逻辑校验
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			String objectId = tenderService.saveObjectBaseInfo(transorder.getApp().getAppId(),transorder.getBody(),token.getUserId());
-			rm.put("objectId", objectId);
+			SaveObjectProjectInfoBodyVOResult result = tenderService.queryProjectRequirementInfo(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("requirementInfo", result);
+		
+			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+
+	/**
+	 * 保存招标项目工程施工证明接口
+	 * @return
+	 */
+	@RequestMapping(value="/saveProjectRequirementInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "保存招标项目工程施工证明接口",isJson=true,codebase=242600,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO",appLog=true)
+	public @ResponseBody ResultModel saveProjectRequirementInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<SaveProjectRequirementInfoBodyVO> transorder = (BaseTransVO<SaveProjectRequirementInfoBodyVO>) super.getParameterObject();
+		String messagebase = "保存招标项目工程施工证明接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			tenderService.saveProjectRequirementInfo(transorder.getApp().getAppId(),transorder.getBody());
+		
+			
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+
+	
+	/**
+	 * 查询未完成招标项目工程施工证明接口
+	 * @return
+	 */
+	@RequestMapping(value="/queryObjectConstructionInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询未完成招标项目工程施工证明接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectConstructionInfo",appLog=true)
+	public @ResponseBody ResultModel queryObjectConstructionInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询未完成招标项目工程施工证明接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			tenderService.queryObjectConstructionInfo(transorder.getApp().getAppId(),transorder.getBody());
+		
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -164,50 +377,16 @@ public class TenderController extends BaseController {
 		
 	}
 	
-	*//**
-	 * 查询未完成招标项目工程信息接口
-	 * @return
-	 *//*
-	@RequestMapping(value="/queryObjectProjectInfo",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询未完成招标项目工程信息接口",isJson=true,codebase=242100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBodyVO",appLog=true)
-	public @ResponseBody ResultModel queryObjectProjectInfo(HttpServletRequest request,HttpServletResponse response) {
-		ResultModel rm = super.getResultModel();
-		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
-		String messagebase = "查询未完成招标项目工程信息接口"; 
 	
-		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
-		
-		try {
-			//业务数据必填等校验
-			Token token = tokenSrv.getToken(transorder.getBody().getToken(),transorder.getApp().getAppId());
-			if(token==null){
-				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
-				throw new TokenException("token验证失败,或已过期,请重新登录");
-			}
-			//业务数据逻辑校验
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			QueryObjectProjectInfoResult queryObjectProjectInfo = tenderService.queryObjectProjectInfo(transorder.getApp().getAppId(),transorder.getBody());
-			if(queryObjectProjectInfo==null){
-				rm.setErr(rm.getBaseerrcode()+TenderException.ERR_TENDER_INFO_EXCEPTION, "没有相关数据");
-			}
-			else{
-				
-				rm.put("projectInfo", queryObjectProjectInfo);
-			}
-			
-		}catch (Exception e1) {
-			log.error(String.format(messagebase + "失败"), e1);
-			rm.mergeException(e1);
-			if(qe!=null)
-				qe.setSuccessed(false);
-		} finally {
-			if(qe!=null)
-				EventListenerContainer.getInstance().fireEvent(qe);
-		}
-		return rm;
-		
-	}*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -3,38 +3,38 @@
 <mapper namespace="com.hummingbird.paas.mapper.MembeBiddeeMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.MembeBiddee" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="tenderer_id" property="tendererId" jdbcType="INTEGER" />
+    <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="member_level" property="memberLevel" jdbcType="VARCHAR" />
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, tenderer_id, member_level, start_time, end_time
+    id, biddee_id, member_level, start_time, end_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_hygl_tenderer
+    from t_hygl_biddee
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_hygl_tenderer
+    delete from t_hygl_biddee
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.MembeBiddee" >
-    insert into t_hygl_tenderer (id, tenderer_id, member_level, 
+    insert into t_hygl_biddee (id, biddee_id, member_level, 
       start_time, end_time)
-    values (#{id,jdbcType=INTEGER}, #{tendererId,jdbcType=INTEGER}, #{memberLevel,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{biddeeId,jdbcType=INTEGER}, #{memberLevel,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.MembeBiddee" >
-    insert into t_hygl_tenderer
+    insert into t_hygl_biddee
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="tendererId != null" >
-        tenderer_id,
+      <if test="biddeeId != null" >
+        biddee_id,
       </if>
       <if test="memberLevel != null" >
         member_level,
@@ -50,8 +50,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="tendererId != null" >
-        #{tendererId,jdbcType=INTEGER},
+      <if test="biddeeId != null" >
+        #{biddeeId,jdbcType=INTEGER},
       </if>
       <if test="memberLevel != null" >
         #{memberLevel,jdbcType=VARCHAR},
@@ -65,10 +65,10 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.MembeBiddee" >
-    update t_hygl_tenderer
+    update t_hygl_biddee
     <set >
-      <if test="tendererId != null" >
-        tenderer_id = #{tendererId,jdbcType=INTEGER},
+      <if test="biddeeId != null" >
+        biddee_id = #{biddeeId,jdbcType=INTEGER},
       </if>
       <if test="memberLevel != null" >
         member_level = #{memberLevel,jdbcType=VARCHAR},
@@ -83,8 +83,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.MembeBiddee" >
-    update t_hygl_tenderer
-    set tenderer_id = #{tendererId,jdbcType=INTEGER},
+    update t_hygl_biddee
+    set biddee_id = #{biddeeId,jdbcType=INTEGER},
       member_level = #{memberLevel,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP}

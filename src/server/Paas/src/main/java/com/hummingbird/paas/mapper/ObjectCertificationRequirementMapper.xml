@@ -6,10 +6,9 @@
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
     <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
-    <result column="certification_count" property="certificationCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, object_id, certification_id, certification_name, certification_count
+    id, object_id, certification_id, certification_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +22,9 @@
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectCertificationRequirement" >
     insert into t_ztgl_object_certification_requirement (id, object_id, certification_id, 
-      certification_name, certification_count)
+      certification_name)
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{certificationId,jdbcType=INTEGER}, 
-      #{certificationName,jdbcType=VARCHAR}, #{certificationCount,jdbcType=INTEGER})
+      #{certificationName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectCertificationRequirement" >
     insert into t_ztgl_object_certification_requirement
@@ -42,9 +41,6 @@
       <if test="certificationName != null" >
         certification_name,
       </if>
-      <if test="certificationCount != null" >
-        certification_count,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -58,9 +54,6 @@
       </if>
       <if test="certificationName != null" >
         #{certificationName,jdbcType=VARCHAR},
-      </if>
-      <if test="certificationCount != null" >
-        #{certificationCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -76,9 +69,6 @@
       <if test="certificationName != null" >
         certification_name = #{certificationName,jdbcType=VARCHAR},
       </if>
-      <if test="certificationCount != null" >
-        certification_count = #{certificationCount,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -86,8 +76,7 @@
     update t_ztgl_object_certification_requirement
     set object_id = #{objectId,jdbcType=VARCHAR},
       certification_id = #{certificationId,jdbcType=INTEGER},
-      certification_name = #{certificationName,jdbcType=VARCHAR},
-      certification_count = #{certificationCount,jdbcType=INTEGER}
+      certification_name = #{certificationName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

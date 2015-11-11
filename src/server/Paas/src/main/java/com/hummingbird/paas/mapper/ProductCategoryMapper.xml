@@ -15,21 +15,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_product_category
+    from t_ddgl_product_category
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_product_category
+    delete from t_ddgl_product_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProductCategory" >
-    insert into t_product_category (id, title, name, 
+    insert into t_ddgl_product_category (id, title, name, 
       pid, status, sort)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{pid,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProductCategory" >
-    insert into t_product_category
+    insert into t_ddgl_product_category
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -72,7 +72,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProductCategory" >
-    update t_product_category
+    update t_ddgl_product_category
     <set >
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
@@ -93,7 +93,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProductCategory" >
-    update t_product_category
+    update t_ddgl_product_category
     set title = #{title,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       pid = #{pid,jdbcType=INTEGER},

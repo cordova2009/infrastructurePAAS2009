@@ -39,7 +39,7 @@ public class ObjectBondRecord {
     /**
      * 认证提出方id,记录承包商id或发包方id
      */
-    private String companyId;
+    private Integer companyId;
 
     /**
      * 保证金类型,BID投标保证金, WIN中标后交纳的保证金
@@ -139,7 +139,7 @@ public class ObjectBondRecord {
     /**
      * @return 认证提出方id,记录承包商id或发包方id
      */
-    public String getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
@@ -147,8 +147,8 @@ public class ObjectBondRecord {
      * @param companyId 
 	 *            认证提出方id,记录承包商id或发包方id
      */
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId == null ? null : companyId.trim();
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     /**

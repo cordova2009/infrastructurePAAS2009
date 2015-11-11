@@ -16,15 +16,15 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
-/*import com.hummingbird.paas.services.MemberService;
+import com.hummingbird.paas.services.MemberService;
 import com.hummingbird.paas.vo.MemberQueryMemberInfoVO;
 import com.hummingbird.paas.vo.QueryMemberInfoResultVO;
-import com.hummingbird.paas.vo.QueryMemberProductResultVO;*/
+import com.hummingbird.paas.vo.QueryMemberProductResultVO;
 @Controller
 @RequestMapping("/member")
 public class MemberController extends BaseController{
 
-/*
+
     @Autowired
     private MemberService mservice;
 	
@@ -97,7 +97,7 @@ public class MemberController extends BaseController{
 			log.debug("查询可购买会员成功");
 		}
 		return rm;
-    }	*/
+    }	
   
 
 }

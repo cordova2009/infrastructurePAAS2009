@@ -47,7 +47,7 @@ import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 @Controller
-@RequestMapping("/userCenter")
+@RequestMapping("/userCenter1")
 public class CapitalManageController extends BaseController{
 	@Autowired 
 	UserService userSer;

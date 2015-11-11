@@ -27,10 +27,33 @@ import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.RegisterBodyVO;
 @Service
-@Service
 public class UserServiceImpl implements UserService{
 
-	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
+	@Override
+	public User queryUserByMobile(String mobileNum) throws MaAccountException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User queryUserByToken(String token) throws MaAccountException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveUser(RegisterBodyVO body, String appId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Bidder queryBidderByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
 	
 	@Autowired
@@ -126,6 +149,6 @@ public class UserServiceImpl implements UserService{
 		return bidderDao.selectByUserId(userId);
 	}
 	
-	
+	*/
 
 }

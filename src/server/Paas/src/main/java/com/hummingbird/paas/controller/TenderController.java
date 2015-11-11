@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
-import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
@@ -23,9 +22,9 @@ import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
-import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 
 /**
@@ -37,16 +36,16 @@ import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 @Controller
 @RequestMapping(value="tender",method=RequestMethod.POST)
 public class TenderController extends BaseController {
-	@Autowired(required = true)
+/*	@Autowired(required = true)
 	protected TenderService tenderService;
 	@Autowired
 	TokenService tokenSrv;
 		
-	/**
+	*//**
 	 * 我的招标评标概况接口
 	 * @return
-	 */
-	@RequestMapping(value="/queryMyObjectTenderSurvey",method=RequestMethod.POST)
+	 *//*
+    @RequestMapping(value="/queryMyObjectTenderSurvey",method=RequestMethod.POST)
 	@AccessRequered(methodName = "我的招标评标概况接口",isJson=true,codebase=230100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryMyObjectTenderSurvey(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
@@ -78,10 +77,10 @@ public class TenderController extends BaseController {
 		
 	}
 	
-	/**
+	*//**
 	 * 查询未完成招标项目基础信息接口
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="/queryObjectBaseInfo",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询未完成招标项目基础信息接口",isJson=true,codebase=241900,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryObjectBaseInfo(HttpServletRequest request,HttpServletResponse response) {
@@ -125,10 +124,10 @@ public class TenderController extends BaseController {
 		
 	}
 	
-	/**
+	*//**
 	 * 保存招标项目基础信息接口
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="/saveObjectBaseInfo",method=RequestMethod.POST)
 	@AccessRequered(methodName = "保存招标项目基础信息接口",isJson=true,codebase=242000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveObjectBaseInfo",appLog=true)
 	public @ResponseBody ResultModel saveObjectBaseInfo(HttpServletRequest request,HttpServletResponse response) {
@@ -165,10 +164,10 @@ public class TenderController extends BaseController {
 		
 	}
 	
-	/**
+	*//**
 	 * 查询未完成招标项目工程信息接口
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="/queryObjectProjectInfo",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询未完成招标项目工程信息接口",isJson=true,codebase=242100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryObjectProjectInfo(HttpServletRequest request,HttpServletResponse response) {
@@ -209,6 +208,6 @@ public class TenderController extends BaseController {
 		}
 		return rm;
 		
-	}
+	}*/
 	
 }

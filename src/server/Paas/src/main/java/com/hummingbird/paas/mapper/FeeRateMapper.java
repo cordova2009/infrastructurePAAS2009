@@ -1,8 +1,8 @@
 package com.hummingbird.paas.mapper;
 
-import com.hummingbird.paas.entity.BidderCertification;
+import com.hummingbird.paas.entity.FeeRate;
 
-public interface BidderCertificationMapper {
+public interface FeeRateMapper {
     /**
      * 根据主键删除记录
      */
@@ -11,25 +11,25 @@ public interface BidderCertificationMapper {
     /**
      * 保存记录,不管记录里面的属性是否为空
      */
-    int insert(BidderCertification record);
+    int insert(FeeRate record);
 
     /**
      * 保存属性不为空的记录
      */
-    int insertSelective(BidderCertification record);
+    int insertSelective(FeeRate record);
 
     /**
      * 根据主键查询记录
      */
-    BidderCertification selectByPrimaryKey(Integer id);
+    FeeRate selectByPrimaryKey(Integer id);
 
     /**
      * 根据主键更新属性不为空的记录
      */
-    int updateByPrimaryKeySelective(BidderCertification record);
+    int updateByPrimaryKeySelective(FeeRate record);
 
     /**
      * 根据主键更新记录
      */
-    int updateByPrimaryKey(BidderCertification record);
+    int updateByPrimaryKey(FeeRate record);
 }

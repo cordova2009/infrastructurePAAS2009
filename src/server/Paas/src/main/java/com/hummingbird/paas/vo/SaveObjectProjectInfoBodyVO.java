@@ -7,7 +7,7 @@ import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.PainttextAble;
 
 /**
- * 保存招标项目工程信息接口 在body VO
+ * 查询未完成招标项目工程要求接口 在body VO
  */
 public class SaveObjectProjectInfoBodyVO 
 implements PainttextAble {

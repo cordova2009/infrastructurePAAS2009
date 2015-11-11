@@ -10,10 +10,14 @@
     <result column="bank" property="bank" jdbcType="VARCHAR" />
     <result column="voucher" property="voucher" jdbcType="VARCHAR" />
     <result column="voucher_pic" property="voucherPic" jdbcType="VARCHAR" />
+    <result column="transport_time" property="transportTime" jdbcType="TIMESTAMP" />
     <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    order_id, amount, insert_time, user_id, status, bank, voucher, voucher_pic, bank_id
+    order_id, amount, insert_time, user_id, status, bank, voucher, voucher_pic, transport_time, 
+    bank_id, update_time, updator
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,11 +32,13 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.RechargeApply" >
     insert into t_ddgl_recharge_apply (order_id, amount, insert_time, 
       user_id, status, bank, 
-      voucher, voucher_pic, bank_id
+      voucher, voucher_pic, transport_time, 
+      bank_id, update_time, updator
       )
     values (#{orderId,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
       #{userId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, 
-      #{voucher,jdbcType=VARCHAR}, #{voucherPic,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}
+      #{voucher,jdbcType=VARCHAR}, #{voucherPic,jdbcType=VARCHAR}, #{transportTime,jdbcType=TIMESTAMP}, 
+      #{bankId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.RechargeApply" >
@@ -62,8 +68,17 @@
       <if test="voucherPic != null" >
         voucher_pic,
       </if>
+      <if test="transportTime != null" >
+        transport_time,
+      </if>
       <if test="bankId != null" >
         bank_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updator != null" >
+        updator,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -91,8 +106,17 @@
       <if test="voucherPic != null" >
         #{voucherPic,jdbcType=VARCHAR},
       </if>
+      <if test="transportTime != null" >
+        #{transportTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="bankId != null" >
         #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -120,8 +144,17 @@
       <if test="voucherPic != null" >
         voucher_pic = #{voucherPic,jdbcType=VARCHAR},
       </if>
+      <if test="transportTime != null" >
+        transport_time = #{transportTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="bankId != null" >
         bank_id = #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        updator = #{updator,jdbcType=VARCHAR},
       </if>
     </set>
     where order_id = #{orderId,jdbcType=VARCHAR}
@@ -135,13 +168,10 @@
       bank = #{bank,jdbcType=VARCHAR},
       voucher = #{voucher,jdbcType=VARCHAR},
       voucher_pic = #{voucherPic,jdbcType=VARCHAR},
-      bank_id = #{bankId,jdbcType=VARCHAR}
+      transport_time = #{transportTime,jdbcType=TIMESTAMP},
+      bank_id = #{bankId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
-  <select id="queryApplyByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_ddgl_recharge_apply
-    where user_id = #{userId,jdbcType=INTEGER}
-  </select>
 </mapper>

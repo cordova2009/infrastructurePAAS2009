@@ -27,6 +27,8 @@ import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
+import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
+import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 
 /**
  * @author
@@ -263,7 +265,7 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryProjectRequirementInfo",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询未完成招标项目工程要求接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO",appLog=true)
+	@AccessRequered(methodName = "查询未完成招标项目工程要求接口",isJson=true,codebase=242500,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryProjectRequirementInfo(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
@@ -283,9 +285,10 @@ public class TenderController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			tenderService.queryProjectRequirementInfo(transorder.getApp().getAppId(),transorder.getBody());
+			SaveObjectProjectInfoBodyVOResult result = tenderService.queryProjectRequirementInfo(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("requirementInfo", result);
 		
-//			tokenSrv.renewToken(token);
+			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -298,5 +301,90 @@ public class TenderController extends BaseController {
 		return rm;
 		
 	}
+	
+	/**
+	 * 保存招标项目工程施工证明接口
+	 * @return
+	 */
+	@RequestMapping(value="/saveProjectRequirementInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "保存招标项目工程施工证明接口",isJson=true,codebase=242600,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO",appLog=true)
+	public @ResponseBody ResultModel saveProjectRequirementInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<SaveProjectRequirementInfoBodyVO> transorder = (BaseTransVO<SaveProjectRequirementInfoBodyVO>) super.getParameterObject();
+		String messagebase = "保存招标项目工程施工证明接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			tenderService.saveProjectRequirementInfo(transorder.getApp().getAppId(),transorder.getBody());
+		
+			
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	
+	/**
+	 * 查询未完成招标项目工程施工证明接口
+	 * @return
+	 */
+	@RequestMapping(value="/queryObjectConstructionInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询未完成招标项目工程施工证明接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectConstructionInfo",appLog=true)
+	public @ResponseBody ResultModel queryObjectConstructionInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询未完成招标项目工程施工证明接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			tenderService.queryObjectConstructionInfo(transorder.getApp().getAppId(),transorder.getBody());
+		
+			
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

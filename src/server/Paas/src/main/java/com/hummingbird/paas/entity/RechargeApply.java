@@ -47,9 +47,24 @@ public class RechargeApply {
     private String voucherPic;
 
     /**
+     * 转帐时间
+     */
+    private Date transportTime;
+
+    /**
      * 银行id
      */
     private String bankId;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
+     * 处理人(后台方)
+     */
+    private String updator;
 
     /**
      * @return 订单id，RC00日期时间随机数
@@ -172,6 +187,21 @@ public class RechargeApply {
     }
 
     /**
+     * @return 转帐时间
+     */
+    public Date getTransportTime() {
+        return transportTime;
+    }
+
+    /**
+     * @param transportTime 
+	 *            转帐时间
+     */
+    public void setTransportTime(Date transportTime) {
+        this.transportTime = transportTime;
+    }
+
+    /**
      * @return 银行id
      */
     public String getBankId() {
@@ -184,6 +214,36 @@ public class RechargeApply {
      */
     public void setBankId(String bankId) {
         this.bankId = bankId == null ? null : bankId.trim();
+    }
+
+    /**
+     * @return 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * @param updateTime 
+	 *            更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
+     * @return 处理人(后台方)
+     */
+    public String getUpdator() {
+        return updator;
+    }
+
+    /**
+     * @param updator 
+	 *            处理人(后台方)
+     */
+    public void setUpdator(String updator) {
+        this.updator = updator == null ? null : updator.trim();
     }
 
     @Override
@@ -206,7 +266,10 @@ public class RechargeApply {
             && (this.getBank() == null ? other.getBank() == null : this.getBank().equals(other.getBank()))
             && (this.getVoucher() == null ? other.getVoucher() == null : this.getVoucher().equals(other.getVoucher()))
             && (this.getVoucherPic() == null ? other.getVoucherPic() == null : this.getVoucherPic().equals(other.getVoucherPic()))
-            && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()));
+            && (this.getTransportTime() == null ? other.getTransportTime() == null : this.getTransportTime().equals(other.getTransportTime()))
+            && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()));
     }
 
     @Override
@@ -221,7 +284,10 @@ public class RechargeApply {
         result = prime * result + ((getBank() == null) ? 0 : getBank().hashCode());
         result = prime * result + ((getVoucher() == null) ? 0 : getVoucher().hashCode());
         result = prime * result + ((getVoucherPic() == null) ? 0 : getVoucherPic().hashCode());
+        result = prime * result + ((getTransportTime() == null) ? 0 : getTransportTime().hashCode());
         result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getUpdator() == null) ? 0 : getUpdator().hashCode());
         return result;
     }
 }

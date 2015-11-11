@@ -42,6 +42,11 @@ public class BiddeeCertification {
     private String applicableRegion;
 
     /**
+     * 编号
+     */
+    private String certificationNo;
+
+    /**
      * @return 主键
      */
     public Integer getId() {
@@ -146,6 +151,21 @@ public class BiddeeCertification {
         this.applicableRegion = applicableRegion == null ? null : applicableRegion.trim();
     }
 
+    /**
+     * @return 编号
+     */
+    public String getCertificationNo() {
+        return certificationNo;
+    }
+
+    /**
+     * @param certificationNo 
+	 *            编号
+     */
+    public void setCertificationNo(String certificationNo) {
+        this.certificationNo = certificationNo == null ? null : certificationNo.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -164,7 +184,8 @@ public class BiddeeCertification {
             && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
             && (this.getCertificationContent() == null ? other.getCertificationContent() == null : this.getCertificationContent().equals(other.getCertificationContent()))
             && (this.getExpireTime() == null ? other.getExpireTime() == null : this.getExpireTime().equals(other.getExpireTime()))
-            && (this.getApplicableRegion() == null ? other.getApplicableRegion() == null : this.getApplicableRegion().equals(other.getApplicableRegion()));
+            && (this.getApplicableRegion() == null ? other.getApplicableRegion() == null : this.getApplicableRegion().equals(other.getApplicableRegion()))
+            && (this.getCertificationNo() == null ? other.getCertificationNo() == null : this.getCertificationNo().equals(other.getCertificationNo()));
     }
 
     @Override
@@ -178,6 +199,7 @@ public class BiddeeCertification {
         result = prime * result + ((getCertificationContent() == null) ? 0 : getCertificationContent().hashCode());
         result = prime * result + ((getExpireTime() == null) ? 0 : getExpireTime().hashCode());
         result = prime * result + ((getApplicableRegion() == null) ? 0 : getApplicableRegion().hashCode());
+        result = prime * result + ((getCertificationNo() == null) ? 0 : getCertificationNo().hashCode());
         return result;
     }
 }

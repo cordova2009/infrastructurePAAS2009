@@ -73,7 +73,8 @@ public interface TokenService {
 	 * 更新令牌的有效期
 	 * @param token
 	 */
-//	public void renewToken(Token token);
+	public void postponeToken(Token token);
+
 	
 	
 }

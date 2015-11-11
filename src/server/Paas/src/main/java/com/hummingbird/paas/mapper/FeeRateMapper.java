@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.FeeRate;
 
 public interface FeeRateMapper {
@@ -32,4 +34,9 @@ public interface FeeRateMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(FeeRate record);
+    
+    /**
+     * 根据类型查询手续费
+     */
+    List<FeeRate> selectFeeRate(String type);
 }

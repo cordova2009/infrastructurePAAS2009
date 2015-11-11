@@ -16,11 +16,13 @@ import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserAuth;
+import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.UserPassword;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
 import com.hummingbird.paas.mapper.UserAuthMapper;
+import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.mapper.UserPasswordMapper;
 import com.hummingbird.paas.services.TokenService;
@@ -47,7 +49,13 @@ public class UserServiceImpl implements UserService{
 	private TokenService tokensrv;
 	@Autowired
 	BidderMapper bidderDao;
-	
+	@Autowired
+	private UserBankcardMapper bankcardDao;
+	@Override
+	public List<UserBankcard> queryBankListByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return bankcardDao.queryBankListByUserId(userId);
+	}
 	@Override
 	public User queryUserByMobile(String mobileNum) throws MaAccountException{
 		List<User> users=userDao.queryUserByMobile(mobileNum);
@@ -158,6 +166,14 @@ public class UserServiceImpl implements UserService{
 	public UserAuth queryUserAuth(Integer userId) {
 		// TODO Auto-generated method stub
 		return userAuthDao.selectByPrimaryKey(userId);
+	}
+	@Override
+	public void updateUser(User user) throws MaAccountException{
+		// TODO Auto-generated method stub
+		int updateUser=userDao.updateByPrimaryKeySelective(user);
+		if(updateUser!=1){
+			throw new MaAccountException(211101,"用户更新失败");
+		}
 	}
 	
 	

@@ -101,8 +101,7 @@ public class OrderServiceImpl implements OrderService{
 				ObjectBondRecord bondRecord=new ObjectBondRecord();
 				String bondorderId=AccountGenerationUtil.genNO("BZ00");
 				bondRecord.setOrderId(bondorderId);
-				//这里的数据库字段类型不对
-				bondRecord.setCompanyId(bidder.getId().toString());
+				bondRecord.setCompanyId(bidder.getId());
 				bondRecord.setInsertTime(new Date());
 				bondRecord.setObjectId(body.getObjectId());
 				bondRecord.setCompanyType("BIR");
@@ -190,8 +189,7 @@ public class OrderServiceImpl implements OrderService{
 		ObjectBondRecord bondRecord=new ObjectBondRecord();
 		String bondorderId=AccountGenerationUtil.genNO("BZ00");
 		bondRecord.setOrderId(bondorderId);
-		//这里的数据库字段类型不对
-		bondRecord.setCompanyId(bidder.getId().toString());
+		bondRecord.setCompanyId(bidder.getId());
 		bondRecord.setInsertTime(new Date());
 		//这里的数据库字段类型不对
 		bondRecord.setObjectId(oldActOrd.getObjectId());

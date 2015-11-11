@@ -12,12 +12,7 @@ import com.hummingbird.paas.entity.UserBankcard;
 
 public interface CapitalManageService {
 
-	/**
-	 * 根据用户Id查询银行卡列表
-	 * @param userId
-	 * @return
-	 */
-	public List<UserBankcard> queryBankListByUserId(Integer userId);
+	
 	
 	/**
 	 * 根据用户Id查询资金账户信息

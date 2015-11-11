@@ -25,19 +25,14 @@ import com.hummingbird.paas.services.CapitalManageService;
 public class CapitalManageServiceImpl implements CapitalManageService{
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
-	@Autowired
-	private UserBankcardMapper bankcardDao;
+	
 	@Autowired
 	private ProjectAccountMapper ProActDao;
 	@Autowired
 	ProjectAccountOrderMapper proActOrdDo;
 	@Autowired
 	UserPasswordMapper passwordDao;
-	@Override
-	public List<UserBankcard> queryBankListByUserId(Integer userId) {
-		// TODO Auto-generated method stub
-		return bankcardDao.queryBankListByUserId(userId);
-	}
+	
 	@Override
 	public ProjectAccount queryAccountInfo(Integer userId) {
 		

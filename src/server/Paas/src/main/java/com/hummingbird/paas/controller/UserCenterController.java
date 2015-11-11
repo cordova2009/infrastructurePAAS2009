@@ -1,6 +1,8 @@
 package com.hummingbird.paas.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserAuth;
+import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.UserPassword;
 import com.hummingbird.paas.entity.UserSmscode;
 import com.hummingbird.paas.exception.MaAccountException;
@@ -31,6 +34,7 @@ import com.hummingbird.paas.mapper.UserSmscodeMapper;
 import com.hummingbird.paas.services.GeneralService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
+import com.hummingbird.paas.vo.BankInfoReturnDetailVO;
 import com.hummingbird.paas.vo.LoginReturnVO;
 import com.hummingbird.paas.vo.LoginVO;
 import com.hummingbird.paas.vo.MobileVO;
@@ -40,6 +44,7 @@ import com.hummingbird.paas.vo.TokenBodyVO;
 import com.hummingbird.paas.vo.TokenQueryVO;
 import com.hummingbird.paas.vo.TokenVO;
 import com.hummingbird.paas.vo.UpdateHeadImageBodyVO;
+import com.hummingbird.paas.vo.UpdateUserInfoBodyVO;
 import com.hummingbird.paas.vo.UserBaseInfoVO;
 
 @Controller
@@ -270,7 +275,66 @@ public class UserCenterController extends BaseController{
 		
 		return rm;
 	}
-	
+	@RequestMapping(value = "/getMyBankInfo", method = RequestMethod.POST)
+	public @ResponseBody Object getMyBankInfo(HttpServletRequest request) {
+		
+		TokenVO transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "查询我的银行账号信息";
+		rm.setBaseErrorCode(211100);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			PropertiesUtil pu = new PropertiesUtil();
+			TokenBodyVO body=transorder.getBody();
+			
+			
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+			User user=userSer.queryUserByToken(body.getToken());
+			List<BankInfoReturnDetailVO> Beelist=new ArrayList<BankInfoReturnDetailVO>();
+			List<BankInfoReturnDetailVO> Berlist=new ArrayList<BankInfoReturnDetailVO>();
+			if(user!=null){
+				List<UserBankcard> bankcards=userSer.queryBankListByUserId(user.getId());
+				for(UserBankcard ba:bankcards){
+					BankInfoReturnDetailVO bank=new BankInfoReturnDetailVO();
+					bank.setBankId(ba.getId());
+					bank.setAccountName(ba.getAccountName());
+					bank.setBank(ba.getBankName());
+					bank.setAccountId(ba.getAccountNo());
+					if(StringUtils.equals(ba.getUser(),"BEE")){
+						Beelist.add(bank);
+					}else if(StringUtils.equals(ba.getUser(),"BER")){
+						Berlist.add(bank);
+					}
+					
+				}
+			}
+			rm.put("BeebankInfo", Beelist);
+			rm.put("BerbankInfo", Berlist);
+			
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
 	@RequestMapping(value = "/getUserStatus", method = RequestMethod.POST)
 	public @ResponseBody Object getUserStatus(HttpServletRequest request) {
 		
@@ -354,15 +418,66 @@ public class UserCenterController extends BaseController{
 			
 
 			User user=userSer.queryUserByToken(body.getToken());
-			//未完成
+			user.setHeadImage(body.getHeadImageUrl());
+			userSer.updateUser(user);
 			
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
 			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}		
+		return rm;
+	}
+	
+	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
+	public @ResponseBody Object updateUserInfo(HttpServletRequest request) {
+		
+		final BaseTransVO<UpdateUserInfoBodyVO> transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class,UpdateUserInfoBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
 		}
 		
-		
+		String messagebase = "修改帐户基础信息";
+		rm.setBaseErrorCode(211300);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			//备注字段必填
+			PropertiesUtil pu = new PropertiesUtil();
+			UpdateUserInfoBodyVO body=transorder.getBody();
+			
+			
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+
+			User user=userSer.queryUserByToken(body.getToken());
+			if(StringUtils.isBlank(body.getAddress())){
+				user.setAddress(body.getAddress());
+			}
+			if(StringUtils.isBlank(body.getNickname())){
+				user.setNickName(body.getNickname());
+			}
+			if(StringUtils.isBlank(body.getEmail())){
+				user.setEmail(body.getEmail());
+			}
+			userSer.updateUser(user);
+			
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}		
 		return rm;
 	}
 	

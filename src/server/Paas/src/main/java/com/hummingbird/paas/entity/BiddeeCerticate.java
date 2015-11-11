@@ -112,12 +112,12 @@ public class BiddeeCerticate {
     private String applyReason;
 
     /**
-     * 状态,OK#正常,DIS禁用
+     * 状态,CRT待认证,OK#正常,DIS禁用
      */
     private String status;
 
     /**
-     * 板块分类,来自行业版块表
+     * 工程类别,来自行业版块表
      */
     private String industryId;
 
@@ -512,7 +512,7 @@ public class BiddeeCerticate {
     }
 
     /**
-     * @return 状态,OK#正常,DIS禁用
+     * @return 状态,CRT待认证,OK#正常,DIS禁用
      */
     public String getStatus() {
         return status;
@@ -520,14 +520,14 @@ public class BiddeeCerticate {
 
     /**
      * @param status 
-	 *            状态,OK#正常,DIS禁用
+	 *            状态,CRT待认证,OK#正常,DIS禁用
      */
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
 
     /**
-     * @return 板块分类,来自行业版块表
+     * @return 工程类别,来自行业版块表
      */
     public String getIndustryId() {
         return industryId;
@@ -535,7 +535,7 @@ public class BiddeeCerticate {
 
     /**
      * @param industryId 
-	 *            板块分类,来自行业版块表
+	 *            工程类别,来自行业版块表
      */
     public void setIndustryId(String industryId) {
         this.industryId = industryId == null ? null : industryId.trim();

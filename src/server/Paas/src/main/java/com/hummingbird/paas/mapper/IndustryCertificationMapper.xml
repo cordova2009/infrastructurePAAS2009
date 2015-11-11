@@ -3,7 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.IndustryCertificationMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.IndustryCertification" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="industry_id" property="industryId" jdbcType="INTEGER" />
+    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
     <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -22,7 +22,7 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.IndustryCertification" >
     insert into t_base_industry_certification (id, industry_id, certification_id
       )
-    values (#{id,jdbcType=INTEGER}, #{industryId,jdbcType=INTEGER}, #{certificationId,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{industryId,jdbcType=VARCHAR}, #{certificationId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.IndustryCertification" >
@@ -43,7 +43,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="industryId != null" >
-        #{industryId,jdbcType=INTEGER},
+        #{industryId,jdbcType=VARCHAR},
       </if>
       <if test="certificationId != null" >
         #{certificationId,jdbcType=INTEGER},
@@ -54,7 +54,7 @@
     update t_base_industry_certification
     <set >
       <if test="industryId != null" >
-        industry_id = #{industryId,jdbcType=INTEGER},
+        industry_id = #{industryId,jdbcType=VARCHAR},
       </if>
       <if test="certificationId != null" >
         certification_id = #{certificationId,jdbcType=INTEGER},
@@ -64,7 +64,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.IndustryCertification" >
     update t_base_industry_certification
-    set industry_id = #{industryId,jdbcType=INTEGER},
+    set industry_id = #{industryId,jdbcType=VARCHAR},
       certification_id = #{certificationId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

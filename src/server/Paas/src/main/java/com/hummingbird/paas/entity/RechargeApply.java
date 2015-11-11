@@ -12,7 +12,7 @@ public class RechargeApply {
     private String orderId;
 
     /**
-     * 充值金额
+     * 充值金额,单位为分
      */
     private Integer amount;
 
@@ -67,7 +67,7 @@ public class RechargeApply {
     }
 
     /**
-     * @return 充值金额
+     * @return 充值金额,单位为分
      */
     public Integer getAmount() {
         return amount;
@@ -75,7 +75,7 @@ public class RechargeApply {
 
     /**
      * @param amount 
-	 *            充值金额
+	 *            充值金额,单位为分
      */
     public void setAmount(Integer amount) {
         this.amount = amount;

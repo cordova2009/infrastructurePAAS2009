@@ -10,7 +10,7 @@ public class UserBankcard {
     private Integer id;
 
     /**
-     * 认证招投标类型，TER发包商，BIR承包商
+     * 认证招投标类型，BEE招标人，BER投标人
      */
     private String user;
 
@@ -65,7 +65,7 @@ public class UserBankcard {
     }
 
     /**
-     * @return 认证招投标类型，TER发包商，BIR承包商
+     * @return 认证招投标类型，BEE招标人，BER投标人
      */
     public String getUser() {
         return user;
@@ -73,7 +73,7 @@ public class UserBankcard {
 
     /**
      * @param user 
-	 *            认证招投标类型，TER发包商，BIR承包商
+	 *            认证招投标类型，BEE招标人，BER投标人
      */
     public void setUser(String user) {
         this.user = user == null ? null : user.trim();

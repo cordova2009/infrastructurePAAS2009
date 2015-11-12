@@ -822,17 +822,17 @@ objectId|是|招标项目内部编号
 constructionProveType|是|施工证明类型
 landUseCertificateNo|否|国有土地使用证编号
 landUseCertificateEndDate|否|国有土地使用证有效期
-landUseCertificatePicUrl|否|国有土地使用证上传地址
+landUseCertificateUrl|否|国有土地使用证上传地址
 constructionLandUsePermitNo|否|建设用地规划许可证编号
 constructionLandUsePermitEndDate|否|建设用地规划许可证有效期
-constructionLandUsePermitPicUrl|否|建设用地规划许可证上传地址
+constructionLandUsePermitUrl|否|建设用地规划许可证上传地址
 buildingPermitNo|否|建设工程规划许可证编号
 buildingPermitEndDate|否|建设工程规划许可证有效期
 buildingPermitPicUrl|否|建设工程规划许可证上传地址
-letterOfAcceptancePicUrl|否|中标通知书上传地址
+letterOfAcceptanceUrl|否|中标通知书上传地址
 buildingConstructPermitNo|否|建设工程施工许可证编号
 buildingConstructPermitEndDate|否|建设工程施工许可证有效期
-buildingConstructPermitPicUrl|否|建设工程施工许可证上传地址
+buildingConstructPermitUrl|否|建设工程施工许可证上传地址
 
 
 2）返回说明
@@ -989,7 +989,10 @@ POST数据格式：JSON
             "timeStamp":"TIMESTAMP", 
             "nonce":"NONCE",
             "signature":"SIGNATURE"
-        }
+        },
+	"body":{
+		
+	}
     }
 
 参数|是否必须|说明
@@ -1068,7 +1071,6 @@ timestamp|是|时间戳
 nonce|是|随机数
 signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
 token|是|用户令牌
-token|是|用户令牌
 objectId|是|招标项目内部编号
 
 
@@ -1081,10 +1083,12 @@ objectId|是|招标项目内部编号
     	"certificationInfo":{
     		"bidderCertification":[{
                 "certificateId":1,
-                "certificateName":"一级建造师"
+                "certificateName":"一级建造师",
+		"industryId":1
             },{
                 "certificateId":2,
-                "certificateName":"二级建造师"
+                "certificateName":"二级建造师",
+		"industryId":2
             }],
     		"needPmCertification":"YES",
             "needConstructorCertification":"YES",

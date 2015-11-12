@@ -1,5 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 
 public interface ObjectCertificationRequirementMapper {
@@ -32,4 +36,21 @@ public interface ObjectCertificationRequirementMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ObjectCertificationRequirement record);
+
+	/**
+	 * @param objectId
+	 * @param biddeeId
+	 * @param statusCreate
+	 * @return
+	 */
+	List<ObjectCertificationRequirement> selectCertificationInfos(@Param("objectId")String objectId,@Param("biddeeId") Integer biddeeId,
+			@Param("status")String statusCreate);
+	
+	/**
+	 * 删除标的下的资质证书要求
+	 * @param objectId
+	 * @return
+	 */
+	int deleteByObjectId(String objectId);
+	
 }

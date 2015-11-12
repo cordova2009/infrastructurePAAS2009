@@ -116,7 +116,7 @@ public class UserSecurityController extends BaseController{
 			
 			User user=userSer.queryUserByToken(body.getToken());
 			CapitalSurveyReturnVO survey=new CapitalSurveyReturnVO();
-			if(user!=null){
+			/*if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
 					survey.setBalance(proActInfo.getRemainingSum().toString());
@@ -124,7 +124,7 @@ public class UserSecurityController extends BaseController{
 					survey.setIncome(capitalManageSer.getAccountIncome(proActInfo.getAccountId()).toString());
 					survey.setOutlay(capitalManageSer.getAccountOutlay(proActInfo.getAccountId()).toString());					
 				}
-			}
+			}*/
 			
 			rm.put("myCapitalInfo",survey);
 		} catch (Exception e1) {

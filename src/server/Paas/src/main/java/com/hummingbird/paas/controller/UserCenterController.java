@@ -11,6 +11,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,8 +21,12 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DESUtil;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.SmsSenderUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.service.IAuthenticationService;
+import com.hummingbird.commonbiz.service.ISmsCodeService;
+import com.hummingbird.commonbiz.util.AuthCodeUtil;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.User;
@@ -37,6 +42,7 @@ import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.vo.BankInfoReturnDetailVO;
 import com.hummingbird.paas.vo.LoginReturnVO;
 import com.hummingbird.paas.vo.LoginVO;
+import com.hummingbird.paas.vo.MobileNumVO;
 import com.hummingbird.paas.vo.MobileVO;
 import com.hummingbird.paas.vo.RegisterBodyVO;
 import com.hummingbird.paas.vo.RegisterVO;
@@ -59,6 +65,8 @@ public class UserCenterController extends BaseController{
 	IAuthenticationService authService;
 	@Autowired
 	TokenService tokenSrv;
+	@Autowired(required = true)
+	private ISmsCodeService smsService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public @ResponseBody Object register(HttpServletRequest request) {
@@ -480,5 +488,89 @@ public class UserCenterController extends BaseController{
 		}		
 		return rm;
 	}
+	
+	/**
+	 * 向服务器请求下发验证码
+	 * 
+	 * @param getsmsvo
+	 * @return
+	 */
+	@RequestMapping("/getSmsCode")
+	public @ResponseBody Object getSmsCode(HttpServletRequest request) {
+
+		MobileNumVO transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,MobileNumVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		if (log.isDebugEnabled()) {
+			log.debug("向服务器请求下发验证码：" + transorder);
+		}
+		// 捕捉所有异常,不要由于有异常而不返回信息
+		int baseerrcode = 211400;
+		rm.setBaseErrorCode(baseerrcode);
+		rm.setErrmsg("发送短信验证码成功");
+		
+//		GetSmsVo getsmsvo
+		try {
+			MobileVO body=transorder.getBody();
+			ValidateUtil.validateMobile(body.getMobileNum());
+			// 校验token
+			Object validateAuth = authService.validateAuth(transorder);
+			if (log.isDebugEnabled()) {
+				log.debug("检验通过，发送验证码");
+			}
+			// 检查手机
+			// User user = userDao.selectByMobile(getsmsvo.getMobileNum());
+			// ValidateUtil.assertNull(user, "手机号码未注册", 4111);
+			
+			UserToken createToken = smsService.createToken(transorder.getApp()
+					.getAppId(), body.getMobileNum(), 4);
+			String content = AuthCodeUtil.getAuthCodeByTemplate(
+					createToken.getToken(), "sms.authcode");
+			// 调用webservice 发送模板
+			if (log.isDebugEnabled()) {
+				log.debug("发送手机验证码请求:" + content);
+			}
+
+			try {
+				PropertiesUtil pu = new PropertiesUtil();
+				boolean deleteaftervalidate = pu.getBoolean("smscode.fortest");
+				if(deleteaftervalidate){
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("测试开启，不发送验证码到手机"));
+					}
+				}
+				else{
+					SmsSenderUtil.sendSms(body.getMobileNum(), content);
+					
+					if (log.isDebugEnabled()) {
+						log.debug("验证码发送成功");
+					}
+				}
+
+			} catch (Exception e) {
+				log.error("发送验证码出错:", e);
+				rm.mergeException(e);
+			}
+
+		} catch (Exception e1) {
+			log.error(String.format("发送短信验证码[%s]，处理失败", transorder), e1);
+			rm.mergeException(e1);
+		} finally {
+			if (log.isDebugEnabled()) {
+				log.debug("向服务器请求下发验证码完成");
+			}
+		}
+		return rm;
+	}
+	
+	
 	
 }

@@ -1,6 +1,7 @@
 package com.hummingbird.paas.mapper;
 
 import com.hummingbird.paas.entity.BidRecord;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 public interface BidRecordMapper {
     /**
@@ -22,6 +23,16 @@ public interface BidRecordMapper {
      * 根据主键查询记录
      */
     BidRecord selectByPrimaryKey(Integer id);
+    
+    /**
+     * 根据object_id,bidderid查询记录
+     */
+    BidRecord selectByObjectIdAndBidderId(String object_id,Integer bidder_id);
+    
+    /**
+     * 根据object_id查询记录
+     */
+    TenderSurveyReturnVO selectByObjectId(String object_id);
 
     /**
      * 根据主键更新属性不为空的记录

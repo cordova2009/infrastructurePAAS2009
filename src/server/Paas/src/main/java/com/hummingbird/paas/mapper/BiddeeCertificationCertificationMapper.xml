@@ -20,6 +20,7 @@
     from t_qyzz_biddee_certification_certification
     where id = #{id,jdbcType=INTEGER}
   </select>
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee_certification_certification
     where id = #{id,jdbcType=INTEGER}

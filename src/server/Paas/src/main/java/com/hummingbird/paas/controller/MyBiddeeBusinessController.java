@@ -63,8 +63,10 @@ import com.hummingbird.paas.vo.BiddeeBaseInfo;
 import com.hummingbird.paas.vo.BiddeeCerticateSaveInfoVO;
 import com.hummingbird.paas.vo.BiddeeLegalPerson;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
+import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
+import com.hummingbird.paas.vo.TenderSurveyBodyVO;
 @Controller
 @RequestMapping(value="/myBiddee/authInfo"
 		 ,method=RequestMethod.POST)
@@ -265,7 +267,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 		try {
 			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
-			Map baseInfo= new HashMap();
+			
 //			 "logoUrl":"LOGO_IMAGE_URL"
 //		            "companyName":"深圳蜂鸟娱乐技术有限公司",
 //		            "shortName":"蜂鸟娱乐",
@@ -273,13 +275,24 @@ public class MyBiddeeBusinessController extends BaseController  {
 //		            "registeredCapital":"",
 //		            "telephone":"",
 //		            "email":""
-			baseInfo.put("logoUrl", aa.getLogo());
-			baseInfo.put("companyName", aa.getCompanyName());
-			baseInfo.put("shortName", aa.getShortName());
-			baseInfo.put("description", aa.getDescription());
-			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
-			baseInfo.put("telephone", aa.getContactMobileNum());
-			baseInfo.put("email", aa.getEmail());
+//			Map baseInfo= new HashMap();
+//			baseInfo.put("logoUrl", aa.getLogo());
+//			baseInfo.put("companyName", aa.getCompanyName());
+//			baseInfo.put("shortName", aa.getShortName());
+//			baseInfo.put("description", aa.getDescription());
+//			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
+//			baseInfo.put("telephone", aa.getContactMobileNum());
+//			baseInfo.put("email", aa.getEmail());
+			
+			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
+			baseInfo.setLogoUrl(aa.getLogo());
+			baseInfo.setCompanyName(aa.getCompanyName());
+			baseInfo.setShortName(aa.getShortName());
+			baseInfo.setDescription(aa.getDescription());
+			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
+			baseInfo.setTelephone(aa.getContactMobileNum());
+			baseInfo.setEmail(aa.getEmail());
+			
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 			rm.put("baseInfo", baseInfo);
@@ -344,7 +357,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 		try {
 			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
-			Map legalPerson= new HashMap();
+			
 //			"legalPerson":{
 //		        "name":"张三",
 //		        "idCard":"420923199205049230121",
@@ -352,11 +365,18 @@ public class MyBiddeeBusinessController extends BaseController  {
 //		        "idCardBackUrl":"法人身份证反面地址",
 //		        "authorityBookUrl":""
 //		    }
-			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson())); 
-			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
-			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
-			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
+			BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
+			legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
+			legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
+			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
+			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
+			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+			
+//			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson())); 
+//			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
+//			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
+//			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
+//			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
 		
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
@@ -422,7 +442,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 		try {
 			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
-			Map registeredInfo= new HashMap();
+			
 //			 "registeredInfo":{
 //		         "businessLicenseNum":"BUSINESS_LICENSE_NUM",
 //		         "":"BUSINESS_LICENSE_URL",
@@ -437,23 +457,37 @@ public class MyBiddeeBusinessController extends BaseController  {
 //		         "businessLicenseType":"OLD",
 //		         "newBusinessLicenseNum":"",
 //		         "newBusinessLicenseUrl":"",
-//		    }
+//		    }registeredInfo
 			
-			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-			registeredInfo.put("businessScope", aa.getBusinessScope());
-			registeredInfo.put("regTime", aa.getRegTime());
-			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-			
-			registeredInfo.put("address", aa.getAddress());
-			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
-		
+//			Map registeredInfo= new HashMap();
+//			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
+//			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
+//			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
+//			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
+//			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
+//			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
+//			registeredInfo.put("businessScope", aa.getBusinessScope());
+//			registeredInfo.put("regTime", aa.getRegTime());
+//			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
+//			
+//			registeredInfo.put("address", aa.getAddress());
+//			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
+//			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
+//			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
+			BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
+			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+			registeredInfo.setBusinessScope(aa.getBusinessScope());
+			registeredInfo.setRegTime(aa.getRegTime());
+			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+			registeredInfo.setAddress(aa.getAddress());
+			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
+			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
 			
 			rm.put("registeredInfo", registeredInfo);
 			
@@ -517,16 +551,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 		try {
 			List<UserBankcard> aa = userBankcardDao.selectBiddeeBankInfoByToken(transorder.getBody().getToken());
-			Map bankInfo= new HashMap();
+//			Map bankInfo= new HashMap();
 //			"bankInfo":{ 
 //		        "bank":"招商银行深圳支行",
 //		        "accountId":"1234567812345678",
 //		        "accountName":"深圳麦圈互动技术有限公司"
 //		    }
+//			if(aa!=null&&aa.size()>0){
+//				bankInfo.put("bank", aa.get(0).getBankName());
+//				bankInfo.put("accountId", aa.get(0).getAccountNo());
+//				bankInfo.put("accountName", aa.get(0).getAccountName());
+//			}
+			BiddeeBankInfo bankInfo = new BiddeeBankInfo();
 			if(aa!=null&&aa.size()>0){
-				bankInfo.put("bank", aa.get(0).getBankName());
-				bankInfo.put("accountId", aa.get(0).getAccountNo());
-				bankInfo.put("accountName", aa.get(0).getAccountName());
+				bankInfo.setBank(aa.get(0).getBankName());
+				bankInfo.setAccountId(aa.get(0).getAccountNo());
+				bankInfo.setAccountName(aa.get(0).getAccountName());
 			}
 			
 			rm.put("bankInfo", bankInfo);
@@ -594,42 +634,42 @@ public class MyBiddeeBusinessController extends BaseController  {
 			
 			List<UserBankcard> bb = userBankcardDao.selectBiddeeBankInfoByToken(token);
 			
-			Map baseInfo= new HashMap();
-			Map legalPerson= new HashMap();
-			Map registeredInfo= new HashMap();
-			Map bankInfo= new HashMap();
-			
-			
-			baseInfo.put("logoUrl", aa.getLogo());
-			baseInfo.put("companyName", aa.getCompanyName());
-			baseInfo.put("shortName", aa.getShortName());
-			baseInfo.put("description", aa.getDescription());
-			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
-			baseInfo.put("telephone", aa.getContactMobileNum());
-			baseInfo.put("email", aa.getEmail());
-			
-			
-			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson()));
-			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
-			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
-			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
-			
-		
-			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-			registeredInfo.put("businessScope", aa.getBusinessScope());
-			registeredInfo.put("regTime", aa.getRegTime());
-			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-			
-			registeredInfo.put("address", aa.getAddress());
-			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
+//			Map baseInfo= new HashMap();
+//			Map legalPerson= new HashMap();
+//			Map registeredInfo= new HashMap();
+//			Map bankInfo= new HashMap();
+//			
+//			
+//			baseInfo.put("logoUrl", aa.getLogo());
+//			baseInfo.put("companyName", aa.getCompanyName());
+//			baseInfo.put("shortName", aa.getShortName());
+//			baseInfo.put("description", aa.getDescription());
+//			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
+//			baseInfo.put("telephone", aa.getContactMobileNum());
+//			baseInfo.put("email", aa.getEmail());
+//			
+//			
+//			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson()));
+//			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
+//			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
+//			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
+//			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
+//			
+//		
+//			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
+//			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
+//			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
+//			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
+//			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
+//			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
+//			registeredInfo.put("businessScope", aa.getBusinessScope());
+//			registeredInfo.put("regTime", aa.getRegTime());
+//			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
+//			
+//			registeredInfo.put("address", aa.getAddress());
+//			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
+//			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
+//			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
 			
 			
 //			"bankInfo":{ 
@@ -637,11 +677,50 @@ public class MyBiddeeBusinessController extends BaseController  {
 //		        "accountId":"1234567812345678",
 //		        "accountName":"深圳麦圈互动技术有限公司"
 //		    }
-			if(aa!=null&&bb.size()>0){
-				bankInfo.put("bank", bb.get(0).getBankName());
-				bankInfo.put("accountId", bb.get(0).getAccountNo());
-				bankInfo.put("accountName", bb.get(0).getAccountName());
+//			if(aa!=null&&bb.size()>0){
+//				bankInfo.put("bank", bb.get(0).getBankName());
+//				bankInfo.put("accountId", bb.get(0).getAccountNo());
+//				bankInfo.put("accountName", bb.get(0).getAccountName());
+//			}
+			//基本信息
+			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
+			baseInfo.setLogoUrl(aa.getLogo());
+			baseInfo.setCompanyName(aa.getCompanyName());
+			baseInfo.setShortName(aa.getShortName());
+			baseInfo.setDescription(aa.getDescription());
+			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
+			baseInfo.setTelephone(aa.getContactMobileNum());
+			baseInfo.setEmail(aa.getEmail());
+			//法人信息
+			BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
+			legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
+			legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
+			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
+			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
+			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+			//公司注册信息
+			BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
+			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+			registeredInfo.setBusinessScope(aa.getBusinessScope());
+			registeredInfo.setRegTime(aa.getRegTime());
+			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+			registeredInfo.setAddress(aa.getAddress());
+			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
+			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+			//开户行信息
+			BiddeeBankInfo bankInfo = new BiddeeBankInfo();
+			if(bb!=null&&bb.size()>0){
+				bankInfo.setBank(bb.get(0).getBankName());
+				bankInfo.setAccountId(bb.get(0).getAccountNo());
+				bankInfo.setAccountName(bb.get(0).getAccountName());
 			}
+			
 			rm.put("baseInfo", baseInfo);
 			rm.put("legalPerson", legalPerson);
 			rm.put("registeredInfo", registeredInfo);			
@@ -1154,8 +1233,79 @@ public class MyBiddeeBusinessController extends BaseController  {
 		return rm;
 	}  
 	
-	public String getStatus() throws Exception{
+	/**
+	 * 我的招标评标概况接口
+	 * @author YJY
+	 * @since 2015年11月6日15:05:54
+	 * @return
+	 */
+	@RequestMapping(value="/queryMyObjectTenderSurvey",method=RequestMethod.POST)
+	@AccessRequered(methodName = "我的招标评标概况")
+	// 框架的日志处理
+	public @ResponseBody ResultModel queryMyObjectTenderSurvey(HttpServletRequest request,
+			HttpServletResponse response) {
+		String messagebase = "我的招标评标概况";
+		int basecode = 0;
+		BaseTransVO<TenderSurveyBodyVO> transorder = null;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,TenderSurveyBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取%s参数出错",messagebase),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
+			return rm;
+		}
+//		// 预设的一些信息
 		
-		return null;
+//		rm.setBaseErrorCode(basecode);
+		rm.setErrmsg(messagebase + "成功");
+		RequestEvent qe=null ;
+		
+		
+		AppLog rnr = new AppLog();
+		rnr.setAppid(transorder.getApp().getAppId());
+		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+		rnr.setInserttime(new Date());
+		rnr.setMethod("/myBiddee/authInfo/queryMyObjectTenderSurvey");
+		
+		try {
+			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
+			
+
+			
+			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
+			baseInfo.setLogoUrl(aa.getLogo());
+			baseInfo.setCompanyName(aa.getCompanyName());
+			baseInfo.setShortName(aa.getShortName());
+			baseInfo.setDescription(aa.getDescription());
+			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
+			baseInfo.setTelephone(aa.getContactMobileNum());
+			baseInfo.setEmail(aa.getEmail());
+			
+			
+//			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
+			rm.put("baseInfo", baseInfo);
+			
+			
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			try {
+				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
+				applogDao.insert(rnr);
+			} catch (DataInvalidException e) {
+				log.error(String.format("日志处理出错"),e);
+			}
+			
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
 	}
 }

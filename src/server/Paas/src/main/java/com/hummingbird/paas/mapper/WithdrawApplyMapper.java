@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.WithdrawApply;
 
 public interface WithdrawApplyMapper {
@@ -32,4 +34,11 @@ public interface WithdrawApplyMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(WithdrawApply record);
+
+    /**
+     * 根据用户Id查询提现记录
+     * @param userId
+     * @return
+     */
+    List<WithdrawApply> queryWithdrawalsApplyList(Integer userId);
 }

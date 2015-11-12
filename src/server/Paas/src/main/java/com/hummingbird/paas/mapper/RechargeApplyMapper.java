@@ -1,7 +1,5 @@
 package com.hummingbird.paas.mapper;
 
-import java.util.List;
-
 import com.hummingbird.paas.entity.RechargeApply;
 
 public interface RechargeApplyMapper {
@@ -34,6 +32,4 @@ public interface RechargeApplyMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(RechargeApply record);
-    
-    List<RechargeApply> queryApplyByUserId(Integer userId);
 }

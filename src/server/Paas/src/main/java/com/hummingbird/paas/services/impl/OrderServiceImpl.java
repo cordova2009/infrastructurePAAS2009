@@ -1,4 +1,3 @@
-
 package com.hummingbird.paas.services.impl;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.paas.entity.Bidder;
-import com.hummingbird.paas.entity.FeeRate;
 import com.hummingbird.paas.entity.ObjectBondRecord;
 import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.ProjectAccountOrder;
@@ -20,7 +18,6 @@ import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.WithdrawApply;
 import com.hummingbird.paas.exception.MaAccountException;
-import com.hummingbird.paas.mapper.FeeRateMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
@@ -61,8 +58,6 @@ public class OrderServiceImpl implements OrderService{
 	UserBankcardMapper userBankDao;
 	@Autowired
 	WithdrawApplyMapper withdrawApplyDao;
-	@Autowired
-	FeeRateMapper feeRateDao;
 	
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
@@ -275,7 +270,7 @@ public class OrderServiceImpl implements OrderService{
 			ApplyListReturnVO returnvo=new ApplyListReturnVO();
 			returnvo.setAmount(apply.getAmount().toString());
 			returnvo.setCreateTime(new Date());
-			returnvo.setRechargeTime(apply.getTransportTime());
+			returnvo.setRechargeTime(转账时间);
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
 			returnvo.setVoucherNo(apply.getVoucher());
@@ -287,11 +282,8 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public String withdrawalsApply(WithdrawalsApplyBodyVO body, User user)
 			throws MaAccountException {
-		//查询提现手续费
-		/*List<FeeRate> feeRate=feeRateDao.selectFeeRate("TX#");
-		if(body.getAmount()*feeRate.getFeeRate()<feeRate.get){
-			
-		}*/
+		//查询用户银行账户信息
+		//UserBankcard bankcard=userBankDao.selectByPrimaryKey(body.getBankId());
 		WithdrawApply apply=new WithdrawApply();
 		String applyOrderId=AccountGenerationUtil.genNO("TX00");
 		apply.setOrderId(applyOrderId);
@@ -316,11 +308,11 @@ public class OrderServiceImpl implements OrderService{
 			returnvo.setHandingCharge(apply.getCommissionFees().toString());
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
-			returnvo.setWithdrawalsNo(apply.getVoucher());
-			returnvo.setWithdrawalsTime(apply.getTransportTime());
+			returnvo.setWithdrawalsNo(转账凭证号);
+			returnvo.setWithdrawalsTime(转账时间缺少);
 			list.add(returnvo);
 		}
-		return list;
+		return null;
 	}
 
 	

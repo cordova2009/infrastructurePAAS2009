@@ -103,11 +103,4 @@
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="selectFeeRate" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_yhzj_fee_rate
-    where type = #{type,jdbcType=VARCHAR}
-  </select>
 </mapper>

@@ -4,6 +4,9 @@ package com.hummingbird.paas.entity;
  * 行业资质证书表,记录某个行业需要什么证书
  */
 public class IndustryCertification {
+    /**
+     * id
+     */
     private Integer id;
 
     /**
@@ -16,10 +19,17 @@ public class IndustryCertification {
      */
     private Integer certificationId;
 
+    /**
+     * @return id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * @param id 
+	 *            id
+     */
     public void setId(Integer id) {
         this.id = id;
     }

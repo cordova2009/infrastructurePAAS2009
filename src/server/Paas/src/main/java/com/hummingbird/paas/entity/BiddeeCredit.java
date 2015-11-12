@@ -123,4 +123,37 @@ public class BiddeeCredit {
     public void setBankInfo(Integer bankInfo) {
         this.bankInfo = bankInfo;
     }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        BiddeeCredit other = (BiddeeCredit) that;
+        return (this.getTendererId() == null ? other.getTendererId() == null : this.getTendererId().equals(other.getTendererId()))
+            && (this.getCreditScore() == null ? other.getCreditScore() == null : this.getCreditScore().equals(other.getCreditScore()))
+            && (this.getBaseinfoCreditScore() == null ? other.getBaseinfoCreditScore() == null : this.getBaseinfoCreditScore().equals(other.getBaseinfoCreditScore()))
+            && (this.getLegalPersonInfo() == null ? other.getLegalPersonInfo() == null : this.getLegalPersonInfo().equals(other.getLegalPersonInfo()))
+            && (this.getCompanyRegisteredInfo() == null ? other.getCompanyRegisteredInfo() == null : this.getCompanyRegisteredInfo().equals(other.getCompanyRegisteredInfo()))
+            && (this.getBankInfo() == null ? other.getBankInfo() == null : this.getBankInfo().equals(other.getBankInfo()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getTendererId() == null) ? 0 : getTendererId().hashCode());
+        result = prime * result + ((getCreditScore() == null) ? 0 : getCreditScore().hashCode());
+        result = prime * result + ((getBaseinfoCreditScore() == null) ? 0 : getBaseinfoCreditScore().hashCode());
+        result = prime * result + ((getLegalPersonInfo() == null) ? 0 : getLegalPersonInfo().hashCode());
+        result = prime * result + ((getCompanyRegisteredInfo() == null) ? 0 : getCompanyRegisteredInfo().hashCode());
+        result = prime * result + ((getBankInfo() == null) ? 0 : getBankInfo().hashCode());
+        return result;
+    }
 }

@@ -41,6 +41,9 @@ public class BidObject {
      */
     private String objectStatus;
 
+    /**
+     * 中标金额
+     */
     private String winBidAmount;
 
     /**
@@ -72,6 +75,19 @@ public class BidObject {
 
     private String biddeeCompanyTelephone;
 
+    /**
+     * 招标方经办人
+     */
+    private String biddeeCompanyPrincipal;
+
+    /**
+     * 招标方办公电话
+     */
+    private String biddeeCompanyTelephone;
+
+    /**
+     * 开标时间
+     */
     private Date bidOpenDate;
 
     /**
@@ -79,6 +95,9 @@ public class BidObject {
      */
     private Integer projectExpectPeriod;
 
+    /**
+     * 承包方式
+     */
     private String contractType;
 
     /**
@@ -266,10 +285,17 @@ public class BidObject {
         this.objectStatus = objectStatus == null ? null : objectStatus.trim();
     }
 
+    /**
+     * @return 中标金额
+     */
     public String getWinBidAmount() {
         return winBidAmount;
     }
 
+    /**
+     * @param winBidAmount 
+	 *            中标金额
+     */
     public void setWinBidAmount(String winBidAmount) {
         this.winBidAmount = winBidAmount == null ? null : winBidAmount.trim();
     }
@@ -349,26 +375,47 @@ public class BidObject {
         this.district = district;
     }
 
+    /**
+     * @return 招标方经办人
+     */
     public String getBiddeeCompanyPrincipal() {
         return biddeeCompanyPrincipal;
     }
 
+    /**
+     * @param biddeeCompanyPrincipal 
+	 *            招标方经办人
+     */
     public void setBiddeeCompanyPrincipal(String biddeeCompanyPrincipal) {
         this.biddeeCompanyPrincipal = biddeeCompanyPrincipal == null ? null : biddeeCompanyPrincipal.trim();
     }
 
+    /**
+     * @return 招标方办公电话
+     */
     public String getBiddeeCompanyTelephone() {
         return biddeeCompanyTelephone;
     }
 
+    /**
+     * @param biddeeCompanyTelephone 
+	 *            招标方办公电话
+     */
     public void setBiddeeCompanyTelephone(String biddeeCompanyTelephone) {
         this.biddeeCompanyTelephone = biddeeCompanyTelephone == null ? null : biddeeCompanyTelephone.trim();
     }
 
+    /**
+     * @return 开标时间
+     */
     public Date getBidOpenDate() {
         return bidOpenDate;
     }
 
+    /**
+     * @param bidOpenDate 
+	 *            开标时间
+     */
     public void setBidOpenDate(Date bidOpenDate) {
         this.bidOpenDate = bidOpenDate;
     }
@@ -387,11 +434,17 @@ public class BidObject {
     public void setProjectExpectPeriod(Integer projectExpectPeriod) {
         this.projectExpectPeriod = projectExpectPeriod;
     }
-
+    /**
+     * @return 承包方式
+     */
     public String getContractType() {
         return contractType;
     }
 
+    /**
+     * @param contractType 
+	 *            承包方式
+     */
     public void setContractType(String contractType) {
         this.contractType = contractType == null ? null : contractType.trim();
     }
@@ -634,5 +687,93 @@ public class BidObject {
      */
     public void setObjectScope(String objectScope) {
         this.objectScope = objectScope == null ? null : objectScope.trim();
+    }
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        BidObject other = (BidObject) that;
+        return (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
+            && (this.getObjectNo() == null ? other.getObjectNo() == null : this.getObjectNo().equals(other.getObjectNo()))
+            && (this.getObjectName() == null ? other.getObjectName() == null : this.getObjectName().equals(other.getObjectName()))
+            && (this.getObjectAmount() == null ? other.getObjectAmount() == null : this.getObjectAmount().equals(other.getObjectAmount()))
+            && (this.getObjectPublishType() == null ? other.getObjectPublishType() == null : this.getObjectPublishType().equals(other.getObjectPublishType()))
+            && (this.getObjectStatus() == null ? other.getObjectStatus() == null : this.getObjectStatus().equals(other.getObjectStatus()))
+            && (this.getWinBidAmount() == null ? other.getWinBidAmount() == null : this.getWinBidAmount().equals(other.getWinBidAmount()))
+            && (this.getWinBidderId() == null ? other.getWinBidderId() == null : this.getWinBidderId().equals(other.getWinBidderId()))
+            && (this.getIndustryId() == null ? other.getIndustryId() == null : this.getIndustryId().equals(other.getIndustryId()))
+            && (this.getSectorId() == null ? other.getSectorId() == null : this.getSectorId().equals(other.getSectorId()))
+            && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
+            && (this.getDistrict() == null ? other.getDistrict() == null : this.getDistrict().equals(other.getDistrict()))
+            && (this.getBiddeeCompanyPrincipal() == null ? other.getBiddeeCompanyPrincipal() == null : this.getBiddeeCompanyPrincipal().equals(other.getBiddeeCompanyPrincipal()))
+            && (this.getBiddeeCompanyTelephone() == null ? other.getBiddeeCompanyTelephone() == null : this.getBiddeeCompanyTelephone().equals(other.getBiddeeCompanyTelephone()))
+            && (this.getBidOpenDate() == null ? other.getBidOpenDate() == null : this.getBidOpenDate().equals(other.getBidOpenDate()))
+            && (this.getProjectExpectPeriod() == null ? other.getProjectExpectPeriod() == null : this.getProjectExpectPeriod().equals(other.getProjectExpectPeriod()))
+            && (this.getContractType() == null ? other.getContractType() == null : this.getContractType().equals(other.getContractType()))
+            && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()))
+            && (this.getCertificationCheckupType() == null ? other.getCertificationCheckupType() == null : this.getCertificationCheckupType().equals(other.getCertificationCheckupType()))
+            && (this.getBidEvaluationType() == null ? other.getBidEvaluationType() == null : this.getBidEvaluationType().equals(other.getBidEvaluationType()))
+            && (this.getBidEvaluationSite() == null ? other.getBidEvaluationSite() == null : this.getBidEvaluationSite().equals(other.getBidEvaluationSite()))
+            && (this.getBidWinnerDetermineWay() == null ? other.getBidWinnerDetermineWay() == null : this.getBidWinnerDetermineWay().equals(other.getBidWinnerDetermineWay()))
+            && (this.getVoteWinWay() == null ? other.getVoteWinWay() == null : this.getVoteWinWay().equals(other.getVoteWinWay()))
+            && (this.getBidBondAmount() == null ? other.getBidBondAmount() == null : this.getBidBondAmount().equals(other.getBidBondAmount()))
+            && (this.getNeedBusinessStandard() == null ? other.getNeedBusinessStandard() == null : this.getNeedBusinessStandard().equals(other.getNeedBusinessStandard()))
+            && (this.getNeedTechnicalStandard() == null ? other.getNeedTechnicalStandard() == null : this.getNeedTechnicalStandard().equals(other.getNeedTechnicalStandard()))
+            && (this.getNeedCertificationCheckupFile() == null ? other.getNeedCertificationCheckupFile() == null : this.getNeedCertificationCheckupFile().equals(other.getNeedCertificationCheckupFile()))
+            && (this.getNeedPmCertification() == null ? other.getNeedPmCertification() == null : this.getNeedPmCertification().equals(other.getNeedPmCertification()))
+            && (this.getNeedConstructorCertification() == null ? other.getNeedConstructorCertification() == null : this.getNeedConstructorCertification().equals(other.getNeedConstructorCertification()))
+            && (this.getNeedSafetyPermit() == null ? other.getNeedSafetyPermit() == null : this.getNeedSafetyPermit().equals(other.getNeedSafetyPermit()))
+            && (this.getNeedPmSafetyCertification() == null ? other.getNeedPmSafetyCertification() == null : this.getNeedPmSafetyCertification().equals(other.getNeedPmSafetyCertification()))
+            && (this.getEvaluationAmount() == null ? other.getEvaluationAmount() == null : this.getEvaluationAmount().equals(other.getEvaluationAmount()))
+            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
+        result = prime * result + ((getObjectNo() == null) ? 0 : getObjectNo().hashCode());
+        result = prime * result + ((getObjectName() == null) ? 0 : getObjectName().hashCode());
+        result = prime * result + ((getObjectAmount() == null) ? 0 : getObjectAmount().hashCode());
+        result = prime * result + ((getObjectPublishType() == null) ? 0 : getObjectPublishType().hashCode());
+        result = prime * result + ((getObjectStatus() == null) ? 0 : getObjectStatus().hashCode());
+        result = prime * result + ((getWinBidAmount() == null) ? 0 : getWinBidAmount().hashCode());
+        result = prime * result + ((getWinBidderId() == null) ? 0 : getWinBidderId().hashCode());
+        result = prime * result + ((getIndustryId() == null) ? 0 : getIndustryId().hashCode());
+        result = prime * result + ((getSectorId() == null) ? 0 : getSectorId().hashCode());
+        result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
+        result = prime * result + ((getDistrict() == null) ? 0 : getDistrict().hashCode());
+        result = prime * result + ((getBiddeeCompanyPrincipal() == null) ? 0 : getBiddeeCompanyPrincipal().hashCode());
+        result = prime * result + ((getBiddeeCompanyTelephone() == null) ? 0 : getBiddeeCompanyTelephone().hashCode());
+        result = prime * result + ((getBidOpenDate() == null) ? 0 : getBidOpenDate().hashCode());
+        result = prime * result + ((getProjectExpectPeriod() == null) ? 0 : getProjectExpectPeriod().hashCode());
+        result = prime * result + ((getContractType() == null) ? 0 : getContractType().hashCode());
+        result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
+        result = prime * result + ((getCertificationCheckupType() == null) ? 0 : getCertificationCheckupType().hashCode());
+        result = prime * result + ((getBidEvaluationType() == null) ? 0 : getBidEvaluationType().hashCode());
+        result = prime * result + ((getBidEvaluationSite() == null) ? 0 : getBidEvaluationSite().hashCode());
+        result = prime * result + ((getBidWinnerDetermineWay() == null) ? 0 : getBidWinnerDetermineWay().hashCode());
+        result = prime * result + ((getVoteWinWay() == null) ? 0 : getVoteWinWay().hashCode());
+        result = prime * result + ((getBidBondAmount() == null) ? 0 : getBidBondAmount().hashCode());
+        result = prime * result + ((getNeedBusinessStandard() == null) ? 0 : getNeedBusinessStandard().hashCode());
+        result = prime * result + ((getNeedTechnicalStandard() == null) ? 0 : getNeedTechnicalStandard().hashCode());
+        result = prime * result + ((getNeedCertificationCheckupFile() == null) ? 0 : getNeedCertificationCheckupFile().hashCode());
+        result = prime * result + ((getNeedPmCertification() == null) ? 0 : getNeedPmCertification().hashCode());
+        result = prime * result + ((getNeedConstructorCertification() == null) ? 0 : getNeedConstructorCertification().hashCode());
+        result = prime * result + ((getNeedSafetyPermit() == null) ? 0 : getNeedSafetyPermit().hashCode());
+        result = prime * result + ((getNeedPmSafetyCertification() == null) ? 0 : getNeedPmSafetyCertification().hashCode());
+        result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
+        result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
+        return result;
     }
 }

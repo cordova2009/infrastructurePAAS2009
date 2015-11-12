@@ -9,10 +9,11 @@
     <result column="certification_content" property="certificationContent" jdbcType="VARCHAR" />
     <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP" />
     <result column="applicable_region" property="applicableRegion" jdbcType="VARCHAR" />
+    <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, biddee_id, certification_id, certification_name, certification_content, expire_time, 
-    applicable_region
+    applicable_region, certification_no
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,7 +21,6 @@
     from t_qyzz_biddee_certification_certification
     where id = #{id,jdbcType=INTEGER}
   </select>
- 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee_certification_certification
     where id = #{id,jdbcType=INTEGER}
@@ -28,10 +28,12 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BiddeeCertificationCertification" >
     insert into t_qyzz_biddee_certification_certification (id, biddee_id, certification_id, 
       certification_name, certification_content, 
-      expire_time, applicable_region)
+      expire_time, applicable_region, certification_no
+      )
     values (#{id,jdbcType=INTEGER}, #{biddeeId,jdbcType=INTEGER}, #{certificationId,jdbcType=INTEGER}, 
       #{certificationName,jdbcType=VARCHAR}, #{certificationContent,jdbcType=VARCHAR}, 
-      #{expireTime,jdbcType=TIMESTAMP}, #{applicableRegion,jdbcType=VARCHAR})
+      #{expireTime,jdbcType=TIMESTAMP}, #{applicableRegion,jdbcType=VARCHAR}, #{certificationNo,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BiddeeCertificationCertification" >
     insert into t_qyzz_biddee_certification_certification
@@ -57,6 +59,9 @@
       <if test="applicableRegion != null" >
         applicable_region,
       </if>
+      <if test="certificationNo != null" >
+        certification_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -79,6 +84,9 @@
       </if>
       <if test="applicableRegion != null" >
         #{applicableRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="certificationNo != null" >
+        #{certificationNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -103,6 +111,9 @@
       <if test="applicableRegion != null" >
         applicable_region = #{applicableRegion,jdbcType=VARCHAR},
       </if>
+      <if test="certificationNo != null" >
+        certification_no = #{certificationNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -113,7 +124,8 @@
       certification_name = #{certificationName,jdbcType=VARCHAR},
       certification_content = #{certificationContent,jdbcType=VARCHAR},
       expire_time = #{expireTime,jdbcType=TIMESTAMP},
-      applicable_region = #{applicableRegion,jdbcType=VARCHAR}
+      applicable_region = #{applicableRegion,jdbcType=VARCHAR},
+      certification_no = #{certificationNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

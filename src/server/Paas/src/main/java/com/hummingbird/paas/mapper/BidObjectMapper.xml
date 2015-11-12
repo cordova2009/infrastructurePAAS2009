@@ -53,9 +53,14 @@
     from t_ztgl_object
     where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
-  <select id="countAmountByBid"  parameterType="java.lang.Integer" >
-    select sum(object_amount) from t_ztgl_object
-    where biddee_id = #{bid,jdbcType=INTEGER}
+  <select id="selectUnfinishObject" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object
+    where biddee_id = #{biddeeId} and object_status = 'CRT'
+    <if test="objectId != null">
+    and object_id = #{objectId}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_object

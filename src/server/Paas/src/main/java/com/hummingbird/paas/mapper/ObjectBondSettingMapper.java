@@ -32,4 +32,18 @@ public interface ObjectBondSettingMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ObjectBondSetting record);
+    
+    /**
+     * 查询投标保证金
+     * @param objectId
+     * @return
+     */
+    Integer getObjectBidderBond(String objectId);
+
+	/**
+	 * 根据标的id查询记录
+	 * @param objectId
+	 * @return
+	 */
+	ObjectBondSetting selectByObjectId(String objectId);
 }

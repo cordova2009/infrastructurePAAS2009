@@ -1,6 +1,7 @@
 package com.hummingbird.paas.mapper;
 
-import com.hummingbird.paas.entity.UserToken;
+import com.hummingbird.commonbiz.vo.UserToken;
+import com.hummingbird.paas.entity.Token;
 
 public interface UserTokenMapper {
     /**
@@ -11,25 +12,39 @@ public interface UserTokenMapper {
     /**
      * 保存记录,不管记录里面的属性是否为空
      */
-    int insert(UserToken record);
+    int insert(Token record);
 
     /**
      * 保存属性不为空的记录
      */
-    int insertSelective(UserToken record);
+    int insertSelective(Token record);
 
     /**
      * 根据主键查询记录
      */
-    UserToken selectByPrimaryKey(String token);
+    Token selectByPrimaryKey(String token);
 
     /**
      * 根据主键更新属性不为空的记录
      */
-    int updateByPrimaryKeySelective(UserToken record);
+    int updateByPrimaryKeySelective(Token record);
 
     /**
      * 根据主键更新记录
      */
-    int updateByPrimaryKey(UserToken record);
+    int updateByPrimaryKey(Token record);
+    
+    /**
+     * 根据条件获取token
+     * @param record
+     * @return
+     */
+    Token selectByToken(UserToken record);
+    
+    /**
+     * 根据条件获取token
+     * @param record
+     * @return
+     */
+    Token selectByTokenStr(String token);
 }

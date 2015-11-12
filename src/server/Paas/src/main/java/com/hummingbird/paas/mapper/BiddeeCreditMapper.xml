@@ -19,12 +19,6 @@
     from t_xyjf_biddee_credit
     where tenderer_id = #{tendererId,jdbcType=INTEGER}
   </select>
-  <select id="selectByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_xyjf_biddee_credit a inner join t_user_token b on a.tenderer_id = b.userId
-    where  b.token = #{user_id,jdbcType=VARCHAR} 
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_xyjf_biddee_credit
     where tenderer_id = #{tendererId,jdbcType=INTEGER}

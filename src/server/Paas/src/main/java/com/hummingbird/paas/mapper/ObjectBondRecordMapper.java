@@ -6,7 +6,7 @@ public interface ObjectBondRecordMapper {
     /**
      * 根据主键删除记录
      */
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String orderId);
 
     /**
      * 保存记录,不管记录里面的属性是否为空
@@ -21,7 +21,7 @@ public interface ObjectBondRecordMapper {
     /**
      * 根据主键查询记录
      */
-    ObjectBondRecord selectByPrimaryKey(Integer id);
+    ObjectBondRecord selectByPrimaryKey(String orderId);
 
     /**
      * 根据主键更新属性不为空的记录

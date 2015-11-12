@@ -2,10 +2,13 @@ package com.hummingbird.paas.entity;
 
 import java.util.Date;
 
+import com.hummingbird.paas.face.Account;
+
+
 /**
  * 这个是发包方或承包商的帐户
  */
-public class ProjectAccount {
+public class ProjectAccount implements Account{
     /**
      * 帐户id
      */
@@ -45,6 +48,13 @@ public class ProjectAccount {
      * 冻结余额，单位为分
      */
     private Integer frozenSum;
+
+    private Integer userId;
+    
+    @Override
+	public String getBalanceValidateString() {
+		return "PA#"+userId+accountId+remainingSum+frozenSum+insertTime+updateTime+status;
+	}
 
     /**
      * @return 帐户id
@@ -166,6 +176,14 @@ public class ProjectAccount {
         this.frozenSum = frozenSum;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -185,7 +203,8 @@ public class ProjectAccount {
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getFrozenSum() == null ? other.getFrozenSum() == null : this.getFrozenSum().equals(other.getFrozenSum()));
+            && (this.getFrozenSum() == null ? other.getFrozenSum() == null : this.getFrozenSum().equals(other.getFrozenSum()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()));
     }
 
     @Override
@@ -200,6 +219,40 @@ public class ProjectAccount {
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getFrozenSum() == null) ? 0 : getFrozenSum().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         return result;
     }
+
+	@Override
+	public String getAccountCode() {
+		
+		return Account.ACCOUNT_PROJECT;
+	}
+
+	@Override
+	public String getAccountName() {
+		// TODO Auto-generated method stub
+		return "资金账户";
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return "OK".equalsIgnoreCase(status);
+	}
+
+	
+	@Override
+	public boolean checkBalanceLimit(long limit) {
+		// TODO Auto-generated method stub
+		return getRemainingSum()>=limit;
+	}
+
+	@Override
+	public boolean isVirtualAccount() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 }

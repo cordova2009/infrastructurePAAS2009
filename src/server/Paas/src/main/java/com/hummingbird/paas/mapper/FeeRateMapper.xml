@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.FeeRateMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.FeeRate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fee_rate" property="feeRate" jdbcType="INTEGER" />
+    <result column="min_amount" property="minAmount" jdbcType="INTEGER" />
+    <result column="max_amount" property="maxAmount" jdbcType="INTEGER" />
+    <result column="max_fee" property="maxFee" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, fee_rate, min_amount, max_amount, max_fee, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yhzj_fee_rate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yhzj_fee_rate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.FeeRate" >
+    insert into t_yhzj_fee_rate (id, fee_rate, min_amount, 
+      max_amount, max_fee, type
+      )
+    values (#{id,jdbcType=INTEGER}, #{feeRate,jdbcType=INTEGER}, #{minAmount,jdbcType=INTEGER}, 
+      #{maxAmount,jdbcType=INTEGER}, #{maxFee,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.FeeRate" >
+    insert into t_yhzj_fee_rate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="feeRate != null" >
+        fee_rate,
+      </if>
+      <if test="minAmount != null" >
+        min_amount,
+      </if>
+      <if test="maxAmount != null" >
+        max_amount,
+      </if>
+      <if test="maxFee != null" >
+        max_fee,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="feeRate != null" >
+        #{feeRate,jdbcType=INTEGER},
+      </if>
+      <if test="minAmount != null" >
+        #{minAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxAmount != null" >
+        #{maxAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxFee != null" >
+        #{maxFee,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.FeeRate" >
+    update t_yhzj_fee_rate
+    <set >
+      <if test="feeRate != null" >
+        fee_rate = #{feeRate,jdbcType=INTEGER},
+      </if>
+      <if test="minAmount != null" >
+        min_amount = #{minAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxAmount != null" >
+        max_amount = #{maxAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxFee != null" >
+        max_fee = #{maxFee,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.FeeRate" >
+    update t_yhzj_fee_rate
+    set fee_rate = #{feeRate,jdbcType=INTEGER},
+      min_amount = #{minAmount,jdbcType=INTEGER},
+      max_amount = #{maxAmount,jdbcType=INTEGER},
+      max_fee = #{maxFee,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

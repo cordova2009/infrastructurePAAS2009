@@ -25,9 +25,9 @@ public class ObjectCertificationRequirement {
     private String certificationName;
 
     /**
-     * 资质数量
+     * 板块分类,来自行业版块表
      */
-    private Integer certificationCount;
+    private String industryId;
 
     /**
      * @return 主键
@@ -90,18 +90,18 @@ public class ObjectCertificationRequirement {
     }
 
     /**
-     * @return 资质数量
+     * @return 板块分类,来自行业版块表
      */
-    public Integer getCertificationCount() {
-        return certificationCount;
+    public String getIndustryId() {
+        return industryId;
     }
 
     /**
-     * @param certificationCount 
-	 *            资质数量
+     * @param industryId 
+	 *            板块分类,来自行业版块表
      */
-    public void setCertificationCount(Integer certificationCount) {
-        this.certificationCount = certificationCount;
+    public void setIndustryId(String industryId) {
+        this.industryId = industryId == null ? null : industryId.trim();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ObjectCertificationRequirement {
             && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
             && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
-            && (this.getCertificationCount() == null ? other.getCertificationCount() == null : this.getCertificationCount().equals(other.getCertificationCount()));
+            && (this.getIndustryId() == null ? other.getIndustryId() == null : this.getIndustryId().equals(other.getIndustryId()));
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ObjectCertificationRequirement {
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
         result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
-        result = prime * result + ((getCertificationCount() == null) ? 0 : getCertificationCount().hashCode());
+        result = prime * result + ((getIndustryId() == null) ? 0 : getIndustryId().hashCode());
         return result;
     }
 }

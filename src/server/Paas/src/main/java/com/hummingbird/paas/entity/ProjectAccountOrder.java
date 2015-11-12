@@ -9,12 +9,12 @@ public class ProjectAccountOrder {
     /**
      * 订单id
      */
-    private Integer orderId;
+    private String orderId;
 
     /**
      * 帐户id
      */
-    private Integer accountId;
+    private String accountId;
 
     /**
      * 插入时间
@@ -22,7 +22,7 @@ public class ProjectAccountOrder {
     private Date insertTime;
 
     /**
-     * 类别，SBZ收退还保证金，JBZ交纳保证金，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值
+     * 类别，SBZ收 "退还保证金"(解冻)，JBZ交纳保证金(冻结)，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值,FRZ 冻结,UFZ 解冻,SXF 交手续费,TSX 退手续费
      */
     private String type;
 
@@ -34,7 +34,7 @@ public class ProjectAccountOrder {
     /**
      * 标的id
      */
-    private Integer objectId;
+    private String objectId;
 
     /**
      * 结存，即发生该交易后，该账户的结存
@@ -134,7 +134,7 @@ public class ProjectAccountOrder {
     /**
      * @return 订单id
      */
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
@@ -142,14 +142,14 @@ public class ProjectAccountOrder {
      * @param orderId 
 	 *            订单id
      */
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     /**
      * @return 帐户id
      */
-    public Integer getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
@@ -157,8 +157,8 @@ public class ProjectAccountOrder {
      * @param accountId 
 	 *            帐户id
      */
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     /**
@@ -177,7 +177,7 @@ public class ProjectAccountOrder {
     }
 
     /**
-     * @return 类别，SBZ收退还保证金，JBZ交纳保证金，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值
+     * @return 类别，SBZ收 "退还保证金"(解冻)，JBZ交纳保证金(冻结)，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值,FRZ 冻结,UFZ 解冻,SXF 交手续费,TSX 退手续费
      */
     public String getType() {
         return type;
@@ -185,7 +185,7 @@ public class ProjectAccountOrder {
 
     /**
      * @param type 
-	 *            类别，SBZ收退还保证金，JBZ交纳保证金，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值
+	 *            类别，SBZ收 "退还保证金"(解冻)，JBZ交纳保证金(冻结)，GFK工程付款（招标方至平台），GSK工程收款（平台至投标方），CHZ冲正,TX#提现,CZ#充值,FRZ 冻结,UFZ 解冻,SXF 交手续费,TSX 退手续费
      */
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
@@ -209,7 +209,7 @@ public class ProjectAccountOrder {
     /**
      * @return 标的id
      */
-    public Integer getObjectId() {
+    public String getObjectId() {
         return objectId;
     }
 
@@ -217,8 +217,8 @@ public class ProjectAccountOrder {
      * @param objectId 
 	 *            标的id
      */
-    public void setObjectId(Integer objectId) {
-        this.objectId = objectId;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**

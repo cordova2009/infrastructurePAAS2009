@@ -22,6 +22,10 @@ public interface BiddeeMapper {
      * 根据主键查询记录
      */
     Biddee selectByPrimaryKey(Integer id);
+    /**
+     * 根据userId查询记录
+     */
+    Biddee selectByUserId(Integer userId);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -32,4 +36,6 @@ public interface BiddeeMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(Biddee record);
+    
+    
 }

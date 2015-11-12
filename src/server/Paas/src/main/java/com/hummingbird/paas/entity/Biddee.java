@@ -127,7 +127,7 @@ public class Biddee {
     private String status;
 
     /**
-     * 板块分类,来自行业版块表
+     * 工程类别,来自行业版块表
      */
     private String industryId;
 
@@ -557,7 +557,7 @@ public class Biddee {
     }
 
     /**
-     * @return 板块分类,来自行业版块表
+     * @return 工程类别,来自行业版块表
      */
     public String getIndustryId() {
         return industryId;
@@ -565,7 +565,7 @@ public class Biddee {
 
     /**
      * @param industryId 
-	 *            板块分类,来自行业版块表
+	 *            工程类别,来自行业版块表
      */
     public void setIndustryId(String industryId) {
         this.industryId = industryId == null ? null : industryId.trim();

@@ -11,6 +11,8 @@ public class BondAccount {
      */
     private String accountId;
 
+    private Integer userId;
+
     /**
      * 帐户余额
      */
@@ -54,6 +56,14 @@ public class BondAccount {
      */
     public void setAccountId(String accountId) {
         this.accountId = accountId == null ? null : accountId.trim();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -159,6 +169,7 @@ public class BondAccount {
         }
         BondAccount other = (BondAccount) that;
         return (this.getAccountId() == null ? other.getAccountId() == null : this.getAccountId().equals(other.getAccountId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getBalance() == null ? other.getBalance() == null : this.getBalance().equals(other.getBalance()))
             && (this.getSignature() == null ? other.getSignature() == null : this.getSignature().equals(other.getSignature()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
@@ -172,6 +183,7 @@ public class BondAccount {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getAccountId() == null) ? 0 : getAccountId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getBalance() == null) ? 0 : getBalance().hashCode());
         result = prime * result + ((getSignature() == null) ? 0 : getSignature().hashCode());
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());

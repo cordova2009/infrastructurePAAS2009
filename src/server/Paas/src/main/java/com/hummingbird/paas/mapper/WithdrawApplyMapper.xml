@@ -9,10 +9,17 @@
     <result column="user_bankcard_id" property="userBankcardId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="voucher" property="voucher" jdbcType="VARCHAR" />
+    <result column="transport_time" property="transportTime" jdbcType="TIMESTAMP" />
+    <result column="voucher_pic" property="voucherPic" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     order_id, withdraw_amount, commission_fees, insert_time, user_bankcard_id, user_id, 
-    status
+    status, bank, voucher, transport_time, voucher_pic, bank_id, update_time, updator
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -27,10 +34,14 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
     insert into t_ddgl_withdraw_apply (order_id, withdraw_amount, commission_fees, 
       insert_time, user_bankcard_id, user_id, 
-      status)
+      status, bank, voucher, 
+      transport_time, voucher_pic, bank_id, 
+      update_time, updator)
     values (#{orderId,jdbcType=VARCHAR}, #{withdrawAmount,jdbcType=INTEGER}, #{commissionFees,jdbcType=INTEGER}, 
       #{insertTime,jdbcType=TIMESTAMP}, #{userBankcardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{status,jdbcType=VARCHAR})
+      #{status,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, #{voucher,jdbcType=VARCHAR}, 
+      #{transportTime,jdbcType=TIMESTAMP}, #{voucherPic,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
     insert into t_ddgl_withdraw_apply
@@ -56,6 +67,27 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="voucher != null" >
+        voucher,
+      </if>
+      <if test="transportTime != null" >
+        transport_time,
+      </if>
+      <if test="voucherPic != null" >
+        voucher_pic,
+      </if>
+      <if test="bankId != null" >
+        bank_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
@@ -78,6 +110,27 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher != null" >
+        #{voucher,jdbcType=VARCHAR},
+      </if>
+      <if test="transportTime != null" >
+        #{transportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voucherPic != null" >
+        #{voucherPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null" >
+        #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -102,6 +155,27 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher != null" >
+        voucher = #{voucher,jdbcType=VARCHAR},
+      </if>
+      <if test="transportTime != null" >
+        transport_time = #{transportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voucherPic != null" >
+        voucher_pic = #{voucherPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null" >
+        bank_id = #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null" >
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
     </set>
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
@@ -112,7 +186,20 @@
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       user_bankcard_id = #{userBankcardId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      voucher = #{voucher,jdbcType=VARCHAR},
+      transport_time = #{transportTime,jdbcType=TIMESTAMP},
+      voucher_pic = #{voucherPic,jdbcType=VARCHAR},
+      bank_id = #{bankId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
+  <select id="queryWithdrawalsApplyList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ddgl_withdraw_apply
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>

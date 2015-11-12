@@ -12,7 +12,7 @@ public class MemberProductPrivilege {
     /**
      * 会员产品id
      */
-    private Integer productId;
+    private String productId;
 
     /**
      * 特权
@@ -37,7 +37,7 @@ public class MemberProductPrivilege {
     /**
      * @return 会员产品id
      */
-    public Integer getProductId() {
+    public String getProductId() {
         return productId;
     }
 
@@ -45,8 +45,8 @@ public class MemberProductPrivilege {
      * @param productId 
 	 *            会员产品id
      */
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
     }
 
     /**

@@ -6,10 +6,10 @@
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
     <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
-    <result column="certification_count" property="certificationCount" jdbcType="INTEGER" />
+    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, object_id, certification_id, certification_name, certification_count
+    id, object_id, certification_id, certification_name, industry_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -17,15 +17,35 @@
     from t_ztgl_object_certification_requirement
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectCertificationInfos" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_certification_requirement
+    where object_id in (
+    	select object_id 
+    	from t_ztgl_object
+	    where biddee_id = #{biddeeId} 
+	    <if test="objectId != null">
+	    and object_id = #{objectId}
+	    </if>
+	    <if test="status != null">
+	    and object_status = #{status}
+	    </if>
+    )
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_object_certification_requirement
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByObjectId" parameterType="java.lang.String" >
+    delete from t_ztgl_object_certification_requirement
+    where object_id = #{object_id}
+  </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectCertificationRequirement" >
     insert into t_ztgl_object_certification_requirement (id, object_id, certification_id, 
-      certification_name, certification_count)
+      certification_name, industry_id)
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{certificationId,jdbcType=INTEGER}, 
-      #{certificationName,jdbcType=VARCHAR}, #{certificationCount,jdbcType=INTEGER})
+      #{certificationName,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectCertificationRequirement" >
     insert into t_ztgl_object_certification_requirement
@@ -42,8 +62,8 @@
       <if test="certificationName != null" >
         certification_name,
       </if>
-      <if test="certificationCount != null" >
-        certification_count,
+      <if test="industryId != null" >
+        industry_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -59,8 +79,8 @@
       <if test="certificationName != null" >
         #{certificationName,jdbcType=VARCHAR},
       </if>
-      <if test="certificationCount != null" >
-        #{certificationCount,jdbcType=INTEGER},
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -76,8 +96,8 @@
       <if test="certificationName != null" >
         certification_name = #{certificationName,jdbcType=VARCHAR},
       </if>
-      <if test="certificationCount != null" >
-        certification_count = #{certificationCount,jdbcType=INTEGER},
+      <if test="industryId != null" >
+        industry_id = #{industryId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -87,7 +107,7 @@
     set object_id = #{objectId,jdbcType=VARCHAR},
       certification_id = #{certificationId,jdbcType=INTEGER},
       certification_name = #{certificationName,jdbcType=VARCHAR},
-      certification_count = #{certificationCount,jdbcType=INTEGER}
+      industry_id = #{industryId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -57,6 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="查询未完成招标项目保证金接口"  onclick='setbinding("/tender/queryObjectBondInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {            \"objectId\":\"BH2015082135656\",            \"token\":\"56435475\"        }    } ")'  type="button" ></td>
 		<td><input  value="保存招标项目保证金接口"  onclick='setbinding("/tender/saveObjectBondInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {            \"objectId\":\"BH2015082135656\",            \"token\":\"356578\",            \"bidBondAmount\":50000         }     }")'  type="button" ></td>
 	</tr>
+	<tr>
+		<td><input  value="查询未完成招标项目投标文件接口"  onclick='setbinding("/tender/queryBidFileTypeInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"546785\",        \"objectId\":\"BH2015082135656\"    }    }")'  type="button" ></td>
+	</tr>
 	<tr><td colspan="6">资金管理</td></tr>
 	<tr>
 		<td><input type="button"  value="查询我的银行账号信息"  onclick='setbinding("/capitalManage/getMyBankInfo","{\"app\":{\"appId\":\"ADP\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"SIGNATURE\"  }, \"body\":{\"token\":\"USER_TOKEN\"}}")'></td>

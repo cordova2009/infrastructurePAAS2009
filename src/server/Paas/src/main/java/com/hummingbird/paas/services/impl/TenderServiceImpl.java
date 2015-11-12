@@ -17,17 +17,18 @@ import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
-import com.hummingbird.common.util.MoneyUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
+import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
@@ -35,12 +36,14 @@ import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
 import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectBondInfo;
 import com.hummingbird.paas.vo.SaveObjectCertificationInfo;
@@ -73,6 +76,8 @@ public class TenderServiceImpl implements TenderService {
 	ObjectCertificationRequirementMapper ocrDao;
 	@Autowired
 	ObjectBondSettingMapper obsDao;
+	@Autowired
+	ObjectAttachmentMapper oaDao;
 
 	/**
 	 * 我的招标评标概况接口
@@ -611,7 +616,7 @@ public class TenderServiceImpl implements TenderService {
 	public QueryObjectBondInfoResult queryObjectBondInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException{
 		if(log.isDebugEnabled()){
 				log.debug("查询未完成招标项目保证金接口开始");
-			}
+		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
@@ -658,4 +663,60 @@ public void saveObjectBondInfo(String appId,SaveObjectBondInfo body,Integer bidd
 			log.debug("保存招标项目保证金接口完成");
 	}
 }
+
+/**
+* 查询未完成招标项目投标文件接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public QueryBidFileTypeInfoResult queryBidFileTypeInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException
+{
+	if(log.isDebugEnabled()){
+		log.debug("查询未完成招标项目投标文件接口开始");
+	}
+	ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+	BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+	ValidateUtil.assertNull(bo, "招标项目不存在");
+	QueryBidFileTypeInfoResult result = new QueryBidFileTypeInfoResult();
+	result.setNeedBusinessStandard(bo.getNeedBusinessStandard());
+	result.setNeedCertificationCheckupFile(bo.getNeedCertificationCheckupFile());
+	result.setNeedTechnicalStandard(bo.getNeedTechnicalStandard());
+	// 请自行调整
+	if(log.isDebugEnabled()){
+		log.debug("查询未完成招标项目投标文件接口完成");
+	}
+	return result;
+	
+}
+
+
+/**
+* 保存招标项目投标文件接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void saveBidFileTypeInfo(String appId,SaveBidFileTypeInfo body,Integer biddeeId) throws BusinessException{
+	if(log.isDebugEnabled()){
+		log.debug("保存招标项目投标文件接口开始");
+	}
+	ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+	BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+	ValidateUtil.assertNull(bo, "招标项目不存在");
+	bo.setNeedBusinessStandard(StringUtils.defaultIfEmpty(body.getNeedBusinessStandard(),"NO#"));
+	bo.setNeedCertificationCheckupFile(StringUtils.defaultIfEmpty(body.getNeedCertificationCheckupFile(),"NO#"));
+	bo.setNeedTechnicalStandard(StringUtils.defaultIfEmpty(body.getNeedTechnicalStandard(),"NO#"));
+	dao.updateByPrimaryKey(bo);
+	// 请自行调整
+	if(log.isDebugEnabled()){
+			log.debug("保存招标项目投标文件接口完成");
+	}
+}
+
+
+
+
 }

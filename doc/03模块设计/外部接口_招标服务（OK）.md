@@ -1394,8 +1394,10 @@ POST数据格式：JSON
         {
             "objectId":"BH2015082135656",
             "token":"356578",
-            "bidFileType":["资格审查文件电子标书1份","商务标部分电子标书1份","技术标部分电子标书1份"]
-	    }
+	    "needBusinessStandard":"YES",
+            "needTechnicalStandard":"YES",
+            "needCertificationCheckupFile":"YES"
+	}
     }
 
 参数|是否必须|说明
@@ -1407,7 +1409,9 @@ signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,
 token|是|用户令牌
 token|是|用户令牌
 objectId|是|招标项目内部编号
-bidFileType|是|投标文件类型
+needBusinessStandard|是|投标方是否需要上传商务标书，YES，是。NO#，否。
+needTechnicalStandard|是|投标方是否需要上传技术标书，YES，是。NO#，否。
+needCertificationCheckupFile|是|投标方是否需要上传资格审查文件，YES，是。NO#，否。
 
 
 2）返回说明

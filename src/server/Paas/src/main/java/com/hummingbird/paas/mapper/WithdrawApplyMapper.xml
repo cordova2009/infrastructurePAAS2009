@@ -196,8 +196,12 @@
       updator = #{updator,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
+<<<<<<< HEAD
    
   <select id="queryWithdrawalsApplyList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+=======
+    <select id="queryWithdrawalsApplyList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+>>>>>>> remotes/origin/1.0
     select 
     <include refid="Base_Column_List" />
     from t_ddgl_withdraw_apply

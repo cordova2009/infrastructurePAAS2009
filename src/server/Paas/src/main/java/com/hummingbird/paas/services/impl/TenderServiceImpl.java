@@ -2,6 +2,7 @@ package com.hummingbird.paas.services.impl;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
@@ -19,12 +22,15 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.ObjectAttachment;
+import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
+import com.hummingbird.paas.entity.Qanda;
+import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -32,22 +38,32 @@ import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
+import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
 import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
+import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
+import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectBondInfo;
 import com.hummingbird.paas.vo.SaveObjectCertificationInfo;
 import com.hummingbird.paas.vo.SaveObjectConstructionInfo;
+import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
@@ -78,6 +94,12 @@ public class TenderServiceImpl implements TenderService {
 	ObjectBondSettingMapper obsDao;
 	@Autowired
 	ObjectAttachmentMapper oaDao;
+	@Autowired
+	BidInviteBidderMapper bibDao;
+	@Autowired
+	QandaMapper qaDao;
+	@Autowired
+	ObjectBaseinfoMapper obiDao;
 
 	/**
 	 * 我的招标评标概况接口
@@ -163,6 +185,7 @@ public class TenderServiceImpl implements TenderService {
 	 * @return 招标编号
 	 * @throws BusinessException
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public String saveObjectBaseInfo(String appId, SaveObjectBaseInfo body, Integer biddeeId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目基础信息接口开始");
@@ -273,6 +296,7 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public void saveObjectProjectInfo(String appId, int userId, SaveObjectProjectInfoBodyVO body, Integer biddeeId)
 			throws BusinessException {
 		if (log.isDebugEnabled()) {
@@ -281,6 +305,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		BidProjectInfo bp = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bp == null) {
 			bp = new BidProjectInfo();
@@ -360,6 +385,7 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public void saveProjectRequirementInfo(String appId, SaveProjectRequirementInfoBodyVO body, Integer biddeeId)
 			throws BusinessException {
 		if (log.isDebugEnabled()) {
@@ -369,6 +395,7 @@ public class TenderServiceImpl implements TenderService {
 		// 请自行调整
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		BidProjectInfo bpi = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bpi == null) {
 			bpi = new BidProjectInfo();
@@ -450,6 +477,7 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public void saveObjectConstructionInfo(String appId, SaveObjectConstructionInfo body, Integer biddeeId)
 			throws BusinessException {
 		if (log.isDebugEnabled()) {
@@ -459,6 +487,7 @@ public class TenderServiceImpl implements TenderService {
 		// 请自行调整
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		BidProjectInfo bpi = bpdao.selectByPrimaryKey(body.getObjectId());
 		try {
 			if (bpi == null) {
@@ -519,12 +548,12 @@ public class TenderServiceImpl implements TenderService {
 	 *            应用id
 	 * @param body
 	 *            参数
-	 * @return 
+	 * @return
 	 * @return
 	 * @throws BusinessException
 	 */
-	public QueryObjectCertificationInfoResult queryObjectCertificationInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
-			throws BusinessException {
+	public QueryObjectCertificationInfoResult queryObjectCertificationInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目资质要求接口开始");
 		}
@@ -536,38 +565,43 @@ public class TenderServiceImpl implements TenderService {
 		result.setNeedPmCertification(bo.getNeedPmCertification());
 		result.setNeedPmSafetyCertification(bo.getNeedPmSafetyCertification());
 		result.setNeedSafetyPermit(bo.getNeedSafetyPermit());
-		List<Map> certs = new ArrayList(); 
+		List<Map> certs = new ArrayList();
 		List<ObjectCertificationRequirement> certificationInfos = ocrDao.selectCertificationInfos(body.getObjectId(),
 				biddeeId, CommonStatusConst.STATUS_CREATE);
 		for (Iterator iterator = certificationInfos.iterator(); iterator.hasNext();) {
 			ObjectCertificationRequirement objectCertificationRequirement = (ObjectCertificationRequirement) iterator
 					.next();
-			Map<String,Object> certmap = new HashMap<>();
+			Map<String, Object> certmap = new HashMap<>();
 			certmap.put("certificateId", objectCertificationRequirement.getCertificationId());
 			certmap.put("industryId", objectCertificationRequirement.getIndustryId());
 			certmap.put("certificateName", objectCertificationRequirement.getCertificationName());
 			certs.add(certmap);
 		}
 		result.setBidderCertification(certs);
-		
+
 		// 请自行调整
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目资质要求接口完成");
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 保存招标项目资质要求接口
-	 * @param appId 应用id
-	 * @param body 参数
-	 * @return 
-	 * @throws BusinessException 
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
 	 */
-	public void saveObjectCertificationInfo(String appId,SaveObjectCertificationInfo body,Integer biddeeId) throws BusinessException{
-		if(log.isDebugEnabled()){
-				log.debug("保存招标项目资质要求接口开始");
-			}
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveObjectCertificationInfo(String appId, SaveObjectCertificationInfo body, Integer biddeeId)
+			throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标项目资质要求接口开始");
+		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		// 请自行调整
 		BidObject bo = null;
@@ -576,147 +610,552 @@ public class TenderServiceImpl implements TenderService {
 			bo = objs.get(0);
 		}
 		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		bo.setNeedConstructorCertification(body.getNeedConstructorCertification());
 		bo.setNeedPmCertification(body.getNeedPmCertification());
 		bo.setNeedPmSafetyCertification(body.getNeedPmSafetyCertification());
 		bo.setNeedSafetyPermit(body.getNeedSafetyPermit());
-		
+
 		dao.updateByPrimaryKey(bo);
-		//删除原有数据 ,并重新插入数据 
+		// 删除原有数据 ,并重新插入数据
 		int deleteByObjectId = ocrDao.deleteByObjectId(body.getObjectId());
-		
+
 		List<Map> bidderCertification = body.getBidderCertification();
-		
-		if(bidderCertification!=null){
+
+		if (bidderCertification != null) {
 			for (Iterator iterator = bidderCertification.iterator(); iterator.hasNext();) {
 				Map map = (Map) iterator.next();
 				ObjectCertificationRequirement objectCertificationRequirement = new ObjectCertificationRequirement();
-				objectCertificationRequirement.setCertificationId(NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId" ))));
-				objectCertificationRequirement.setCertificationName(ObjectUtils.toString(map.get("certificateName" )));
+				objectCertificationRequirement
+						.setCertificationId(NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId"))));
+				objectCertificationRequirement.setCertificationName(ObjectUtils.toString(map.get("certificateName")));
 				objectCertificationRequirement.setIndustryId(ObjectUtils.toString(map.get("industryId")));
 				objectCertificationRequirement.setObjectId(bo.getObjectId());
 				ocrDao.insert(objectCertificationRequirement);
 			}
 		}
-		
+
 		// 请自行调整
-		if(log.isDebugEnabled()){
-				log.debug("保存招标项目资质要求接口完成");
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标项目资质要求接口完成");
 		}
 	}
-	
-	
+
 	/**
 	 * 查询未完成招标项目保证金接口
-	 * @param appId 应用id
-	 * @param body 参数
-	 * @return 
-	 * @throws BusinessException 
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
 	 */
-	public QueryObjectBondInfoResult queryObjectBondInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException{
-		if(log.isDebugEnabled()){
-				log.debug("查询未完成招标项目保证金接口开始");
+	public QueryObjectBondInfoResult queryObjectBondInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
+			throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标项目保证金接口开始");
 		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
 		QueryObjectBondInfoResult result = new QueryObjectBondInfoResult();
-		if(objectBidderBond!=null)
-		{
-			result.setBidBondAmount(objectBidderBond/100+"元");
+		if (objectBidderBond != null) {
+			result.setBidBondAmount(objectBidderBond / 100 + "元");
 		}
-		if(log.isDebugEnabled()){
-				log.debug("查询未完成招标项目保证金接口完成");
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标项目保证金接口完成");
 		}
 		return result;
 	}
-	
+
 	/**
- * 保存招标项目保证金接口
- * @param appId 应用id
- * @param body 参数
- * @return 
- * @throws BusinessException 
- */
-public void saveObjectBondInfo(String appId,SaveObjectBondInfo body,Integer biddeeId) throws BusinessException{
-	if(log.isDebugEnabled()){
+	 * 保存招标项目保证金接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveObjectBondInfo(String appId, SaveObjectBondInfo body, Integer biddeeId) throws BusinessException {
+		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目保证金接口开始");
-	}
-	ValidateUtil.assertNull(body.getObjectId(), "招标编号");
-	BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-	ValidateUtil.assertNull(bo, "招标项目不存在");
-	ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId()); 
-	if(ob==null)
-	{
-		ob = new ObjectBondSetting();
-		ob.setObjectId(bo.getObjectId());
-		ob.setBidderBidBond(body.getBidBondAmount());
-		obsDao.insert(ob);
-	}
-	else{
-		ob.setBidderBidBond(body.getBidBondAmount());
-		obsDao.updateByPrimaryKey(ob);
-	}
-	
-	if(log.isDebugEnabled()){
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
+		if (ob == null) {
+			ob = new ObjectBondSetting();
+			ob.setObjectId(bo.getObjectId());
+			ob.setBidderBidBond(body.getBidBondAmount());
+			obsDao.insert(ob);
+		} else {
+			ob.setBidderBidBond(body.getBidBondAmount());
+			obsDao.updateByPrimaryKey(ob);
+		}
+
+		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目保证金接口完成");
+		}
 	}
-}
 
-/**
-* 查询未完成招标项目投标文件接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryBidFileTypeInfoResult queryBidFileTypeInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException
-{
-	if(log.isDebugEnabled()){
-		log.debug("查询未完成招标项目投标文件接口开始");
-	}
-	ValidateUtil.assertNull(body.getObjectId(), "招标编号");
-	BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-	ValidateUtil.assertNull(bo, "招标项目不存在");
-	QueryBidFileTypeInfoResult result = new QueryBidFileTypeInfoResult();
-	result.setNeedBusinessStandard(bo.getNeedBusinessStandard());
-	result.setNeedCertificationCheckupFile(bo.getNeedCertificationCheckupFile());
-	result.setNeedTechnicalStandard(bo.getNeedTechnicalStandard());
-	// 请自行调整
-	if(log.isDebugEnabled()){
-		log.debug("查询未完成招标项目投标文件接口完成");
-	}
-	return result;
-	
-}
+	/**
+	 * 查询未完成招标项目投标文件接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidFileTypeInfoResult queryBidFileTypeInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
+			throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标项目投标文件接口开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		QueryBidFileTypeInfoResult result = new QueryBidFileTypeInfoResult();
+		result.setNeedBusinessStandard(bo.getNeedBusinessStandard());
+		result.setNeedCertificationCheckupFile(bo.getNeedCertificationCheckupFile());
+		result.setNeedTechnicalStandard(bo.getNeedTechnicalStandard());
+		// 请自行调整
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标项目投标文件接口完成");
+		}
+		return result;
 
-
-/**
-* 保存招标项目投标文件接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void saveBidFileTypeInfo(String appId,SaveBidFileTypeInfo body,Integer biddeeId) throws BusinessException{
-	if(log.isDebugEnabled()){
-		log.debug("保存招标项目投标文件接口开始");
 	}
-	ValidateUtil.assertNull(body.getObjectId(), "招标编号");
-	BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-	ValidateUtil.assertNull(bo, "招标项目不存在");
-	bo.setNeedBusinessStandard(StringUtils.defaultIfEmpty(body.getNeedBusinessStandard(),"NO#"));
-	bo.setNeedCertificationCheckupFile(StringUtils.defaultIfEmpty(body.getNeedCertificationCheckupFile(),"NO#"));
-	bo.setNeedTechnicalStandard(StringUtils.defaultIfEmpty(body.getNeedTechnicalStandard(),"NO#"));
-	dao.updateByPrimaryKey(bo);
-	// 请自行调整
-	if(log.isDebugEnabled()){
+
+	/**
+	 * 保存招标项目投标文件接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveBidFileTypeInfo(String appId, SaveBidFileTypeInfo body, Integer biddeeId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标项目投标文件接口开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		bo.setNeedBusinessStandard(StringUtils.defaultIfEmpty(body.getNeedBusinessStandard(), "NO#"));
+		bo.setNeedCertificationCheckupFile(StringUtils.defaultIfEmpty(body.getNeedCertificationCheckupFile(), "NO#"));
+		bo.setNeedTechnicalStandard(StringUtils.defaultIfEmpty(body.getNeedTechnicalStandard(), "NO#"));
+		dao.updateByPrimaryKey(bo);
+		// 请自行调整
+		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目投标文件接口完成");
+		}
 	}
-}
 
+	/**
+	 * 查询未完成招标方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectMethodInfoResult queryObjectMethodInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
+			throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标方式接口开始");
+		}
+		QueryObjectMethodInfoResult result = null;
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = null;
+		List<BidObject> objs = dao.selectUnfinishObject(biddeeId, body.getObjectId());
+		if (objs != null && !objs.isEmpty()) {
+			bo = objs.get(0);
+		}
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		result = new QueryObjectMethodInfoResult();
+		result.setObjectMethod(bo.getObjectPublishType());
+		if ("INV".equals(bo.getObjectPublishType())) {
+			// 查询邀请投标
+			List<BidInviteBidder> invBidders = bibDao.selectByObjectId(body.getObjectId());
+			List list = new ArrayList<>();
+			for (Iterator iterator = invBidders.iterator(); iterator.hasNext();) {
+				BidInviteBidder bidInviteBidder = (BidInviteBidder) iterator.next();
+				Map row = new HashMap<>();
+				row.put("bidderId", bidInviteBidder.getBidderId());
+				row.put("bidderName", bidInviteBidder.getBidderName());
+				list.add(row);
+			}
+			result.setInviteTender(list);
+		}
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标方式接口完成");
+		}
+		return result;
+	}
 
+	/**
+	 * saveObjectMethodInfo
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveObjectMethodInfo(String appId, SaveObjectMethodInfo body, Integer biddeeId)
+			throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("saveObjectMethodInfo开始");
+		}
+		QueryObjectMethodInfoResult result = null;
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		switch (body.getObjectMethod()) {
+		case "PUB":
+			bo.setObjectPublishType(body.getObjectMethod());
+			bibDao.deleteByObjectId(body.getObjectId());
+			break;
+		case "INV":
+			bo.setObjectPublishType(body.getObjectMethod());
+			bibDao.deleteByObjectId(body.getObjectId());
+			List<InviteTenderVO> inviteTender = body.getInviteTender();
+			if (inviteTender == null || inviteTender.isEmpty()) {
+				log.error(String.format("招标[%s]中招标方式设置为邀标,但没有设置投标人", body.getObjectId()));
+			}
+			for (Iterator iterator = inviteTender.iterator(); iterator.hasNext();) {
+				InviteTenderVO inviteTenderVO = (InviteTenderVO) iterator.next();
+				BidInviteBidder bidInviteBidder = new BidInviteBidder();
+				bidInviteBidder.setObjectId(body.getObjectId());
+				bidInviteBidder.setBidderId(inviteTenderVO.getBidderId());
 
+				bibDao.insert(bidInviteBidder);
+			}
+		}
+		if (log.isDebugEnabled()) {
+			log.debug("saveObjectMethodInfo完成");
+		}
+	}
+
+	/**
+	 * 查询未完成招标答疑方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public QueryAnswerMethodInfoBodyVOResult queryAnswerMethodInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标答疑方式接口开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = null;
+		List<BidObject> objs = dao.selectUnfinishObject(biddeeId, body.getObjectId());
+		if (objs != null && !objs.isEmpty()) {
+			bo = objs.get(0);
+		}
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		Qanda qanda = qaDao.selectByObjectId(body.getObjectId());
+		QueryAnswerMethodInfoBodyVOResult result = new QueryAnswerMethodInfoBodyVOResult();
+		if ("YES".equals(qanda.getIsEmailAnswer())) {
+			result.setEmail(qanda.getEmail());
+		}
+		if ("YES".equals(qanda.getIsMeetngAnswer())) {
+			result.setAddress(qanda.getAddress());
+			result.setAddressAnswerDate(qanda.getAnswerDate());
+			result.setAddressAnswerTime(qanda.getAnswerTime());
+		}
+		if ("YES".equals(qanda.getIsQqAnswer())) {
+			result.setQQ(qanda.getQqNo());
+			result.setQQtoken(qanda.getQqPassword());
+		}
+		if ("YES".equals(qanda.getIsTelAnswer())) {
+			result.setTelephone(qanda.getTelephone());
+		}
+		result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
+		result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标答疑方式接口完成");
+		}
+		return result;
+	}
+
+	/**
+	 * 保存招标答疑方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveAnswerMethodInfo(String appId, SaveAnswerMethodInfoBodyVO body) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标答疑方式接口开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		Qanda qanda = qaDao.selectByObjectId(body.getObjectId());
+		boolean isadd = false;
+		if (qanda == null) {
+			isadd = true;
+			qanda = new Qanda();
+			qanda.setObjectId(body.getObjectId());
+		}
+		try {
+			qanda.setAnswerStartDate(DateUtil.parse2date(body.getStartTime()));
+			qanda.setAnswerEndDate(DateUtil.parse2date(body.getEndTime()));
+		} catch (ParseException e) {
+			log.error(String.format("日期转换出错"), e);
+			throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "答疑时间日期格式不正确");
+		}
+		qanda.setQqNo(body.getQQ());
+		qanda.setQqPassword(body.getQQtoken());
+		qanda.setTelephone(body.getTelephone());
+		qanda.setAddress(body.getAddress());
+		qanda.setEmail(body.getEmail());
+		qanda.setIsEmailAnswer("YES");
+		qanda.setIsMeetngAnswer("YES");
+		qanda.setIsQqAnswer("YES");
+		qanda.setIsTelAnswer("YES");
+		if (isadd) {
+			qaDao.insert(qanda);
+		} else {
+			qaDao.updateByPrimaryKey(qanda);
+		}
+
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标答疑方式接口完成");
+		}
+	}
+
+	/**
+	 * 查询未完成招标时间要求接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public QueryDateRequirementInfoBodyVOResult queryDateRequirementInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标时间要求接口开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
+		QueryDateRequirementInfoBodyVOResult result = new QueryDateRequirementInfoBodyVOResult();
+		if (baseinfo != null) {
+			result.setAnnouncementBeginTime(baseinfo.getAnnouncementBeginTime() == null ? ""
+					: DateUtil.format(baseinfo.getAnnouncementBeginTime(), "yyyy-MM-dd"));
+			result.setAnnouncementEndTime(baseinfo.getAnnouncementEndTime() == null ? ""
+					: DateUtil.format(baseinfo.getAnnouncementEndTime(), "yyyy-MM-dd"));
+			result.setBiddingEndTime(baseinfo.getBiddingEndTime() == null ? ""
+					: DateUtil.format(baseinfo.getBiddingEndTime(), "yyyy-MM-dd"));
+			result.setBidOpenDate(
+					bo.getBidOpenDate() == null ? "" : DateUtil.format(bo.getBidOpenDate(), "yyyy-MM-dd"));
+		}
+		// 请自行调整
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标时间要求接口完成");
+		}
+		return result;
+	}
+
+	/**
+	 * 保存招标时间要求
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveDateRequirementInfo(String appId, SaveDateRequirementInfoBodyVO body) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标时间要求开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
+		boolean isadd = false;
+		if (baseinfo != null) {
+			isadd = true;
+			baseinfo = new ObjectBaseinfo();
+			baseinfo.setObjectId(body.getObjectId());
+		}
+		try {
+			baseinfo.setAnnouncementBeginTime(getDateFromStringOrNull(body.getAnnouncementBeginTime()));
+			baseinfo.setAnnouncementEndTime(getDateFromStringOrNull(body.getAnnouncementEndTime()));
+			baseinfo.setBiddingEndTime(getDateFromStringOrNull(body.getBiddingEndTime()));
+			bo.setBidOpenDate(getDateFromStringOrNull(body.getBidOpenDate()));
+		} catch (ParseException e) {
+			log.error(String.format("日期格式不正确"), e);
+			throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "日期格式不正确");
+		}
+		if (isadd) {
+			obiDao.insert(baseinfo);
+		} else {
+			obiDao.updateByPrimaryKey(baseinfo);
+		}
+		dao.updateByPrimaryKey(bo);
+
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标时间要求完成");
+		}
+	}
+
+	/**
+	 * 把字符串转为日期,如果内容为空,则返回null
+	 * 
+	 * @param datestr
+	 * @return
+	 * @throws ParseException
+	 */
+	private Date getDateFromStringOrNull(String datestr) throws ParseException {
+		if (StringUtils.isNotBlank(datestr)) {
+			return DateUtil.parse(datestr).getTime();
+		} else {
+			return (null);
+		}
+	}
+
+	/**
+	 * 查询未完成招标评标方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public QueryBidEvaluationTypeInfoBodyVOResult queryBidEvaluationTypeInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标评标方式接口开始");
+		}
+		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
+		QueryBidEvaluationTypeInfoBodyVOResult result = new QueryBidEvaluationTypeInfoBodyVOResult();
+		if (baseinfo != null) {
+			result.setBidEvaluationSite(baseinfo.getBidEvaluationSite());
+			result.setBidEvaluationType(baseinfo.getBidEvaluationType());
+			result.setBidWinnerDetermineWay(baseinfo.getBidWinnerDetermineWay());
+			result.setVoteWinWay(baseinfo.getVoteWinWay());
+		}
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标评标方式接口完成");
+		}
+		return result;
+	}
+
+	/**
+	 * 保存招标评标方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void saveBidEvaluationTypeInfo(String appId, SaveBidEvaluationTypeInfoBodyVO body) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标评标方式接口开始");
+		}
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
+		boolean isadd = false;
+		if (baseinfo != null) {
+			isadd = true;
+			baseinfo = new ObjectBaseinfo();
+			baseinfo.setObjectId(body.getObjectId());
+		}
+		baseinfo.setBidEvaluationSite((body.getBidEvaluationSite()));
+		baseinfo.setBidEvaluationType((body.getBidEvaluationType()));
+		baseinfo.setBidWinnerDetermineWay((body.getBidWinnerDetermineWay()));
+		baseinfo.setVoteWinWay((body.getVoteWinWay()));
+		if (isadd) {
+			obiDao.insert(baseinfo);
+		} else {
+			obiDao.updateByPrimaryKey(baseinfo);
+		}
+		dao.updateByPrimaryKey(bo);
+		if (log.isDebugEnabled()) {
+			log.debug("保存招标评标方式接口完成");
+		}
+	}
+
+	/**
+	 * 发布标的接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void submitObject(String appId, QueryObjectBodyVO body, Integer biddeeId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("发布标的接口开始");
+		}
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+
+		ValidateUtil.assertNotEqual(bo.getBiddeeId(), biddeeId, "项目非您的招标项目,不能进行操作");
+		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		bo.setObjectStatus("PUB");
+		dao.updateByPrimaryKey(bo);
+		if (log.isDebugEnabled()) {
+			log.debug("发布标的接口完成");
+		}
+	}
 
 }

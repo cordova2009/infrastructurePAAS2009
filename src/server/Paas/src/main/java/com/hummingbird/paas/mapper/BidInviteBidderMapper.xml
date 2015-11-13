@@ -6,6 +6,12 @@
     <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BaseResultMapWithNameReadonly" type="com.hummingbird.paas.entity.BidInviteBidder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="bidder_name" property="bidderName" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_id, object_id
   </sql>
@@ -15,9 +21,19 @@
     from t_ztgl_bid_invite_bidder
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapWithNameReadonly" parameterType="java.lang.String" >
+    select 
+    b.*,concat(a.real_name,'(',r.company_name,')') bidder_name
+    from t_ztgl_bid_invite_bidder b left join t_qyzz_bidder r on b.bidder_id = r.id left join t_user_auth a on r.user_id = a. user_id
+    where object_id = #{objectId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_bid_invite_bidder
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByObjectId" parameterType="java.lang.String" >
+    delete from t_ztgl_bid_invite_bidder
+   where object_id = #{objectId}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidInviteBidder" >
     insert into t_ztgl_bid_invite_bidder (id, bidder_id, object_id

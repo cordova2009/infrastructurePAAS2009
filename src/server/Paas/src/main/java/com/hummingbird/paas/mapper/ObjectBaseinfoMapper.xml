@@ -12,11 +12,17 @@
     <result column="bidding_document_fetch_start_time" property="biddingDocumentFetchStartTime" jdbcType="TIMESTAMP" />
     <result column="bidding_no" property="biddingNo" jdbcType="VARCHAR" />
     <result column="object_description" property="objectDescription" jdbcType="VARCHAR" />
+    <result column="certification_checkup_type" property="certificationCheckupType" jdbcType="VARCHAR" />
+    <result column="bid_evaluation_type" property="bidEvaluationType" jdbcType="VARCHAR" />
+    <result column="bid_evaluation_site" property="bidEvaluationSite" jdbcType="VARCHAR" />
+    <result column="bid_winner_determine_way" property="bidWinnerDetermineWay" jdbcType="VARCHAR" />
+    <result column="vote_win_way" property="voteWinWay" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     object_id, announcement_begin_time, announcement_end_time, question_end_time, answer_question_start_time, 
     answer_question_end_time, bidding_end_time, bidding_document_fetch_start_time, bidding_no, 
-    object_description
+    object_description, certification_checkup_type, bid_evaluation_type, bid_evaluation_site, 
+    bid_winner_determine_way, vote_win_way
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,12 +39,16 @@
       announcement_end_time, question_end_time, 
       answer_question_start_time, answer_question_end_time, 
       bidding_end_time, bidding_document_fetch_start_time, 
-      bidding_no, object_description)
+      bidding_no, object_description, certification_checkup_type, 
+      bid_evaluation_type, bid_evaluation_site, bid_winner_determine_way, 
+      vote_win_way)
     values (#{objectId,jdbcType=VARCHAR}, #{announcementBeginTime,jdbcType=TIMESTAMP}, 
       #{announcementEndTime,jdbcType=TIMESTAMP}, #{questionEndTime,jdbcType=TIMESTAMP}, 
       #{answerQuestionStartTime,jdbcType=TIMESTAMP}, #{answerQuestionEndTime,jdbcType=TIMESTAMP}, 
       #{biddingEndTime,jdbcType=TIMESTAMP}, #{biddingDocumentFetchStartTime,jdbcType=TIMESTAMP}, 
-      #{biddingNo,jdbcType=VARCHAR}, #{objectDescription,jdbcType=VARCHAR})
+      #{biddingNo,jdbcType=VARCHAR}, #{objectDescription,jdbcType=VARCHAR}, #{certificationCheckupType,jdbcType=VARCHAR}, 
+      #{bidEvaluationType,jdbcType=VARCHAR}, #{bidEvaluationSite,jdbcType=VARCHAR}, #{bidWinnerDetermineWay,jdbcType=VARCHAR}, 
+      #{voteWinWay,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBaseinfo" >
     insert into t_ztgl_object_baseinfo
@@ -73,6 +83,21 @@
       <if test="objectDescription != null" >
         object_description,
       </if>
+      <if test="certificationCheckupType != null" >
+        certification_checkup_type,
+      </if>
+      <if test="bidEvaluationType != null" >
+        bid_evaluation_type,
+      </if>
+      <if test="bidEvaluationSite != null" >
+        bid_evaluation_site,
+      </if>
+      <if test="bidWinnerDetermineWay != null" >
+        bid_winner_determine_way,
+      </if>
+      <if test="voteWinWay != null" >
+        vote_win_way,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
@@ -104,6 +129,21 @@
       </if>
       <if test="objectDescription != null" >
         #{objectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="certificationCheckupType != null" >
+        #{certificationCheckupType,jdbcType=VARCHAR},
+      </if>
+      <if test="bidEvaluationType != null" >
+        #{bidEvaluationType,jdbcType=VARCHAR},
+      </if>
+      <if test="bidEvaluationSite != null" >
+        #{bidEvaluationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="bidWinnerDetermineWay != null" >
+        #{bidWinnerDetermineWay,jdbcType=VARCHAR},
+      </if>
+      <if test="voteWinWay != null" >
+        #{voteWinWay,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -137,6 +177,21 @@
       <if test="objectDescription != null" >
         object_description = #{objectDescription,jdbcType=VARCHAR},
       </if>
+      <if test="certificationCheckupType != null" >
+        certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},
+      </if>
+      <if test="bidEvaluationType != null" >
+        bid_evaluation_type = #{bidEvaluationType,jdbcType=VARCHAR},
+      </if>
+      <if test="bidEvaluationSite != null" >
+        bid_evaluation_site = #{bidEvaluationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="bidWinnerDetermineWay != null" >
+        bid_winner_determine_way = #{bidWinnerDetermineWay,jdbcType=VARCHAR},
+      </if>
+      <if test="voteWinWay != null" >
+        vote_win_way = #{voteWinWay,jdbcType=VARCHAR},
+      </if>
     </set>
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
@@ -150,7 +205,12 @@
       bidding_end_time = #{biddingEndTime,jdbcType=TIMESTAMP},
       bidding_document_fetch_start_time = #{biddingDocumentFetchStartTime,jdbcType=TIMESTAMP},
       bidding_no = #{biddingNo,jdbcType=VARCHAR},
-      object_description = #{objectDescription,jdbcType=VARCHAR}
+      object_description = #{objectDescription,jdbcType=VARCHAR},
+      certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},
+      bid_evaluation_type = #{bidEvaluationType,jdbcType=VARCHAR},
+      bid_evaluation_site = #{bidEvaluationSite,jdbcType=VARCHAR},
+      bid_winner_determine_way = #{bidWinnerDetermineWay,jdbcType=VARCHAR},
+      vote_win_way = #{voteWinWay,jdbcType=VARCHAR}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

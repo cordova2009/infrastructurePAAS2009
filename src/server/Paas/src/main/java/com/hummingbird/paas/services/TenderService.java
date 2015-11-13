@@ -4,18 +4,26 @@ import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
 import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
+import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
+import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectBondInfo;
 import com.hummingbird.paas.vo.SaveObjectCertificationInfo;
 import com.hummingbird.paas.vo.SaveObjectConstructionInfo;
+import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
@@ -183,4 +191,86 @@ public QueryBidFileTypeInfoResult queryBidFileTypeInfo(String appId,QueryObjectB
 */
 public void saveBidFileTypeInfo(String appId,SaveBidFileTypeInfo body,Integer biddeeId) throws BusinessException;
 	
+/**
+ * 查询未完成招标方式接口
+ * @param appId 应用id
+ * @param body 参数
+ * @return 
+ * @throws BusinessException 
+ */
+public QueryObjectMethodInfoResult queryObjectMethodInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+
+/**
+ * saveObjectMethodInfo
+ * @param appId 应用id
+ * @param body 参数
+ * @return 
+ * @throws BusinessException 
+ */
+public void saveObjectMethodInfo(String appId,SaveObjectMethodInfo body,Integer biddeeId) throws BusinessException;
+
+/**
+* 查询未完成招标答疑方式接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public QueryAnswerMethodInfoBodyVOResult queryAnswerMethodInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+
+/**
+* 保存招标答疑方式接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void saveAnswerMethodInfo(String appId,SaveAnswerMethodInfoBodyVO body) throws BusinessException;
+/**
+* 查询未完成招标时间要求接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public QueryDateRequirementInfoBodyVOResult queryDateRequirementInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+
+
+/**
+* 保存招标时间要求
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void saveDateRequirementInfo(String appId,SaveDateRequirementInfoBodyVO body) throws BusinessException;
+/**
+* 查询未完成招标评标方式接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public QueryBidEvaluationTypeInfoBodyVOResult queryBidEvaluationTypeInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+
+/**
+ * 保存招标评标方式接口
+ * @param appId 应用id
+ * @param body 参数
+ * @return 
+ * @throws BusinessException 
+ */
+public void saveBidEvaluationTypeInfo(String appId,SaveBidEvaluationTypeInfoBodyVO body) throws BusinessException;
+
+/**
+* 发布标的接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void submitObject(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+
+
+
 }

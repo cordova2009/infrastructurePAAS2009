@@ -17,6 +17,12 @@
     from t_hygl_biddee
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByBiddeeId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_hygl_biddee
+    where biddee_id = #{biddeeId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_hygl_biddee
     where id = #{id,jdbcType=INTEGER}

@@ -43,4 +43,10 @@ public interface BidObjectMapper {
 	 * @return
 	 */
 	List<BidObject> selectUnfinishObject(@Param("biddeeId")Integer biddeeId,@Param("objectId")String objectId);
+	/**
+	 * 查询招标人发布的招标信息
+	 * @param id
+	 * @return
+	 */
+	List<BidObject> selectbyBiddeeId(@Param("biddeeId")Integer biddeeId,@Param("status")String status);
 }

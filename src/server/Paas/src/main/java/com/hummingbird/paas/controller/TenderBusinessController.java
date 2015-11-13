@@ -40,11 +40,13 @@ import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 
 import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
+import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeBankAduit;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
@@ -53,7 +55,9 @@ import com.hummingbird.paas.entity.InstationNotification;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ScoreLevel;
+import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
+import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -67,6 +71,8 @@ import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
+import com.hummingbird.paas.services.TenderService;
+import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
@@ -76,8 +82,11 @@ import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
+import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
+import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.SmsListBodyVO;
 import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
@@ -97,6 +106,10 @@ public class TenderBusinessController extends BaseController  {
 	protected ProjectPaymentDefineMapper projectPaymentDefineDao;
 	@Autowired
 	protected ProjectPaymentDefineDetailMapper projectPaymentDefineDetailDao;
+	@Autowired
+	TokenService tokenSrv;
+	@Autowired
+	TenderService  tenderService;
 
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
@@ -269,73 +282,81 @@ public class TenderBusinessController extends BaseController  {
 	@RequestMapping(value="/queryMyObjectBidList",method=RequestMethod.POST)
 	@AccessRequered(methodName = "我的招标项目投标列表")
 	public @ResponseBody ResultModel queryMyObjectBidList(HttpServletRequest request,HttpServletResponse response) {
-		return null;
-//		int basecode = 2341200;//待定
-//		String messagebase = "查询我的招标项目投标列表";
-//		BaseTransVO<TenderSurveyBodyVO> transorder = null;
-//		ResultModel rm = new ResultModel();
-////		rm.setBaseErrorCode(basecode);
-//		try {
-//			String jsonstr  = RequestUtil.getRequestPostData(request);
-//			request.setAttribute("rawjson", jsonstr);
-//			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, TenderSurveyBodyVO.class);
-//		} catch (Exception e) {
-//			log.error(String.format("获取参数出错"),e);
-//			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数异常"));
-//			return rm;
-//		}
-//		rm.setErrmsg(messagebase + "成功");
-//		RequestEvent qe=null ;		
-//		AppLog rnr = new AppLog();
-//		rnr.setAppid(transorder.getApp().getAppId());
-//		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
-//		rnr.setInserttime(new Date());
-//		rnr.setMethod("/tender/queryMyObjectBidList");
-//		
-//		List<InstationNotification> list=new ArrayList<InstationNotification>();
-//		try {
-//			com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
-//			String token = transorder.getBody().getToken();
-//			String objectid = transorder.getBody().getObjectId();
-//			
-//			list = tenderService.selectByUserInValid(token,status,page);
-//			List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<InstationNotification, Map>() {
-//
-//				@Override
-//				public Map convert(InstationNotification ori) {
-//					
-//					try {
-//						Map row= BeanUtils.describe(ori);
-//						row.put("insertTime", DateUtil.formatCommonDateorNull(ori.getInsertTime()));
-//						row.put("updateTime", DateUtil.formatCommonDateorNull(ori.getUpdateTime()));
-//						row.remove("class");
-//						return row;
-//						
-//					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-//						log.error(String.format("转换为map对象出错"),e);
-//						return null;
-//					}
-//				}
-//			});
-//			mergeListOutput(rm, page, nos);
-//			
-//		}catch (Exception e1) {
-//			log.error(String.format(messagebase + "失败"), e1);
-//			rm.mergeException(e1);
-//			if(qe!=null)
-//				qe.setSuccessed(false);
-//		} finally {
-//			
-//			try {
-//				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
-//				applogDao.insert(rnr);
-//			} catch (DataInvalidException e) {
-//				log.error(String.format("日志处理出错"),e);
-//			}
-//			
-//			if(qe!=null)
-//				EventListenerContainer.getInstance().fireEvent(qe);
-//		}
-//		return rm;
+		int basecode = 2341200;//待定
+		String messagebase = "查询我的招标项目投标列表";
+		BaseTransVO<TenderSurveyBodyVO> transorder = null;
+		ResultModel rm = new ResultModel();
+//		rm.setBaseErrorCode(basecode);
+		try {
+			String jsonstr  = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, TenderSurveyBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数异常"));
+			return rm;
+		}
+		rm.setErrmsg(messagebase + "成功");
+		RequestEvent qe=null ;		
+		AppLog rnr = new AppLog();
+		rnr.setAppid(transorder.getApp().getAppId());
+		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+		rnr.setInserttime(new Date());
+		rnr.setMethod("/tender/queryMyObjectBidList");
+		
+		List<TenderMyObjectBidReturnVO> list=new ArrayList<TenderMyObjectBidReturnVO>();
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+			
+			list = tenderService.selectByObjectIdInValid(token.getUserId(),transorder.getBody().getObjectId(),page);
+			List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderMyObjectBidReturnVO, Map>() {
+
+				@Override
+				public Map convert(TenderMyObjectBidReturnVO ori) {
+					
+					try {
+						Map row= BeanUtils.describe(ori);
+						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
+						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+						
+						row.remove("class");
+						return row;
+						
+					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+						log.error(String.format("转换为map对象出错"),e);
+						return null;
+					}
+				}
+			});
+			mergeListOutput(rm, page, nos);
+			
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			
+			try {
+				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
+				applogDao.insert(rnr);
+			} catch (DataInvalidException e) {
+				log.error(String.format("日志处理出错"),e);
+			}
+			
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
 	}  
+	
+	
+	
+	
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.MoneyUtil;
 import com.hummingbird.common.util.ValidateUtil;
@@ -23,6 +24,7 @@ import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.InstationNotification;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.mapper.BidObjectMapper;
@@ -48,6 +50,7 @@ import com.hummingbird.paas.vo.SaveObjectConstructionInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 
 /**
  * @author
@@ -658,4 +661,27 @@ public void saveObjectBondInfo(String appId,SaveObjectBondInfo body,Integer bidd
 			log.debug("保存招标项目保证金接口完成");
 	}
 }
+
+	@Override
+	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	@Override
+//	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
+//		// TODO Auto-generated method stub
+//		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+//		
+//		if(page!=null&&page.isCountsize()){
+//			int totalcount = notificationDao.selectTotalCountByTokenAndStatus(token, status);
+//			page.setTotalCount(totalcount);
+//			page.calculatePageCount();
+//		}
+//		List<InstationNotification> nos = notificationDao.selectByUserInValid(token, status, page); 
+//		
+//		return nos;
+//	}
+
+
 }

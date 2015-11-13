@@ -1,6 +1,9 @@
 package com.hummingbird.paas.services;
 
+import java.util.List;
+
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
@@ -17,6 +20,7 @@ import com.hummingbird.paas.vo.SaveObjectConstructionInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 
 /**
  * @author
@@ -162,6 +166,14 @@ public QueryObjectBondInfoResult queryObjectBondInfo(String appId,QueryObjectBod
 * @throws BusinessException 
 */
 public void saveObjectBondInfo(String appId,SaveObjectBondInfo body,Integer biddeeId) throws BusinessException;
+/**
+* 查询标项目投标列表列表
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
 
 	
 }

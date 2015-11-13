@@ -1,9 +1,6 @@
 package com.hummingbird.paas.mapper;
 
-import java.util.List;
-
 import com.hummingbird.paas.entity.BiddeeCertificationCertification;
-import com.hummingbird.paas.vo.BidderEqInfo;
 
 public interface BiddeeCertificationCertificationMapper {
     /**
@@ -25,7 +22,6 @@ public interface BiddeeCertificationCertificationMapper {
      * 根据主键查询记录
      */
     BiddeeCertificationCertification selectByPrimaryKey(Integer id);
-    
 
     /**
      * 根据主键更新属性不为空的记录

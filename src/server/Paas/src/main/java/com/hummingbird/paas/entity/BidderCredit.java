@@ -34,145 +34,6 @@ public class BidderCredit {
      */
     private Integer bankInfo;
 
-    /**
-     * @return 承包商id
-     */
-    public Integer getBidderId() {
-        return bidderId;
-    }
-
-    /**
-     * @param bidderId 
-	 *            承包商id
-     */
-    public void setBidderId(Integer bidderId) {
-        this.bidderId = bidderId;
-    }
-
-    /**
-     * @return 信用积分，它=个人信息信用积分+资质信用积分+招标信用积分
-     */
-    public Integer getCreditScore() {
-        return creditScore;
-    }
-
-    /**
-     * @param creditScore 
-	 *            信用积分，它=个人信息信用积分+资质信用积分+招标信用积分
-     */
-    public void setCreditScore(Integer creditScore) {
-        this.creditScore = creditScore;
-    }
-
-    /**
-     * @return 个人信息信用积分
-     */
-    public Integer getBaseinfoCreditScore() {
-        return baseinfoCreditScore;
-    }
-
-    /**
-     * @param baseinfoCreditScore 
-	 *            个人信息信用积分
-     */
-    public void setBaseinfoCreditScore(Integer baseinfoCreditScore) {
-        this.baseinfoCreditScore = baseinfoCreditScore;
-    }
-
-    /**
-     * @return 法人信用积分
-     */
-    public Integer getLegalPersonInfo() {
-        return legalPersonInfo;
-    }
-
-    /**
-     * @param legalPersonInfo 
-	 *            法人信用积分
-     */
-    public void setLegalPersonInfo(Integer legalPersonInfo) {
-        this.legalPersonInfo = legalPersonInfo;
-    }
-
-    /**
-     * @return 公司注册信息信用积分
-     */
-    public Integer getCompanyRegisteredInfo() {
-        return companyRegisteredInfo;
-    }
-
-    /**
-     * @param companyRegisteredInfo 
-	 *            公司注册信息信用积分
-     */
-    public void setCompanyRegisteredInfo(Integer companyRegisteredInfo) {
-        this.companyRegisteredInfo = companyRegisteredInfo;
-    }
-
-    /**
-     * @return 银行信息信用积分
-     */
-    public Integer getBankInfo() {
-        return bankInfo;
-    }
-
-    /**
-     * @param bankInfo 
-	 *            银行信息信用积分
-     */
-    public void setBankInfo(Integer bankInfo) {
-        this.bankInfo = bankInfo;
-    }
-	 *            个人信息信用积分
-     */
-    public void setBaseinfoCreditScore(Integer baseinfoCreditScore) {
-        this.baseinfoCreditScore = baseinfoCreditScore;
-    }
-
-    /**
-     * @return 法人信用积分
-     */
-    public Integer getLegalPersonInfo() {
-        return legalPersonInfo;
-    }
-
-    /**
-     * @param legalPersonInfo 
-	 *            法人信用积分
-     */
-    public void setLegalPersonInfo(Integer legalPersonInfo) {
-        this.legalPersonInfo = legalPersonInfo;
-    }
-
-    /**
-     * @return 公司注册信息信用积分
-     */
-    public Integer getCompanyRegisteredInfo() {
-        return companyRegisteredInfo;
-    }
-
-    /**
-     * @param companyRegisteredInfo 
-	 *            公司注册信息信用积分
-     */
-    public void setCompanyRegisteredInfo(Integer companyRegisteredInfo) {
-        this.companyRegisteredInfo = companyRegisteredInfo;
-    }
-
-    /**
-     * @return 银行信息信用积分
-     */
-    public Integer getBankInfo() {
-        return bankInfo;
-    }
-
-    /**
-     * @param bankInfo 
-	 *            银行信息信用积分
-     */
-    public void setBankInfo(Integer bankInfo) {
-        this.bankInfo = bankInfo;
-    }
 
     @Override
     public boolean equals(Object that) {
@@ -206,4 +67,88 @@ public class BidderCredit {
         result = prime * result + ((getBankInfo() == null) ? 0 : getBankInfo().hashCode());
         return result;
     }
+
+	/**
+	 * @return the bidderId
+	 */
+	public Integer getBidderId() {
+		return bidderId;
+	}
+
+	/**
+	 * @return the creditScore
+	 */
+	public Integer getCreditScore() {
+		return creditScore;
+	}
+
+	/**
+	 * @return the baseinfoCreditScore
+	 */
+	public Integer getBaseinfoCreditScore() {
+		return baseinfoCreditScore;
+	}
+
+	/**
+	 * @return the legalPersonInfo
+	 */
+	public Integer getLegalPersonInfo() {
+		return legalPersonInfo;
+	}
+
+	/**
+	 * @return the companyRegisteredInfo
+	 */
+	public Integer getCompanyRegisteredInfo() {
+		return companyRegisteredInfo;
+	}
+
+	/**
+	 * @return the bankInfo
+	 */
+	public Integer getBankInfo() {
+		return bankInfo;
+	}
+
+	/**
+	 * @param bidderId the bidderId to set
+	 */
+	public void setBidderId(Integer bidderId) {
+		this.bidderId = bidderId;
+	}
+
+	/**
+	 * @param creditScore the creditScore to set
+	 */
+	public void setCreditScore(Integer creditScore) {
+		this.creditScore = creditScore;
+	}
+
+	/**
+	 * @param baseinfoCreditScore the baseinfoCreditScore to set
+	 */
+	public void setBaseinfoCreditScore(Integer baseinfoCreditScore) {
+		this.baseinfoCreditScore = baseinfoCreditScore;
+	}
+
+	/**
+	 * @param legalPersonInfo the legalPersonInfo to set
+	 */
+	public void setLegalPersonInfo(Integer legalPersonInfo) {
+		this.legalPersonInfo = legalPersonInfo;
+	}
+
+	/**
+	 * @param companyRegisteredInfo the companyRegisteredInfo to set
+	 */
+	public void setCompanyRegisteredInfo(Integer companyRegisteredInfo) {
+		this.companyRegisteredInfo = companyRegisteredInfo;
+	}
+
+	/**
+	 * @param bankInfo the bankInfo to set
+	 */
+	public void setBankInfo(Integer bankInfo) {
+		this.bankInfo = bankInfo;
+	}
 }

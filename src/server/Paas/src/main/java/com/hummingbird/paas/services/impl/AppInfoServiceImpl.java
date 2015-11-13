@@ -11,8 +11,8 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ValidateResult;
 import com.hummingbird.commonbiz.vo.AppVO;
-import com.hummingbird.paas.entity.AppInfo;
-import com.hummingbird.paas.mapper.AppInfoMapper;
+import com.hummingbird.paas.entity.Appinfo;
+import com.hummingbird.paas.mapper.AppinfoMapper;
 import com.hummingbird.paas.services.AppInfoService;
 
 /**
@@ -24,7 +24,7 @@ import com.hummingbird.paas.services.AppInfoService;
 public class AppInfoServiceImpl implements AppInfoService {
 	
 	@Autowired
-	AppInfoMapper appdao;
+	AppinfoMapper appdao;
 	
 	
 	/**
@@ -33,7 +33,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 	 * @return
 	 */
 	@Override
-	public AppInfo getAppByAppid(String appId){
+	public Appinfo getAppByAppid(String appId){
 		return appdao.selectByPrimaryKey(appId);
 	}
 
@@ -48,7 +48,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 	public ValidateResult validate(AppVO appvo) throws DataInvalidException {
 		ValidateResult vr = new ValidateResult();
 		ValidateUtil.assertNull(appvo.getAppId(), "appId为空",ValidateException.ERROR_EXISTING_APP_NOT_EXISTS.getErrcode());
-		AppInfo app = getAppByAppid(appvo.getAppId());
+		Appinfo app = getAppByAppid(appvo.getAppId());
 		ValidateUtil.assertNull(app, "APP不存在",ValidateException.ERROR_EXISTING_APP_NOT_EXISTS.getErrcode());
 		if(!"OK#".equals(app.getStatus())){
 			throw ValidateException.ERROR_APP_OFFLINE;

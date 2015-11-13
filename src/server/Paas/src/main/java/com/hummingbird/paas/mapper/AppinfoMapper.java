@@ -1,8 +1,8 @@
 package com.hummingbird.paas.mapper;
 
-import com.hummingbird.paas.entity.AppInfo;
+import com.hummingbird.paas.entity.Appinfo;
 
-public interface AppInfoMapper {
+public interface AppinfoMapper {
     /**
      * 根据主键删除记录
      */
@@ -11,25 +11,25 @@ public interface AppInfoMapper {
     /**
      * 保存记录,不管记录里面的属性是否为空
      */
-    int insert(AppInfo record);
+    int insert(Appinfo record);
 
     /**
      * 保存属性不为空的记录
      */
-    int insertSelective(AppInfo record);
+    int insertSelective(Appinfo record);
 
     /**
      * 根据主键查询记录
      */
-    AppInfo selectByPrimaryKey(String appid);
+    Appinfo selectByPrimaryKey(String appid);
 
     /**
      * 根据主键更新属性不为空的记录
      */
-    int updateByPrimaryKeySelective(AppInfo record);
+    int updateByPrimaryKeySelective(Appinfo record);
 
     /**
      * 根据主键更新记录
      */
-    int updateByPrimaryKey(AppInfo record);
+    int updateByPrimaryKey(Appinfo record);
 }

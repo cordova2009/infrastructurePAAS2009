@@ -71,10 +71,6 @@ public class BidObject {
      */
     private Integer district;
 
-    private String biddeeCompanyPrincipal;
-
-    private String biddeeCompanyTelephone;
-
     /**
      * 招标方经办人
      */

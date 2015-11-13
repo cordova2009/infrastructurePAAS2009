@@ -2,6 +2,7 @@ package com.hummingbird.paas.mapper;
 
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 public interface BidRecordMapper {
     /**

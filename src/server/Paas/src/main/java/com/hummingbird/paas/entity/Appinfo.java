@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 通知模块的app输入
  */
-public class AppInfo {
+public class Appinfo {
     /**
      * appId
      */
@@ -177,7 +177,7 @@ public class AppInfo {
         if (getClass() != that.getClass()) {
             return false;
         }
-        AppInfo other = (AppInfo) that;
+        Appinfo other = (Appinfo) that;
         return (this.getAppid() == null ? other.getAppid() == null : this.getAppid().equals(other.getAppid()))
             && (this.getAppname() == null ? other.getAppname() == null : this.getAppname().equals(other.getAppname()))
             && (this.getAppkey() == null ? other.getAppkey() == null : this.getAppkey().equals(other.getAppkey()))

@@ -8,7 +8,7 @@ package com.hummingbird.paas.services;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.vo.ValidateResult;
 import com.hummingbird.commonbiz.vo.AppVO;
-import com.hummingbird.paas.entity.AppInfo;
+import com.hummingbird.paas.entity.Appinfo;
 
 /**
  * @author huangjiej_2
@@ -19,7 +19,7 @@ public interface AppInfoService {
 
 	public abstract ValidateResult validate(AppVO appvo) throws DataInvalidException;
 
-	public abstract AppInfo getAppByAppid(String appId);
+	public abstract Appinfo getAppByAppid(String appId);
 
 	/**
 	 * @param appId

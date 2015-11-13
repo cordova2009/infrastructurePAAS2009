@@ -3,7 +3,7 @@ package com.hummingbird.paas.entity;
 import java.util.Date;
 
 /**
- * 标的基本信息表,记录招标的一些基本信息
+ * 标的基本信息表
  */
 public class ObjectBaseinfo {
     /**
@@ -51,7 +51,35 @@ public class ObjectBaseinfo {
      */
     private String biddingNo;
 
+    /**
+     * 标的内容
+     */
     private String objectDescription;
+
+    /**
+     * 资格审查方式,SYS 投标人资质等级系统自动匹配审查,
+     */
+    private String certificationCheckupType;
+
+    /**
+     * 评标方法,QLT 定性，CRE 信用商户评价，OVE综合评估
+     */
+    private String bidEvaluationType;
+
+    /**
+     * 技术评标地点
+     */
+    private String bidEvaluationSite;
+
+    /**
+     * 中标人确定方式,ORV 直接票决定标，MRV 逐轮票决定标，VDM 票决筹钱定标
+     */
+    private String bidWinnerDetermineWay;
+
+    /**
+     * 票决方式, SMP 简单铎书法，CPN 对比胜出法
+     */
+    private String voteWinWay;
 
     /**
      * @return 标的id
@@ -188,6 +216,9 @@ public class ObjectBaseinfo {
         this.biddingNo = biddingNo == null ? null : biddingNo.trim();
     }
 
+    /**
+     * @return 标的内容
+     */
     public String getObjectDescription() {
         return objectDescription;
     }
@@ -198,6 +229,81 @@ public class ObjectBaseinfo {
      */
     public void setObjectDescription(String objectDescription) {
         this.objectDescription = objectDescription == null ? null : objectDescription.trim();
+    }
+
+    /**
+     * @return 资格审查方式,SYS 投标人资质等级系统自动匹配审查,
+     */
+    public String getCertificationCheckupType() {
+        return certificationCheckupType;
+    }
+
+    /**
+     * @param certificationCheckupType 
+	 *            资格审查方式,SYS 投标人资质等级系统自动匹配审查,
+     */
+    public void setCertificationCheckupType(String certificationCheckupType) {
+        this.certificationCheckupType = certificationCheckupType == null ? null : certificationCheckupType.trim();
+    }
+
+    /**
+     * @return 评标方法,QLT 定性，CRE 信用商户评价，OVE综合评估
+     */
+    public String getBidEvaluationType() {
+        return bidEvaluationType;
+    }
+
+    /**
+     * @param bidEvaluationType 
+	 *            评标方法,QLT 定性，CRE 信用商户评价，OVE综合评估
+     */
+    public void setBidEvaluationType(String bidEvaluationType) {
+        this.bidEvaluationType = bidEvaluationType == null ? null : bidEvaluationType.trim();
+    }
+
+    /**
+     * @return 技术评标地点
+     */
+    public String getBidEvaluationSite() {
+        return bidEvaluationSite;
+    }
+
+    /**
+     * @param bidEvaluationSite 
+	 *            技术评标地点
+     */
+    public void setBidEvaluationSite(String bidEvaluationSite) {
+        this.bidEvaluationSite = bidEvaluationSite == null ? null : bidEvaluationSite.trim();
+    }
+
+    /**
+     * @return 中标人确定方式,ORV 直接票决定标，MRV 逐轮票决定标，VDM 票决筹钱定标
+     */
+    public String getBidWinnerDetermineWay() {
+        return bidWinnerDetermineWay;
+    }
+
+    /**
+     * @param bidWinnerDetermineWay 
+	 *            中标人确定方式,ORV 直接票决定标，MRV 逐轮票决定标，VDM 票决筹钱定标
+     */
+    public void setBidWinnerDetermineWay(String bidWinnerDetermineWay) {
+        this.bidWinnerDetermineWay = bidWinnerDetermineWay == null ? null : bidWinnerDetermineWay.trim();
+    }
+
+    /**
+     * @return 票决方式, SMP 简单铎书法，CPN 对比胜出法
+     */
+    public String getVoteWinWay() {
+        return voteWinWay;
+    }
+
+    /**
+     * @param voteWinWay 
+	 *            票决方式, SMP 简单铎书法，CPN 对比胜出法
+     */
+    public void setVoteWinWay(String voteWinWay) {
+        this.voteWinWay = voteWinWay == null ? null : voteWinWay.trim();
     }
 
     @Override
@@ -221,7 +327,12 @@ public class ObjectBaseinfo {
             && (this.getBiddingEndTime() == null ? other.getBiddingEndTime() == null : this.getBiddingEndTime().equals(other.getBiddingEndTime()))
             && (this.getBiddingDocumentFetchStartTime() == null ? other.getBiddingDocumentFetchStartTime() == null : this.getBiddingDocumentFetchStartTime().equals(other.getBiddingDocumentFetchStartTime()))
             && (this.getBiddingNo() == null ? other.getBiddingNo() == null : this.getBiddingNo().equals(other.getBiddingNo()))
-            && (this.getObjectDescription() == null ? other.getObjectDescription() == null : this.getObjectDescription().equals(other.getObjectDescription()));
+            && (this.getObjectDescription() == null ? other.getObjectDescription() == null : this.getObjectDescription().equals(other.getObjectDescription()))
+            && (this.getCertificationCheckupType() == null ? other.getCertificationCheckupType() == null : this.getCertificationCheckupType().equals(other.getCertificationCheckupType()))
+            && (this.getBidEvaluationType() == null ? other.getBidEvaluationType() == null : this.getBidEvaluationType().equals(other.getBidEvaluationType()))
+            && (this.getBidEvaluationSite() == null ? other.getBidEvaluationSite() == null : this.getBidEvaluationSite().equals(other.getBidEvaluationSite()))
+            && (this.getBidWinnerDetermineWay() == null ? other.getBidWinnerDetermineWay() == null : this.getBidWinnerDetermineWay().equals(other.getBidWinnerDetermineWay()))
+            && (this.getVoteWinWay() == null ? other.getVoteWinWay() == null : this.getVoteWinWay().equals(other.getVoteWinWay()));
     }
 
     @Override
@@ -238,6 +349,11 @@ public class ObjectBaseinfo {
         result = prime * result + ((getBiddingDocumentFetchStartTime() == null) ? 0 : getBiddingDocumentFetchStartTime().hashCode());
         result = prime * result + ((getBiddingNo() == null) ? 0 : getBiddingNo().hashCode());
         result = prime * result + ((getObjectDescription() == null) ? 0 : getObjectDescription().hashCode());
+        result = prime * result + ((getCertificationCheckupType() == null) ? 0 : getCertificationCheckupType().hashCode());
+        result = prime * result + ((getBidEvaluationType() == null) ? 0 : getBidEvaluationType().hashCode());
+        result = prime * result + ((getBidEvaluationSite() == null) ? 0 : getBidEvaluationSite().hashCode());
+        result = prime * result + ((getBidWinnerDetermineWay() == null) ? 0 : getBidWinnerDetermineWay().hashCode());
+        result = prime * result + ((getVoteWinWay() == null) ? 0 : getVoteWinWay().hashCode());
         return result;
     }
 }

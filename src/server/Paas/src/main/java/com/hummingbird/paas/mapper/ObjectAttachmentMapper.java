@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.ObjectAttachment;
 
 public interface ObjectAttachmentMapper {
@@ -32,4 +34,11 @@ public interface ObjectAttachmentMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ObjectAttachment record);
+
+	/**
+	 * 根据标的查询附件
+	 * @param objectId
+	 * @return
+	 */
+	List<ObjectAttachment> selctByObjectId(String objectId);
 }

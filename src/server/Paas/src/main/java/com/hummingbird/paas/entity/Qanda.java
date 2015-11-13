@@ -1,5 +1,7 @@
 package com.hummingbird.paas.entity;
 
+import java.util.Date;
+
 /**
  * 答疑表,记录招标的答疑方式
  */
@@ -68,6 +70,16 @@ public class Qanda {
      * 现场答疑,答疑日期
      */
     private String answerDate;
+
+    /**
+     * 答疑开始日期
+     */
+    private Date answerStartDate;
+
+    /**
+     * 答疑结束日期
+     */
+    private Date answerEndDate;
 
     /**
      * @return id
@@ -264,6 +276,36 @@ public class Qanda {
         this.answerDate = answerDate == null ? null : answerDate.trim();
     }
 
+    /**
+     * @return 答疑开始日期
+     */
+    public Date getAnswerStartDate() {
+        return answerStartDate;
+    }
+
+    /**
+     * @param answerStartDate 
+	 *            答疑开始日期
+     */
+    public void setAnswerStartDate(Date answerStartDate) {
+        this.answerStartDate = answerStartDate;
+    }
+
+    /**
+     * @return 答疑结束日期
+     */
+    public Date getAnswerEndDate() {
+        return answerEndDate;
+    }
+
+    /**
+     * @param answerEndDate 
+	 *            答疑结束日期
+     */
+    public void setAnswerEndDate(Date answerEndDate) {
+        this.answerEndDate = answerEndDate;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -288,7 +330,9 @@ public class Qanda {
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getAnswerTime() == null ? other.getAnswerTime() == null : this.getAnswerTime().equals(other.getAnswerTime()))
-            && (this.getAnswerDate() == null ? other.getAnswerDate() == null : this.getAnswerDate().equals(other.getAnswerDate()));
+            && (this.getAnswerDate() == null ? other.getAnswerDate() == null : this.getAnswerDate().equals(other.getAnswerDate()))
+            && (this.getAnswerStartDate() == null ? other.getAnswerStartDate() == null : this.getAnswerStartDate().equals(other.getAnswerStartDate()))
+            && (this.getAnswerEndDate() == null ? other.getAnswerEndDate() == null : this.getAnswerEndDate().equals(other.getAnswerEndDate()));
     }
 
     @Override
@@ -308,6 +352,8 @@ public class Qanda {
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getAnswerTime() == null) ? 0 : getAnswerTime().hashCode());
         result = prime * result + ((getAnswerDate() == null) ? 0 : getAnswerDate().hashCode());
+        result = prime * result + ((getAnswerStartDate() == null) ? 0 : getAnswerStartDate().hashCode());
+        result = prime * result + ((getAnswerEndDate() == null) ? 0 : getAnswerEndDate().hashCode());
         return result;
     }
 }

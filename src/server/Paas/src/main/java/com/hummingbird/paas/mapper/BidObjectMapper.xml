@@ -21,11 +21,6 @@
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
-    <result column="certification_checkup_type" property="certificationCheckupType" jdbcType="VARCHAR" />
-    <result column="bid_evaluation_type" property="bidEvaluationType" jdbcType="VARCHAR" />
-    <result column="bid_evaluation_site" property="bidEvaluationSite" jdbcType="VARCHAR" />
-    <result column="bid_winner_determine_way" property="bidWinnerDetermineWay" jdbcType="VARCHAR" />
-    <result column="vote_win_way" property="voteWinWay" jdbcType="VARCHAR" />
     <result column="bid_bond_amount" property="bidBondAmount" jdbcType="INTEGER" />
     <result column="need_business_standard" property="needBusinessStandard" jdbcType="VARCHAR" />
     <result column="need_technical_standard" property="needTechnicalStandard" jdbcType="VARCHAR" />
@@ -41,11 +36,9 @@
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
-    contract_type, currency, certification_checkup_type, bid_evaluation_type, bid_evaluation_site, 
-    bid_winner_determine_way, vote_win_way, bid_bond_amount, need_business_standard, 
-    need_technical_standard, need_certification_checkup_file, need_pm_certification, 
-    need_constructor_certification, need_safety_permit, need_pm_safety_certification, 
-    evaluation_amount, object_scope
+    contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
+    need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
+    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -62,6 +55,15 @@
     and object_id = #{objectId}
     </if>
   </select>
+  <select id="selectbyBiddeeId" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object
+    where biddee_id = #{biddeeId} 
+    <if test="status != null">
+    and object_status = #{status}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_object
     where object_id = #{objectId,jdbcType=VARCHAR}
@@ -73,9 +75,7 @@
       industry_id, sector_id, province, 
       district, biddee_company_principal, biddee_company_telephone, 
       bid_open_date, project_expect_period, contract_type, 
-      currency, certification_checkup_type, bid_evaluation_type, 
-      bid_evaluation_site, bid_winner_determine_way, 
-      vote_win_way, bid_bond_amount, need_business_standard, 
+      currency, bid_bond_amount, need_business_standard, 
       need_technical_standard, need_certification_checkup_file, 
       need_pm_certification, need_constructor_certification, 
       need_safety_permit, need_pm_safety_certification, 
@@ -86,9 +86,7 @@
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
       #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{certificationCheckupType,jdbcType=VARCHAR}, #{bidEvaluationType,jdbcType=VARCHAR}, 
-      #{bidEvaluationSite,jdbcType=VARCHAR}, #{bidWinnerDetermineWay,jdbcType=VARCHAR}, 
-      #{voteWinWay,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=INTEGER}, #{needBusinessStandard,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=INTEGER}, #{needBusinessStandard,jdbcType=VARCHAR}, 
       #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
       #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
       #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
@@ -153,21 +151,6 @@
       </if>
       <if test="currency != null" >
         currency,
-      </if>
-      <if test="certificationCheckupType != null" >
-        certification_checkup_type,
-      </if>
-      <if test="bidEvaluationType != null" >
-        bid_evaluation_type,
-      </if>
-      <if test="bidEvaluationSite != null" >
-        bid_evaluation_site,
-      </if>
-      <if test="bidWinnerDetermineWay != null" >
-        bid_winner_determine_way,
-      </if>
-      <if test="voteWinWay != null" >
-        vote_win_way,
       </if>
       <if test="bidBondAmount != null" >
         bid_bond_amount,
@@ -258,21 +241,6 @@
       <if test="currency != null" >
         #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="certificationCheckupType != null" >
-        #{certificationCheckupType,jdbcType=VARCHAR},
-      </if>
-      <if test="bidEvaluationType != null" >
-        #{bidEvaluationType,jdbcType=VARCHAR},
-      </if>
-      <if test="bidEvaluationSite != null" >
-        #{bidEvaluationSite,jdbcType=VARCHAR},
-      </if>
-      <if test="bidWinnerDetermineWay != null" >
-        #{bidWinnerDetermineWay,jdbcType=VARCHAR},
-      </if>
-      <if test="voteWinWay != null" >
-        #{voteWinWay,jdbcType=VARCHAR},
-      </if>
       <if test="bidBondAmount != null" >
         #{bidBondAmount,jdbcType=INTEGER},
       </if>
@@ -362,21 +330,6 @@
       <if test="currency != null" >
         currency = #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="certificationCheckupType != null" >
-        certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},
-      </if>
-      <if test="bidEvaluationType != null" >
-        bid_evaluation_type = #{bidEvaluationType,jdbcType=VARCHAR},
-      </if>
-      <if test="bidEvaluationSite != null" >
-        bid_evaluation_site = #{bidEvaluationSite,jdbcType=VARCHAR},
-      </if>
-      <if test="bidWinnerDetermineWay != null" >
-        bid_winner_determine_way = #{bidWinnerDetermineWay,jdbcType=VARCHAR},
-      </if>
-      <if test="voteWinWay != null" >
-        vote_win_way = #{voteWinWay,jdbcType=VARCHAR},
-      </if>
       <if test="bidBondAmount != null" >
         bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
       </if>
@@ -430,11 +383,6 @@
       project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
-      certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},
-      bid_evaluation_type = #{bidEvaluationType,jdbcType=VARCHAR},
-      bid_evaluation_site = #{bidEvaluationSite,jdbcType=VARCHAR},
-      bid_winner_determine_way = #{bidWinnerDetermineWay,jdbcType=VARCHAR},
-      vote_win_way = #{voteWinWay,jdbcType=VARCHAR},
       bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
       need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
       need_technical_standard = #{needTechnicalStandard,jdbcType=VARCHAR},

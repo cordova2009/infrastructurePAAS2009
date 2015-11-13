@@ -32,4 +32,11 @@ public interface MembeBiddeeMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(MembeBiddee record);
+
+	/**
+	 * 根据招标人id查询会员
+	 * @param id
+	 * @return
+	 */
+	MembeBiddee selectByBiddeeId(Integer biddeeId);
 }

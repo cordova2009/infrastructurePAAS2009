@@ -31,6 +31,7 @@
     <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
+    <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
@@ -38,7 +39,8 @@
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
-    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope
+    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
+    win_bid_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -79,7 +81,8 @@
       need_technical_standard, need_certification_checkup_file, 
       need_pm_certification, need_constructor_certification, 
       need_safety_permit, need_pm_safety_certification, 
-      evaluation_amount, object_scope)
+      evaluation_amount, object_scope, win_bid_time
+      )
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=INTEGER}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
@@ -90,7 +93,8 @@
       #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
       #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
       #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
-      #{evaluationAmount,jdbcType=INTEGER}, #{objectScope,jdbcType=VARCHAR})
+      #{evaluationAmount,jdbcType=INTEGER}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
@@ -182,6 +186,9 @@
       <if test="objectScope != null" >
         object_scope,
       </if>
+      <if test="winBidTime != null" >
+        win_bid_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
@@ -270,6 +277,9 @@
       </if>
       <if test="objectScope != null" >
         #{objectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="winBidTime != null" >
+        #{winBidTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -360,6 +370,9 @@
       <if test="objectScope != null" >
         object_scope = #{objectScope,jdbcType=VARCHAR},
       </if>
+      <if test="winBidTime != null" >
+        win_bid_time = #{winBidTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
@@ -392,7 +405,8 @@
       need_safety_permit = #{needSafetyPermit,jdbcType=VARCHAR},
       need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
       evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
-      object_scope = #{objectScope,jdbcType=VARCHAR}
+      object_scope = #{objectScope,jdbcType=VARCHAR},
+      win_bid_time = #{winBidTime,jdbcType=TIMESTAMP}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

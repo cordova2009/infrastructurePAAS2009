@@ -26,6 +26,7 @@ import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
@@ -34,6 +35,7 @@ import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
+import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
@@ -100,6 +102,9 @@ public class TenderServiceImpl implements TenderService {
 	QandaMapper qaDao;
 	@Autowired
 	ObjectBaseinfoMapper obiDao;
+	@Autowired
+	CertificationTypeMapper ctDao;
+	
 
 	/**
 	 * 我的招标评标概况接口
@@ -493,6 +498,25 @@ public class TenderServiceImpl implements TenderService {
 			if (bpi == null) {
 				bpi = new BidProjectInfo();
 				bpi.setConstructionProveType(body.getConstructionProveType());
+				switch(body.getConstructionProveType()){
+				//BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
+				case "BCP":
+					ValidateUtil.assertEmpty(body.getBuildingConstructPermitNo(), "建设工程施工许可证编号");
+					ValidateUtil.assertEmpty(body.getBuildingConstructPermitEndDate(), "建设工程施工许可证有效期");
+					ValidateUtil.assertEmpty(body.getBuildingConstructPermitUrl(), "建设工程施工许可证附件");
+					break;
+				case "KFS":
+					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
+					break;
+				case "ZCB":
+					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
+					ValidateUtil.assertEmpty(body.getLetterOfAcceptanceUrl(), "中标通知书附件");
+					break;
+				}
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
 				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
@@ -513,6 +537,25 @@ public class TenderServiceImpl implements TenderService {
 			} else {
 
 				bpi.setConstructionProveType(body.getConstructionProveType());
+				switch(body.getConstructionProveType()){
+				//BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
+				case "BCP":
+					ValidateUtil.assertEmpty(body.getBuildingConstructPermitNo(), "建设工程施工许可证编号");
+					ValidateUtil.assertEmpty(body.getBuildingConstructPermitEndDate(), "建设工程施工许可证有效期");
+					ValidateUtil.assertEmpty(body.getBuildingConstructPermitUrl(), "建设工程施工许可证附件");
+					break;
+				case "KFS":
+					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
+					break;
+				case "ZCB":
+					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
+					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
+					ValidateUtil.assertEmpty(body.getLetterOfAcceptanceUrl(), "中标通知书附件");
+					break;
+				}
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
 				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
@@ -626,9 +669,15 @@ public class TenderServiceImpl implements TenderService {
 			for (Iterator iterator = bidderCertification.iterator(); iterator.hasNext();) {
 				Map map = (Map) iterator.next();
 				ObjectCertificationRequirement objectCertificationRequirement = new ObjectCertificationRequirement();
-				objectCertificationRequirement
-						.setCertificationId(NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId"))));
-				objectCertificationRequirement.setCertificationName(ObjectUtils.toString(map.get("certificateName")));
+				int certificateId = NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId")));
+				//查询证书信息
+				CertificationType ct = ctDao.selectByPrimaryKey(certificateId);
+				if(ct==null){
+					log.error(String.format("证书[%s]不存在", certificateId));
+					throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "证书不存在");
+				}
+				objectCertificationRequirement.setCertificationId(certificateId);
+				objectCertificationRequirement.setCertificationName(ct.getCertificationName());
 				objectCertificationRequirement.setIndustryId(ObjectUtils.toString(map.get("industryId")));
 				objectCertificationRequirement.setObjectId(bo.getObjectId());
 				ocrDao.insert(objectCertificationRequirement);
@@ -659,11 +708,12 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
-		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
+//		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
 		QueryObjectBondInfoResult result = new QueryObjectBondInfoResult();
-		if (objectBidderBond != null) {
-			result.setBidBondAmount(objectBidderBond / 100 + "元");
-		}
+//		if (objectBidderBond != null) {
+//			result.setBidBondAmount(objectBidderBond / 100 + "元");
+//		}
+		result.setBidBondAmount(bo.getBidBondAmount()==null?null:(( bo.getBidBondAmount()/ 100) + "元"));
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目保证金接口完成");
 		}
@@ -689,16 +739,18 @@ public class TenderServiceImpl implements TenderService {
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
-		ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
-		if (ob == null) {
-			ob = new ObjectBondSetting();
-			ob.setObjectId(bo.getObjectId());
-			ob.setBidderBidBond(body.getBidBondAmount());
-			obsDao.insert(ob);
-		} else {
-			ob.setBidderBidBond(body.getBidBondAmount());
-			obsDao.updateByPrimaryKey(ob);
-		}
+		bo.setBidBondAmount(body.getBidBondAmount());
+		//ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
+//		if (ob == null) {
+//			ob = new ObjectBondSetting();
+//			ob.setObjectId(bo.getObjectId());
+//			ob.setBidderBidBond(body.getBidBondAmount());
+//			obsDao.insert(ob);
+//		} else {
+//			ob.setBidderBidBond(body.getBidBondAmount());
+//			obsDao.updateByPrimaryKey(ob);
+//		}
+		dao.updateByPrimaryKey(bo);
 
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目保证金接口完成");
@@ -849,7 +901,12 @@ public class TenderServiceImpl implements TenderService {
 
 				bibDao.insert(bidInviteBidder);
 			}
+			break;
+			default :
+				log.error(String.format("招标方式[%s]不能识别",body.getObjectMethod()));
+				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(null, String.format("招标方式[%s]不能识别",body.getObjectMethod()));
 		}
+		dao.updateByPrimaryKey(bo);
 		if (log.isDebugEnabled()) {
 			log.debug("saveObjectMethodInfo完成");
 		}
@@ -880,23 +937,26 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		Qanda qanda = qaDao.selectByObjectId(body.getObjectId());
 		QueryAnswerMethodInfoBodyVOResult result = new QueryAnswerMethodInfoBodyVOResult();
-		if ("YES".equals(qanda.getIsEmailAnswer())) {
-			result.setEmail(qanda.getEmail());
+		if(qanda!=null){
+			
+			if ("YES".equals(qanda.getIsEmailAnswer())) {
+				result.setEmail(qanda.getEmail());
+			}
+			if ("YES".equals(qanda.getIsMeetngAnswer())) {
+				result.setAddress(qanda.getAddress());
+				result.setAddressAnswerDate(qanda.getAnswerDate());
+				result.setAddressAnswerTime(qanda.getAnswerTime());
+			}
+			if ("YES".equals(qanda.getIsQqAnswer())) {
+				result.setQQ(qanda.getQqNo());
+				result.setQQtoken(qanda.getQqPassword());
+			}
+			if ("YES".equals(qanda.getIsTelAnswer())) {
+				result.setTelephone(qanda.getTelephone());
+			}
+			result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
+			result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 		}
-		if ("YES".equals(qanda.getIsMeetngAnswer())) {
-			result.setAddress(qanda.getAddress());
-			result.setAddressAnswerDate(qanda.getAnswerDate());
-			result.setAddressAnswerTime(qanda.getAnswerTime());
-		}
-		if ("YES".equals(qanda.getIsQqAnswer())) {
-			result.setQQ(qanda.getQqNo());
-			result.setQQtoken(qanda.getQqPassword());
-		}
-		if ("YES".equals(qanda.getIsTelAnswer())) {
-			result.setTelephone(qanda.getTelephone());
-		}
-		result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
-		result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标答疑方式接口完成");
@@ -941,6 +1001,8 @@ public class TenderServiceImpl implements TenderService {
 		qanda.setQqPassword(body.getQQtoken());
 		qanda.setTelephone(body.getTelephone());
 		qanda.setAddress(body.getAddress());
+		qanda.setAnswerDate(body.getAddressAnswerDate());
+		qanda.setAnswerTime(body.getAddressAnswerTime());
 		qanda.setEmail(body.getEmail());
 		qanda.setIsEmailAnswer("YES");
 		qanda.setIsMeetngAnswer("YES");
@@ -1016,7 +1078,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo != null) {
+		if (baseinfo == null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());
@@ -1111,7 +1173,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo != null) {
+		if (baseinfo == null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());

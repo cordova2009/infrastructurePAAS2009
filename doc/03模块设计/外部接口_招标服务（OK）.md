@@ -728,7 +728,6 @@ objectId|是|招标项目内部编号
     {
         "errcode":0,"errmsg":"查询未完成招标项目工程施工证明成功",
         "ConstructionInfo":{
-            "constructionProveType":"施工证明类型",
             "landUseCertificateNo":"BH2015110100123",
             "landUseCertificateEndDate":"2015-03-28",
             "landUseCertificateUrl":"URL",

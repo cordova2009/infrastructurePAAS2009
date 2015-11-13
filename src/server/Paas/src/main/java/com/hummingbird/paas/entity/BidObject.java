@@ -152,6 +152,11 @@ public class BidObject {
     private String objectScope;
 
     /**
+     * 中标时间
+     */
+    private Date winBidTime;
+
+    /**
      * @return 招标编号(平台),ZB00时间戳随机数
      */
     public String getObjectId() {
@@ -586,6 +591,21 @@ public class BidObject {
         this.objectScope = objectScope == null ? null : objectScope.trim();
     }
 
+    /**
+     * @return 中标时间
+     */
+    public Date getWinBidTime() {
+        return winBidTime;
+    }
+
+    /**
+     * @param winBidTime 
+	 *            中标时间
+     */
+    public void setWinBidTime(Date winBidTime) {
+        this.winBidTime = winBidTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -626,7 +646,8 @@ public class BidObject {
             && (this.getNeedSafetyPermit() == null ? other.getNeedSafetyPermit() == null : this.getNeedSafetyPermit().equals(other.getNeedSafetyPermit()))
             && (this.getNeedPmSafetyCertification() == null ? other.getNeedPmSafetyCertification() == null : this.getNeedPmSafetyCertification().equals(other.getNeedPmSafetyCertification()))
             && (this.getEvaluationAmount() == null ? other.getEvaluationAmount() == null : this.getEvaluationAmount().equals(other.getEvaluationAmount()))
-            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()));
+            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
+            && (this.getWinBidTime() == null ? other.getWinBidTime() == null : this.getWinBidTime().equals(other.getWinBidTime()));
     }
 
     @Override
@@ -662,6 +683,7 @@ public class BidObject {
         result = prime * result + ((getNeedPmSafetyCertification() == null) ? 0 : getNeedPmSafetyCertification().hashCode());
         result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
         result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
+        result = prime * result + ((getWinBidTime() == null) ? 0 : getWinBidTime().hashCode());
         return result;
     }
 }

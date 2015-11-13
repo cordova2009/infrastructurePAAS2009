@@ -2,6 +2,7 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.PainttextAble;
@@ -31,10 +32,12 @@ implements PainttextAble {
 	    	/**
 	     * 答疑qq群
 	     */
+	    @JsonProperty("QQ")
 	    protected String QQ;
 	    	/**
 	     * qq群加入口令
 	     */
+	    @JsonProperty("QQtoken")
 	    protected String QQtoken;
 	    	/**
 	     * 答疑邮件
@@ -47,7 +50,11 @@ implements PainttextAble {
 	    	/**
 	     * 答疑时间
 	     */
-	    protected String answerTime;
+	    protected String addressAnswerTime;
+	    /**
+	     * 答疑日期
+	     */
+	    protected String addressAnswerDate;
 	    	/**
 	     * 答疑电话
 	     */
@@ -157,19 +164,7 @@ implements PainttextAble {
 	    public void setAddress(String address) {
 	        this.address = address;
 	    }
-	    	/**
-	     * @return 答疑时间
-	     */
-	    public String getAnswerTime() {
-	        return answerTime;
-	    }
-	
-	    /**
-	     * @param 答疑时间
-	     */
-	    public void setAnswerTime(String answerTime) {
-	        this.answerTime = answerTime;
-	    }
+
 	    	/**
 	     * @return 答疑电话
 	     */
@@ -190,13 +185,51 @@ implements PainttextAble {
 	 */
 	public String getPaintText(){
 		String pt = ValidateUtil.sortbyValues(
-					ObjectUtils.toString(token) , 					ObjectUtils.toString(objectId) , 					ObjectUtils.toString(startTime) , 					ObjectUtils.toString(endTime) , 					ObjectUtils.toString(QQ) , 					ObjectUtils.toString(QQtoken) , 					ObjectUtils.toString(email) , 					ObjectUtils.toString(address) , 					ObjectUtils.toString(answerTime) , 					ObjectUtils.toString(telephone) 				);
+					ObjectUtils.toString(token) ,
+					ObjectUtils.toString(objectId) , 
+					ObjectUtils.toString(startTime) , 
+					ObjectUtils.toString(endTime) , 	
+					ObjectUtils.toString(QQ) , 		
+					ObjectUtils.toString(QQtoken) , 
+					ObjectUtils.toString(email) , 
+					ObjectUtils.toString(address) , 
+					ObjectUtils.toString(addressAnswerTime) , 	
+					ObjectUtils.toString(addressAnswerDate) , 	
+					ObjectUtils.toString(telephone) 				);
 		return pt;
 	}
 	
 
     public String toString() {
 		return org.apache.commons.lang.builder.ToStringBuilder.reflectionToString(this);
+	}
+
+	/**
+	 * 答疑时间 
+	 */
+	public String getAddressAnswerTime() {
+		return addressAnswerTime;
+	}
+
+	/**
+	 * 答疑时间 
+	 */
+	public void setAddressAnswerTime(String addressAnswerTime) {
+		this.addressAnswerTime = addressAnswerTime;
+	}
+
+	/**
+	 * 答疑日期 
+	 */
+	public String getAddressAnswerDate() {
+		return addressAnswerDate;
+	}
+
+	/**
+	 * 答疑日期 
+	 */
+	public void setAddressAnswerDate(String addressAnswerDate) {
+		this.addressAnswerDate = addressAnswerDate;
 	}
 
     

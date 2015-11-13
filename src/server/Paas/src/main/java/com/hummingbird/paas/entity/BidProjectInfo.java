@@ -445,7 +445,7 @@ public class BidProjectInfo {
     }
 
     /**
-     * @return 工程施工证明类型,转包,建设单位
+     * @return 工程施工证明类型,BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
      */
     public String getConstructionProveType() {
         return constructionProveType;
@@ -453,7 +453,7 @@ public class BidProjectInfo {
 
     /**
      * @param constructionProveType 
-	 *            工程施工证明类型,转包,建设单位
+	 *            工程施工证明类型,BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
      */
     public void setConstructionProveType(String constructionProveType) {
         this.constructionProveType = constructionProveType == null ? null : constructionProveType.trim();

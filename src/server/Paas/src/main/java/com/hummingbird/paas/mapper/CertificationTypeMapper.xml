@@ -17,7 +17,16 @@
     from t_base_certification_type
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+   <select id="selectAllTypes" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+     <include refid="Base_Column_List" />
+    from t_base_certification_type 
+    where id in
+    ( select certification_id 
+    from t_base_industry_certification
+     where industry_id = #{industry_id,jdbcType=VARCHAR})
+  </select>
+ <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_base_certification_type
     where id = #{id,jdbcType=INTEGER}
   </delete>

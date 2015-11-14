@@ -1,0 +1,287 @@
+package com.hummingbird.paas.services.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.BiddeeCredit;
+import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.entity.CertificationRequirement;
+import com.hummingbird.paas.entity.ObjectBaseinfo;
+import com.hummingbird.paas.entity.Objects;
+import com.hummingbird.paas.entity.ProjectInfos;
+import com.hummingbird.paas.entity.Qanda;
+import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.mapper.BidRecordMapper;
+import com.hummingbird.paas.mapper.BiddeeCreditMapper;
+import com.hummingbird.paas.mapper.BiddeeMapper;
+import com.hummingbird.paas.mapper.BidderMapper;
+import com.hummingbird.paas.mapper.CertificationRequirementMapper;
+import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
+import com.hummingbird.paas.mapper.ObjectMapper;
+import com.hummingbird.paas.mapper.ProjectInfosMapper;
+import com.hummingbird.paas.mapper.QandaMapper;
+import com.hummingbird.paas.mapper.ScoreLevelMapper;
+import com.hummingbird.paas.services.BiddeeServiceService;
+import com.hummingbird.paas.vo.DetailVO;
+import com.hummingbird.paas.vo.QueryObjectDetailAnswerQuestion;
+import com.hummingbird.paas.vo.QueryObjectDetailBaseVO;
+import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailBidFilTypeInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailBidderBidderCertification;
+import com.hummingbird.paas.vo.QueryObjectDetailBidderCertificationInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
+import com.hummingbird.paas.vo.QueryObjectDetailBondInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailConstructionInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailDateRequirementInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailInviteTender;
+import com.hummingbird.paas.vo.QueryObjectDetailObjectMethondInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailProjectInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailProjectRequirementInfo;
+import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
+import com.hummingbird.paas.vo.QueryObjectListResultVO;
+import com.hummingbird.paas.vo.SurveyVO;
+
+@Service
+public class BiddeeServiceServiceImpl implements BiddeeServiceService {
+	@Autowired
+	BiddeeMapper beeDao;
+	@Autowired
+	ObjectMapper ojDao;
+	@Autowired
+	ObjectBaseinfoMapper obiDao;
+	@Autowired
+	QandaMapper qmDao;
+	@Autowired
+	ProjectInfosMapper pIDao;
+	@Autowired
+	BidderMapper berDao;
+	@Autowired
+	BidRecordMapper brDao;
+	@Autowired
+	CertificationRequirementMapper crDao;
+	@Autowired
+	ObjectMapper obDao;
+	@Autowired
+	BiddeeCreditMapper bcDao;
+	@Autowired
+	ScoreLevelMapper slDao;
+
+	public Boolean queryTender(Token token) throws BusinessException {
+		Integer userId = token.getUserId();
+		if (userId == null) {
+			return false;
+		}
+		Biddee bee = beeDao.selectByUserId(userId);
+		if (bee == null) {
+			return false;
+		}
+		if (bee.getStatus().equals("OK#")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public List<QueryObjectListResultVO> queryObjectList(Integer pageIndex, Integer pageSize) throws BusinessException {
+		List<QueryObjectListResultVO> qors = new ArrayList<QueryObjectListResultVO>();
+		QueryObjectListResultVO qol = null;
+		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
+			return null;
+		}
+
+		List<Objects> pjs = obDao.getPages((pageIndex - 1) * pageSize, pageSize);
+		for (Objects pj : pjs) {
+			qol = new QueryObjectListResultVO();
+			if (pj.getEvaluationAmount() != null)
+				qol.setEvaluationAmount(pj.getEvaluationAmount().toString());
+			qol.setObjectPredictStartTime(DateUtil.format(pj.getBidOpenDate(), ""));
+			qol.setObjectId(pj.getObjectId());
+			qol.setObjetName(pj.getObjectName());
+			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+			if (pj.getBiddeeId() != null) {
+				Integer biddeeId = pj.getBiddeeId();
+				Biddee dee = beeDao.selectByPrimaryKey(biddeeId);
+				if (dee == null) {
+					continue;
+				}
+				qol.setCompanyShortName(dee.getCompanyName());
+				BiddeeCredit bc = bcDao.selectByPrimaryKey(biddeeId);
+				Integer score = bc.getBaseinfoCreditScore();
+				if (score == null) {
+					continue;
+				}
+				String leve = slDao.getLevelName(score);
+				if (StringUtils.isBlank(leve)) {
+					continue;
+				}
+				qol.setCreditRating(leve);
+			}
+			qors.add(qol);
+
+		}
+		return qors;
+	}
+
+	@Override
+	public QueryObjectDetailResultVO queryObjectDetail(QueryObjectDetailBodyVO body) throws BusinessException {
+		String objectId = body.getObjectId();
+		Objects ob = ojDao.selectByPrimaryKey(objectId);
+		if (StringUtils.isBlank(objectId) || ob == null) {
+			return null;
+		}
+		QueryObjectDetailResultVO qodr = new QueryObjectDetailResultVO();
+		qodr.setObjectId(objectId);
+		qodr.setStatus(ob.getObjectStatus());
+		ObjectBaseinfo obi = new ObjectBaseinfo();
+		obi = obiDao.selectByPrimaryKey(objectId);
+		SurveyVO sv = new SurveyVO();
+		if (obi != null) {
+			if (obi.getAnnouncementEndTime() != null)
+				sv.setAnnouncementEndTime(DateUtil.formatCommonDate(obi.getAnnouncementEndTime()));
+			Integer count = brDao.selectCountByObjectId(objectId);
+			if (count != null)
+				sv.setBidderNum(count);
+			if (obi.getBiddingEndTime() != null)
+				sv.setBiddingEndTime(DateUtil.formatCommonDate(obi.getBiddingEndTime()));
+			if (ob.getEvaluationAmount() != null)
+				sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
+			sv.setObjectId(obi.getObjectId());
+			if (ob.getProjectExpectPeriod() != null)
+				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());
+			// sv.setProjectSite(ob);
+			sv.setStatus(ob.getObjectStatus());
+		}
+		qodr.setSurvey(sv);
+		DetailVO dv = new DetailVO();
+		QueryObjectDetailAnswerQuestion qodaq = new QueryObjectDetailAnswerQuestion();
+		Qanda qd = qmDao.selectByUserId(objectId);
+		if (qd != null) {
+			qodaq.setAddress(qd.getAddress());
+			qodaq.setAnswerTime(qd.getAnswerTime());
+			qodaq.setEmail(qd.getEmail());
+			// qodaq.setEndTime(qd);
+			qodaq.setQQ(qd.getQqNo());
+			qodaq.setQQToken(qd.getQqPassword());
+			// qodaq.setStartTime();
+			qodaq.setTelephone(qd.getTelephone());
+		}
+		dv.setAnswerQuestion(qodaq);
+		QueryObjectDetailBaseVO qodb = new QueryObjectDetailBaseVO();
+		qodb.setBiddeeCompanyPrincipal(ob.getBiddeeCompanyPrincipal());
+		qodb.setBiddeeCompanyTelephone(ob.getBiddeeCompanyTelephone());
+		qodb.setBiddingNo(ob.getObjectNo());
+		qodb.setContractType(ob.getContractType());
+		qodb.setCurrency(ob.getCurrency());
+		if (ob.getEvaluationAmount() != null)
+			qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+		qodb.setIndustryId(ob.getIndustryId());
+		qodb.setObjectName(ob.getObjectName());
+		qodb.setObjectScope(ob.getObjectScope());
+		dv.setBaseInfo(qodb);
+		QueryObjectDetailBidderCertificationInfo qodbci = new QueryObjectDetailBidderCertificationInfo();
+		List<QueryObjectDetailBidderBidderCertification> qodbcs = new ArrayList<QueryObjectDetailBidderBidderCertification>();
+		QueryObjectDetailBidderBidderCertification qodbbc = null;
+		List<CertificationRequirement> cts = crDao.selectCertisByObjectId(objectId);
+		for (CertificationRequirement ct : cts) {
+			qodbbc = new QueryObjectDetailBidderBidderCertification();
+			qodbbc.setCertificateId(ct.getCertificationId());
+			qodbbc.setCertificateName(ct.getCertificationName());
+			qodbcs.add(qodbbc);
+		}
+		qodbci.setBidderCertification(qodbcs);
+		qodbci.setNeedConstructorCertification(ob.getNeedConstructorCertification());
+		qodbci.setNeedPmCertification(ob.getNeedPmCertification());
+		qodbci.setNeedPmSafetyCertification(ob.getNeedPmSafetyCertification());
+		qodbci.setNeedSafetyPermit(ob.getNeedSafetyPermit());
+		dv.setBidderCertificationInfo(qodbci);
+		QueryObjectDetailBidEvaluationTypeInfo qodbevti = new QueryObjectDetailBidEvaluationTypeInfo();
+		qodbevti.setBidEvalutionSite(ob.getBidEvaluationSite());
+		qodbevti.setBidEvalutionType(ob.getBidEvaluationType());
+		qodbevti.setBidWinnerDatemineWay(ob.getBidWinnerDetermineWay());
+		qodbevti.setVoteWinWay(ob.getVoteWinWay());
+		dv.setBidEvaluationTypeInfo(qodbevti);
+		QueryObjectDetailBidFilTypeInfo qodbft = new QueryObjectDetailBidFilTypeInfo();
+		qodbft.setNeedBusinessStandard(ob.getNeedBusinessStandard());
+		qodbft.setNeedCertificationCheckupFile(ob.getNeedCertificationCheckupFile());
+		qodbft.setNeedTechnicalStandard(ob.getNeedTechnicalStandard());
+		dv.setBidFileTypeInfo(qodbft);
+		QueryObjectDetailBondInfo qodbis = new QueryObjectDetailBondInfo();
+		if (ob.getBidBondAmount() != null)
+			qodbis.setBidBondAmount(ob.getBidBondAmount().toString());
+		dv.setBondInfo(qodbis);
+		QueryObjectDetailConstructionInfo qodci = new QueryObjectDetailConstructionInfo();
+		ProjectInfos pi = new ProjectInfos();
+		if (pi != null) {
+			if (pi.getBuildingConstructionPermitEnddate() != null)
+				qodci.setBuildingConstructPermitEndDate(
+						DateUtil.formatCommonDate(pi.getBuildingConstructionPermitEnddate()));
+			qodci.setBuildingConstructPermitNo(pi.getConstructionLandUsePermitNo());
+			qodci.setBuildingConstructPermitUrl(pi.getBuildingConstructionPermitUrl());
+			if (pi.getBuildingPermitEnddate() != null)
+				qodci.setBuildingPermitEndDate(DateUtil.formatCommonDate(pi.getBuildingPermitEnddate()));
+			qodci.setBuildingPermitNo(pi.getBuildingPermitNo());
+			qodci.setBuildingPermitPicUrl(pi.getBuildingPermitUrl());
+			if (pi.getConstructionLandUsePermitEnddate() != null)
+				qodci.setConstructionLandUsePermitEndDate(
+						DateUtil.formatCommonDate(pi.getConstructionLandUsePermitEnddate()));
+			qodci.setConstructionLandUsePermitNo(pi.getConstructionLandUsePermitNo());
+			qodci.setConstructionLandUsePermitUrl(pi.getBuildingConstructionPermitUrl());
+			qodci.setConstructionProveType(pi.getConstructionProveType());
+			if (pi.getLandUseCertificateEnddate() != null)
+				qodci.setLandUseCertificateEndDate(DateUtil.formatCommonDate(pi.getLandUseCertificateEnddate()));
+			qodci.setLandUseCertificateNo(pi.getLandUseCertificateNo());
+			qodci.setLandUseCertificateUrl(pi.getLandUseCertificateUrl());
+			qodci.setLetterOfAcceptanceUrl(pi.getLetterOfAcceptanceUrl());
+		}
+		dv.setConstructionInfo(qodci);
+		QueryObjectDetailDateRequirementInfo qoddri = new QueryObjectDetailDateRequirementInfo();
+		if (obi != null) {
+			qoddri.setAnnouncementBeginTime(qoddri.getAnnouncementBeginTime());
+			qoddri.setAnnouncementEndTime(qoddri.getAnnouncementEndTime());
+			qoddri.setBiddingEndTime(qoddri.getBiddingEndTime());
+			qoddri.setBidOpenDate(qoddri.getBidOpenDate());
+		}
+		dv.setDateRequirementInfo(qoddri);
+		QueryObjectDetailObjectMethondInfo qodom = new QueryObjectDetailObjectMethondInfo();
+		List<Bidder> bms = berDao.selectInviteBidders(objectId);
+		List<QueryObjectDetailInviteTender> tens = new ArrayList<QueryObjectDetailInviteTender>();
+		QueryObjectDetailInviteTender qodi = null;
+		for (Bidder ber : bms) {
+			qodi = new QueryObjectDetailInviteTender();
+			qodi.setBidderId(ber.getId());
+			qodi.setBidderName(ber.getCompanyName());
+			tens.add(qodi);
+		}
+		qodom.setObjectMethodInfo(ob.getObjectPublishType());
+		qodom.setInviteTender(tens);
+		dv.setObjectMethodInfo(qodom);
+		QueryObjectDetailProjectInfo qodop = new QueryObjectDetailProjectInfo();
+		ProjectInfos pin = new ProjectInfos();
+		pin = pIDao.selectByPrimaryKey(objectId);
+		if (pin != null) {
+			qodop.setEmployer(pin.getEmployer());
+			qodop.setEmployerPrincipal(pin.getEmployerPrincipal());
+			qodop.setProjectExpectInvestment(pin.getProjectExpectInvestment());
+			qodop.setProjectName(pin.getProjectName());
+			qodop.setProjectScale(pin.getProjectScale());
+			qodop.setProjectSite(pin.getProjectSite());
+		}
+		dv.setProjectInfo(qodop);
+		QueryObjectDetailProjectRequirementInfo qodpr = new QueryObjectDetailProjectRequirementInfo();
+		if (pin != null) {
+			qodpr.setProjectExpectPeriod(pin.getProjectExpectPeriod());
+			qodpr.setProjectExpectStartDate(pin.getProjectExpectStartDate());
+		}
+		dv.setProjectRequirementInfo(qodpr);
+		qodr.setDetail(dv);
+		return qodr;
+	}
+}

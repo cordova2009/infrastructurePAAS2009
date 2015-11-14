@@ -40,7 +40,7 @@ import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl /*implements OrderService*/{
 	@Autowired
 	ObjectBondSettingMapper bondSettingDao;
 	@Autowired
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	WithdrawApplyMapper withdrawApplyDao;
 	
-	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
+/*	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
@@ -315,6 +315,6 @@ public class OrderServiceImpl implements OrderService{
 		}
 		return null;
 	}
-
+*/
 	
 }

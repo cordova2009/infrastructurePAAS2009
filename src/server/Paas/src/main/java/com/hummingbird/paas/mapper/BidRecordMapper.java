@@ -33,6 +33,10 @@ public interface BidRecordMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidRecord record);
+    /**
+     * 根据主键更新记录
+     */
+    int selectCountByObjectId(String objectId);
     
     /**
      * 招标方统计投标信息

@@ -2,21 +2,22 @@ package com.hummingbird.paas.vo;
 
 public class BuyTenderMemberBodyVO {
      private String token;
-     private String memberType;
+     private String productId;
      private Integer memberDuration;
      private String payMethod;
      private Integer payAmount;
-	public String getToken() {
+	 public String getToken() {
 		return token;
-	}
-	public void setToken(String token) {
+	 }
+	 public void setToken(String token) {
 		this.token = token;
+	 }
+	
+	public String getProductId() {
+		return productId;
 	}
-	public String getMemberType() {
-		return memberType;
-	}
-	public void setMemberType(String memberType) {
-		this.memberType = memberType;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 	public Integer getMemberDuration() {
 		return memberDuration;
@@ -38,7 +39,7 @@ public class BuyTenderMemberBodyVO {
 	}
 	@Override
 	public String toString() {
-		return "BuyTenderMemberBodyVO [token=" + token + ", memberType=" + memberType + ", memberDuration="
+		return "BuyTenderMemberBodyVO [token=" + token + ", productId=" + productId + ", memberDuration="
 				+ memberDuration + ", payMethod=" + payMethod + ", payAmount=" + payAmount + "]";
 	}
      

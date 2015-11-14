@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.CertificationType;
 
 public interface CertificationTypeMapper {
@@ -19,10 +21,14 @@ public interface CertificationTypeMapper {
     int insertSelective(CertificationType record);
 
     /**
-     * 根据主键查询记录
+     * 根据主键查询记录selectAllTypes
      */
     CertificationType selectByPrimaryKey(Integer id);
-
+     
+    /**
+     * 根据industryId 找寻相应的证书
+     */
+    List<CertificationType> selectAllTypes(String industryId);
     /**
      * 根据主键更新属性不为空的记录
      */

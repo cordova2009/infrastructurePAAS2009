@@ -1,5 +1,8 @@
 package com.hummingbird.paas.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,10 +23,14 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.exception.TenderException;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.vo.GetMsgListBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
@@ -362,7 +369,7 @@ public class TenderController extends BaseController {
 				log.debug("检验通过，获取请求");
 			}
 			tenderService.queryObjectConstructionInfo(transorder.getApp().getAppId(),transorder.getBody());
-		
+		    
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -376,10 +383,106 @@ public class TenderController extends BaseController {
 		return rm;
 		
 	}
+	/**
+	 * 查询未完成招标项目工程施工证明接口
+	 * @return
+	 */
+	@RequestMapping(value="/queryCertificateList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询资质证书类型列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryCertificateListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryCertificateList(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询资质证书类型列表接口"; 
+		RequestEvent qe=null ; 
+		List<QueryCertificateListResultVO> liq = new ArrayList<QueryCertificateListResultVO>();
+		try {
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			liq = tenderService.queryCertificateList();
+			rm.put("certificateList", liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询未完成招标项目工程施工证明接口
+	 * @return  queryObjectList
+	 */
+/*	@RequestMapping(value="/queryObjectList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询招标公告列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryObjectList(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询投标方列表接口"; 
+		RequestEvent qe=null ; 
+		List<QueryBidderListResultVO> liq = null;
+		try {
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			liq = tenderService.queryObjectList(pageIndex, pageSize)
+	        rm.put("bidderList",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}*/
 	
 	
-	
-	
+	/**
+	 * 查询未完成招标项目工程施工证明接口
+	 * @return  queryObjectList
+	 */
+	@RequestMapping(value="/queryBidderList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询投标方列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryBidderList(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
+		String messagebase = "查询投标方列表接口"; 
+		RequestEvent qe=null ; 
+		List<QueryObjectListResultVO> liq = null;
+		try {
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageSize =transorder.getBody().getPageSize();
+			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+				log.error(String.format(messagebase + "失败"));
+				rm.setErrmsg("参数错误");
+				return rm;
+			}
+			liq = tenderService.queryObjectList((pageIndex-1)*pageSize,pageSize);
+	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
 	
 	
 	

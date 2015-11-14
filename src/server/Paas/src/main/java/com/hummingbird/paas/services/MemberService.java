@@ -12,5 +12,5 @@ public interface MemberService {
       //购买招标人信息
       public QueryMemberProductResultVO querysAvailableProducts(String token);
        //购买招标方会员接口
-      public boolean buyPrivilegeMember(BuyTenderMemberBodyVO bt);
+      public String  buyPrivilegeMember(BuyTenderMemberBodyVO bt,String appId);
 }

@@ -22,6 +22,10 @@ public interface QandaMapper {
      * 根据主键查询记录
      */
     Qanda selectByPrimaryKey(Integer id);
+    /**
+     * 根据用户ID查询记录
+     */
+    Qanda selectByUserId(String userId);
 
     /**
      * 根据主键更新属性不为空的记录

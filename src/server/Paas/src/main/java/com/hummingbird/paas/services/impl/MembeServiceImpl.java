@@ -1,7 +1,6 @@
 package com.hummingbird.paas.services.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,22 +13,21 @@ import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.paas.entity.HyglBiddee;
 import com.hummingbird.paas.entity.HyglBidder;
+import com.hummingbird.paas.entity.Order;
 import com.hummingbird.paas.entity.OrderProduct;
-import com.hummingbird.paas.entity.ProjectAccount;
-import com.hummingbird.paas.entity.ProjectAccountOrder;
 import com.hummingbird.paas.entity.QyzzBiddee;
 import com.hummingbird.paas.entity.QyzzBidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.mapper.HyglBiddeeMapper;
 import com.hummingbird.paas.mapper.HyglBidderMapper;
 import com.hummingbird.paas.mapper.MemberProductPrivilegeMapper;
+import com.hummingbird.paas.mapper.OrderMapper;
 import com.hummingbird.paas.mapper.OrderProductMapper;
-import com.hummingbird.paas.mapper.ProjectAccountMapper;
-import com.hummingbird.paas.mapper.ProjectAccountOrderMapper;
 import com.hummingbird.paas.mapper.QyzzBiddeeMapper;
 import com.hummingbird.paas.mapper.QyzzBidderMapper;
 import com.hummingbird.paas.mapper.UserTokenMapper;
 import com.hummingbird.paas.services.MemberService;
+import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.vo.BuyTenderMemberBodyVO;
 import com.hummingbird.paas.vo.QueryMemberInfoResultVO;
 import com.hummingbird.paas.vo.QueryMemberProductResultBodyVO;
@@ -54,11 +52,10 @@ public class MembeServiceImpl implements MemberService {
 	@Autowired
 	OrderProductMapper opmDao;
 	@Autowired
-    UserTokenMapper utDao;
+	UserTokenMapper utDao;
 	@Autowired
-	ProjectAccountMapper paDao;
-	@Autowired
-	ProjectAccountOrderMapper paoDao;
+	OrderMapper omDao;
+
 	public List<QueryMemberInfoResultVO> querysMemberInfo(String token) {
 
 		if (StringUtils.isBlank(token)) {
@@ -83,65 +80,35 @@ public class MembeServiceImpl implements MemberService {
 		QyzzBidder qm = qberDao.selectByUserId(id);
 		QyzzBiddee qe = qbeeDao.selectByUserId(id);
 		//
-		Integer bidderId = qm.getId();
-		Integer tendererId = qe.getId();
-		HyglBidder bidder = null;
-		HyglBiddee hyglBiddee = null;
-		if (bidderId != null) {
-			bidder = hbmDao.selectByPrimaryKey(bidderId);
-		}
-		if (tendererId != null) {
-			hyglBiddee = tmDao.selectByPrimaryKey(tendererId);
-		}
-		if (bidder != null) {
-			qrv = new QueryMemberInfoResultVO();
-			Date now = new Date();
-			if (bidder.getEndTime() != null) {
-				if (bidder.getEndTime().getTime() > now.getTime()) {
-					qrv.setIsMember(true);
-					qrv.setMemberEndTime(du.format(bidder.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+		if (qm != null) {
+
+			Integer bidderId = qm.getId();
+			HyglBidder bidder = null;
+			if (bidderId != null) {
+				bidder = hbmDao.selectByPrimaryKey(bidderId);
+			}
+			if (bidder != null) {
+				qrv = new QueryMemberInfoResultVO();
+				Date now = new Date();
+				if (bidder.getEndTime() != null) {
+					if (bidder.getEndTime().getTime() > now.getTime()) {
+						qrv.setIsMember(true);
+						qrv.setMemberEndTime(du.format(bidder.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+					} else {
+						qrv.setMemberEndTime(du.format(bidder.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+						qrv.setIsMember(false);
+					}
+
 				} else {
-					qrv.setMemberEndTime(du.format(bidder.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+					if (log.isDebugEnabled()) {
+						log.debug("截止日期信息不全无法判断是否是会员");
+					}
 					qrv.setIsMember(false);
 				}
-
-			} else {
-				if (log.isDebugEnabled()) {
-					log.debug("截止日期信息不全无法判断是否是会员");
-				}
-				qrv.setIsMember(false);
-			}
-			if (bidder.getStartTime() != null)
-				qrv.setMemberStartTime(du.format(bidder.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
-			qrv.setMemberType(bidder.getMemberLevel());
-			Integer productId = bidder.getProductId();
-			if (productId != null) {
-				List<String> privileges = prDao.getPriviliges(productId);
-				try {
-					String priviliege = JsonUtil.convert2Json(privileges);
-
-					qrv.setMemberContent(priviliege);
-				} catch (DataInvalidException e) {
-					log.error("权限信息数组转换为字符串失败" + privileges);
-				}
-			}
-			qmis.add(qrv);
-		}
-		if (hyglBiddee != null) {
-			qrv = new QueryMemberInfoResultVO();
-			Date now = new Date();
-			if (hyglBiddee.getEndTime() != null) {
-				if (hyglBiddee.getEndTime().getTime() > now.getTime()) {
-					qrv.setIsMember(true);
-					qrv.setMemberEndTime(du.format(hyglBiddee.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
-				} else {
-					qrv.setMemberEndTime(du.format(hyglBiddee.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
-					qrv.setIsMember(false);
-				}
-				if (hyglBiddee.getStartTime() != null)
-					qrv.setMemberStartTime(du.format(hyglBiddee.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
-				qrv.setMemberType(hyglBiddee.getMemberLevel());
-				Integer productId = hyglBiddee.getProductId();
+				if (bidder.getStartTime() != null)
+					qrv.setMemberStartTime(du.format(bidder.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+				qrv.setMemberType(bidder.getMemberLevel());
+				Integer productId = bidder.getProductId();
 				if (productId != null) {
 					List<String> privileges = prDao.getPriviliges(productId);
 					try {
@@ -153,11 +120,51 @@ public class MembeServiceImpl implements MemberService {
 					}
 				}
 				qmis.add(qrv);
+			}
 
+		}
+		if (qe != null) {
+
+			Integer tendererId = qe.getId();
+
+			HyglBiddee hyglBiddee = null;
+			if (tendererId != null) {
+				hyglBiddee = tmDao.selectByPrimaryKey(tendererId);
+			}
+			if (hyglBiddee != null) {
+				qrv = new QueryMemberInfoResultVO();
+				Date now = new Date();
+				if (hyglBiddee.getEndTime() != null) {
+					if (hyglBiddee.getEndTime().getTime() > now.getTime()) {
+						qrv.setIsMember(true);
+						qrv.setMemberEndTime(du.format(hyglBiddee.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+					} else {
+						qrv.setMemberEndTime(du.format(hyglBiddee.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+						qrv.setIsMember(false);
+					}
+					if (hyglBiddee.getStartTime() != null)
+						qrv.setMemberStartTime(du.format(hyglBiddee.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+					qrv.setMemberType(hyglBiddee.getMemberLevel());
+					Integer productId = hyglBiddee.getProductId();
+					if (productId != null) {
+						List<String> privileges = prDao.getPriviliges(productId);
+						try {
+							String priviliege = JsonUtil.convert2Json(privileges);
+
+							qrv.setMemberContent(priviliege);
+						} catch (DataInvalidException e) {
+							log.error("权限信息数组转换为字符串失败" + privileges);
+						}
+					}
+					qmis.add(qrv);
+
+				}
 			}
 		} else {
-			qrv.setIsMember(false);
-			qmis.add(qrv);
+			if (qrv != null) {
+				qrv.setIsMember(false);
+				qmis.add(qrv);
+			}
 		}
 		return qmis;
 	}
@@ -187,79 +194,87 @@ public class MembeServiceImpl implements MemberService {
 		QyzzBidder qm = qberDao.selectByUserId(id);
 		QyzzBiddee qe = qbeeDao.selectByUserId(id);
 		//
-		Integer bidderId = qm.getId();
-		Integer tendererId = qe.getId();
-		HyglBidder bidder = null;
-		HyglBiddee hyglBiddee = null;
-		if (bidderId != null) {
-			bidder = hbmDao.selectByBidderId(bidderId);
-		}
-		if (tendererId != null) {
-			hyglBiddee = tmDao.selectByBiddeeId(tendererId);
-		}
-		if (bidder != null) {
-			Date now = new Date();
-			if (bidder.getEndTime() != null) {
-				if (bidder.getEndTime().getTime() > now.getTime()) {
-					proResult.setTerMember("OK#");
-					Integer productId = bidder.getProductId();
-					if (productId != null) {
-						OrderProduct or = opmDao.selectByPrimaryKey(productId.toString());
-						if (or != null) {
-							resultOne = new QueryMemberProductResultBodyVO();
-							if (StringUtils.isNotBlank(or.getPrice()))
-								resultOne.setProductPrice(or.getPrice());
-							if (StringUtils.isNotBlank(or.getProductDescription()))
-								resultOne.setProductDesc(or.getProductDescription());
-							if (StringUtils.isNotBlank(or.getProductName()))
-								resultOne.setProductName(or.getProductName());
-							resultOne.setProductId(productId.toString());
-							resultOne.setMemberType("TER");
-							qproducts.add(resultOne);
-						}
-					}
-				} else {
-					proResult.setTerMember("FLS");
-				}
-				proResult.setTerMemberExpireTime(du.format(bidder.getEndTime(), "yyyy-MM-dd"));
-			} else {
-				if (log.isDebugEnabled()) {
-					log.debug("截止日期信息不全无法判断是否是会员");
-				}
-				proResult.setTerMember("FLS");
+		if (qm != null) {
+			Integer bidderId = qm.getId();
+			HyglBidder bidder = null;
+			if (bidderId != null) {
+				bidder = hbmDao.selectByBidderId(bidderId);
 			}
 
-		}
-		if (hyglBiddee != null) {
-			Date now = new Date();
-			if (hyglBiddee.getEndTime() != null) {
-				if (hyglBiddee.getEndTime().getTime() > now.getTime()) {
-					proResult.setTeeMember("OK#");
-					Integer productId = bidder.getProductId();
-					if (productId != null) {
-						OrderProduct or = opmDao.selectByPrimaryKey(productId.toString());
-						if (or != null) {
-							QueryMemberProductResultBodyVO resultOne2 = new QueryMemberProductResultBodyVO();
-							if (StringUtils.isNotBlank(or.getPrice()))
-								resultOne2.setProductPrice(or.getPrice());
-							if (StringUtils.isNotBlank(or.getProductDescription()))
-								resultOne2.setProductDesc(or.getProductDescription());
-							if (StringUtils.isNotBlank(or.getProductName()))
-								resultOne2.setProductName(or.getProductName());
-							resultOne2.setProductId(productId.toString());
-							resultOne2.setMemberType("TEE");
-							qproducts.add(resultOne2);
+			if (bidder != null) {
+				proResult= new QueryMemberProductResultVO();
+				Date now = new Date();
+				if (bidder.getEndTime() != null) {
+					if (bidder.getEndTime().getTime() > now.getTime()) {
+						proResult.setTerMember("OK#");
+						Integer productId = bidder.getProductId();
+						if (productId != null) {
+							OrderProduct or = opmDao.selectByPrimaryKey(productId.toString());
+							if (or != null) {
+								resultOne = new QueryMemberProductResultBodyVO();
+								if (StringUtils.isNotBlank(or.getPrice()))
+									resultOne.setProductPrice(or.getPrice());
+								if (StringUtils.isNotBlank(or.getProductDescription()))
+									resultOne.setProductDesc(or.getProductDescription());
+								if (StringUtils.isNotBlank(or.getProductName()))
+									resultOne.setProductName(or.getProductName());
+								resultOne.setProductId(productId.toString());
+								resultOne.setMemberType("TER");
+								qproducts.add(resultOne);
+							}
 						}
+					} else {
+						proResult.setTerMember("FLS");
 					}
+					proResult.setTerMemberExpireTime(du.format(bidder.getEndTime(), "yyyy-MM-dd"));
 				} else {
+					if (log.isDebugEnabled()) {
+						log.debug("截止日期信息不全无法判断是否是会员");
+					}
+					proResult.setTerMember("FLS");
+				}
+
+			}
+		}
+		if (qe != null) {
+			Integer tendererId = qe.getId();
+			HyglBiddee hyglBiddee = null;
+			if (tendererId != null) {
+				hyglBiddee = tmDao.selectByBiddeeId(tendererId);
+			}
+			if (hyglBiddee != null) {
+				proResult = new QueryMemberProductResultVO();
+				Date now = new Date();
+				if (hyglBiddee.getEndTime() != null) {
+					if (hyglBiddee.getEndTime().getTime() > now.getTime()) {
+						proResult.setTeeMember("OK#");
+						Integer productId = hyglBiddee.getProductId();
+						if (productId != null) {
+							OrderProduct or = opmDao.selectByPrimaryKey(productId.toString());
+							if (or != null) {
+								QueryMemberProductResultBodyVO resultOne2 = new QueryMemberProductResultBodyVO();
+								if (StringUtils.isNotBlank(or.getPrice()))
+									resultOne2.setProductPrice(or.getPrice());
+								if (StringUtils.isNotBlank(or.getProductDescription()))
+									resultOne2.setProductDesc(or.getProductDescription());
+								if (StringUtils.isNotBlank(or.getProductName()))
+									resultOne2.setProductName(or.getProductName());
+								resultOne2.setProductId(productId.toString());
+								resultOne2.setMemberType("TEE");
+								qproducts.add(resultOne2);
+							}
+						}
+					} else {
+						proResult.setTeeMember("FLS");
+					}
+					proResult.setTeeMemberExpireTime(du.format(hyglBiddee.getEndTime(), "yyyy-MM-dd"));
+				} else {
+					if (log.isDebugEnabled()) {
+						log.debug("截止日期信息不全无法判断会员是否可购买");
+					}
 					proResult.setTeeMember("FLS");
 				}
-				proResult.setTeeMemberExpireTime(du.format(bidder.getEndTime(), "yyyy-MM-dd"));
-			} else {
-				if (log.isDebugEnabled()) {
-					log.debug("截止日期信息不全无法判断会员是否可购买");
-				}
-				proResult.setTeeMember("FLS");
+
 			}
 
 		}
@@ -267,59 +282,43 @@ public class MembeServiceImpl implements MemberService {
 		return proResult;
 	}
 
+	// 购买招标方会员接口
 	@Override
-	public boolean buyPrivilegeMember(BuyTenderMemberBodyVO bt) {
-		if(bt==null||StringUtils.isBlank(bt.getToken())||StringUtils.isBlank(bt.getPayMethod())||StringUtils.isBlank(bt.getMemberType())||bt.getPayAmount()==null||bt.getMemberDuration()==null){
-		    log.error("购买招标方会员出错");
-			return false;
+	public String buyPrivilegeMember(BuyTenderMemberBodyVO bt, String appId) {
+		if (bt == null || StringUtils.isBlank(bt.getToken()) || StringUtils.isBlank(bt.getPayMethod())
+				|| StringUtils.isBlank(bt.getProductId()) || bt.getPayAmount() == null
+				|| bt.getMemberDuration() == null) {
+			log.error("购买招标方会员出错");
+			return null;
 		}
-		//现金支付
-		Token t = 	utDao.selectByPrimaryKey(bt.getToken());
+		OrderProduct op = opmDao.selectByPrimaryKey(bt.getProductId());
+		if (op == null) {
+			log.error("该产品不存在");
+			return null;
+		}
+		Token t = utDao.selectByPrimaryKey(bt.getToken());
 		Integer userId = t.getUserId();
-		if(userId==null||userId<=0){
+		if (userId == null || userId <= 0) {
 			log.error("用户id为空");
-			return false;
+			return null;
 		}
-		if(bt.getPayMethod().equals("CAS")){
-		  ProjectAccount pacc =  paDao.queryAccountInfo(userId);
-		  if(pacc==null){
-			  log.error("查询到工程项目账号记录为空");
-			  return false;
-		  }
-		  Integer balance  = pacc.getRemainingSum();
-		  if(balance!=null&&balance>bt.getPayAmount()){
-			
-		      QyzzBiddee qe = qbeeDao.selectByUserId(userId);
-		      if(qe==null){
-		    	  log.error("QyzzBiddee未找到招标方记录");
-		    	  return false;
-		      }
-		      Integer biddeeId = qe.getId();
-		      HyglBiddee hbee = tmDao.selectByBiddeeId(biddeeId);
-		      if(hbee!=null){
-		          Calendar calendar = Calendar.getInstance();
-		          Date date = hbee.getEndTime();
-		          if(date==null||date.getTime()<new Date().getTime()){
-		        	  if(log.isDebugEnabled()){
-		        		  log.debug("招标方截止会员日期不全");
-		        	  }
-		        	  //默认为现在
-		        	  date = new Date();
-		          }
-		          calendar.setTime(date);
-		          calendar.add(Calendar.YEAR,bt.getMemberDuration());
-		          date = calendar.getTime();
-		          hbee.setEndTime(date);
-		          ProjectAccountOrder pao = new ProjectAccountOrder();
-		          pao.setAccountId(pacc.getAccountId());
-		          
-		          Integer newRemain = bt.getPayAmount()-balance;
-			      pacc.setRemainingSum(newRemain);
-			      return true;
-		      }
-		  }
-		  
-		}
-		return true;
+		Order ord = new Order();
+		ord.setAmount(bt.getPayAmount());
+		ord.setInsertTime(new Date());
+		ord.setPayStatus("CRT");
+		ord.setPayType(bt.getPayMethod());
+		ord.setProductCount(bt.getMemberDuration());
+		ord.setDiscount(100);
+		Integer price = bt.getPayAmount()/bt.getMemberDuration();
+		ord.setProductPrice(price);
+		ord.setCreateBy(userId.toString());
+		ord.setRealAmount(bt.getPayAmount());
+		String orderId = AccountGenerationUtil.genNO("RM", 8);
+		ord.setOrderId(orderId);
+		ord.setAppId(appId);
+		ord.setProductDesc(op.getProductDescription());
+		ord.setProductId(bt.getProductId());
+		omDao.insert(ord);
+		return orderId;
 	}
 }

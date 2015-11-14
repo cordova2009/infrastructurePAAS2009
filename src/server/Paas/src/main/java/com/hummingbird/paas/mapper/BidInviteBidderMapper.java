@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.BidInviteBidder;
 
 public interface BidInviteBidderMapper {
@@ -32,4 +34,17 @@ public interface BidInviteBidderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidInviteBidder record);
+
+	/**
+	 * 根据标的id查询邀请的投标人
+	 * @param objectId
+	 * @return
+	 */
+	List<BidInviteBidder> selectByObjectId(String objectId);
+	/**
+	 * 根据标的id删除邀请的投标人
+	 * @param objectId
+	 * @return
+	 */
+	int deleteByObjectId(String objectId);
 }

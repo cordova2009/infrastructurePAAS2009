@@ -728,7 +728,6 @@ objectId|是|招标项目内部编号
     {
         "errcode":0,"errmsg":"查询未完成招标项目工程施工证明成功",
         "ConstructionInfo":{
-            "constructionProveType":"施工证明类型",
             "landUseCertificateNo":"BH2015110100123",
             "landUseCertificateEndDate":"2015-03-28",
             "landUseCertificateUrl":"URL",
@@ -822,17 +821,17 @@ objectId|是|招标项目内部编号
 constructionProveType|是|施工证明类型
 landUseCertificateNo|否|国有土地使用证编号
 landUseCertificateEndDate|否|国有土地使用证有效期
-landUseCertificatePicUrl|否|国有土地使用证上传地址
+landUseCertificateUrl|否|国有土地使用证上传地址
 constructionLandUsePermitNo|否|建设用地规划许可证编号
 constructionLandUsePermitEndDate|否|建设用地规划许可证有效期
-constructionLandUsePermitPicUrl|否|建设用地规划许可证上传地址
+constructionLandUsePermitUrl|否|建设用地规划许可证上传地址
 buildingPermitNo|否|建设工程规划许可证编号
 buildingPermitEndDate|否|建设工程规划许可证有效期
 buildingPermitPicUrl|否|建设工程规划许可证上传地址
-letterOfAcceptancePicUrl|否|中标通知书上传地址
+letterOfAcceptanceUrl|否|中标通知书上传地址
 buildingConstructPermitNo|否|建设工程施工许可证编号
 buildingConstructPermitEndDate|否|建设工程施工许可证有效期
-buildingConstructPermitPicUrl|否|建设工程施工许可证上传地址
+buildingConstructPermitUrl|否|建设工程施工许可证上传地址
 
 
 2）返回说明
@@ -989,7 +988,10 @@ POST数据格式：JSON
             "timeStamp":"TIMESTAMP", 
             "nonce":"NONCE",
             "signature":"SIGNATURE"
-        }
+        },
+	"body":{
+		
+	}
     }
 
 参数|是否必须|说明
@@ -1068,7 +1070,6 @@ timestamp|是|时间戳
 nonce|是|随机数
 signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
 token|是|用户令牌
-token|是|用户令牌
 objectId|是|招标项目内部编号
 
 
@@ -1081,10 +1082,12 @@ objectId|是|招标项目内部编号
     	"certificationInfo":{
     		"bidderCertification":[{
                 "certificateId":1,
-                "certificateName":"一级建造师"
+                "certificateName":"一级建造师",
+		"industryId":1
             },{
                 "certificateId":2,
-                "certificateName":"二级建造师"
+                "certificateName":"二级建造师",
+		"industryId":2
             }],
     		"needPmCertification":"YES",
             "needConstructorCertification":"YES",
@@ -1390,8 +1393,10 @@ POST数据格式：JSON
         {
             "objectId":"BH2015082135656",
             "token":"356578",
-            "bidFileType":["资格审查文件电子标书1份","商务标部分电子标书1份","技术标部分电子标书1份"]
-	    }
+	    "needBusinessStandard":"YES",
+            "needTechnicalStandard":"YES",
+            "needCertificationCheckupFile":"YES"
+	}
     }
 
 参数|是否必须|说明
@@ -1403,7 +1408,9 @@ signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,
 token|是|用户令牌
 token|是|用户令牌
 objectId|是|招标项目内部编号
-bidFileType|是|投标文件类型
+needBusinessStandard|是|投标方是否需要上传商务标书，YES，是。NO#，否。
+needTechnicalStandard|是|投标方是否需要上传技术标书，YES，是。NO#，否。
+needCertificationCheckupFile|是|投标方是否需要上传资格审查文件，YES，是。NO#，否。
 
 
 2）返回说明
@@ -1524,7 +1531,7 @@ objectId|是|招标项目内部编号
     {
         "errcode":0,"errmsg":查询未完成招标方式成功",
         "objectMethodInfo":{
-        	"objectMethod":"INVI",
+        	"objectMethod":"INV",
         	"inviteTender":[{
                 "bidderName":"蜂鸟娱乐（点点）"
                 "bidderId":2
@@ -1543,7 +1550,7 @@ objectId|是|招标项目内部编号
 
 参数|是否必须|说明
 ----|----|-----
-objectMethod|是|招标方式,"OPEN",公开招标。"INVI",邀请投标。
+objectMethod|是|招标方式,"PUB",公开招标。"INV",邀请投标。
 inviteTender.bidderName|否|邀请投标人(公司名+昵称)
 inviteTender.bidderId|否|邀请投标人Id
 
@@ -1572,12 +1579,12 @@ POST数据格式：JSON
         "body":{
 	        "token":"58960",
             "objectId":"BH2015082135656",
-            "objectMethod":"INVI",
+            "objectMethod":"INV",
             "inviteTender":[{
-                "bidderName":"蜂鸟娱乐（点点）"
+                "bidderName":"蜂鸟娱乐（点点）",
                 "bidderId":2
                 },{
-                "bidderName":"麦圈互动（胖子）"
+                "bidderName":"麦圈互动（胖子）",
                 "bidderId":3
             }]
 	    }
@@ -1591,7 +1598,7 @@ nonce|是|随机数
 signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
 token|是|用户令牌
 objectId|是|招标项目内部编号
-objectMethod|是|招标方式,"OPEN",公开招标。"INVI",邀请投标。
+objectMethod|是|招标方式,"PUB",公开招标。"INV",邀请投标。
 inviteTender.bidderName|否|邀请投标人(公司名+昵称)
 inviteTender.bidderId|否|邀请投标人Id
 
@@ -1661,8 +1668,10 @@ objectId|是|招标项目内部编号
             "QQtoken":"XXX标的答疑",
             "email":"maoxian@126.com",
             "address":"地王大厦3栋5楼402",
-            "answerTime":"2015-05-24 12:00-16:30",
-            "telephone":"1387654"
+            "addressAnswerTime":"12:00-16:30",
+            "addressAnswerDate":"2015-05-24",
+            "telephone":"1387654",
+	    "addressAnswerDate"
         }
         
     }
@@ -1679,10 +1688,11 @@ QQ|否|答疑qq群
 QQtoken|否|qq群加入口令
 email|否|答疑邮件
 address|否|答疑地址
-answerTime|否|答疑时间
+addressAnswerTime|否|答疑时间
+addressAnswerDate|否|答疑日期
 telephone|否|答疑电话
 endTime|否|答疑截止时间
-atartTime|否|答疑开始时间
+startTime|否|答疑开始时间
 
 ##保存招标答疑方式接口
 
@@ -1693,7 +1703,7 @@ http请求方式: post
 
 前置条件：用户必须先登录，用户有招标的权限
 
-    http://ip:port/gw/tender/saveObjectFileInfo
+    http://ip:port/gw/tender/saveAnswerMethodInfo
 
 
 POST数据格式：JSON
@@ -1715,7 +1725,8 @@ POST数据格式：JSON
             "QQtoken":"XXX标的答疑",
             "email":"maoxian@126.com",
             "address":"地王大厦3栋5楼402",
-            "answerTime":"2015-05-24 12:00-16:30",
+            "addressAnswerTime":"12:00-16:30",
+            "addressAnswerDate":"2015-05-24",
             "telephone":"1387654"
         }
     }
@@ -1732,7 +1743,8 @@ QQ|否|答疑qq群
 QQtoken|否|qq群加入口令
 email|否|答疑邮件
 address|否|答疑地址
-answerTime|否|答疑时间
+addressAnswerTime|否|答疑时间
+addressAnswerDate|否|答疑日期
 telephone|否|答疑电话
 endTime|否|答疑截止时间
 atartTime|否|答疑开始时间
@@ -1969,7 +1981,7 @@ POST数据格式：JSON
         "body":
         {
             "token":"09fdjg85",
-            "objectId":"BH2015082135656"
+            "objectId":"BH2015082135656",
             "bidEvaluationType":"QLT",
             "bidEvaluationSite":"技术标评标地点",
             "bidWinnerDetermineWay":"ORV",

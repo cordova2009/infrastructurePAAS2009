@@ -102,31 +102,6 @@ public class BidObject {
     private String currency;
 
     /**
-     * 资格审查方式,SYS 投标人资质等级系统自动匹配审查,
-     */
-    private String certificationCheckupType;
-
-    /**
-     * 评标方法,QLT 定性，CRE 信用商户评价，OVE综合评估
-     */
-    private String bidEvaluationType;
-
-    /**
-     * 技术评标地点
-     */
-    private String bidEvaluationSite;
-
-    /**
-     * 中标人确定方式,ORV 直接票决定标，MRV 逐轮票决定标，VDM 票决筹钱定标
-     */
-    private String bidWinnerDetermineWay;
-
-    /**
-     * 票决方式, SMP 简单铎书法，CPN 对比胜出法
-     */
-    private String voteWinWay;
-
-    /**
      * 投标担保金额,单位为分
      */
     private Integer bidBondAmount;
@@ -175,6 +150,11 @@ public class BidObject {
      * 招标项目范围
      */
     private String objectScope;
+
+    /**
+     * 中标时间
+     */
+    private Date winBidTime;
 
     /**
      * @return 招标编号(平台),ZB00时间戳随机数
@@ -462,81 +442,6 @@ public class BidObject {
     }
 
     /**
-     * @return 资格审查方式,SYS 投标人资质等级系统自动匹配审查,
-     */
-    public String getCertificationCheckupType() {
-        return certificationCheckupType;
-    }
-
-    /**
-     * @param certificationCheckupType 
-	 *            资格审查方式,SYS 投标人资质等级系统自动匹配审查,
-     */
-    public void setCertificationCheckupType(String certificationCheckupType) {
-        this.certificationCheckupType = certificationCheckupType == null ? null : certificationCheckupType.trim();
-    }
-
-    /**
-     * @return 评标方法,QLT 定性，CRE 信用商户评价，OVE综合评估
-     */
-    public String getBidEvaluationType() {
-        return bidEvaluationType;
-    }
-
-    /**
-     * @param bidEvaluationType 
-	 *            评标方法,QLT 定性，CRE 信用商户评价，OVE综合评估
-     */
-    public void setBidEvaluationType(String bidEvaluationType) {
-        this.bidEvaluationType = bidEvaluationType == null ? null : bidEvaluationType.trim();
-    }
-
-    /**
-     * @return 技术评标地点
-     */
-    public String getBidEvaluationSite() {
-        return bidEvaluationSite;
-    }
-
-    /**
-     * @param bidEvaluationSite 
-	 *            技术评标地点
-     */
-    public void setBidEvaluationSite(String bidEvaluationSite) {
-        this.bidEvaluationSite = bidEvaluationSite == null ? null : bidEvaluationSite.trim();
-    }
-
-    /**
-     * @return 中标人确定方式,ORV 直接票决定标，MRV 逐轮票决定标，VDM 票决筹钱定标
-     */
-    public String getBidWinnerDetermineWay() {
-        return bidWinnerDetermineWay;
-    }
-
-    /**
-     * @param bidWinnerDetermineWay 
-	 *            中标人确定方式,ORV 直接票决定标，MRV 逐轮票决定标，VDM 票决筹钱定标
-     */
-    public void setBidWinnerDetermineWay(String bidWinnerDetermineWay) {
-        this.bidWinnerDetermineWay = bidWinnerDetermineWay == null ? null : bidWinnerDetermineWay.trim();
-    }
-
-    /**
-     * @return 票决方式, SMP 简单铎书法，CPN 对比胜出法
-     */
-    public String getVoteWinWay() {
-        return voteWinWay;
-    }
-
-    /**
-     * @param voteWinWay 
-	 *            票决方式, SMP 简单铎书法，CPN 对比胜出法
-     */
-    public void setVoteWinWay(String voteWinWay) {
-        this.voteWinWay = voteWinWay == null ? null : voteWinWay.trim();
-    }
-
-    /**
      * @return 投标担保金额,单位为分
      */
     public Integer getBidBondAmount() {
@@ -686,6 +591,21 @@ public class BidObject {
         this.objectScope = objectScope == null ? null : objectScope.trim();
     }
 
+    /**
+     * @return 中标时间
+     */
+    public Date getWinBidTime() {
+        return winBidTime;
+    }
+
+    /**
+     * @param winBidTime 
+	 *            中标时间
+     */
+    public void setWinBidTime(Date winBidTime) {
+        this.winBidTime = winBidTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -717,11 +637,6 @@ public class BidObject {
             && (this.getProjectExpectPeriod() == null ? other.getProjectExpectPeriod() == null : this.getProjectExpectPeriod().equals(other.getProjectExpectPeriod()))
             && (this.getContractType() == null ? other.getContractType() == null : this.getContractType().equals(other.getContractType()))
             && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()))
-            && (this.getCertificationCheckupType() == null ? other.getCertificationCheckupType() == null : this.getCertificationCheckupType().equals(other.getCertificationCheckupType()))
-            && (this.getBidEvaluationType() == null ? other.getBidEvaluationType() == null : this.getBidEvaluationType().equals(other.getBidEvaluationType()))
-            && (this.getBidEvaluationSite() == null ? other.getBidEvaluationSite() == null : this.getBidEvaluationSite().equals(other.getBidEvaluationSite()))
-            && (this.getBidWinnerDetermineWay() == null ? other.getBidWinnerDetermineWay() == null : this.getBidWinnerDetermineWay().equals(other.getBidWinnerDetermineWay()))
-            && (this.getVoteWinWay() == null ? other.getVoteWinWay() == null : this.getVoteWinWay().equals(other.getVoteWinWay()))
             && (this.getBidBondAmount() == null ? other.getBidBondAmount() == null : this.getBidBondAmount().equals(other.getBidBondAmount()))
             && (this.getNeedBusinessStandard() == null ? other.getNeedBusinessStandard() == null : this.getNeedBusinessStandard().equals(other.getNeedBusinessStandard()))
             && (this.getNeedTechnicalStandard() == null ? other.getNeedTechnicalStandard() == null : this.getNeedTechnicalStandard().equals(other.getNeedTechnicalStandard()))
@@ -731,7 +646,8 @@ public class BidObject {
             && (this.getNeedSafetyPermit() == null ? other.getNeedSafetyPermit() == null : this.getNeedSafetyPermit().equals(other.getNeedSafetyPermit()))
             && (this.getNeedPmSafetyCertification() == null ? other.getNeedPmSafetyCertification() == null : this.getNeedPmSafetyCertification().equals(other.getNeedPmSafetyCertification()))
             && (this.getEvaluationAmount() == null ? other.getEvaluationAmount() == null : this.getEvaluationAmount().equals(other.getEvaluationAmount()))
-            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()));
+            && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
+            && (this.getWinBidTime() == null ? other.getWinBidTime() == null : this.getWinBidTime().equals(other.getWinBidTime()));
     }
 
     @Override
@@ -757,11 +673,6 @@ public class BidObject {
         result = prime * result + ((getProjectExpectPeriod() == null) ? 0 : getProjectExpectPeriod().hashCode());
         result = prime * result + ((getContractType() == null) ? 0 : getContractType().hashCode());
         result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
-        result = prime * result + ((getCertificationCheckupType() == null) ? 0 : getCertificationCheckupType().hashCode());
-        result = prime * result + ((getBidEvaluationType() == null) ? 0 : getBidEvaluationType().hashCode());
-        result = prime * result + ((getBidEvaluationSite() == null) ? 0 : getBidEvaluationSite().hashCode());
-        result = prime * result + ((getBidWinnerDetermineWay() == null) ? 0 : getBidWinnerDetermineWay().hashCode());
-        result = prime * result + ((getVoteWinWay() == null) ? 0 : getVoteWinWay().hashCode());
         result = prime * result + ((getBidBondAmount() == null) ? 0 : getBidBondAmount().hashCode());
         result = prime * result + ((getNeedBusinessStandard() == null) ? 0 : getNeedBusinessStandard().hashCode());
         result = prime * result + ((getNeedTechnicalStandard() == null) ? 0 : getNeedTechnicalStandard().hashCode());
@@ -772,6 +683,7 @@ public class BidObject {
         result = prime * result + ((getNeedPmSafetyCertification() == null) ? 0 : getNeedPmSafetyCertification().hashCode());
         result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
         result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
+        result = prime * result + ((getWinBidTime() == null) ? 0 : getWinBidTime().hashCode());
         return result;
     }
 }

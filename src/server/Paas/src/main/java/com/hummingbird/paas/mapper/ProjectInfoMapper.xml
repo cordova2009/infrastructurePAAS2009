@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.ProjectInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectInfo" >
+    <id column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="staus" property="staus" jdbcType="VARCHAR" />
+    <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    project_id, object_id, bidder_id, staus, biddee_id, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_gcgl_project
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectInfo" >
+    insert into t_gcgl_project (project_id, object_id, bidder_id, 
+      staus, biddee_id, start_time, 
+      end_time)
+    values (#{projectId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{bidderId,jdbcType=INTEGER}, 
+      #{staus,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
+      #{endTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectInfo" >
+    insert into t_gcgl_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="objectId != null" >
+        object_id,
+      </if>
+      <if test="bidderId != null" >
+        bidder_id,
+      </if>
+      <if test="staus != null" >
+        staus,
+      </if>
+      <if test="biddeeId != null" >
+        biddee_id,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="bidderId != null" >
+        #{bidderId,jdbcType=INTEGER},
+      </if>
+      <if test="staus != null" >
+        #{staus,jdbcType=VARCHAR},
+      </if>
+      <if test="biddeeId != null" >
+        #{biddeeId,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectInfo" >
+    update t_gcgl_project
+    <set >
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="bidderId != null" >
+        bidder_id = #{bidderId,jdbcType=INTEGER},
+      </if>
+      <if test="staus != null" >
+        staus = #{staus,jdbcType=VARCHAR},
+      </if>
+      <if test="biddeeId != null" >
+        biddee_id = #{biddeeId,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectInfo" >
+    update t_gcgl_project
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      bidder_id = #{bidderId,jdbcType=INTEGER},
+      staus = #{staus,jdbcType=VARCHAR},
+      biddee_id = #{biddeeId,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE}
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+</mapper>

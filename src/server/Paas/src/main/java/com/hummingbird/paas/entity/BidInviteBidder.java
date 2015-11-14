@@ -18,6 +18,11 @@ public class BidInviteBidder {
      * 标的id
      */
     private String objectId;
+    
+    /**
+     * 投标人名称 
+     */
+    private String bidderName;
 
     /**
      * @return id
@@ -90,4 +95,27 @@ public class BidInviteBidder {
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         return result;
     }
+
+	/**
+	 * 投标人名称 
+	 */
+	public String getBidderName() {
+		return bidderName;
+	}
+
+	/**
+	 * 投标人名称 
+	 */
+	public void setBidderName(String bidderName) {
+		this.bidderName = bidderName;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BidInviteBidder [id=" + id + ", bidderId=" + bidderId + ", objectId=" + objectId + ", bidderName="
+				+ bidderName + "]";
+	}
 }

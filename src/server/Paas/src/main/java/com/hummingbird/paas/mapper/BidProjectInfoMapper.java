@@ -1,5 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.BidProjectInfo;
 
 public interface BidProjectInfoMapper {
@@ -32,4 +36,13 @@ public interface BidProjectInfoMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidProjectInfo record);
+
+	/**
+	 * 查询标的项目相关信息
+	 * @param biddeeId
+	 * @param objectId
+	 * @param statusCreate
+	 * @return
+	 */
+	List<BidProjectInfo> selectProjects(@Param("biddeeId")Integer biddeeId, @Param("objectId")String objectId,@Param("status") String bidobjectstatus);
 }

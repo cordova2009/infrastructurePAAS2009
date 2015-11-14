@@ -39,4 +39,11 @@ public interface ObjectBondSettingMapper {
      * @return
      */
     Integer getObjectBidderBond(String objectId);
+
+	/**
+	 * 根据标的id查询记录
+	 * @param objectId
+	 * @return
+	 */
+	ObjectBondSetting selectByObjectId(String objectId);
 }

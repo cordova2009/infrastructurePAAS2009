@@ -150,7 +150,7 @@ public class TenderServiceImpl implements TenderService {
 		}
 		return result;
 	}
-
+     
 	/**
 	 * 保存招标项目基础信息接口
 	 * 

@@ -23,14 +23,13 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.exception.TenderException;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
-import com.hummingbird.paas.vo.GetMsgListBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
-import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
@@ -451,25 +450,19 @@ public class TenderController extends BaseController {
 	 * @return  queryObjectList
 	 */
 	@RequestMapping(value="/queryBidderList",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询投标方列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	@AccessRequered(methodName = "查询投标方列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryCertificateListBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryBidderList(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
+		BaseTransVO<QueryCertificateListBodyVO> transorder = (BaseTransVO<QueryCertificateListBodyVO>) super.getParameterObject();
 		String messagebase = "查询投标方列表接口"; 
 		RequestEvent qe=null ; 
-		List<QueryObjectListResultVO> liq = null;
+		List<QueryBidderListResultVO> liq = null;
 		try {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			Integer pageIndex =transorder.getBody().getPageIndex();
-			Integer pageSize =transorder.getBody().getPageSize();
-			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
-				log.error(String.format(messagebase + "失败"));
-				rm.setErrmsg("参数错误");
-				return rm;
-			}
-			liq = tenderService.queryObjectList((pageIndex-1)*pageSize,pageSize);
+			
+			liq = tenderService.queryBidderList();
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

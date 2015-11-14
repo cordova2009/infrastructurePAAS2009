@@ -3,14 +3,12 @@ package com.hummingbird.paas.services;
 import java.util.List;
 
 import com.hummingbird.common.exception.BusinessException;
-import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
-import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
@@ -130,13 +128,6 @@ public List<QueryCertificateListResultVO> queryCertificateList() throws Business
 * @throws BusinessException 
 */
 public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
-/**
-* 查询招标公告列表接口接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public List<QueryObjectListResultVO> queryObjectList(Integer pageIndex,Integer pageSize) throws BusinessException; 
 
 	
 }

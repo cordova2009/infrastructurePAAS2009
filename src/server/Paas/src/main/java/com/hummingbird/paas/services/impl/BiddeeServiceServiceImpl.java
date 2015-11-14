@@ -47,9 +47,13 @@ import com.hummingbird.paas.vo.QueryObjectDetailProjectRequirementInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.SurveyVO;
+import com.mysql.jdbc.log.Log;
 
 @Service
 public class BiddeeServiceServiceImpl implements BiddeeServiceService {
+
+	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+
 	@Autowired
 	BiddeeMapper beeDao;
 	@Autowired
@@ -74,11 +78,17 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	ScoreLevelMapper slDao;
 
 	public Boolean queryTender(Token token) throws BusinessException {
+		if(log.isDebugEnabled()){
+			log.debug("接口查询用户是否具有投标的资质进入");
+		}
 		Integer userId = token.getUserId();
 		if (userId == null) {
 			return false;
 		}
 		Biddee bee = beeDao.selectByUserId(userId);
+		if(log.isDebugEnabled()){
+			log.debug("本接口用于查询用户是否具有投标的资质完成："+bee);
+		}
 		if (bee == null) {
 			return false;
 		}
@@ -87,10 +97,10 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		} else {
 			return false;
 		}
-
 	}
 
 	public List<QueryObjectListResultVO> queryObjectList(Integer pageIndex, Integer pageSize) throws BusinessException {
+		
 		List<QueryObjectListResultVO> qors = new ArrayList<QueryObjectListResultVO>();
 		QueryObjectListResultVO qol = null;
 		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
@@ -102,7 +112,9 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			qol = new QueryObjectListResultVO();
 			if (pj.getEvaluationAmount() != null)
 				qol.setEvaluationAmount(pj.getEvaluationAmount().toString());
-			qol.setObjectPredictStartTime(DateUtil.format(pj.getBidOpenDate(), ""));
+			ProjectInfos  proj = pIDao.selectByPrimaryKey(pj.getObjectId());
+			if(proj!=null&&proj.getProjectExpectStartDate()!=null)
+			qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
 			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());

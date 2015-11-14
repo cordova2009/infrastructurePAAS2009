@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.paas.entity.Bidder;
+
+import com.hummingbird.paas.entity.FeeRate;
 import com.hummingbird.paas.entity.ObjectBondRecord;
 import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.ProjectAccountOrder;
@@ -19,6 +21,8 @@ import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.WithdrawApply;
 import com.hummingbird.paas.exception.MaAccountException;
+
+import com.hummingbird.paas.mapper.FeeRateMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
@@ -40,7 +44,8 @@ import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 @Service
-public class OrderServiceImpl /*implements OrderService*/{
+
+public class OrderServiceImpl implements OrderService{
 	@Autowired
 	ObjectBondSettingMapper bondSettingDao;
 	@Autowired
@@ -59,8 +64,11 @@ public class OrderServiceImpl /*implements OrderService*/{
 	UserBankcardMapper userBankDao;
 	@Autowired
 	WithdrawApplyMapper withdrawApplyDao;
+
+	@Autowired
+	FeeRateMapper feeRateDao;
 	
-/*	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
+	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
@@ -271,7 +279,8 @@ public class OrderServiceImpl /*implements OrderService*/{
 			ApplyListReturnVO returnvo=new ApplyListReturnVO();
 			returnvo.setAmount(apply.getAmount().toString());
 			returnvo.setCreateTime(new Date());
-			returnvo.setRechargeTime(转账时间);
+
+			returnvo.setRechargeTime(apply.getTransportTime());
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
 			returnvo.setVoucherNo(apply.getVoucher());
@@ -283,8 +292,12 @@ public class OrderServiceImpl /*implements OrderService*/{
 	@Override
 	public String withdrawalsApply(WithdrawalsApplyBodyVO body, User user)
 			throws MaAccountException {
-		//查询用户银行账户信息
-		//UserBankcard bankcard=userBankDao.selectByPrimaryKey(body.getBankId());
+
+		//查询提现手续费
+		/*List<FeeRate> feeRate=feeRateDao.selectFeeRate("TX#");
+		if(body.getAmount()*feeRate.getFeeRate()<feeRate.get){
+			
+		}*/
 		WithdrawApply apply=new WithdrawApply();
 		String applyOrderId=AccountGenerationUtil.genNO("TX00");
 		apply.setOrderId(applyOrderId);
@@ -309,12 +322,13 @@ public class OrderServiceImpl /*implements OrderService*/{
 			returnvo.setHandingCharge(apply.getCommissionFees().toString());
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
-			returnvo.setWithdrawalsNo(转账凭证号);
-			returnvo.setWithdrawalsTime(转账时间缺少);
+
+			returnvo.setWithdrawalsNo(apply.getVoucher());
+			returnvo.setWithdrawalsTime(apply.getTransportTime());
 			list.add(returnvo);
 		}
-		return null;
+		return list;
 	}
-*/
+
 	
 }

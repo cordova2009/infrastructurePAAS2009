@@ -1,181 +1,205 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hummingbird.paas.mapper.QandaMapper">
-  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Qanda">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="object_id" jdbcType="VARCHAR" property="objectId" />
-    <result column="is_qq_answer" jdbcType="VARCHAR" property="isQqAnswer" />
-    <result column="is_email_answer" jdbcType="VARCHAR" property="isEmailAnswer" />
-    <result column="is_tel_answer" jdbcType="VARCHAR" property="isTelAnswer" />
-    <result column="is_meetng_answer" jdbcType="VARCHAR" property="isMeetngAnswer" />
-    <result column="qq_no" jdbcType="VARCHAR" property="qqNo" />
-    <result column="qq_password" jdbcType="VARCHAR" property="qqPassword" />
-    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="answer_time" jdbcType="VARCHAR" property="answerTime" />
-    <result column="answer_date" jdbcType="VARCHAR" property="answerDate" />
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.QandaMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Qanda" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="is_qq_answer" property="isQqAnswer" jdbcType="VARCHAR" />
+    <result column="is_email_answer" property="isEmailAnswer" jdbcType="VARCHAR" />
+    <result column="is_tel_answer" property="isTelAnswer" jdbcType="VARCHAR" />
+    <result column="is_meetng_answer" property="isMeetngAnswer" jdbcType="VARCHAR" />
+    <result column="qq_no" property="qqNo" jdbcType="VARCHAR" />
+    <result column="qq_password" property="qqPassword" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="answer_time" property="answerTime" jdbcType="VARCHAR" />
+    <result column="answer_date" property="answerDate" jdbcType="VARCHAR" />
+    <result column="answer_start_date" property="answerStartDate" jdbcType="TIMESTAMP" />
+    <result column="answer_end_date" property="answerEndDate" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     id, object_id, is_qq_answer, is_email_answer, is_tel_answer, is_meetng_answer, qq_no, 
-    qq_password, telephone, email, address, answer_time, answer_date
+    qq_password, telephone, email, address, answer_time, answer_date, answer_start_date, 
+    answer_end_date
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_qanda
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByObjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_qanda
-    where object_id = #{object_id,jdbcType=INTEGER}
+    where object_id = #{objectId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_qanda
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.paas.entity.Qanda">
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.Qanda" >
     insert into t_ztgl_qanda (id, object_id, is_qq_answer, 
       is_email_answer, is_tel_answer, is_meetng_answer, 
       qq_no, qq_password, telephone, 
       email, address, answer_time, 
-      answer_date)
+      answer_date, answer_start_date, answer_end_date
+      )
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{isQqAnswer,jdbcType=VARCHAR}, 
       #{isEmailAnswer,jdbcType=VARCHAR}, #{isTelAnswer,jdbcType=VARCHAR}, #{isMeetngAnswer,jdbcType=VARCHAR}, 
       #{qqNo,jdbcType=VARCHAR}, #{qqPassword,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{answerTime,jdbcType=VARCHAR}, 
-      #{answerDate,jdbcType=VARCHAR})
+      #{answerDate,jdbcType=VARCHAR}, #{answerStartDate,jdbcType=TIMESTAMP}, #{answerEndDate,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Qanda">
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Qanda" >
     insert into t_ztgl_qanda
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="objectId != null">
+      <if test="objectId != null" >
         object_id,
       </if>
-      <if test="isQqAnswer != null">
+      <if test="isQqAnswer != null" >
         is_qq_answer,
       </if>
-      <if test="isEmailAnswer != null">
+      <if test="isEmailAnswer != null" >
         is_email_answer,
       </if>
-      <if test="isTelAnswer != null">
+      <if test="isTelAnswer != null" >
         is_tel_answer,
       </if>
-      <if test="isMeetngAnswer != null">
+      <if test="isMeetngAnswer != null" >
         is_meetng_answer,
       </if>
-      <if test="qqNo != null">
+      <if test="qqNo != null" >
         qq_no,
       </if>
-      <if test="qqPassword != null">
+      <if test="qqPassword != null" >
         qq_password,
       </if>
-      <if test="telephone != null">
+      <if test="telephone != null" >
         telephone,
       </if>
-      <if test="email != null">
+      <if test="email != null" >
         email,
       </if>
-      <if test="address != null">
+      <if test="address != null" >
         address,
       </if>
-      <if test="answerTime != null">
+      <if test="answerTime != null" >
         answer_time,
       </if>
-      <if test="answerDate != null">
+      <if test="answerDate != null" >
         answer_date,
       </if>
+      <if test="answerStartDate != null" >
+        answer_start_date,
+      </if>
+      <if test="answerEndDate != null" >
+        answer_end_date,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="objectId != null">
+      <if test="objectId != null" >
         #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="isQqAnswer != null">
+      <if test="isQqAnswer != null" >
         #{isQqAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="isEmailAnswer != null">
+      <if test="isEmailAnswer != null" >
         #{isEmailAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="isTelAnswer != null">
+      <if test="isTelAnswer != null" >
         #{isTelAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="isMeetngAnswer != null">
+      <if test="isMeetngAnswer != null" >
         #{isMeetngAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="qqNo != null">
+      <if test="qqNo != null" >
         #{qqNo,jdbcType=VARCHAR},
       </if>
-      <if test="qqPassword != null">
+      <if test="qqPassword != null" >
         #{qqPassword,jdbcType=VARCHAR},
       </if>
-      <if test="telephone != null">
+      <if test="telephone != null" >
         #{telephone,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
+      <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
+      <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="answerTime != null">
+      <if test="answerTime != null" >
         #{answerTime,jdbcType=VARCHAR},
       </if>
-      <if test="answerDate != null">
+      <if test="answerDate != null" >
         #{answerDate,jdbcType=VARCHAR},
+      </if>
+      <if test="answerStartDate != null" >
+        #{answerStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerEndDate != null" >
+        #{answerEndDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Qanda">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Qanda" >
     update t_ztgl_qanda
-    <set>
-      <if test="objectId != null">
+    <set >
+      <if test="objectId != null" >
         object_id = #{objectId,jdbcType=VARCHAR},
       </if>
-      <if test="isQqAnswer != null">
+      <if test="isQqAnswer != null" >
         is_qq_answer = #{isQqAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="isEmailAnswer != null">
+      <if test="isEmailAnswer != null" >
         is_email_answer = #{isEmailAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="isTelAnswer != null">
+      <if test="isTelAnswer != null" >
         is_tel_answer = #{isTelAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="isMeetngAnswer != null">
+      <if test="isMeetngAnswer != null" >
         is_meetng_answer = #{isMeetngAnswer,jdbcType=VARCHAR},
       </if>
-      <if test="qqNo != null">
+      <if test="qqNo != null" >
         qq_no = #{qqNo,jdbcType=VARCHAR},
       </if>
-      <if test="qqPassword != null">
+      <if test="qqPassword != null" >
         qq_password = #{qqPassword,jdbcType=VARCHAR},
       </if>
-      <if test="telephone != null">
+      <if test="telephone != null" >
         telephone = #{telephone,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
+      <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
+      <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="answerTime != null">
+      <if test="answerTime != null" >
         answer_time = #{answerTime,jdbcType=VARCHAR},
       </if>
-      <if test="answerDate != null">
+      <if test="answerDate != null" >
         answer_date = #{answerDate,jdbcType=VARCHAR},
+      </if>
+      <if test="answerStartDate != null" >
+        answer_start_date = #{answerStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerEndDate != null" >
+        answer_end_date = #{answerEndDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Qanda">
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Qanda" >
     update t_ztgl_qanda
     set object_id = #{objectId,jdbcType=VARCHAR},
       is_qq_answer = #{isQqAnswer,jdbcType=VARCHAR},
@@ -188,8 +212,9 @@
       email = #{email,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       answer_time = #{answerTime,jdbcType=VARCHAR},
-      answer_date = #{answerDate,jdbcType=VARCHAR}
+      answer_date = #{answerDate,jdbcType=VARCHAR},
+      answer_start_date = #{answerStartDate,jdbcType=TIMESTAMP},
+      answer_end_date = #{answerEndDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
 </mapper>

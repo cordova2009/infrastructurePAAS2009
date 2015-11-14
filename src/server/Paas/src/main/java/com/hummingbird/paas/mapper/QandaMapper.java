@@ -1,5 +1,9 @@
+
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.Qanda;
 
 public interface QandaMapper {
@@ -22,10 +26,6 @@ public interface QandaMapper {
      * 根据主键查询记录
      */
     Qanda selectByPrimaryKey(Integer id);
-    /**
-     * 根据用户ID查询记录
-     */
-    Qanda selectByUserId(String userId);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -36,4 +36,12 @@ public interface QandaMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(Qanda record);
+    
+    /**
+	 * 根据标的id查询答疑方式
+	 * @param objectId
+	 * @return
+	 */
+    Qanda selectByObjectId(String objectId);
+    
 }

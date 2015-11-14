@@ -1,5 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.BidObject;
 
 public interface BidObjectMapper {
@@ -32,4 +36,17 @@ public interface BidObjectMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidObject record);
+
+	/**
+	 * 根据招标人查询没有完成的招标信息
+	 * @param id
+	 * @return
+	 */
+	List<BidObject> selectUnfinishObject(@Param("biddeeId")Integer biddeeId,@Param("objectId")String objectId);
+	/**
+	 * 查询招标人发布的招标信息
+	 * @param id
+	 * @return
+	 */
+	List<BidObject> selectbyBiddeeId(@Param("biddeeId")Integer biddeeId,@Param("status")String status);
 }

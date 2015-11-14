@@ -139,7 +139,7 @@ public class BiddeeServiceController extends BaseController{
 				rm.setErrmsg("参数错误");
 				return rm;
 			}
-			liq = beeServiceSer.queryObjectList((pageIndex-1)*pageSize,pageSize);
+			liq = beeServiceSer.queryObjectList(pageIndex,pageSize);
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

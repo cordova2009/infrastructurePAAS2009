@@ -1,6 +1,8 @@
 
 package com.hummingbird.paas.services;
 
+import java.util.List;
+
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -8,6 +10,8 @@ import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
@@ -271,7 +275,23 @@ public void saveBidEvaluationTypeInfo(String appId,SaveBidEvaluationTypeInfoBody
 * @throws BusinessException 
 */
 public void submitObject(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+/**
+* 查询资质证书类型列表接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryCertificateListResultVO> queryCertificateList() throws BusinessException;
 
+/**
+* 查询投标方列表接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
+
+	
 
 
 }

@@ -14,6 +14,7 @@ import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationRequirement;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
+import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.Objects;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
@@ -25,6 +26,7 @@ import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.CertificationRequirementMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectMapper;
+import com.hummingbird.paas.mapper.ObjectProjectMapper;
 import com.hummingbird.paas.mapper.ProjectInfosMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
@@ -47,7 +49,6 @@ import com.hummingbird.paas.vo.QueryObjectDetailProjectRequirementInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.SurveyVO;
-import com.mysql.jdbc.log.Log;
 
 @Service
 public class BiddeeServiceServiceImpl implements BiddeeServiceService {
@@ -71,7 +72,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	@Autowired
 	CertificationRequirementMapper crDao;
 	@Autowired
-	ObjectMapper obDao;
+	ObjectProjectMapper obDao;
 	@Autowired
 	BiddeeCreditMapper bcDao;
 	@Autowired
@@ -107,8 +108,8 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			return null;
 		}
 
-		List<Objects> pjs = obDao.getPages((pageIndex - 1) * pageSize, pageSize);
-		for (Objects pj : pjs) {
+		List<ObjectProject> pjs = obDao.getPages((pageIndex-1) * pageSize, pageSize);
+		for (ObjectProject pj : pjs) {
 			qol = new QueryObjectListResultVO();
 			if (pj.getEvaluationAmount() != null)
 				qol.setEvaluationAmount(pj.getEvaluationAmount().toString());
@@ -126,15 +127,20 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 				}
 				qol.setCompanyShortName(dee.getCompanyName());
 				BiddeeCredit bc = bcDao.selectByPrimaryKey(biddeeId);
-				Integer score = bc.getBaseinfoCreditScore();
-				if (score == null) {
+				if(bc==null){
 					continue;
 				}
-				String leve = slDao.getLevelName(score);
-				if (StringUtils.isBlank(leve)) {
-					continue;
+				if(bc!=null){
+					Integer score = bc.getBaseinfoCreditScore();
+					if (score == null) {
+						continue;
+					}
+					String leve = slDao.getLevelName(score);
+					if (StringUtils.isBlank(leve)) {
+						continue;
+					}
+					qol.setCreditRating(leve);
 				}
-				qol.setCreditRating(leve);
 			}
 			qors.add(qol);
 
@@ -174,15 +180,17 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		qodr.setSurvey(sv);
 		DetailVO dv = new DetailVO();
 		QueryObjectDetailAnswerQuestion qodaq = new QueryObjectDetailAnswerQuestion();
-		Qanda qd = qmDao.selectByUserId(objectId);
+		Qanda qd = qmDao.selectByObjectId(objectId);
 		if (qd != null) {
 			qodaq.setAddress(qd.getAddress());
 			qodaq.setAnswerTime(qd.getAnswerTime());
 			qodaq.setEmail(qd.getEmail());
-		    //qodaq.setEndTime("");
+			if(qd.getAnswerEndDate()!=null)
+		    qodaq.setEndTime(DateUtil.formatCommonDate(qd.getAnswerEndDate()));
 			qodaq.setQQ(qd.getQqNo());
 			qodaq.setQQToken(qd.getQqPassword());
-			// qodaq.setStartTime();
+			if(qd.getAnswerEndDate()!=null)
+			qodaq.setStartTime(DateUtil.formatCommonDate(qd.getAnswerStartDate()));
 			qodaq.setTelephone(qd.getTelephone());
 		}
 		dv.setAnswerQuestion(qodaq);

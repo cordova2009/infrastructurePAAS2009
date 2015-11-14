@@ -70,6 +70,7 @@ public class MembeServiceImpl implements MemberService {
 			if (log.isDebugEnabled()) {
 				log.debug("找不到对应UserToken对象");
 			}
+			
 			return null;
 		}
 		Integer id = utoken.getUserId();
@@ -80,6 +81,7 @@ public class MembeServiceImpl implements MemberService {
 		QyzzBidder qm = qberDao.selectByUserId(id);
 		QyzzBiddee qe = qbeeDao.selectByUserId(id);
 		//
+		
 		if (qm != null) {
 
 			Integer bidderId = qm.getId();
@@ -171,11 +173,11 @@ public class MembeServiceImpl implements MemberService {
 
 	/* 查询可购买会员 */
 	public QueryMemberProductResultVO querysAvailableProducts(String token) {
+		QueryMemberProductResultVO proResult = new QueryMemberProductResultVO();
 		if (StringUtils.isBlank(token)) {
 			log.error("查询会员可购买信息出错传入token为空");
 			return null;
 		}
-		QueryMemberProductResultVO proResult = null;
 		List<QueryMemberProductResultBodyVO> qproducts = new ArrayList<QueryMemberProductResultBodyVO>();
 		QueryMemberProductResultBodyVO resultOne = null;
 		DateUtil du = new DateUtil();
@@ -194,15 +196,21 @@ public class MembeServiceImpl implements MemberService {
 		QyzzBidder qm = qberDao.selectByUserId(id);
 		QyzzBiddee qe = qbeeDao.selectByUserId(id);
 		//
+		if(qm==null){
+			proResult.setTerMember("FLS");
+		}
 		if (qm != null) {
 			Integer bidderId = qm.getId();
 			HyglBidder bidder = null;
 			if (bidderId != null) {
 				bidder = hbmDao.selectByBidderId(bidderId);
+			}else{
+				proResult.setTerMember("FLS");
 			}
-
+            if(bidder==null){
+            	proResult.setTerMember("FLS");
+            }
 			if (bidder != null) {
-				proResult= new QueryMemberProductResultVO();
 				Date now = new Date();
 				if (bidder.getEndTime() != null) {
 					if (bidder.getEndTime().getTime() > now.getTime()) {
@@ -236,15 +244,25 @@ public class MembeServiceImpl implements MemberService {
 
 			}
 		}
+		if(qe==null){
+			proResult.setTeeMember("FLS");
+		}
 		if (qe != null) {
 			Integer tendererId = qe.getId();
 			HyglBiddee hyglBiddee = null;
 			if (tendererId != null) {
 				hyglBiddee = tmDao.selectByBiddeeId(tendererId);
+			}else{
+				proResult.setTeeMember("FLS");
+			}
+			if(hyglBiddee==null){
+				proResult.setTeeMember("FLS");
 			}
 			if (hyglBiddee != null) {
-				proResult = new QueryMemberProductResultVO();
 				Date now = new Date();
+				if(hyglBiddee.getEndTime()==null){
+					proResult.setTeeMember("FlS");
+				}
 				if (hyglBiddee.getEndTime() != null) {
 					if (hyglBiddee.getEndTime().getTime() > now.getTime()) {
 						proResult.setTeeMember("OK#");

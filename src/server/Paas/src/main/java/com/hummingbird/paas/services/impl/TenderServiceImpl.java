@@ -27,16 +27,19 @@ import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
+import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
-import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
+import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
+import com.hummingbird.paas.mapper.IndustryMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
@@ -50,6 +53,9 @@ import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
+import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
@@ -80,7 +86,10 @@ import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 public class TenderServiceImpl implements TenderService {
 
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
-
+	@Autowired
+	IndustryMapper indDao;
+	@Autowired
+	CertificationTypeMapper tmDao;
 	@Autowired
 	BidObjectMapper dao;
 	@Autowired
@@ -105,6 +114,8 @@ public class TenderServiceImpl implements TenderService {
 	ObjectBaseinfoMapper obiDao;
 	@Autowired
 	CertificationTypeMapper ctDao;
+	@Autowired
+	BidderMapper berDao;
 	
 
 	/**
@@ -1220,5 +1231,63 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("发布标的接口完成");
 		}
 	}
-
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException {
+		List<Bidder> bers = berDao.selectAll();
+		List<QueryBidderListResultVO> qlr = new ArrayList<QueryBidderListResultVO>();
+		QueryBidderListResultVO qr = null;
+		for (Bidder ber : bers) {
+			qr = new QueryBidderListResultVO();
+			qr.setBidderId(ber.getId());
+			qr.setBidderName(ber.getCompanyName());
+			qlr.add(qr);
+		}
+		return qlr;
+	}
+	/**
+	 * 查询资质证书类型列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public List<QueryCertificateListResultVO> queryCertificateList(){
+		if (log.isDebugEnabled()) {
+			log.debug("查询资质证书类型列表接口开始");
+		}
+		List<Industry> inds = indDao.selectAll();
+		if(inds == null){
+			if(log.isDebugEnabled()){
+			    log.debug("得到industry为空"+inds);
+			}
+			return null;
+		}
+		QueryCertificateListResultBodyVO cert = null;
+		List<QueryCertificateListResultVO> qc = new ArrayList<QueryCertificateListResultVO>();
+		QueryCertificateListResultVO cvo = null;
+		List<QueryCertificateListResultBodyVO> qcrs = null;
+		for (Industry ind : inds) {
+			cvo = new QueryCertificateListResultVO();
+			cvo.setIndustryId(ind.getId());
+			cvo.setIndustryName(ind.getIndustryName());
+			List<CertificationType> cs = tmDao.selectAllTypes(ind.getId());
+			qcrs = new ArrayList<QueryCertificateListResultBodyVO>();
+			for (CertificationType ct : cs) {
+				cert = new QueryCertificateListResultBodyVO();
+				cert.setCertificateId(ct.getId());
+				cert.setCertificateName(ct.getCertificationName());
+				qcrs.add(cert);
+			}
+			cvo.setCertificateList(qcrs);
+			qc.add(cvo);
+		}
+		if (log.isDebugEnabled()) {
+			log.debug("查询资质证书类型列表接口成功");
+		}
+		return qc;
+	}
 }

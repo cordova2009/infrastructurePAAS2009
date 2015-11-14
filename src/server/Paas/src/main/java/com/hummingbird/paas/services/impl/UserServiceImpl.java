@@ -47,16 +47,41 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 
-	@Override
-	public void saveUser(RegisterBodyVO body, String appId) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Bidder queryBidderByUserId(Integer userId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<UserBankcard> queryBankListByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveUser(RegisterBodyVO body, String appId, String appkey) throws ValidateException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public UserPassword queryUserPassword(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserAuth queryUserAuth(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateUser(User user) throws MaAccountException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory

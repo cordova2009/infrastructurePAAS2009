@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.DateUtil;
@@ -15,7 +17,6 @@ import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationRequirement;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
-import com.hummingbird.paas.entity.Objects;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
@@ -77,7 +78,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	BiddeeCreditMapper bcDao;
 	@Autowired
 	ScoreLevelMapper slDao;
-
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public Boolean queryTender(Token token) throws BusinessException {
 		if(log.isDebugEnabled()){
 			log.debug("接口查询用户是否具有投标的资质进入");
@@ -99,9 +100,11 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			return false;
 		}
 	}
-
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public List<QueryObjectListResultVO> queryObjectList(Integer pageIndex, Integer pageSize) throws BusinessException {
-		
+		if(log.isDebugEnabled()){
+			log.debug("查询招标的项目列表");
+		}
 		List<QueryObjectListResultVO> qors = new ArrayList<QueryObjectListResultVO>();
 		QueryObjectListResultVO qol = null;
 		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
@@ -142,6 +145,9 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 					qol.setCreditRating(leve);
 				}
 			}
+			if(log.isDebugEnabled()){
+				log.debug("查询招标的项目列表完成:"+qol);
+			}
 			qors.add(qol);
 
 		}
@@ -149,9 +155,13 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public QueryObjectDetailResultVO queryObjectDetail(QueryObjectDetailBodyVO body) throws BusinessException {
+		if(log.isDebugEnabled()){
+			log.debug("进入查询招标项目详情:");
+		}
 		String objectId = body.getObjectId();
-		Objects ob = ojDao.selectByPrimaryKey(objectId);
+		ObjectProject ob = obDao.selectByPrimaryKey(objectId);
 		if (StringUtils.isBlank(objectId) || ob == null) {
 			return null;
 		}
@@ -223,10 +233,10 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		qodbci.setNeedSafetyPermit(ob.getNeedSafetyPermit());
 		dv.setBidderCertificationInfo(qodbci);
 		QueryObjectDetailBidEvaluationTypeInfo qodbevti = new QueryObjectDetailBidEvaluationTypeInfo();
-		qodbevti.setBidEvalutionSite(ob.getBidEvaluationSite());
+	/*	qodbevti.setBidEvalutionSite(ob.getBidEvaluationSite());
 		qodbevti.setBidEvalutionType(ob.getBidEvaluationType());
 		qodbevti.setBidWinnerDatemineWay(ob.getBidWinnerDetermineWay());
-		qodbevti.setVoteWinWay(ob.getVoteWinWay());
+		qodbevti.setVoteWinWay(ob.getVoteWinWay());*/
 		dv.setBidEvaluationTypeInfo(qodbevti);
 		QueryObjectDetailBidFilTypeInfo qodbft = new QueryObjectDetailBidFilTypeInfo();
 		qodbft.setNeedBusinessStandard(ob.getNeedBusinessStandard());
@@ -302,6 +312,9 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		}
 		dv.setProjectRequirementInfo(qodpr);
 		qodr.setDetail(dv);
+		if(log.isDebugEnabled()){
+			log.debug("查询招标项目详情完成:"+qodr);
+		}
 		return qodr;
 	}
 }

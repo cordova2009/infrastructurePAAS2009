@@ -10,6 +10,9 @@ import com.hummingbird.paas.entity.UserSmscode;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.mapper.UserSmscodeMapper;
 import com.hummingbird.paas.services.GeneralService;
+
+
+
 @Service
 public class GeneralServiceImpl implements GeneralService{
 

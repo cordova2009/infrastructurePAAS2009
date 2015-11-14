@@ -168,7 +168,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			sv.setObjectId(obi.getObjectId());
 			if (ob.getProjectExpectPeriod() != null)
 				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());
-			// sv.setProjectSite(ob);
+			//sv.setProjectSite(ob);
 			sv.setStatus(ob.getObjectStatus());
 		}
 		qodr.setSurvey(sv);
@@ -179,7 +179,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			qodaq.setAddress(qd.getAddress());
 			qodaq.setAnswerTime(qd.getAnswerTime());
 			qodaq.setEmail(qd.getEmail());
-			// qodaq.setEndTime(qd);
+		    //qodaq.setEndTime("");
 			qodaq.setQQ(qd.getQqNo());
 			qodaq.setQQToken(qd.getQqPassword());
 			// qodaq.setStartTime();

@@ -1,7 +1,6 @@
 package com.hummingbird.paas.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,9 +31,7 @@ import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserAuth;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.UserPassword;
-import com.hummingbird.paas.entity.UserSmscode;
 import com.hummingbird.paas.exception.MaAccountException;
-import com.hummingbird.paas.mapper.UserSmscodeMapper;
 import com.hummingbird.paas.services.GeneralService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
@@ -47,7 +43,6 @@ import com.hummingbird.paas.vo.MobileVO;
 import com.hummingbird.paas.vo.RegisterBodyVO;
 import com.hummingbird.paas.vo.RegisterVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
-import com.hummingbird.paas.vo.TokenQueryVO;
 import com.hummingbird.paas.vo.TokenVO;
 import com.hummingbird.paas.vo.UpdateHeadImageBodyVO;
 import com.hummingbird.paas.vo.UpdateUserInfoBodyVO;

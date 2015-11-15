@@ -44,5 +44,4 @@ public interface BidRecordMapper {
      * @return
      */
     MyObjectTenderSurveyBodyVOResult selectTenderSurveyByObjectId(String objectId);
-
 }

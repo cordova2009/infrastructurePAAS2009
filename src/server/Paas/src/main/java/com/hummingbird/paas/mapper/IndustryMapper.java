@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.Industry;
 
 public interface IndustryMapper {
@@ -22,7 +24,10 @@ public interface IndustryMapper {
      * 根据主键查询记录
      */
     Industry selectByPrimaryKey(String id);
-
+    /**
+     * 根据主键查询记录
+     */
+    List<Industry> selectAll();
     /**
      * 根据主键更新属性不为空的记录
      */

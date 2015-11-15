@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.CertificationRequirementMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.CertificationRequirement" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
+    <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
+    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, object_id, certification_id, certification_name, industry_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_certification_requirement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectCertisByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_certification_requirement
+    where object_id = #{object_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_ztgl_object_certification_requirement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.CertificationRequirement" >
+    insert into t_ztgl_object_certification_requirement (id, object_id, certification_id, 
+      certification_name, industry_id)
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{certificationId,jdbcType=INTEGER}, 
+      #{certificationName,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.CertificationRequirement" >
+    insert into t_ztgl_object_certification_requirement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="objectId != null" >
+        object_id,
+      </if>
+      <if test="certificationId != null" >
+        certification_id,
+      </if>
+      <if test="certificationName != null" >
+        certification_name,
+      </if>
+      <if test="industryId != null" >
+        industry_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="certificationId != null" >
+        #{certificationId,jdbcType=INTEGER},
+      </if>
+      <if test="certificationName != null" >
+        #{certificationName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.CertificationRequirement" >
+    update t_ztgl_object_certification_requirement
+    <set >
+      <if test="objectId != null" >
+        object_id = #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="certificationId != null" >
+        certification_id = #{certificationId,jdbcType=INTEGER},
+      </if>
+      <if test="certificationName != null" >
+        certification_name = #{certificationName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        industry_id = #{industryId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.CertificationRequirement" >
+    update t_ztgl_object_certification_requirement
+    set object_id = #{objectId,jdbcType=VARCHAR},
+      certification_id = #{certificationId,jdbcType=INTEGER},
+      certification_name = #{certificationName,jdbcType=VARCHAR},
+      industry_id = #{industryId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

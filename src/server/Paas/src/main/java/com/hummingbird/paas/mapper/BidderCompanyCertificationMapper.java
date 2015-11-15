@@ -2,7 +2,7 @@ package com.hummingbird.paas.mapper;
 
 import com.hummingbird.paas.entity.BidderCompanyCertification;
 
-public interface BidderCompanyCertificationMapper {
+public interface BidderCompanyCertificationMapper{
     /**
      * 根据主键删除记录
      */

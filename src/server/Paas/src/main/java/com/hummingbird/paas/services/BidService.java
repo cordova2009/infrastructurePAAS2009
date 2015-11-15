@@ -1,0 +1,108 @@
+package com.hummingbird.paas.services;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.paas.vo.QueryBidBodyVO;
+import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
+import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryTechnicalStandardInfoBodyVOResult;
+import com.hummingbird.paas.vo.SaveBidRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
+import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+/**
+ * @author 
+ * @date 2015-11-13
+ * @version 1.0
+ *  service接口
+ */
+public interface BidService  {
+
+		/**
+	 * 查询未完成的投标资格审查信息接口
+	 * @param appId 应用id
+	 * @param body 参数
+		 * @param bidderId 
+	 * @return 
+	 * @throws BusinessException 
+	 */
+	public QueryBidRequirementInfoBodyVOResult queryBidRequirementInfo(String appId,QueryBidBodyVO body, Integer bidderId) throws BusinessException;
+		
+	/**
+	 * 保存投标资格审查信息接口
+	 * @param appId 应用id
+	 * @param body 参数
+	 * @return 
+	 * @throws BusinessException 
+	 */
+	public void saveBidRequirementInfo(String appId,SaveBidRequirementInfoBodyVO body, Integer bidderId) throws BusinessException;
+	/**
+ * 查询未完成投标的商务标信息接口
+ * @param appId 应用id
+ * @param body 参数
+ * @return 
+ * @throws BusinessException 
+ */
+public QueryBusinessStandardInfoBodyVOResult queryBusinessStandardInfo(String appId,QueryBidBodyVO body,Integer bidderId) throws BusinessException;
+
+/**
+ * 保存投标的商务标信息接口
+ * 
+ * @param appId
+ *            应用id
+ * @param body
+ *            参数
+ * @return
+ * @throws BusinessException
+ */
+public void saveBusinessStandardInfo(String appId, SaveBusinessStandardInfoBodyVO body, Integer bidderId)
+		throws BusinessException;
+/**
+* 查询未完成投标的技术标信息接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public QueryTechnicalStandardInfoBodyVOResult queryTechnicalStandardInfo(String appId,QueryBidBodyVO body,Integer bidderId) throws BusinessException;
+	
+/**
+* 保存投标的技术标信息接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public void saveTechnicalStandardInfo(String appId,SaveTechnicalStandardInfoBodyVO body,Integer bidderId) throws BusinessException;
+/**
+ * 查询投标保证金信息接口
+ * 
+ * @param appId
+ *            应用id
+ * @param body
+ *            参数
+ * @return
+ * @throws BusinessException
+ */
+public QueryBidderBondBodyVOResult queryBidderBond(String appId, QueryBidBodyVO body,
+		Integer bidderId)
+		throws BusinessException;
+
+/**
+ * 保存投标保证金接口
+ * 
+ * @param appId
+ *            应用id
+ * @param body
+ *            参数
+ * @return
+ * @throws BusinessException
+ */
+public void saveBidderBond(String appId, SaveBidderBondBodyVO body,Integer bidderId) throws BusinessException ;
+
+
+	
+}

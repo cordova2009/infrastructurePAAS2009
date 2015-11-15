@@ -15,14 +15,14 @@ public class BidCertification {
     private Integer bidId;
 
     /**
-     * 资质id
+     * 招标资质要求id
      */
-    private Integer certificationId;
+    private Integer objReqId;
 
     /**
-     * 资质内容
+     * 投标资质证书id
      */
-    private String certificationPic;
+    private String bidderCertificationId;
 
     /**
      * 资质名称
@@ -59,35 +59,8 @@ public class BidCertification {
         this.bidId = bidId;
     }
 
-    /**
-     * @return 资质id
-     */
-    public Integer getCertificationId() {
-        return certificationId;
-    }
 
-    /**
-     * @param certificationId 
-	 *            资质id
-     */
-    public void setCertificationId(Integer certificationId) {
-        this.certificationId = certificationId;
-    }
-
-    /**
-     * @return 资质内容
-     */
-    public String getCertificationPic() {
-        return certificationPic;
-    }
-
-    /**
-     * @param certificationPic 
-	 *            资质内容
-     */
-    public void setCertificationPic(String certificationPic) {
-        this.certificationPic = certificationPic == null ? null : certificationPic.trim();
-    }
+    
 
     /**
      * @return 资质名称
@@ -118,8 +91,8 @@ public class BidCertification {
         BidCertification other = (BidCertification) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getBidId() == null ? other.getBidId() == null : this.getBidId().equals(other.getBidId()))
-            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
-            && (this.getCertificationPic() == null ? other.getCertificationPic() == null : this.getCertificationPic().equals(other.getCertificationPic()))
+            && (this.getObjReqId() == null ? other.getObjReqId() == null : this.getObjReqId().equals(other.getObjReqId()))
+            && (this.getBidderCertificationId() == null ? other.getBidderCertificationId() == null : this.getBidderCertificationId().equals(other.getBidderCertificationId()))
             && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()));
     }
 
@@ -129,9 +102,37 @@ public class BidCertification {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getBidId() == null) ? 0 : getBidId().hashCode());
-        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
-        result = prime * result + ((getCertificationPic() == null) ? 0 : getCertificationPic().hashCode());
+        result = prime * result + ((getObjReqId() == null) ? 0 : getObjReqId().hashCode());
+        result = prime * result + ((getBidderCertificationId() == null) ? 0 : getBidderCertificationId().hashCode());
         result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
         return result;
     }
+
+	/**
+	 * 招标资质要求id 
+	 */
+	public Integer getObjReqId() {
+		return objReqId;
+	}
+
+	/**
+	 * 招标资质要求id 
+	 */
+	public void setObjReqId(Integer objReqId) {
+		this.objReqId = objReqId;
+	}
+
+	/**
+	 * 投标资质证书id 
+	 */
+	public String getBidderCertificationId() {
+		return bidderCertificationId;
+	}
+
+	/**
+	 * 投标资质证书id 
+	 */
+	public void setBidderCertificationId(String bidderCertificationId) {
+		this.bidderCertificationId = bidderCertificationId;
+	}
 }

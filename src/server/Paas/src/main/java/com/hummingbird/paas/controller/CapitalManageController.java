@@ -47,9 +47,10 @@ import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 @Controller
+
 @RequestMapping("/capitalManage")
 public class CapitalManageController extends BaseController{
-	@Autowired 
+/*	@Autowired 
 	UserService userSer;
 	@Autowired
 	CapitalManageService capitalManageSer;
@@ -444,5 +445,5 @@ public class CapitalManageController extends BaseController{
 			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
 		}
 		return rm;
-	}
+	}*/
 }

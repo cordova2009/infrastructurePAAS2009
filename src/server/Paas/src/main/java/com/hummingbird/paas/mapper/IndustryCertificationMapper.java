@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.IndustryCertification;
 
 public interface IndustryCertificationMapper {
@@ -22,7 +24,7 @@ public interface IndustryCertificationMapper {
      * 根据主键查询记录
      */
     IndustryCertification selectByPrimaryKey(Integer id);
-
+    
     /**
      * 根据主键更新属性不为空的记录
      */
@@ -32,4 +34,5 @@ public interface IndustryCertificationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(IndustryCertification record);
+    
 }

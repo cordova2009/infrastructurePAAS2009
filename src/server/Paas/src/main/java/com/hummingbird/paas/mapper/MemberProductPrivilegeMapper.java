@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.MemberProductPrivilege;
 
 public interface MemberProductPrivilegeMapper {
@@ -32,4 +34,10 @@ public interface MemberProductPrivilegeMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(MemberProductPrivilege record);
+    /**
+     *根据产品id 找到 
+     * */
+    List<String> getPriviliges(Integer productId);
+
+  
 }

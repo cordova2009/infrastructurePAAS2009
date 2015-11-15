@@ -182,7 +182,21 @@ public class Project {
      * @param objectId 
 	 *            招标编号(平台)
      */
-    public void setObjectId(String objectId) {
+    
+    private Integer evalutionAmount;
+    /**
+     * @param objectId 
+	 *            标的估价(平台)
+     */
+    public Integer getEvalutionAmount() {
+		return evalutionAmount;
+	}
+
+	public void setEvalutionAmount(Integer evalutionAmount) {
+		this.evalutionAmount = evalutionAmount;
+	}
+
+	public void setObjectId(String objectId) {
         this.objectId = objectId == null ? null : objectId.trim();
     }
 

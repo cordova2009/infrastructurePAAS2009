@@ -15,6 +15,11 @@
     from t_ddgl_member_product_privilege
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getPriviliges" resultType="java.lang.String"  parameterType="java.lang.Integer" >
+    select privilege 
+    from t_ddgl_member_product_privilege 
+    where product_id =#{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ddgl_member_product_privilege
     where id = #{id,jdbcType=INTEGER}

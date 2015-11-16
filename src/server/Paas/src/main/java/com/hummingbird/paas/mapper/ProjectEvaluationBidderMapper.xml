@@ -22,6 +22,15 @@
     from t_gcgl_project_evaluation_bidder
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="countEvaluationNumByBidderId" resultType="int" parameterType="java.lang.Integer" >
+    select count(id)
+    from t_gcgl_project_evaluation_bidder
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </select>
+  <select id="countEvaluationScoreByBidderId" resultType="double" parameterType="java.lang.Integer" >
+    select sum(star_count)/count(id) from t_gcgl_project_evaluation_bidder
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_gcgl_project_evaluation_bidder
     where id = #{id,jdbcType=INTEGER}

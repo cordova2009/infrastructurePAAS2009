@@ -7,10 +7,14 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryBidIndexListResult;
+import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryIndexObjectListResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
@@ -30,7 +34,10 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
+import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 
 /**
  * @author
@@ -283,6 +290,76 @@ public void saveBidEvaluationTypeInfo(String appId,SaveBidEvaluationTypeInfoBody
 */
 public void submitObject(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
 
+
+/**
+* 取得我的招标项目列表
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<MyTenderObjectListVO> getTenderObjectList(Integer  user_id,Pagingnation page) throws BusinessException;
+
+/**
+* 查询我的施工项目列表接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer  user_id,Pagingnation page) throws BusinessException;
+
+/**
+* 查询我的已结束项目列表接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer  user_id,Pagingnation page) throws BusinessException;
+
+/**
+* 查询招标项目列表接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords,Pagingnation page) throws BusinessException;
+
+
+/**
+* 查询首页招标项目列表接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException;
+/**
+* 查询首页中标结果概况接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
+/**
+* 查询首页中标结果列表接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException;
+/**
+* 查询首页中标结果概况接口
+* @param appId 应用id
+* @param body 参数
+* @return 
+* @throws BusinessException 
+*/
+//public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
 
 
 }

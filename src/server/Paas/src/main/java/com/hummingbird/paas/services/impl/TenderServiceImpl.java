@@ -23,15 +23,12 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.entity.Announcement;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
-<<<<<<< HEAD
-import com.hummingbird.paas.entity.InstationNotification;
-=======
 import com.hummingbird.paas.entity.ObjectBaseinfo;
->>>>>>> 625ee355f2eb3fe031a57ed2dcd3337aea9c208d
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.Qanda;
@@ -49,10 +46,14 @@ import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryBidIndexListResult;
+import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryIndexObjectListResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
@@ -72,7 +73,10 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
+import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 
 /**
  * @author
@@ -860,8 +864,6 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("saveObjectMethodInfo完成");
 		}
 	}
-<<<<<<< HEAD
-}
 
 	@Override
 	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
@@ -883,8 +885,6 @@ public class TenderServiceImpl implements TenderService {
 //		
 //		return nos;
 //	}
-
-=======
 
 	/**
 	 * 查询未完成招标答疑方式接口
@@ -1188,6 +1188,109 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("发布标的接口完成");
 		}
 	}
->>>>>>> 625ee355f2eb3fe031a57ed2dcd3337aea9c208d
+
+	@Override
+	public List<MyTenderObjectListVO> getTenderObjectList(Integer user_id, Pagingnation page) throws BusinessException {
+		// TODO Auto-generated method stub
+
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalCountTenderObject(user_id);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<MyTenderObjectListVO> ans = dao.selectTenderObject(user_id, page); 
+		
+		return ans;
+	
+	}
+
+	@Override
+	public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer user_id, Pagingnation page)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalTenderBuildingObject(user_id);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<TenderMyBuildingObjectVO> ans = dao.selectTenderBuildingObject(user_id, page); 
+		
+		return ans;
+	}
+
+	@Override
+	public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer user_id, Pagingnation page)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalTenderEndedObject(user_id);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<TenderMyEndedObjectVO> ans = dao.selectTenderEndedObject(user_id, page); 
+		
+		return ans;
+	}
+
+	@Override
+	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalTenderObjectList(keywords);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(keywords, page); 
+		
+		return ans;
+	}
+
+	@Override
+	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalIndexObjectList();
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page); 
+		
+		return ans;
+	}
+
+	@Override
+	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException {
+		// TODO Auto-generated method stub
+			QueryBidIndexSurveyResult bis = dao.selectBidIndexSurvey();
+			return bis;
+	}
+
+	@Override
+	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalBidIndexList();
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(page); 
+		
+		return ans;
+	}
+
+	
 
 }

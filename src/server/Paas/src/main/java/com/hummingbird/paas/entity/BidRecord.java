@@ -6,6 +6,12 @@ import java.util.Date;
  * 投标表
  */
 public class BidRecord {
+	
+	/**
+	 * 招标信息
+	 */
+	private BidObject bo;
+	
     /**
      * 主键
      */
@@ -752,4 +758,18 @@ public class BidRecord {
         result = prime * result + ((getTechnicalStandardUrl() == null) ? 0 : getTechnicalStandardUrl().hashCode());
         return result;
     }
+
+	/**
+	 * 招标信息 
+	 */
+	public BidObject getBo() {
+		return bo;
+	}
+
+	/**
+	 * 招标信息 
+	 */
+	public void setBo(BidObject bo) {
+		this.bo = bo;
+	}
 }

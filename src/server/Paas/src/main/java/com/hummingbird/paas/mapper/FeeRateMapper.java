@@ -2,6 +2,8 @@ package com.hummingbird.paas.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.FeeRate;
 
 public interface FeeRateMapper {
@@ -39,4 +41,12 @@ public interface FeeRateMapper {
      * 根据类型查询手续费
      */
     List<FeeRate> selectFeeRate(String type);
+
+	/**
+	 * 计算交纳的费用
+	 * @param inputAmount
+	 * @param string
+	 * @return
+	 */
+	Integer selectMoney(@Param("inputAmount") Integer inputAmount,@Param("type") String type);
 }

@@ -873,7 +873,7 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	/**
-	 * saveObjectMethodInfo
+	 * 保存招标方式
 	 * 
 	 * @param appId
 	 *            应用id
@@ -886,7 +886,7 @@ public class TenderServiceImpl implements TenderService {
 	public void saveObjectMethodInfo(String appId, SaveObjectMethodInfo body, Integer biddeeId)
 			throws BusinessException {
 		if (log.isDebugEnabled()) {
-			log.debug("saveObjectMethodInfo开始");
+			log.debug("保存招标方式开始");
 		}
 		QueryObjectMethodInfoResult result = null;
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
@@ -904,6 +904,7 @@ public class TenderServiceImpl implements TenderService {
 			List<InviteTenderVO> inviteTender = body.getInviteTender();
 			if (inviteTender == null || inviteTender.isEmpty()) {
 				log.error(String.format("招标[%s]中招标方式设置为邀标,但没有设置投标人", body.getObjectId()));
+				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(null, String.format("邀标时请设置投标人")); 
 			}
 			for (Iterator iterator = inviteTender.iterator(); iterator.hasNext();) {
 				InviteTenderVO inviteTenderVO = (InviteTenderVO) iterator.next();
@@ -920,7 +921,7 @@ public class TenderServiceImpl implements TenderService {
 		}
 		dao.updateByPrimaryKey(bo);
 		if (log.isDebugEnabled()) {
-			log.debug("saveObjectMethodInfo完成");
+			log.debug("保存招标方式完成");
 		}
 	}
 
@@ -1001,6 +1002,15 @@ public class TenderServiceImpl implements TenderService {
 			isadd = true;
 			qanda = new Qanda();
 			qanda.setObjectId(body.getObjectId());
+		}
+		if(StringUtils.isBlank(body.getStartTime())||StringUtils.isBlank(body.getEndTime())){
+			log.error(String.format("答疑开始时间和结束时间不能为空"));
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "答疑开始时间和结束时间不能为空");
+		}
+		if(StringUtils.isBlank(body.getQQ())&&StringUtils.isBlank(body.getTelephone())
+				&&StringUtils.isBlank(body.getAddress())&&StringUtils.isBlank(body.getEmail())){
+			log.error(String.format("答疑方式不能全为空"));
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "答疑方式不能全为空");
 		}
 		try {
 			qanda.setAnswerStartDate(DateUtil.parse2date(body.getStartTime()));
@@ -1096,6 +1106,11 @@ public class TenderServiceImpl implements TenderService {
 			baseinfo.setObjectId(body.getObjectId());
 		}
 		try {
+			if(StringUtils.isBlank(body.getAnnouncementBeginTime())||StringUtils.isBlank(body.getAnnouncementEndTime())
+					||StringUtils.isBlank(body.getBiddingEndTime())){
+				log.error(String.format("公告时间,截止时间,开标时间不能为空"));
+				throw ValidateException.ERROR_PARAM_NULL.clone(null, "公告时间,截止时间,开标时间不能为空");
+			}
 			baseinfo.setAnnouncementBeginTime(getDateFromStringOrNull(body.getAnnouncementBeginTime()));
 			baseinfo.setAnnouncementEndTime(getDateFromStringOrNull(body.getAnnouncementEndTime()));
 			baseinfo.setBiddingEndTime(getDateFromStringOrNull(body.getBiddingEndTime()));
@@ -1141,7 +1156,6 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public QueryBidEvaluationTypeInfoBodyVOResult queryBidEvaluationTypeInfo(String appId, QueryObjectBodyVO body,
 			Integer biddeeId) throws BusinessException {
 		if (log.isDebugEnabled()) {
@@ -1231,7 +1245,8 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("发布标的接口完成");
 		}
 	}
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	
+	
 	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException {
 		List<Bidder> bers = berDao.selectAll();
 		List<QueryBidderListResultVO> qlr = new ArrayList<QueryBidderListResultVO>();
@@ -1254,7 +1269,6 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public List<QueryCertificateListResultVO> queryCertificateList(){
 		if (log.isDebugEnabled()) {
 			log.debug("查询资质证书类型列表接口开始");

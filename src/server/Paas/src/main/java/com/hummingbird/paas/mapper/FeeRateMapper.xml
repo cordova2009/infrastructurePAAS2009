@@ -18,6 +18,15 @@
     from t_yhzj_fee_rate
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectMoney" resultType="java.lang.Integer"  >
+    select 
+    #{inputAmount}/10000*fee_rate+max_fee
+    from t_yhzj_fee_rate
+    where  min_amount &lt; #{inputAmount}
+    and max_amount >= #{inputAmount}
+    and type = #{type}
+    limit 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yhzj_fee_rate
     where id = #{id,jdbcType=INTEGER}

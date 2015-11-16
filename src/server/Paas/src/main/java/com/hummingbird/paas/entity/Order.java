@@ -9,7 +9,7 @@ public class Order {
     /**
      * 订单号
      */
-    private Integer orderId;
+    private String orderId;
 
     /**
      * 创建时间
@@ -76,22 +76,16 @@ public class Order {
      */
     private Integer realAmount;
 
-    /**
-     * @return 订单号
-     */
-    public Integer getOrderId() {
-        return orderId;
-    }
+  
+    public String getOrderId() {
+		return orderId;
+	}
 
-    /**
-     * @param orderId 
-	 *            订单号
-     */
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 
-    /**
+	/**
      * @return 创建时间
      */
     public Date getInsertTime() {

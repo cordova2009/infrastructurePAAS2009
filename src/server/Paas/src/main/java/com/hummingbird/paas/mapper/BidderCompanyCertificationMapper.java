@@ -5,7 +5,7 @@ import java.util.List;
 import com.hummingbird.paas.entity.BidderCompanyCertification;
 import com.hummingbird.paas.vo.BidderEqInfo;
 
-public interface BidderCompanyCertificationMapper {
+public interface BidderCompanyCertificationMapper{
     /**
      * 根据主键删除记录
      */

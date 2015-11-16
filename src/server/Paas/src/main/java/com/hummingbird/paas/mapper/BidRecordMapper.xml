@@ -36,12 +36,10 @@
     <result column="construction_start_date" property="constructionStartDate" jdbcType="VARCHAR" />
     <result column="technical_standard_url" property="technicalStandardUrl" jdbcType="VARCHAR" />
   </resultMap>
-  
-  <resultMap id="TenderSurveyResultMap" type="com.hummingbird.paas.vo.TenderSurveyReturnVO" >
-    <result column="objectName" property="objectName" jdbcType="VARCHAR" />
+  <resultMap id="TenderSurveyResultMap" type="com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult" >
     <result column="bidderNum" property="bidderNum" jdbcType="INTEGER" />
-    <result column="maxBidAmount" property="maxBidAmount" jdbcType="INTEGER" />
-    <result column="minBidAmount" property="minBidAmount" jdbcType="INTEGER" />
+    <result column="maxBidAmount" property="maxBidAmount" jdbcType="VARCHAR" />
+    <result column="minBidAmount" property="minBidAmount" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, bidder_id, bid_amount, insert_time, status, audit_time, audit_status, 
@@ -68,6 +66,11 @@
     select b.object_name objectName,count(a.id) bidderNum,max(a.bid_amount) maxBidAmount,min(a.bid_amount) minBidAmount  from t_ztgl_bid_record a inner JOIN t_ztgl_object b on a.object_id = b.object_id  
          where object_id = #{object_id,jdbcType=VARCHAR}
          </select>
+  <select id="selectCountByObjectId" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(1) 
+    from t_ztgl_bid_record
+    where object_id = #{object_id,jdbcType=VARCHAR}
+  </select>
   <select id="selectTenderSurveyByObjectId" resultMap="TenderSurveyResultMap" parameterType="java.lang.String" >
     select count(*) bidderNum,max(bid_amount)*100 maxBidAmount,min(bid_amount)*100 minBidAmount
     from t_ztgl_bid_record
@@ -450,5 +453,4 @@
       technical_standard_url = #{technicalStandardUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  </mapper>
-  
+</mapper>

@@ -13,6 +13,8 @@ import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
@@ -360,6 +362,24 @@ public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws B
 * @throws BusinessException 
 */
 //public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
+
+/**
+* 查询资质证书类型列表接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryCertificateListResultVO> queryCertificateList() throws BusinessException;
+
+/**
+* 查询投标方列表接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
+
+	
 
 
 }

@@ -23,6 +23,7 @@ public interface BiddeeMapper {
      */
     Biddee selectByPrimaryKey(Integer id);
     /**
+
      * 根据userId查询记录
      */
     Biddee selectByUserId(Integer userId);

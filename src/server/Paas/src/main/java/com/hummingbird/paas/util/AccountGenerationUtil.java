@@ -19,4 +19,7 @@ public class AccountGenerationUtil {
 	public static String genNO(String prefix,int len){
 		return prefix+DateUtil.getCurrentTimeStr() + String.format("%"+len+"d", new Random().nextInt(999999999));
 	}
+	public static void main(String[] args) {
+		System.out.println(genNO("RM00"));
+	}
 }

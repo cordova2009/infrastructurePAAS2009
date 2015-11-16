@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.Bidder;
 
 public interface BidderMapper {
@@ -22,6 +24,10 @@ public interface BidderMapper {
      * 根据主键查询记录
      */
     Bidder selectByPrimaryKey(Integer id);
+    /**
+     * 根据工程邀请投标人
+     */
+    List<Bidder> selectInviteBidders(String  objectId);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -37,4 +43,9 @@ public interface BidderMapper {
      * 根据userId查询记录
      */
     Bidder selectByUserId(Integer userId);
+    /**
+     * 根据userId查询记录
+     */
+    List<Bidder> selectAll();
+    
 }

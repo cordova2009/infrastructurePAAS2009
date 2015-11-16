@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.BidCertification;
 
 public interface BidCertificationMapper {
@@ -32,4 +34,16 @@ public interface BidCertificationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidCertification record);
+
+	/**
+	 * 根据投标id查询已提交的资质证书
+	 * @param parseInt
+	 */
+	List<BidCertification> selectByBidId(Integer bidId);
+
+	/**
+	 * 删除标的下的所有证书
+	 * @param bidId
+	 */
+	int deleteByBidId(Integer bidId);
 }

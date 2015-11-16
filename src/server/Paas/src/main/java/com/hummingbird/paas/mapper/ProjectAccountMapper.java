@@ -39,4 +39,5 @@ public interface ProjectAccountMapper {
      * @return
      */
     ProjectAccount queryAccountInfo(Integer userId);
+  
 }

@@ -57,11 +57,13 @@
     from t_qyzz_biddee
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee
     where user_Id = #{userId,jdbcType=INTEGER}  and status="OK#"
+
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee

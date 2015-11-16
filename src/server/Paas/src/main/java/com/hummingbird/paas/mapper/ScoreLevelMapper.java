@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.ScoreLevel;
 
 public interface ScoreLevelMapper {
@@ -22,11 +24,6 @@ public interface ScoreLevelMapper {
      * 根据主键查询记录
      */
     ScoreLevel selectByPrimaryKey(Integer id);
-    
-    /**
-     * 根据信用分数查询等级记录
-     */
-    ScoreLevel countLevelByScore(Integer score);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -37,4 +34,12 @@ public interface ScoreLevelMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ScoreLevel record);
+    /**
+     * 根据等级得到名字
+     * */
+    String getLevelName(@Param("score")Integer score);
+    /**
+     * 根据信用分数查询等级记录
+     */
+    ScoreLevel countLevelByScore(Integer score);
 }

@@ -1,0 +1,8 @@
+{
+        "app":{
+            "appId":"zjhtwallet",
+            "timeStamp":"TIMESTAMP", 
+            "nonce":"NONCE",
+            "signature":"SIGNATURE"
+        }
+    }

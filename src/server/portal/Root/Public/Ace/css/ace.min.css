@@ -14107,7 +14107,13 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 	position: static;
 	margin: 0 1px
 }
-
+.ui-inline{
+    cursor: pointer;
+    display: block;
+    float: left;
+    margin-left: 5px;
+}
+a.ui-pg-div:hover{ text-decoration: none;}
 .ui-pg-div .ui-icon:before {
 	font-family: FontAwesome;
 	display: inline

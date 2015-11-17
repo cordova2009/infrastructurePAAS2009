@@ -11,13 +11,8 @@
                             <a class="btn btn-sm btn-primary" href="{:U('add',array('pid'=>I('get.pid',0)))}"><i class="icon-plus"></i>新增</a>
                         </label>
                         <label>
-                            <a class="btn btn-sm btn-success ajax-post" href="{:U('import',array('pid'=>I('get.pid',0)))}">
-                                <i class="icon-ok"></i>导入
-                            </a>
-                        </label>
-                        <label>
                             <button type="button" class="btn btn-sm btn-inverse list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">
-                                <i class="icon-ban-circle"></i>排序
+                                <i class="icon-exchange"></i>排序
                             </button>
                         </label>
                         <label>
@@ -48,6 +43,7 @@
 	                           <span class="lbl"></span>
 	                       </label>
 	                    </th>
+                        <th>操作</th>
                         <th>ID</th>
                         <th>名称</th>
                         <th>上级菜单</th>
@@ -56,7 +52,6 @@
                         <th>排序</th>
                         <th>仅开发者模式显示</th>
                         <th>隐藏</th>
-                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +64,14 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
+                        <td>
+                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}" class="ui-pg-div ui-inline">
+                                <span class="ui-icon icon-pencil blue"></span>
+                            </a>
+                            <a title="删除" href="{:U('del?id='.$menu['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
+                                <span class="ui-icon icon-trash red"></span>
+                            </a>
+                        </td>
                         <td>{$menu.id}</td>
                         <td>
                             <a href="{:U('index?pid='.$menu['id'])}">{$menu.title}</a>
@@ -78,18 +81,16 @@
                         <td>{$menu.url}</td>
                         <td>{$menu.sort}</td>
                         <td>
-                            <a href="{:U('toogleDev',array('id'=>$menu['id'],'value'=>abs($menu['is_dev']-1)))}" class="ajax-get">
-                            {$menu.is_dev_text}
-                            </a>
+                            <label>
+                                <input type="checkbox" class="ace ace-switch ace-switch-5 ajax-get" name="status" value="{$menu.is_dev}" <?=$menu['is_dev'] == '1' ? 'checked' : ''?> url="{:U('toogleDev',array('id'=>$menu['id'],'value'=>abs($menu['is_dev']-1)))}">
+                                <span class="lbl"></span>
+                            </label>
                         </td>
                         <td>
-                            <a href="{:U('toogleHide',array('id'=>$menu['id'],'value'=>abs($menu['hide']-1)))}" class="ajax-get">
-                            {$menu.hide_text}
-                            </a>
-                        </td>
-                        <td>
-                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}">编辑</a>
-                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$menu['id'])}">删除</a>
+                            <label>
+                                <input type="checkbox" class="ace ace-switch ace-switch-6 ajax-get" name="status" value="{$menu.hide}" <?=$menu['hide'] == '1' ? '' : 'checked'?> url="{:U('toogleHide',array('id'=>$menu['id'],'value'=>abs($menu['hide']-1)))}">
+                                <span class="lbl"></span>
+                            </label>
                         </td>
                     </tr>
                 </volist>

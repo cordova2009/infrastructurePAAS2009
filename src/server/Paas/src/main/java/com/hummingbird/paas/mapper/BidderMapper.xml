@@ -506,4 +506,23 @@
     from t_qyzz_bidder
     where status="OK#"
   </select>
+  <select id="getIndexBidListPages" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+	from t_qyzz_bidder a INNER JOIN t_tjnr_bidder_recommend b on a.id = b.bidder_id  
+	where status="OK#" ORDER BY b.sort_no
+    limit #{begin},#{limit}
+  </select>
+  <select id="countStairBiderNum" resultType="int"  >
+    select count(a.id) from t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certification b on a.id = b.bidder_id 
+    INNER JOIN t_base_certification_type c on b.certification_id = c.id and c.certification_level = 1 
+    where status="OK#"
+   
+  </select>
+  <select id="countSecondBiderNum" resultType="int"  >
+    select count(a.id) from t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certification b on a.id = b.bidder_id 
+    INNER JOIN t_base_certification_type c on b.certification_id = c.id and c.certification_level = 2 
+    where status="OK#"
+   
+  </select>
 </mapper>

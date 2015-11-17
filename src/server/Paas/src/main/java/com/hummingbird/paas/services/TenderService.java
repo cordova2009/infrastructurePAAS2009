@@ -16,7 +16,9 @@ import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
+import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
@@ -380,6 +382,14 @@ public List<QueryCertificateListResultVO> queryCertificateList() throws Business
 public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
 
 	
+/**
+* 查询首页投标人推荐列表接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex,Integer pageSize) throws BusinessException; 
+
 
 
 }

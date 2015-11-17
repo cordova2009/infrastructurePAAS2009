@@ -33,6 +33,12 @@ import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BiddeeServiceService;
 import com.hummingbird.paas.vo.DetailVO;
+import com.hummingbird.paas.vo.MyBuildingObjectProject;
+import com.hummingbird.paas.vo.MyEndedObjectProject;
+import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyEndedObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectDetailAnswerQuestion;
 import com.hummingbird.paas.vo.QueryObjectDetailBaseVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
@@ -316,5 +322,135 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			log.debug("查询招标项目详情完成:"+qodr);
 		}
 		return qodr;
+	}
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer user_id, Integer pageIndex, Integer pageSize)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		if(log.isDebugEnabled()){
+			log.debug("查询我的投标中项目列表");
+		}
+		List<QueryMyBidObjectListResultVO> qors = new ArrayList<QueryMyBidObjectListResultVO>();
+		QueryObjectListResultVO qmb = null;
+		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
+			return null;
+		}
+
+		List<ObjectProject> pjs = obDao.getMyObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+		QueryMyBidObjectListResultVO qol = null;
+		for (ObjectProject pj : pjs) {
+			 qol = new QueryMyBidObjectListResultVO();
+			qol.setIndustryId(pj.getIndustryId());
+			qol.setBidAmount(pj.getWinBidAmount());
+			qol.setBidOpenDate(pj.getBidOpenDate());
+			qol.setObjectId(pj.getObjectId());
+			qol.setObjetName(pj.getObjectName());
+			if(log.isDebugEnabled()){
+				log.debug("查询招标的项目列表完成:"+qol);
+			}
+			qors.add(qol);
+			}
+			
+			
+		return qors;
+	}
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectList(Integer user_id, Integer pageIndex,
+			Integer pageSize) throws BusinessException {
+		// TODO Auto-generated method stub
+		if(log.isDebugEnabled()){
+			log.debug("查询我的实施中项目列表接口");
+		}
+		List<QueryMyBuildingObjectListResultVO> qors = new ArrayList<QueryMyBuildingObjectListResultVO>();
+		QueryObjectListResultVO qmb = null;
+		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
+			return null;
+		}
+
+		List<MyBuildingObjectProject> pjs = obDao.getMyBuildingObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+		QueryMyBuildingObjectListResultVO qol = null;
+		for (MyBuildingObjectProject pj : pjs) {
+			 qol = new QueryMyBuildingObjectListResultVO();
+			
+			qol.setObjectId(pj.getObjectId());
+			qol.setObjetName(pj.getObjectName());
+			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+//			qol.setProjectExpectStartDate(pj.getpro);
+			qol.setReceivedAmount(pj.getReceivedAmount());
+			qol.setWillReceiveAmount(pj.getWinBidAmount());
+			if(log.isDebugEnabled()){
+				log.debug("查询招标的项目列表完成:"+qol);
+			}
+			qors.add(qol);
+			}
+			
+			
+		return qors;
+	}
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public List<QueryMyEndedObjectListResultVO> queryMyEndedObjectList(Integer user_id, Integer pageIndex,
+			Integer pageSize) throws BusinessException {
+		// TODO Auto-generated method stub
+		if(log.isDebugEnabled()){
+			log.debug("询我的已结束项目列表接口");
+		}
+		List<QueryMyEndedObjectListResultVO> qors = new ArrayList<QueryMyEndedObjectListResultVO>();
+		QueryObjectListResultVO qmb = null;
+		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
+			return null;
+		}
+
+		List<MyEndedObjectProject> pjs = obDao.getMyEndedObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+		QueryMyEndedObjectListResultVO qol = null;
+		for (MyEndedObjectProject pj : pjs) {
+			 qol = new QueryMyEndedObjectListResultVO();
+			qol.setIndustryId(pj.getIndustryId());
+			qol.setBidAmount(pj.getWinBidAmount());
+			qol.setObjectId(pj.getObjectId());
+			qol.setObjetName(pj.getObjectName());
+			qol.setBiddee(pj.getBiddee());
+			if(log.isDebugEnabled()){
+				log.debug("查询招标的项目列表完成:"+qol);
+			}
+			qors.add(qol);
+			}
+			
+			
+		return qors;
+	}
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public List<QueryMyLoseObjectListResultVO> queryMyLoseObjectList(Integer user_id, Integer pageIndex,
+			Integer pageSize) throws BusinessException {
+		// TODO Auto-generated method stub
+		if(log.isDebugEnabled()){
+			log.debug("询我的未中标项目列表接口");
+		}
+		List<QueryMyLoseObjectListResultVO> qors = new ArrayList<QueryMyLoseObjectListResultVO>();
+		QueryObjectListResultVO qmb = null;
+		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
+			return null;
+		}
+
+		List<MyEndedObjectProject> pjs = obDao.getMyEndedObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+		QueryMyLoseObjectListResultVO qol = null;
+		for (MyEndedObjectProject pj : pjs) {
+			 qol = new QueryMyLoseObjectListResultVO();
+			qol.setIndustryId(pj.getIndustryId());
+			qol.setWinBidAmount(pj.getWinBidAmount());
+			qol.setObjectId(pj.getObjectId());
+			qol.setObjetName(pj.getObjectName());
+			qol.setBiddee(pj.getBiddee());
+			if(log.isDebugEnabled()){
+				log.debug("查询招标的项目列表完成:"+qol);
+			}
+			qors.add(qol);
+			}
+			
+			
+		return qors;
 	}
 }

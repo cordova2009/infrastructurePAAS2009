@@ -38,6 +38,7 @@ import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 
 import com.hummingbird.paas.entity.AppLog;
@@ -46,6 +47,7 @@ import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.ScoreLevel;
+import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
@@ -57,6 +59,7 @@ import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
+import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
@@ -67,6 +70,7 @@ import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
+import com.hummingbird.paas.vo.TokenBodyVO;
 @Controller
 @RequestMapping(value="/myBiddee/authInfo"
 		 ,method=RequestMethod.POST)
@@ -89,15 +93,12 @@ public class MyBiddeeBusinessController extends BaseController  {
 	protected BidObjectMapper bidObjectDao;
 	@Autowired
 	protected ScoreLevelMapper scoreLevelDao;
+	@Autowired
+	TokenService tokenSrv;
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
 	
-	/**
-	 * 查询我的招标人认证信息接口
-	 * @author YJY
-	 * @since 2015年11月9日15:00:54
-	 * @return
-	 */
+	
 	@RequestMapping(value="/getAuthInfo",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询我的招标人认证信息")
 	// 框架的日志处理
@@ -228,12 +229,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 	}
 	
-	/**
-	 * 查询保存的招标人基本信息接口
-	 * @author YJY
-	 * @since 2015年11月6日15:05:54
-	 * @return
-	 */
+
 	@RequestMapping(value="/getBaseInfo_apply",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询保存的招标人基本信息")
 	// 框架的日志处理

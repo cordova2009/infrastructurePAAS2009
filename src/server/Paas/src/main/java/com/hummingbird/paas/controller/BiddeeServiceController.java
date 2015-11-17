@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +16,38 @@ import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.BidObject;
+import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.BidObjectMapper;
+import com.hummingbird.paas.mapper.BiddeeMapper;
+import com.hummingbird.paas.mapper.BidderMapper;
+import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
+import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
+import com.hummingbird.paas.mapper.ProjectStatusMapper;
 import com.hummingbird.paas.services.BiddeeServiceService;
+import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.vo.BaseBidObjectVO;
+import com.hummingbird.paas.vo.BidEvaluateReturnVO;
 import com.hummingbird.paas.vo.GetMsgListBodyVO;
+import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
+import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyEndedObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
+import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
 @Controller
 @RequestMapping(value = "/gw/bid", method = RequestMethod.POST)
@@ -32,6 +56,18 @@ public class BiddeeServiceController extends BaseController{
 	BiddeeServiceService beeServiceSer;
 	@Autowired
 	TokenService tokenSrv;
+	@Autowired
+	ProjectStatusMapper psDao;
+	@Autowired
+	BidObjectMapper  bidObjectDao;
+	@Autowired
+	BiddeeMapper  biddeeDao;
+	
+	@Autowired
+	protected ProjectEvaluationBiddeeMapper pebDao;
+	
+	@Autowired
+	BidderMapper  bidderDao;
 	/**
 	 * 查询未完成招标项目基础信息接口
 	 * 
@@ -152,5 +188,236 @@ public class BiddeeServiceController extends BaseController{
 		}
 		return rm;
 		
+	}
+	
+	/**
+	 * 查询我的投标中项目列表接口
+	 * @return  queryMyBidObject
+	 */
+	@RequestMapping(value="/queryMyBidObject",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的投标中项目列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryMyBidObject(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
+		String messagebase = "查询我的投标中项目列表接口"; 
+		RequestEvent qe=null ; 
+		List<QueryMyBidObjectListResultVO> liq = null;
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageSize =transorder.getBody().getPageSize();
+			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+				log.error(String.format(messagebase + "失败"));
+				rm.setErrmsg("参数错误");
+				return rm;
+			}
+			liq = beeServiceSer.queryMyBidObjectList(token.getUserId(), pageIndex, pageSize);
+	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询我的投标中项目列表接口【页面是项目竣工日期？】
+	 * @return  queryMyBuildingObject
+	 */
+	@RequestMapping(value="/queryMyBuildingObject",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的投标中项目列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryMyBuildingObject(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
+		String messagebase = "查询我的投标中项目列表"; 
+		RequestEvent qe=null ; 
+		List<QueryMyBuildingObjectListResultVO> liq = null;
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageSize =transorder.getBody().getPageSize();
+			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+				log.error(String.format(messagebase + "失败"));
+				rm.setErrmsg("参数错误");
+				return rm;
+			}
+			liq = beeServiceSer.queryMyBuildingObjectList(token.getUserId(), pageIndex, pageSize);
+	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	/**
+	 * 查询我的已结束项目列表接口
+	 * @return  queryMyEndedObject
+	 */
+	@RequestMapping(value="/queryMyEndedObject",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的已结束项目列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryMyEndedObject(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
+		String messagebase = "查询我的已结束项目列表"; 
+		RequestEvent qe=null ; 
+		List<QueryMyEndedObjectListResultVO> liq = null;
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageSize =transorder.getBody().getPageSize();
+			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+				log.error(String.format(messagebase + "失败"));
+				rm.setErrmsg("参数错误");
+				return rm;
+			}
+			liq = beeServiceSer.queryMyEndedObjectList(token.getUserId(), pageIndex, pageSize);
+	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	/**
+	 * 查询我的未中标项目接口
+	 * @return  queryMyEndedObject
+	 */
+	@RequestMapping(value="/queryMyLoseObject",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的未中标项目",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryMyLoseObject(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
+		String messagebase = "查询我的未中标项目"; 
+		RequestEvent qe=null ; 
+		List<QueryMyLoseObjectListResultVO> liq = null;
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageSize =transorder.getBody().getPageSize();
+			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){log.error(String.format(messagebase + "失败"));
+			rm.setErrmsg("参数错误");
+			return rm;
+			}
+			liq = beeServiceSer.queryMyLoseObjectList(token.getUserId(), pageIndex, pageSize);
+	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	
+	/**
+	 * 查询招标人评价概况接口
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/queryMyObjectTenderSurvey", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询招标人评价概况", isJson = true, codebase = 230100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO", appLog = true)
+	public @ResponseBody ResultModel queryMyObjectTenderSurvey(HttpServletRequest request,
+			HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<MyObjectTenderSurveyBodyVO> transorder = (BaseTransVO<MyObjectTenderSurveyBodyVO>) super.getParameterObject();
+		String messagebase = "查询招标人评价概况";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
+		try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			BidEvaluateReturnVO ter = new BidEvaluateReturnVO();
+			ProjectStatus ps  = psDao.selectByPrimaryKey(transorder.getBody().getObjectId());
+			BidObject bo = bidObjectDao.selectByPrimaryKey(transorder.getBody().getObjectId());
+			
+			if(ps!= null){
+				int num = pebDao.countEvaluationNumByBiddeeId(ps.getBidderId());
+				double score = pebDao.countEvaluationScoreByBiddeeId(ps.getBidderId());
+				Biddee bid  = biddeeDao.selectByPrimaryKey(ps.getBidderId());
+				ter.setBiddeeId(ps.getBiddeeId().toString());
+				ter.setBiddeeCompanyName(bid.getCompanyName());
+				ter.setObjectId(ps.getObjectId());
+				ter.setCompanyEvaluateScore(ObjectUtils.toString(score));
+				ter.setCompanyEvaluateNum(String.valueOf(num));
+				ter.setStartTime(DateUtil.formatCommonDateorNull(ps.getStartTime()));//开工时间
+				ter.setEndTime(DateUtil.formatCommonDateorNull(ps.getEndTime()));
+				ter.setObjectName(bo.getObjectName());
+				ter.setWinBidAmount(bo.getWinBidAmount());
+				ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
+			}		
+		
+			rm.put("evaluateInfo", ter);
+
+		} catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if (qe != null)
+				qe.setSuccessed(false);
+		} finally {
+			if (qe != null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+
 	}
 }

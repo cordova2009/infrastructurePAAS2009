@@ -62,6 +62,7 @@ import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
@@ -1363,5 +1364,32 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("查询资质证书类型列表接口成功");
 		}
 		return qc;
+	}
+	
+	/**
+	 * 查询首页投标人推荐列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Override
+	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex,pageSize);
+		List<QueryIndexBidListResultVO> qlr = new ArrayList<QueryIndexBidListResultVO>();
+		QueryIndexBidListResultVO qr = null;
+		for (Bidder ber : bers) {
+			qr = new QueryIndexBidListResultVO();
+			qr.setBiderId(ber.getId());
+			qr.setShortName(ber.getShortName());
+			qr.setCompanyLogo(ber.getLogo());
+			qlr.add(qr);
+		}
+		return qlr;
 	}
 }

@@ -2,7 +2,10 @@ package com.hummingbird.paas.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.vo.MyLoseObjectProject;
 
 public interface BidderMapper {
     /**
@@ -47,5 +50,20 @@ public interface BidderMapper {
      * 根据userId查询记录
      */
     List<Bidder> selectAll();
+    /**
+     * 查询首页投标人推荐列表接口
+     */
+    List<Bidder> getIndexBidListPages(@Param("begin") int begin ,@Param("limit") int limit);
+    
+    /**
+     * 查询一级承包商数量
+     */
+    int countStairBiderNum();
+    /**
+     * 查询耳机承包商数量
+     */
+    int countSecondBiderNum();
+    
+    
     
 }

@@ -93,7 +93,9 @@ import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
+import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.SmsListBodyVO;
 import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
@@ -443,7 +445,7 @@ public class TenderBusinessController extends BaseController  {
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
 				}		
 			
-			
+			rm.put("evaluateInfo", ter);
 			
 			
 		}catch (Exception e1) {
@@ -1175,6 +1177,81 @@ public class TenderBusinessController extends BaseController  {
 				log.error(String.format("日志处理出错"),e);
 			}
 			
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	/**
+	 * 查询首页投标人推荐列表接口
+	 * @return  queryMyEndedObject
+	 */
+	@RequestMapping(value="/queryIndexBidList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询首页投标人推荐列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="",appLog=true)
+	public @ResponseBody ResultModel queryIndexBidList(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<BaseBidObjectVO> transorder = (BaseTransVO<BaseBidObjectVO>) super.getParameterObject();
+		String messagebase = "查询首页投标人推荐列表"; 
+		RequestEvent qe=null ; 
+		List<QueryIndexBidListResultVO> liq = null;
+		try {
+		
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageSize =transorder.getBody().getPageSize();
+			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){log.error(String.format(messagebase + "失败"));
+			rm.setErrmsg("参数错误");
+			return rm;
+			}
+			liq = tenderService.queryIndexBidList(1, 20);
+	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询首页投标人概况接口
+	 * @author YJY
+	 * @since 2015年11月17日8:31:59
+	 * @return
+	 */
+	@RequestMapping(value="/queryBiderIndexSurvey",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询首页投标人概况",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="",appLog=true)
+	public @ResponseBody ResultModel queryBiderIndexSurvey(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO transorder = (BaseTransVO) super.getParameterObject();
+		String messagebase = "查询首页投标人概况"; 
+		RequestEvent qe=null ; 
+		int stairBiderNum = 0;
+		int secondBiderNum = 0;
+		try {
+		
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			stairBiderNum = bidderDao.countStairBiderNum();
+			secondBiderNum = bidderDao.countSecondBiderNum();
+			
+	        rm.put("stairBiderNum", stairBiderNum);
+	        rm.put("secondBiderNum", secondBiderNum);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
 			if(qe!=null)
 				EventListenerContainer.getInstance().fireEvent(qe);
 		}

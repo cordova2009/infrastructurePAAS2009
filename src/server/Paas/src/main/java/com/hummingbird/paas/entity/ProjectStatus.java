@@ -1,5 +1,7 @@
 package com.hummingbird.paas.entity;
 
+import java.util.Date;
+
 /**
  * 工程信息表,工程由标的中标后转化而来
  */
@@ -28,6 +30,16 @@ public class ProjectStatus {
      * 发包方id
      */
     private Integer biddeeId;
+
+    /**
+     * 开工时间
+     */
+    private Date startTime;
+
+    /**
+     * 结束时间
+     */
+    private Date endTime;
 
     /**
      * @return 工程编号,使用 GC00日期时间随机数
@@ -104,34 +116,33 @@ public class ProjectStatus {
         this.biddeeId = biddeeId;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        ProjectStatus other = (ProjectStatus) that;
-        return (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
-            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
-            && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
-            && (this.getStaus() == null ? other.getStaus() == null : this.getStaus().equals(other.getStaus()))
-            && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()));
+    /**
+     * @return 开工时间
+     */
+    public Date getStartTime() {
+        return startTime;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
-        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
-        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
-        result = prime * result + ((getStaus() == null) ? 0 : getStaus().hashCode());
-        result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
-        return result;
+    /**
+     * @param startTime 
+	 *            开工时间
+     */
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @return 结束时间
+     */
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @param endTime 
+	 *            结束时间
+     */
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

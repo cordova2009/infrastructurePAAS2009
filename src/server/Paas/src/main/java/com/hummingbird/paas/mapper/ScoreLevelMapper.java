@@ -38,4 +38,8 @@ public interface ScoreLevelMapper {
      * 根据等级得到名字
      * */
     String getLevelName(@Param("score")Integer score);
+    /**
+     * 根据信用分数查询等级记录
+     */
+    ScoreLevel countLevelByScore(Integer score);
 }

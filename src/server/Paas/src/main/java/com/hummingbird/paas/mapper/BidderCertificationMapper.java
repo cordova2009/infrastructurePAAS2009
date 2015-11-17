@@ -1,6 +1,7 @@
 package com.hummingbird.paas.mapper;
 
 import com.hummingbird.paas.entity.BidderCertification;
+import com.hummingbird.paas.vo.BidderEqInfo;
 
 public interface BidderCertificationMapper {
     /**
@@ -22,6 +23,7 @@ public interface BidderCertificationMapper {
      * 根据主键查询记录
      */
     BidderCertification selectByPrimaryKey(Integer id);
+   
 
     /**
      * 根据主键更新属性不为空的记录

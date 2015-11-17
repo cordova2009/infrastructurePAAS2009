@@ -24,6 +24,15 @@ public interface UserBankcardMapper {
      * 根据主键查询记录
      */
     UserBankcard selectByPrimaryKey(Integer id);
+    
+    /**
+     * 根据token查询招标人开户行记录
+     */
+    List<UserBankcard> selectBiddeeBankInfoByToken(String token);
+    /**
+     * 根据token查询投标人开户行记录
+     */
+    List<UserBankcard> selectBidderBankInfoByToken(String token);
 
     /**
      * 根据主键更新属性不为空的记录

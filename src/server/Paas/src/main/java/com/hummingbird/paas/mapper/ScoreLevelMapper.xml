@@ -17,6 +17,12 @@
     from t_xyjf_score_level
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="countLevelByScore" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_xyjf_score_level
+    where min_score &gt; #{score,jdbcType=INTEGER}  and  max_score &gt; #{score,jdbcType=INTEGER}
+  </select>
   <select id="getLevelName" resultType="java.lang.String"  >
     select level_name
     from t_xyjf_score_level

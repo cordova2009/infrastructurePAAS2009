@@ -139,4 +139,13 @@
       insert_by = #{insertBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="countEvaluationNumByBiddeeId" resultType="int" parameterType="java.lang.Integer" >
+    select count(id)
+    from t_gcgl_project_evaluation_biddee
+    where biddee_id = #{biddeeId,jdbcType=INTEGER}
+  </select>
+  <select id="countEvaluationScoreByBiddeeId" resultType="double" parameterType="java.lang.Integer" >
+    select sum(score)/count(id) from t_gcgl_project_evaluation_biddee
+    where biddee_id = #{biddeeId,jdbcType=INTEGER}
+  </select>
 </mapper>

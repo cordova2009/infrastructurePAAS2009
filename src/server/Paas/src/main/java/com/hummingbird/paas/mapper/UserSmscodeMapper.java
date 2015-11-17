@@ -47,5 +47,4 @@ public interface UserSmscodeMapper {
 	 * @return
 	 */
 	int deleteAuthCode(UserSmscode record);
-
 }

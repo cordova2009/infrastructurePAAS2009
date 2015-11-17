@@ -22,6 +22,32 @@ public interface BidderCertificateAduitMapper {
      * 根据主键查询记录
      */
     BidderCertificateAduit selectByPrimaryKey(Integer id);
+    
+    /**
+     * 根据发包方资质认证表id查询记录
+     */
+    BidderCertificateAduit selectByBcid(Integer bcid);
+    
+    /**
+     * 根据发包方资质认证表id查询个人认证状态 
+     */
+    BidderCertificateAduit selectPersonalInfo(Integer bcid);
+    
+    /**
+     * 根据发包方资质认证表id查询基本信息认证状态 
+     */
+    BidderCertificateAduit selectBaseInfo(Integer bcid);
+    
+    /**
+     * 根据发包方资质认证表id查询法人认证状态 
+     */
+    BidderCertificateAduit selectLegalPersonInfo(Integer bcid);
+    
+    /**
+     * 根据发包方资质认证表id查询公司注册认证状态 
+     */
+    BidderCertificateAduit selectCompanyRegisteredInfo(Integer bcid);
+    
 
     /**
      * 根据主键更新属性不为空的记录

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.babyspace.mapper.AnnouncementMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.babyspace.entity.Announcement" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="expiry_date" property="expiryDate" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.babyspace.entity.Announcement" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, title, status, expiry_date, creator, insert_time, update_time, imgUrl
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_announcement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTotalCountAnnouncement" resultMap="int" parameterType="java.lang.String" >
+    select count(*) from t_announcement
+    where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
+    <if test="creator !=null">
+    and creator = #{creator,jdbcType=INTEGER}
+    </if>
+    <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="startTime !=null">
+     and insert_time &gt;#{startTime,jdbcType=TIMESTAMP}
+     </if>
+      <if test="endTime !=null">
+     and insert_time &lt;#{endTime,jdbcType=TIMESTAMP}
+     </if>
+     </select>
+     
+  <select id="selectAnnouncement" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_announcement
+     where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
+    <if test="creator !=null">
+        and creator = #{creator,jdbcType=INTEGER}
+    </if>
+    <if test="status != null">
+         and status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="startTime !=null">
+        and insert_time &gt;#{startTime,jdbcType=TIMESTAMP}
+     </if>
+      <if test="endTime !=null">
+        and insert_time &lt;#{endTime,jdbcType=TIMESTAMP}
+     </if>
+      order by update_time,insert_time desc
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+    </if> 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_announcement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+    insert into t_announcement (id, type, title, 
+      status, expiry_date, creator, 
+      insert_time, update_time, imgUrl, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{expiryDate,jdbcType=INTEGER}, #{creator,jdbcType=INTEGER}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{imgurl,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+    insert into t_announcement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="imgurl != null" >
+        imgUrl,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        #{expiryDate,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+    update t_announcement
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date = #{expiryDate,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgurl != null" >
+        imgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+    update t_announcement
+    set type = #{type,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      expiry_date = #{expiryDate,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+    update t_announcement
+    set type = #{type,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      expiry_date = #{expiryDate,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      imgUrl = #{imgurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

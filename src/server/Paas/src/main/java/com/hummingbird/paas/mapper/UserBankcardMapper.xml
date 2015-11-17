@@ -4,17 +4,29 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.UserBankcard" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user" property="user" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
-    <result column="bank_branch_name" property="bankBranchName" jdbcType="VARCHAR" />
-    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="bank_name" property="bank_name" jdbcType="VARCHAR" />
+    <result column="bank_branch_name" property="bank_branch_name" jdbcType="VARCHAR" />
+    <result column="account_no" property="account_no" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
-    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="account_name" property="account_name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user, user_id, bank_name, bank_branch_name, account_no, province, city, account_name
   </sql>
+  <select id="selectBiddeeBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_bankcard a inner join t_user_token b on a.user_id = b.userId
+    where  b.token = #{token,jdbcType=VARCHAR} and a.user = 'TER'
+  </select>
+   <select id="selectBidderBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_bankcard a inner join t_user_token b on a.user_id = b.userId
+    where  b.token = #{token,jdbcType=VARCHAR} and a.user = 'BER'
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -30,9 +42,9 @@
       bank_name, bank_branch_name, account_no, 
       province, city, account_name
       )
-    values (#{id,jdbcType=INTEGER}, #{user,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{bankName,jdbcType=VARCHAR}, #{bankBranchName,jdbcType=VARCHAR}, #{accountNo,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{user,jdbcType=VARCHAR}, #{user_id,jdbcType=INTEGER}, 
+      #{bank_name,jdbcType=VARCHAR}, #{bank_branch_name,jdbcType=VARCHAR}, #{account_no,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{account_name,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserBankcard" >
@@ -44,16 +56,16 @@
       <if test="user != null" >
         user,
       </if>
-      <if test="userId != null" >
+      <if test="user_id != null" >
         user_id,
       </if>
-      <if test="bankName != null" >
+      <if test="bank_name != null" >
         bank_name,
       </if>
-      <if test="bankBranchName != null" >
+      <if test="bank_branch_name != null" >
         bank_branch_name,
       </if>
-      <if test="accountNo != null" >
+      <if test="account_no != null" >
         account_no,
       </if>
       <if test="province != null" >
@@ -62,7 +74,7 @@
       <if test="city != null" >
         city,
       </if>
-      <if test="accountName != null" >
+      <if test="account_name != null" >
         account_name,
       </if>
     </trim>
@@ -73,17 +85,17 @@
       <if test="user != null" >
         #{user,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
       </if>
-      <if test="bankName != null" >
-        #{bankName,jdbcType=VARCHAR},
+      <if test="bank_name != null" >
+        #{bank_name,jdbcType=VARCHAR},
       </if>
-      <if test="bankBranchName != null" >
-        #{bankBranchName,jdbcType=VARCHAR},
+      <if test="bank_branch_name != null" >
+        #{bank_branch_name,jdbcType=VARCHAR},
       </if>
-      <if test="accountNo != null" >
-        #{accountNo,jdbcType=VARCHAR},
+      <if test="account_no != null" >
+        #{account_no,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         #{province,jdbcType=VARCHAR},
@@ -91,8 +103,8 @@
       <if test="city != null" >
         #{city,jdbcType=VARCHAR},
       </if>
-      <if test="accountName != null" >
-        #{accountName,jdbcType=VARCHAR},
+      <if test="account_name != null" >
+        #{account_name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -102,17 +114,17 @@
       <if test="user != null" >
         user = #{user,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
       </if>
-      <if test="bankName != null" >
-        bank_name = #{bankName,jdbcType=VARCHAR},
+      <if test="bank_name != null" >
+        bank_name = #{bank_name,jdbcType=VARCHAR},
       </if>
-      <if test="bankBranchName != null" >
-        bank_branch_name = #{bankBranchName,jdbcType=VARCHAR},
+      <if test="bank_branch_name != null" >
+        bank_branch_name = #{bank_branch_name,jdbcType=VARCHAR},
       </if>
-      <if test="accountNo != null" >
-        account_no = #{accountNo,jdbcType=VARCHAR},
+      <if test="account_no != null" >
+        account_no = #{account_no,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         province = #{province,jdbcType=VARCHAR},
@@ -120,8 +132,8 @@
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
       </if>
-      <if test="accountName != null" >
-        account_name = #{accountName,jdbcType=VARCHAR},
+      <if test="account_name != null" >
+        account_name = #{account_name,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -129,13 +141,13 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserBankcard" >
     update t_user_bankcard
     set user = #{user,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
-      bank_name = #{bankName,jdbcType=VARCHAR},
-      bank_branch_name = #{bankBranchName,jdbcType=VARCHAR},
-      account_no = #{accountNo,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER},
+      bank_name = #{bank_name,jdbcType=VARCHAR},
+      bank_branch_name = #{bank_branch_name,jdbcType=VARCHAR},
+      account_no = #{account_no,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
-      account_name = #{accountName,jdbcType=VARCHAR}
+      account_name = #{account_name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

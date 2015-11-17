@@ -1,4 +1,3 @@
-
 package com.hummingbird.paas.services.impl;
 
 import java.text.ParseException;
@@ -20,9 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.entity.Announcement;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidProjectInfo;
@@ -31,6 +32,7 @@ import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
+import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
@@ -50,13 +52,18 @@ import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
+import com.hummingbird.paas.vo.QueryBidIndexListResult;
+import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
+import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
+import com.hummingbird.paas.vo.QueryIndexObjectListResult;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
@@ -76,6 +83,10 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
+import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 
 /**
  * @author
@@ -116,7 +127,6 @@ public class TenderServiceImpl implements TenderService {
 	CertificationTypeMapper ctDao;
 	@Autowired
 	BidderMapper berDao;
-	
 
 	/**
 	 * 我的招标评标概况接口
@@ -510,25 +520,6 @@ public class TenderServiceImpl implements TenderService {
 			if (bpi == null) {
 				bpi = new BidProjectInfo();
 				bpi.setConstructionProveType(body.getConstructionProveType());
-				switch(body.getConstructionProveType()){
-				//BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
-				case "BCP":
-					ValidateUtil.assertEmpty(body.getBuildingConstructPermitNo(), "建设工程施工许可证编号");
-					ValidateUtil.assertEmpty(body.getBuildingConstructPermitEndDate(), "建设工程施工许可证有效期");
-					ValidateUtil.assertEmpty(body.getBuildingConstructPermitUrl(), "建设工程施工许可证附件");
-					break;
-				case "KFS":
-					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
-					break;
-				case "ZCB":
-					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
-					ValidateUtil.assertEmpty(body.getLetterOfAcceptanceUrl(), "中标通知书附件");
-					break;
-				}
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
 				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
@@ -549,25 +540,6 @@ public class TenderServiceImpl implements TenderService {
 			} else {
 
 				bpi.setConstructionProveType(body.getConstructionProveType());
-				switch(body.getConstructionProveType()){
-				//BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
-				case "BCP":
-					ValidateUtil.assertEmpty(body.getBuildingConstructPermitNo(), "建设工程施工许可证编号");
-					ValidateUtil.assertEmpty(body.getBuildingConstructPermitEndDate(), "建设工程施工许可证有效期");
-					ValidateUtil.assertEmpty(body.getBuildingConstructPermitUrl(), "建设工程施工许可证附件");
-					break;
-				case "KFS":
-					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
-					break;
-				case "ZCB":
-					ValidateUtil.assertEmpty(body.getLandUseCertificateNo(), "国有土地使用证编号");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateEndDate(), "国有土地使用证有效期");
-					ValidateUtil.assertEmpty(body.getLandUseCertificateUrl(), "国有土地使用证附件");
-					ValidateUtil.assertEmpty(body.getLetterOfAcceptanceUrl(), "中标通知书附件");
-					break;
-				}
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
 				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
@@ -681,15 +653,9 @@ public class TenderServiceImpl implements TenderService {
 			for (Iterator iterator = bidderCertification.iterator(); iterator.hasNext();) {
 				Map map = (Map) iterator.next();
 				ObjectCertificationRequirement objectCertificationRequirement = new ObjectCertificationRequirement();
-				int certificateId = NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId")));
-				//查询证书信息
-				CertificationType ct = ctDao.selectByPrimaryKey(certificateId);
-				if(ct==null){
-					log.error(String.format("证书[%s]不存在", certificateId));
-					throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "证书不存在");
-				}
-				objectCertificationRequirement.setCertificationId(certificateId);
-				objectCertificationRequirement.setCertificationName(ct.getCertificationName());
+				objectCertificationRequirement
+						.setCertificationId(NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId"))));
+				objectCertificationRequirement.setCertificationName(ObjectUtils.toString(map.get("certificateName")));
 				objectCertificationRequirement.setIndustryId(ObjectUtils.toString(map.get("industryId")));
 				objectCertificationRequirement.setObjectId(bo.getObjectId());
 				ocrDao.insert(objectCertificationRequirement);
@@ -720,12 +686,11 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
-//		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
+		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
 		QueryObjectBondInfoResult result = new QueryObjectBondInfoResult();
-//		if (objectBidderBond != null) {
-//			result.setBidBondAmount(objectBidderBond / 100 + "元");
-//		}
-		result.setBidBondAmount(bo.getBidBondAmount()==null?null:(( bo.getBidBondAmount()/ 100) + "元"));
+		if (objectBidderBond != null) {
+			result.setBidBondAmount(objectBidderBond / 100 + "元");
+		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目保证金接口完成");
 		}
@@ -751,18 +716,16 @@ public class TenderServiceImpl implements TenderService {
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
-		bo.setBidBondAmount(body.getBidBondAmount());
-		//ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
-//		if (ob == null) {
-//			ob = new ObjectBondSetting();
-//			ob.setObjectId(bo.getObjectId());
-//			ob.setBidderBidBond(body.getBidBondAmount());
-//			obsDao.insert(ob);
-//		} else {
-//			ob.setBidderBidBond(body.getBidBondAmount());
-//			obsDao.updateByPrimaryKey(ob);
-//		}
-		dao.updateByPrimaryKey(bo);
+		ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
+		if (ob == null) {
+			ob = new ObjectBondSetting();
+			ob.setObjectId(bo.getObjectId());
+			ob.setBidderBidBond(body.getBidBondAmount());
+			obsDao.insert(ob);
+		} else {
+			ob.setBidderBidBond(body.getBidBondAmount());
+			obsDao.updateByPrimaryKey(ob);
+		}
 
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目保证金接口完成");
@@ -873,7 +836,7 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	/**
-	 * 保存招标方式
+	 * saveObjectMethodInfo
 	 * 
 	 * @param appId
 	 *            应用id
@@ -886,7 +849,7 @@ public class TenderServiceImpl implements TenderService {
 	public void saveObjectMethodInfo(String appId, SaveObjectMethodInfo body, Integer biddeeId)
 			throws BusinessException {
 		if (log.isDebugEnabled()) {
-			log.debug("保存招标方式开始");
+			log.debug("saveObjectMethodInfo开始");
 		}
 		QueryObjectMethodInfoResult result = null;
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
@@ -904,7 +867,6 @@ public class TenderServiceImpl implements TenderService {
 			List<InviteTenderVO> inviteTender = body.getInviteTender();
 			if (inviteTender == null || inviteTender.isEmpty()) {
 				log.error(String.format("招标[%s]中招标方式设置为邀标,但没有设置投标人", body.getObjectId()));
-				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(null, String.format("邀标时请设置投标人")); 
 			}
 			for (Iterator iterator = inviteTender.iterator(); iterator.hasNext();) {
 				InviteTenderVO inviteTenderVO = (InviteTenderVO) iterator.next();
@@ -914,16 +876,32 @@ public class TenderServiceImpl implements TenderService {
 
 				bibDao.insert(bidInviteBidder);
 			}
-			break;
-			default :
-				log.error(String.format("招标方式[%s]不能识别",body.getObjectMethod()));
-				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(null, String.format("招标方式[%s]不能识别",body.getObjectMethod()));
 		}
-		dao.updateByPrimaryKey(bo);
 		if (log.isDebugEnabled()) {
-			log.debug("保存招标方式完成");
+			log.debug("saveObjectMethodInfo完成");
 		}
 	}
+
+	@Override
+	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	@Override
+//	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
+//		// TODO Auto-generated method stub
+//		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+//		
+//		if(page!=null&&page.isCountsize()){
+//			int totalcount = notificationDao.selectTotalCountByTokenAndStatus(token, status);
+//			page.setTotalCount(totalcount);
+//			page.calculatePageCount();
+//		}
+//		List<InstationNotification> nos = notificationDao.selectByUserInValid(token, status, page); 
+//		
+//		return nos;
+//	}
 
 	/**
 	 * 查询未完成招标答疑方式接口
@@ -950,26 +928,23 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		Qanda qanda = qaDao.selectByObjectId(body.getObjectId());
 		QueryAnswerMethodInfoBodyVOResult result = new QueryAnswerMethodInfoBodyVOResult();
-		if(qanda!=null){
-			
-			if ("YES".equals(qanda.getIsEmailAnswer())) {
-				result.setEmail(qanda.getEmail());
-			}
-			if ("YES".equals(qanda.getIsMeetngAnswer())) {
-				result.setAddress(qanda.getAddress());
-				result.setAddressAnswerDate(qanda.getAnswerDate());
-				result.setAddressAnswerTime(qanda.getAnswerTime());
-			}
-			if ("YES".equals(qanda.getIsQqAnswer())) {
-				result.setQQ(qanda.getQqNo());
-				result.setQQtoken(qanda.getQqPassword());
-			}
-			if ("YES".equals(qanda.getIsTelAnswer())) {
-				result.setTelephone(qanda.getTelephone());
-			}
-			result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
-			result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
+		if ("YES".equals(qanda.getIsEmailAnswer())) {
+			result.setEmail(qanda.getEmail());
 		}
+		if ("YES".equals(qanda.getIsMeetngAnswer())) {
+			result.setAddress(qanda.getAddress());
+			result.setAddressAnswerDate(qanda.getAnswerDate());
+			result.setAddressAnswerTime(qanda.getAnswerTime());
+		}
+		if ("YES".equals(qanda.getIsQqAnswer())) {
+			result.setQQ(qanda.getQqNo());
+			result.setQQtoken(qanda.getQqPassword());
+		}
+		if ("YES".equals(qanda.getIsTelAnswer())) {
+			result.setTelephone(qanda.getTelephone());
+		}
+		result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
+		result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标答疑方式接口完成");
@@ -1003,15 +978,6 @@ public class TenderServiceImpl implements TenderService {
 			qanda = new Qanda();
 			qanda.setObjectId(body.getObjectId());
 		}
-		if(StringUtils.isBlank(body.getStartTime())||StringUtils.isBlank(body.getEndTime())){
-			log.error(String.format("答疑开始时间和结束时间不能为空"));
-			throw ValidateException.ERROR_PARAM_NULL.clone(null, "答疑开始时间和结束时间不能为空");
-		}
-		if(StringUtils.isBlank(body.getQQ())&&StringUtils.isBlank(body.getTelephone())
-				&&StringUtils.isBlank(body.getAddress())&&StringUtils.isBlank(body.getEmail())){
-			log.error(String.format("答疑方式不能全为空"));
-			throw ValidateException.ERROR_PARAM_NULL.clone(null, "答疑方式不能全为空");
-		}
 		try {
 			qanda.setAnswerStartDate(DateUtil.parse2date(body.getStartTime()));
 			qanda.setAnswerEndDate(DateUtil.parse2date(body.getEndTime()));
@@ -1023,8 +989,6 @@ public class TenderServiceImpl implements TenderService {
 		qanda.setQqPassword(body.getQQtoken());
 		qanda.setTelephone(body.getTelephone());
 		qanda.setAddress(body.getAddress());
-		qanda.setAnswerDate(body.getAddressAnswerDate());
-		qanda.setAnswerTime(body.getAddressAnswerTime());
 		qanda.setEmail(body.getEmail());
 		qanda.setIsEmailAnswer("YES");
 		qanda.setIsMeetngAnswer("YES");
@@ -1100,17 +1064,12 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo == null) {
+		if (baseinfo != null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());
 		}
 		try {
-			if(StringUtils.isBlank(body.getAnnouncementBeginTime())||StringUtils.isBlank(body.getAnnouncementEndTime())
-					||StringUtils.isBlank(body.getBiddingEndTime())){
-				log.error(String.format("公告时间,截止时间,开标时间不能为空"));
-				throw ValidateException.ERROR_PARAM_NULL.clone(null, "公告时间,截止时间,开标时间不能为空");
-			}
 			baseinfo.setAnnouncementBeginTime(getDateFromStringOrNull(body.getAnnouncementBeginTime()));
 			baseinfo.setAnnouncementEndTime(getDateFromStringOrNull(body.getAnnouncementEndTime()));
 			baseinfo.setBiddingEndTime(getDateFromStringOrNull(body.getBiddingEndTime()));
@@ -1156,6 +1115,7 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public QueryBidEvaluationTypeInfoBodyVOResult queryBidEvaluationTypeInfo(String appId, QueryObjectBodyVO body,
 			Integer biddeeId) throws BusinessException {
 		if (log.isDebugEnabled()) {
@@ -1199,7 +1159,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo == null) {
+		if (baseinfo != null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());
@@ -1245,7 +1205,108 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("发布标的接口完成");
 		}
 	}
+
+	@Override
+	public List<MyTenderObjectListVO> getTenderObjectList(Integer user_id, Pagingnation page) throws BusinessException {
+		// TODO Auto-generated method stub
+
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalCountTenderObject(user_id);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<MyTenderObjectListVO> ans = dao.selectTenderObject(user_id, page); 
+		
+		return ans;
 	
+	}
+
+	@Override
+	public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer user_id, Pagingnation page)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalTenderBuildingObject(user_id);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<TenderMyBuildingObjectVO> ans = dao.selectTenderBuildingObject(user_id, page); 
+		
+		return ans;
+	}
+
+	@Override
+	public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer user_id, Pagingnation page)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalTenderEndedObject(user_id);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<TenderMyEndedObjectVO> ans = dao.selectTenderEndedObject(user_id, page); 
+		
+		return ans;
+	}
+
+	@Override
+	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalTenderObjectList(keywords);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(keywords, page); 
+		
+		return ans;
+	}
+
+	@Override
+	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalIndexObjectList();
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page); 
+		
+		return ans;
+	}
+
+	@Override
+	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException {
+		// TODO Auto-generated method stub
+			QueryBidIndexSurveyResult bis = dao.selectBidIndexSurvey();
+			return bis;
+	}
+
+	@Override
+	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException {
+		// TODO Auto-generated method stub
+		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = dao.selectTotalBidIndexList();
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(page); 
+		
+		return ans;
+	}
 	
 	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException {
 		List<Bidder> bers = berDao.selectAll();
@@ -1303,5 +1364,32 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("查询资质证书类型列表接口成功");
 		}
 		return qc;
+	}
+	
+	/**
+	 * 查询首页投标人推荐列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Override
+	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex,pageSize);
+		List<QueryIndexBidListResultVO> qlr = new ArrayList<QueryIndexBidListResultVO>();
+		QueryIndexBidListResultVO qr = null;
+		for (Bidder ber : bers) {
+			qr = new QueryIndexBidListResultVO();
+			qr.setBiderId(ber.getId());
+			qr.setShortName(ber.getShortName());
+			qr.setCompanyLogo(ber.getLogo());
+			qlr.add(qr);
+		}
+		return qlr;
 	}
 }

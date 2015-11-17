@@ -22,6 +22,11 @@ public interface BidderCreditMapper {
      * 根据主键查询记录
      */
     BidderCredit selectByPrimaryKey(Integer bidderId);
+    
+    /**
+     * 根据token查询记录
+     */
+    BidderCredit selectByToken(String token);
 
     /**
      * 根据主键更新属性不为空的记录

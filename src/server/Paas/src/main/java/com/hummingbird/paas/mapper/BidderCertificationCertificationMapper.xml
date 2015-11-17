@@ -9,17 +9,26 @@
     <result column="certification_content" property="certificationContent" jdbcType="VARCHAR" />
     <result column="expire_time" property="expireTime" jdbcType="DATE" />
     <result column="applicable_region" property="applicableRegion" jdbcType="VARCHAR" />
-    <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_id, certification_id, certification_name, certification_content, expire_time, 
-    applicable_region, certification_no
+    applicable_region
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_bidder_certification_certification
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectEqInfoByBidderId"  parameterType="java.lang.Integer" >
+    select a.industry_id as eqType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
+      from t_qyzz_bidder_certification_certification m LEFT JOIN t_qyzz_bidder_company_certification a on a.bidder_id = m.bidder_id  LEFT JOIN t_base_certification_type t on a.id = t.id
+      where m.bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectEqInfoByToken"  parameterType="java.lang.String" >
+     select a.industry_id as eqType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
+      from t_qyzz_bidder_certification_certification m INNER JOIN t_user_token u on m.bidder_id = u.userId LEFT JOIN t_qyzz_bidder_company_certification a on a.bidder_id = m.bidder_id  LEFT JOIN t_base_certification_type t on a.id = t.id
+        where u.token = #{token,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder_certification_certification
@@ -28,12 +37,10 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
     insert into t_qyzz_bidder_certification_certification (id, bidder_id, certification_id, 
       certification_name, certification_content, 
-      expire_time, applicable_region, certification_no
-      )
+      expire_time, applicable_region)
     values (#{id,jdbcType=INTEGER}, #{bidderId,jdbcType=INTEGER}, #{certificationId,jdbcType=INTEGER}, 
       #{certificationName,jdbcType=VARCHAR}, #{certificationContent,jdbcType=VARCHAR}, 
-      #{expireTime,jdbcType=DATE}, #{applicableRegion,jdbcType=VARCHAR}, #{certificationNo,jdbcType=VARCHAR}
-      )
+      #{expireTime,jdbcType=DATE}, #{applicableRegion,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
     insert into t_qyzz_bidder_certification_certification
@@ -59,9 +66,6 @@
       <if test="applicableRegion != null" >
         applicable_region,
       </if>
-      <if test="certificationNo != null" >
-        certification_no,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -84,9 +88,6 @@
       </if>
       <if test="applicableRegion != null" >
         #{applicableRegion,jdbcType=VARCHAR},
-      </if>
-      <if test="certificationNo != null" >
-        #{certificationNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,9 +112,6 @@
       <if test="applicableRegion != null" >
         applicable_region = #{applicableRegion,jdbcType=VARCHAR},
       </if>
-      <if test="certificationNo != null" >
-        certification_no = #{certificationNo,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -124,8 +122,7 @@
       certification_name = #{certificationName,jdbcType=VARCHAR},
       certification_content = #{certificationContent,jdbcType=VARCHAR},
       expire_time = #{expireTime,jdbcType=DATE},
-      applicable_region = #{applicableRegion,jdbcType=VARCHAR},
-      certification_no = #{certificationNo,jdbcType=VARCHAR}
+      applicable_region = #{applicableRegion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

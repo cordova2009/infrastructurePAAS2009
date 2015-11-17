@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.usercenter.mapper.UserNoticesMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.usercenter.entity.UserNotices" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="notice_title" property="noticeTitle" jdbcType="VARCHAR" />
+    <result column="notice_text" property="noticeText" jdbcType="VARCHAR" />
+    <result column="notice_type" property="noticeType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="expiry_date" property="expiryDate" jdbcType="INTEGER" />
+    <result column="pkUser" property="pkuser" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, notice_title, notice_text, notice_type, status, expiry_date, pkUser, insert_time, 
+    update_time, creator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_notices
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryNoticesNewest" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_notices
+    order by insert_time desc
+    limit 0,#{limit}
+  </select>
+   <select id="getUnreadMesgCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select  count(1)
+    from t_user_notices
+    where pkUser=#{userId,jdbcType=INTEGER}
+    and status='N'
+  </select>
+  <select id="getTotalCount" resultType="java.lang.Integer">
+    select count(1)
+    from t_user_notices
+  </select>
+  <select id="getMsgTotalCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select count(1)
+    from t_user_notices
+    where pkUser =#{pkUser,jdbcType=INTEGER}
+  </select>
+   <select id="getnoticeList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_notices
+    limit #{begin},#{limit}
+  </select>
+   <select id="getMsgList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_notices
+    where pkUser = #{userId}
+    limit #{begin},#{limit}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_notices
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.usercenter.entity.UserNotices" >
+    insert into t_user_notices (id, notice_title, notice_text, 
+      notice_type, status, expiry_date, 
+      pkUser, insert_time, update_time, 
+      creator)
+    values (#{id,jdbcType=INTEGER}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeText,jdbcType=VARCHAR}, 
+      #{noticeType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{expiryDate,jdbcType=INTEGER}, 
+      #{pkuser,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.usercenter.entity.UserNotices" >
+    insert into t_user_notices
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="noticeTitle != null" >
+        notice_title,
+      </if>
+      <if test="noticeText != null" >
+        notice_text,
+      </if>
+      <if test="noticeType != null" >
+        notice_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date,
+      </if>
+      <if test="pkuser != null" >
+        pkUser,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="noticeTitle != null" >
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeText != null" >
+        #{noticeText,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null" >
+        #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        #{expiryDate,jdbcType=INTEGER},
+      </if>
+      <if test="pkuser != null" >
+        #{pkuser,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.usercenter.entity.UserNotices" >
+    update t_user_notices
+    <set >
+      <if test="noticeTitle != null" >
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeText != null" >
+        notice_text = #{noticeText,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null" >
+        notice_type = #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date = #{expiryDate,jdbcType=INTEGER},
+      </if>
+      <if test="pkuser != null" >
+        pkUser = #{pkuser,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.usercenter.entity.UserNotices" >
+    update t_user_notices
+    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_text = #{noticeText,jdbcType=VARCHAR},
+      notice_type = #{noticeType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      expiry_date = #{expiryDate,jdbcType=INTEGER},
+      pkUser = #{pkuser,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

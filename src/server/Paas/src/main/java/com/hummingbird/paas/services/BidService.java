@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
@@ -47,7 +48,7 @@ public interface BidService  {
 	 * @return 
 	 * @throws BusinessException 
 	 */
-	public void saveBidRequirementInfo(String appId,SaveBidRequirementInfoBodyVO body, Integer bidderId) throws BusinessException;
+	public BidRecord saveBidRequirementInfo(String appId,SaveBidRequirementInfoBodyVO body, Integer bidderId) throws BusinessException;
 	/**
  * 查询未完成投标的商务标信息接口
  * @param appId 应用id

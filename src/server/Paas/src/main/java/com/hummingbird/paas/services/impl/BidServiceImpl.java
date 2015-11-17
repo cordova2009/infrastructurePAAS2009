@@ -524,11 +524,12 @@ public class BidServiceImpl implements BidService {
 	 * @param body
 	 *            参数
 	 * @param bidderId
+	 * @return 
 	 * @return
 	 * @throws BusinessException
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public void saveBidRequirementInfo(String appId, SaveBidRequirementInfoBodyVO body, Integer bidderId)
+	public BidRecord saveBidRequirementInfo(String appId, SaveBidRequirementInfoBodyVO body, Integer bidderId)
 			throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("保存投标资格审查信息接口开始");
@@ -608,6 +609,7 @@ public class BidServiceImpl implements BidService {
 		if (log.isDebugEnabled()) {
 			log.debug("保存投标资格审查信息接口完成");
 		}
+		return bid;
 	}
 
 	/**

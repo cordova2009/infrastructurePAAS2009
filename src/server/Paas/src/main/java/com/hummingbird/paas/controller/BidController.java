@@ -20,6 +20,7 @@ import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.exception.PaasException;
@@ -145,7 +146,8 @@ public class BidController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			bidService.saveBidRequirementInfo(transorder.getApp().getAppId(), transorder.getBody(), bidder.getId());
+			BidRecord bid = bidService.saveBidRequirementInfo(transorder.getApp().getAppId(), transorder.getBody(), bidder.getId());
+			rm.put("bidId", bid.getId());
 
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

@@ -24,9 +24,9 @@ public interface BidderCerticateMapper {
     BidderCerticate selectByPrimaryKey(Integer id);
     
     /**
-     * 根据token查询记录
+     * 根据userId查询记录
      */
-    BidderCerticate selectByToken(String token);
+    BidderCerticate selectByUserId(Integer userId);
 
     /**
      * 根据主键更新属性不为空的记录

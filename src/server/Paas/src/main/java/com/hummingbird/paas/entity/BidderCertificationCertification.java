@@ -47,6 +47,11 @@ public class BidderCertificationCertification {
     private String certificationNo;
 
     /**
+     * 工程类别
+     */
+    private String industryId;
+
+    /**
      * @return 主键
      */
     public Integer getId() {
@@ -166,40 +171,18 @@ public class BidderCertificationCertification {
         this.certificationNo = certificationNo == null ? null : certificationNo.trim();
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        BidderCertificationCertification other = (BidderCertificationCertification) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
-            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
-            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
-            && (this.getCertificationContent() == null ? other.getCertificationContent() == null : this.getCertificationContent().equals(other.getCertificationContent()))
-            && (this.getExpireTime() == null ? other.getExpireTime() == null : this.getExpireTime().equals(other.getExpireTime()))
-            && (this.getApplicableRegion() == null ? other.getApplicableRegion() == null : this.getApplicableRegion().equals(other.getApplicableRegion()))
-            && (this.getCertificationNo() == null ? other.getCertificationNo() == null : this.getCertificationNo().equals(other.getCertificationNo()));
+    /**
+     * @return 工程类别
+     */
+    public String getIndustryId() {
+        return industryId;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
-        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
-        result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
-        result = prime * result + ((getCertificationContent() == null) ? 0 : getCertificationContent().hashCode());
-        result = prime * result + ((getExpireTime() == null) ? 0 : getExpireTime().hashCode());
-        result = prime * result + ((getApplicableRegion() == null) ? 0 : getApplicableRegion().hashCode());
-        result = prime * result + ((getCertificationNo() == null) ? 0 : getCertificationNo().hashCode());
-        return result;
+    /**
+     * @param industryId 
+	 *            工程类别
+     */
+    public void setIndustryId(String industryId) {
+        this.industryId = industryId == null ? null : industryId.trim();
     }
 }

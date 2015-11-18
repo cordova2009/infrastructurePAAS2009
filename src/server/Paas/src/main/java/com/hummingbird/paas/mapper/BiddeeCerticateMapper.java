@@ -23,9 +23,9 @@ public interface BiddeeCerticateMapper {
      */
     BiddeeCerticate selectByPrimaryKey(Integer id);
     /**
-     * 根据token查询信息
+     * 根据user_id查询信息
      */
-    BiddeeCerticate selectByUserId(String user_id);
+    BiddeeCerticate selectByUserId(Integer user_id);
 
     /**
      * 根据主键更新属性不为空的记录

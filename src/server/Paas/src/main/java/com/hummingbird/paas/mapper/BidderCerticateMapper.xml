@@ -57,11 +57,11 @@
     from t_qyzz_bidder_certicate
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-   from t_qyzz_bidder_certicate a inner join t_user_token b on a.user_id = b.userId
-    where  b.token = #{token,jdbcType=VARCHAR} and a.status != 'DIS'
+   from t_qyzz_bidder_certicate 
+    where  user_id = #{userId,jdbcType=INTEGER} and a.status != 'DIS'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder_certicate

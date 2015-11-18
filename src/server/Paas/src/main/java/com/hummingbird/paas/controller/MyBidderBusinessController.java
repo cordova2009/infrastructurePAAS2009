@@ -38,6 +38,7 @@ import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 
 import com.hummingbird.paas.entity.AppLog;
@@ -48,6 +49,7 @@ import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.entity.BidderCompanyCertification;
 import com.hummingbird.paas.entity.BidderCredit;
 import com.hummingbird.paas.entity.ScoreLevel;
+import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
@@ -60,6 +62,7 @@ import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
+import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
 import com.hummingbird.paas.vo.BiddeeLegalPerson;
@@ -80,21 +83,15 @@ public class MyBidderBusinessController extends BaseController  {
 	@Autowired
 	protected MyBidderService myBidderService;
 	@Autowired
-	protected BidderCerticateMapper bidderCerticateDao;
-	@Autowired
 	protected BidderCertificateAduitMapper bidderCertificateAduitDao;
-	@Autowired
-	protected UserBankcardMapper userBankcardDao;
 	@Autowired
 	protected BidderCreditMapper bidderCreditDao;
 	@Autowired
-	protected BidderBidCreditScoreMapper bidderBidCreditScoreDao;
-	@Autowired
 	protected BidderBankAduitMapper bidderBankAduitDao;
 	@Autowired
-	protected BidderCertificationCertificationMapper bidderCertificationCertificationDao;
-	@Autowired
 	protected ScoreLevelMapper scoreLevelDao;
+	@Autowired
+	TokenService tokenSrv;
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
 	
@@ -261,38 +258,19 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBidder/authInfo/getBaseInfo_apply");
-		
+		BidderBaseInfo baseInfo = new BidderBaseInfo();
 		try {
-			BidderCerticate aa = bidderCerticateDao.selectByToken(transorder.getBody().getToken());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
-//			 "logoUrl":"LOGO_IMAGE_URL"
-//		            "companyName":"深圳蜂鸟娱乐技术有限公司",
-//		            "shortName":"蜂鸟娱乐",
-//		            "description":"公司简介",
-//		            "registeredCapital":"",
-//		            "telephone":"",
-//		            "email":""
-			
-//			Map baseInfo= new HashMap();
-//			baseInfo.put("logoUrl", aa.getLogo());
-//			baseInfo.put("companyName", aa.getCompanyName());
-//			baseInfo.put("shortName", aa.getShortName());
-//			baseInfo.put("description", aa.getDescription());
-//			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
-//			baseInfo.put("telephone", aa.getContactMobileNum());
-//			baseInfo.put("email", aa.getEmail());
-			BidderBaseInfo baseInfo = new BidderBaseInfo();
-			baseInfo.setLogoUrl(aa.getLogo());
-			baseInfo.setCompanyName(aa.getCompanyName());
-			baseInfo.setShortName(aa.getShortName());
-			baseInfo.setDescription(aa.getDescription());
-			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
-			baseInfo.setTelephone(aa.getContactMobileNum());
-			baseInfo.setEmail(aa.getEmail());
-			
+			baseInfo = myBidderService.getBaseInfo_apply(token);
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
-			rm.put("baseInfo", baseInfo);
+			rm.put("baseInfo", JsonUtil.convert2Json(baseInfo));
 			
 			
 		}catch (Exception e1) {
@@ -351,25 +329,19 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBidder/authInfo/getLegalPersonInfo_apply");
-		
+		BidderLegalPerson legalPerson = new BidderLegalPerson();
 		try {
-			BidderCerticate aa = bidderCerticateDao.selectByToken(transorder.getBody().getToken());
-			Map legalPerson= new HashMap();
-//			"legalPerson":{
-//		        "name":"张三",
-//		        "idCard":"420923199205049230121",
-//		        "idCardfrontUrl":"法人身份证正面地址",
-//		        "idCardBackUrl":"法人身份证反面地址",
-//		        "authorityBookUrl":""
-//		    }
-			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson())); 
-			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
-			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
-			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
-		
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
-//			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
+			legalPerson = myBidderService.getLegalPersonInfo_apply(token);
+			
+//						baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
+//			rm.put("legalPerson", JsonUtil.convert2Json(legalPerson));
+	
 			rm.put("legalPerson", legalPerson);
 			
 			
@@ -429,42 +401,15 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBidder/authInfo/getRegisteredInfo_apply");
-		
-		try {
-			BidderCerticate aa = bidderCerticateDao.selectByToken(transorder.getBody().getToken());
-			Map registeredInfo= new HashMap();
-//			 "registeredInfo":{
-//		         "businessLicenseNum":"BUSINESS_LICENSE_NUM",
-//		         "":"BUSINESS_LICENSE_URL",
-//		         "taxRegistrationNum":"TAX_REGISTRATION_NUM",
-//		         "taxRegistrationUrl":"TAX_REGISTRATION_URL",
-//		         "organizationCodeNum":"ORGANIZATION_CODE_NUM",
-//		         "organizationCodeUrl":"ORGANIZATION_CODE_URL"
-//		         "businessScope":"经营范围",
-//		         "regTime":"2014-04-05",
-//		         "businessLicenseExpireTime":"10年",
-//		         "address":"",
-//		         "businessLicenseType":"OLD",
-//		         "newBusinessLicenseNum":"",
-//		         "newBusinessLicenseUrl":"",
-//		    }
+		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
+		try {// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
-			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-			registeredInfo.put("businessScope", aa.getBusinessScope());
-			registeredInfo.put("regTime", aa.getRegTime());
-			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-			
-			registeredInfo.put("address", aa.getAddress());
-			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
-		
-			
+			registeredInfo = myBidderService.getRegisteredInfo_apply(token);	
 			rm.put("registeredInfo", registeredInfo);
 			
 			
@@ -525,20 +470,15 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBidder/authInfo/getBankInfo_apply");
 		
-		try {
-			List<UserBankcard> aa = userBankcardDao.selectBidderBankInfoByToken(transorder.getBody().getToken());
-			Map bankInfo= new HashMap();
-//			"bankInfo":{ 
-//		        "bank":"招商银行深圳支行",
-//		        "accountId":"1234567812345678",
-//		        "accountName":"深圳麦圈互动技术有限公司"
-//		    }
-			if(aa!=null&&aa.size()>0){
-				bankInfo.put("bank", aa.get(0).getBankName());
-				bankInfo.put("accountId", aa.get(0).getAccountNo());
-				bankInfo.put("accountName", aa.get(0).getAccountName());
+		BidderBankInfo bankInfo =new BidderBankInfo();
+		try {// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
+			bankInfo = myBidderService.getBankInfo_apply(token);
 			rm.put("bankInfo", bankInfo);
 			
 			
@@ -600,12 +540,15 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setMethod("/myBidder/authInfo/getEnterpriseQualification");
 		
 		try {
-			List<BidderEqInfo> aa = bidderCertificationCertificationDao.selectEqInfoByToken(transorder.getBody().getToken());
-
-			if(aa==null){
-				aa = new ArrayList<BidderEqInfo>();
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
+			List<BidderEqInfo> aa = myBidderService.getEnterpriseQualification(token);
+
 			rm.put("eqInfo", aa);
 			
 			
@@ -665,106 +608,30 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBidder/authInfo/getApplication");
-		String token = transorder.getBody().getToken();
+//		String token = transorder.getBody().getToken();
 		try {
-			BidderCerticate aa = bidderCerticateDao.selectByToken(token);
-			
-			List<UserBankcard> bb = userBankcardDao.selectBidderBankInfoByToken(token);
-			
-			List<BidderEqInfo> cc = bidderCertificationCertificationDao.selectEqInfoByBidderId(aa.getId());
-			
-//			Map baseInfo= new HashMap();
-//			Map legalPerson= new HashMap();
-//			Map registeredInfo= new HashMap();
-//			Map bankInfo= new HashMap();
-//			
-//			
-//			baseInfo.put("logoUrl", aa.getLogo());
-//			baseInfo.put("companyName", aa.getCompanyName());
-//			baseInfo.put("shortName", aa.getShortName());
-//			baseInfo.put("description", aa.getDescription());
-//			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
-//			baseInfo.put("telephone", aa.getContactMobileNum());
-//			baseInfo.put("email", aa.getEmail());
-//			
-//			
-//			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson()));
-//			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-//			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
-//			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
-//			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
-//			
-//		
-//			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-//			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-//			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-//			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-//			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-//			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-//			registeredInfo.put("businessScope", aa.getBusinessScope());
-//			registeredInfo.put("regTime", aa.getRegTime());
-//			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-//			
-//			registeredInfo.put("address", aa.getAddress());
-//			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-//			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-//			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
-			
-			
-//			"bankInfo":{ 
-//		        "bank":"招商银行深圳支行",
-//		        "accountId":"1234567812345678",
-//		        "accountName":"深圳麦圈互动技术有限公司"
-//		    }
-//			if(aa!=null&&bb.size()>0){
-//				bankInfo.put("bank", bb.get(0).getBankName());
-//				bankInfo.put("accountId", bb.get(0).getAccountNo());
-//				bankInfo.put("accountName", bb.get(0).getAccountName());
-//			}
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
 			//基本信息
-			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
-			baseInfo.setLogoUrl(aa.getLogo());
-			baseInfo.setCompanyName(aa.getCompanyName());
-			baseInfo.setShortName(aa.getShortName());
-			baseInfo.setDescription(aa.getDescription());
-			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
-			baseInfo.setTelephone(aa.getContactMobileNum());
-			baseInfo.setEmail(aa.getEmail());
+			BidderBaseInfo baseInfo = new BidderBaseInfo();
+			baseInfo = myBidderService.getBaseInfo_apply(token);
 			//法人信息
-			BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
-			legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
-			legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
-			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
-			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+			BidderLegalPerson legalPerson = new BidderLegalPerson();
+			legalPerson = myBidderService.getLegalPersonInfo_apply(token);
 			//公司注册信息
-			BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
-			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
-			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
-			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
-			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
-			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
-			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
-			registeredInfo.setBusinessScope(aa.getBusinessScope());
-			registeredInfo.setRegTime(aa.getRegTime());
-			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
-			registeredInfo.setAddress(aa.getAddress());
-			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
-			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
-			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+			BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
+			registeredInfo = myBidderService.getRegisteredInfo_apply(token);
 			//开户行信息
-			BiddeeBankInfo bankInfo = new BiddeeBankInfo();
-			if(bb!=null&&bb.size()>0){
-				bankInfo.setBank(bb.get(0).getBankName());
-				bankInfo.setAccountId(bb.get(0).getAccountNo());
-				bankInfo.setAccountName(bb.get(0).getAccountName());
-			}
+			BidderBankInfo bankInfo = new BidderBankInfo();
+			bankInfo = myBidderService.getBankInfo_apply(token);
 			
 			List<BidderEqInfo> eqInfo = new ArrayList<BidderEqInfo>();
-			if(cc!= null){
-				eqInfo = cc;	
-			}
+			eqInfo = myBidderService.getEnterpriseQualification(token);
 			rm.put("baseInfo", baseInfo);
 			rm.put("legalPerson", legalPerson);
 			rm.put("registeredInfo", registeredInfo);			
@@ -831,56 +698,17 @@ public class MyBidderBusinessController extends BaseController  {
 //            "email":""
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		BidderBaseInfo baseInfo =  transorder.getBody().getBaseInfo();
 		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BidderCerticate bidder=bidderCerticateDao.selectByToken(token);
-			if(bidder==null){
-				bidder=new BidderCerticate();
-				if(baseInfo!= null){
-					String company_name = baseInfo.getCompanyName();
-					String short_name = baseInfo.getShortName();
-					String description = baseInfo.getDescription();
-					String registered_capital = baseInfo.getRegisteredCapital();
-					String telephone = baseInfo.getTelephone();
-					String email = baseInfo.getEmail();
-					bidder.setCompanyName(company_name);
-					bidder.setShortName(short_name);
-					bidder.setDescription(description);
-					bidder.setRegisteredCapital(registered_capital);
-					bidder.setContactMobileNum(telephone);
-					bidder.setEmail(email);
-					
-				}
-			
-				
-				i = bidderCerticateDao.insertSelective(bidder);
-			}else{
-				if(baseInfo!= null){
-					String company_name = baseInfo.getCompanyName();
-					String short_name = baseInfo.getShortName();
-					String description = baseInfo.getDescription();
-					String registered_capital = baseInfo.getRegisteredCapital();
-					String telephone = baseInfo.getTelephone();
-					String email = baseInfo.getEmail();
-					bidder.setCompanyName(company_name);
-					bidder.setShortName(short_name);
-					bidder.setDescription(description);
-					bidder.setRegisteredCapital(registered_capital);
-					bidder.setContactMobileNum(telephone);
-					bidder.setEmail(email);
-					
-				}
-				i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
-			}
-			
+		// 业务数据必填等校验
+		Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+		if (token == null) {
+			log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+			throw new TokenException("token验证失败,或已过期,请重新登录");
 		}
-	
+		int i= 0;
 		
+		i= myBidderService.saveBaseInfo_apply(transorder.getApp().getAppId(), transorder.getBody().getBaseInfo(), token);
+
 		if(i<= 0){
 			rm.setErrmsg("数据未修改！");
 		}else{
@@ -935,64 +763,23 @@ public class MyBidderBusinessController extends BaseController  {
 //            "email":""
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		BidderLegalPerson legalPerson =  transorder.getBody().getLegalPerson();
-		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BidderCerticate bidder=bidderCerticateDao.selectByToken(token);
-			if(bidder==null){
-				bidder=new BidderCerticate();
-				if(legalPerson!= null){
-					String name = legalPerson.getName();
-					String idCard = legalPerson.getIdCard();
-					String idCardfrontUrl = legalPerson.getIdCardfrontUrl();
-					
-					String idCardBackUrl = legalPerson.getIdCardBackUrl();
-					String authorityBookUrl = legalPerson.getAuthorityBookUrl();
-					
-					
-					bidder.setLegalPerson(name);
-					bidder.setLegalPersonIdcard(idCard);
-					bidder.setLegalPersonIdcardFrontUrl(idCardfrontUrl);
-					bidder.setLegalPersonIdcardBackUrl(idCardBackUrl);
-					
-					bidder.setLegalPersonAuthorityBook(authorityBookUrl);
-				}
-			
-				
-				i = bidderCerticateDao.insertSelective(bidder);
-			}else{
-				if(legalPerson!= null){
-					String name = legalPerson.getName();
-					String idCard =legalPerson.getIdCard();
-					String idCardfrontUrl = legalPerson.getIdCardfrontUrl();
-					
-					String idCardBackUrl = legalPerson.getIdCardBackUrl();
-					String authorityBookUrl = legalPerson.getAuthorityBookUrl();
-					
-					
-					bidder.setLegalPerson(name);
-					bidder.setLegalPersonIdcard(idCard);
-					bidder.setLegalPersonIdcardFrontUrl(idCardfrontUrl);
-					bidder.setLegalPersonIdcardBackUrl(idCardBackUrl);
-					
-					bidder.setLegalPersonAuthorityBook(authorityBookUrl);
-				}
-			
-				i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			int i= 0;
 			
-		}
+			i= myBidderService.saveLegalPersonInfo_apply(transorder.getApp().getAppId(), transorder.getBody().getLegalPerson(), token);
+			
 	
 		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
+			}else{
+				rm.setErrmsg(messagebase + "成功");
+			}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1047,76 +834,20 @@ public class MyBidderBusinessController extends BaseController  {
 //            "newBusinessLicenseUrl":"",
 //       }       
 		
-		try {
-		String token =  transorder.getBody().getToken();
-		BidderRegisteredInfo registeredInfo =  transorder.getBody().getRegisteredInfo();
-		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BidderCerticate bidder=bidderCerticateDao.selectByToken(token);
-			if(registeredInfo!= null){
-				
-				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();
-				String businessLicenseUrl = registeredInfo.getBusinessLicenseUrl();
-				String businessLicenseType = registeredInfo.getBusinessLicenseType();
-				String taxRegistrationNum = registeredInfo.getTaxRegistrationNum();
-				String taxRegistrationUrl = registeredInfo.getTaxRegistrationUrl();
-				String organizationCodeNum = registeredInfo.getOrganizationCodeNum();
-				String organizationCodeUrl = registeredInfo.getOrganizationCodeUrl();
-				
-				
-				String newBusinessLicenseNum = registeredInfo.getNewBusinessLicenseNum();
-				String newBusinessLicenseUrl = registeredInfo.getNewBusinessLicenseUrl();
-				String businessScope = registeredInfo.getBusinessScope();
-				String address = registeredInfo.getAddress();
-				Date regTime = registeredInfo.getRegTime();
-				Date businessLicenseExpireTime = registeredInfo.getBusinessLicenseExpireTime();
-				
-				
-				
-				
-				bidder.setBusinessLicenseType(businessLicenseType);
-				
-				if("NEW3".equalsIgnoreCase(businessLicenseType)){
-					
-					bidder.setUnifiedSocialCreditCode(newBusinessLicenseNum);
-					bidder.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
-					bidder.setNewBusinessLicense(newBusinessLicenseNum);
-					/*bidder.setBusinessLicense(newBusinessLicenseNum);
-					bidder.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
-				}else if("OLD3".equalsIgnoreCase(businessLicenseType)){
-					bidder.setBusinessLicense(businessLicenseNum);
-					bidder.setBusinessLicenseUrl(businessLicenseUrl);
-					bidder.setTaxRegistrationCertificate(taxRegistrationNum);
-					bidder.setTaxRegistrationCertificateUrl(taxRegistrationUrl);
-					bidder.setOrgCodeCertificate(organizationCodeNum);
-					bidder.setOrgCodeCertificateUrl(organizationCodeUrl);
-				}
-	
-				bidder.setBusinessScope(businessScope);
-				bidder.setAddress(address);
-				
-				bidder.setRegTime(DateUtil.parseDateToTimestamp(regTime, "yyyy-MM-dd HH:mm:ss"));
-				bidder.setBusinessLicenseExpireTime(DateUtil.parseDateToTimestamp(businessLicenseExpireTime, "yyyy-MM-dd HH:mm:ss"));
+		try {// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-			if(bidder==null && bidder.getId()==null){
-				//bidder=new BidderCerticate();
-				i = bidderCerticateDao.insertSelective(bidder);
+			int i= 0;
+			
+			i= myBidderService.saveRegisteredInfo(transorder.getApp().getAppId(), transorder.getBody().getRegisteredInfo(), token);
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
 			}else{
-			
-				i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
+				rm.setErrmsg(messagebase + "成功");
 			}
-			
-		}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1162,47 +893,20 @@ public class MyBidderBusinessController extends BaseController  {
 //            "accountName":"深圳麦圈互动技术有限公司"
 //        }
 		
-		try {
-		String token =  transorder.getBody().getToken();
-		BidderBankInfo bankInfo =  transorder.getBody().getBankInfo();
-		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			List<UserBankcard> banks=userBankcardDao.selectBidderBankInfoByToken(token);
-			UserBankcard b =new UserBankcard();
-			
-			if(banks!= null && banks.size()>0){
-				 b = banks.get(0);
-				 if(bankInfo !=null){
-						
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
-				
-				i = userBankcardDao.updateByPrimaryKeySelective(b);
-
-			}else{
-				 if(bankInfo !=null){
-						
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
-				i = userBankcardDao.insertSelective(b);
+		try {// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			int i= 0;
 			
-			
-		}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+			i= myBidderService.saveBankInfo(transorder.getApp().getAppId(), transorder.getBody().getBankInfo(), token);
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
+			}else{
+				rm.setErrmsg(messagebase + "成功");
+			}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1253,38 +957,18 @@ public class MyBidderBusinessController extends BaseController  {
 */
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		List<BidderEqInfo>  eqInfo =  transorder.getBody().getEqInfo();
-		
-		
+		List<BidderEqInfo>  eqInfos =  transorder.getBody().getEqInfo();
+		// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+
 		
 		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			List<BidderEqInfo> eqinfo=bidderCertificationCertificationDao.selectEqInfoByToken(token);
-			BidderCertificationCertification b =new BidderCertificationCertification();
-			
-			if(eqinfo!= null && eqinfo.size()>0){
-	
-				for(BidderEqInfo be :  eqinfo){
-					b.setExpireTime(be.getExpiryDate());
-					b.setBidderId(be.getEqId());
-					b.setCertificationContent(be.getEqDesc());
-					b.setCertificationName(be.getEqName());
-//					b.setApplicableRegion(applicableRegion);
-					i = bidderCertificationCertificationDao.insert(b);
-//					i = bidderCertificationCertificationDao.updateByPrimaryKeySelective(b);
-				}
-				
-				
-
-			}else{
-				 
-				i = bidderCertificationCertificationDao.insertSelective(b);
-			}
-			
-			
-		}
-	
+		
+		i = myBidderService.saveEnterpriseQualification(transorder.getApp().getAppId(), eqInfos, token);
 		
 		if(i<= 0){
 			rm.setErrmsg("数据未修改！");
@@ -1333,30 +1017,21 @@ public class MyBidderBusinessController extends BaseController  {
 		
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		
-
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BidderCerticate bidder=bidderCerticateDao.selectByToken(token);
-			if(bidder==null){
-				rm.setErrmsg("未找到相应记录 ,请先填写基本信息!");
-				return rm;
-				}else{
-					bidder.setStatus("OK#");//修改状态为已认证
-					i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
+			// 业务数据必填等校验
+				Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+				if (token == null) {
+					log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+					throw new TokenException("token验证失败,或已过期,请重新登录");
 				}
-			
+				int i= 0;
 				
-				i = bidderCerticateDao.insertSelective(bidder);
-			}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+				i = myBidderService.applay(transorder.getApp().getAppId() , token);
+				
+				if(i<= 0){
+					rm.setErrmsg("数据未修改！");
+				}else{
+					rm.setErrmsg(messagebase + "成功");
+				}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1366,8 +1041,4 @@ public class MyBidderBusinessController extends BaseController  {
 		return rm;
 	}  
 	
-	public String getStatus() throws Exception{
-		
-		return null;
-	}
 }

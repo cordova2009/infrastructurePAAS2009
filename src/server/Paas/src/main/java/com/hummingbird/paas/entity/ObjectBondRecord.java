@@ -47,6 +47,11 @@ public class ObjectBondRecord {
     private String bondType;
 
     /**
+     * 投标id
+     */
+    private Integer bidId;
+
+    /**
      * @return 订单id,BZ00时间戳+随机数组成
      */
     public String getOrderId() {
@@ -166,6 +171,21 @@ public class ObjectBondRecord {
         this.bondType = bondType == null ? null : bondType.trim();
     }
 
+    /**
+     * @return 投标id
+     */
+    public Integer getBidId() {
+        return bidId;
+    }
+
+    /**
+     * @param bidId 
+	 *            投标id
+     */
+    public void setBidId(Integer bidId) {
+        this.bidId = bidId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -185,7 +205,8 @@ public class ObjectBondRecord {
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getCompanyType() == null ? other.getCompanyType() == null : this.getCompanyType().equals(other.getCompanyType()))
             && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getBondType() == null ? other.getBondType() == null : this.getBondType().equals(other.getBondType()));
+            && (this.getBondType() == null ? other.getBondType() == null : this.getBondType().equals(other.getBondType()))
+            && (this.getBidId() == null ? other.getBidId() == null : this.getBidId().equals(other.getBidId()));
     }
 
     @Override
@@ -200,6 +221,7 @@ public class ObjectBondRecord {
         result = prime * result + ((getCompanyType() == null) ? 0 : getCompanyType().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         result = prime * result + ((getBondType() == null) ? 0 : getBondType().hashCode());
+        result = prime * result + ((getBidId() == null) ? 0 : getBidId().hashCode());
         return result;
     }
 }

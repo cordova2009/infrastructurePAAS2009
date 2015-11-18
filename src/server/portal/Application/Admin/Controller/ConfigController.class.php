@@ -15,14 +15,111 @@ namespace Admin\Controller;
  */
 class ConfigController extends AdminController {
 
+    public function industry($id = ''){
+
+        if(empty($id)){
+            $this->error('ID不能为空！');
+        }
+
+        $this->assign('active_menu','config/hangye');
+        $this->assign('form_action','config/industry');
+
+        $control = new ThinkController();
+        $control->edit(26,$id,'config/hangye');
+    }
+    //行业管理
+    public function hangye($p=0){
+
+        $control = new ThinkController();
+        $control->lists('base_industry',$p);
+    }
+
+    /**
+     * 行业资质证书管理
+     * @param string $id
+     */
+    public function hyzs($id = ''){
+
+        if(empty($id)){
+            $this->error('ID不能为空！');
+        }
+
+        if(IS_POST){
+            $selected = I('post.selected',[]);
+            if(empty($selected) || !is_array($selected)){
+                $this->error('请选择资质证书!');
+            }
+            $dataList = [];
+            foreach($selected as $certification_id){
+                $dataList[] = [
+                    'industry_id'=>$id,
+                    'certification_id'=>$certification_id,
+                ];
+            }
+
+            $model = M('base_industry_certification');
+            //先删除旧的数据！
+            $model->where(['industry_id'=>$id])->delete();
+
+            //再添加新的
+            if($model->addAll($dataList)){
+                $this->success('保存成功!',U('config/hangye'));
+            }else{
+                $this->error('保存失败,请重新再试!');
+            }
+        }
+
+        $pList = M('base_certification_type')->getField('id,certification_name');
+
+        $selected = [];
+
+        foreach(M('base_industry_certification')
+                    ->where(['industry_id'=>$id])
+                    ->getField('id,certification_id')
+                as $certification_id){
+            if(array_key_exists($certification_id,$pList)){
+                $selected[$certification_id] = $pList[$certification_id];
+                unset($pList[$certification_id]);
+            }
+        }
+
+        $this->meta_title = '行业资质管理';
+
+        $this->assign('plist',$pList);
+        $this->assign('selected',$selected);
+        $this->display();
+    }
+
+    /**
+     * 手续费率列表
+     * @param int $p
+     */
     public function feerate($p=0){
 
         $this->assign('active_menu','config/feerate');
+        $this->assign('add_url','config/addfeerate');
 
         $control = new ThinkController();
         $control->lists('yhzj_fee_rate',$p);
     }
 
+    /**
+     * 手续费率添加页面
+     * @param int $id
+     */
+    public function addfeerate(){
+
+        $this->assign('active_menu','config/feerate');
+        $this->assign('form_action','config/addfeerate');
+
+        $control = new ThinkController();
+        $control->add(23,'config/feerate');
+    }
+
+    /**
+     * 手续费率编辑页面
+     * @param int $id
+     */
     public function editfeerate($id=0){
 
         $this->assign('active_menu','config/feerate');
@@ -30,6 +127,15 @@ class ConfigController extends AdminController {
 
         $control = new ThinkController();
         $control->edit(23,$id,'config/feerate');
+    }
+
+    public function delfeerate($id=0){
+
+        if(M('yhzj_fee_rate')->where(['id'=>intval($id)])->delete()){
+            $this->success('删除成功！');
+        }else{
+            $this->error('删除失败，请重新再试！');
+        }
     }
     /**
      * 配置管理

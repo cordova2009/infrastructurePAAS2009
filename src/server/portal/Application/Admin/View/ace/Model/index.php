@@ -31,18 +31,18 @@
 			<table class="table table-striped table-bordered table-hover dataTable">
 			    <thead>
 			        <tr>
-					<th class="row-selected">
-					   <label>
-                           <input class="ace check-all" type="checkbox"/>
-                           <span class="lbl"></span>
-                       </label>
-				    </th>
-					<th class="">编号</th>
-					<th class="">标识</th>
-					<th class="">名称</th>
-					<th class="">创建时间</th>
-					<th class="">状态</th>
-					<th class="">操作</th>
+                        <th class="row-selected">
+                           <label>
+                               <input class="ace check-all" type="checkbox"/>
+                               <span class="lbl"></span>
+                           </label>
+                        </th>
+                        <th class="">操作</th>
+                        <th class="">编号</th>
+                        <th class="">标识</th>
+                        <th class="">名称</th>
+                        <th class="">创建时间</th>
+                        <th class="">状态</th>
 					</tr>
 			    </thead>
 			    <tbody>
@@ -55,19 +55,29 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
+                        <td>
+                            <a title="编辑" href="{:U('model/edit?id='.$vo['id'])}" class="ui-pg-div ui-inline">
+                                <span class="ui-icon icon-pencil blue"></span>
+                            </a>
+                            <a title="删除" href="{:U('model/del?ids='.$vo['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
+                                <span class="ui-icon icon-trash red"></span>
+                            </a>
+                            <?php if($vo['need_datalist']):?>
+                            <a title="数据列表" href="{:U('think/lists?model='.$vo['name'])}" class="ui-pg-div ui-inline">
+                                <span class="ui-icon icon-list-alt purple"></span>
+                            </a>
+                            <?php endif;?>
+                        </td>
 						<td>{$vo.id} </td>
 						<td>{$vo.name}</td>
 						<td><a data-id="{$vo.id}" href="{:U('model/edit?id='.$vo['id'])}">{$vo.title}</a></td>
 						<td><span>{$vo.create_time|time_format}</span></td>
-						<td>{$vo.status_text}</td>
 						<td>
-							<a href="{:U('model/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
-							<a href="{:U('model/edit?id='.$vo['id'])}">编辑</a>
-							<a href="{:U('model/del?ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
-                            <?php if($vo['need_datalist']):?>
-                                <a href="{:U('think/lists?model='.$vo['name'])}">数据</a>
-                            <?php endif;?>
-			            </td>
+                            <label>
+                                <input type="checkbox" class="ace ace-switch ace-switch-6 ajax-get" name="status" value="{$vo.status}" <?=$vo['status'] == '1' ? 'checked' : ''?> url="{:U('model/setstatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}">
+                                <span class="lbl"></span>
+                            </label>
+                        </td>
 					</tr>
 					</volist>
 					<else/>

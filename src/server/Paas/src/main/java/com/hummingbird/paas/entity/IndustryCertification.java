@@ -63,31 +63,4 @@ public class IndustryCertification {
     public void setCertificationId(Integer certificationId) {
         this.certificationId = certificationId;
     }
-
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        IndustryCertification other = (IndustryCertification) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getIndustryId() == null ? other.getIndustryId() == null : this.getIndustryId().equals(other.getIndustryId()))
-            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getIndustryId() == null) ? 0 : getIndustryId().hashCode());
-        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
-        return result;
-    }
 }

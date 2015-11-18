@@ -6,6 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.Objects;
+import com.hummingbird.paas.vo.MyBuildingObjectProject;
+import com.hummingbird.paas.vo.MyEndedObjectProject;
+import com.hummingbird.paas.vo.MyLoseObjectProject;
+import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
 
 public interface ObjectProjectMapper {
     /**
@@ -39,4 +43,13 @@ public interface ObjectProjectMapper {
     int updateByPrimaryKey(ObjectProject record);
     
     List<ObjectProject> getPages(@Param("begin") int begin ,@Param("limit") int limit);
-}
+    
+    List<ObjectProject> getMyObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    
+    List<MyBuildingObjectProject> getMyBuildingObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    
+    List<MyEndedObjectProject> getMyEndedObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    
+    List<MyLoseObjectProject> getMyLoseObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    
+    }

@@ -59,7 +59,7 @@
                                     <img alt="" src="__IMG__/login_logo.png" style="margin-bottom: 6px;">
                                     <span class="white">{:C('WEB_SITE_TITLE')}</span>
                                 </h1>
-                                <h4 class="blue">&copy; 蜂鸟科技</h4>
+                                <h4 class="blue">&copy; 麦圈互动</h4>
                             </div>
 
                             <div class="space-6"></div>

@@ -5,28 +5,34 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.paas.entity.Bidder;
-
-import com.hummingbird.paas.entity.FeeRate;
+import com.hummingbird.paas.entity.HyglBiddee;
 import com.hummingbird.paas.entity.ObjectBondRecord;
+import com.hummingbird.paas.entity.Order;
 import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.ProjectAccountOrder;
+import com.hummingbird.paas.entity.QyzzBiddee;
+import com.hummingbird.paas.entity.QyzzBidder;
 import com.hummingbird.paas.entity.RechargeApply;
 import com.hummingbird.paas.entity.User;
-import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.WithdrawApply;
 import com.hummingbird.paas.exception.MaAccountException;
-
 import com.hummingbird.paas.mapper.FeeRateMapper;
+import com.hummingbird.paas.mapper.HyglBiddeeMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
+import com.hummingbird.paas.mapper.OrderMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
 import com.hummingbird.paas.mapper.ProjectAccountOrderMapper;
+import com.hummingbird.paas.mapper.QyzzBiddeeMapper;
+import com.hummingbird.paas.mapper.QyzzBidderMapper;
 import com.hummingbird.paas.mapper.RechargeApplyMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.mapper.WithdrawApplyMapper;
@@ -38,13 +44,13 @@ import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
+import com.hummingbird.paas.vo.OrderNotifyVO;
 import com.hummingbird.paas.vo.RechargeApplyBodyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 @Service
-
 public class OrderServiceImpl implements OrderService{
 	@Autowired
 	ObjectBondSettingMapper bondSettingDao;
@@ -64,10 +70,11 @@ public class OrderServiceImpl implements OrderService{
 	UserBankcardMapper userBankDao;
 	@Autowired
 	WithdrawApplyMapper withdrawApplyDao;
-
+    @Autowired
+    OrderMapper orDao;
 	@Autowired
 	FeeRateMapper feeRateDao;
-	
+
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
 
@@ -329,6 +336,4 @@ public class OrderServiceImpl implements OrderService{
 		}
 		return list;
 	}
-
-	
 }

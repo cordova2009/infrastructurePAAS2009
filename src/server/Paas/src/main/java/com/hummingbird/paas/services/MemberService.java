@@ -3,9 +3,7 @@ package com.hummingbird.paas.services;
 import java.util.List;
 
 import com.hummingbird.common.exception.BusinessException;
-import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.paas.vo.BuyTenderMemberBodyVO;
-import com.hummingbird.paas.vo.OrderNotifyVO;
 import com.hummingbird.paas.vo.QueryMemberInfoResultVO;
 import com.hummingbird.paas.vo.QueryMemberProductResultVO;
 
@@ -19,7 +17,7 @@ public interface MemberService {
       /**
        * 閺�顖欑帛鐎规繄缍夐崗鎶斤拷姘辩叀閹恒儱褰�
        * */
-  	  public ResultModel orderNotify(OrderNotifyVO onvo);
+//  	  public ResultModel orderNotify(OrderNotifyVO onvo);
       
       
 }

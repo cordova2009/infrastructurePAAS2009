@@ -63,13 +63,13 @@ public class MemberController extends BaseController{
 			return rm;
 		}
 		List<QueryMemberInfoResultVO> qminfos = new ArrayList<QueryMemberInfoResultVO>(0);
-		//try {
+		try {
 			qminfos =mservice.querysMemberInfo(token.getToken());
-//		} catch (BusinessException e1) {
-//			rm.setErrcode(280105);
-//			rm.setErrmsg("鏌ヨ浼氬憳淇℃伅澶辫触");
-//			return rm;
-//		}
+		} catch (BusinessException e1) {
+			rm.setErrcode(280105);
+			rm.setErrmsg("鏌ヨ浼氬憳淇℃伅澶辫触");
+			return rm;
+		}
 		try {
 			if(qminfos.size()>0){
 			String infos = JsonUtil.convert2Json(qminfos);

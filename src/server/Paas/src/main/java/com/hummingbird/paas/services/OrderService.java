@@ -2,13 +2,11 @@ package com.hummingbird.paas.services;
 
 import java.util.List;
 
-import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
-import com.hummingbird.paas.vo.OrderNotifyVO;
 import com.hummingbird.paas.vo.RechargeApplyBodyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;

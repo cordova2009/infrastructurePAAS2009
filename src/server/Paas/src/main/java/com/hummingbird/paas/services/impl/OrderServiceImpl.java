@@ -44,7 +44,6 @@ import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
-import com.hummingbird.paas.vo.OrderNotifyVO;
 import com.hummingbird.paas.vo.RechargeApplyBodyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;

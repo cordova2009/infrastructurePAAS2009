@@ -20,8 +20,6 @@ import com.hummingbird.paas.entity.OrderProduct;
 import com.hummingbird.paas.entity.QyzzBiddee;
 import com.hummingbird.paas.entity.QyzzBidder;
 import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.mapper.BiddeeUpgradeMapper;
-import com.hummingbird.paas.mapper.BidderUpgradeMapper;
 import com.hummingbird.paas.mapper.HyglBiddeeMapper;
 import com.hummingbird.paas.mapper.HyglBidderMapper;
 import com.hummingbird.paas.mapper.MemberProductAttrMapper;
@@ -65,10 +63,10 @@ public class MembeServiceImpl implements MemberService {
 	MemberProductAttrMapper mprDao;  
 	@Autowired                       
 	ProductCategoryMapper pcmDao;    
-	@Autowired                       
-	BidderUpgradeMapper bumDao;      
-	@Autowired                       
-	BiddeeUpgradeMapper bueDao;      
+//	@Autowired                       
+//	BidderUpgradeMapper bumDao;      
+//	@Autowired                       
+//	BiddeeUpgradeMapper bueDao;      
 
 
 	public List<QueryMemberInfoResultVO> querysMemberInfo(String token) throws BusinessException {
@@ -126,11 +124,11 @@ public class MembeServiceImpl implements MemberService {
 					qrv.setMemberStartTime(du.format(bidder.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
 				qrv.setMemberType("TER");
 				if (StringUtils.isNotBlank(bidder.getMemberLevel())) {
-					String productId = mprDao.getProductId("BIR", bidder.getMemberLevel());
-					if (StringUtils.isNotBlank(productId)) {
-						String privilege = prDao.selectByPrimaryKey(productId);
-						qrv.setMemberContent(privilege);
-					}
+//					String productId = mprDao.getProductId("BIR", bidder.getMemberLevel());
+//					if (StringUtils.isNotBlank(productId)) {
+//						String privilege = prDao.selectByPrimaryKey(productId);
+//						qrv.setMemberContent(privilege);
+//					}
 				}
 				if (qrv.getIsMember())
 					qmis.add(qrv);

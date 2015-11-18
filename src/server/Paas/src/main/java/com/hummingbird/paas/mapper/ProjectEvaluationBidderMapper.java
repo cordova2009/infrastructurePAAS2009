@@ -22,6 +22,16 @@ public interface ProjectEvaluationBidderMapper {
      * 根据主键查询记录
      */
     ProjectEvaluationBidder selectByPrimaryKey(Integer id);
+    
+    /**
+     * 查询评价次数
+     */
+    int countEvaluationNumByBidderId(Integer bidder_id);
+    
+    /**
+     * 查询评价积分
+     */
+    double countEvaluationScoreByBidderId(Integer bidder_id);
 
     /**
      * 根据主键更新属性不为空的记录

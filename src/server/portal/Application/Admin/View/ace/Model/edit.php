@@ -96,6 +96,9 @@
                 <?php
                 echo ace_radio(['label_text'=>'是否需要列表管理','help'=>'勾选需要，则会在列表页面显示出数据的链接'],['name'=>'need_datalist'],$info['need_datalist'],['不需要 &nbsp;','需要 ']);
                 ?>
+                <?php
+                echo ace_radio(['label_text'=>'是否需要批量操作','help'=>'勾选需要，则会在列表页面显示批量操作项'],['name'=>'need_batch_handle'],$info['need_batch_handle'],['不需要 &nbsp;','需要 ']);
+                ?>
 			</div>
 
 			<div id="tab2" class="tab-pane">

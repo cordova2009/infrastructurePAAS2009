@@ -103,7 +103,7 @@ $(document).ready(function(){
         }else{
             clean(); 
         }
-        
+
         function clean(){
             if ( (target = $this.attr('href')) || (target = $this.attr('url')) ) {
                 var loading = layer.load();
@@ -126,6 +126,9 @@ $(document).ready(function(){
                         },1500);
                     }else{
                         updateAlert(data.info,'alert-danger');
+                        if($this.attr('type') == 'checkbox'){
+                            $this.prop('checked',!$this.prop('checked'));
+                        }
                         setTimeout(function(){
                             if (data.url) {
                                 location.href=data.url;

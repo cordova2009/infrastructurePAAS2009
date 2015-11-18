@@ -1,4 +1,4 @@
-package com.hummingbird.paas.entity;
+﻿package com.hummingbird.paas.entity;
 
 import java.util.Date;
 
@@ -604,7 +604,7 @@ public class BidObject {
      */
     public void setWinBidTime(Date winBidTime) {
         this.winBidTime = winBidTime;
-    }
+   }
 
     @Override
     public boolean equals(Object that) {
@@ -684,6 +684,5 @@ public class BidObject {
         result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
         result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
         result = prime * result + ((getWinBidTime() == null) ? 0 : getWinBidTime().hashCode());
-        return result;
-    }
+        return result;   }
 }

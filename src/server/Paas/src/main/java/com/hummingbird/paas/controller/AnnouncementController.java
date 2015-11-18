@@ -44,7 +44,7 @@ import com.hummingbird.paas.vo.AnnouncementDetailBodyVO;
 import com.hummingbird.paas.vo.AnnouncementListBodyVO;
 import com.hummingbird.paas.vo.AnnouncementUpdateVO;
 @Controller
-@RequestMapping(value="/message"
+@RequestMapping(value="/announcement"
 		 ,method=RequestMethod.POST)
 public class AnnouncementController extends BaseController  {
 	@Autowired
@@ -78,7 +78,7 @@ public class AnnouncementController extends BaseController  {
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
-		rnr.setMethod("/message/getnoticeList");
+		rnr.setMethod("/announcement/getnoticeList");
 		
 		List<Announcement> list=new ArrayList<Announcement>();
 		try {
@@ -162,7 +162,7 @@ public class AnnouncementController extends BaseController  {
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
-		rnr.setMethod("/message/getnoticeinfo");
+		rnr.setMethod("/announcement/getnoticeinfo");
 		
 		try {
 			Announcement aa = announcementDao.selectByPrimaryKey(transorder.getBody().getNoticeId());
@@ -216,7 +216,7 @@ public class AnnouncementController extends BaseController  {
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
-		rnr.setMethod("/message/updateAnnounce");
+		rnr.setMethod("/announcement/updateAnnounce");
 		
 		try {
 		Integer noticeId =  transorder.getBody().getNoticeId();

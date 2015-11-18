@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hummingbird.babyspace.mapper.AppLogMapper" >
-  <resultMap id="BaseResultMap" type="com.hummingbird.babyspace.entity.AppLog" >
+<mapper namespace="com.hummingbird.paas.mapper.AppLogMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.AppLog" >
     <id column="idt_app_log" property="idtAppLog" jdbcType="INTEGER" />
     <result column="appId" property="appid" jdbcType="VARCHAR" />
     <result column="method" property="method" jdbcType="VARCHAR" />
@@ -22,7 +22,7 @@
     delete from t_app_log
     where idt_app_log = #{idtAppLog,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.babyspace.entity.AppLog" useGeneratedKeys="true" keyProperty="idtAppLog">
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.AppLog" useGeneratedKeys="true" keyProperty="idtAppLog">
     insert into t_app_log ( appId, method, 
       request, respone, insertTime
       )
@@ -30,7 +30,7 @@
       #{request,jdbcType=VARCHAR}, #{respone,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hummingbird.babyspace.entity.AppLog" >
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.AppLog" >
     insert into t_app_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="idtAppLog != null" >
@@ -73,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.babyspace.entity.AppLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.AppLog" >
     update t_app_log
     <set >
       <if test="appid != null" >
@@ -94,7 +94,7 @@
     </set>
     where idt_app_log = #{idtAppLog,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hummingbird.babyspace.entity.AppLog" >
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.AppLog" >
     update t_app_log
     set appId = #{appid,jdbcType=VARCHAR},
       method = #{method,jdbcType=VARCHAR},

@@ -26,7 +26,7 @@ import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.paas.entity.Announcement;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
-import com.hummingbird.paas.entity.BidProjectInfo;
+import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
@@ -37,7 +37,7 @@ import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
-import com.hummingbird.paas.mapper.BidProjectInfoMapper;
+import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
@@ -106,7 +106,7 @@ public class TenderServiceImpl implements TenderService {
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired
-	BidProjectInfoMapper bpdao;
+	ObjectProjectInfoMapper bpdao;
 	@Autowired
 	ObjectBaseinfoMapper obidao;
 	@Autowired
@@ -146,7 +146,7 @@ public class TenderServiceImpl implements TenderService {
 		throw new BusinessException("未完成 ");
 		// Project project = dao.selectByPrimaryKey(body.getObjectId());
 		// ValidateUtil.assertNull(project, "标的");
-		// BidProjectInfo pi = bpdao.selectByPrimaryKey(body.getObjectId());
+		// ObjectProjectInfo pi = bpdao.selectByPrimaryKey(body.getObjectId());
 		// MyObjectTenderSurveyBodyVOResult result =
 		// bidRecordDao.selectTenderSurveyByObjectId(body.getObjectId());
 		// result.setObjectName(project.getObjectName());
@@ -247,6 +247,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
+			bo.setInsertTime(new Date());
 
 			dao.insert(bo);
 		} else {
@@ -289,8 +290,8 @@ public class TenderServiceImpl implements TenderService {
 		}
 		// 请自行调整
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
-		BidProjectInfo bidproject = null;
-		List<BidProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
+		ObjectProjectInfo bidproject = null;
+		List<ObjectProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
 				CommonStatusConst.STATUS_CREATE);
 		if (projects != null && !projects.isEmpty()) {
 			bidproject = projects.get(0);
@@ -333,9 +334,9 @@ public class TenderServiceImpl implements TenderService {
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
-		BidProjectInfo bp = bpdao.selectByPrimaryKey(body.getObjectId());
+		ObjectProjectInfo bp = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bp == null) {
-			bp = new BidProjectInfo();
+			bp = new ObjectProjectInfo();
 
 			bp.setObjectId(bo.getObjectId());
 			bp.setProjectName(body.getProjectName());
@@ -382,13 +383,13 @@ public class TenderServiceImpl implements TenderService {
 		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		// 请自行调整
-		BidProjectInfo bidproject = null;
-		List<BidProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
+		ObjectProjectInfo bidproject = null;
+		List<ObjectProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
 				CommonStatusConst.STATUS_CREATE);
 		if (projects != null && !projects.isEmpty()) {
 			bidproject = projects.get(0);
 		}
-		BidProjectInfo bpi = bidproject;
+		ObjectProjectInfo bpi = bidproject;
 		SaveObjectProjectInfoBodyVOResult result = null;
 		if (bpi != null) {
 			result = new SaveObjectProjectInfoBodyVOResult();
@@ -423,9 +424,9 @@ public class TenderServiceImpl implements TenderService {
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
-		BidProjectInfo bpi = bpdao.selectByPrimaryKey(body.getObjectId());
+		ObjectProjectInfo bpi = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bpi == null) {
-			bpi = new BidProjectInfo();
+			bpi = new ObjectProjectInfo();
 			bpi.setProjectExpectPeriod(body.getProjectExpectPeriod());
 			bpi.setProjectExpectStartDate(body.getProjectExpectStartDate());
 			bpi.setObjectId(body.getObjectId());
@@ -459,8 +460,8 @@ public class TenderServiceImpl implements TenderService {
 			log.debug("查询未完成招标项目工程施工证明接口开始");
 		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
-		BidProjectInfo bpi = null;
-		List<BidProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
+		ObjectProjectInfo bpi = null;
+		List<ObjectProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
 				CommonStatusConst.STATUS_CREATE);
 		if (projects != null && !projects.isEmpty()) {
 			bpi = projects.get(0);
@@ -515,10 +516,10 @@ public class TenderServiceImpl implements TenderService {
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
-		BidProjectInfo bpi = bpdao.selectByPrimaryKey(body.getObjectId());
+		ObjectProjectInfo bpi = bpdao.selectByPrimaryKey(body.getObjectId());
 		try {
 			if (bpi == null) {
-				bpi = new BidProjectInfo();
+				bpi = new ObjectProjectInfo();
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
 				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());

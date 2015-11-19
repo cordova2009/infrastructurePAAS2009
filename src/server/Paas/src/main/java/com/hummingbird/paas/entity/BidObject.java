@@ -157,6 +157,16 @@ public class BidObject {
     private Date winBidTime;
 
     /**
+     * 插入时间
+     */
+    private Date insertTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
      * @return 招标编号(平台),ZB00时间戳随机数
      */
     public String getObjectId() {
@@ -606,6 +616,36 @@ public class BidObject {
         this.winBidTime = winBidTime;
    }
 
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 
+	 *            插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
+    }
+
+    /**
+     * @return 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * @param updateTime 
+	 *            更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -647,7 +687,9 @@ public class BidObject {
             && (this.getNeedPmSafetyCertification() == null ? other.getNeedPmSafetyCertification() == null : this.getNeedPmSafetyCertification().equals(other.getNeedPmSafetyCertification()))
             && (this.getEvaluationAmount() == null ? other.getEvaluationAmount() == null : this.getEvaluationAmount().equals(other.getEvaluationAmount()))
             && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
-            && (this.getWinBidTime() == null ? other.getWinBidTime() == null : this.getWinBidTime().equals(other.getWinBidTime()));
+            && (this.getWinBidTime() == null ? other.getWinBidTime() == null : this.getWinBidTime().equals(other.getWinBidTime()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
 
     @Override
@@ -684,5 +726,8 @@ public class BidObject {
         result = prime * result + ((getEvaluationAmount() == null) ? 0 : getEvaluationAmount().hashCode());
         result = prime * result + ((getObjectScope() == null) ? 0 : getObjectScope().hashCode());
         result = prime * result + ((getWinBidTime() == null) ? 0 : getWinBidTime().hashCode());
-        return result;   }
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        return result;
+    }
 }

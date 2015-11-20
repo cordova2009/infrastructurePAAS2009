@@ -30,7 +30,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-  <select id="selectTotalCountAnnouncement" resultMap="int" parameterType="java.lang.String" >
+  <select id="selectTotalCountAnnouncement" resultType="int" parameterType="java.lang.String" >
     select count(*) from t_announcement
     where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
     <if test="creator !=null">

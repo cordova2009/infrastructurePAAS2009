@@ -45,6 +45,12 @@ public class BidderCertification {
      * 编号
      */
     private String certificationNo;
+    
+    
+    /**
+     * 证书信息
+     */
+    CertificationType certificationType;
 
     /**
      * @return 主键
@@ -202,4 +208,29 @@ public class BidderCertification {
         result = prime * result + ((getCertificationNo() == null) ? 0 : getCertificationNo().hashCode());
         return result;
     }
+
+	/**
+	 * 证书信息 
+	 */
+	public CertificationType getCertificationType() {
+		return certificationType;
+	}
+
+	/**
+	 * 证书信息 
+	 */
+	public void setCertificationType(CertificationType certificationType) {
+		this.certificationType = certificationType;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BidderCertification [id=" + id + ", bidderId=" + bidderId + ", certificationId=" + certificationId
+				+ ", certificationName=" + certificationName + ", certificationContent=" + certificationContent
+				+ ", expireTime=" + expireTime + ", applicableRegion=" + applicableRegion + ", certificationNo="
+				+ certificationNo + ", certificationType=" + certificationType + "]";
+	}
 }

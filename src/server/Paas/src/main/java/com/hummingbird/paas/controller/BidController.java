@@ -36,7 +36,7 @@ import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
-import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
+import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.QueryTechnicalStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveBidRequirementInfoBodyVO;
@@ -469,15 +469,15 @@ public class BidController extends BaseController {
 
 	}
 	/**
-	 * 查询未完成招标项目基础信息接口
+	 * 查询用户是否具有投标的资质
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/isInvitationOfBid", method = RequestMethod.POST)
-	@AccessRequered(methodName = "查询用户是否具有投标的资质", isJson = true, codebase = 244000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryObjectDetailBodyVO", appLog = true)
-	public @ResponseBody ResultModel queryObjectDetail(HttpServletRequest request, HttpServletResponse response) {
+	@AccessRequered(methodName = "查询用户是否具有投标的资质", isJson = true, codebase = 244000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryObjectBodyVO", appLog = true)
+	public @ResponseBody ResultModel isInvitationOfBid(HttpServletRequest request, HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<QueryObjectDetailBodyVO> transorder = (BaseTransVO<QueryObjectDetailBodyVO>) super.getParameterObject();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
 		String messagebase = "查询用户是否具有投标的资质接口";
 		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
 		try {
@@ -491,14 +491,14 @@ public class BidController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			
-			Boolean flag = bidService.queryTender(token);
-			if(!flag){
-				rm.setErrmsg("查询用户不具有投标的资质");
-				return rm;
-			}else{
-				rm.setErrmsg("该用户具有投标的资质");
-			}
+			bidService.hadQualify2bid(transorder.getBody(),token.getUserId());
+//			Boolean flag = bidService.queryTender(transorder.getBody(),token.getUserId());
+//			if(!flag){
+//				rm.setErrmsg("查询用户不具有投标的资质");
+//				return rm;
+//			}else{
+//				rm.setErrmsg("该用户具有投标的资质");
+//			}
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

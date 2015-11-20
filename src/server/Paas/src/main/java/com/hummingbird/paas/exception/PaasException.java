@@ -30,6 +30,10 @@ public class PaasException extends BusinessException {
 	 * 投标异常
 	 */
 	static public int ERR_BID_INFO_EXCEPTION=4;
+	/**
+	 * 投标资质证书异常
+	 */
+	static public int ERR_BID_CERTIFICATION_INFO_EXCEPTION=5;
 	
 	
 

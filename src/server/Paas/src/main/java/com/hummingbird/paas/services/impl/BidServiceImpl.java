@@ -3,8 +3,10 @@ package com.hummingbird.paas.services.impl;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -26,21 +28,28 @@ import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.entity.BidderCertification;
 import com.hummingbird.paas.entity.CertificationRequirement;
+import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.MakeMatchBondRecord;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
+import com.hummingbird.paas.mapper.BidderCerticateMapper;
+import com.hummingbird.paas.mapper.BidderCertificationMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.CertificationRequirementMapper;
+import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.FeeRateMapper;
+import com.hummingbird.paas.mapper.InviteBidderMapper;
 import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
@@ -51,6 +60,7 @@ import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.MoneyUtil;
+import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
@@ -60,6 +70,7 @@ import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_3;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
+import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectDetailAnswerQuestion;
 import com.hummingbird.paas.vo.QueryObjectDetailBaseVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
@@ -117,7 +128,11 @@ public class BidServiceImpl implements BidService {
 	@Autowired
 	BidderMapper berDao;
 	@Autowired
+	BidderCertificationMapper bcertDao;//投标证书
+	@Autowired
 	BidRecordMapper brDao;
+	@Autowired
+	CertificationTypeMapper certDao;
 	@Autowired
 	CertificationRequirementMapper crDao;
 	@Autowired
@@ -132,30 +147,163 @@ public class BidServiceImpl implements BidService {
 	MakeMatchBondRecordMapper mmbrDao;
 	@Autowired
 	FeeRateMapper frDao;
+	@Autowired
+	InviteBidderMapper ibDao;
 
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public Boolean queryTender(Token token) throws BusinessException {
+	public void hadQualify2bid(QueryObjectBodyVO queryobject,Integer userId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("接口查询用户是否具有投标的资质进入");
 		}
-		Integer userId = token.getUserId();
+		
 		if (userId == null) {
-			return false;
+			log.error(String.format("用户ID为空"));
+			throw ValidateException.ERROR_PARAM_NULL.clone(null,"用户不存在");
 		}
 		Bidder bidder = berDao.selectByUserId(userId);
 		if (bidder == null) {
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("用户[%s]没有进行投标人资格认证",userId));
 			}
-			return false;
+			throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION,"你还不是投标人,不能参与投标");
 		}
 		if (!CommonStatusConst.STATUS_OK.equals(bidder.getStatus())) {
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("用户[%s]投标人信息状态不对",userId));
 			}
-			return false;
+			throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION,"你的状态非正常状态,不能参与投标");
 		}
-		return true;
+		
+		String objectId = queryobject.getObjectId();
+		if(StringUtils.isBlank(objectId)){
+			log.error(String.format("标的编号为空,没有办法判断"));
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"标的编号为空,没有办法判断");
+		}
+		ObjectProject object = obDao.selectByPrimaryKey(objectId);
+		if(object==null){
+			log.error(String.format("招标信息为空,没有办法判断"));
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"招标信息为空,没有办法判断");
+		}
+		if(!StringUtils.equals(object.getObjectStatus(),"PUB")){
+			log.error(String.format("招标信息状态非发布中,不能投标"));
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"招标信息状态非发布中,不能投标");
+		}
+		//如果招标的邀请招标,检查是否在邀请招标名单内
+		if(StringUtils.equals(object.getObjectPublishType(),"INV"))
+		{
+			int count=ibDao.hadInvited(object.getObjectId(),bidder.getId());
+			if(count==0){
+				log.error(String.format("招标信息是邀请招标但你未被邀请,不能投标"));
+				throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"招标信息是邀请招标但你未被邀请,不能投标");
+			}
+		}
+		//检查招标人资质信息
+		
+		List<CertificationRequirement> certs = crDao.selectCertisByObjectId(objectId);
+		List<BidderCertification> biddercerts = bcertDao.selectByBidderId(bidder.getId());
+		Map bidderCertMap = new HashMap<>();
+		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
+			BidderCertification bidderCertification = (BidderCertification) iterator.next();
+			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
+			if(cert!=null){
+				bidderCertification.setCertificationType(cert);
+			}
+		}
+		List<CertificationMatchVO> nofitcerts = new ArrayList<>();
+		StringBuilder reason = new StringBuilder();
+		for (Iterator iterator = certs.iterator(); iterator.hasNext();) {
+			CertificationRequirement cr = (CertificationRequirement) iterator.next();
+			Integer certificationId = cr.getCertificationId();
+			CertificationType cert = certDao.selectByPrimaryKey(certificationId);
+			if(cert!=null)
+			{
+				//查询投标人有没有对应的资质
+				CertificationMatchVO matchresult = getSuitableCert(cert,biddercerts);
+				if(!matchresult.isMatch()){
+					//nofitcerts.add(matchresult);
+					reason.append(cert.getCertificationName());
+					reason.append(matchresult.getReason());
+					if(iterator.hasNext()){
+						reason.append("，");
+						
+					}
+					
+				}
+			}
+		}
+		if(reason.length()>0){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("投标人资质证书不匹配:%s",reason.toString()));
+			}
+			throw new PaasException(PaasException.ERR_BID_CERTIFICATION_INFO_EXCEPTION,"资质要求不能满足:"+reason.toString());
+		}
+	}
+
+	/**
+	 * 匹配证书
+	 * @param cert
+	 * @param biddercerts
+	 * @return 投标方资质证书记录主键,如不匹配返回null 
+	 */
+	private CertificationMatchVO getSuitableCert(CertificationType targetcert, List<BidderCertification> biddercerts) {
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("尝试匹配证书%s",targetcert));
+		}
+		CertificationMatchVO matchvo = new CertificationMatchVO();
+		matchvo.setCertificationTypeId(targetcert.getId());
+		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
+			BidderCertification bidderCertification = (BidderCertification) iterator.next();
+			CertificationType cert = bidderCertification.getCertificationType();
+			if(cert!=null){
+				if(targetcert.getId()==cert.getId()){
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("证书相同,匹配成功"));
+					}
+					matchvo.setReason("匹配成功");
+					matchvo.setMatch(true);
+					matchvo.setBidderCertificationId(bidderCertification.getId());
+					return matchvo;
+				}
+				else if(StringUtils.equals(targetcert.getCertificationGroupname(), cert.getCertificationGroupname())
+						){
+					
+					if(targetcert.getCertificationLevel() >= cert.getCertificationLevel()){
+						//证书等级匹配
+						if (log.isDebugEnabled()) {
+							log.debug(String.format("证书等级匹配成功,匹配成功"));
+						}
+						matchvo.setReason("匹配成功");
+						matchvo.setMatch(true);
+						matchvo.setBidderCertificationId(bidderCertification.getId());
+					}
+					else{
+						//证书等级不对
+						if (log.isDebugEnabled()) {
+							log.debug(String.format("证书等级匹配失败,匹配失败"));
+						}
+						matchvo.setReason("证书等级不匹配");
+						matchvo.setMatch(false);
+					}
+					
+					return matchvo;
+				}
+				else{
+					//证书不同,先跳过
+				}
+				
+			}
+//			else
+//			{
+//				if (log.isDebugEnabled()) {
+//					log.debug(String.format("招标资质要求的证书,投标人没有"));
+//				}
+//			}
+		}
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("招标资质要求的证书,投标人没有"));
+		}
+		matchvo.setReason("缺乏相应资质");
+		matchvo.setMatch(false);
+		return matchvo;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
@@ -898,6 +1046,15 @@ public class BidServiceImpl implements BidService {
 		if (log.isDebugEnabled()) {
 			log.debug("提交投标接口完成");
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.hummingbird.paas.services.BidService#queryTender(com.hummingbird.paas.entity.Token)
+	 */
+	@Override
+	public Boolean queryTender(Token token) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

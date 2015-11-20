@@ -21,12 +21,6 @@
     from t_qyzz_bidder_certification
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByBidderId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_qyzz_bidder_certification
-    where bidder_id = #{bidderId,jdbcType=INTEGER}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder_certification
     where id = #{id,jdbcType=INTEGER}

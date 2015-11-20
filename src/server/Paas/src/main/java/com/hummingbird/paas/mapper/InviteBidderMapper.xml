@@ -15,13 +15,6 @@
     from t_ztgl_bid_invite_bidder
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="hadInvited" resultType="java.lang.Integer"  >
-    select 
-     count(*)
-    from t_ztgl_bid_invite_bidder
-    where object_id = #{objectId}
-    and bidder_id = #{bidderId}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_bid_invite_bidder
     where id = #{id,jdbcType=INTEGER}

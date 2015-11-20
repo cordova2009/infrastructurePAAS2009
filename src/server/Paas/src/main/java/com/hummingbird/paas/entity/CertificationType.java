@@ -134,13 +134,4 @@ public class CertificationType {
         result = prime * result + ((getCanVerify() == null) ? 0 : getCanVerify().hashCode());
         return result;
     }
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CertificationType [id=" + id + ", certificationGroupname=" + certificationGroupname
-				+ ", certificationLevel=" + certificationLevel + ", certificationName=" + certificationName + "]";
-	}
 }

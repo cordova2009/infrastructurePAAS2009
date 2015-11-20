@@ -34,7 +34,11 @@ import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
+import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
+import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.Qanda;
+import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
@@ -46,9 +50,12 @@ import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
+import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
+import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
@@ -127,7 +134,10 @@ public class TenderServiceImpl implements TenderService {
 	CertificationTypeMapper ctDao;
 	@Autowired
 	BidderMapper berDao;
-
+	@Autowired
+	ProjectInfoMapper projectInfoDao;
+	@Autowired
+	ProjectEvaluationBiddeeMapper evaluationBiddeeDao;
 	/**
 	 * 我的招标评标概况接口
 	 * 
@@ -1392,5 +1402,29 @@ public class TenderServiceImpl implements TenderService {
 			qlr.add(qr);
 		}
 		return qlr;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public void evaluateBidder(EvaluateBidderBodyVO body,User user)
+			throws MaAccountException {
+		ProjectInfo project=projectInfoDao.selectByObjectId(body.getObjectId())==null?null:projectInfoDao.selectByObjectId(body.getObjectId()).get(0);
+		if(project==null){
+			if(log.isDebugEnabled()){
+				log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+			}throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+		}
+		ProjectEvaluationBiddee evaluationBiddee=new ProjectEvaluationBiddee();
+		evaluationBiddee.setBiddeeId(project.getBiddeeId());
+		evaluationBiddee.setBidderId(project.getBidderId());
+		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
+		evaluationBiddee.setInsertBy(user.getId().toString());
+		evaluationBiddee.setInsertTime(new Date());
+		evaluationBiddee.setObjectId(body.getObjectId());
+		evaluationBiddee.setScore(body.getEvaluateScore());
+		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
+		//标签部分缺少
+		evaluationBiddeeDao.insert(evaluationBiddee);
+		
+		
 	}
 }

@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang.StringUtils;import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,9 @@ import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -45,6 +46,7 @@ import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
@@ -60,7 +62,8 @@ import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
+import com.hummingbird.paas.services.UserService;
+import com.hummingbird.paas.vo.EvaluateBidderBodyVO;import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
@@ -127,6 +130,8 @@ public class TenderController extends BaseController {
 	BidObjectMapper objectDao;
 	@Autowired
 	protected MyBiddeeService myBiddeeService;
+	@Autowired
+	UserService userSer;
 
 	@Autowired
 	protected BidObjectMapper bidObjectDao;
@@ -1537,7 +1542,7 @@ public class TenderController extends BaseController {
 					projectPaymentDefineDao.insert(ppd); 
 					for(TenderPaymentDetailInfo mm : tpds){
 						ppf.setPaySum(mm.getPaySum());
-						ppf.setPayTime(mm.getPayDate());
+						//ppf.setPayTime(mm.getPayDate());
 						ppf.setPeriod(mm.getPeriod());
 						ppf.setProjectPaymentDefineId(pid);
 						projectPaymentDefineDetailDao.insert(ppf);
@@ -2521,6 +2526,50 @@ public class TenderController extends BaseController {
 		}
 		return rm;
 		
+	}
+	
+
+	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)
+	public @ResponseBody Object evaluateBidder(HttpServletRequest request) {
+		
+		final BaseTransVO<EvaluateBidderBodyVO> transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class,EvaluateBidderBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "招标方给投标方评价";
+		rm.setBaseErrorCode(240600);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			//备注字段必填
+			PropertiesUtil pu = new PropertiesUtil();
+			EvaluateBidderBodyVO body=transorder.getBody();
+			ValidateUtil.assertNull(body.getObjectId(), "项目Id不能为空");
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+
+			User user=userSer.queryUserByToken(body.getToken());
+			
+			
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}		
+		return rm;
 	}
 	
 }

@@ -1,7 +1,5 @@
 package com.hummingbird.paas.mapper;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.hummingbird.paas.entity.InviteBidder;
 
 public interface InviteBidderMapper {
@@ -34,13 +32,4 @@ public interface InviteBidderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(InviteBidder record);
-
-	/**
-	 * 查询标的中的邀请人是否有包含投标人
-	 * @param objectId
-	 * @param id
-	 * @return 0 为没有,1为包含
-	 */
-	int hadInvited(@Param("objectId") String objectId, @Param("bidderId")Integer bidderId);
-	
 }

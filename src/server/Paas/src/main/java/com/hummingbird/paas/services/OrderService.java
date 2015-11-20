@@ -14,13 +14,13 @@ import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 public interface OrderService {
 	/**
-	 * 冻结投标担保金
+	 * 冻结
 	 * @param body
 	 * @return
 	 */
 	public FreezeBondReturnVO freezeBond(FreezeBondBodyVO body,User user,String method)throws MaAccountException;
 	/**
-	 * 解冻投标担保金
+	 * 解冻
 	 * @param body
 	 * @return
 	 */
@@ -45,7 +45,7 @@ public interface OrderService {
 	 * @param body
 	 * @return
 	 */
-	public String withdrawalsApply(WithdrawalsApplyBodyVO body,User user)throws MaAccountException;
+	public String withdrawalsApply(WithdrawalsApplyBodyVO body,User user,String method)throws MaAccountException;
 
 	/**
 	 * 查询提现申请记录

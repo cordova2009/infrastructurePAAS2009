@@ -5,34 +5,37 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hummingbird.common.vo.ResultModel;
+
+import com.hummingbird.paas.constant.AccountConst;
+import com.hummingbird.paas.constant.OrderConst;
+import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
-import com.hummingbird.paas.entity.HyglBiddee;
+
+import com.hummingbird.paas.entity.FeeRate;
+import com.hummingbird.paas.entity.FeeRate;
+import com.hummingbird.paas.entity.MakeMatchBondRecord;
 import com.hummingbird.paas.entity.ObjectBondRecord;
-import com.hummingbird.paas.entity.Order;
 import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.ProjectAccountOrder;
-import com.hummingbird.paas.entity.QyzzBiddee;
-import com.hummingbird.paas.entity.QyzzBidder;
 import com.hummingbird.paas.entity.RechargeApply;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.WithdrawApply;
 import com.hummingbird.paas.exception.MaAccountException;
+
+import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.FeeRateMapper;
-import com.hummingbird.paas.mapper.HyglBiddeeMapper;
+
+import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
-import com.hummingbird.paas.mapper.OrderMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
 import com.hummingbird.paas.mapper.ProjectAccountOrderMapper;
-import com.hummingbird.paas.mapper.QyzzBiddeeMapper;
-import com.hummingbird.paas.mapper.QyzzBidderMapper;
 import com.hummingbird.paas.mapper.RechargeApplyMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.mapper.WithdrawApplyMapper;
@@ -50,6 +53,7 @@ import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
 
 @Service
+
 public class OrderServiceImpl implements OrderService{
 	@Autowired
 	ObjectBondSettingMapper bondSettingDao;
@@ -61,6 +65,7 @@ public class OrderServiceImpl implements OrderService{
 	ProjectAccountOrderMapper accOrdDao;
 	@Autowired
 	ObjectBondRecordMapper bondRecordDao;
+	MakeMatchBondRecordMapper makeMatchBondRecordDao;
 	@Autowired
 	ProjectAccountMapper proActDao;
 	@Autowired
@@ -69,11 +74,13 @@ public class OrderServiceImpl implements OrderService{
 	UserBankcardMapper userBankDao;
 	@Autowired
 	WithdrawApplyMapper withdrawApplyDao;
-    @Autowired
-    OrderMapper orDao;
+
 	@Autowired
 	FeeRateMapper feeRateDao;
-
+	
+	@Autowired
+	BidRecordMapper bidRecordDao;
+	
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
 
@@ -87,8 +94,7 @@ public class OrderServiceImpl implements OrderService{
 			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("用户【%s】未认证投标人或被禁用",user.getMobileNum()));
 			
 		}
-		Integer objectBond=bondSettingDao.getObjectBidderBond(body.getObjectId());		
-		if(objectBond!=null){
+		if(body.getSum()>=0&&body.getSum()!=null){
 			//检查用户余额是否足够
 			ProjectAccount account=capManageSer.queryAccountInfo(user.getId());
 			AccountValidateUtil.validateAccount(account);
@@ -99,13 +105,14 @@ public class OrderServiceImpl implements OrderService{
 				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("用户【%s】资金账户查询失败",user.getMobileNum()));
 				
 			}
-			Integer remainingSum=account.getRemainingSum()-objectBond;
+			Integer remainingSum=account.getRemainingSum()-body.getSum();
 			if(remainingSum<0){
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("用户【%s】可用余额不足",user.getMobileNum()));
 				}
 				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("用户【%s】可用余额不足",user.getMobileNum()));
 				
+			
 			}else{
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("订单处理开始"));
@@ -113,51 +120,37 @@ public class OrderServiceImpl implements OrderService{
 				if (log.isTraceEnabled()) {
 					log.trace(String.format("创建冻结订单"));
 				}
-				ObjectBondRecord bondRecord=new ObjectBondRecord();
-				String bondorderId=AccountGenerationUtil.genNO("BZ00");
-				bondRecord.setOrderId(bondorderId);
-				//这里的数据库字段类型不对
-				bondRecord.setCompanyId(bidder.getId());
-				bondRecord.setInsertTime(new Date());
-				bondRecord.setObjectId(body.getObjectId());
-				bondRecord.setCompanyType("BIR");
-				bondRecord.setType("FOZ");
-				bondRecord.setBondType("BID");
-				bondRecord.setBondAmount(objectBond);
-				bondRecordDao.insert(bondRecord);
 				//创建资金账户订单
 				ProjectAccountOrder accountOrder=new ProjectAccountOrder();
 				String accountOrderId=AccountGenerationUtil.genNO("PA00");
 				accountOrder.setOrderId(accountOrderId);
-				accountOrder.setType("SBZ");
-				accountOrder.setOriginalOrderId(bondorderId);
-				accountOrder.setOriginalTable("t_ztgl_object_bond_record");
+				accountOrder.setType(body.getType());
+				accountOrder.setOriginalOrderId(body.getOriginalOrderId());
+				accountOrder.setOriginalTable(body.getOriginalTable());
 				accountOrder.setRemark(body.getRemark());
 				accountOrder.setStatus("OK#");
-				accountOrder.setSum(objectBond);
+				accountOrder.setSum(body.getSum());
 				accountOrder.setMethod(method);
 				//数据库字段有问题
-				//accountOrder.setObjectId(body.getObjectId());
-				accountOrder.setFrozenSumSnapshot(objectBond);
+				accountOrder.setObjectId(body.getObjectId());
+				accountOrder.setFrozenSumSnapshot(body.getSum());
 				accountOrder.setInsertTime(new Date());
-				accountOrder.setFlowDirection("OUT");
+				accountOrder.setFlowDirection(OrderConst.FLOW_DIRECTION_OUT);
 				accountOrder.setBalance(remainingSum);
 				accountOrder.setAccountId(account.getAccountId());
-				//这个字段不明白
-				//accountOrder.setFrozenSumSnapshot(objectBond);
 				accOrdDao.insert(accountOrder);
 				//更新账户信息
 				account.setUpdateTime(new Date());
-				account.setFrozenSum(account.getFrozenSum()+objectBond);
+				account.setFrozenSum(account.getFrozenSum()+body.getSum());
 				account.setRemainingSum(remainingSum);
 				AccountValidateUtil.updateAccountSignature(account);
 				proActDao.updateByPrimaryKey(account);
 				//组装返回信息
 				FreezeBondReturnVO bond=new FreezeBondReturnVO();
 				bond.setAccountId(account.getAccountId());
-				bond.setAmount(objectBond.toString());
-				bond.setBalance(remainingSum.toString());
-				bond.setFlowDirection("OUT");
+				bond.setAmount(body.getSum());
+				bond.setBalance(remainingSum);
+				bond.setFlowDirection(OrderConst.FLOW_DIRECTION_OUT);
 				bond.setOrderId(accountOrderId);
 				bond.setRemark(body.getRemark());
 				bond.setType("FOZ");
@@ -187,7 +180,8 @@ public class OrderServiceImpl implements OrderService{
 			
 		}
 		//根据orderId查询原来的订单信息
-		ProjectAccountOrder oldActOrd=accOrdDao.selectByPrimaryKey(body.getOrderId());
+		//ProjectAccountOrder oldActOrd=accOrdDao.selectByPrimaryKey(body.getOrderId());
+		MakeMatchBondRecord oldActOrd=makeMatchBondRecordDao.selectByPrimaryKey(body.getOrderId());
 		if(oldActOrd==null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("根据订单号【%s】查询不到原来的订单信息",body.getOrderId()));
@@ -195,44 +189,46 @@ public class OrderServiceImpl implements OrderService{
 			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据订单号【%s】查询不到原来的订单信息",body.getOrderId()));
 			
 		}
-		//查询是否退还过保证金，避免重复退还
-		//因为数据库待定，这段逻辑待定
+		List<MakeMatchBondRecord> returnActOrds=makeMatchBondRecordDao.selectReturnByBidId(oldActOrd.getBidId());
+		if(returnActOrds.size()>0){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还",oldActOrd.getBidId()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还",oldActOrd.getBidId()));		
+		}
 		
-		
-		Integer balance=account.getRemainingSum()+oldActOrd.getSum();
-		Integer objectBond=oldActOrd.getSum();
 		//创建保证金订单
-		ObjectBondRecord bondRecord=new ObjectBondRecord();
+		Integer balance=account.getRemainingSum()+oldActOrd.getBondAmount();
+		Integer objectBond=oldActOrd.getBondAmount();
+		//创建解冻撮合担保金订单
+		MakeMatchBondRecord bondRecord=new MakeMatchBondRecord();
 		String bondorderId=AccountGenerationUtil.genNO("BZ00");
 		bondRecord.setOrderId(bondorderId);
-		//这里的数据库字段类型不对
-		bondRecord.setCompanyId(bidder.getId());
+		bondRecord.setUpdateTime(new Date());
+		bondRecord.setBidId(oldActOrd.getBidId());
+		bondRecord.setCreator(user.getId().toString());
 		bondRecord.setInsertTime(new Date());
-		//这里的数据库字段类型不对
 		bondRecord.setObjectId(oldActOrd.getObjectId());
-		bondRecord.setCompanyType("BIR");
-		//REV要像john确定是否为退回保证金的意思
-		bondRecord.setType("REV");
-		bondRecord.setBondType("BID");
 		bondRecord.setBondAmount(objectBond);
-		bondRecordDao.insert(bondRecord);
+		bondRecord.setStatus("REV");
+		makeMatchBondRecordDao.insert(bondRecord);
+		
 		//插入资金账户订单表
 		ProjectAccountOrder accountOrder=new ProjectAccountOrder();
 		String accountOrderId=AccountGenerationUtil.genNO("PA00");
-		//这里数据库的类型好像没有退还保证金
 		accountOrder.setType("SBZ");
 		accountOrder.setOrderId(accountOrderId);
 		accountOrder.setOriginalOrderId(bondorderId);
-		accountOrder.setOriginalTable("t_ztgl_object_bond_record");
+		accountOrder.setOriginalTable("t_ztgl_object_makematch_bond_record");
 		accountOrder.setRemark("解冻保证金");
 		accountOrder.setStatus("OK#");
 		accountOrder.setSum(objectBond);
 		accountOrder.setMethod(method);
-		//数据库字段有问题
-		//accountOrder.setObjectId(body.getObjectId());
+		accountOrder.setObjectId(oldActOrd.getObjectId());
 		accountOrder.setFrozenSumSnapshot(objectBond);
 		accountOrder.setInsertTime(new Date());
 		accountOrder.setFlowDirection("IN#");
+		accountOrder.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
 		accountOrder.setBalance(balance);
 		accountOrder.setAccountId(account.getAccountId());
 		accOrdDao.insert(accountOrder);
@@ -246,9 +242,10 @@ public class OrderServiceImpl implements OrderService{
 		//组装返回信息
 		FreezeBondReturnVO bond=new FreezeBondReturnVO();
 		bond.setAccountId(account.getAccountId());
-		bond.setAmount(objectBond.toString());
-		bond.setBalance(balance.toString());
+		bond.setAmount(objectBond);
+		bond.setBalance(balance);
 		bond.setFlowDirection("IN#");
+		bond.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
 		bond.setOrderId(accountOrderId);
 		bond.setRemark("退还保证金");
 		
@@ -264,6 +261,7 @@ public class OrderServiceImpl implements OrderService{
 		RechargeApply apply=new RechargeApply();
 		String applyOrderId=AccountGenerationUtil.genNO("RC00");
 		//数据库少了转账时间字段
+		apply.setTransportTime(body.getTransferTime());
 		apply.setAmount(body.getAmount());
 		apply.setBank(body.getBankName());
 		apply.setInsertTime(new Date());
@@ -295,8 +293,8 @@ public class OrderServiceImpl implements OrderService{
 		return list;
 	}
 
-	@Override
-	public String withdrawalsApply(WithdrawalsApplyBodyVO body, User user)
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public String withdrawalsApply(WithdrawalsApplyBodyVO body, User user,String method)
 			throws MaAccountException {
 
 		//查询提现手续费
@@ -304,16 +302,27 @@ public class OrderServiceImpl implements OrderService{
 		if(body.getAmount()*feeRate.getFeeRate()<feeRate.get){
 			
 		}*/
+		Integer feeAmount=feeRateDao.selectMoney(body.getAmount(), "TX#");
+		
+		FreezeBondBodyVO freezeBody=new FreezeBondBodyVO();
+		
 		WithdrawApply apply=new WithdrawApply();
 		String applyOrderId=AccountGenerationUtil.genNO("TX00");
 		apply.setOrderId(applyOrderId);
 //		apply.setCommissionFees(手续费);
+		apply.setCommissionFees(feeAmount);
 		apply.setInsertTime(new Date());
 		apply.setStatus("CRT");
 		apply.setUserBankcardId(body.getBankId());
 		apply.setUserId(user.getId());
 		apply.setWithdrawAmount(body.getAmount());
 		withdrawApplyDao.insert(apply);
+		freezeBody.setOriginalOrderId(applyOrderId);
+		freezeBody.setOriginalTable("t_ddgl_withdraw_apply");
+		freezeBody.setRemark("提现申请");
+		freezeBody.setSum(body.getAmount());
+		//冻结
+		freezeBond(freezeBody,user,method);
 		return applyOrderId;
 	}
 
@@ -335,4 +344,6 @@ public class OrderServiceImpl implements OrderService{
 		}
 		return list;
 	}
+
+	
 }

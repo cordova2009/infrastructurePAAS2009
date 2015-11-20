@@ -500,7 +500,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				}
 				
 //				3.插入开户行正式表 信息
-				List<UserBankcard> ubcs = userBankcardDao.sel
+//				List<UserBankcard> ubcs = userBankcardDao.sel
 				userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
 				
 			}else{//审核不通过

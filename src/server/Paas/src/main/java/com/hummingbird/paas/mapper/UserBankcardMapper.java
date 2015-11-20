@@ -19,6 +19,16 @@ public interface UserBankcardMapper {
      * 保存属性不为空的记录
      */
     int insertSelective(UserBankcard record);
+    
+    /**
+     * 插入招标人开户行信息  招标人开户行审核认证通过
+     */
+    int insertBiddeeBankInfo(Integer userId);
+    
+    /**
+     * 插入投标人开户行信息 投标人开户行审核认证通过
+     */
+    int insertBidderBankInfo(Integer userId);
 
     /**
      * 根据主键查询记录

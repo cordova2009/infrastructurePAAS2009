@@ -4,6 +4,34 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidderCertificateAduit" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="bidder_certicate_id" property="bidderCerticateId" jdbcType="INTEGER" />
+    <result column="company_name_msg" property="companyNameMsg" jdbcType="VARCHAR" />
+    <result column="legal_person_msg" property="legalPersonMsg" jdbcType="VARCHAR" />
+    <result column="reg_time_msg" property="regTimeMsg" jdbcType="VARCHAR" />
+    <result column="contact_name_msg" property="contactNameMsg" jdbcType="VARCHAR" />
+    <result column="contact_mobile_num_msg" property="contactMobileNumMsg" jdbcType="VARCHAR" />
+    <result column="business_license_msg" property="businessLicenseMsg" jdbcType="VARCHAR" />
+    <result column="org_code_certificate_msg" property="orgCodeCertificateMsg" jdbcType="VARCHAR" />
+    <result column="tax_registration_certificate_msg" property="taxRegistrationCertificateMsg" jdbcType="VARCHAR" />
+    <result column="new_business_license_msg" property="newBusinessLicenseMsg" jdbcType="VARCHAR" />
+    <result column="business_license_expire_time_msg" property="businessLicenseExpireTimeMsg" jdbcType="VARCHAR" />
+    <result column="email_msg" property="emailMsg" jdbcType="VARCHAR" />
+    <result column="legal_person_authority_book_msg" property="legalPersonAuthorityBookMsg" jdbcType="VARCHAR" />
+    <result column="project_scope_msg" property="projectScopeMsg" jdbcType="VARCHAR" />
+    <result column="description_msg" property="descriptionMsg" jdbcType="VARCHAR" />
+    <result column="website_msg" property="websiteMsg" jdbcType="VARCHAR" />
+    <result column="logo_msg" property="logoMsg" jdbcType="VARCHAR" />
+    <result column="short_name_msg" property="shortNameMsg" jdbcType="VARCHAR" />
+    <result column="registered_capital_msg" property="registeredCapitalMsg" jdbcType="VARCHAR" />
+    <result column="business_scope_msg" property="businessScopeMsg" jdbcType="VARCHAR" />
+    <result column="address_msg" property="addressMsg" jdbcType="VARCHAR" />
+    <result column="legal_person_idcard_msg" property="legalPersonIdcardMsg" jdbcType="VARCHAR" />
+    <result column="legal_person_idcard_front_url_msg" property="legalPersonIdcardFrontUrlMsg" jdbcType="VARCHAR" />
+    <result column="legal_person_idcard_back_url_msg" property="legalPersonIdcardBackUrlMsg" jdbcType="VARCHAR" />
+    <result column="business_license_url_msg" property="businessLicenseUrlMsg" jdbcType="VARCHAR" />
+    <result column="org_code_certificate_url_msg" property="orgCodeCertificateUrlMsg" jdbcType="VARCHAR" />
+    <result column="tax_registration_certificate_url_msg" property="taxRegistrationCertificateUrlMsg" jdbcType="VARCHAR" />
+    <result column="unified_social_credit_code_msg" property="unifiedSocialCreditCodeMsg" jdbcType="VARCHAR" />
+    <result column="unified_social_credit_code_url_msg" property="unifiedSocialCreditCodeUrlMsg" jdbcType="VARCHAR" />
     <result column="company_name" property="companyName" jdbcType="VARCHAR" />
     <result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
     <result column="reg_time" property="regTime" jdbcType="VARCHAR" />
@@ -38,12 +66,18 @@
     <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, bidder_certicate_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
-    business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
-    business_license_expire_time, email, legal_person_authority_book, project_scope, 
-    description, website, logo, short_name, registered_capital, business_scope, address, 
-    legal_person_idcard, legal_person_idcard_front_url, legal_person_idcard_back_url, 
-    business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
+    id, bidder_certicate_id, company_name_msg, legal_person_msg, reg_time_msg, contact_name_msg, 
+    contact_mobile_num_msg, business_license_msg, org_code_certificate_msg, tax_registration_certificate_msg, 
+    new_business_license_msg, business_license_expire_time_msg, email_msg, legal_person_authority_book_msg, 
+    project_scope_msg, description_msg, website_msg, logo_msg, short_name_msg, registered_capital_msg, 
+    business_scope_msg, address_msg, legal_person_idcard_msg, legal_person_idcard_front_url_msg, 
+    legal_person_idcard_back_url_msg, business_license_url_msg, org_code_certificate_url_msg, 
+    tax_registration_certificate_url_msg, unified_social_credit_code_msg, unified_social_credit_code_url_msg, 
+    company_name, legal_person, reg_time, contact_name, contact_mobile_num, business_license, 
+    org_code_certificate, tax_registration_certificate, new_business_license, business_license_expire_time, 
+    email, legal_person_authority_book, project_scope, description, website, logo, short_name, 
+    registered_capital, business_scope, address, legal_person_idcard, legal_person_idcard_front_url, 
+    legal_person_idcard_back_url, business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
     unified_social_credit_code, unified_social_credit_code_url, audit_status, insert_time, 
     auditor, audit_time
   </sql>
@@ -58,7 +92,19 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCertificateAduit" >
-    insert into t_qyzz_bidder_certificate_aduit (id, bidder_certicate_id, company_name, 
+    insert into t_qyzz_bidder_certificate_aduit (id, bidder_certicate_id, company_name_msg, 
+      legal_person_msg, reg_time_msg, contact_name_msg, 
+      contact_mobile_num_msg, business_license_msg, 
+      org_code_certificate_msg, tax_registration_certificate_msg, 
+      new_business_license_msg, business_license_expire_time_msg, 
+      email_msg, legal_person_authority_book_msg, 
+      project_scope_msg, description_msg, website_msg, 
+      logo_msg, short_name_msg, registered_capital_msg, 
+      business_scope_msg, address_msg, legal_person_idcard_msg, 
+      legal_person_idcard_front_url_msg, legal_person_idcard_back_url_msg, 
+      business_license_url_msg, org_code_certificate_url_msg, 
+      tax_registration_certificate_url_msg, unified_social_credit_code_msg, 
+      unified_social_credit_code_url_msg, company_name, 
       legal_person, reg_time, contact_name, 
       contact_mobile_num, business_license, org_code_certificate, 
       tax_registration_certificate, new_business_license, 
@@ -72,7 +118,19 @@
       unified_social_credit_code_url, audit_status, 
       insert_time, auditor, audit_time
       )
-    values (#{id,jdbcType=INTEGER}, #{bidderCerticateId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{bidderCerticateId,jdbcType=INTEGER}, #{companyNameMsg,jdbcType=VARCHAR}, 
+      #{legalPersonMsg,jdbcType=VARCHAR}, #{regTimeMsg,jdbcType=VARCHAR}, #{contactNameMsg,jdbcType=VARCHAR}, 
+      #{contactMobileNumMsg,jdbcType=VARCHAR}, #{businessLicenseMsg,jdbcType=VARCHAR}, 
+      #{orgCodeCertificateMsg,jdbcType=VARCHAR}, #{taxRegistrationCertificateMsg,jdbcType=VARCHAR}, 
+      #{newBusinessLicenseMsg,jdbcType=VARCHAR}, #{businessLicenseExpireTimeMsg,jdbcType=VARCHAR}, 
+      #{emailMsg,jdbcType=VARCHAR}, #{legalPersonAuthorityBookMsg,jdbcType=VARCHAR}, 
+      #{projectScopeMsg,jdbcType=VARCHAR}, #{descriptionMsg,jdbcType=VARCHAR}, #{websiteMsg,jdbcType=VARCHAR}, 
+      #{logoMsg,jdbcType=VARCHAR}, #{shortNameMsg,jdbcType=VARCHAR}, #{registeredCapitalMsg,jdbcType=VARCHAR}, 
+      #{businessScopeMsg,jdbcType=VARCHAR}, #{addressMsg,jdbcType=VARCHAR}, #{legalPersonIdcardMsg,jdbcType=VARCHAR}, 
+      #{legalPersonIdcardFrontUrlMsg,jdbcType=VARCHAR}, #{legalPersonIdcardBackUrlMsg,jdbcType=VARCHAR}, 
+      #{businessLicenseUrlMsg,jdbcType=VARCHAR}, #{orgCodeCertificateUrlMsg,jdbcType=VARCHAR}, 
+      #{taxRegistrationCertificateUrlMsg,jdbcType=VARCHAR}, #{unifiedSocialCreditCodeMsg,jdbcType=VARCHAR}, 
+      #{unifiedSocialCreditCodeUrlMsg,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
       #{legalPerson,jdbcType=VARCHAR}, #{regTime,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
       #{contactMobileNum,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{orgCodeCertificate,jdbcType=VARCHAR}, 
       #{taxRegistrationCertificate,jdbcType=VARCHAR}, #{newBusinessLicense,jdbcType=VARCHAR}, 
@@ -95,6 +153,90 @@
       </if>
       <if test="bidderCerticateId != null" >
         bidder_certicate_id,
+      </if>
+      <if test="companyNameMsg != null" >
+        company_name_msg,
+      </if>
+      <if test="legalPersonMsg != null" >
+        legal_person_msg,
+      </if>
+      <if test="regTimeMsg != null" >
+        reg_time_msg,
+      </if>
+      <if test="contactNameMsg != null" >
+        contact_name_msg,
+      </if>
+      <if test="contactMobileNumMsg != null" >
+        contact_mobile_num_msg,
+      </if>
+      <if test="businessLicenseMsg != null" >
+        business_license_msg,
+      </if>
+      <if test="orgCodeCertificateMsg != null" >
+        org_code_certificate_msg,
+      </if>
+      <if test="taxRegistrationCertificateMsg != null" >
+        tax_registration_certificate_msg,
+      </if>
+      <if test="newBusinessLicenseMsg != null" >
+        new_business_license_msg,
+      </if>
+      <if test="businessLicenseExpireTimeMsg != null" >
+        business_license_expire_time_msg,
+      </if>
+      <if test="emailMsg != null" >
+        email_msg,
+      </if>
+      <if test="legalPersonAuthorityBookMsg != null" >
+        legal_person_authority_book_msg,
+      </if>
+      <if test="projectScopeMsg != null" >
+        project_scope_msg,
+      </if>
+      <if test="descriptionMsg != null" >
+        description_msg,
+      </if>
+      <if test="websiteMsg != null" >
+        website_msg,
+      </if>
+      <if test="logoMsg != null" >
+        logo_msg,
+      </if>
+      <if test="shortNameMsg != null" >
+        short_name_msg,
+      </if>
+      <if test="registeredCapitalMsg != null" >
+        registered_capital_msg,
+      </if>
+      <if test="businessScopeMsg != null" >
+        business_scope_msg,
+      </if>
+      <if test="addressMsg != null" >
+        address_msg,
+      </if>
+      <if test="legalPersonIdcardMsg != null" >
+        legal_person_idcard_msg,
+      </if>
+      <if test="legalPersonIdcardFrontUrlMsg != null" >
+        legal_person_idcard_front_url_msg,
+      </if>
+      <if test="legalPersonIdcardBackUrlMsg != null" >
+        legal_person_idcard_back_url_msg,
+      </if>
+      <if test="businessLicenseUrlMsg != null" >
+        business_license_url_msg,
+      </if>
+      <if test="orgCodeCertificateUrlMsg != null" >
+        org_code_certificate_url_msg,
+      </if>
+      <if test="taxRegistrationCertificateUrlMsg != null" >
+        tax_registration_certificate_url_msg,
+      </if>
+      <if test="unifiedSocialCreditCodeMsg != null" >
+        unified_social_credit_code_msg,
+      </if>
+      <if test="unifiedSocialCreditCodeUrlMsg != null" >
+        unified_social_credit_code_url_msg,
       </if>
       <if test="companyName != null" >
         company_name,
@@ -200,6 +342,90 @@
       <if test="bidderCerticateId != null" >
         #{bidderCerticateId,jdbcType=INTEGER},
       </if>
+      <if test="companyNameMsg != null" >
+        #{companyNameMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonMsg != null" >
+        #{legalPersonMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="regTimeMsg != null" >
+        #{regTimeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNameMsg != null" >
+        #{contactNameMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobileNumMsg != null" >
+        #{contactMobileNumMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseMsg != null" >
+        #{businessLicenseMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificateMsg != null" >
+        #{orgCodeCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateMsg != null" >
+        #{taxRegistrationCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="newBusinessLicenseMsg != null" >
+        #{newBusinessLicenseMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseExpireTimeMsg != null" >
+        #{businessLicenseExpireTimeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="emailMsg != null" >
+        #{emailMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonAuthorityBookMsg != null" >
+        #{legalPersonAuthorityBookMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScopeMsg != null" >
+        #{projectScopeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="descriptionMsg != null" >
+        #{descriptionMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="websiteMsg != null" >
+        #{websiteMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="logoMsg != null" >
+        #{logoMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="shortNameMsg != null" >
+        #{shortNameMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapitalMsg != null" >
+        #{registeredCapitalMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScopeMsg != null" >
+        #{businessScopeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="addressMsg != null" >
+        #{addressMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardMsg != null" >
+        #{legalPersonIdcardMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardFrontUrlMsg != null" >
+        #{legalPersonIdcardFrontUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardBackUrlMsg != null" >
+        #{legalPersonIdcardBackUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseUrlMsg != null" >
+        #{businessLicenseUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificateUrlMsg != null" >
+        #{orgCodeCertificateUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrlMsg != null" >
+        #{taxRegistrationCertificateUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCodeMsg != null" >
+        #{unifiedSocialCreditCodeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCodeUrlMsg != null" >
+        #{unifiedSocialCreditCodeUrlMsg,jdbcType=VARCHAR},
+      </if>
       <if test="companyName != null" >
         #{companyName,jdbcType=VARCHAR},
       </if>
@@ -304,6 +530,90 @@
       <if test="bidderCerticateId != null" >
         bidder_certicate_id = #{bidderCerticateId,jdbcType=INTEGER},
       </if>
+      <if test="companyNameMsg != null" >
+        company_name_msg = #{companyNameMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonMsg != null" >
+        legal_person_msg = #{legalPersonMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="regTimeMsg != null" >
+        reg_time_msg = #{regTimeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNameMsg != null" >
+        contact_name_msg = #{contactNameMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobileNumMsg != null" >
+        contact_mobile_num_msg = #{contactMobileNumMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseMsg != null" >
+        business_license_msg = #{businessLicenseMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificateMsg != null" >
+        org_code_certificate_msg = #{orgCodeCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateMsg != null" >
+        tax_registration_certificate_msg = #{taxRegistrationCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="newBusinessLicenseMsg != null" >
+        new_business_license_msg = #{newBusinessLicenseMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseExpireTimeMsg != null" >
+        business_license_expire_time_msg = #{businessLicenseExpireTimeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="emailMsg != null" >
+        email_msg = #{emailMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonAuthorityBookMsg != null" >
+        legal_person_authority_book_msg = #{legalPersonAuthorityBookMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScopeMsg != null" >
+        project_scope_msg = #{projectScopeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="descriptionMsg != null" >
+        description_msg = #{descriptionMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="websiteMsg != null" >
+        website_msg = #{websiteMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="logoMsg != null" >
+        logo_msg = #{logoMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="shortNameMsg != null" >
+        short_name_msg = #{shortNameMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapitalMsg != null" >
+        registered_capital_msg = #{registeredCapitalMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScopeMsg != null" >
+        business_scope_msg = #{businessScopeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="addressMsg != null" >
+        address_msg = #{addressMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardMsg != null" >
+        legal_person_idcard_msg = #{legalPersonIdcardMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardFrontUrlMsg != null" >
+        legal_person_idcard_front_url_msg = #{legalPersonIdcardFrontUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardBackUrlMsg != null" >
+        legal_person_idcard_back_url_msg = #{legalPersonIdcardBackUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseUrlMsg != null" >
+        business_license_url_msg = #{businessLicenseUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificateUrlMsg != null" >
+        org_code_certificate_url_msg = #{orgCodeCertificateUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrlMsg != null" >
+        tax_registration_certificate_url_msg = #{taxRegistrationCertificateUrlMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCodeMsg != null" >
+        unified_social_credit_code_msg = #{unifiedSocialCreditCodeMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCodeUrlMsg != null" >
+        unified_social_credit_code_url_msg = #{unifiedSocialCreditCodeUrlMsg,jdbcType=VARCHAR},
+      </if>
       <if test="companyName != null" >
         company_name = #{companyName,jdbcType=VARCHAR},
       </if>
@@ -406,6 +716,34 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidderCertificateAduit" >
     update t_qyzz_bidder_certificate_aduit
     set bidder_certicate_id = #{bidderCerticateId,jdbcType=INTEGER},
+      company_name_msg = #{companyNameMsg,jdbcType=VARCHAR},
+      legal_person_msg = #{legalPersonMsg,jdbcType=VARCHAR},
+      reg_time_msg = #{regTimeMsg,jdbcType=VARCHAR},
+      contact_name_msg = #{contactNameMsg,jdbcType=VARCHAR},
+      contact_mobile_num_msg = #{contactMobileNumMsg,jdbcType=VARCHAR},
+      business_license_msg = #{businessLicenseMsg,jdbcType=VARCHAR},
+      org_code_certificate_msg = #{orgCodeCertificateMsg,jdbcType=VARCHAR},
+      tax_registration_certificate_msg = #{taxRegistrationCertificateMsg,jdbcType=VARCHAR},
+      new_business_license_msg = #{newBusinessLicenseMsg,jdbcType=VARCHAR},
+      business_license_expire_time_msg = #{businessLicenseExpireTimeMsg,jdbcType=VARCHAR},
+      email_msg = #{emailMsg,jdbcType=VARCHAR},
+      legal_person_authority_book_msg = #{legalPersonAuthorityBookMsg,jdbcType=VARCHAR},
+      project_scope_msg = #{projectScopeMsg,jdbcType=VARCHAR},
+      description_msg = #{descriptionMsg,jdbcType=VARCHAR},
+      website_msg = #{websiteMsg,jdbcType=VARCHAR},
+      logo_msg = #{logoMsg,jdbcType=VARCHAR},
+      short_name_msg = #{shortNameMsg,jdbcType=VARCHAR},
+      registered_capital_msg = #{registeredCapitalMsg,jdbcType=VARCHAR},
+      business_scope_msg = #{businessScopeMsg,jdbcType=VARCHAR},
+      address_msg = #{addressMsg,jdbcType=VARCHAR},
+      legal_person_idcard_msg = #{legalPersonIdcardMsg,jdbcType=VARCHAR},
+      legal_person_idcard_front_url_msg = #{legalPersonIdcardFrontUrlMsg,jdbcType=VARCHAR},
+      legal_person_idcard_back_url_msg = #{legalPersonIdcardBackUrlMsg,jdbcType=VARCHAR},
+      business_license_url_msg = #{businessLicenseUrlMsg,jdbcType=VARCHAR},
+      org_code_certificate_url_msg = #{orgCodeCertificateUrlMsg,jdbcType=VARCHAR},
+      tax_registration_certificate_url_msg = #{taxRegistrationCertificateUrlMsg,jdbcType=VARCHAR},
+      unified_social_credit_code_msg = #{unifiedSocialCreditCodeMsg,jdbcType=VARCHAR},
+      unified_social_credit_code_url_msg = #{unifiedSocialCreditCodeUrlMsg,jdbcType=VARCHAR},
       company_name = #{companyName,jdbcType=VARCHAR},
       legal_person = #{legalPerson,jdbcType=VARCHAR},
       reg_time = #{regTime,jdbcType=VARCHAR},

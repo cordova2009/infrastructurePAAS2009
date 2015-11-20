@@ -13,12 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
+import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
+import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
+import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
@@ -44,6 +47,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Autowired
 	protected BidderCertificateAduitMapper bidderCertificateAduitDao;
 	@Autowired
+	protected BidderBankCardCerticateMapper bbccDao;
+	@Autowired
 	protected UserBankcardMapper userBankcardDao;
 	@Autowired
 	protected BidderCreditMapper bidderCreditDao;
@@ -68,15 +73,19 @@ public class MyBidderServiceImpl implements MyBidderService {
 	public BidderBaseInfo getBaseInfo_apply(Token token) throws BusinessException {
 		// TODO Auto-generated method stub
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
-		
 		BidderBaseInfo baseInfo = new BidderBaseInfo();
-		baseInfo.setLogoUrl(aa.getLogo());
-		baseInfo.setCompanyName(aa.getCompanyName());
-		baseInfo.setShortName(aa.getShortName());
-		baseInfo.setDescription(aa.getDescription());
-		baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
-		baseInfo.setTelephone(aa.getContactMobileNum());
-		baseInfo.setEmail(aa.getEmail());
+		
+		if(aa !=null){
+			baseInfo.setLogoUrl(aa.getLogo());
+			baseInfo.setCompanyName(aa.getCompanyName());
+			baseInfo.setShortName(aa.getShortName());
+			baseInfo.setDescription(aa.getDescription());
+			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
+			baseInfo.setTelephone(aa.getContactMobileNum());
+			baseInfo.setEmail(aa.getEmail());
+		}
+		
+		
 		
 		return baseInfo;
 		
@@ -95,11 +104,14 @@ public class MyBidderServiceImpl implements MyBidderService {
 //	        "authorityBookUrl":""
 //	    }
 		BidderLegalPerson legalPerson = new BidderLegalPerson();
-		legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
-		legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-		legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
-		legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
-		legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+		if(aa !=null){
+			legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
+			legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
+			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
+			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
+			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+		}
+		
 		
 		return legalPerson;
 	}
@@ -141,19 +153,23 @@ public class MyBidderServiceImpl implements MyBidderService {
 //		registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
 //		registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
 		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
-		registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
-		registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
-		registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
-		registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
-		registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
-		registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
-		registeredInfo.setBusinessScope(aa.getBusinessScope());
-		registeredInfo.setRegTime(aa.getRegTime());
-		registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
-		registeredInfo.setAddress(aa.getAddress());
-		registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
-		registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
-		registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+		if(aa != null){
+			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+			registeredInfo.setBusinessScope(aa.getBusinessScope());
+			registeredInfo.setRegTime(aa.getRegTime());
+			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+			registeredInfo.setAddress(aa.getAddress());
+			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
+			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+			
+		}
+		
 		
 		return registeredInfo;
 	}
@@ -162,7 +178,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	public BidderBankInfo getBankInfo_apply(Token token) throws BusinessException {
 		// TODO Auto-generated method stub
 
-		List<UserBankcard> aa = userBankcardDao.selectBidderBankInfoByToken(token.getToken());
+		List<BidderBankCardCerticate> aa = bbccDao.selectBidderBankInfoByToken(token.getToken());
 //		Map bankInfo= new HashMap();
 //		"bankInfo":{ 
 //	        "bank":"招商银行深圳支行",
@@ -199,12 +215,15 @@ public class MyBidderServiceImpl implements MyBidderService {
 					String registered_capital = baseInfo.getRegisteredCapital();
 					String telephone = baseInfo.getTelephone();
 					String email = baseInfo.getEmail();
+					String logo = baseInfo.getLogoUrl();
+					bidder.setUserId(token.getUserId());
 					bidder.setCompanyName(company_name);
 					bidder.setShortName(short_name);
 					bidder.setDescription(description);
 					bidder.setRegisteredCapital(registered_capital);
 					bidder.setContactMobileNum(telephone);
 					bidder.setEmail(email);
+					bidder.setLogo(logo);
 					
 				}
 			
@@ -218,12 +237,14 @@ public class MyBidderServiceImpl implements MyBidderService {
 					String registered_capital = baseInfo.getRegisteredCapital();
 					String telephone = baseInfo.getTelephone();
 					String email = baseInfo.getEmail();
+					String logo = baseInfo.getLogoUrl();
 					bidder.setCompanyName(company_name);
 					bidder.setShortName(short_name);
 					bidder.setDescription(description);
 					bidder.setRegisteredCapital(registered_capital);
 					bidder.setContactMobileNum(telephone);
 					bidder.setEmail(email);
+					bidder.setLogo(logo);
 					
 				}
 				i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
@@ -321,14 +342,14 @@ public class MyBidderServiceImpl implements MyBidderService {
 				
 				bidder.setBusinessLicenseType(businessLicenseType);
 				
-				if("NEW3".equalsIgnoreCase(businessLicenseType)){
+				if("NEW".equalsIgnoreCase(businessLicenseType)){
 					
 					bidder.setUnifiedSocialCreditCode(newBusinessLicenseNum);
 					bidder.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
 					bidder.setNewBusinessLicense(newBusinessLicenseNum);
 					/*bidder.setBusinessLicense(newBusinessLicenseNum);
 					bidder.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
-				}else if("OLD3".equalsIgnoreCase(businessLicenseType)){
+				}else if("OLD".equalsIgnoreCase(businessLicenseType)){
 					bidder.setBusinessLicense(businessLicenseNum);
 					bidder.setBusinessLicenseUrl(businessLicenseUrl);
 					bidder.setTaxRegistrationCertificate(taxRegistrationNum);
@@ -340,8 +361,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 				bidder.setBusinessScope(businessScope);
 				bidder.setAddress(address);
 				
-				bidder.setRegTime(DateUtil.parseDateToTimestamp(regTime, "yyyy-MM-dd HH:mm:ss"));
-				bidder.setBusinessLicenseExpireTime(DateUtil.parseDateToTimestamp(businessLicenseExpireTime, "yyyy-MM-dd HH:mm:ss"));
+				bidder.setRegTime(regTime);
+				bidder.setBusinessLicenseExpireTime(businessLicenseExpireTime);
 			}	
 			if(bidder==null && bidder.getId()==null){
 				//bidder=new BidderCerticate();
@@ -362,8 +383,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 		
 		int i= 0;
 		if(token.getUserId() != null){
-			List<UserBankcard> banks=userBankcardDao.selectBidderBankInfoByToken(token.getToken());
-			UserBankcard b =new UserBankcard();
+			List<BidderBankCardCerticate> banks = bbccDao.selectBidderBankInfoByToken(token.getToken());
+			BidderBankCardCerticate b =new BidderBankCardCerticate();
 			
 			if(banks!= null && banks.size()>0){
 				 b = banks.get(0);
@@ -374,16 +395,16 @@ public class MyBidderServiceImpl implements MyBidderService {
 					 b.setAccountName(bankInfo.getAccountName());
 				 }
 				
-				i = userBankcardDao.updateByPrimaryKeySelective(b);
+				i = bbccDao.updateByPrimaryKeySelective(b);
 
 			}else{
 				 if(bankInfo !=null){
-						
+					 b.setUserId(token.getUserId());
 					 b.setBankName(bankInfo.getBank());
 					 b.setAccountNo(bankInfo.getAccountId());
 					 b.setAccountName(bankInfo.getAccountName());
 				 }
-				i = userBankcardDao.insertSelective(b);
+				i = bbccDao.insertSelective(b);
 			}
 		}
 		return i;

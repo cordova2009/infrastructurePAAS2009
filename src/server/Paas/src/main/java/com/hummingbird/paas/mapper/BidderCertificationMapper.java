@@ -1,5 +1,8 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import com.hummingbird.paas.entity.BiddeeCertification;
 import com.hummingbird.paas.entity.BidderCertification;
 import com.hummingbird.paas.vo.BidderEqInfo;
 
@@ -18,12 +21,25 @@ public interface BidderCertificationMapper {
      * 保存属性不为空的记录
      */
     int insertSelective(BidderCertification record);
+    
+    /**
+     * 审核通过   保存审核表的数据到正式表  
+     */
+    int insertSelectiveByCertificationIdSuccess(Integer bidderId);
+    /**
+     * 审核通过   更新审核表的数据到正式表  
+     */
+    int updateByCertificationIdSuccess(Integer bidderId);
 
     /**
      * 根据主键查询记录
      */
     BidderCertification selectByPrimaryKey(Integer id);
    
+    /**
+     * 根据bidderId查询记录
+     */
+    List<BidderCertification> selectByBidderId(Integer bidderId);
 
     /**
      * 根据主键更新属性不为空的记录

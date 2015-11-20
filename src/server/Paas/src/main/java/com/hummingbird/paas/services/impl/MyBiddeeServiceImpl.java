@@ -20,6 +20,7 @@ import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
 import com.hummingbird.paas.entity.BiddeeCerticate;
@@ -227,6 +228,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
+			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 			if(biddee==null){
 				biddee=new BiddeeCerticate();
 				if(baseInfo!= null){
@@ -284,6 +286,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
         int i = 0;
 		if(token.getUserId()!=null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
+			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 			if(biddee==null){
 				biddee=new BiddeeCerticate();
 				if(legalPerson!= null){
@@ -342,6 +345,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
+			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 			if(registeredInfo!= null){
 				
 				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();
@@ -443,17 +447,11 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
-			if(biddee==null){
-				if(log.isDebugEnabled()){
-					log.debug("未找到相应记录 ,请先填写基本信息!");
-				}
-				}else{
-					biddee.setStatus("OK#");//修改状态为已认证
-					i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
-				}
-			
-				
-				i = biddeeCerticateDao.insertSelective(biddee);
+			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
+	
+			biddee.setStatus("OK#");//修改状态为已认证
+			i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
+		
 			}
 			return i;
 	
@@ -480,7 +478,11 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //		baseInfoCheck.getCompany_name().getResult()
 		BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
 		BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByPrimaryKey(biddeeId);
-		if(bc!= null){
+
+		ValidateUtil.assertNull(bc, "未找到招标人资质申请数据！");
+		if(bca == null){
+			bca = new BiddeeCertificateAduit();
+		}
 			//审核通过 
 			if(flag){
 //				1.插入招标人正式表
@@ -500,22 +502,37 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				}
 				
 //				3.插入开户行正式表 信息
-//				List<UserBankcard> ubcs = userBankcardDao.sel
-				userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
+				List<UserBankcard> ubcs = userBankcardDao.selectBiddeeBankInfoByUserId(bc.getUserId());
+				if(ubcs != null | ubcs.size()==0){
+					userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
+				}else{
+					userBankcardDao.updateBiddeeBankInfo(bc.getUserId());
+				}
+				bca.setAuditStatus("OK#");
 				
 			}else{//审核不通过
+				bca.setAuditStatus("FLS");
 				
 			}
 //			4.插入审核信息
 			
-			bca = new BiddeeCertificateAduit();
 			bca = this.getBiddeeCertificateAduitInfo(body.getBaseInfoCheck(), bca);
 			bca = getBiddeeCertificateAduitInfo(body.getLegalPersonCheck(), bca);
 			bca = getBiddeeCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
-			biddeeCertificateAduitDao.insert(bca);
-		}else{
-			log.error("未找到资质申请数据！");
-		}
+			bca.setBiddeeCerticateId(biddeeId);
+			bca.setAuditor(bc.getUserId());
+			bca.setAuditTime(new Date());
+			if(bca==null){
+				
+				bca.setInsertTime(new Date());//首次插入时间
+				biddeeCertificateAduitDao.insert(bca);
+			}else{
+				
+				biddeeCertificateAduitDao.updateByPrimaryKey(bca);
+			}
+
+			
+		
 		
 //		bc = getBiddeeCertificateAduitInfo(obj, bc)
 //		BiddeeCertificateAduit bc = this.getBiddeeCertificateAduitInfo(obj, bc);
@@ -524,7 +541,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	}
 	
 	/**
-	 *	采用反射  循环遍历所有字段    插入表
+	 *	采用反射  循环遍历所有传过来的字段    插入表
 	 * @author YJY
 	 * @since  2015年11月18日15:18:55
 	 * @param T
@@ -553,7 +570,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 							//动态set方法  result 
 							String name = cu.underlineToCamel2(field.getName());
 							System.out.println("转换后的字段名"+name);
-							rpd = new PropertyDescriptor(field.getName(),
+							rpd = new PropertyDescriptor(name,
 									bc.getClass());
 				            	Method setresultMethod = rpd.getWriteMethod();//获得set方法
 								Object rm =  setresultMethod.invoke(bc,mm.getResult());  //执行set 
@@ -616,7 +633,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 							}
 							System.out.println(o.getClass().getName());
 						}
-						System.out.println(o.getClass().getName());
+//						System.out.println(o.getClass().getName());
 					}
 					
 					

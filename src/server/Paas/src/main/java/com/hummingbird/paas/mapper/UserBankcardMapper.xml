@@ -15,17 +15,17 @@
   <sql id="Base_Column_List" >
     id, user, user_id, bank_name, bank_branch_name, account_no, province, city, account_name
   </sql>
-  <select id="selectBiddeeBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectBiddeeBankInfoByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_user_bankcard a inner join t_user_token b on a.user_id = b.userId
-    where  b.token = #{token,jdbcType=VARCHAR} and a.user = 'BEE'
+    from t_user_bankcard 
+     where  user_id = #{userId,jdbcType=VARCHAR} and user = 'BEE'
   </select>
-   <select id="selectBidderBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   <select id="selectBidderBankInfoByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_user_bankcard a inner join t_user_token b on a.user_id = b.userId
-    where  b.token = #{token,jdbcType=VARCHAR} and a.user = 'BER'
+    from t_user_bankcard 
+    where  user_id = #{userId,jdbcType=VARCHAR} and user = 'BER'
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

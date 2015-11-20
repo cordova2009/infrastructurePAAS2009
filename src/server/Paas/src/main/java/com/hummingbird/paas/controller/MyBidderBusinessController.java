@@ -38,6 +38,7 @@ import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -58,6 +59,9 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.vo.BidderAuditInfoVO;
+import com.hummingbird.paas.vo.BidderBaseInfoCheck;
+import com.hummingbird.paas.vo.BidderAuditInfoVO;
 import com.hummingbird.paas.vo.BidderAuthInfo;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
@@ -1039,6 +1043,65 @@ public class MyBidderBusinessController extends BaseController  {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
+//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(e1.getMessage());
+		}
+		return rm;
+	}  
+	
+	/**
+	 * 投标人认证审核接口
+	 * @author YJY
+	 * @since 2015-11-18 16:48:09
+	 * @return
+	 */
+	@RequestMapping(value="/checkApplication",method=RequestMethod.POST)
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
+//		int basecode = 2341210;//待定
+		String messagebase = "提交投标人认证审核结果";
+		BidderAuditInfoVO transorder = null;
+		ResultModel rm = new ResultModel();
+//		rm.setBaseErrorCode(basecode);
+		try {
+			String jsonstr  = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BidderAuditInfoVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数异常"));
+			return rm;
+		}
+		rm.setErrmsg(messagebase + "成功");
+		RequestEvent qe=null ;		
+		AppLog rnr = new AppLog();
+		rnr.setAppid(transorder.getApp().getAppId());
+		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+		rnr.setInserttime(new Date());
+		rnr.setMethod("/myBidder/authInfo/checkApplication");
+		
+		
+		try {
+			boolean flag = false;
+			BidderBaseInfoCheck bic = transorder.getBody().getBaseInfoCheck();
+			
+			ValidateUtil.assertNull(bic, "参数baseInfoCheck不能为空!");
+			ValidateUtil.assertNull(bic.getBidder_id(), "参数bidder_id不能为空!");
+			
+			flag = myBidderService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBidder_id());
+				
+		
+//				int i= 0;
+//				
+//				i= myBidderService.applay(transorder.getApp().getAppId(), token);
+//				if(i<= 0){
+//					rm.setErrmsg("数据未修改！");
+//				}else{
+//					rm.setErrmsg(messagebase + "成功");
+//				}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

@@ -38,6 +38,7 @@ import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -948,7 +949,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
 //		int basecode = 2341210;//待定
-		String messagebase = "提交投标人认证申请";
+		String messagebase = "提交招标人认证审核结果";
 		BiddeeAuditInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
 //		rm.setBaseErrorCode(basecode);
@@ -973,12 +974,12 @@ public class MyBiddeeBusinessController extends BaseController  {
 		try {
 			boolean flag = false;
 			BiddeeBaseInfoCheck bic = transorder.getBody().getBaseInfoCheck();
-			if(bic!=null && bic.getBiddee_id() != null){
-				 flag = myBiddeeService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBiddee_id());
+			
+			ValidateUtil.assertNull(bic, "参数baseInfoCheck不能为空!");
+			ValidateUtil.assertNull(bic.getBiddee_id(), "参数bidder_id不能为空!");
+			
+			flag = myBiddeeService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBiddee_id());
 				
-			}else{
-				rm.setErrmsg("参数baseInfoCheck不能为空！");
-			}
 		
 //				int i= 0;
 //				

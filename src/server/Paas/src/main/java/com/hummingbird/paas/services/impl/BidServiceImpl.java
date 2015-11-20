@@ -20,6 +20,7 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.constant.OrderConst;
 import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
@@ -33,6 +34,8 @@ import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -50,8 +53,10 @@ import com.hummingbird.paas.mapper.ProjectInfosMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BidService;
+import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.DetailVO;
+import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_1;
@@ -87,6 +92,7 @@ import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SurveyVO;
+import com.hummingbird.paas.vo.UnfreezeBondVO;
 
 /**
  * @author
@@ -873,6 +879,60 @@ public class BidServiceImpl implements BidService {
 			log.debug("提交撮合投标保证金信息接口完成");
 		}
 	}
+	
+	@Override
+	public FreezeBondReturnVO unfreezeMakeMatchBidderBond(UnfreezeBondVO body, Bidder bidder,
+			String method) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+		//根据orderId查询原来的订单信息
+		MakeMatchBondRecord oldActOrd=mmbrDao.selectByPrimaryKey(body.getOrderId());
+		if(oldActOrd==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据订单号【%s】查询不到原来的订单信息",body.getOrderId()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据订单号【%s】查询不到原来的订单信息",body.getOrderId()));
+			
+		}
+		BidObject object = null;
+		BidRecord bid = validateBid(oldActOrd.getBidId(), oldActOrd.getObjectId(), bidder.getId(), object);
+		
+		List<MakeMatchBondRecord> returnActOrds=mmbrDao.selectReturnByBidId(oldActOrd.getBidId());
+		if(returnActOrds.size()>0){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还",oldActOrd.getBidId()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还",oldActOrd.getBidId()));		
+		}
+		
+		//创建保证金订单
+		Integer objectBond=oldActOrd.getBondAmount();
+		//创建解冻撮合担保金订单
+		MakeMatchBondRecord bondRecord=new MakeMatchBondRecord();
+		String bondorderId=AccountGenerationUtil.genNO("BZ00");
+		bondRecord.setOrderId(bondorderId);
+		bondRecord.setUpdateTime(new Date());
+		bondRecord.setBidId(oldActOrd.getBidId());
+		bondRecord.setCreator(String.valueOf(bidder.getUserId()));
+		bondRecord.setInsertTime(new Date());
+		bondRecord.setObjectId(oldActOrd.getObjectId());
+		bondRecord.setBondAmount(objectBond);
+		bondRecord.setStatus("REV");
+		mmbrDao.insert(bondRecord);
+		// 调用用户资金接口,记录用户资金
+		//组装返回信息
+		FreezeBondReturnVO bond=new FreezeBondReturnVO();
+		/*bond.setAccountId(account.getAccountId());
+		bond.setAmount(objectBond.toString());
+		bond.setBalance(balance.toString());
+		bond.setFlowDirection("IN#");
+		bond.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
+		bond.setOrderId(accountOrderId);
+		bond.setRemark("退还保证金");
+				
+		bond.setType("REV");*/
+		return bond;
+	}
 
 	/**
 	 * 提交投标接口
@@ -899,5 +959,7 @@ public class BidServiceImpl implements BidService {
 			log.debug("提交投标接口完成");
 		}
 	}
+
+	
 
 }

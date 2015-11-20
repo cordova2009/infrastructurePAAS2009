@@ -32,7 +32,6 @@ public interface ProjectEvaluationBiddeeMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectEvaluationBiddee record);
-    
     /**
      * 查询评价次数
      */

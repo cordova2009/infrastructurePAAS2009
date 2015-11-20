@@ -6,16 +6,16 @@ public class FreezeBondReturnVO {
     "accountId":"1234123412341234",
     "type":"见数据库定义",
     "flowDirection":"OUT",
-    "balance":"30000.00",
-    "amount":"20000.00",
+    "balance":30000,
+    "amount":20000,
     "remark":"冻结30000元撮合担保金"
 }*/
 	private String orderId;
 	private String accountId;
 	private String type;
 	private String flowDirection;
-	private String balance;
-	private String amount;
+	private Integer balance;
+	private Integer amount;
 	private String remark;
 	public String getOrderId() {
 		return orderId;
@@ -41,16 +41,17 @@ public class FreezeBondReturnVO {
 	public void setFlowDirection(String flowDirection) {
 		this.flowDirection = flowDirection;
 	}
-	public String getBalance() {
+	
+	public Integer getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(Integer balance) {
 		this.balance = balance;
 	}
-	public String getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 	public String getRemark() {

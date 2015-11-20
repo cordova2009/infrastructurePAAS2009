@@ -9,6 +9,8 @@ import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
@@ -23,6 +25,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.UnfreezeBondVO;
 /**
  * @author 
  * @date 2015-11-13
@@ -154,6 +157,8 @@ public QueryMakeMatchBidderBondBodyVOResult queryMakeMatchBidderBond(String appI
  */
 public void saveMakeMatchBidderBond(String appId, SaveMakeMatchBidderBondBodyVO body,Bidder bidder) throws BusinessException
 ;
+
+	public FreezeBondReturnVO unfreezeMakeMatchBidderBond(UnfreezeBondVO body, Bidder bidder,String method)throws BusinessException;
 
 /**
  * 提交投标接口

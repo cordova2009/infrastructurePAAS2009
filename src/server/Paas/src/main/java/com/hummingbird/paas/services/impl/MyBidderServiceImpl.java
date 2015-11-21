@@ -556,7 +556,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 				
 //				2.插入资质证书正式表
 				List<BidderCertification> bcfs  = bcDao.selectByBidderId(bidderId);
-				if(bcfs == null | bcfs.size()==0){
+				if(bcfs == null || bcfs.size()==0){
 					bcDao.insertSelectiveByCertificationIdSuccess(bidderId);
 				}else{
 					bcDao.updateByCertificationIdSuccess(bidderId);
@@ -564,7 +564,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 				
 //				3.插入开户行正式表 信息
 				List<UserBankcard> ubcs = userBankcardDao.selectBidderBankInfoByUserId(bc.getUserId());
-				if(ubcs != null | ubcs.size()==0){
+				if(ubcs != null || ubcs.size()==0){
 					userBankcardDao.insertBidderBankInfo(bc.getUserId());
 				}else{
 					userBankcardDao.updateBidderBankInfo(bc.getUserId());

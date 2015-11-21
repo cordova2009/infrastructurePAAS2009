@@ -495,7 +495,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				
 //				2.插入资质证书正式表
 				List<BiddeeCertification> bcfs  = bcDao.selectByBiddeeId(biddeeId);
-				if(bcfs == null | bcfs.size()==0){
+				if(bcfs == null || bcfs.size()==0){
 					bcDao.insertSelectiveByCertificationIdSuccess(biddeeId);
 				}else{
 					bcDao.updateByCertificationIdSuccess(biddeeId);
@@ -503,7 +503,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				
 //				3.插入开户行正式表 信息
 				List<UserBankcard> ubcs = userBankcardDao.selectBiddeeBankInfoByUserId(bc.getUserId());
-				if(ubcs != null | ubcs.size()==0){
+				if(ubcs != null || ubcs.size()==0){
 					userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
 				}else{
 					userBankcardDao.updateBiddeeBankInfo(bc.getUserId());

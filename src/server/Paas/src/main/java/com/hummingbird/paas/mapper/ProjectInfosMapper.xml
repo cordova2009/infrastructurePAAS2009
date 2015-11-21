@@ -50,16 +50,16 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_ztgl_bid_project_info
+    from t_ztgl_object_project_info
     where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_ztgl_bid_project_info
+    delete from t_ztgl_object_project_info
     where object_id = #{objectId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectInfos" >
-    insert into t_ztgl_bid_project_info (object_id, project_expect_start_date, 
+    insert into t_ztgl_object_project_info (object_id, project_expect_start_date, 
       project_expect_end_date, project_name, project_no, 
       project_situation, project_expect_investment, 
       employer, employer_principal, employer_telephone, 
@@ -91,7 +91,7 @@
       #{buildingPermitUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectInfos" >
-    insert into t_ztgl_bid_project_info
+    insert into t_ztgl_object_project_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
         object_id,
@@ -296,7 +296,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectInfos" >
-    update t_ztgl_bid_project_info
+    update t_ztgl_object_project_info
     <set >
       <if test="projectExpectStartDate != null" >
         project_expect_start_date = #{projectExpectStartDate,jdbcType=VARCHAR},
@@ -398,7 +398,7 @@
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectInfos" >
-    update t_ztgl_bid_project_info
+    update t_ztgl_object_project_info
     set project_expect_start_date = #{projectExpectStartDate,jdbcType=VARCHAR},
       project_expect_end_date = #{projectExpectEndDate,jdbcType=VARCHAR},
       project_name = #{projectName,jdbcType=VARCHAR},

@@ -93,6 +93,19 @@
     where object_status='PUB'
     limit #{begin},#{limit}
   </select>
+   <select id="queryObjectByPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object
+    where object_status='PUB'
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+  </select>
+   <select id="queryObjectCount" resultType="int">
+    select 
+    count(*)
+    from t_ztgl_object
+    where object_status='PUB'
+  </select>
   <select id="getMyObjectProjectPages" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

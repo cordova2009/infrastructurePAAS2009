@@ -17,6 +17,12 @@
     from t_ddgl_member_product_attr
     where product_id = #{productId,jdbcType=VARCHAR}
   </select>
+  <select id="getProductId" resultType="java.lang.String" >
+    select product_id
+    from t_ddgl_member_product_attr
+    where  member_type= #{memberType}
+    and level= #{level}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ddgl_member_product_attr
     where product_id = #{productId,jdbcType=VARCHAR}

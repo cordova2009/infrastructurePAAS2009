@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.ProjectInfo;
 
 public interface ProjectInfoMapper {
@@ -32,4 +34,11 @@ public interface ProjectInfoMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectInfo record);
+    
+    /**
+     * 
+     * @param objectId
+     * @return
+     */
+    List<ProjectInfo> selectByObjectId(String objectId);
 }

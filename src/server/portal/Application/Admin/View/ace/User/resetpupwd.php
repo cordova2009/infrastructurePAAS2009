@@ -40,7 +40,7 @@
 
                     <div class="step-pane" id="step2">
                         <form id="sample-form" class="form-horizontal">
-                            <div class="form-group has-info">
+                            <div class="form-group">
                                 <label class="col-xs-12 col-sm-3 control-label no-padding-right" for="inputInfo">
                                     手机号码
                                 </label>
@@ -52,7 +52,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group has-info">
+                            <div class="form-group">
                                 <label class="col-xs-12 col-sm-3 control-label no-padding-right" for="inputInfo">
                                     身份证号
                                 </label>
@@ -64,7 +64,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group has-info">
+                            <div class="form-group">
                                 <label class="col-xs-12 col-sm-3 control-label no-padding-right" for="inputInfo">
                                     真实姓名
                                 </label>

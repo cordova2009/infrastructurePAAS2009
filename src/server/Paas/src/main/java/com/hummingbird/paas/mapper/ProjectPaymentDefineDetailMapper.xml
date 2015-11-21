@@ -5,30 +5,33 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="project_payment_define_id" property="projectPaymentDefineId" jdbcType="INTEGER" />
     <result column="period" property="period" jdbcType="INTEGER" />
-    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="pay_end_time" property="payEndTime" jdbcType="TIMESTAMP" />
+    <result column="pay_start_time" property="payStartTime" jdbcType="TIMESTAMP" />
     <result column="pay_sum" property="paySum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, project_payment_define_id, period, pay_time, pay_sum
+    id, project_payment_define_id, period, pay_end_time, pay_start_time, pay_sum
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_project_payment_define_detail
+    from t_ztgl_project_payment_define_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_project_payment_define_detail
+    delete from t_ztgl_project_payment_define_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
-    insert into t_project_payment_define_detail (id, project_payment_define_id, period, 
-      pay_time, pay_sum)
+    insert into t_ztgl_project_payment_define_detail (id, project_payment_define_id, period, 
+      pay_end_time, pay_start_time, pay_sum
+      )
     values (#{id,jdbcType=INTEGER}, #{projectPaymentDefineId,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{paySum,jdbcType=INTEGER})
+      #{payEndTime,jdbcType=TIMESTAMP}, #{payStartTime,jdbcType=TIMESTAMP}, #{paySum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
-    insert into t_project_payment_define_detail
+    insert into t_ztgl_project_payment_define_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -39,8 +42,11 @@
       <if test="period != null" >
         period,
       </if>
-      <if test="payTime != null" >
-        pay_time,
+      <if test="payEndTime != null" >
+        pay_end_time,
+      </if>
+      <if test="payStartTime != null" >
+        pay_start_time,
       </if>
       <if test="paySum != null" >
         pay_sum,
@@ -56,8 +62,11 @@
       <if test="period != null" >
         #{period,jdbcType=INTEGER},
       </if>
-      <if test="payTime != null" >
-        #{payTime,jdbcType=TIMESTAMP},
+      <if test="payEndTime != null" >
+        #{payEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStartTime != null" >
+        #{payStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paySum != null" >
         #{paySum,jdbcType=INTEGER},
@@ -65,7 +74,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
-    update t_project_payment_define_detail
+    update t_ztgl_project_payment_define_detail
     <set >
       <if test="projectPaymentDefineId != null" >
         project_payment_define_id = #{projectPaymentDefineId,jdbcType=INTEGER},
@@ -73,8 +82,11 @@
       <if test="period != null" >
         period = #{period,jdbcType=INTEGER},
       </if>
-      <if test="payTime != null" >
-        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      <if test="payEndTime != null" >
+        pay_end_time = #{payEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStartTime != null" >
+        pay_start_time = #{payStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paySum != null" >
         pay_sum = #{paySum,jdbcType=INTEGER},
@@ -83,11 +95,24 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
-    update t_project_payment_define_detail
+    update t_ztgl_project_payment_define_detail
     set project_payment_define_id = #{projectPaymentDefineId,jdbcType=INTEGER},
       period = #{period,jdbcType=INTEGER},
-      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      pay_end_time = #{payEndTime,jdbcType=TIMESTAMP},
+      pay_start_time = #{payStartTime,jdbcType=TIMESTAMP},
       pay_sum = #{paySum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByObjectId" resultMap="BaseResultMap" >
+    select 
+    a.id, a.project_payment_define_id, a.period, a.pay_end_time, a.pay_start_time, a.pay_sum
+    from t_ztgl_project_payment_define_detail as a left join t_ztgl_project_payment_define as b on a.project_payment_define_id=b.id
+    where object_id = #{objectId,jdbcType=INTEGER} and period = #{period,jdbcType=INTEGER}
+  </select>
+  <select id="selectPayByObjectId" resultMap="BaseResultMap" >
+    select 
+    a.id, a.project_payment_define_id, a.period, a.pay_end_time, a.pay_start_time, a.pay_sum
+    from t_ztgl_project_payment_define_detail as a left join t_ztgl_project_payment_define as b on a.project_payment_define_id=b.id
+    where object_id = #{objectId,jdbcType=INTEGER} and period &gt; #{period,jdbcType=INTEGER}
+  </select>
 </mapper>

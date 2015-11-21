@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DESUtil;
+import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.Token;
@@ -19,6 +20,7 @@ import com.hummingbird.paas.entity.UserAuth;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.UserPassword;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ProjectAccountMapper;
 import com.hummingbird.paas.mapper.UserAuthMapper;
@@ -34,57 +36,7 @@ import com.hummingbird.paas.vo.RegisterBodyVO;
 
 @Service
 public class UserServiceImpl implements UserService{
-
-	@Override
-	public User queryUserByMobile(String mobileNum) throws MaAccountException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User queryUserByToken(String token) throws MaAccountException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public Bidder queryBidderByUserId(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserBankcard> queryBankListByUserId(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveUser(RegisterBodyVO body, String appId, String appkey) throws ValidateException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public UserPassword queryUserPassword(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UserAuth queryUserAuth(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateUser(User user) throws MaAccountException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/*org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
+org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
 	
 	@Autowired
@@ -100,10 +52,12 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	BidderMapper bidderDao;
 	@Autowired
+	BiddeeMapper biddeeDao;
+	@Autowired
 	private UserBankcardMapper bankcardDao;
 	@Override
 	public List<UserBankcard> queryBankListByUserId(Integer userId) {
-		// TODO Auto-generated method stub
+		
 		return bankcardDao.queryBankListByUserId(userId);
 	}
 	@Override
@@ -196,36 +150,59 @@ public class UserServiceImpl implements UserService{
 		account.setUserId(userId);
 		AccountValidateUtil.updateAccountSignature(account);
 		proActDao.insert(account);
-		//UserToken createToken = tokensrv.createToken(appId,userId);
 		
 	}
 
 	@Override
 	public Bidder queryBidderByUserId(Integer userId) {
-		// TODO Auto-generated method stub
 		return bidderDao.selectByUserId(userId);
 	}
 
 	@Override
 	public UserPassword queryUserPassword(Integer userId) {
-		// TODO Auto-generated method stub
+	
 		return passwordDao.selectByPrimaryKey(userId);
 	}
 
 	@Override
 	public UserAuth queryUserAuth(Integer userId) {
-		// TODO Auto-generated method stub
+	
 		return userAuthDao.selectByPrimaryKey(userId);
 	}
 	@Override
 	public void updateUser(User user) throws MaAccountException{
-		// TODO Auto-generated method stub
+	
 		int updateUser=userDao.updateByPrimaryKeySelective(user);
 		if(updateUser!=1){
 			throw new MaAccountException(211101,"用户更新失败");
 		}
 	}
+	@Override
+	public Biddee queryBiddeeByUserId(Integer userId) {
+		return biddeeDao.selectByUserId(userId);
+	}
+	@Override
+	public void updateUserPassword(UserPassword password)
+			throws MaAccountException {
+		int updatePassword= passwordDao.updateByPrimaryKeySelective(password);
+		if(updatePassword!=1){
+			throw new MaAccountException(211501,"用户登录密码更新失败");
+		}
+	}
+	@Override
+	public Boolean authPassword(Integer userId, String loginPassword)
+			throws MaAccountException {
+		UserPassword userPassword=passwordDao.selectByPrimaryKey(userId);
+		if(!StringUtils.equals(loginPassword, userPassword.getPassword())){
+			if (log.isDebugEnabled()) {
+				log.debug("原登录密码错误");
+			}
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,"原登录密码错误");
+			
+		}
+		return true;
+	}
 	
-	*/
+	
 
 }

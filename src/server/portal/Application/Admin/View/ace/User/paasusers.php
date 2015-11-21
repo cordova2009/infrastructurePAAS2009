@@ -41,7 +41,7 @@
 					<volist name="_list" id="vo">
 					<tr>
                         <td>
-                            <a title="查看详情" herf="{:U('paasuview?id='.$vo['id'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
+                            <a title="查看详情" href="{:U('paasuview?id='.$vo['id'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
                         </td>
 						<td>{$vo.id} </td>
 						<td><a href="{:U('paasuview',array('id'=>$vo['id']))}">{$vo.mobile_num}</a></td>

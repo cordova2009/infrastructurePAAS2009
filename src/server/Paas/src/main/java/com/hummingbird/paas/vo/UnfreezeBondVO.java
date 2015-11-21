@@ -5,6 +5,21 @@ public class UnfreezeBondVO {
      "orderId":"FREEZEBOND_ORDER_ID"*/
 	private String token;
 	private String orderId;
+	private String objectId;
+	private String remark;
+	
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getObjectId() {
+		return objectId;
+	}
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
 	public String getToken() {
 		return token;
 	}

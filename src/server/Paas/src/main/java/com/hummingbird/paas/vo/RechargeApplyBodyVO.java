@@ -12,7 +12,7 @@ public class RechargeApplyBodyVO {
 	    "voucherFileUrl":"VOCHER_FILE_URL"
 	}*/
 	private String token;
-	private String transferTime;
+	private Date transferTime;
 	private String bankName;
 	private String voucherNo;
 	private Integer amount;
@@ -23,10 +23,11 @@ public class RechargeApplyBodyVO {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public String getTransferTime() {
+	
+	public Date getTransferTime() {
 		return transferTime;
 	}
-	public void setTransferTime(String transferTime) {
+	public void setTransferTime(Date transferTime) {
 		this.transferTime = transferTime;
 	}
 	public String getBankName() {

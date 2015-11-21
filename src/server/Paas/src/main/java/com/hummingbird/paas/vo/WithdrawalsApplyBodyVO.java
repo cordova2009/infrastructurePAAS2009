@@ -2,15 +2,16 @@ package com.hummingbird.paas.vo;
 
 public class WithdrawalsApplyBodyVO {
 	 /*"body":{
-	    "token":"USER_TOKEN",
-	    "amount":100000,
-	    "bankId":23,
-	    "tradePassword":"TRADE_PASSWORD"
-	}*/
+            "token":"USER_TOKEN",
+            "amount":100000,
+            "bankId":"BANK_ID",
+            "tradePassword":"TRADE_PASSWORD"
+        }*/
 	private String token;
 	private Integer amount;
 	private Integer bankId;
 	private String tradePassword;
+	
 	public String getToken() {
 		return token;
 	}

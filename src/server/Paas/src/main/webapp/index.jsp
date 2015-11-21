@@ -102,14 +102,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td><input  value="提交撮合投标保证金信息接口"  onclick='setbinding("/bid/saveMakeMatchBidderBond","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"12345\",            \"bidId\":1,            \"objectId\":\"BH2015082135656\",            \"makeMatchBidderBondAmount\":300000        }    } ")'  type="button" ></td>
 				<td><input  value="提交投标接口"  onclick='setbinding("/bid/submitBid","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"12345\",        \"objectId\":\"BH2015082135656\",        \"bidId\":1        }    } ")'  type="button" ></td>
 				
-				
-				
-				
 	</tr>
 	</tr>
-				<td><input  value="查询招标公告列表接口"  onclick='setbinding("/bid/queryObjectList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"12345\",            \"pageSize\":10,            \"pageIndex\":1        }    } ")'  type="button" ></td>
+				<td><input  value="查询招标公告列表接口"  onclick='setbinding("/bid/queryObjectList"," {\"app\":{\"appId\":\"zjhtwallet\",\"timeStamp\":\"TIMESTAMP\",\"nonce\":\"NONCE\",\"signature\":\"SIGNATURE\"},\"body\":{\"token\":\"12345\",\"pageSize\":12,\"pageIndex\":1}} ")'  type="button" ></td>
 				<td><input  value="查询标的详情接口"  onclick='setbinding("/bid/queryObjectDetail","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"12345\",            \"objectId\":\"BH2015082135656\"        }    } ")'  type="button" ></td>
-				<td><input  value="查询投标资质接口"  onclick='setbinding("/bid/isInvitationOfBid","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"12345\" }    } ")'  type="button" ></td>
+				<td><input  value="查询投标资质接口"  onclick='setbinding("/bid/isInvitationOfBid","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"67890\",\"objectId\":\"BH2015082135656\" }    } ")'  type="button" ></td>
+				<td><input  value="查询投标人资质证书接口"  onclick='setbinding("/bid/queryBidderCertificationInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"67890\",\"objectId\":\"BH2015082135656\" }    } ")'  type="button" ></td>
 	<tr>
 	
 	<tr><td colspan="6">资金管理</td></tr>

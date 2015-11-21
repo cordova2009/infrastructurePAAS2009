@@ -44,7 +44,7 @@ public interface BidRecordMapper {
      */
     int updateByPrimaryKey(BidRecord record);
     /**
-     * 根据主键更新记录
+     * 查询投标的数目,投标的状态应该为OK# ,编制完成
      */
     int selectCountByObjectId(String objectId);
     

@@ -1419,7 +1419,7 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
 		evaluationBiddee.setInsertBy(user.getId().toString());
 		evaluationBiddee.setInsertTime(new Date());
-		evaluationBiddee.setObjectId(body.getObjectId());
+		evaluationBiddee.setProjectId(project.getProjectId());
 		evaluationBiddee.setScore(body.getEvaluateScore());
 		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
 		//标签部分缺少

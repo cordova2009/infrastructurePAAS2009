@@ -929,7 +929,6 @@ public class BidServiceImpl implements BidService {
 		bond.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
 		bond.setOrderId(accountOrderId);
 		bond.setRemark("退还保证金");
-				
 		bond.setType("REV");*/
 		return bond;
 	}

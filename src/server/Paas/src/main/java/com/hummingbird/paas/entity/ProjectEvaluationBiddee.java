@@ -14,7 +14,7 @@ public class ProjectEvaluationBiddee {
     /**
      * 标的id
      */
-    private Integer projectId;
+    private String projectId;
 
     /**
      * 招标方id
@@ -66,22 +66,17 @@ public class ProjectEvaluationBiddee {
         this.id = id;
     }
 
-    /**
-     * @return 标的id
-     */
-    public Integer getProjectId() {
-        return projectId;
-    }
+    public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 
-    /**
-     * @param projectId 
-	 *            标的id
-     */
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
+	
 
-    /**
+    public String getProjectId() {
+		return projectId;
+	}
+
+	/**
      * @return 招标方id
      */
     public Integer getBiddeeId() {

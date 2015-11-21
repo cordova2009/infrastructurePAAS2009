@@ -1,10 +1,6 @@
 package com.hummingbird.paas.vo;
 
 public class FreezeBondBodyVO {
-	 /*"token":"USER_TOKEN",
-     "objectId":"BH20150201321123",
-     "remark":"冻结50000元施工保证金",
-     "tradePassword":"TRADE_PASSWORD"*/
 	private String token;
 	private String type;
 	private Integer sum;

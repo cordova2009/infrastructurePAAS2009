@@ -17,7 +17,7 @@ import com.hummingbird.common.util.http.HttpRequester;
 
 /**
  * @author huangjiej_2
- * 公钥保存�?
+ * 公钥保存
  */
 public class PublicKeyHolder {
 
@@ -70,7 +70,7 @@ public class PublicKeyHolder {
 			if(result==null)
 			{
 				if (log.isDebugEnabled()) {
-					log.debug(String.format("刷新publickey，调用不成功，可能存在网络问题，或�?�地�?不正�?"));
+					log.debug(String.format("刷新publickey，调用不成功，可能存在网络问题，或者地址不正确"));
 				}
 				return false;
 			}

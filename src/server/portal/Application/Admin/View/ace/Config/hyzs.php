@@ -3,7 +3,7 @@
     <style>
         .rule-wrap .form-item{ width: 33.3333%; float: left; text-align: center;}
         .rule-wrap .btnjt{ padding-top: 110px; line-height:40px; }
-        .rule-wrap select{ width: 98%; height: 250px;}
+        .rule-wrap select{ width: 100%; height: 250px;}
     </style>
 </block>
 <block name="body">
@@ -12,7 +12,6 @@
     ?>
     <div class="form-group rule-wrap">
         <div class="col-sm-5">
-            <label class="item-label">未选择</label>
             <div class="controls">
                 <select name="methods" multiple="multiple" id="select-left">
                     <foreach name="plist" item="val" >
@@ -21,20 +20,29 @@
                 </select>
             </div>
         </div>
-        <div class="col-sm-1 btnjt">
-            <button class="btn btn-sm btn-primary" type="button" id="to-left">
-                <i class="icon-double-angle-right"></i>
-                <i class="icon-double-angle-right"></i>
-                <i class="icon-double-angle-right"></i>
-            </button>
-            <button class="btn btn-sm btn-danger" type="button" id="to-right">
-                <i class="icon-double-angle-left"></i>
-                <i class="icon-double-angle-left"></i>
-                <i class="icon-double-angle-left"></i>
-            </button>
+        <div class="col-sm-2 ">
+            <div class="hidden-xs btnjt">
+                <button class="btn btn-block btn-sm btn-primary" type="button" id="to-left">
+                    <i class="icon-arrow-right"></i>
+                    <i class="icon-arrow-right"></i>
+                    <i class="icon-arrow-right"></i>
+                </button>
+                <button class="btn btn-block btn-sm btn-danger" type="button" id="to-right">
+                    <i class="icon-arrow-left"></i>
+                    <i class="icon-arrow-left"></i>
+                    <i class="icon-arrow-left"></i>
+                </button>
+            </div>
+            <div class="hidden-sm hidden-md hidden-lg" style="padding: 20px 30px;">
+                <button class="btn btn-block btn-sm btn-primary" type="button" id="to-left">
+                    <i class="icon-arrow-down"></i>
+                </button>
+                <button class="btn btn-block btn-sm btn-danger" type="button" id="to-right">
+                    <i class="icon-arrow-up"></i>
+                </button>
+            </div>
         </div>
         <div class="col-sm-5">
-            <label class="item-label">已选择</label>
             <div class="controls">
                 <select name="selected[]" multiple="multiple" id="select-right">
                     <foreach name="selected" item="val" >

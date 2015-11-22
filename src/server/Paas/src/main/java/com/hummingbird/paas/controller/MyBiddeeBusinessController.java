@@ -82,8 +82,6 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@Autowired
 	protected BiddeeCertificateAduitMapper biddeeCertificateAduitDao;
 	@Autowired
-	protected UserBankcardMapper userBankcardDao;
-	@Autowired
 	protected BiddeeCreditMapper biddeeCreditDao;
 	@Autowired
 	protected BiddeeBidCreditScoreMapper biddeeBidCreditScoreDao;
@@ -260,38 +258,19 @@ public class MyBiddeeBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBiddee/authInfo/getBaseInfo_apply");
-		
+		BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
 		try {
-			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
-//			 "logoUrl":"LOGO_IMAGE_URL"
-//		            "companyName":"深圳蜂鸟娱乐技术有限公司",
-//		            "shortName":"蜂鸟娱乐",
-//		            "description":"公司简介",
-//		            "registeredCapital":"",
-//		            "telephone":"",
-//		            "email":""
-//			Map baseInfo= new HashMap();
-//			baseInfo.put("logoUrl", aa.getLogo());
-//			baseInfo.put("companyName", aa.getCompanyName());
-//			baseInfo.put("shortName", aa.getShortName());
-//			baseInfo.put("description", aa.getDescription());
-//			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
-//			baseInfo.put("telephone", aa.getContactMobileNum());
-//			baseInfo.put("email", aa.getEmail());
-			
-			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
-			baseInfo.setLogoUrl(aa.getLogo());
-			baseInfo.setCompanyName(aa.getCompanyName());
-			baseInfo.setShortName(aa.getShortName());
-			baseInfo.setDescription(aa.getDescription());
-			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
-			baseInfo.setTelephone(aa.getContactMobileNum());
-			baseInfo.setEmail(aa.getEmail());
-			
+			baseInfo = myBiddeeService.getBaseInfo_apply(token);
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
-			rm.put("baseInfo", baseInfo);
+			rm.put("baseInfo", JsonUtil.convert2Json(baseInfo));
 			
 			
 		}catch (Exception e1) {
@@ -350,32 +329,20 @@ public class MyBiddeeBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBiddee/authInfo/getLegalPersonInfo_apply");
-		
+		BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
 		try {
-			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
-//			"legalPerson":{
-//		        "name":"张三",
-//		        "idCard":"420923199205049230121",
-//		        "idCardfrontUrl":"法人身份证正面地址",
-//		        "idCardBackUrl":"法人身份证反面地址",
-//		        "authorityBookUrl":""
-//		    }
-			BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
-			legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
-			legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
-			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
-			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+			legalPerson = myBiddeeService.getLegalPersonInfo_apply(token);
 			
-//			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson())); 
-//			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-//			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
-//			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
-//			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
-		
-			
-//			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
+//						baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
+//			rm.put("legalPerson", JsonUtil.convert2Json(legalPerson));
+	
 			rm.put("legalPerson", legalPerson);
 			
 			
@@ -435,56 +402,16 @@ public class MyBiddeeBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBiddee/authInfo/getRegisteredInfo_apply");
-		
+		BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
 		try {
-			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			
-//			 "registeredInfo":{
-//		         "businessLicenseNum":"BUSINESS_LICENSE_NUM",
-//		         "":"BUSINESS_LICENSE_URL",
-//		         "taxRegistrationNum":"TAX_REGISTRATION_NUM",
-//		         "taxRegistrationUrl":"TAX_REGISTRATION_URL",
-//		         "organizationCodeNum":"ORGANIZATION_CODE_NUM",
-//		         "organizationCodeUrl":"ORGANIZATION_CODE_URL"
-//		         "businessScope":"经营范围",
-//		         "regTime":"2014-04-05",
-//		         "businessLicenseExpireTime":"10年",
-//		         "address":"",
-//		         "businessLicenseType":"OLD",
-//		         "newBusinessLicenseNum":"",
-//		         "newBusinessLicenseUrl":"",
-//		    }registeredInfo
-			
-//			Map registeredInfo= new HashMap();
-//			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-//			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-//			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-//			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-//			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-//			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-//			registeredInfo.put("businessScope", aa.getBusinessScope());
-//			registeredInfo.put("regTime", aa.getRegTime());
-//			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-//			
-//			registeredInfo.put("address", aa.getAddress());
-//			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-//			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-//			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
-			BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
-			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
-			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
-			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
-			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
-			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
-			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
-			registeredInfo.setBusinessScope(aa.getBusinessScope());
-			registeredInfo.setRegTime(aa.getRegTime());
-			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
-			registeredInfo.setAddress(aa.getAddress());
-			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
-			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
-			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
-			
+			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);	
 			rm.put("registeredInfo", registeredInfo);
 			
 			
@@ -544,27 +471,16 @@ public class MyBiddeeBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBiddee/authInfo/getBankInfo_apply");
-		
+		BiddeeBankInfo bankInfo = new BiddeeBankInfo();
 		try {
-			List<UserBankcard> aa = userBankcardDao.selectBiddeeBankInfoByToken(transorder.getBody().getToken());
-//			Map bankInfo= new HashMap();
-//			"bankInfo":{ 
-//		        "bank":"招商银行深圳支行",
-//		        "accountId":"1234567812345678",
-//		        "accountName":"深圳麦圈互动技术有限公司"
-//		    }
-//			if(aa!=null&&aa.size()>0){
-//				bankInfo.put("bank", aa.get(0).getBankName());
-//				bankInfo.put("accountId", aa.get(0).getAccountNo());
-//				bankInfo.put("accountName", aa.get(0).getAccountName());
-//			}
-			BiddeeBankInfo bankInfo = new BiddeeBankInfo();
-			if(aa!=null&&aa.size()>0){
-				bankInfo.setBank(aa.get(0).getBankName());
-				bankInfo.setAccountId(aa.get(0).getAccountNo());
-				bankInfo.setAccountName(aa.get(0).getAccountName());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
+			bankInfo = myBiddeeService.getBankInfo_apply(token);
 			rm.put("bankInfo", bankInfo);
 			
 			
@@ -624,98 +540,24 @@ public class MyBiddeeBusinessController extends BaseController  {
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/myBiddee/authInfo/getApplication");
-		String token = transorder.getBody().getToken();
+//		String token = transorder.getBody().getToken();
 		try {
-			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token);
-			
-			List<UserBankcard> bb = userBankcardDao.selectBiddeeBankInfoByToken(token);
-			
-//			Map baseInfo= new HashMap();
-//			Map legalPerson= new HashMap();
-//			Map registeredInfo= new HashMap();
-//			Map bankInfo= new HashMap();
-//			
-//			
-//			baseInfo.put("logoUrl", aa.getLogo());
-//			baseInfo.put("companyName", aa.getCompanyName());
-//			baseInfo.put("shortName", aa.getShortName());
-//			baseInfo.put("description", aa.getDescription());
-//			baseInfo.put("registeredCapital", aa.getRegisteredCapital());
-//			baseInfo.put("telephone", aa.getContactMobileNum());
-//			baseInfo.put("email", aa.getEmail());
-//			
-//			
-//			legalPerson.put("name", Md5Util.Encrypt(aa.getLegalPerson()));
-//			legalPerson.put("idCard", Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-//			legalPerson.put("idCardfrontUrl", aa.getLegalPersonIdcardFrontUrl());
-//			legalPerson.put("idCardBackUrl", aa.getLegalPersonIdcardBackUrl());
-//			legalPerson.put("authorityBookUrl", aa.getLegalPersonAuthorityBook());
-//			
-//		
-//			registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-//			registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-//			registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-//			registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-//			registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-//			registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-//			registeredInfo.put("businessScope", aa.getBusinessScope());
-//			registeredInfo.put("regTime", aa.getRegTime());
-//			registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-//			
-//			registeredInfo.put("address", aa.getAddress());
-//			registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-//			registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-//			registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
-			
-			
-//			"bankInfo":{ 
-//		        "bank":"招商银行深圳支行",
-//		        "accountId":"1234567812345678",
-//		        "accountName":"深圳麦圈互动技术有限公司"
-//		    }
-//			if(aa!=null&&bb.size()>0){
-//				bankInfo.put("bank", bb.get(0).getBankName());
-//				bankInfo.put("accountId", bb.get(0).getAccountNo());
-//				bankInfo.put("accountName", bb.get(0).getAccountName());
-//			}
-			//基本信息
-			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
-			baseInfo.setLogoUrl(aa.getLogo());
-			baseInfo.setCompanyName(aa.getCompanyName());
-			baseInfo.setShortName(aa.getShortName());
-			baseInfo.setDescription(aa.getDescription());
-			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
-			baseInfo.setTelephone(aa.getContactMobileNum());
-			baseInfo.setEmail(aa.getEmail());
-			//法人信息
-			BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
-			legalPerson.setName(Md5Util.Encrypt(aa.getLegalPerson()));
-			legalPerson.setIdCard(Md5Util.Encrypt(aa.getLegalPersonIdcard()));
-			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
-			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
-			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
-			//公司注册信息
-			BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
-			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
-			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
-			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
-			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
-			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
-			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
-			registeredInfo.setBusinessScope(aa.getBusinessScope());
-			registeredInfo.setRegTime(aa.getRegTime());
-			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
-			registeredInfo.setAddress(aa.getAddress());
-			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
-			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
-			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
-			//开户行信息
-			BiddeeBankInfo bankInfo = new BiddeeBankInfo();
-			if(bb!=null&&bb.size()>0){
-				bankInfo.setBank(bb.get(0).getBankName());
-				bankInfo.setAccountId(bb.get(0).getAccountNo());
-				bankInfo.setAccountName(bb.get(0).getAccountName());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
+			BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
+			BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
+			BiddeeBankInfo bankInfo = new BiddeeBankInfo();
+			
+			baseInfo = myBiddeeService.getBaseInfo_apply(token);
+			legalPerson = myBiddeeService.getLegalPersonInfo_apply(token);
+			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);
+			bankInfo = myBiddeeService.getBankInfo_apply(token);
+
 			
 			rm.put("baseInfo", baseInfo);
 			rm.put("legalPerson", legalPerson);
@@ -782,62 +624,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 //            "email":""
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		BiddeeBaseInfo baseInfo =  transorder.getBody().getBaseInfo();
-		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token);
-			if(biddee==null){
-				biddee=new BiddeeCerticate();
-				if(baseInfo!= null){
-					String company_name = baseInfo.getCompanyName();
-					String short_name = baseInfo.getShortName();
-					String description = baseInfo.getDescription();
-					String registered_capital = baseInfo.getRegisteredCapital();
-					String telephone = baseInfo.getTelephone();
-					String email = baseInfo.getEmail();
-					biddee.setCompanyName(company_name);
-					biddee.setShortName(short_name);
-					biddee.setDescription(description);
-					biddee.setRegisteredCapital(registered_capital);
-					biddee.setContactMobileNum(telephone);
-					biddee.setEmail(email);
-					
-				}
-			
-				
-				i = biddeeCerticateDao.insertSelective(biddee);
-			}else{
-				if(baseInfo!= null){
-					String company_name = baseInfo.getCompanyName();
-					String short_name = baseInfo.getShortName();
-					String description = baseInfo.getDescription();
-					String registered_capital = baseInfo.getRegisteredCapital();
-					String telephone = baseInfo.getTelephone();
-					String email = baseInfo.getEmail();
-					biddee.setCompanyName(company_name);
-					biddee.setShortName(short_name);
-					biddee.setDescription(description);
-					biddee.setRegisteredCapital(registered_capital);
-					biddee.setContactMobileNum(telephone);
-					biddee.setEmail(email);
-					
-				}
-				i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			int i= 0;
 			
-		}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
-//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
+			i= myBiddeeService.saveBaseInfo_apply(transorder.getApp().getAppId(), transorder.getBody().getBaseInfo(), token);
+
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
+			}else{
+				rm.setErrmsg(messagebase + "成功");
+			}
+			//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -886,64 +688,20 @@ public class MyBiddeeBusinessController extends BaseController  {
 //            "email":""
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		BiddeeLegalPerson legalPerson =  transorder.getBody().getLegalPerson();
-		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token);
-			if(biddee==null){
-				biddee=new BiddeeCerticate();
-				if(legalPerson!= null){
-					String name = legalPerson.getName();
-					String idCard = legalPerson.getIdCard();
-					String idCardfrontUrl = legalPerson.getIdCardfrontUrl();
-					
-					String idCardBackUrl = legalPerson.getIdCardBackUrl();
-					String authorityBookUrl = legalPerson.getAuthorityBookUrl();
-					
-					
-					biddee.setLegalPerson(name);
-					biddee.setLegalPersonIdcard(idCard);
-					biddee.setLegalPersonIdcardFrontUrl(idCardfrontUrl);
-					biddee.setLegalPersonIdcardBackUrl(idCardBackUrl);
-					
-					biddee.setLegalPersonAuthorityBook(authorityBookUrl);
-				}
-			
-				
-				i = biddeeCerticateDao.insertSelective(biddee);
-			}else{
-				if(legalPerson!= null){
-					String name = legalPerson.getName();
-					String idCard =legalPerson.getIdCard();
-					String idCardfrontUrl = legalPerson.getIdCardfrontUrl();
-					
-					String idCardBackUrl = legalPerson.getIdCardBackUrl();
-					String authorityBookUrl = legalPerson.getAuthorityBookUrl();
-					
-					
-					biddee.setLegalPerson(name);
-					biddee.setLegalPersonIdcard(idCard);
-					biddee.setLegalPersonIdcardFrontUrl(idCardfrontUrl);
-					biddee.setLegalPersonIdcardBackUrl(idCardBackUrl);
-					
-					biddee.setLegalPersonAuthorityBook(authorityBookUrl);
-				}
-			
-				i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			int i= 0;
 			
-		}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+			i= myBiddeeService.saveLegalPersonInfo_apply(transorder.getApp().getAppId(), transorder.getBody().getLegalPerson(), token);
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
+			}else{
+				rm.setErrmsg(messagebase + "成功");
+			}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -999,75 +757,21 @@ public class MyBiddeeBusinessController extends BaseController  {
 //       }       
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		BiddeeRegisteredInfo registeredInfo =  transorder.getBody().getRegisteredInfo();
-		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token);
-			if(registeredInfo!= null){
-				
-				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();
-				String businessLicenseUrl = registeredInfo.getBusinessLicenseUrl();
-				String businessLicenseType = registeredInfo.getBusinessLicenseType();
-				String taxRegistrationNum = registeredInfo.getTaxRegistrationNum();
-				String taxRegistrationUrl = registeredInfo.getTaxRegistrationUrl();
-				String organizationCodeNum = registeredInfo.getOrganizationCodeNum();
-				String organizationCodeUrl = registeredInfo.getOrganizationCodeUrl();
-				
-				
-				String newBusinessLicenseNum = registeredInfo.getNewBusinessLicenseNum();
-				String newBusinessLicenseUrl = registeredInfo.getNewBusinessLicenseUrl();
-				String businessScope = registeredInfo.getBusinessScope();
-				String address = registeredInfo.getAddress();
-				Date regTime = registeredInfo.getRegTime();
-				Date businessLicenseExpireTime = registeredInfo.getBusinessLicenseExpireTime();
-				
-				
-				
-				
-				biddee.setBusinessLicenseType(businessLicenseType);
-				
-				if("NEW3".equalsIgnoreCase(businessLicenseType)){
-					
-					biddee.setUnifiedSocialCreditCode(newBusinessLicenseNum);
-					biddee.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
-					biddee.setNewBusinessLicense(newBusinessLicenseNum);
-					/*biddee.setBusinessLicense(newBusinessLicenseNum);
-					biddee.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
-				}else if("OLD3".equalsIgnoreCase(businessLicenseType)){
-					biddee.setBusinessLicense(businessLicenseNum);
-					biddee.setBusinessLicenseUrl(businessLicenseUrl);
-					biddee.setTaxRegistrationCertificate(taxRegistrationNum);
-					biddee.setTaxRegistrationCertificateUrl(taxRegistrationUrl);
-					biddee.setOrgCodeCertificate(organizationCodeNum);
-					biddee.setOrgCodeCertificateUrl(organizationCodeUrl);
+			// 业务数据必填等校验
+				Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+				if (token == null) {
+					log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+					throw new TokenException("token验证失败,或已过期,请重新登录");
 				}
-	
-				biddee.setBusinessScope(businessScope);
-				biddee.setAddress(address);
+				int i= 0;
 				
-				biddee.setRegTime(DateUtil.parseDateToTimestamp(regTime, "yyyy-MM-dd HH:mm:ss"));
-				biddee.setBusinessLicenseExpireTime(DateUtil.parseDateToTimestamp(businessLicenseExpireTime, "yyyy-MM-dd HH:mm:ss"));
-			}
-			if(biddee==null && biddee.getId()==null){
-				//biddee=new BiddeeCerticate();
-				i = biddeeCerticateDao.insertSelective(biddee);
-			}else{
-			
-				i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
-			}
-			
-		}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+				i= myBiddeeService.saveRegisteredInfo(transorder.getApp().getAppId(), transorder.getBody().getRegisteredInfo(), token);
+				if(i<= 0){
+					rm.setErrmsg("数据未修改！");
+				}else{
+					rm.setErrmsg(messagebase + "成功");
+				}
+
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1114,46 +818,21 @@ public class MyBiddeeBusinessController extends BaseController  {
 //        }
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		BiddeeBankInfo bankInfo =  transorder.getBody().getBankInfo();
 		
-		
-		
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			List<UserBankcard> banks=userBankcardDao.selectBiddeeBankInfoByToken(token);
-			UserBankcard b =new UserBankcard();
-			
-			if(banks!= null && banks.size()>0){
-				 b = banks.get(0);
-				 if(bankInfo !=null){
-						
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
-				
-				i = userBankcardDao.updateByPrimaryKeySelective(b);
-
-			}else{
-				 if(bankInfo !=null){
-						
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
-				i = userBankcardDao.insertSelective(b);
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			int i= 0;
 			
-			
-		}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+			i= myBiddeeService.saveBankInfo(transorder.getApp().getAppId(), transorder.getBody().getBankInfo(), token);
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
+			}else{
+				rm.setErrmsg(messagebase + "成功");
+			}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1196,30 +875,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 		
 		try {
-		String token =  transorder.getBody().getToken();
 		
-
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token);
-			if(biddee==null){
-				rm.setErrmsg("未找到相应记录 ,请先填写基本信息!");
-				return rm;
-				}else{
-					biddee.setStatus("OK#");//修改状态为已认证
-					i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
+		
+			// 业务数据必填等校验
+				Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+				if (token == null) {
+					log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+					throw new TokenException("token验证失败,或已过期,请重新登录");
 				}
-			
+				int i= 0;
 				
-				i = biddeeCerticateDao.insertSelective(biddee);
-			}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+				i= myBiddeeService.applay(transorder.getApp().getAppId(), token);
+				if(i<= 0){
+					rm.setErrmsg("数据未修改！");
+				}else{
+					rm.setErrmsg(messagebase + "成功");
+				}
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -1229,79 +900,4 @@ public class MyBiddeeBusinessController extends BaseController  {
 		return rm;
 	}  
 	
-	/**
-	 * 我的招标评标概况接口
-	 * @author YJY
-	 * @since 2015年11月6日15:05:54
-	 * @return
-	 */
-	@RequestMapping(value="/queryMyObjectTenderSurvey",method=RequestMethod.POST)
-	@AccessRequered(methodName = "我的招标评标概况")
-	// 框架的日志处理
-	public @ResponseBody ResultModel queryMyObjectTenderSurvey(HttpServletRequest request,
-			HttpServletResponse response) {
-		String messagebase = "我的招标评标概况";
-		int basecode = 0;
-		BaseTransVO<TenderSurveyBodyVO> transorder = null;
-		ResultModel rm = new ResultModel();
-		try {
-			String jsonstr = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,TenderSurveyBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取%s参数出错",messagebase),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
-			return rm;
-		}
-//		// 预设的一些信息
-		
-//		rm.setBaseErrorCode(basecode);
-		rm.setErrmsg(messagebase + "成功");
-		RequestEvent qe=null ;
-		
-		
-		AppLog rnr = new AppLog();
-		rnr.setAppid(transorder.getApp().getAppId());
-		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
-		rnr.setInserttime(new Date());
-		rnr.setMethod("/myBiddee/authInfo/queryMyObjectTenderSurvey");
-		
-		try {
-			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(transorder.getBody().getToken());
-			
-
-			
-			BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
-			baseInfo.setLogoUrl(aa.getLogo());
-			baseInfo.setCompanyName(aa.getCompanyName());
-			baseInfo.setShortName(aa.getShortName());
-			baseInfo.setDescription(aa.getDescription());
-			baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
-			baseInfo.setTelephone(aa.getContactMobileNum());
-			baseInfo.setEmail(aa.getEmail());
-			
-			
-//			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
-			rm.put("baseInfo", baseInfo);
-			
-			
-		}catch (Exception e1) {
-			log.error(String.format(messagebase + "失败"), e1);
-			rm.mergeException(e1);
-			if(qe!=null)
-				qe.setSuccessed(false);
-		} finally {
-			try {
-				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
-				applogDao.insert(rnr);
-			} catch (DataInvalidException e) {
-				log.error(String.format("日志处理出错"),e);
-			}
-			
-			if(qe!=null)
-				EventListenerContainer.getInstance().fireEvent(qe);
-		}
-		return rm;
-		
-	}
 }

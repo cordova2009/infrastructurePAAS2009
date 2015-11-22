@@ -8,9 +8,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.HyglBiddee;
 import com.hummingbird.paas.entity.HyglBidder;
 import com.hummingbird.paas.entity.Order;
@@ -20,9 +22,11 @@ import com.hummingbird.paas.entity.QyzzBidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.mapper.HyglBiddeeMapper;
 import com.hummingbird.paas.mapper.HyglBidderMapper;
+import com.hummingbird.paas.mapper.MemberProductAttrMapper;
 import com.hummingbird.paas.mapper.MemberProductPrivilegeMapper;
 import com.hummingbird.paas.mapper.OrderMapper;
 import com.hummingbird.paas.mapper.OrderProductMapper;
+import com.hummingbird.paas.mapper.ProductCategoryMapper;
 import com.hummingbird.paas.mapper.QyzzBiddeeMapper;
 import com.hummingbird.paas.mapper.QyzzBidderMapper;
 import com.hummingbird.paas.mapper.UserTokenMapper;
@@ -55,13 +59,22 @@ public class MembeServiceImpl implements MemberService {
 	UserTokenMapper utDao;
 	@Autowired
 	OrderMapper omDao;
+	@Autowired                       
+	MemberProductAttrMapper mprDao;  
+	@Autowired                       
+	ProductCategoryMapper pcmDao;    
+//	@Autowired                       
+//	BidderUpgradeMapper bumDao;      
+//	@Autowired                       
+//	BiddeeUpgradeMapper bueDao;      
 
-	public List<QueryMemberInfoResultVO> querysMemberInfo(String token) {
 
-		if (StringUtils.isBlank(token)) {
-			log.error("查询会员信息出错传入token为空");
-			return null;
+	public List<QueryMemberInfoResultVO> querysMemberInfo(String token) throws BusinessException {
+
+		if (log.isDebugEnabled()) {
+			log.debug("进入查询会员接口方法：" + token);
 		}
+		ValidateUtil.assertEmpty(token, "传入token");
 		DateUtil du = new DateUtil();
 		Token utoken = utokenDao.selectByPrimaryKey(token);
 		List<QueryMemberInfoResultVO> qmis = new ArrayList<QueryMemberInfoResultVO>();
@@ -70,18 +83,18 @@ public class MembeServiceImpl implements MemberService {
 			if (log.isDebugEnabled()) {
 				log.debug("找不到对应UserToken对象");
 			}
-			
-			return null;
+
+			throw new BusinessException();
 		}
 		Integer id = utoken.getUserId();
 		if (id == null || id <= 0) {
 			log.error("获取会员id出错");
-			return null;
+			throw new BusinessException("获取会员id出错 ");
 		}
 		QyzzBidder qm = qberDao.selectByUserId(id);
 		QyzzBiddee qe = qbeeDao.selectByUserId(id);
 		//
-		
+
 		if (qm != null) {
 
 			Integer bidderId = qm.getId();
@@ -109,19 +122,16 @@ public class MembeServiceImpl implements MemberService {
 				}
 				if (bidder.getStartTime() != null)
 					qrv.setMemberStartTime(du.format(bidder.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
-				qrv.setMemberType(bidder.getMemberLevel());
-				Integer productId = bidder.getProductId();
-				if (productId != null) {
-					List<String> privileges = prDao.getPriviliges(productId);
-					try {
-						String priviliege = JsonUtil.convert2Json(privileges);
-
-						qrv.setMemberContent(priviliege);
-					} catch (DataInvalidException e) {
-						log.error("权限信息数组转换为字符串失败" + privileges);
-					}
+				qrv.setMemberType("TER");
+				if (StringUtils.isNotBlank(bidder.getMemberLevel())) {
+//					String productId = mprDao.getProductId("BIR", bidder.getMemberLevel());
+//					if (StringUtils.isNotBlank(productId)) {
+//						String privilege = prDao.selectByPrimaryKey(productId);
+//						qrv.setMemberContent(privilege);
+//					}
 				}
-				qmis.add(qrv);
+				if (qrv.getIsMember())
+					qmis.add(qrv);
 			}
 
 		}
@@ -196,7 +206,7 @@ public class MembeServiceImpl implements MemberService {
 		QyzzBidder qm = qberDao.selectByUserId(id);
 		QyzzBiddee qe = qbeeDao.selectByUserId(id);
 		//
-		if(qm==null){
+		if (qm == null) {
 			proResult.setTerMember("FLS");
 		}
 		if (qm != null) {
@@ -204,12 +214,12 @@ public class MembeServiceImpl implements MemberService {
 			HyglBidder bidder = null;
 			if (bidderId != null) {
 				bidder = hbmDao.selectByBidderId(bidderId);
-			}else{
+			} else {
 				proResult.setTerMember("FLS");
 			}
-            if(bidder==null){
-            	proResult.setTerMember("FLS");
-            }
+			if (bidder == null) {
+				proResult.setTerMember("FLS");
+			}
 			if (bidder != null) {
 				Date now = new Date();
 				if (bidder.getEndTime() != null) {
@@ -244,7 +254,7 @@ public class MembeServiceImpl implements MemberService {
 
 			}
 		}
-		if(qe==null){
+		if (qe == null) {
 			proResult.setTeeMember("FLS");
 		}
 		if (qe != null) {
@@ -252,15 +262,15 @@ public class MembeServiceImpl implements MemberService {
 			HyglBiddee hyglBiddee = null;
 			if (tendererId != null) {
 				hyglBiddee = tmDao.selectByBiddeeId(tendererId);
-			}else{
+			} else {
 				proResult.setTeeMember("FLS");
 			}
-			if(hyglBiddee==null){
+			if (hyglBiddee == null) {
 				proResult.setTeeMember("FLS");
 			}
 			if (hyglBiddee != null) {
 				Date now = new Date();
-				if(hyglBiddee.getEndTime()==null){
+				if (hyglBiddee.getEndTime() == null) {
 					proResult.setTeeMember("FlS");
 				}
 				if (hyglBiddee.getEndTime() != null) {
@@ -327,7 +337,7 @@ public class MembeServiceImpl implements MemberService {
 		ord.setPayType(bt.getPayMethod());
 		ord.setProductCount(bt.getMemberDuration());
 		ord.setDiscount(100);
-		Integer price = bt.getPayAmount()/bt.getMemberDuration();
+		Integer price = bt.getPayAmount() / bt.getMemberDuration();
 		ord.setProductPrice(price);
 		ord.setCreateBy(userId.toString());
 		ord.setRealAmount(bt.getPayAmount());

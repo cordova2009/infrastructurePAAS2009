@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hummingbird.babyspace.mapper.AnnouncementMapper" >
-  <resultMap id="BaseResultMap" type="com.hummingbird.babyspace.entity.Announcement" >
+<mapper namespace="com.hummingbird.paas.mapper.AnnouncementMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Announcement" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
@@ -12,7 +12,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.babyspace.entity.Announcement" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.paas.entity.Announcement" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -30,7 +30,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-  <select id="selectTotalCountAnnouncement" resultMap="int" parameterType="java.lang.String" >
+  <select id="selectTotalCountAnnouncement" resultType="int" parameterType="java.lang.String" >
     select count(*) from t_announcement
     where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
     <if test="creator !=null">
@@ -73,7 +73,7 @@
     delete from t_announcement
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.Announcement" >
     insert into t_announcement (id, type, title, 
       status, expiry_date, creator, 
       insert_time, update_time, imgUrl, 
@@ -83,7 +83,7 @@
       #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{imgurl,jdbcType=VARCHAR}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Announcement" >
     insert into t_announcement
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -150,7 +150,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Announcement" >
     update t_announcement
     <set >
       <if test="type != null" >
@@ -183,7 +183,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.paas.entity.Announcement" >
     update t_announcement
     set type = #{type,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
@@ -196,7 +196,7 @@
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hummingbird.babyspace.entity.Announcement" >
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Announcement" >
     update t_announcement
     set type = #{type,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
+import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.JsonUtil;
@@ -62,7 +63,13 @@ public class MemberController extends BaseController{
 			return rm;
 		}
 		List<QueryMemberInfoResultVO> qminfos = new ArrayList<QueryMemberInfoResultVO>(0);
-		qminfos =mservice.querysMemberInfo(token.getToken());
+		try {
+			qminfos =mservice.querysMemberInfo(token.getToken());
+		} catch (BusinessException e1) {
+			rm.setErrcode(280105);
+			rm.setErrmsg("鏌ヨ浼氬憳淇℃伅澶辫触");
+			return rm;
+		}
 		try {
 			if(qminfos.size()>0){
 			String infos = JsonUtil.convert2Json(qminfos);

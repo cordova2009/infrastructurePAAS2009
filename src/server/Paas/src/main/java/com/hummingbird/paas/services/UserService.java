@@ -3,6 +3,7 @@ package com.hummingbird.paas.services;
 import java.util.List;
 
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserAuth;
@@ -48,9 +49,20 @@ public interface UserService {
 	 */
 	public Bidder queryBidderByUserId(Integer userId);
 	
+	/**
+	 * 查询z招标人信息
+	 * @param userId
+	 * @return
+	 */
+	public Biddee queryBiddeeByUserId(Integer userId);
+	
 	public UserPassword queryUserPassword(Integer userId);
 	
 	public UserAuth queryUserAuth(Integer userId);
+	
+	public void updateUserPassword(UserPassword password)throws MaAccountException;
+	
+	public Boolean authPassword(Integer userId,String loginPassword)throws MaAccountException;
 	
 	/**
 	 * 更新用户信息

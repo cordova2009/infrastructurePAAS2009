@@ -1,5 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.ProjectPaymentPay;
 
 public interface ProjectPaymentPayMapper {
@@ -32,4 +36,24 @@ public interface ProjectPaymentPayMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectPaymentPay record);
+    /**
+     * 根据标的获得最后一次付款的记录信息
+     * @param objectId
+     * @return
+     */
+    ProjectPaymentPay getLastRecord(String objectId);
+    
+    /**
+     * 根据
+     * @param period
+     * @return
+     */
+    ProjectPaymentPay getRecordByPeriod(@Param("objectId")String objectId,@Param("period")Integer period);
+    
+    /**
+     * 查询标的付款列表
+     * @param objectId
+     * @return
+     */
+    List<ProjectPaymentPay> queryPaidRecord(String objectId);
 }

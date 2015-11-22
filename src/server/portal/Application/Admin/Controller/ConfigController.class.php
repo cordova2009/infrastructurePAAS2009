@@ -15,6 +15,51 @@ namespace Admin\Controller;
  */
 class ConfigController extends AdminController {
 
+    /**
+     *
+     */
+    public function platformbank(){
+
+        if(IS_POST){
+            $data = I('post.');
+            if(empty($data['bank_name'])){
+                $this->error('银行名称不能为空！');
+            }
+            if(empty($data['bank_branch_name'])){
+                $this->error('支行名称不能为空！');
+            }
+            if(empty($data['account_no'])){
+                $this->error('银行账号不能为空！');
+            }
+            if(empty($data['province'])){
+                $this->error('省份不能为空！');
+            }
+            if(empty($data['city'])){
+                $this->error('城市不能为空！');
+            }
+            if(empty($data['account_name'])){
+                $this->error('开户人名称不能为空！');
+            }
+
+            if(M('platform_bankcard')->where(['id'=>1])->save($data)){
+                $return = ['status'=>1,'info'=>'修改成功！','item'=>$data];
+
+                $this->ajaxReturn($return);
+            }else{
+                $this->error('修改失败！');
+            }
+        }
+        $item = M('platform_bankcard')->find(1);
+
+        $this->assign('item',$item);
+
+        $this->meta_title = '平台银行账户设置';
+        $this->display();
+    }
+    /**
+     * 行业修改
+     * @param string $id
+     */
     public function industry($id = ''){
 
         if(empty($id)){

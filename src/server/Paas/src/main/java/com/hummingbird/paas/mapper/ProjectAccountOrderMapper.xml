@@ -333,7 +333,7 @@
     from t_project_account_order
     where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#"
   </select>
-  <select id="queryRecordsByAccountId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="queryRecordsByAccountId" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from t_project_account_order
@@ -350,6 +350,6 @@
     select 
     IFNULL(sum(abs(`sum`)),0) outlay
     from t_project_account_order
-    where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#" and flow_direction="OUT"
+    where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#" and flow_direction="OUT" and type not in ('JBZ','SBZ','FRZ','UFZ')
   </select>
 </mapper>

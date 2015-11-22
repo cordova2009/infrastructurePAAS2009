@@ -232,4 +232,22 @@
       bank_id = #{bankId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <select id="getLastRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+	<include refid="Base_Column_List" />
+    from t_gcgl_project_payment_pay
+    where object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
+  </select>
+  <select id="getRecordByPeriod" resultMap="BaseResultMap"  >
+    select 
+   <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_pay
+    where object_id = #{objectId,jdbcType=VARCHAR} and current_period = #{period,jdbcType=INTEGER}
+  </select>
+  <select id="queryPaidRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+     <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_pay
+    where object_id = #{objectId,jdbcType=VARCHAR} 
+  </select>
 </mapper>

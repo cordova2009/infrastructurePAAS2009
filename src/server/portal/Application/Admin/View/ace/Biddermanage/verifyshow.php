@@ -18,35 +18,31 @@ td{width:50%;}
 	<tbody>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司名称:</span>{$item.company_name}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="company_name"> 审核通过</span><input type="text" name="company_name" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="company_name"> 审核通过</span><input type="text" name="company_name_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司简称:</span>{$item.short_name}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="short_name"> 审核通过</span><input type="text" name="short_name" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="short_name"> 审核通过</span><input type="text" name="short_name_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td colspan="1"><span style="color:#999;padding-right:8px;">企业成立时间:</span>{$item.reg_time}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="reg_time"> 审核通过</span><input type="text" name="reg_time" placeholder="输入审核未通过原因"></td>
-		</tr>
-		<tr>
-			<td><span style="color:#999;padding-right:8px;">企业营业期限:</span>{$item.business_license_expire_time}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license_expire_time"> 审核通过</span><input type="text" name="business_license_expire_time" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;">注册资本:</span>{$item.registered_capital}</td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="registered_capital"> 审核通过</span><input type="text" name="registered_capital_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">联系方式:</span>{$item.contact_mobile_num}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="reg_time"> 审核通过</span><input type="text" name="reg_time" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="contact_mobile_num"> 审核通过</span><input type="text" name="contact_mobile_num_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">EMail:</span>{$item.email}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="email"> 审核通过</span><input type="text" name="email" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="email"> 审核通过</span><input type="text" name="email_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司简介:</span>{$item.description}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="description"> 审核通过</span><input type="text" name="description" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="description"> 审核通过</span><input type="text" name="description_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl}"/></td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="logourl"> 审核通过</span><input type="text" name="logourl" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="logourl"> 审核通过</span><input type="text" name="logourl_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -63,23 +59,23 @@ td{width:50%;}
 	<tbody>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">法人代表:</span>{$item.legal_person}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person"> 审核通过</span><input type="text" name="legal_person" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person"> 审核通过</span><input type="text" name="legal_person_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">身份证号:</span>{$item.legal_person_idcard}</td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard"> 审核通过</span><input type="text" name="legal_person_idcard" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard"> 审核通过</span><input type="text" name="legal_person_idcard_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td ><span style="color:#999;padding-right:8px;">身份证扫描件正面:</span><img src="{$item.legal_person_idcard_front_url}"/>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_front_url"> 审核通过</span><input type="text" name="legal_person_idcard_front_url" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_front_url"> 审核通过</span><input type="text" name="legal_person_idcard_front_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">身份证扫描件正面:</span><img src="{$item.legal_person_idcard_back_url}"/></td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_back_url"> 审核通过</span><input type="text" name="legal_person_idcard_back_url" placeholder="输入审核未通过原因"></td>
+			<td ><span style="color:#999;padding-right:8px;">身份证扫描件反面:</span><img src="{$item.legal_person_idcard_back_url}"/></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_back_url"> 审核通过</span><input type="text" name="legal_person_idcard_back_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><img src="{$item.legal_person_authority_book}"/></td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_authority_book"> 审核通过</span><input type="text" name="legal_person_authority_book" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_authority_book"> 审核通过</span><input type="text" name="legal_person_authority_book_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -100,53 +96,53 @@ td{width:50%;}
 <?php if($item['business_license_type']=='NEW'){ ?>
 		<tr>
 		<td ><span style="color:#999;padding-right:8px;">统一社会信用代码:</span>{$item.unified_social_credit_code}</td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="unified_social_credit_code"> 审核通过</span><input type="text" name="unified_social_credit_code" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="unified_social_credit_code"> 审核通过</span><input type="text" name="unified_social_credit_code_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="{$item.unified_social_credit_code_url}"/></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="unified_social_credit_code_url"> 审核通过</span><input type="text" name="unified_social_credit_code_url" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="unified_social_credit_code_url"> 审核通过</span><input type="text" name="unified_social_credit_code_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 <?php }else{?>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">营业执照:</span><?php echo $item['business_license'];?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license"> 审核通过</span><input type="text" name="business_license" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license"> 审核通过</span><input type="text" name="business_license_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="<?php echo $item['business_license_url']?>"/></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license_url"> 审核通过</span><input type="text" name="business_license_url" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license_url"> 审核通过</span><input type="text" name="business_license_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">税务登记证编号:</span><?php echo $item['tax_registration_certificate'];?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="tax_registration_certificate"> 审核通过</span><input type="text" name="tax_registration_certificate" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="tax_registration_certificate"> 审核通过</span><input type="text" name="tax_registration_certificate_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 			<td ><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo $item['tax_registration_certificate_url']?>"/></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="tax_registration_certificate_url"> 审核通过</span><input type="text" name="tax_registration_certificate_url" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="tax_registration_certificate_url"> 审核通过</span><input type="text" name="tax_registration_certificate_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">组织机构代码证编号:</span><?php echo $item['org_code_certificate'];?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="org_code_certificate"> 审核通过</span><input type="text" name="org_code_certificate" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="org_code_certificate"> 审核通过</span><input type="text" name="org_code_certificate_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 			<td ><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo $item['org_code_certificate_url']?>"/></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="org_code_certificate_url"> 审核通过</span><input type="text" name="org_code_certificate_url" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="org_code_certificate_url"> 审核通过</span><input type="text" name="org_code_certificate_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 <?php }?>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">营业期限:</span><?php echo $item['business_license_expire_time'];?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license_expire_time"> 审核通过</span><input type="text" name="business_license_expire_time" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license_expire_time"> 审核通过</span><input type="text" name="business_license_expire_time_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 		<td ><span style="color:#999;padding-right:8px;">注册时间:</span><?php echo $item['reg_time']?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="reg_time"> 审核通过</span><input type="text" name="reg_time" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="reg_time"> 审核通过</span><input type="text" name="reg_time_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">经营范围:</span><?php echo $item['business_scope'];?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_scope"> 审核通过</span><input type="text" name="business_scope" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_scope"> 审核通过</span><input type="text" name="business_scope_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
 		<td ><span style="color:#999;padding-right:8px;">注册地址:</span><?php echo $item['address'];?></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="address"> 审核通过</span><input type="text" name="address" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="address"> 审核通过</span><input type="text" name="address_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -163,15 +159,15 @@ td{width:50%;}
 	<tbody>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">开户行:</span>{$item.bank_name}</td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="bank_name"> 审核通过</span><input type="text" name="bank_name" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="bank_name"> 审核通过</span><input type="text" name="bank_name_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">银行账号:</span>{$item.account_no}</td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="account_no"> 审核通过</span><input type="text" name="account_no" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="account_no"> 审核通过</span><input type="text" name="account_no_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
 			<td ><span style="color:#999;padding-right:8px;">开户名:</span><img src="{$item.account_name}"/></td>
-		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_scope"> 审核通过</span><input type="text" name="business_scope" placeholder="输入审核未通过原因"></td>
+		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="account_name"> 审核通过</span><input type="text" name="account_name_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
 	</table>

@@ -448,4 +448,5 @@
       building_permit_url = #{buildingPermitUrl,jdbcType=VARCHAR}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
+ 
 </mapper>

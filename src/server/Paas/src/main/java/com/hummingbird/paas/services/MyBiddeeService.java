@@ -11,6 +11,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Announcement;
 import com.hummingbird.paas.entity.BiddeeBankAduit;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
 import com.hummingbird.paas.vo.BiddeeLegalPerson;
@@ -109,11 +110,23 @@ public interface MyBiddeeService {
 	 *            应用id
 	 * @param body
 	 *            参数
-	 * @param userId
-	 * @return 招标编号
+	 * @param token
+	 * @return 
 	 * @throws BusinessException
 	 */
 	public int applay(String appId,Token token) throws BusinessException;
+	/**
+	 *提交招标人认证申请审核结果。
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @param biddeeId
+	 * @return 
+	 * @throws BusinessException
+	 */
+	public  Boolean checkApplication(String appId, BiddeeAuditBodyInfo body,Integer biddeeId) throws BusinessException;
 	
 	
 }

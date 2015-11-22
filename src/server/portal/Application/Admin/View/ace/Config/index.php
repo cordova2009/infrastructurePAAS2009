@@ -42,27 +42,31 @@
             <table class="table table-striped table-bordered table-hover dataTable">
 				<thead>
 					<tr>
+                        <th>操作</th>
 						<th>ID</th>
 						<th>名称</th>
 						<th>标题</th>
 						<th>分组</th>
 						<th>类型</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<notempty name="list">
 					<volist name="list" id="config">
 						<tr>
+                            <td>
+                                <a title="编辑" href="{:U('edit?id='.$config['id'])}" class="ui-pg-div ui-inline">
+                                    <span class="ui-icon icon-pencil blue"></span>
+                                </a>
+                                <a title="删除" href="{:U('del?id='.$config['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
+                                    <span class="ui-icon icon-trash red"></span>
+                                </a>
+                            </td>
 							<td>{$config.id}</td>
 							<td><a href="{:U('edit?id='.$config['id'])}">{$config.name}</a></td>
 							<td>{$config.title}</td>
 							<td>{$config.group|get_config_group}</td>
 							<td>{$config.type|get_config_type}</td>
-							<td>
-								<a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
-								<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$config['id'])}">删除</a>
-							</td>
 						</tr>
 					</volist>
 					<else/>

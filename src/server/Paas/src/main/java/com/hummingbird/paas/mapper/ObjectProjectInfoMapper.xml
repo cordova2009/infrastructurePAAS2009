@@ -448,20 +448,5 @@
       building_permit_url = #{buildingPermitUrl,jdbcType=VARCHAR}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
-  <select id="selectProjects" resultMap="BaseResultMap"  >
-    select 
-    <include refid="Base_Column_List" />
-    from t_ztgl_object_project_info
-    where  object_id in (
-    	select object_id 
-    	from t_ztgl_object
-	    where biddee_id = #{biddeeId} 
-	    <if test="objectId != null">
-	    and object_id = #{objectId}
-	    </if>
-	    <if test="status != null">
-	    and object_status = #{status}
-	    </if>
-    )
-  </select>
+ 
 </mapper>

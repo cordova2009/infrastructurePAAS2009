@@ -4,12 +4,17 @@
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <!-- 标签页导航 -->
 <div class="tabbable">
+
+    <?php
+    $tabs = parse_config_attr($model['field_group']);
+    if(count($tabs) > 1):
+    ?>
     <ul class="nav nav-tabs padding-18">
-        
-        <volist name=":parse_config_attr($model['field_group'])" id="group">
+        <volist name="tabs" id="group">
         <li <eq name="key" value="1">class="active"</eq>><a data-toggle="tab" href="#tab{$key}">{$group}</a></li>
         </volist>
     </ul>
+    <?php endif;?>
     <!-- 表单 -->
     <form id="form" action="<?=isset($form_action) ? U($form_action) : U('edit',['model'=>$model['id']])?>" method="post" class="form-horizontal">
     <div class="tab-content no-border padding-24">

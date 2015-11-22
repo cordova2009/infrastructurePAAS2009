@@ -980,7 +980,6 @@ public class MyBiddeeBusinessController extends BaseController  {
 			
 			flag = myBiddeeService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBiddee_id());
 				
-		
 //				int i= 0;
 //				
 //				i= myBiddeeService.applay(transorder.getApp().getAppId(), token);

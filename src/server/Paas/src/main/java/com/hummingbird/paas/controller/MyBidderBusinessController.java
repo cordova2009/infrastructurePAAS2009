@@ -281,7 +281,7 @@ public class MyBidderBusinessController extends BaseController  {
 			baseInfo = myBidderService.getBaseInfo_apply(token);
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
-			rm.put("baseInfo", JsonUtil.convert2Json(baseInfo));
+			rm.put("baseInfo", baseInfo);
 			
 			
 		}catch (Exception e1) {

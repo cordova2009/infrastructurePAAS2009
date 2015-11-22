@@ -51,7 +51,7 @@
 	    <!--<![endif]-->
     </head>
     
-    <body>
+    <body class="skin-2">
         <!--top-->
         <div class="navbar navbar-default" id="navbar">
             <script type="text/javascript">

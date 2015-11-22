@@ -41,31 +41,40 @@
             <table class="table table-striped table-bordered table-hover dataTable">
 			    <thead>
 			        <tr>
-                    <th class="row-selected center">
-                       <label>
-                           <input class="ace check-all" type="checkbox"/>
-                           <span class="lbl"></span>
-                       </label>
-                    </th>
-					<th class="">UID</th>
-					<th class="">用户名</th>
-					<th class="">昵称</th>
-					<th class="">登录次数</th>
-					<th class="">最后登录时间</th>
-					<th class="">最后登录IP</th>
-					<th class="">状态</th>
-					<th class="">操作</th>
+                        <th class="row-selected center">
+                           <label>
+                               <input class="ace check-all" type="checkbox"/>
+                               <span class="lbl"></span>
+                           </label>
+                        </th>
+                        <th class="">操作</th>
+                        <th class="">UID</th>
+                        <th class="">用户名</th>
+                        <th class="">昵称</th>
+                        <th class="">登录次数</th>
+                        <th class="">最后登录时间</th>
+                        <th class="">最后登录IP</th>
+                        <th class="">状态</th>
 					</tr>
 			    </thead>
 			    <tbody>
 					<notempty name="_list">
 					<volist name="_list" id="vo">
 					<tr>
+
                         <td class="center">
                             <label>
                                 <input class="ace ids" type="checkbox" name="id[]" value="{$vo.id}" />
                                 <span class="lbl"></span>
                             </label>
+                        </td>
+                        <td>
+                            <a title="授权" href="{:U('AuthManager/group?uid='.$vo['id'])}" class="ui-pg-div ui-inline">
+                                <span class="ui-icon icon-check blue"></span>
+                            </a>
+                            <a title="删除" href="{:U('User/changeStatus?method=deleteUser&id='.$vo['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
+                                <span class="ui-icon icon-trash red"></span>
+                            </a>
                         </td>
 						<td>{$vo.id} </td>
 						<td><a href="{:U('uedit',array('id'=>$vo['id']))}">{$vo.username}</a></td>
@@ -73,16 +82,19 @@
 						<td>{$vo.login}</td>
 						<td><span>{$vo.last_login_time|time_format}</span></td>
 						<td><span>{:long2ip($vo['last_login_ip'])}</span></td>
-						<td>{$vo.status_text}</td>
 						<td>
-					        <eq name="vo.status" value="1">
-							<a href="{:U('User/changeStatus?method=forbidUser&id='.$vo['id'])}" class="ajax-get">禁用</a>
-							<else/>
-							<a href="{:U('User/changeStatus?method=resumeUser&id='.$vo['id'])}" class="ajax-get">启用</a>
-							</eq>
-							<a href="{:U('AuthManager/group?uid='.$vo['id'])}" class="authorize">授权</a>
-			                <a href="{:U('User/changeStatus?method=deleteUser&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
-	                   </td>
+                            <?php
+
+                            $url = U('User/changeStatus?method=resumeUser&id='.$vo['id']);
+                            if($vo['status'] == '1'){
+                                $url = U('User/changeStatus?method=forbidUser&id='.$vo['id']);
+                            }
+                            ?>
+                            <label>
+                                <input type="checkbox" class="ace ace-switch ace-switch-6 ajax-get" name="status" value="{$vo.status}" <?=$vo['status'] == '1' ? 'checked' : ''?> url="<?=$url?>">
+                                <span class="lbl"></span>
+                            </label>
+                        </td>
 					</tr>
 					</volist>
 					<else/>

@@ -183,6 +183,16 @@ function price_format($price,$decimals=2,$html=true){
 
 function get_list_field($data, $grid){
 
+    $class_list = [
+        '[EDIT]'=>'ui-pg-div ui-inline',
+        '[DELETE]'=>'ui-pg-div ui-inline ajax-get confirm ',
+        '[LIST]'=>'ui-pg-div ui-inline',
+    ];
+    $show_list = [
+        '[EDIT]'=>'<span class="ui-icon ui-icon-pencil"></span>',
+        '[DELETE]'=>'<span class="ui-icon ui-icon-trash"></span>',
+        '[LIST]'=>'<span class="ui-icon icon-list-alt purple"></span>',
+    ];
     // 获取当前字段数据
     foreach($grid['field'] as $field){
         //var_dump($field);
@@ -217,11 +227,17 @@ function get_list_field($data, $grid){
         foreach($links as $link){
             $array  =   explode('|',$link);
             $href   =   $array[0];
-            $class_str = isset($grid['class']) ? $grid['class'] : '';
+
             if(preg_match('/^\[([a-z_]+)\]$/',$href,$matches)){
                 $val[]  =   $data2[$matches[1]];
             }else{
+                $class_str = isset($array[2]) ? $array[2] : (isset($class_list[$href])?$class_list[$href]:'');
                 $show   =   isset($array[1])?$array[1]:$value;
+                $show = str_replace(
+                                    ['[SPAN]'],
+                                    [$show_list[$href]],
+                                    $show
+                                    );
                 // 替换系统特殊字符串
                 $href   =   str_replace(
                     array('[DELETE]','[EDIT]','[LIST]'),

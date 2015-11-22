@@ -15,6 +15,27 @@ use User\Api\UserApi;
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class UserController extends AdminController {
+
+    public function paasuview($id=0){
+
+        if(empty($id)){
+            $this->error('ID不能为空！');
+        }
+
+
+        $prefix = C('DB_PREFIX');
+        $model = M()->table($prefix.'user u')
+            ->join($prefix.'user_auth ua on ua.user_id = u.id','left');
+
+        $this->assign('item',$model->where(['id'=>intval($id)])->field('u.*,ua.real_name,identity_no')->find());
+        $this->meta_title = '查看用户详情';
+        $this->display();
+    }
+    public function resetpupwd(){
+
+        $this->meta_title = '重置用户登录密码';
+        $this->display();
+    }
     /**
      * 用户管理首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -22,17 +43,34 @@ class UserController extends AdminController {
     public function paasusers(){
         $nickname       =   I('nickname');
         if(!empty($nickname)){
-            $map['m.nickname']    =   array('like', '%'.(string)$nickname.'%');
+            $map['u.nick_name']    =   array('like', '%'.(string)$nickname.'%');
+        }
+        $mobile_num       =   I('mobile');
+        if(!empty($mobile_num)){
+            $map['u.mobile_num']    =   array('like', '%'.(string)$mobile_num.'%');
         }
 
         $prefix = C('DB_PREFIX');
-        $model = M()->table($prefix.'ucenter_member um')
-                    ->join($prefix.'member m on m.uid = um.id','left');
-        $list   = $this->lists($model, $map,'','m.*,um.username,um.id');
-        int_to_string($list);
+        $model = M()->table($prefix.'user u')
+                    ->join($prefix.'user_auth ua on ua.user_id = u.id','left');
+        $list   = $this->lists($model, $map,'','u.*,ua.real_name');
         $this->assign('_list', $list);
-        $this->meta_title = '用户信息';
+        $this->meta_title = '注册用户列表';
         $this->display();
+    }
+
+    public function changePuStatus($id=0,$status='OK#'){
+        if(empty($id)){
+            $this->error('修改失败');
+        }
+
+        $status = $status == 'OK#' ? 'OFF' : 'OK#';
+
+        if(M('user')->where(['id'=>$id])->save(['status'=>$status])){
+            $this->success('');
+        }else{
+            $this->error('修改失败，请重新再试！');
+        }
     }
     /**
      * 用户管理首页
@@ -51,7 +89,6 @@ class UserController extends AdminController {
         $model = M()->table($prefix.'ucenter_member um')
                     ->join($prefix.'member m on m.uid = um.id','left');
         $list   = $this->lists($model, $map,'','m.*,um.username,um.id');
-        int_to_string($list);
         $this->assign('_list', $list);
         $this->meta_title = '用户信息';
         $this->display();

@@ -2,10 +2,10 @@ package com.hummingbird.paas.vo;
 
 public class SuccessRechargeBodyVO {
 	/*"body":{
-	    "orderId":"ORDER_ID",            
-	    "appOrderId":"审核id",            
-	    "remark":"完成提现申请审核，转账10000元"
-	}*/
+    "orderId":"ORDER_ID",            
+    "appOrderId":"审核id",            
+    "remark":"完成充值申请审核，转账10000元"
+}*/
 	private String orderId;
 	private String appOrderId;
 	private String remark;

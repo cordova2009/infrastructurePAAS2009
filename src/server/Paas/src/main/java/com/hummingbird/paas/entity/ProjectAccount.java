@@ -53,7 +53,7 @@ public class ProjectAccount implements Account{
     
     @Override
 	public String getBalanceValidateString() {
-		return "PA#"+userId+accountId+remainingSum+frozenSum+insertTime+updateTime+status;
+		return "CA#"+userId+accountId+remainingSum+frozenSum+insertTime+updateTime+status;
 	}
 
     /**

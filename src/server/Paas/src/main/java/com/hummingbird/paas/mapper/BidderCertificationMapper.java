@@ -3,8 +3,6 @@ package com.hummingbird.paas.mapper;
 import java.util.List;
 
 import com.hummingbird.paas.entity.BiddeeCertification;
-import com.hummingbird.paas.entity.BidderCertification;
-import com.hummingbird.paas.vo.BidderEqInfo;
 
 public interface BidderCertificationMapper {
     /**
@@ -50,4 +48,9 @@ public interface BidderCertificationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidderCertification record);
+    
+    /**
+     * 根据bidderId查询记录
+     */
+    List<BidderCertification> selectByBidderId(Integer bidderId);
 }

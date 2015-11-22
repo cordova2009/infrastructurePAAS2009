@@ -70,6 +70,7 @@
     select count(1) 
     from t_ztgl_bid_record
     where object_id = #{object_id,jdbcType=VARCHAR}
+    and status = 'OK#'
   </select>
   <select id="selectTenderSurveyByObjectId" resultMap="TenderSurveyResultMap" parameterType="java.lang.String" >
     select count(*) bidderNum,max(bid_amount)*100 maxBidAmount,min(bid_amount)*100 minBidAmount

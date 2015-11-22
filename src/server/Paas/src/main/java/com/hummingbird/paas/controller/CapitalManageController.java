@@ -23,6 +23,7 @@ import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.ProjectAccountOrder;
+import com.hummingbird.paas.entity.RechargeApply;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.entity.WithdrawApply;
@@ -34,14 +35,17 @@ import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
 import com.hummingbird.paas.vo.BankInfoReturnDetailVO;
 import com.hummingbird.paas.vo.CapitalSurveyReturnVO;
+import com.hummingbird.paas.vo.CheckRechargeApplyBodyVO;
 import com.hummingbird.paas.vo.CheckWithdrawalBodyVO;
 import com.hummingbird.paas.vo.FailWithdrawalsBodyVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.FreezeWithdrawalsBodyVO;
+import com.hummingbird.paas.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.paas.vo.RechargeApplyBodyVO;
 import com.hummingbird.paas.vo.RechargeApplyReturnVO;
 import com.hummingbird.paas.vo.SuccessRechargeBodyVO;
+import com.hummingbird.paas.vo.SuccessWithdrawalsBodyVO;
 import com.hummingbird.paas.vo.TokenQueryVO;
 import com.hummingbird.paas.vo.TokenVO;
 import com.hummingbird.paas.vo.RegisterBodyVO;
@@ -199,7 +203,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "冻结撮合担保金";
-		rm.setBaseErrorCode(251800);
+		rm.setBaseErrorCode(251300);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -246,7 +250,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "解冻撮合担保金";
-		rm.setBaseErrorCode(251900);
+		rm.setBaseErrorCode(251400);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -298,7 +302,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "查询充值申请记录";
-		rm.setBaseErrorCode(252000);
+		rm.setBaseErrorCode(251500);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -343,7 +347,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "提现申请";
-		rm.setBaseErrorCode(251500);
+		rm.setBaseErrorCode(251600);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -384,7 +388,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "冻结提现";
-		rm.setBaseErrorCode(251600);
+		rm.setBaseErrorCode(251700);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -429,7 +433,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "提现申请审核";
-		rm.setBaseErrorCode(251700);
+		rm.setBaseErrorCode(251800);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -463,7 +467,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "提现失败接口";
-		rm.setBaseErrorCode(251700);
+		rm.setBaseErrorCode(251900);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -493,12 +497,12 @@ public class CapitalManageController extends BaseController{
 	@RequestMapping(value = "/successWithdrawals", method = RequestMethod.POST)
 	public @ResponseBody Object successWithdrawals(HttpServletRequest request) {
 		
-		final BaseTransVO<SuccessRechargeBodyVO> transorder;
+		final BaseTransVO<SuccessWithdrawalsBodyVO> transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, SuccessRechargeBodyVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, SuccessWithdrawalsBodyVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -506,13 +510,13 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "提现成功接口";
-		rm.setBaseErrorCode(251800);
+		rm.setBaseErrorCode(252000);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
-			SuccessRechargeBodyVO body=transorder.getBody();
+			SuccessWithdrawalsBodyVO body=transorder.getBody();
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
@@ -550,7 +554,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "查询申请提现记录";
-		rm.setBaseErrorCode(251400);
+		rm.setBaseErrorCode(252100);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -594,7 +598,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "充值申请";
-		rm.setBaseErrorCode(251300);
+		rm.setBaseErrorCode(252200);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -625,40 +629,130 @@ public class CapitalManageController extends BaseController{
 	@RequestMapping(value = "/checkRechargeApply", method = RequestMethod.POST)
 	public @ResponseBody Object checkRechargeApply(HttpServletRequest request) {
 		
-		final BaseTransVO<RechargeApplyBodyVO> transorder;
+		final BaseTransVO<CheckRechargeApplyBodyVO> transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, RechargeApplyBodyVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, CheckRechargeApplyBodyVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
 			return rm;
 		}
 		
-		String messagebase = "充值申请";
-		rm.setBaseErrorCode(251300);
+		String messagebase = "充值申请审核接口";
+		rm.setBaseErrorCode(252300);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
 			PropertiesUtil pu = new PropertiesUtil();
-			RechargeApplyBodyVO body=transorder.getBody();
+			CheckRechargeApplyBodyVO body=transorder.getBody();
 			
+			
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			orderSer.CheckRechargeApply(body);
+			
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	@RequestMapping(value = "/successRecharge", method = RequestMethod.POST)
+	public @ResponseBody Object successRecharge(HttpServletRequest request) {
+		
+		final BaseTransVO<SuccessRechargeBodyVO> transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, SuccessRechargeBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "充值成功接口";
+		rm.setBaseErrorCode(252400);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			PropertiesUtil pu = new PropertiesUtil();
+			SuccessRechargeBodyVO body=transorder.getBody();
+			
+			
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			RechargeApply apply=orderSer.queryRechargeByOrderId(body.getOrderId());
+			UnfreezeVO unfreezeBody=new UnfreezeVO();
+			unfreezeBody.setAppOrderId(body.getAppOrderId());
+			unfreezeBody.setOrignalOrderId(body.getOrderId());
+			unfreezeBody.setOrignalTable("t_ddgl_recharge_apply");
+			unfreezeBody.setRemark(body.getRemark());
+			unfreezeBody.setSum(apply.getAmount());
+			unfreezeBody.setType("CZ#");
+			rm.put("orderId", orderSer.recharge(unfreezeBody, apply.getUserId(), requestURI));
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "/queryProjectAccount", method = RequestMethod.POST)
+	public @ResponseBody Object queryProjectAccount(HttpServletRequest request) {
+		
+		TokenVO transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "查询用户帐户详情";
+		rm.setBaseErrorCode(252500);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			PropertiesUtil pu = new PropertiesUtil();
+			TokenBodyVO body=transorder.getBody();
 			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
 			
 			User user=userSer.queryUserByToken(body.getToken());
-			
-			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
+			QueryProjectAccountReturnVO account=new QueryProjectAccountReturnVO();
 			if(user!=null){
-				order.setOrderId(orderSer.rechargeApply(body, user));
+				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
+				if(proActInfo!=null){
+					account.setRemainingSum(Double.valueOf(proActInfo.getRemainingSum()/100));
+					account.setFrozenSum(Double.valueOf(proActInfo.getFrozenSum()/100));
+					account.setAccountId(proActInfo.getAccountId());
+					account.setStatus(proActInfo.getStatus());
+				}
 			}
-			rm.put("order", order);
+			
+			rm.put("account",account);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

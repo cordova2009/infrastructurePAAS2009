@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.ProjectPaymentReceive;
 
 public interface ProjectPaymentReceiveMapper {
@@ -32,4 +34,17 @@ public interface ProjectPaymentReceiveMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectPaymentReceive record);
+    /**
+     * 根据标的获得最后一次收款的记录信息
+     * @param objectId
+     * @return
+     */
+    ProjectPaymentReceive getLastRecord(String objectId);
+    
+    /**
+     * 查询标的收款列表
+     * @param objectId
+     * @return
+     */
+    List<ProjectPaymentReceive> queryReceivedRecord(String objectId);
 }

@@ -120,4 +120,16 @@
       end_time = #{endTime,jdbcType=DATE}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
+   <select id="queryBeeProject" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project
+    where biddee_id = #{biddeeId,jdbcType=INTEGER}
+  </select>
+  <select id="queryBerProject" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project
+    where bidder_id = #{bidderId,jdbcType=INTEGER}
+  </select>
 </mapper>

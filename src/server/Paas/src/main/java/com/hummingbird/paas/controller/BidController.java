@@ -1,6 +1,8 @@
 package com.hummingbird.paas.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
@@ -24,6 +27,7 @@ import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.BidRecord;
+import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
@@ -43,7 +47,9 @@ import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
-import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
+import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
+import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.QueryTechnicalStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveBidRequirementInfoBodyVO;
@@ -437,15 +443,15 @@ public class BidController extends BaseController {
 	}
 	
 	/**
-	 * 查询未完成招标项目基础信息接口
+	 * 查询投标人资质证书接口
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/queryBidderCertificationInfo", method = RequestMethod.POST)
-	@AccessRequered(methodName = "查询投标人资质证书接口", isJson = true, codebase = 244000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.TokenBodyVO", appLog = true)
+	@AccessRequered(methodName = "查询投标人资质证书接口", isJson = true, codebase = 247300, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryBidBodyVO", appLog = true)
 	public @ResponseBody ResultModel queryBidderCertificationInfo(HttpServletRequest request, HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<TokenBodyVO> transorder = (BaseTransVO<TokenBodyVO>) super.getParameterObject();
+		BaseTransVO<QueryBidBodyVO> transorder = (BaseTransVO<QueryBidBodyVO>) super.getParameterObject();
 		String messagebase = "查询投标人资质证书接口";
 		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
 
@@ -456,16 +462,18 @@ public class BidController extends BaseController {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			Bidder bidder = bidderDao.selectByUserId(token.getUserId());
+			if (bidder == null) {
+				log.error(String.format("用户%s查找不到投标方信息,可能未进行资格认证", token.getUserId()));
+				throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION, "您没有投标方资质认证,请先进行认证");
+			}
 			// 业务数据逻辑校验
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			Boolean flag = bidService.queryTender(token);
-			if(!flag){
-				rm.setErrcode(2440001);
-				rm.setErrmsg("查询投标人资质证书接口");
-				return rm;
-			}
+			Map certresult = bidService.queryBidderCertificationInfo(transorder.getBody(),bidder.getId());
+			rm.put("certificationInfo", certresult);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -484,10 +492,10 @@ public class BidController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/isInvitationOfBid", method = RequestMethod.POST)
-	@AccessRequered(methodName = "查询用户是否具有投标的资质", isJson = true, codebase = 244000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryObjectDetailBodyVO", appLog = true)
-	public @ResponseBody ResultModel queryObjectDetail(HttpServletRequest request, HttpServletResponse response) {
+	@AccessRequered(methodName = "查询用户是否具有投标的资质", isJson = true, codebase = 244000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryObjectBodyVO", appLog = true)
+	public @ResponseBody ResultModel isInvitationOfBid(HttpServletRequest request, HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<QueryObjectDetailBodyVO> transorder = (BaseTransVO<QueryObjectDetailBodyVO>) super.getParameterObject();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
 		String messagebase = "查询用户是否具有投标的资质接口";
 		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
 		try {
@@ -501,14 +509,14 @@ public class BidController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			
-			Boolean flag = bidService.queryTender(token);
-			if(!flag){
-				rm.setErrmsg("查询用户不具有投标的资质");
-				return rm;
-			}else{
-				rm.setErrmsg("该用户具有投标的资质");
-			}
+			bidService.hadQualify2bid(transorder.getBody(),token.getUserId());
+//			Boolean flag = bidService.queryTender(transorder.getBody(),token.getUserId());
+//			if(!flag){
+//				rm.setErrmsg("查询用户不具有投标的资质");
+//				return rm;
+//			}else{
+//				rm.setErrmsg("该用户具有投标的资质");
+//			}
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -522,21 +530,27 @@ public class BidController extends BaseController {
 
 	}
 	/**
-	 * 查询未完成招标项目工程施工证明接口
+	 * 查询招标公告列表接口
 	 * @return  queryObjectList
 	 */
 	@RequestMapping(value="/queryObjectList",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询投标方列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	@AccessRequered(methodName = "查询招标公告列表接口",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryObjectList(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
-		String messagebase = "查询投标方列表接口"; 
+		String messagebase = "查询招标公告列表接口"; 
 		RequestEvent qe=null ; 
 		List<QueryObjectListResultVO> liq = null;
 		try {
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
+			
 			Integer pageIndex =transorder.getBody().getPageIndex();
 			Integer pageSize =transorder.getBody().getPageSize();
 			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
@@ -544,8 +558,9 @@ public class BidController extends BaseController {
 				rm.setErrmsg("参数错误");
 				return rm;
 			}
-			liq = bidService.queryObjectList(pageIndex,pageSize);
-	        rm.put("list",liq);
+			Pagingnation pagingnation = transorder.getBody().toPagingnation();
+			liq = bidService.queryObjectList(pagingnation,token.getUserId());
+	        super.mergeListOutput(rm, pagingnation, liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -745,6 +760,98 @@ public class BidController extends BaseController {
 		
 	}
 	
+	/**
+	 * 查询标的详情接口 
+	 * @return
+	 */
+	@RequestMapping(value="queryObjectDetail",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询标的详情接口 ",isJson=true,codebase=247100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryBidBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryObjectDetail(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryBidBodyVO> transorder = (BaseTransVO<QueryBidBodyVO>) super.getParameterObject();
+		String messagebase = "查询投标保证金信息接口"; 
 	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			QueryObjectDetailResultVO  result = bidService.queryObjectDetail(transorder.getApp().getAppId(),transorder.getBody(),bidder.getId());
+			rm.put("body",result);
+			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询未完成招标项目资质要求接口
+	 * @return
+	 */
+	@RequestMapping(value="/queryObjectCertificationInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询投标要求基础信息接口",isJson=true,codebase=247400,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryObjectCertificationInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询未完成招标项目资质要求接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+//			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+//			if (token == null) {
+//				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+//				throw new TokenException("token验证失败,或已过期,请重新登录");
+//			}
+//			Biddee biddee = biddeeDao.selectByUserId(token.getUserId());
+//			if(biddee==null)
+//			{
+//				log.error(String.format("用户%s查找不到招标方信息,可能未进行资格认证", token.getUserId()));
+//				throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您没有招标方资质认证,请先进行认证");
+//			}
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			QueryObjectCertificationInfoResult result = bidService.queryObjectCertificationInfo(transorder.getApp().getAppId(),transorder.getBody());
+	        Map  bidSafetyInfo = new HashMap<>();
+	        Map  bidPeopleRequirement = new HashMap<>();
+	        bidPeopleRequirement.put("needPmCertification", result.getNeedPmCertification());
+	        bidPeopleRequirement.put("needConstructorCertification", result.getNeedConstructorCertification());
+	        bidSafetyInfo.put("needSafetyPermit", result.getNeedSafetyPermit());
+	        bidSafetyInfo.put("needPmSafetyCertification", result.getNeedPmSafetyCertification());
+	        rm.put("bidSafetyInfo", bidSafetyInfo);
+	        rm.put("bidPeopleRequirement", bidPeopleRequirement);
+//			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
 
 }

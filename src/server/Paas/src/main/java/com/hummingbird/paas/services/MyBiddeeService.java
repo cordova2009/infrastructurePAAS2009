@@ -1,22 +1,11 @@
 package com.hummingbird.paas.services;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.hummingbird.common.exception.BusinessException;
-import com.hummingbird.common.face.Pagingnation;
-import com.hummingbird.paas.entity.Announcement;
-import com.hummingbird.paas.entity.BiddeeBankAduit;
 import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
 import com.hummingbird.paas.vo.BiddeeLegalPerson;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
-import com.hummingbird.paas.vo.SaveObjectBaseInfo;
 
 /**
  * 

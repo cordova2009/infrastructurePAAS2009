@@ -50,8 +50,5 @@ public interface BidderCertificationMapper {
      */
     int updateByPrimaryKey(BidderCertification record);
     
-    /**
-     * 根据bidderId查询记录
-     */
-    List<BidderCertification> selectByBidderId(Integer bidderId);
+    
 }

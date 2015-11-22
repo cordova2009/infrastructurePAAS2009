@@ -74,6 +74,7 @@ import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectDetailAnswerQuestion;
 import com.hummingbird.paas.vo.QueryObjectDetailBaseVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
@@ -1163,6 +1164,28 @@ public class BidServiceImpl implements BidService {
 		return matchvo;
 	}
 	
-	
+	/**
+	 * 查询投标要求基础信息接口
+	 * @param appId
+	 * @param body
+	 * @return
+	 */
+	public QueryObjectCertificationInfoResult queryObjectCertificationInfo(String appId, QueryObjectBodyVO body)throws BusinessException{
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("查询投标要求基础信息接口 开始"));
+		}
+		QueryObjectCertificationInfoResult result = new QueryObjectCertificationInfoResult();
+		BidObject bo = objectdao.selectByPrimaryKey(body.getObjectId());
+		ValidateUtil.assertNull(bo, "招标项目不存在");
+		result.setNeedConstructorCertification(bo.getNeedConstructorCertification());
+		result.setNeedPmCertification(bo.getNeedPmCertification());
+		result.setNeedPmSafetyCertification(bo.getNeedPmSafetyCertification());
+		result.setNeedSafetyPermit(bo.getNeedSafetyPermit());
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("查询投标要求基础信息接口 完成"));
+		}
+		return result;
+		
+	}
 
 }

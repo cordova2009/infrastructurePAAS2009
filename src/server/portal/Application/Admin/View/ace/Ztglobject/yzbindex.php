@@ -44,14 +44,14 @@
 					<volist name="list" id="vo">
 					<tr>
                         <td>
-                            <a title="查看标的详情" href="{:U('viewzb',['object_id'=>$vo['object_id'],'active'=>'b'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
+                            <a data-rel="tooltip" data-placement="bottom" title="查看中标详情" href="{:U('viewzhongbiao?id='.$vo['bid'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
                         </td>
                         <td>
-                            <a title="查看中标详情" href="{:U('viewzhongbiao?id='.$vo['bid'])}">
+                            <a data-rel="tooltip" data-placement="bottom" title="查看中标详情" href="{:U('viewzhongbiao?id='.$vo['bid'])}">
                                 <?=$vo['company_name']?>
                             </a>
                         </td>
-						<td><a href="{:U('viewzb',array('object_id'=>$vo['object_id']))}">{$vo.object_no}/<?=$vo['object_name']?></a></td>
+						<td><a data-rel="tooltip" data-placement="bottom" title="查看标的详情" href="{:U('viewzb',['object_id'=>$vo['object_id'],'active'=>'b'])}">{$vo.object_no}/<?=$vo['object_name']?></a></td>
                         <td><?=price_format($vo['evaluation_amount'])?></td>
                         <td><?=$industry[$vo['industry_id']]?></td>
 						<td><?=$vo['insert_time']?></td>
@@ -67,4 +67,9 @@
             <include file="Public/page"/>
         </div>
     </div>
+</block>
+<block name="script">
+<script>
+    $('[data-rel=tooltip]').tooltip();
+</script>
 </block>

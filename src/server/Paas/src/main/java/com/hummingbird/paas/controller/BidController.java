@@ -469,10 +469,8 @@ public class BidController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			List certs = bidService.queryBidderCertificationInfo(bidder.getId());
-			Map result = new HashMap<>();
-			rm.put("certificationInfo", result);
-			result.put("bidderList", certs);
+			Map certresult = bidService.queryBidderCertificationInfo(transorder.getBody(),bidder.getId());
+			rm.put("certificationInfo", certresult);
 			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

@@ -161,10 +161,12 @@ public class BidServiceImpl implements BidService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List queryBidderCertificationInfo(Integer bidderId) throws BusinessException {
+	public Map queryBidderCertificationInfo(QueryBidBodyVO body,Integer bidderId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标人资质证书接口进入");
 		}
+		String objectId = body.getObjectId();
+		//查询投标人已有的资质
 		List biddercertificationlist = new ArrayList<>();
 		List<BidderCertification> biddercerts = bcertDao.selectByBidderId(bidderId);
 		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
@@ -179,10 +181,67 @@ public class BidServiceImpl implements BidService {
 //				bidderCertification.setCertificationType(cert);
 //			}
 		}
+		
+		List<CertificationRequirement> certs = crDao.selectCertisByObjectId(objectId);
+		Map bidderCertMap = new HashMap<>();
+		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
+			BidderCertification bidderCertification = (BidderCertification) iterator.next();
+			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
+			if(cert!=null){
+				bidderCertification.setCertificationType(cert);
+			}
+		}
+		List<CertificationMatchVO> nofitcerts = new ArrayList<>();
+		List<Map> requirecerts = new ArrayList<>();
+		List<Map> misscerts = new ArrayList<>();
+		StringBuilder reason = new StringBuilder();
+		for (Iterator iterator = certs.iterator(); iterator.hasNext();) {
+			CertificationRequirement cr = (CertificationRequirement) iterator.next();
+			Integer certificationId = cr.getCertificationId();
+			CertificationType cert = certDao.selectByPrimaryKey(certificationId);
+			if(cert!=null)
+			{
+				//添加要求资质
+				Map requirecert = new HashMap<>();
+				requirecert.put("certificationName", cert.getCertificationName());
+				requirecert.put("certificationId", cert.getId());
+				requirecerts.add(requirecert);
+				//查询投标人有没有对应的资质
+				CertificationMatchVO matchresult = getSuitableCert(cert,biddercerts);
+				
+				if(!matchresult.isMatch()){
+					Map misscret = new HashMap<>();
+					misscret.put("certificationName", cert.getCertificationName());
+					misscret.put("certificationId", cert.getId());
+					misscerts.add(misscret);
+					
+					//nofitcerts.add(matchresult);
+					reason.append(cert.getCertificationName());
+					reason.append(matchresult.getReason());
+					if(iterator.hasNext()){
+						reason.append("，");
+						
+					}
+					
+				}
+			}
+		}
+//		if(reason.length()>0){
+//			if (log.isDebugEnabled()) {
+//				log.debug(String.format("投标人资质证书不匹配:%s",reason.toString()));
+//			}
+//			throw new PaasException(PaasException.ERR_BID_CERTIFICATION_INFO_EXCEPTION,"资质要求不能满足:"+reason.toString());
+//		}
+		Map result = new HashMap<>();
+		result.put("bidderList", biddercertificationlist);
+		result.put("requirementList", requirecerts);
+		result.put("missingList", misscerts);
+		
+		
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标人资质证书接口完成");
 		}
-		return biddercertificationlist;
+		return result;
 	}
 
 	//@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
@@ -1034,45 +1093,7 @@ public class BidServiceImpl implements BidService {
 		}
 		//检查招标人资质信息
 		
-		List<CertificationRequirement> certs = crDao.selectCertisByObjectId(objectId);
-		List<BidderCertification> biddercerts = bcertDao.selectByBidderId(bidder.getId());
-		Map bidderCertMap = new HashMap<>();
-		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
-			BidderCertification bidderCertification = (BidderCertification) iterator.next();
-			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
-			if(cert!=null){
-				bidderCertification.setCertificationType(cert);
 			}
-		}
-		List<CertificationMatchVO> nofitcerts = new ArrayList<>();
-		StringBuilder reason = new StringBuilder();
-		for (Iterator iterator = certs.iterator(); iterator.hasNext();) {
-			CertificationRequirement cr = (CertificationRequirement) iterator.next();
-			Integer certificationId = cr.getCertificationId();
-			CertificationType cert = certDao.selectByPrimaryKey(certificationId);
-			if(cert!=null)
-			{
-				//查询投标人有没有对应的资质
-				CertificationMatchVO matchresult = getSuitableCert(cert,biddercerts);
-				if(!matchresult.isMatch()){
-					//nofitcerts.add(matchresult);
-					reason.append(cert.getCertificationName());
-					reason.append(matchresult.getReason());
-					if(iterator.hasNext()){
-						reason.append("，");
-						
-					}
-					
-				}
-			}
-		}
-		if(reason.length()>0){
-			if (log.isDebugEnabled()) {
-				log.debug(String.format("投标人资质证书不匹配:%s",reason.toString()));
-			}
-			throw new PaasException(PaasException.ERR_BID_CERTIFICATION_INFO_EXCEPTION,"资质要求不能满足:"+reason.toString());
-		}
-	}
 
 	/**
 	 * 匹配证书

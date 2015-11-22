@@ -1,6 +1,7 @@
 package com.hummingbird.paas.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,7 +147,7 @@ public interface BidService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List queryBidderCertificationInfo(Integer bidderId) throws BusinessException;
+	public Map queryBidderCertificationInfo(QueryBidBodyVO body,Integer bidderId) throws BusinessException;
 
 
 	/**

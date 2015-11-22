@@ -6,14 +6,14 @@ import com.hummingbird.commonbiz.vo.AppBaseVO;
 import com.hummingbird.commonbiz.vo.AppMobileDecidable;
 
 @JsonIgnoreProperties(value = {"appId", "type","authed","businessKeys"})
-public class LoginVO extends AppBaseVO implements AppMobileDecidable{
-	private LoginBodyVO body;
+public class ForgetPasswordVO extends AppBaseVO implements AppMobileDecidable{
+	private ForgetPasswordBodyVO body;
 
-	public LoginBodyVO getBody() {
+	public ForgetPasswordBodyVO getBody() {
 		return body;
 	}
 
-	public void setBody(LoginBodyVO body) {
+	public void setBody(ForgetPasswordBodyVO body) {
 		this.body = body;
 	}
 

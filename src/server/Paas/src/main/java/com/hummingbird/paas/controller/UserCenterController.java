@@ -36,6 +36,7 @@ import com.hummingbird.paas.services.GeneralService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.vo.BankInfoReturnDetailVO;
+import com.hummingbird.paas.vo.LoginBodyVO;
 import com.hummingbird.paas.vo.LoginReturnVO;
 import com.hummingbird.paas.vo.LoginVO;
 import com.hummingbird.paas.vo.MobileNumVO;
@@ -52,7 +53,7 @@ import com.hummingbird.paas.vo.UserBaseInfoVO;
 @RequestMapping("/userCenter")
 public class UserCenterController extends BaseController{
 
-	@Autowired
+		@Autowired
 	UserService userSer;
 	@Autowired
 	GeneralService genSer;
@@ -60,8 +61,8 @@ public class UserCenterController extends BaseController{
 	IAuthenticationService authService;
 	@Autowired
 	TokenService tokenSrv;
-	@Autowired(required = true)
-	private ISmsCodeService smsService;
+	@Autowired
+	ISmsCodeService smsService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public @ResponseBody Object register(HttpServletRequest request) {
@@ -90,7 +91,7 @@ public class UserCenterController extends BaseController{
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
 			RegisterBodyVO body=transorder.getBody();
-			
+			ValidateUtil.validateMobile(body.getMobileNum());
 			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
@@ -138,12 +139,12 @@ public class UserCenterController extends BaseController{
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Object login(HttpServletRequest request) {
 		
-		final BaseTransVO<LoginVO> transorder;
+		LoginVO transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, LoginVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, LoginVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -161,7 +162,7 @@ public class UserCenterController extends BaseController{
 			requestURI=requestURI.replace(request.getContextPath(), "");
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
-			LoginVO body=transorder.getBody();
+			LoginBodyVO body=transorder.getBody();
 			
 			
 			if(log.isDebugEnabled()){
@@ -243,8 +244,6 @@ public class UserCenterController extends BaseController{
 		try {
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
-			Map validateAuth = (Map) authService.validateAuth(transorder);
-			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
 			requestURI=requestURI.replace(request.getContextPath(), "");
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
@@ -278,7 +277,7 @@ public class UserCenterController extends BaseController{
 		
 		return rm;
 	}
-	@RequestMapping(value = "/getMyBankInfo", method = RequestMethod.POST)
+	@RequestMapping(value = "/getBankInfoList", method = RequestMethod.POST)
 	public @ResponseBody Object getMyBankInfo(HttpServletRequest request) {
 		
 		TokenVO transorder;
@@ -359,8 +358,6 @@ public class UserCenterController extends BaseController{
 		try {
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
-			Map validateAuth = (Map) authService.validateAuth(transorder);
-			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
 			requestURI=requestURI.replace(request.getContextPath(), "");
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
@@ -454,10 +451,10 @@ public class UserCenterController extends BaseController{
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
+			
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
 			UpdateUserInfoBodyVO body=transorder.getBody();
-			
 			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
@@ -465,13 +462,13 @@ public class UserCenterController extends BaseController{
 			
 
 			User user=userSer.queryUserByToken(body.getToken());
-			if(StringUtils.isBlank(body.getAddress())){
+			if(StringUtils.isNotBlank(body.getAddress())){
 				user.setAddress(body.getAddress());
 			}
-			if(StringUtils.isBlank(body.getNickname())){
+			if(StringUtils.isNotBlank(body.getNickname())){
 				user.setNickName(body.getNickname());
 			}
-			if(StringUtils.isBlank(body.getEmail())){
+			if(StringUtils.isNotBlank(body.getEmail())){
 				user.setEmail(body.getEmail());
 			}
 			userSer.updateUser(user);
@@ -484,87 +481,6 @@ public class UserCenterController extends BaseController{
 		return rm;
 	}
 	
-	/**
-	 * 向服务器请求下发验证码
-	 * 
-	 * @param getsmsvo
-	 * @return
-	 */
-	@RequestMapping("/getSmsCode")
-	public @ResponseBody Object getSmsCode(HttpServletRequest request) {
-
-		MobileNumVO transorder;
-		ResultModel rm = new ResultModel();
-		try {
-			String jsonstr = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,MobileNumVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取订单参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-			return rm;
-		}
-		if (log.isDebugEnabled()) {
-			log.debug("向服务器请求下发验证码：" + transorder);
-		}
-		// 捕捉所有异常,不要由于有异常而不返回信息
-		int baseerrcode = 211400;
-		rm.setBaseErrorCode(baseerrcode);
-		rm.setErrmsg("发送短信验证码成功");
-		
-//		GetSmsVo getsmsvo
-		try {
-			MobileVO body=transorder.getBody();
-			ValidateUtil.validateMobile(body.getMobileNum());
-			// 校验token
-			Object validateAuth = authService.validateAuth(transorder);
-			if (log.isDebugEnabled()) {
-				log.debug("检验通过，发送验证码");
-			}
-			// 检查手机
-			// User user = userDao.selectByMobile(getsmsvo.getMobileNum());
-			// ValidateUtil.assertNull(user, "手机号码未注册", 4111);
-			
-			UserToken createToken = smsService.createToken(transorder.getApp()
-					.getAppId(), body.getMobileNum(), 4);
-			String content = AuthCodeUtil.getAuthCodeByTemplate(
-					createToken.getToken(), "sms.authcode");
-			// 调用webservice 发送模板
-			if (log.isDebugEnabled()) {
-				log.debug("发送手机验证码请求:" + content);
-			}
-
-			try {
-				PropertiesUtil pu = new PropertiesUtil();
-				boolean deleteaftervalidate = pu.getBoolean("smscode.fortest");
-				if(deleteaftervalidate){
-					if (log.isDebugEnabled()) {
-						log.debug(String.format("测试开启，不发送验证码到手机"));
-					}
-				}
-				else{
-					SmsSenderUtil.sendSms(body.getMobileNum(), content);
-					
-					if (log.isDebugEnabled()) {
-						log.debug("验证码发送成功");
-					}
-				}
-
-			} catch (Exception e) {
-				log.error("发送验证码出错:", e);
-				rm.mergeException(e);
-			}
-
-		} catch (Exception e1) {
-			log.error(String.format("发送短信验证码[%s]，处理失败", transorder), e1);
-			rm.mergeException(e1);
-		} finally {
-			if (log.isDebugEnabled()) {
-				log.debug("向服务器请求下发验证码完成");
-			}
-		}
-		return rm;
-	}
 	
 	
 	

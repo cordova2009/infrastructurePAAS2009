@@ -2,6 +2,7 @@ package com.hummingbird.paas.services;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
 import com.hummingbird.paas.vo.BiddeeLegalPerson;

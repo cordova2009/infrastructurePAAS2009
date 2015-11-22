@@ -19,6 +19,25 @@ public interface UserBankcardMapper {
      * 保存属性不为空的记录
      */
     int insertSelective(UserBankcard record);
+    
+    /**
+     * 插入招标人开户行信息  招标人开户行审核认证通过
+     */
+    int insertBiddeeBankInfo(Integer userId);
+    /**
+     * 更新招标人开户行信息  招标人开户行审核认证通过
+     */
+    int updateBiddeeBankInfo(Integer userId);
+    
+    /**
+     * 插入投标人开户行信息 投标人开户行审核认证通过
+     */
+    int insertBidderBankInfo(Integer userId);
+    
+    /**
+     * 更新投标人开户行信息 投标人开户行审核认证通过
+     */
+    int updateBidderBankInfo(Integer userId);
 
     /**
      * 根据主键查询记录
@@ -26,13 +45,13 @@ public interface UserBankcardMapper {
     UserBankcard selectByPrimaryKey(Integer id);
     
     /**
-     * 根据token查询招标人开户行记录
+     * 根据userId查询招标人开户行记录
      */
-    List<UserBankcard> selectBiddeeBankInfoByToken(String token);
+    List<UserBankcard> selectBiddeeBankInfoByUserId(Integer userId);
     /**
-     * 根据token查询投标人开户行记录
+     * 根据userId查询投标人开户行记录
      */
-    List<UserBankcard> selectBidderBankInfoByToken(String token);
+    List<UserBankcard> selectBidderBankInfoByUserId(Integer userId);
 
     /**
      * 根据主键更新属性不为空的记录

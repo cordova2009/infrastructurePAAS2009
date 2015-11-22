@@ -22,6 +22,16 @@ public interface BidderMapper {
      * 保存属性不为空的记录
      */
     int insertSelective(Bidder record);
+    
+    /**
+     * 保存认证申请通过的资质表数据 
+     */
+    int insertSelectByBidderIdSuccess(Integer bidderId);
+    
+    /**
+     * 更新认证申请通过的资质表数据 
+     */
+    int updateByBidderIdSuccess(Integer bidderId);
 
     /**
      * 根据主键查询记录
@@ -60,7 +70,7 @@ public interface BidderMapper {
      */
     int countStairBiderNum();
     /**
-     * 查询耳机承包商数量
+     * 查询二级承包商数量
      */
     int countSecondBiderNum();
     

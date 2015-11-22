@@ -174,4 +174,16 @@
       order_id = #{orderId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getLastRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_receive
+    where object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
+  </select>
+  <select id="queryReceivedRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+     <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_receive
+    where object_id = #{objectId,jdbcType=VARCHAR} 
+  </select>
 </mapper>

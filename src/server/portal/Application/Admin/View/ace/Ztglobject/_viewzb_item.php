@@ -1,4 +1,3 @@
-<div class="widget-box">
     <?php if(isset($title_icon) && $title_icon):?>
         <div class="widget-header widget-header-small header-color-blue3">
             <h6 class="smaller">

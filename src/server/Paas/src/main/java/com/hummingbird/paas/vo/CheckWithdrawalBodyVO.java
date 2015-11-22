@@ -19,7 +19,7 @@ public class CheckWithdrawalBodyVO {
 	private String voucherFileUrl;
 	private String checkResult;
 	private String remark;
-	private String operator;
+	private Integer operator;
 	public String getOrderId() {
 		return orderId;
 	}
@@ -56,11 +56,12 @@ public class CheckWithdrawalBodyVO {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getOperator() {
+	public Integer getOperator() {
 		return operator;
 	}
-	public void setOperator(String operator) {
+	public void setOperator(Integer operator) {
 		this.operator = operator;
 	}
+	
 	
 }

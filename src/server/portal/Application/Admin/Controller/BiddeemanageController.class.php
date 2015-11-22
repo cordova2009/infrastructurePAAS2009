@@ -72,8 +72,34 @@ class BiddeemanageController extends AdminController {
 	}
 	public function check()
 	{
+		$data = $this->getData();
 		$api = new ApiService();
-		$resp = $api->setApiUrl(C('APIURI.baby'))
-		->setData($data)->send('courseManager/course/spend');
+		$resp = $api->setApiUrl(C('APIURI'))
+		->setData($data)->send('myBiddee/authInfo/checkApplication');
+		if($resp===false)
+		{
+			$this->error('系统错误,请稍后再试');
+		}
+		$this->success('审核完成');
+
+	}
+	private function getData(){
+		$data = [];
+		$get = [
+			'baseInfoCheck'=>['company_name'=>'companyName','short_name'=>'shortName','contact_mobile_num'=>'telephone','email'=>'email','description'=>'description','logourl'=>'logoUrl','registered_capital'=>'registeredCapital'],
+			'legalPersonCheck'=>['legal_person'=>'name','legal_person_idcard'=>'idCard','legal_person_idcard_front_url'=>'idCardfrontUrl','legal_person_idcard_back_url'=>'idCardBackUrl','legal_person_authority_book'=>'authorityBookUrl'],
+			'registeredInfoCheck'=>['business_license_type'=>'businessLicenseType','unified_social_credit_code_url'=>'newBusinessLicenseUrl','unified_social_credit_code'=>'newBusinessLicenseNum','business_license'=>'businessLicenseNum','business_license_url'=>'businessLicenseUrl','tax_registration_certificate'=>'taxRegistrationNum','tax_registration_certificate_url'=>'taxRegistrationUrl','org_code_certificate'=>'organizationCodeNum','org_code_certificate_url'=>'organizationCodeUrl','business_license_expire_time'=>'businessLicenseExpireTime','reg_time'=>'regTime','business_scope'=>'businessScope','address'=>'address'],
+			'bankInfoCheck'=>['bank_name'=>'bank','account_no'=>'accountId','account_name'=>'accountName']
+				];
+		foreach($get as $k=>$v)
+		{
+			foreach($v as $val)
+			{
+				$ret = I('post.'.$val)=='Y'?'OK#':'FLS';
+				$data[$k][$val] = ["result"=>$ret,"msg"=>I('post.'.$val.'_msg')];
+			}
+		}
+		$data['baseInfoCheck']['biddeeId']=I('post.id');
+		return $data;
 	}
 }

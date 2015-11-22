@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 
+
+
+
 import com.hummingbird.paas.constant.AccountConst;
 import com.hummingbird.paas.constant.OrderConst;
 import com.hummingbird.paas.entity.BidRecord;
@@ -49,6 +52,7 @@ import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.AccountValidateUtil;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
+import com.hummingbird.paas.vo.CheckRechargeApplyBodyVO;
 import com.hummingbird.paas.vo.CheckWithdrawalBodyVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
@@ -330,7 +334,7 @@ public class OrderServiceImpl implements OrderService{
 		apply.setStatus(body.getCheckResult());
 		apply.setTransportTime(body.getTransferTime());
 		apply.setUpdateTime(new Date());
-		apply.setUpdator(body.getOperator());
+		apply.setUpdator(body.getOperator().toString());
 		apply.setVoucher(body.getVoucherNo());
 		apply.setVoucherPic(body.getVoucherFileUrl());
 		withdrawApplyDao.updateByPrimaryKey(apply);
@@ -359,6 +363,7 @@ public class OrderServiceImpl implements OrderService{
 		accountOrder.setOrderId(accountOrderId);
 		accountOrder.setOriginalOrderId(body.getOrignalOrderId());
 		accountOrder.setOriginalTable(body.getOrignalTable());
+		accountOrder.setAppOrderId(body.getAppOrderId());
 		accountOrder.setRemark(body.getRemark());
 		accountOrder.setStatus("OK#");
 		accountOrder.setSum(body.getSum());
@@ -379,6 +384,83 @@ public class OrderServiceImpl implements OrderService{
 		proActDao.updateByPrimaryKey(account);
 		
 		return accountOrderId;
+	}
+
+	@Override
+	public void CheckRechargeApply(CheckRechargeApplyBodyVO body)
+			throws MaAccountException {
+		// TODO Auto-generated method stub
+		// 充值申请审核
+				RechargeApply apply=applyDao.selectByPrimaryKey(body.getOrderId());
+				if(apply==null){
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("根据充值申请订单号【%s】查询不到充值申请记录",body.getOrderId()));
+					}
+					throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据充值申请订单号【%s】查询不到充值申请记录",body.getOrderId()));		
+				
+				}
+				
+				if(StringUtils.equals(body.getCheckResult(), "OK#")){
+					//调用充值成功接口
+				}else if(StringUtils.equals(body.getCheckResult(), "FLS")){
+					
+				}else{
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("充值申请审核结果【%s】无法识别",body.getCheckResult()));
+					}
+					throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("提现申请审核结果【%s】无法识别",body.getCheckResult()));		
+				
+				}
+				apply.setStatus(body.getCheckResult());
+				apply.setUpdateTime(new Date());
+				apply.setUpdator(body.getOperator().toString());
+				applyDao.updateByPrimaryKey(apply);
+	}
+
+	@Override
+	public String recharge(UnfreezeVO body, Integer userId, String method)
+			throws MaAccountException {
+		// TODO Auto-generated method stub
+		//充值
+		ProjectAccount account=capManageSer.queryAccountInfo(userId);
+		AccountValidateUtil.validateAccount(account);
+		//创建保证金订单
+		Integer balance=account.getRemainingSum()+body.getSum();
+		
+		//插入资金账户订单表
+		ProjectAccountOrder accountOrder=new ProjectAccountOrder();
+		String accountOrderId=AccountGenerationUtil.genNO("PA00");
+		accountOrder.setType(body.getType());
+		accountOrder.setOrderId(accountOrderId);
+		accountOrder.setOriginalOrderId(body.getOrignalOrderId());
+		accountOrder.setOriginalTable(body.getOrignalTable());
+		accountOrder.setAppOrderId(body.getAppOrderId());
+		accountOrder.setRemark(body.getRemark());
+		accountOrder.setStatus("OK#");
+		accountOrder.setSum(body.getSum());
+		accountOrder.setMethod(method);
+		accountOrder.setObjectId(body.getObjectId());
+		accountOrder.setFrozenSumSnapshot(balance);
+		accountOrder.setInsertTime(new Date());
+		accountOrder.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
+		accountOrder.setBalance(balance);
+		accountOrder.setAccountId(account.getAccountId());
+		accOrdDao.insert(accountOrder);
+				
+		//更新账户信息
+		account.setUpdateTime(new Date());
+		account.setRemainingSum(balance);
+		AccountValidateUtil.updateAccountSignature(account);
+		proActDao.updateByPrimaryKey(account);
+				
+		return accountOrderId;
+	}
+
+	@Override
+	public RechargeApply queryRechargeByOrderId(String OrderId)
+			throws MaAccountException {
+		// TODO Auto-generated method stub
+		return applyDao.selectByPrimaryKey(OrderId);
 	}
 
 	

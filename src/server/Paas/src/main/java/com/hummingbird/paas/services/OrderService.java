@@ -2,10 +2,12 @@ package com.hummingbird.paas.services;
 
 import java.util.List;
 
+import com.hummingbird.paas.entity.RechargeApply;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.WithdrawApply;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
+import com.hummingbird.paas.vo.CheckRechargeApplyBodyVO;
 import com.hummingbird.paas.vo.CheckWithdrawalBodyVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
@@ -38,6 +40,16 @@ public interface OrderService {
 	 * @throws MaAccountException
 	 */
 	public String withdrawals(UnfreezeVO body,Integer userId,String method)throws MaAccountException;
+	
+	/**
+	 * 充值
+	 * @param body
+	 * @param userId
+	 * @param method
+	 * @return
+	 * @throws MaAccountException
+	 */
+	public String recharge(UnfreezeVO body,Integer userId,String method)throws MaAccountException;
 	/**
 	 * 充值申请
 	 * @param body
@@ -56,6 +68,11 @@ public interface OrderService {
 	 * @param body
 	 */
 	public void CheckWithdrawalApply(CheckWithdrawalBodyVO body)throws MaAccountException;
+	/**
+	 * 提现充值审核
+	 * @param body
+	 */
+	public void CheckRechargeApply(CheckRechargeApplyBodyVO body)throws MaAccountException;
 	
 	/**
 	 * 提现申请
@@ -78,4 +95,7 @@ public interface OrderService {
 	 */
 	public WithdrawApply queryWithdrawalByOrderId(String OrderId)throws MaAccountException;
 
+	public RechargeApply queryRechargeByOrderId(String OrderId)throws MaAccountException;
+
+	
 }

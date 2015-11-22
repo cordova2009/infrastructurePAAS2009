@@ -7,7 +7,6 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
-use Common\Service\OrdersService;
 
 /**
  * 模型数据管理控制器
@@ -39,6 +38,8 @@ class ZtglobjectController extends AdminController {
         $tbzz_list = M('ztgl_bid_certification')->where(['bid_id'=>$id])->getField('id,certification_name');
         $tbfj_list = M('ztgl_bid_attachment')->where(['bid_id'=>$id])->select();
 
+        $item['bzj'] = M('ztgl_object_bond_record')->where(['bid_id'=>$id,'bond_type'=>'BID'])->getField('bond_amount');
+        $this->assign('item',$item);
         $this->assign('item',$item);
         $this->assign('tbzz_list',$tbzz_list);
         $this->assign('tbfj_list',$tbfj_list);

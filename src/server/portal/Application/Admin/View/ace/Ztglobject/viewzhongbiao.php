@@ -198,7 +198,7 @@
                 <td class="center">
                     <span class="btn btn-app btn-sm btn-yellow no-hover" style="width: auto; padding-right: 5px;">
                         <span class="line-height-1 bigger-170">
-                            ￥<?=price_format($item['bank_guarantee_amount'])?>
+                            ￥<?=price_format($item['bzj'])?>
                         </span>
                         <br>
                         <span class="line-height-1 smaller-90"> 元 </span>
@@ -207,7 +207,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="widget-header widget-header-small header-color-blue">
+    <div class="widget-header widget-header-small header-color-green">
         <h6 class="smaller">
             投标文件
         </h6>

@@ -7,7 +7,6 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
-use Common\Service\OrdersService;
 
 /**
  * 模型数据管理控制器

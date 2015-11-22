@@ -1,4 +1,0 @@
-<tr><td colspan="6"> </td></tr>
-	<tr>
-		<td><input  value="提交撮合投标保证金信息接口"  onclick='setbinding("/bid/saveMakeMatchBidderBond","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {       \"token\":\"12345\",            \"bidId\":1,            \"objectId\":\"BH2015082135656\",            \"makeMatchBidderBondAmount\":300000        }    } ")'  type="button" ></td>
-	</tr>

@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.MakeMatchBondRecord;
 
 public interface MakeMatchBondRecordMapper {
@@ -38,4 +40,9 @@ public interface MakeMatchBondRecordMapper {
 	 * @param bidId
 	 */
 	MakeMatchBondRecord selectByBidId(Integer bidId);
+	/**
+	 * 查询解冻撮合保证金
+	 * @param bidId
+	 */
+	List<MakeMatchBondRecord> selectReturnByBidId(Integer bidId);
 }

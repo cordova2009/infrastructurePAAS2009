@@ -125,4 +125,28 @@
       company_id = #{companyId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <select id="selectPayByObjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_record
+    where object_id = #{objectId,jdbcType=VARCHAR} and type='PAY'
+  </select>
+  <select id="selectReceiveByObjectId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_record
+    where object_id = #{objectId,jdbcType=VARCHAR} and type='REV'
+  </select>
+  <select id="getPaidAmountByObjectId" resultType="int" parameterType="java.lang.String" >
+    select 
+    IFNULL(sum(abs(`amount`)),0) paidAmount
+    from t_gcgl_project_payment_record
+    where object_id = #{objectId,jdbcType=VARCHAR} and type='PAY'
+  </select>
+  <select id="getReceivedAmountByObjectId" resultType="int" parameterType="java.lang.String" >
+    select 
+    IFNULL(sum(abs(`amount`)),0) receivedAmount
+    from t_gcgl_project_payment_record
+    where object_id = #{objectId,jdbcType=VARCHAR} and type='REV'
+  </select>
 </mapper>

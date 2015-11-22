@@ -1,9 +1,11 @@
 package com.hummingbird.paas.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.Objects;
 import com.hummingbird.paas.vo.MyBuildingObjectProject;
@@ -42,6 +44,7 @@ public interface ObjectProjectMapper {
      */
     int updateByPrimaryKey(ObjectProject record);
     
+    @Deprecated()
     List<ObjectProject> getPages(@Param("begin") int begin ,@Param("limit") int limit);
     
     List<ObjectProject> getMyObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
@@ -51,5 +54,20 @@ public interface ObjectProjectMapper {
     List<MyEndedObjectProject> getMyEndedObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
     
     List<MyLoseObjectProject> getMyLoseObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+
+	/**
+	 * 统计总记录数
+	 * @param param
+	 * @return
+	 */
+	int queryObjectCount(@Param("param")Map param);
+
+	/**
+	 * 分页查询招标记录
+	 * @param pagingnation
+	 * @param param
+	 * @return
+	 */
+	List<ObjectProject> queryObjectByPage(@Param("page") Pagingnation pagingnation,@Param("param") Map param);
     
     }

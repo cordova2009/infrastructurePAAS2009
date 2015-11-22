@@ -1,5 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 
 public interface ProjectPaymentDefineDetailMapper {
@@ -32,4 +36,15 @@ public interface ProjectPaymentDefineDetailMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectPaymentDefineDetail record);
+    
+    /**
+     * 根据招标Id查询下期付款定义
+     */
+    ProjectPaymentDefineDetail selectByObjectId(@Param("objectId")String objectId,@Param("period")Integer payPeriod);
+
+    /**
+     * 根据招标Id查询项目未付款部分的定义列表
+     */
+    List<ProjectPaymentDefineDetail> selectPayByObjectId(@Param("objectId")String objectId,@Param("period")Integer payPeriod);
+
 }

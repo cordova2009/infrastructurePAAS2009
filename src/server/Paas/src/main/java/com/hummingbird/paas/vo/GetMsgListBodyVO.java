@@ -1,6 +1,8 @@
 package com.hummingbird.paas.vo;
 
-public class GetMsgListBodyVO {
+import com.hummingbird.common.face.Pagingnation;
+
+public class GetMsgListBodyVO  {
     private String token;
     private Integer pageIndex;
     private Integer pageSize;
@@ -22,6 +24,16 @@ public class GetMsgListBodyVO {
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
+	
+	/**
+	 * 生成分页控件
+	 * @return
+	 */
+	public Pagingnation toPagingnation(){
+		return new Pagingnation(pageIndex, pageSize);
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "GetMsgListBodyVO [token=" + token + ", pageIndex=" + pageIndex + ", pageSize=" + pageSize + "]";

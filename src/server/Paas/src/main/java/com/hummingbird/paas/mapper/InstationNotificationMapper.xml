@@ -23,7 +23,7 @@
     from t_user_notices
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectTotalCountByTokenAndStatus" resultMap="int" parameterType="java.lang.String" >
+  <select id="selectTotalCountByTokenAndStatus" resultType="int" parameterType="java.lang.String" >
     select count(*) from t_user_notices
     where pkUser = #{token,jdbcType=INTEGER}  and  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
     <if test="status != null">

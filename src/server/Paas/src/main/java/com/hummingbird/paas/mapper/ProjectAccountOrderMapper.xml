@@ -352,4 +352,11 @@
     from t_project_account_order
     where account_id = #{accountId,jdbcType=VARCHAR} and status="OK#" and flow_direction="OUT" and type not in ('JBZ','SBZ','FRZ','UFZ')
   </select>
+  <select id="queryUnfreezeRecord" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_account_order
+    where original_order_id = #{orignalOrderId,jdbcType=VARCHAR} and status="OK#" and type="SBZ"
+    ORDER BY insert_time desc limit 1
+  </select>
 </mapper>

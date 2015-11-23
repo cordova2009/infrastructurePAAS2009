@@ -3,7 +3,7 @@ package com.hummingbird.paas.vo;
 public class FreezeBondBodyVO {
 	private String token;
 	private String type;
-	private Integer sum;
+	private Integer amount;
 	private String originalOrderId;
 	private String originalTable;
 	private String objectId;
@@ -41,11 +41,11 @@ public class FreezeBondBodyVO {
 		this.token = token;
 	}
 	
-	public Integer getSum() {
-		return sum;
+	public Integer getAmount() {
+		return amount;
 	}
-	public void setSum(Integer sum) {
-		this.sum = sum;
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 	public String getRemark() {
 		return remark;

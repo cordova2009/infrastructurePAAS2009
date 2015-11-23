@@ -24,7 +24,7 @@ public class ProjectInfo {
     /**
      * 工程状态,OK# 施工中,END 完结,FLS 终止
      */
-    private String staus;
+    private String status;
 
     /**
      * 发包方id
@@ -86,22 +86,17 @@ public class ProjectInfo {
         this.bidderId = bidderId;
     }
 
-    /**
-     * @return 工程状态,OK# 施工中,END 完结,FLS 终止
-     */
-    public String getStaus() {
-        return staus;
-    }
+    
 
-    /**
-     * @param staus 
-	 *            工程状态,OK# 施工中,END 完结,FLS 终止
-     */
-    public void setStaus(String staus) {
-        this.staus = staus == null ? null : staus.trim();
-    }
+    public String getStatus() {
+		return status;
+	}
 
-    /**
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	/**
      * @return 发包方id
      */
     public Integer getBiddeeId() {
@@ -161,7 +156,7 @@ public class ProjectInfo {
         return (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
             && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
             && (this.getBidderId() == null ? other.getBidderId() == null : this.getBidderId().equals(other.getBidderId()))
-            && (this.getStaus() == null ? other.getStaus() == null : this.getStaus().equals(other.getStaus()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
             && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
@@ -174,7 +169,7 @@ public class ProjectInfo {
         result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
         result = prime * result + ((getBidderId() == null) ? 0 : getBidderId().hashCode());
-        result = prime * result + ((getStaus() == null) ? 0 : getStaus().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());

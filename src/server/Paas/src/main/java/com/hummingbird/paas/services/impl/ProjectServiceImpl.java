@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.Project;
 import com.hummingbird.paas.entity.ProjectInfo;
@@ -24,6 +25,7 @@ import com.hummingbird.paas.mapper.ProjectPaymentReceiveMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentRecordMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.util.FundNameUtil;
+import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.MyIncomeOverallReturnVO;
 import com.hummingbird.paas.vo.MyPaymentOverallReturnVO;
 import com.hummingbird.paas.vo.PaidAmountDetailReturnVO;
@@ -77,24 +79,22 @@ public class ProjectServiceImpl implements ProjectService{
 			QueryMyPaymentListReturnVO query=new QueryMyPaymentListReturnVO();
 			query.setObjectId(project.getObjectId());
 			query.setObjectName(objcet.getObjectName());
-			query.setPaidAmount(paidAmount.toString());
+			query.setPaidAmount(MoneyUtil.getMoneyStringDecimal4yuan(paidAmount));
 			Integer willPayAmount=0;
 			if(lastPayInfo!=null){
-				willPayAmount=lastPayInfo.getLeftAmount()/100;
+				willPayAmount=lastPayInfo.getLeftAmount();
 			}else if(payDefine!=null){
 				//应该是objcet.getWinBidAmount()-payDefine.getPaySum()，但是数据库不对
-				willPayAmount=payDefine.getPaySum()/100;
-			}else{
-				willPayAmount=0;
+				willPayAmount=payDefine.getPaySum();
 			}
-			query.setWillPayAmount(willPayAmount.toString());
+			query.setWillPayAmount(MoneyUtil.getMoneyStringDecimal4yuan(willPayAmount));
 			query.setWinBidAmount(objcet.getWinBidAmount());
 			if(payDefine==null){
 				query.setNextPeriodPayAmount("0");
 				query.setNextPeriodPayTime(null);
 			}else{
-				query.setNextPeriodPayAmount(payDefine.getPaySum().toString());
-				query.setNextPeriodPayTime(payDefine.getPayStartTime().toString());
+				query.setNextPeriodPayAmount(MoneyUtil.getMoneyStringDecimal4yuan(payDefine.getPaySum()));
+				query.setNextPeriodPayTime(DateUtil.formatCommonDateorNull(payDefine.getPayStartTime()));
 			}
 			
 			list.add(query);
@@ -144,10 +144,10 @@ public class ProjectServiceImpl implements ProjectService{
 			allNextPeriodPayAmount+=nextPeriodPayAmount;
 		}
 		overall.setObjectNum(projects.size());
-		overall.setAllAmount(allAmount.toString());
-		overall.setNextPeriodPayAmount(allNextPeriodPayAmount.toString());
-		overall.setPaidAmount(allPaidAmount.toString());
-		overall.setWillPayAmount(allWillPayAmount.toString());
+		overall.setAllAmount(MoneyUtil.getMoneyStringDecimal4yuan(allAmount));
+		overall.setNextPeriodPayAmount(MoneyUtil.getMoneyStringDecimal4yuan(allNextPeriodPayAmount));
+		overall.setPaidAmount(MoneyUtil.getMoneyStringDecimal4yuan(allPaidAmount));
+		overall.setWillPayAmount(MoneyUtil.getMoneyStringDecimal4yuan(allWillPayAmount));
 		return overall;
 	}
 
@@ -159,10 +159,10 @@ public class ProjectServiceImpl implements ProjectService{
 		List<ProjectPaymentDefineDetail> defines=payDefineDao.selectPayByObjectId(objectId, lastPayInfo==null?0:lastPayInfo.getCurrentPeriod());
 		for(ProjectPaymentDefineDetail define:defines){
 			WillPayAmountDetailReturnVO query=new WillPayAmountDetailReturnVO();
-			query.setAmount(define.getPaySum().toString());
-			query.setEndDate(define.getPayEndTime().toString());
+			query.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(define.getPaySum()));
+			query.setEndDate(DateUtil.formatCommonDateorNull(define.getPayEndTime()));
 			query.setFundName("第"+FundNameUtil.outCh(define.getPeriod())+"期");
-			query.setStartDate(define.getPayStartTime().toString());
+			query.setStartDate(DateUtil.formatCommonDateorNull(define.getPayStartTime()));
 			list.add(query);
 		}
 		return list;
@@ -175,10 +175,10 @@ public class ProjectServiceImpl implements ProjectService{
 		List<ProjectPaymentPay> payList=payRecordDao.queryPaidRecord(objectId);
 		for(ProjectPaymentPay record: payList){
 			PaidAmountDetailReturnVO query=new PaidAmountDetailReturnVO();
-			query.setAmount(record.getAmount().toString());
+			query.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(record.getAmount()));
 			query.setBankName(record.getBank());
 			query.setFundName("第"+FundNameUtil.outCh(record.getCurrentPeriod())+"期");
-			query.setTransferDate(record.getTransferDate().toString());
+			query.setTransferDate(DateUtil.formatCommonDateorNull(record.getTransferDate()));
 			query.setVoucherNo(record.getVoucher());
 			list.add(query);
 		}
@@ -205,10 +205,10 @@ public class ProjectServiceImpl implements ProjectService{
 			Integer paidAmount= proRecordDao.getReceivedAmountByObjectId(project.getObjectId());
 			Integer willReceiveAmount=0;
 			if(lastPayInfo!=null){
-				willReceiveAmount=lastPayInfo.getLeftAmount()/100;
+				willReceiveAmount=lastPayInfo.getLeftAmount();
 			}else if(payDefine!=null){
 				//应该是objcet.getWinBidAmount()-payDefine.getPaySum()，但是数据库不对
-				willReceiveAmount=payDefine.getPaySum()/100;
+				willReceiveAmount=payDefine.getPaySum();
 			}else{
 				willReceiveAmount=0;
 			}
@@ -216,14 +216,14 @@ public class ProjectServiceImpl implements ProjectService{
 			query.setObjectId(project.getObjectId());
 			query.setObjectName(objcet.getObjectName());
 			query.setReceivedAmount(paidAmount.toString());
-			query.setWillReceiveAmount(willReceiveAmount.toString());
+			query.setWillReceiveAmount(MoneyUtil.getMoneyStringDecimal4yuan(willReceiveAmount));
 			query.setWinBidAmount(objcet.getWinBidAmount());
 			if(payDefine==null){
 				query.setNextPeriodReceiveAmount("0");
 				query.setNextPeriodReceiveTime(null);
 			}else{
-				query.setNextPeriodReceiveAmount(payDefine.getPaySum().toString());
-				query.setNextPeriodReceiveTime(payDefine.getPayStartTime().toString());
+				query.setNextPeriodReceiveAmount(MoneyUtil.getMoneyStringDecimal4yuan(payDefine.getPaySum()));
+				query.setNextPeriodReceiveTime(DateUtil.formatCommonDateorNull(payDefine.getPayStartTime()));
 			}
 			list.add(query);
 		}
@@ -264,10 +264,10 @@ public class ProjectServiceImpl implements ProjectService{
 			allNextPeriodPayAmount+=nextPeriodPayAmount;
 		}
 		overall.setObjectNum(projects.size());
-		overall.setAllAmount(allAmount.toString());
-		overall.setNextPeriodReceiveAmount(allNextPeriodPayAmount.toString());
-		overall.setReceivedAmount(allPaidAmount.toString());
-		overall.setWillReceiveAmount(allWillPayAmount.toString());
+		overall.setAllAmount(MoneyUtil.getMoneyStringDecimal4yuan(allAmount));
+		overall.setNextPeriodReceiveAmount(MoneyUtil.getMoneyStringDecimal4yuan(allNextPeriodPayAmount));
+		overall.setReceivedAmount(MoneyUtil.getMoneyStringDecimal4yuan(allPaidAmount));
+		overall.setWillReceiveAmount(MoneyUtil.getMoneyStringDecimal4yuan(allWillPayAmount));
 		return overall;
 	}
 
@@ -276,13 +276,13 @@ public class ProjectServiceImpl implements ProjectService{
 			String objectId) throws MaAccountException {
 		List<WillPayAmountDetailReturnVO> list=new ArrayList<WillPayAmountDetailReturnVO>();
 		ProjectPaymentReceive lastReceiveInfo=receiveRecordDao.getLastRecord(objectId);
-		List<ProjectPaymentDefineDetail> defines=payDefineDao.selectPayByObjectId(objectId, lastReceiveInfo.getCurrentPeriod());
+		List<ProjectPaymentDefineDetail> defines=payDefineDao.selectPayByObjectId(objectId, lastReceiveInfo==null?0:lastReceiveInfo.getCurrentPeriod());
 		for(ProjectPaymentDefineDetail define:defines){
 			WillPayAmountDetailReturnVO query=new WillPayAmountDetailReturnVO();
-			query.setAmount(define.getPaySum().toString());
-			query.setEndDate(define.getPayEndTime().toString());
+			query.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(define.getPaySum()));
+			query.setEndDate(DateUtil.formatCommonDateorNull(define.getPayEndTime()));
 			query.setFundName("第"+FundNameUtil.outCh(define.getPeriod())+"期");
-			query.setStartDate(define.getPayStartTime().toString());
+			query.setStartDate(DateUtil.formatCommonDateorNull(define.getPayStartTime()));
 			list.add(query);
 		}
 		return list;
@@ -303,10 +303,10 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			}
 			PaidAmountDetailReturnVO query=new PaidAmountDetailReturnVO();
-			query.setAmount(record.getAmount().toString());
+			query.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(record.getAmount()));
 			query.setBankName(payInfo.getBank());
 			query.setFundName("第"+FundNameUtil.outCh(record.getCurrentPeriod())+"期");
-			query.setTransferDate(payInfo.getTransferDate().toString());
+			query.setTransferDate(DateUtil.formatCommonDateorNull(payInfo.getTransferDate()));
 			query.setVoucherNo(payInfo.getVoucher());
 			list.add(query);
 		}

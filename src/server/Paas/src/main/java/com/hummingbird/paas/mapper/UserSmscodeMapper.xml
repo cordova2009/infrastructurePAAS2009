@@ -118,11 +118,11 @@
   <select id="getAuthCode" resultMap="BaseResultMap" parameterType="com.hummingbird.commonbiz.entity.SmsCode" >
     select *
     from t_user_smscode
-    where appId = #{appId,jdbcType=VARCHAR} and mobileNum=#{mobilenum,jdbcType=VARCHAR}
+    where appId = #{appid,jdbcType=VARCHAR} and mobileNum=#{mobilenum,jdbcType=VARCHAR}
   </select>
   <delete id="deleteAuthCode"  parameterType="com.hummingbird.commonbiz.entity.SmsCode" >
     delete
     from t_user_smscode
-    where appId = #{appId,jdbcType=VARCHAR} and mobileNum=#{mobilenum,jdbcType=VARCHAR}
+    where appId = #{appid,jdbcType=VARCHAR} and mobileNum=#{mobilenum,jdbcType=VARCHAR}
   </delete>
 </mapper>

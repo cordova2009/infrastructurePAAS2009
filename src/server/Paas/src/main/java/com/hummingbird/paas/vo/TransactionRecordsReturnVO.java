@@ -14,16 +14,17 @@ public class TransactionRecordsReturnVO{
         "balance":"2000.00",
         "remark":"xxxx"
     }]*/
-	private Date time;
+	private String time;
 	private String type;
 	private String income;
 	private String outlay;
 	private String balance;
 	private String remark;
-	public Date getTime() {
+	
+	public String getTime() {
 		return time;
 	}
-	public void setTime(Date time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 	public String getType() {

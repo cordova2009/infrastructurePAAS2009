@@ -4,20 +4,19 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.hummingbird.commonbiz.vo.AppBaseVO;
 import com.hummingbird.commonbiz.vo.AppMobileDecidable;
-import com.hummingbird.commonbiz.vo.Decidable;
-@JsonIgnoreProperties(value = {"appId", "type","authed","businessKeys"})
-public class RegisterVO extends AppBaseVO implements AppMobileDecidable{
-	
-	private RegisterBodyVO body;
 
-	public RegisterBodyVO getBody() {
+@JsonIgnoreProperties(value = {"appId", "type","authed","businessKeys"})
+public class FreezeWithdrawalsVO extends AppBaseVO implements AppMobileDecidable{
+	private FreezeWithdrawalsBodyVO body;
+	
+	public FreezeWithdrawalsBodyVO getBody() {
 		return body;
 	}
 
-	public void setBody(RegisterBodyVO body) {
+	public void setBody(FreezeWithdrawalsBodyVO body) {
 		this.body = body;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "RegisterVO [body=" + body + ", app="
@@ -33,6 +32,6 @@ public class RegisterVO extends AppBaseVO implements AppMobileDecidable{
 	@Override
 	public String getMobileNum() {
 		// TODO Auto-generated method stub
-		return body.getMobileNum();
+		return null;
 	}
 }

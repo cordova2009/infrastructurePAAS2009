@@ -54,6 +54,6 @@ public interface CapitalManageService {
 	 * @return
 	 * @throws DataInvalidException 
 	 */
-	public ValidateResult validatePaymentCode(String tradePassword,User user) throws DataInvalidException;
+	public ValidateResult validatePaymentCode(String tradePassword,User user,String appkey) throws DataInvalidException;
 
 }

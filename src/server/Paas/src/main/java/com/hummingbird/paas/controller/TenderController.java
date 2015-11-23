@@ -32,7 +32,6 @@ import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
-import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -1508,17 +1507,12 @@ public class TenderController extends BaseController {
 		
 		
 		try {
-			// 业务数据必填等校验
-			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
-			if (token == null) {
-				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
-				throw new TokenException("token验证失败,或已过期,请重新登录");
-			}
-//			String token =  transorder.getBody().getToken();
-			String objectId =  transorder.getBody().getObjectId();
-			Integer bidder_id = transorder.getBody().getWinBidId();
-	
-			int i= 0;
+		String token =  transorder.getBody().getToken();
+		String objectId =  transorder.getBody().getObjectId();
+		Integer bidder_id = transorder.getBody().getWinBidId();
+
+		int i= 0;
+		if(StringUtils.isNotBlank(token)){
 			BidObject  bid =bidObjectDao.selectByPrimaryKey(objectId);
 			
 			BidRecord bidr = bidRecordDao.selectByObjectIdAndBidderId(objectId, bidder_id);
@@ -1526,7 +1520,10 @@ public class TenderController extends BaseController {
 			ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
 			TenderPaymentInfo tp = transorder.getBody().getPaymentInfo();
 			List<TenderPaymentDetailInfo> tpds= tp.getPayList();
-			ValidateUtil.assertNull(bid, "未找到招标工程信息!");
+			if(bid==null){
+				rm.setErrmsg("未找到相应记录!");
+				return rm;
+				}else{
 					//1.保存到招标表
 					bid.setObjectStatus("SEL");;//修改状态为定标
 					bid.setWinBidderId(transorder.getBody().getWinBidId());
@@ -1547,6 +1544,10 @@ public class TenderController extends BaseController {
 						ppf.setProjectPaymentDefineId(pid);
 						projectPaymentDefineDetailDao.insert(ppf);
 					}
+					
+					
+				}
+			}
 	
 		
 		if(i<= 0){

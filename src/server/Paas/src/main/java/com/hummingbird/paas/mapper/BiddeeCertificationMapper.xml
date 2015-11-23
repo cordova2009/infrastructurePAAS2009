@@ -90,19 +90,6 @@
       </if>
     </trim>
   </insert>
-  <insert id="insertSelectiveByCertificationIdSuccess" parameterType="java.lang.Integer" >
-    insert into t_qyzz_biddee_certification (id, tenderer_id, certification_id, 
-      certification_name, certification_content, 
-      expire_time, applicable_region, certification_no
-      )select * from t_qyzz_biddee_certification_certification a 
-      where a.biddee_id = #{biddeeId,jdbcType=INTEGER}
-  </insert>
-   <update id="updateByCertificationIdSuccess" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
-    update t_qyzz_biddee_certification a INNER JOIN t_qyzz_biddee_certification_certification b ON a.id = b.id  set  a.tenderer_id = b.biddee_id, a.certification_id = b.certification_id, 
-      a.certification_name = b.certification_name, a.certification_content = b.certification_content, 
-      a.expire_time = b.expire_time, a.applicable_region = b.applicable_region, a.certification_no = b.certification_no 
-      where b.biddee_id = #{biddeeId,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
     update t_qyzz_biddee_certification
     <set >
@@ -141,10 +128,4 @@
       certification_no = #{certificationNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByBiddeeId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_qyzz_biddee_certification
-    where tenderer_id = #{biddeeId,jdbcType=INTEGER}
-  </select>
 </mapper>

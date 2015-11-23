@@ -535,37 +535,4 @@
     where status="OK#"
    
   </select>
-  <insert id="insertSelectByBidderIdSuccess" parameterType="java.lang.Integer" >
-   insert into t_qyzz_bidder(id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
-    business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
-    business_license_type, business_license_expire_time, email, legal_person_authority_book, 
-    project_scope, description, website, address, industry_id, sector_id, province, district, logo, short_name, registered_capital, 
-    business_scope, legal_person_idcard, legal_person_idcard_front_url, legal_person_idcard_back_url, 
-    business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
-    unified_social_credit_code, unified_social_credit_code_url,certificate_time, certificate_status,status) select a.id, a.user_id, a.company_name, a.legal_person, a.reg_time, a.contact_name, a.contact_mobile_num, 
-    a.business_license, a.org_code_certificate, a.tax_registration_certificate, a.new_business_license, 
-    a.business_license_type, a.business_license_expire_time, a.email, a.legal_person_authority_book, 
-    a.project_scope, a.description, a.website, a.address, a.industry_id, a.sector_id, a.province, a.district, a.logo, a.short_name, a.registered_capital, 
-    a.business_scope, a.legal_person_idcard, a.legal_person_idcard_front_url, a.legal_person_idcard_back_url, 
-    a.business_license_url, a.org_code_certificate_url, a.tax_registration_certificate_url, 
-    a.unified_social_credit_code, a.unified_social_credit_code_url,now(),'OK#','OK#' FROM t_qyzz_bidder_certicate a
-      where a.id = #{bidderId,jdbcType=INTEGER}
-  </insert>
-   <update id="updateByBidderIdSuccess" parameterType="com.hummingbird.paas.entity.Bidder" >
-   update t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certicate b ON a.id = b.id set a.id = b.id, a.user_id = b.user_id, a.company_name = b.company_name, 
-      a.legal_person = b.legal_person, a.reg_time = b.reg_time, a.contact_name = b.contact_name, 
-      a.contact_mobile_num = b.contact_mobile_num, a.business_license = b.business_license, a.org_code_certificate = b.org_code_certificate, 
-      a.tax_registration_certificate = b.tax_registration_certificate, a.new_business_license = b.new_business_license, 
-      a.business_license_type = b.business_license_type, a.business_license_expire_time = b.business_license_expire_time, 
-      a.legal_person_idcard = b.legal_person_idcard, a.legal_person_idcard_front_url = b.legal_person_idcard_front_url, 
-      a.email = b.email, a.legal_person_authority_book = b.legal_person_authority_book, a.project_scope = b.project_scope, 
-      a.description = b.description, a.website = b.website, a.address = b.address, 
-      a.industry_id = b.industry_id, a.sector_id = b.sector_id, a.province = b.province, 
-      a.district = b.district, a.logo = b.logo, a.short_name = b.short_name, 
-      a.registered_capital = b.registered_capital, a.business_scope = b.business_scope, a.legal_person_idcard_back_url = b.legal_person_idcard_back_url, 
-      a.business_license_url = b.business_license_url, a.org_code_certificate_url = b.org_code_certificate_url, 
-      a.tax_registration_certificate_url = b.tax_registration_certificate_url, a.unified_social_credit_code = b.unified_social_credit_code, 
-      a.unified_social_credit_code_url = b.unified_social_credit_code_url,a.certificate_time = now(), a.certificate_status = 'OK#',a.status = 'OK#' 
-      where b.id = #{bidderId,jdbcType=INTEGER}
-  </update>
 </mapper>

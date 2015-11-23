@@ -24,9 +24,9 @@ public interface BiddeeCreditMapper {
     BiddeeCredit selectByPrimaryKey(Integer tendererId);
     
     /**
-     * 根据userId查询记录
+     * 根据token查询记录
      */
-    BiddeeCredit selectByUserId(Integer userId);
+    BiddeeCredit selectByToken(String token);
 
     /**
      * 根据主键更新属性不为空的记录

@@ -51,6 +51,16 @@
     business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
     unified_social_credit_code, unified_social_credit_code_url
   </sql>
+  <sql id="Base1_Column_List" >
+    a.id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
+    business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
+    business_license_type, business_license_expire_time, email, legal_person_authority_book, 
+    project_scope, description, website, address, certificate_time, certificate_status, 
+    status, industry_id, sector_id, province, district, logo, short_name, registered_capital, 
+    business_scope, legal_person_idcard, legal_person_idcard_front_url, legal_person_idcard_back_url, 
+    business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
+    unified_social_credit_code, unified_social_credit_code_url
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -508,7 +518,7 @@
   </select>
   <select id="getIndexBidListPages" resultMap="BaseResultMap"  >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base1_Column_List" />
 	from t_qyzz_bidder a INNER JOIN t_tjnr_bidder_recommend b on a.id = b.bidder_id  
 	where status="OK#" ORDER BY b.sort_no
     limit #{begin},#{limit}

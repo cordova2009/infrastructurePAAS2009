@@ -27,7 +27,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	private String receivedAmount;
 	private String willReceiveAmount;
 	
-	private Date projectExpectStartDate;
+	private String projectExpectStartDate;
 	private String projectExpectPeriod;
 	/**
 	 * @return the objectId
@@ -68,7 +68,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @return the projectExpectStartDate
 	 */
-	public Date getProjectExpectStartDate() {
+	public String getProjectExpectStartDate() {
 		return projectExpectStartDate;
 	}
 	/**
@@ -116,7 +116,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @param projectExpectStartDate the projectExpectStartDate to set
 	 */
-	public void setProjectExpectStartDate(Date projectExpectStartDate) {
+	public void setProjectExpectStartDate(String projectExpectStartDate) {
 		this.projectExpectStartDate = projectExpectStartDate;
 	}
 	/**
@@ -136,6 +136,5 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 				+ ", projectExpectPeriod=" + projectExpectPeriod + "]";
 	}
 	
-
 
 }

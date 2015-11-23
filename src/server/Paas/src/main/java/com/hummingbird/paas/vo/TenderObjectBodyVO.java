@@ -14,20 +14,20 @@ public class TenderObjectBodyVO extends PagingnationVO {
 //	 "keywords":[{"keyword":"投标"},{"keyword":"深圳"}]
 //		        "pageIndex":0,
 //		        "pageSize":10
-	private String[] keyword;
+	private String[] keywords;
 
 	/**
-	 * @return the keyword
+	 * @return the keywords
 	 */
-	public String[] getKeyword() {
-		return keyword;
+	public String[] getKeywords() {
+		return keywords;
 	}
 
 	/**
-	 * @param keyword the keyword to set
+	 * @param keywords the keywords to set
 	 */
-	public void setKeyword(String[] keyword) {
-		this.keyword = keyword;
+	public void setKeywords(String[] keywords) {
+		this.keywords = keywords;
 	}
 
 	/* (non-Javadoc)
@@ -35,8 +35,9 @@ public class TenderObjectBodyVO extends PagingnationVO {
 	 */
 	@Override
 	public String toString() {
-		return "TenderObjectBodyVO [keyword=" + Arrays.toString(keyword) + "]";
+		return "TenderObjectBodyVO [keywords=" + Arrays.toString(keywords) + "]";
 	}
+
 	
 
 

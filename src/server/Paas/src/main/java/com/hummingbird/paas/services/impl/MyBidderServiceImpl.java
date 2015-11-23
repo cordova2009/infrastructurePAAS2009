@@ -490,8 +490,11 @@ public class MyBidderServiceImpl implements MyBidderService {
 				BidderCertificationCertification b =new BidderCertificationCertification();
 				
 				for(BidderEqInfo be :  eqInfos){
-					if(be.getEqId() != null){
-						BidderCertificationCertification bcc=bidderCertificationCertificationDao.selectByPrimaryKey(be.getEqId());
+					
+					BidderCertificationCertification bcc=bidderCertificationCertificationDao.selectByPrimaryKey(be.getEqId());
+					
+						ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
+					if(bcc != null){
 						bcc.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());
 						bcc.setCertificationContent(be.getEqDesc());

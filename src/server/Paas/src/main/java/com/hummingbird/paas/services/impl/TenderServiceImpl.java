@@ -1283,10 +1283,13 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	@Override
-	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException {
+//	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException {
+	public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException {
 		// TODO Auto-generated method stub
 		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
-		
+		com.hummingbird.common.face.Pagingnation page = new Pagingnation();
+		page.setCurrPage(1);
+		page.setPageSize(10);
 		if(page!=null&&page.isCountsize()){
 			int totalcount = dao.selectTotalIndexObjectList();
 			page.setTotalCount(totalcount);
@@ -1305,10 +1308,13 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	@Override
-	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException {
+//	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException {
+	public List<QueryBidIndexListResult> getBidIndexList() throws BusinessException {
 		// TODO Auto-generated method stub
 		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
-		
+		com.hummingbird.common.face.Pagingnation page = new Pagingnation();
+		page.setCurrPage(1);
+		page.setPageSize(10);
 		if(page!=null&&page.isCountsize()){
 			int totalcount = dao.selectTotalBidIndexList();
 			page.setTotalCount(totalcount);

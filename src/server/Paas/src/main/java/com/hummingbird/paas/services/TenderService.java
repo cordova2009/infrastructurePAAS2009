@@ -339,7 +339,8 @@ public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords,Pagi
 * @return 
 * @throws BusinessException 
 */
-public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException;
+//public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException;
+public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException;
 /**
 * 查询首页中标结果概况接口
 * @param appId 应用id
@@ -355,7 +356,8 @@ public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
 * @return 
 * @throws BusinessException 
 */
-public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException;
+//public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException;
+public List<QueryBidIndexListResult> getBidIndexList() throws BusinessException;
 /**
 * 查询首页中标结果概况接口
 * @param appId 应用id

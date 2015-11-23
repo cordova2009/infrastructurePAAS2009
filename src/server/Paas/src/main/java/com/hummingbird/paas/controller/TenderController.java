@@ -1884,11 +1884,11 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryMyTenderObject",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询我的招标概况")
+	@AccessRequered(methodName = "查询我的招标项目列表")
 	// 框架的日志处理
 	public @ResponseBody ResultModel queryMyTenderObject(HttpServletRequest request,
 			HttpServletResponse response) {
-		String messagebase = "查询我的招标概况";
+		String messagebase = "查询我的招标项目列表";
 		int basecode = 0;
 		BaseTransVO<TenderMyObjectSurveyBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
@@ -1933,8 +1933,7 @@ public class TenderController extends BaseController {
 						
 						try {
 							Map row= BeanUtils.describe(ori);
-							row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
-							row.put("biddingEndTime", DateUtil.formatCommonDateorNull(ori.getBiddingEndTime()));
+							
 							row.remove("class");
 							return row;
 							
@@ -2021,7 +2020,7 @@ public class TenderController extends BaseController {
 						
 						try {
 							Map row= BeanUtils.describe(ori);
-							row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+//							row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
 //							row.put("biddingEndTime", DateUtil.formatCommonDateorNull(ori.getBiddingEndTime()));
 							row.remove("class");
 							return row;
@@ -2183,7 +2182,7 @@ public class TenderController extends BaseController {
 				
 				List<TenderObjectListReturnVO> list=new ArrayList<TenderObjectListReturnVO>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
-				list = tenderService.getTenderObjectList(transorder.getBody().getKeyword(), page);
+				list = tenderService.getTenderObjectList(transorder.getBody().getKeywords(), page);
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
 
 					@Override
@@ -2239,7 +2238,7 @@ public class TenderController extends BaseController {
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseBidObjectVO.class);
+			transorder = (BaseTransVO<BaseBidObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseBidObjectVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取%s参数出错",messagebase),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
@@ -2260,11 +2259,12 @@ public class TenderController extends BaseController {
 		
 		try {
 			
-				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+//				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
 				List<QueryIndexObjectListResult> list=new ArrayList<QueryIndexObjectListResult>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
-				list = tenderService.getIndexObjectList(page);
+//				list = tenderService.getIndexObjectList(page);
+				list = tenderService.getIndexObjectList();
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryIndexObjectListResult, Map>() {
 
 					@Override
@@ -2282,7 +2282,7 @@ public class TenderController extends BaseController {
 						}
 					}
 				});
-				mergeListOutput(rm, page, nos);
+				rm.put("list", nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -2407,11 +2407,12 @@ public class TenderController extends BaseController {
 		
 		try {
 			
-				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+//				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
 				List<QueryBidIndexListResult> list=new ArrayList<QueryBidIndexListResult>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
-				list = tenderService.getBidIndexList(page);
+//				list = tenderService.getBidIndexList(page);
+				list = tenderService.getBidIndexList();
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryBidIndexListResult, Map>() {
 
 					@Override
@@ -2428,7 +2429,8 @@ public class TenderController extends BaseController {
 						}
 					}
 				});
-				mergeListOutput(rm, page, nos);
+				rm.put("list", nos);
+//				mergeListOutput(rm, page, nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -2465,13 +2467,13 @@ public class TenderController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			Integer pageIndex =transorder.getBody().getPageIndex();
-			Integer pageSize =transorder.getBody().getPageSize();
+			Integer pageIndex =1;
+			Integer pageSize =20;
 			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){log.error(String.format(messagebase + "失败"));
 			rm.setErrmsg("参数错误");
 			return rm;
 			}
-			liq = tenderService.queryIndexBidList(1, 20);
+			liq = tenderService.queryIndexBidList(pageIndex, pageSize);
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

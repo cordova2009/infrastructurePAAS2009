@@ -33,6 +33,38 @@
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>
+   <resultMap id="Base1ResultMap" type="com.hummingbird.paas.entity.ObjectProject" >
+    <id column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
+    <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
+    <result column="object_name" property="objectName" jdbcType="VARCHAR" />
+    <result column="object_amount" property="objectAmount" jdbcType="INTEGER" />
+    <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
+    <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bidder_id" property="winBidderId" jdbcType="INTEGER" />
+    <result column="a.industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="a.sector_id" property="sectorId" jdbcType="VARCHAR" />
+    <result column="a.province" property="province" jdbcType="INTEGER" />
+    <result column="a.district" property="district" jdbcType="INTEGER" />
+    <result column="biddee_company_principal" property="biddeeCompanyPrincipal" jdbcType="VARCHAR" />
+    <result column="biddee_company_telephone" property="biddeeCompanyTelephone" jdbcType="VARCHAR" />
+    <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
+    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
+    <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="INTEGER" />
+    <result column="need_business_standard" property="needBusinessStandard" jdbcType="VARCHAR" />
+    <result column="need_technical_standard" property="needTechnicalStandard" jdbcType="VARCHAR" />
+    <result column="need_certification_checkup_file" property="needCertificationCheckupFile" jdbcType="VARCHAR" />
+    <result column="need_pm_certification" property="needPmCertification" jdbcType="VARCHAR" />
+    <result column="need_constructor_certification" property="needConstructorCertification" jdbcType="VARCHAR" />
+    <result column="need_safety_permit" property="needSafetyPermit" jdbcType="VARCHAR" />
+    <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
+    <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
+    <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
+  </resultMap>
    <resultMap id="MyBuildingObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
     <result column="receivedAmount" property="receivedAmount" jdbcType="VARCHAR" />
     <result column="willReceiveAmount" property="willReceiveAmount" jdbcType="VARCHAR" />
@@ -53,18 +85,27 @@
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
     win_bid_time
   </sql>
-  <sql id="My_Building_Column_List" >
+  <sql id="Base1_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
-    object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
+    object_status, win_bid_amount, win_bidder_id, a.industry_id,a.sector_id,a.province,a.district,
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time,receivedAmount,willReceiveAmount
+    win_bid_time
+  </sql>
+  <sql id="My_Building_Column_List" >
+    a.object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    object_status, win_bid_amount, win_bidder_id, a.industry_id, a.sector_id, a.province, a.district, 
+    biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
+    contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
+    need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
+    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
+    win_bid_time,sum(c.total_amount) receivedAmount,sum(c.left_amount) willReceiveAmount
   </sql>
   <sql id="My_Ended_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
-    object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
+    object_status, win_bid_amount, win_bidder_id, a.industry_id, a.sector_id, a.province, a.district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
@@ -73,7 +114,7 @@
   </sql>
   <sql id="My_Lose_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
-    object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
+    object_status, win_bid_amount, win_bidder_id, a.industry_id, a.sector_id, a.province, a.district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
@@ -108,10 +149,10 @@
   </select>
   <select id="getMyObjectProjectPages" resultMap="BaseResultMap" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base1_Column_List" />
     from t_ztgl_object a
    	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
-    where  b.user_id = #{user_id} and a.object_status = 'SEL'
+    where  b.user_id = #{userId} and a.object_status = 'SEL'
     limit #{begin},#{limit}
   </select>
   <select id="getMyBuildingObjectProjectPages" resultMap="MyBuildingObjectResultMap" >
@@ -119,19 +160,20 @@
     <include refid="My_Building_Column_List" />
     from t_ztgl_object a
    	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
-    where  b.user_id = #{user_id} and (a.object_status = 'PUB' or a.object_status = 'REV')
+   	left join t_gcgl_project_payment_pay c on a.object_id = c.object_id and c.`status` = 'OK#'
+    where  b.user_id = #{userId} and (a.object_status = 'PUB' or a.object_status = 'REV')
     limit #{begin},#{limit}
   </select>
   <select id="getMyEndedObjectProjectPages" resultMap="MyEndedObjectResultMap" >
     select  <include refid="My_Ended_Column_List" />  
     from t_ztgl_object a inner join t_qyzz_biddee b on a.biddee_id = b.id
-    where  b.user_id = #{user_id} and a.object_status = 'END'
+    where  b.user_id = #{userId} and a.object_status = 'END'
     limit #{begin},#{limit}
   </select>
   <select id="getMyLoseObjectProjectPages" resultMap="MyLoseObjectResultMap">
     select  <include refid="My_Lose_Column_List" />  
     from t_ztgl_object a inner join t_qyzz_biddee b on a.biddee_id = b.id INNER JOIN t_ztgl_bid_record c on a.object_id = c.object_id and a.win_bidder_id = c.bidder_id
-    where  b.user_id = #{user_id} and a.object_status = 'END'  and c.bid_status = 'WIN'
+    where  b.user_id = #{userId} and a.object_status = 'END'  and c.bid_status = 'WIN'
     limit #{begin},#{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

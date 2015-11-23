@@ -15,9 +15,9 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	private String objectId;
 	private String objectName;
 	private Integer evaluationAmount;
-	private Date projectExpectStartDate;
+	private String projectExpectStartDate;
 	private Integer projectExpectPeriod;
-	private Date biddingEndTime;
+	private String biddingEndTime;
 	/**
 	 * @return the industryId
 	 */
@@ -45,7 +45,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @return the projectExpectStartDate
 	 */
-	public Date getProjectExpectStartDate() {
+	public String getProjectExpectStartDate() {
 		return projectExpectStartDate;
 	}
 	/**
@@ -57,7 +57,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @return the biddingEndTime
 	 */
-	public Date getBiddingEndTime() {
+	public String getBiddingEndTime() {
 		return biddingEndTime;
 	}
 	/**
@@ -87,7 +87,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @param projectExpectStartDate the projectExpectStartDate to set
 	 */
-	public void setProjectExpectStartDate(Date projectExpectStartDate) {
+	public void setProjectExpectStartDate(String projectExpectStartDate) {
 		this.projectExpectStartDate = projectExpectStartDate;
 	}
 	/**
@@ -99,7 +99,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @param biddingEndTime the biddingEndTime to set
 	 */
-	public void setBiddingEndTime(Date biddingEndTime) {
+	public void setBiddingEndTime(String biddingEndTime) {
 		this.biddingEndTime = biddingEndTime;
 	}
 	/* (non-Javadoc)
@@ -112,7 +112,6 @@ public class MyTenderObjectListVO extends PagingnationVO{
 				+ projectExpectStartDate + ", projectExpectPeriod=" + projectExpectPeriod + ", biddingEndTime="
 				+ biddingEndTime + "]";
 	}
-	
 	
 
 }

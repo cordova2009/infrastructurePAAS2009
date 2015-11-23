@@ -10,5 +10,7 @@ import com.hummingbird.commonbiz.vo.PagingnationVO;
  * @since 2015年11月11日22:12:08
  * */
 public class BaseBidObjectVO extends PagingnationVO {
-	
+	public  BaseBidObjectVO(){
+		
+	}
 }

@@ -228,7 +228,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 			if(biddee==null){
 				biddee=new BiddeeCerticate();
 				if(baseInfo!= null){
@@ -286,7 +286,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
         int i = 0;
 		if(token.getUserId()!=null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 			if(biddee==null){
 				biddee=new BiddeeCerticate();
 				if(legalPerson!= null){
@@ -345,7 +345,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 			if(registeredInfo!= null){
 				
 				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();

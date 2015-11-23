@@ -230,7 +230,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(bidder==null){
 				bidder=new BidderCerticate();
 				if(baseInfo!= null){
@@ -288,7 +288,7 @@ public class MyBidderServiceImpl implements MyBidderService {
         int i = 0;
 		if(token.getUserId()!=null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(bidder==null){
 				bidder=new BidderCerticate();
 				if(legalPerson!= null){
@@ -347,7 +347,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(registeredInfo!= null){
 				
 				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();
@@ -484,7 +484,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 		// TODO Auto-generated method stub
 			int i =0;
 			BidderCerticate bidder = bidderCerticateDao.selectByUserId(token.getUserId());
-			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(eqInfos!= null && eqInfos.size()>0){
 				
 				BidderCertificationCertification b =new BidderCertificationCertification();

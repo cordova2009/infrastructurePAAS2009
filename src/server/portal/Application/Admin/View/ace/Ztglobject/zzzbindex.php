@@ -62,7 +62,21 @@
 					</notempty>
 				</tbody>
             </table>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                    <a title="推荐管理" href="<?=U('ztglobject/zbsort')?>" class="btn btn-sm btn-info">
+                        <span class="icon-exchange"></span>
+                        推荐
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="dataTables_paginate paging_bootstrap">
+                        <ul class="pagination">
+                            {$_page}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </block>

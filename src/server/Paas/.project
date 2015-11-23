@@ -3,6 +3,7 @@
 	<name>Paas</name>
 	<comment></comment>
 	<projects>
+		<project>commonbiz</project>
 		<project>commonTest</project>
 		<project>Servers</project>
 	</projects>

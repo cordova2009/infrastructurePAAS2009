@@ -15,17 +15,17 @@
   <sql id="Base_Column_List" >
     id, user, user_id, bank_name, bank_branch_name, account_no, province, city, account_name
   </sql>
-  <select id="selectBiddeeBankInfoByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectBiddeeBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_user_bankcard 
-     where  user_id = #{userId,jdbcType=VARCHAR} and user = 'BEE'
+    from t_user_bankcard a inner join t_user_token b on a.user_id = b.userId
+    where  b.token = #{token,jdbcType=VARCHAR} and a.user = 'TER'
   </select>
-   <select id="selectBidderBankInfoByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   <select id="selectBidderBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_user_bankcard 
-    where  user_id = #{userId,jdbcType=VARCHAR} and user = 'BER'
+    from t_user_bankcard a inner join t_user_token b on a.user_id = b.userId
+    where  b.token = #{token,jdbcType=VARCHAR} and a.user = 'BER'
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -108,40 +108,6 @@
       </if>
     </trim>
   </insert>
-   <insert id="insertBiddeeBankInfo" parameterType="java.lang.Integer" >
-    insert into t_user_bankcard (id, user_id, 
-      bank_name, bank_branch_name, account_no, 
-      province, city, account_name,user)select a.*,'BEE' from t_qyzz_biddee_bankcard_certicate a 
-	  where a.user_id =  #{userId,jdbcType=INTEGER}
-  </insert>
-   <insert id="insertBidderBankInfo" parameterType="java.lang.Integer" >
-     insert into t_user_bankcard (id, user_id, 
-      bank_name, bank_branch_name, account_no, 
-      province, city, account_name,user)select a.*,'BER' from t_qyzz_bidder_bankcard_certicate a 
-	  where a.user_id =  #{userId,jdbcType=INTEGER}
-  </insert>
-  <update id="updateBiddeeBankInfo" parameterType="com.hummingbird.paas.entity.UserBankcard" >
-    update t_user_bankcard a INNER JOIN t_qyzz_biddee_bankcard_certicate b on a.id = b.id
-    set a.user = 'BEE',
-      a.bank_name = b.bank_name,
-      a.bank_branch_name = b.bank_branch_name,
-      a.account_no = b.account_no,
-      a.province = b.province,
-      a.city =b.city,
-      a.account_name =b.account_name
-   	 where b.user_id = #{userId,jdbcType=INTEGER}
-  </update>
-  <update id="updateBidderBankInfo" parameterType="com.hummingbird.paas.entity.UserBankcard" >
-    update t_user_bankcard a INNER JOIN t_qyzz_bidder_bankcard_certicate b on a.id = b.id
-    set a.user = 'BER',
-      a.bank_name = b.bank_name,
-      a.bank_branch_name = b.bank_branch_name,
-      a.account_no = b.account_no,
-      a.province = b.province,
-      a.city =b.city,
-      a.account_name =b.account_name
-   	 where b.user_id = #{userId,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserBankcard" >
     update t_user_bankcard
     <set >

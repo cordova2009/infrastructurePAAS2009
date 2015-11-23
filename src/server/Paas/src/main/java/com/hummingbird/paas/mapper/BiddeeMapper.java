@@ -17,14 +17,6 @@ public interface BiddeeMapper {
      * 保存属性不为空的记录
      */
     int insertSelective(Biddee record);
-    /**
-     * 保存认证申请通过的资质表数据 
-     */
-    int insertSelectByBiddeeIdSuccess(Integer biddeeId);
-    /**
-     * 更新认证申请通过的资质表数据 
-     */
-    int updateByBiddeeIdSuccess(Integer biddeeId);
 
     /**
      * 根据主键查询记录

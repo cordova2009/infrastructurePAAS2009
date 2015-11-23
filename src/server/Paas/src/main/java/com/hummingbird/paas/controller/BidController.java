@@ -27,7 +27,6 @@ import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.BidRecord;
-import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
@@ -48,7 +47,6 @@ import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
-import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
 import com.hummingbird.paas.vo.QueryTechnicalStandardInfoBodyVOResult;
@@ -471,8 +469,10 @@ public class BidController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			Map certresult = bidService.queryBidderCertificationInfo(transorder.getBody(),bidder.getId());
-			rm.put("certificationInfo", certresult);
+			List certs = bidService.queryBidderCertificationInfo(bidder.getId());
+			Map result = new HashMap<>();
+			rm.put("certificationInfo", result);
+			result.put("bidderList", certs);
 			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -788,59 +788,6 @@ public class BidController extends BaseController {
 			QueryObjectDetailResultVO  result = bidService.queryObjectDetail(transorder.getApp().getAppId(),transorder.getBody(),bidder.getId());
 			rm.put("body",result);
 			tokenSrv.postponeToken(token);
-		}catch (Exception e1) {
-			log.error(String.format(messagebase + "失败"), e1);
-			rm.mergeException(e1);
-			if(qe!=null)
-				qe.setSuccessed(false);
-		} finally {
-			if(qe!=null)
-				EventListenerContainer.getInstance().fireEvent(qe);
-		}
-		return rm;
-		
-	}
-	
-	/**
-	 * 查询未完成招标项目资质要求接口
-	 * @return
-	 */
-	@RequestMapping(value="/queryObjectCertificationInfo",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询投标要求基础信息接口",isJson=true,codebase=247400,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBodyVO",appLog=true)
-	public @ResponseBody ResultModel queryObjectCertificationInfo(HttpServletRequest request,HttpServletResponse response) {
-		ResultModel rm = super.getResultModel();
-		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
-		String messagebase = "查询未完成招标项目资质要求接口"; 
-	
-		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
-		
-		try {
-			//业务数据必填等校验
-//			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
-//			if (token == null) {
-//				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
-//				throw new TokenException("token验证失败,或已过期,请重新登录");
-//			}
-//			Biddee biddee = biddeeDao.selectByUserId(token.getUserId());
-//			if(biddee==null)
-//			{
-//				log.error(String.format("用户%s查找不到招标方信息,可能未进行资格认证", token.getUserId()));
-//				throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您没有招标方资质认证,请先进行认证");
-//			}
-			//业务数据逻辑校验
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			QueryObjectCertificationInfoResult result = bidService.queryObjectCertificationInfo(transorder.getApp().getAppId(),transorder.getBody());
-	        Map  bidSafetyInfo = new HashMap<>();
-	        Map  bidPeopleRequirement = new HashMap<>();
-	        bidPeopleRequirement.put("needPmCertification", result.getNeedPmCertification());
-	        bidPeopleRequirement.put("needConstructorCertification", result.getNeedConstructorCertification());
-	        bidSafetyInfo.put("needSafetyPermit", result.getNeedSafetyPermit());
-	        bidSafetyInfo.put("needPmSafetyCertification", result.getNeedPmSafetyCertification());
-	        rm.put("bidSafetyInfo", bidSafetyInfo);
-	        rm.put("bidPeopleRequirement", bidPeopleRequirement);
-//			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

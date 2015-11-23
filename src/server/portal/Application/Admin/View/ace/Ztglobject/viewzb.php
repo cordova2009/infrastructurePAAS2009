@@ -1,7 +1,7 @@
 <extend name="Public/base" />
 
-<block name="body">
-<div class="col-md-offset-2 col-xs-8">
+<block name="body">>
+<div class="detail-content">
     <div class="accordion-style1 panel-group" id="accordion">
         <?php
         $panel_titles = [

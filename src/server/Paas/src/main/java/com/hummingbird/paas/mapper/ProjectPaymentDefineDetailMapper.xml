@@ -7,7 +7,7 @@
     <result column="period" property="period" jdbcType="INTEGER" />
     <result column="pay_end_time" property="payEndTime" jdbcType="TIMESTAMP" />
     <result column="pay_start_time" property="payStartTime" jdbcType="TIMESTAMP" />
-    <result column="pay_sum" property="paySum" jdbcType="INTEGER" />
+    <result column="pay_sum" property="paySum" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, project_payment_define_id, period, pay_end_time, pay_start_time, pay_sum
@@ -27,7 +27,7 @@
       pay_end_time, pay_start_time, pay_sum
       )
     values (#{id,jdbcType=INTEGER}, #{projectPaymentDefineId,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
-      #{payEndTime,jdbcType=TIMESTAMP}, #{payStartTime,jdbcType=TIMESTAMP}, #{paySum,jdbcType=INTEGER}
+      #{payEndTime,jdbcType=TIMESTAMP}, #{payStartTime,jdbcType=TIMESTAMP}, #{paySum,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefineDetail" >
@@ -69,7 +69,7 @@
         #{payStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paySum != null" >
-        #{paySum,jdbcType=INTEGER},
+        #{paySum,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -89,7 +89,7 @@
         pay_start_time = #{payStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paySum != null" >
-        pay_sum = #{paySum,jdbcType=INTEGER},
+        pay_sum = #{paySum,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -100,7 +100,7 @@
       period = #{period,jdbcType=INTEGER},
       pay_end_time = #{payEndTime,jdbcType=TIMESTAMP},
       pay_start_time = #{payStartTime,jdbcType=TIMESTAMP},
-      pay_sum = #{paySum,jdbcType=INTEGER}
+      pay_sum = #{paySum,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByObjectId" resultMap="BaseResultMap" >

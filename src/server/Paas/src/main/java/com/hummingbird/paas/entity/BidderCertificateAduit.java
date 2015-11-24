@@ -1245,4 +1245,149 @@ public class BidderCertificateAduit {
     public void setAuditTime(Date auditTime) {
         this.auditTime = auditTime;
     }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        BidderCertificateAduit other = (BidderCertificateAduit) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getBidderCerticateId() == null ? other.getBidderCerticateId() == null : this.getBidderCerticateId().equals(other.getBidderCerticateId()))
+            && (this.getCompanyNameMsg() == null ? other.getCompanyNameMsg() == null : this.getCompanyNameMsg().equals(other.getCompanyNameMsg()))
+            && (this.getLegalPersonMsg() == null ? other.getLegalPersonMsg() == null : this.getLegalPersonMsg().equals(other.getLegalPersonMsg()))
+            && (this.getRegTimeMsg() == null ? other.getRegTimeMsg() == null : this.getRegTimeMsg().equals(other.getRegTimeMsg()))
+            && (this.getContactNameMsg() == null ? other.getContactNameMsg() == null : this.getContactNameMsg().equals(other.getContactNameMsg()))
+            && (this.getContactMobileNumMsg() == null ? other.getContactMobileNumMsg() == null : this.getContactMobileNumMsg().equals(other.getContactMobileNumMsg()))
+            && (this.getBusinessLicenseMsg() == null ? other.getBusinessLicenseMsg() == null : this.getBusinessLicenseMsg().equals(other.getBusinessLicenseMsg()))
+            && (this.getOrgCodeCertificateMsg() == null ? other.getOrgCodeCertificateMsg() == null : this.getOrgCodeCertificateMsg().equals(other.getOrgCodeCertificateMsg()))
+            && (this.getTaxRegistrationCertificateMsg() == null ? other.getTaxRegistrationCertificateMsg() == null : this.getTaxRegistrationCertificateMsg().equals(other.getTaxRegistrationCertificateMsg()))
+            && (this.getNewBusinessLicenseMsg() == null ? other.getNewBusinessLicenseMsg() == null : this.getNewBusinessLicenseMsg().equals(other.getNewBusinessLicenseMsg()))
+            && (this.getBusinessLicenseExpireTimeMsg() == null ? other.getBusinessLicenseExpireTimeMsg() == null : this.getBusinessLicenseExpireTimeMsg().equals(other.getBusinessLicenseExpireTimeMsg()))
+            && (this.getEmailMsg() == null ? other.getEmailMsg() == null : this.getEmailMsg().equals(other.getEmailMsg()))
+            && (this.getLegalPersonAuthorityBookMsg() == null ? other.getLegalPersonAuthorityBookMsg() == null : this.getLegalPersonAuthorityBookMsg().equals(other.getLegalPersonAuthorityBookMsg()))
+            && (this.getProjectScopeMsg() == null ? other.getProjectScopeMsg() == null : this.getProjectScopeMsg().equals(other.getProjectScopeMsg()))
+            && (this.getDescriptionMsg() == null ? other.getDescriptionMsg() == null : this.getDescriptionMsg().equals(other.getDescriptionMsg()))
+            && (this.getWebsiteMsg() == null ? other.getWebsiteMsg() == null : this.getWebsiteMsg().equals(other.getWebsiteMsg()))
+            && (this.getLogoMsg() == null ? other.getLogoMsg() == null : this.getLogoMsg().equals(other.getLogoMsg()))
+            && (this.getShortNameMsg() == null ? other.getShortNameMsg() == null : this.getShortNameMsg().equals(other.getShortNameMsg()))
+            && (this.getRegisteredCapitalMsg() == null ? other.getRegisteredCapitalMsg() == null : this.getRegisteredCapitalMsg().equals(other.getRegisteredCapitalMsg()))
+            && (this.getBusinessScopeMsg() == null ? other.getBusinessScopeMsg() == null : this.getBusinessScopeMsg().equals(other.getBusinessScopeMsg()))
+            && (this.getAddressMsg() == null ? other.getAddressMsg() == null : this.getAddressMsg().equals(other.getAddressMsg()))
+            && (this.getLegalPersonIdcardMsg() == null ? other.getLegalPersonIdcardMsg() == null : this.getLegalPersonIdcardMsg().equals(other.getLegalPersonIdcardMsg()))
+            && (this.getLegalPersonIdcardFrontUrlMsg() == null ? other.getLegalPersonIdcardFrontUrlMsg() == null : this.getLegalPersonIdcardFrontUrlMsg().equals(other.getLegalPersonIdcardFrontUrlMsg()))
+            && (this.getLegalPersonIdcardBackUrlMsg() == null ? other.getLegalPersonIdcardBackUrlMsg() == null : this.getLegalPersonIdcardBackUrlMsg().equals(other.getLegalPersonIdcardBackUrlMsg()))
+            && (this.getBusinessLicenseUrlMsg() == null ? other.getBusinessLicenseUrlMsg() == null : this.getBusinessLicenseUrlMsg().equals(other.getBusinessLicenseUrlMsg()))
+            && (this.getOrgCodeCertificateUrlMsg() == null ? other.getOrgCodeCertificateUrlMsg() == null : this.getOrgCodeCertificateUrlMsg().equals(other.getOrgCodeCertificateUrlMsg()))
+            && (this.getTaxRegistrationCertificateUrlMsg() == null ? other.getTaxRegistrationCertificateUrlMsg() == null : this.getTaxRegistrationCertificateUrlMsg().equals(other.getTaxRegistrationCertificateUrlMsg()))
+            && (this.getUnifiedSocialCreditCodeMsg() == null ? other.getUnifiedSocialCreditCodeMsg() == null : this.getUnifiedSocialCreditCodeMsg().equals(other.getUnifiedSocialCreditCodeMsg()))
+            && (this.getUnifiedSocialCreditCodeUrlMsg() == null ? other.getUnifiedSocialCreditCodeUrlMsg() == null : this.getUnifiedSocialCreditCodeUrlMsg().equals(other.getUnifiedSocialCreditCodeUrlMsg()))
+            && (this.getCompanyName() == null ? other.getCompanyName() == null : this.getCompanyName().equals(other.getCompanyName()))
+            && (this.getLegalPerson() == null ? other.getLegalPerson() == null : this.getLegalPerson().equals(other.getLegalPerson()))
+            && (this.getRegTime() == null ? other.getRegTime() == null : this.getRegTime().equals(other.getRegTime()))
+            && (this.getContactName() == null ? other.getContactName() == null : this.getContactName().equals(other.getContactName()))
+            && (this.getContactMobileNum() == null ? other.getContactMobileNum() == null : this.getContactMobileNum().equals(other.getContactMobileNum()))
+            && (this.getBusinessLicense() == null ? other.getBusinessLicense() == null : this.getBusinessLicense().equals(other.getBusinessLicense()))
+            && (this.getOrgCodeCertificate() == null ? other.getOrgCodeCertificate() == null : this.getOrgCodeCertificate().equals(other.getOrgCodeCertificate()))
+            && (this.getTaxRegistrationCertificate() == null ? other.getTaxRegistrationCertificate() == null : this.getTaxRegistrationCertificate().equals(other.getTaxRegistrationCertificate()))
+            && (this.getNewBusinessLicense() == null ? other.getNewBusinessLicense() == null : this.getNewBusinessLicense().equals(other.getNewBusinessLicense()))
+            && (this.getBusinessLicenseExpireTime() == null ? other.getBusinessLicenseExpireTime() == null : this.getBusinessLicenseExpireTime().equals(other.getBusinessLicenseExpireTime()))
+            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
+            && (this.getLegalPersonAuthorityBook() == null ? other.getLegalPersonAuthorityBook() == null : this.getLegalPersonAuthorityBook().equals(other.getLegalPersonAuthorityBook()))
+            && (this.getProjectScope() == null ? other.getProjectScope() == null : this.getProjectScope().equals(other.getProjectScope()))
+            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+            && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()))
+            && (this.getLogo() == null ? other.getLogo() == null : this.getLogo().equals(other.getLogo()))
+            && (this.getShortName() == null ? other.getShortName() == null : this.getShortName().equals(other.getShortName()))
+            && (this.getRegisteredCapital() == null ? other.getRegisteredCapital() == null : this.getRegisteredCapital().equals(other.getRegisteredCapital()))
+            && (this.getBusinessScope() == null ? other.getBusinessScope() == null : this.getBusinessScope().equals(other.getBusinessScope()))
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getLegalPersonIdcard() == null ? other.getLegalPersonIdcard() == null : this.getLegalPersonIdcard().equals(other.getLegalPersonIdcard()))
+            && (this.getLegalPersonIdcardFrontUrl() == null ? other.getLegalPersonIdcardFrontUrl() == null : this.getLegalPersonIdcardFrontUrl().equals(other.getLegalPersonIdcardFrontUrl()))
+            && (this.getLegalPersonIdcardBackUrl() == null ? other.getLegalPersonIdcardBackUrl() == null : this.getLegalPersonIdcardBackUrl().equals(other.getLegalPersonIdcardBackUrl()))
+            && (this.getBusinessLicenseUrl() == null ? other.getBusinessLicenseUrl() == null : this.getBusinessLicenseUrl().equals(other.getBusinessLicenseUrl()))
+            && (this.getOrgCodeCertificateUrl() == null ? other.getOrgCodeCertificateUrl() == null : this.getOrgCodeCertificateUrl().equals(other.getOrgCodeCertificateUrl()))
+            && (this.getTaxRegistrationCertificateUrl() == null ? other.getTaxRegistrationCertificateUrl() == null : this.getTaxRegistrationCertificateUrl().equals(other.getTaxRegistrationCertificateUrl()))
+            && (this.getUnifiedSocialCreditCode() == null ? other.getUnifiedSocialCreditCode() == null : this.getUnifiedSocialCreditCode().equals(other.getUnifiedSocialCreditCode()))
+            && (this.getUnifiedSocialCreditCodeUrl() == null ? other.getUnifiedSocialCreditCodeUrl() == null : this.getUnifiedSocialCreditCodeUrl().equals(other.getUnifiedSocialCreditCodeUrl()))
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()))
+            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getBidderCerticateId() == null) ? 0 : getBidderCerticateId().hashCode());
+        result = prime * result + ((getCompanyNameMsg() == null) ? 0 : getCompanyNameMsg().hashCode());
+        result = prime * result + ((getLegalPersonMsg() == null) ? 0 : getLegalPersonMsg().hashCode());
+        result = prime * result + ((getRegTimeMsg() == null) ? 0 : getRegTimeMsg().hashCode());
+        result = prime * result + ((getContactNameMsg() == null) ? 0 : getContactNameMsg().hashCode());
+        result = prime * result + ((getContactMobileNumMsg() == null) ? 0 : getContactMobileNumMsg().hashCode());
+        result = prime * result + ((getBusinessLicenseMsg() == null) ? 0 : getBusinessLicenseMsg().hashCode());
+        result = prime * result + ((getOrgCodeCertificateMsg() == null) ? 0 : getOrgCodeCertificateMsg().hashCode());
+        result = prime * result + ((getTaxRegistrationCertificateMsg() == null) ? 0 : getTaxRegistrationCertificateMsg().hashCode());
+        result = prime * result + ((getNewBusinessLicenseMsg() == null) ? 0 : getNewBusinessLicenseMsg().hashCode());
+        result = prime * result + ((getBusinessLicenseExpireTimeMsg() == null) ? 0 : getBusinessLicenseExpireTimeMsg().hashCode());
+        result = prime * result + ((getEmailMsg() == null) ? 0 : getEmailMsg().hashCode());
+        result = prime * result + ((getLegalPersonAuthorityBookMsg() == null) ? 0 : getLegalPersonAuthorityBookMsg().hashCode());
+        result = prime * result + ((getProjectScopeMsg() == null) ? 0 : getProjectScopeMsg().hashCode());
+        result = prime * result + ((getDescriptionMsg() == null) ? 0 : getDescriptionMsg().hashCode());
+        result = prime * result + ((getWebsiteMsg() == null) ? 0 : getWebsiteMsg().hashCode());
+        result = prime * result + ((getLogoMsg() == null) ? 0 : getLogoMsg().hashCode());
+        result = prime * result + ((getShortNameMsg() == null) ? 0 : getShortNameMsg().hashCode());
+        result = prime * result + ((getRegisteredCapitalMsg() == null) ? 0 : getRegisteredCapitalMsg().hashCode());
+        result = prime * result + ((getBusinessScopeMsg() == null) ? 0 : getBusinessScopeMsg().hashCode());
+        result = prime * result + ((getAddressMsg() == null) ? 0 : getAddressMsg().hashCode());
+        result = prime * result + ((getLegalPersonIdcardMsg() == null) ? 0 : getLegalPersonIdcardMsg().hashCode());
+        result = prime * result + ((getLegalPersonIdcardFrontUrlMsg() == null) ? 0 : getLegalPersonIdcardFrontUrlMsg().hashCode());
+        result = prime * result + ((getLegalPersonIdcardBackUrlMsg() == null) ? 0 : getLegalPersonIdcardBackUrlMsg().hashCode());
+        result = prime * result + ((getBusinessLicenseUrlMsg() == null) ? 0 : getBusinessLicenseUrlMsg().hashCode());
+        result = prime * result + ((getOrgCodeCertificateUrlMsg() == null) ? 0 : getOrgCodeCertificateUrlMsg().hashCode());
+        result = prime * result + ((getTaxRegistrationCertificateUrlMsg() == null) ? 0 : getTaxRegistrationCertificateUrlMsg().hashCode());
+        result = prime * result + ((getUnifiedSocialCreditCodeMsg() == null) ? 0 : getUnifiedSocialCreditCodeMsg().hashCode());
+        result = prime * result + ((getUnifiedSocialCreditCodeUrlMsg() == null) ? 0 : getUnifiedSocialCreditCodeUrlMsg().hashCode());
+        result = prime * result + ((getCompanyName() == null) ? 0 : getCompanyName().hashCode());
+        result = prime * result + ((getLegalPerson() == null) ? 0 : getLegalPerson().hashCode());
+        result = prime * result + ((getRegTime() == null) ? 0 : getRegTime().hashCode());
+        result = prime * result + ((getContactName() == null) ? 0 : getContactName().hashCode());
+        result = prime * result + ((getContactMobileNum() == null) ? 0 : getContactMobileNum().hashCode());
+        result = prime * result + ((getBusinessLicense() == null) ? 0 : getBusinessLicense().hashCode());
+        result = prime * result + ((getOrgCodeCertificate() == null) ? 0 : getOrgCodeCertificate().hashCode());
+        result = prime * result + ((getTaxRegistrationCertificate() == null) ? 0 : getTaxRegistrationCertificate().hashCode());
+        result = prime * result + ((getNewBusinessLicense() == null) ? 0 : getNewBusinessLicense().hashCode());
+        result = prime * result + ((getBusinessLicenseExpireTime() == null) ? 0 : getBusinessLicenseExpireTime().hashCode());
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
+        result = prime * result + ((getLegalPersonAuthorityBook() == null) ? 0 : getLegalPersonAuthorityBook().hashCode());
+        result = prime * result + ((getProjectScope() == null) ? 0 : getProjectScope().hashCode());
+        result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = prime * result + ((getWebsite() == null) ? 0 : getWebsite().hashCode());
+        result = prime * result + ((getLogo() == null) ? 0 : getLogo().hashCode());
+        result = prime * result + ((getShortName() == null) ? 0 : getShortName().hashCode());
+        result = prime * result + ((getRegisteredCapital() == null) ? 0 : getRegisteredCapital().hashCode());
+        result = prime * result + ((getBusinessScope() == null) ? 0 : getBusinessScope().hashCode());
+        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+        result = prime * result + ((getLegalPersonIdcard() == null) ? 0 : getLegalPersonIdcard().hashCode());
+        result = prime * result + ((getLegalPersonIdcardFrontUrl() == null) ? 0 : getLegalPersonIdcardFrontUrl().hashCode());
+        result = prime * result + ((getLegalPersonIdcardBackUrl() == null) ? 0 : getLegalPersonIdcardBackUrl().hashCode());
+        result = prime * result + ((getBusinessLicenseUrl() == null) ? 0 : getBusinessLicenseUrl().hashCode());
+        result = prime * result + ((getOrgCodeCertificateUrl() == null) ? 0 : getOrgCodeCertificateUrl().hashCode());
+        result = prime * result + ((getTaxRegistrationCertificateUrl() == null) ? 0 : getTaxRegistrationCertificateUrl().hashCode());
+        result = prime * result + ((getUnifiedSocialCreditCode() == null) ? 0 : getUnifiedSocialCreditCode().hashCode());
+        result = prime * result + ((getUnifiedSocialCreditCodeUrl() == null) ? 0 : getUnifiedSocialCreditCodeUrl().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
+        result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
+        return result;
+    }
 }

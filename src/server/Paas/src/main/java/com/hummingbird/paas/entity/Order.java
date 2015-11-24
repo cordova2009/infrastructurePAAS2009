@@ -29,12 +29,12 @@ public class Order {
     /**
      * 单价，单位为分
      */
-    private Integer productPrice;
+    private Long productPrice;
 
     /**
      * 总价，单位为分
      */
-    private Integer amount;
+    private Long amount;
 
     /**
      * 更新时间
@@ -74,18 +74,24 @@ public class Order {
     /**
      * 折后价格
      */
-    private Integer realAmount;
+    private Long realAmount;
 
-  
+    /**
+     * @return 订单号
+     */
     public String getOrderId() {
-		return orderId;
-	}
+        return orderId;
+    }
 
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
+    /**
+     * @param orderId 
+	 *            订单号
+     */
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
+    }
 
-	/**
+    /**
      * @return 创建时间
      */
     public Date getInsertTime() {
@@ -133,7 +139,7 @@ public class Order {
     /**
      * @return 单价，单位为分
      */
-    public Integer getProductPrice() {
+    public Long getProductPrice() {
         return productPrice;
     }
 
@@ -141,14 +147,14 @@ public class Order {
      * @param productPrice 
 	 *            单价，单位为分
      */
-    public void setProductPrice(Integer productPrice) {
+    public void setProductPrice(Long productPrice) {
         this.productPrice = productPrice;
     }
 
     /**
      * @return 总价，单位为分
      */
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -156,7 +162,7 @@ public class Order {
      * @param amount 
 	 *            总价，单位为分
      */
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
@@ -268,7 +274,7 @@ public class Order {
     /**
      * @return 折后价格
      */
-    public Integer getRealAmount() {
+    public Long getRealAmount() {
         return realAmount;
     }
 
@@ -276,7 +282,7 @@ public class Order {
      * @param realAmount 
 	 *            折后价格
      */
-    public void setRealAmount(Integer realAmount) {
+    public void setRealAmount(Long realAmount) {
         this.realAmount = realAmount;
     }
 

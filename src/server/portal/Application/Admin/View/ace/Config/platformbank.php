@@ -2,7 +2,7 @@
 
 <block name="body">
 
-<div class="col-md-offset-2 col-xs-8">
+<div class="detail-content">
     <div class="widget-box">
         <div class="widget-header header-color-blue">
             <h5 class="bigger lighter">

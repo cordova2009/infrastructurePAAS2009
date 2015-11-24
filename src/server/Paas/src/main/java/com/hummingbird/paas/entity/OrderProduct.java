@@ -4,9 +4,6 @@ package com.hummingbird.paas.entity;
  * 订单产品表
  */
 public class OrderProduct {
-    /**
-     * id
-     */
     private String id;
 
     /**
@@ -27,24 +24,17 @@ public class OrderProduct {
     /**
      * 产品单价,单位为分
      */
-    private String price;
+    private Long price;
 
     /**
      * 产品描述
      */
     private String productDescription;
 
-    /**
-     * @return id
-     */
     public String getId() {
         return id;
     }
 
-    /**
-     * @param id 
-	 *            id
-     */
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
     }
@@ -97,7 +87,7 @@ public class OrderProduct {
     /**
      * @return 产品单价,单位为分
      */
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 
@@ -105,8 +95,8 @@ public class OrderProduct {
      * @param price 
 	 *            产品单价,单位为分
      */
-    public void setPrice(String price) {
-        this.price = price == null ? null : price.trim();
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     /**

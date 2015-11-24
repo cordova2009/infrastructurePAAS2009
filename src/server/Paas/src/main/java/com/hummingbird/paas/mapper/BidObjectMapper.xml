@@ -6,7 +6,7 @@
     <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-    <result column="object_amount" property="objectAmount" jdbcType="INTEGER" />
+    <result column="object_amount" property="objectAmount" jdbcType="BIGINT" />
     <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
     <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
     <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
-    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="INTEGER" />
+    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="BIGINT" />
     <result column="need_business_standard" property="needBusinessStandard" jdbcType="VARCHAR" />
     <result column="need_technical_standard" property="needTechnicalStandard" jdbcType="VARCHAR" />
     <result column="need_certification_checkup_file" property="needCertificationCheckupFile" jdbcType="VARCHAR" />
@@ -29,11 +29,12 @@
     <result column="need_constructor_certification" property="needConstructorCertification" jdbcType="VARCHAR" />
     <result column="need_safety_permit" property="needSafetyPermit" jdbcType="VARCHAR" />
     <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
-    <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="object_type" property="objectType" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="MyTenderObjectListResultMap" type="com.hummingbird.paas.vo.MyTenderObjectListVO" >
     <result column="object_no" property="objectId" jdbcType="VARCHAR" />
@@ -106,7 +107,7 @@
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time, insert_time, update_time
+    win_bid_time, insert_time, update_time, object_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -164,35 +165,35 @@
      where  b.user_id = #{user_id,jdbcType=INTEGER} AND a.object_status = 'END' 
   </select>
   <select id="selectTotalCountTenderObject" resultType="int" parameterType="java.lang.Integer" >
-    select count(id) from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+    select count(id) from t_ztgl_object a inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
         where c.user_id =#{user_id,jdbcType=INTEGER} 
   </select>
    <select id="selectTotalCountTenderBuldingObject" resultType="int" parameterType="java.lang.Integer" >
-    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
+    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.staus  = 'OK#'
   </select>
   <select id="selectTotalCountTenderEndedObject" resultType="int" parameterType="java.lang.Integer" >
-    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
+    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.staus  = 'OK#'
   </select>
   <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap" parameterType="java.lang.Integer" >
-     select a.industry_id,a.object_no,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+     select a.industry_id,a.object_no,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
         where c.user_id =#{user_id,jdbcType=INTEGER} 
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 
   </select>
   <select id="selectTotalTenderBuildingObject" resultType="int" parameterType="java.lang.Integer" >
-     select a.object_no,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
+     select a.object_no,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.staus  = 'OK#'
     
   </select>
    <select id="selectTotalTenderEndedObject" resultType="int" parameterType="java.lang.Integer" >
-    select a.industry_id,a.object_no,a.object_name,a.win_bid_amount,c.company_name from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id 
+    select a.industry_id,a.object_no,a.object_name,a.win_bid_amount,c.company_name from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id 
         where c.user_id =#{user_id,jdbcType=INTEGER} and p.staus  = 'END' 
   </select>
   <select id="selectTotalTenderObjectList" resultType="int" parameterType="java.lang.String" >
-    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">
@@ -202,7 +203,7 @@
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap" parameterType="java.lang.String" >
-    select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">
@@ -216,24 +217,24 @@
     </if> 
   </select>
    <select id="selectTotalIndexObjectList" resultType="int">
-    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
      
   </select>
   <select id="selectIndexObjectList" resultMap="IndexObjectListResultMap">
-     select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+     select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 
   </select>
   <select id="selectBidIndexSurvey" resultMap="QueryBidIndexSurveyResultMap">
-    select count(a.object_id) bidNum,IFNULL(sum(a.win_bid_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id
+    select count(a.object_id) bidNum,IFNULL(sum(a.win_bid_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_bid_project_info b on a.object_id = b.object_id
         where a.object_status = 'SEL' 
     </select>
      <select id="selectTotalBidIndexList" resultType="int">
    	 select count(a.object_id)
-		INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id 
+		INNER JOIN t_ztgl_bid_project_info b on a.object_id = b.object_id 
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 
@@ -241,7 +242,7 @@
   </select>
    <select id="selectBidIndexList" resultMap="QueryBidIndexListResultMap">
     select a.object_id,a.object_name,c.short_name bideeName,d.short_name biderName,a.win_bid_amount from t_ztgl_object a 
-		INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id 
+		INNER JOIN t_ztgl_bid_project_info b on a.object_id = b.object_id 
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 
@@ -265,19 +266,21 @@
       need_pm_certification, need_constructor_certification, 
       need_safety_permit, need_pm_safety_certification, 
       evaluation_amount, object_scope, win_bid_time, 
-      insert_time, update_time)
+      insert_time, update_time, object_type
+      )
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
-      #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=INTEGER}, #{objectPublishType,jdbcType=VARCHAR}, 
+      #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
       #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=INTEGER}, #{needBusinessStandard,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=BIGINT}, #{needBusinessStandard,jdbcType=VARCHAR}, 
       #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
       #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
       #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
-      #{evaluationAmount,jdbcType=INTEGER}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{evaluationAmount,jdbcType=BIGINT}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
@@ -378,6 +381,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="objectType != null" >
+        object_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
@@ -393,7 +399,7 @@
         #{objectName,jdbcType=VARCHAR},
       </if>
       <if test="objectAmount != null" >
-        #{objectAmount,jdbcType=INTEGER},
+        #{objectAmount,jdbcType=BIGINT},
       </if>
       <if test="objectPublishType != null" >
         #{objectPublishType,jdbcType=VARCHAR},
@@ -438,7 +444,7 @@
         #{currency,jdbcType=VARCHAR},
       </if>
       <if test="bidBondAmount != null" >
-        #{bidBondAmount,jdbcType=INTEGER},
+        #{bidBondAmount,jdbcType=BIGINT},
       </if>
       <if test="needBusinessStandard != null" >
         #{needBusinessStandard,jdbcType=VARCHAR},
@@ -462,7 +468,7 @@
         #{needPmSafetyCertification,jdbcType=VARCHAR},
       </if>
       <if test="evaluationAmount != null" >
-        #{evaluationAmount,jdbcType=INTEGER},
+        #{evaluationAmount,jdbcType=BIGINT},
       </if>
       <if test="objectScope != null" >
         #{objectScope,jdbcType=VARCHAR},
@@ -475,6 +481,9 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -491,7 +500,7 @@
         object_name = #{objectName,jdbcType=VARCHAR},
       </if>
       <if test="objectAmount != null" >
-        object_amount = #{objectAmount,jdbcType=INTEGER},
+        object_amount = #{objectAmount,jdbcType=BIGINT},
       </if>
       <if test="objectPublishType != null" >
         object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
@@ -536,7 +545,7 @@
         currency = #{currency,jdbcType=VARCHAR},
       </if>
       <if test="bidBondAmount != null" >
-        bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
+        bid_bond_amount = #{bidBondAmount,jdbcType=BIGINT},
       </if>
       <if test="needBusinessStandard != null" >
         need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
@@ -560,7 +569,7 @@
         need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
       </if>
       <if test="evaluationAmount != null" >
-        evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
+        evaluation_amount = #{evaluationAmount,jdbcType=BIGINT},
       </if>
       <if test="objectScope != null" >
         object_scope = #{objectScope,jdbcType=VARCHAR},
@@ -574,6 +583,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="objectType != null" >
+        object_type = #{objectType,jdbcType=VARCHAR},
+      </if>
     </set>
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
@@ -582,7 +594,7 @@
     set biddee_id = #{biddeeId,jdbcType=INTEGER},
       object_no = #{objectNo,jdbcType=VARCHAR},
       object_name = #{objectName,jdbcType=VARCHAR},
-      object_amount = #{objectAmount,jdbcType=INTEGER},
+      object_amount = #{objectAmount,jdbcType=BIGINT},
       object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
       object_status = #{objectStatus,jdbcType=VARCHAR},
       win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
@@ -597,7 +609,7 @@
       project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
-      bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
+      bid_bond_amount = #{bidBondAmount,jdbcType=BIGINT},
       need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
       need_technical_standard = #{needTechnicalStandard,jdbcType=VARCHAR},
       need_certification_checkup_file = #{needCertificationCheckupFile,jdbcType=VARCHAR},
@@ -605,11 +617,12 @@
       need_constructor_certification = #{needConstructorCertification,jdbcType=VARCHAR},
       need_safety_permit = #{needSafetyPermit,jdbcType=VARCHAR},
       need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
-      evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
+      evaluation_amount = #{evaluationAmount,jdbcType=BIGINT},
       object_scope = #{objectScope,jdbcType=VARCHAR},
       win_bid_time = #{winBidTime,jdbcType=TIMESTAMP},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      object_type = #{objectType,jdbcType=VARCHAR}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

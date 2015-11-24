@@ -14,6 +14,48 @@ namespace Admin\Controller;
  */
 class ZtglobjectController extends AdminController {
 
+    public function zbsort(){
+
+        $prefix = C('DB_PREFIX');
+        if(IS_POST){
+            $object_ids  = I('post.selected');
+            $datas = [];
+            foreach($object_ids as $key=>$object_id){
+                $tmp = [
+                    'object_id'=>$object_id,
+                    'sort_no'=>($key+1),
+                    'insert_time'=>time_format(),
+                    'creator'=>session('user_auth.username'),
+                ];
+                $datas[] = $tmp;
+            }
+
+            M()->execute('delete from '.$prefix.'tjnr_object_recommend');
+
+            if(empty($datas) || M('tjnr_object_recommend')->addAll($datas)){
+                $this->success('推荐成功！',U('ztglobject/zzzbindex'));
+            }else{
+
+                $this->error('保存失败，请重新再试！');
+            }
+        }
+
+        $pList = M('ztgl_object')
+                ->where(['object_status'=>'PUB'])
+                ->getField('object_id,object_no,object_name');
+
+        $selected = M()->table($prefix.'tjnr_object_recommend a')
+            ->join($prefix.'ztgl_object b on b.object_id = a.object_id')
+            ->order('sort_no')
+//            ->where(['b.object_status'=>'PUB'])
+            ->getField('a.object_id,b.object_no,b.object_name');
+
+        $this->assign('plist',$pList);
+        $this->meta_title = '标的推荐';
+        $this->assign('selected',$selected);
+        $this->display();
+    }
+
     public function viewzhongbiao($id=0){
 
         $prefix = C('DB_PREFIX');

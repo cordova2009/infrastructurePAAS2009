@@ -31,7 +31,7 @@ implements PainttextAble {
 	    	/**
 	     * 撮合保证金,单位分
 	     */
-	    protected Integer makeMatchBidderBondAmount;
+	    protected Long makeMatchBidderBondAmount;
 	
 	    	/**
 	     * @return 
@@ -75,14 +75,14 @@ implements PainttextAble {
 	    	/**
 	     * @return 撮合保证金,单位分
 	     */
-	    public Integer getMakeMatchBidderBondAmount() {
+	    public Long getMakeMatchBidderBondAmount() {
 	        return makeMatchBidderBondAmount;
 	    }
 	
 	    /**
 	     * @param 撮合保证金,单位分
 	     */
-	    public void setMakeMatchBidderBondAmount(Integer makeMatchBidderBondAmount) {
+	    public void setMakeMatchBidderBondAmount(Long makeMatchBidderBondAmount) {
 	        this.makeMatchBidderBondAmount = makeMatchBidderBondAmount;
 	    }
 		

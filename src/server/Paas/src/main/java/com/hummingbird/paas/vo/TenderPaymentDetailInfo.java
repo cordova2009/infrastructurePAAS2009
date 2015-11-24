@@ -18,7 +18,7 @@ public class TenderPaymentDetailInfo {
 	
 	private Integer  period;
 	private Date  payDate;
-	private Integer  paySum;
+	private Long  paySum;
 	/**
 	 * @return the period
 	 */
@@ -34,7 +34,7 @@ public class TenderPaymentDetailInfo {
 	/**
 	 * @return the paySum
 	 */
-	public Integer getPaySum() {
+	public Long getPaySum() {
 		return paySum;
 	}
 	/**
@@ -52,7 +52,7 @@ public class TenderPaymentDetailInfo {
 	/**
 	 * @param paySum the paySum to set
 	 */
-	public void setPaySum(Integer paySum) {
+	public void setPaySum(Long paySum) {
 		this.paySum = paySum;
 	}
 	/* (non-Javadoc)

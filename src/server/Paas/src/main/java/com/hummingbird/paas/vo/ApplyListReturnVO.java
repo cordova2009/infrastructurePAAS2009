@@ -11,18 +11,13 @@ public class ApplyListReturnVO {
     "rechargeTime":"2015-10-12 10:00:00",
     "voucherNo":"VOUCHER_NO"
 }*/
-	private Date createTime;
+	private String createTime;
 	private String amount;
 	private String status;
 	private String remark;
 	private String voucherNo;
-	private Date rechargeTime;
-	public Date getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+	private String rechargeTime;
+	
 	public String getAmount() {
 		return amount;
 	}
@@ -47,12 +42,19 @@ public class ApplyListReturnVO {
 	public void setVoucherNo(String voucherNo) {
 		this.voucherNo = voucherNo;
 	}
-	public Date getRechargeTime() {
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	public String getRechargeTime() {
 		return rechargeTime;
 	}
-	public void setRechargeTime(Date rechargeTime) {
+	public void setRechargeTime(String rechargeTime) {
 		this.rechargeTime = rechargeTime;
 	}
+	
 	
 	
 	

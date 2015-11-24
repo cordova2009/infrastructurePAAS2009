@@ -44,7 +44,7 @@ public interface ProjectPaymentPayMapper {
     ProjectPaymentPay getLastRecord(String objectId);
     
     /**
-     * 根据
+     * 根据期数查询记录
      * @param period
      * @return
      */

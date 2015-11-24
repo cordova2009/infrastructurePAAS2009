@@ -46,6 +46,10 @@ public class BidderCertification {
      */
     private String certificationNo;
     
+	    /**
+     * 工程类别
+     */
+    private String industryId;
     
     /**
      * 证书信息
@@ -172,6 +176,21 @@ public class BidderCertification {
         this.certificationNo = certificationNo == null ? null : certificationNo.trim();
     }
 
+    /**
+     * @return 工程类别
+     */
+    public String getIndustryId() {
+        return industryId;
+    }
+
+    /**
+     * @param industryId 
+	 *            工程类别
+     */
+    public void setIndustryId(String industryId) {
+        this.industryId = industryId == null ? null : industryId.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -191,7 +210,8 @@ public class BidderCertification {
             && (this.getCertificationContent() == null ? other.getCertificationContent() == null : this.getCertificationContent().equals(other.getCertificationContent()))
             && (this.getExpireTime() == null ? other.getExpireTime() == null : this.getExpireTime().equals(other.getExpireTime()))
             && (this.getApplicableRegion() == null ? other.getApplicableRegion() == null : this.getApplicableRegion().equals(other.getApplicableRegion()))
-            && (this.getCertificationNo() == null ? other.getCertificationNo() == null : this.getCertificationNo().equals(other.getCertificationNo()));
+            && (this.getCertificationNo() == null ? other.getCertificationNo() == null : this.getCertificationNo().equals(other.getCertificationNo()))
+            && (this.getIndustryId() == null ? other.getIndustryId() == null : this.getIndustryId().equals(other.getIndustryId()));
     }
 
     @Override
@@ -206,6 +226,7 @@ public class BidderCertification {
         result = prime * result + ((getExpireTime() == null) ? 0 : getExpireTime().hashCode());
         result = prime * result + ((getApplicableRegion() == null) ? 0 : getApplicableRegion().hashCode());
         result = prime * result + ((getCertificationNo() == null) ? 0 : getCertificationNo().hashCode());
+        result = prime * result + ((getIndustryId() == null) ? 0 : getIndustryId().hashCode());
         return result;
     }
 

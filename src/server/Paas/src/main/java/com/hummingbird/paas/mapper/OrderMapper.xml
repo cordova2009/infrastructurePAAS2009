@@ -6,8 +6,8 @@
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="product_id" property="productId" jdbcType="VARCHAR" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
-    <result column="product_price" property="productPrice" jdbcType="INTEGER" />
-    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="product_price" property="productPrice" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="pay_type" property="payType" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
     <result column="pay_status" property="payStatus" jdbcType="VARCHAR" />
     <result column="app_id" property="appId" jdbcType="VARCHAR" />
     <result column="discount" property="discount" jdbcType="INTEGER" />
-    <result column="real_amount" property="realAmount" jdbcType="INTEGER" />
+    <result column="real_amount" property="realAmount" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     order_id, insert_time, product_id, product_count, product_price, amount, update_time, 
@@ -38,10 +38,10 @@
       product_desc, pay_status, app_id, 
       discount, real_amount)
     values (#{orderId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{productId,jdbcType=VARCHAR}, 
-      #{productCount,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, 
+      #{productCount,jdbcType=INTEGER}, #{productPrice,jdbcType=BIGINT}, #{amount,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
       #{productDesc,jdbcType=VARCHAR}, #{payStatus,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
-      #{discount,jdbcType=INTEGER}, #{realAmount,jdbcType=INTEGER})
+      #{discount,jdbcType=INTEGER}, #{realAmount,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Order" >
     insert into t_ddgl_order
@@ -103,10 +103,10 @@
         #{productCount,jdbcType=INTEGER},
       </if>
       <if test="productPrice != null" >
-        #{productPrice,jdbcType=INTEGER},
+        #{productPrice,jdbcType=BIGINT},
       </if>
       <if test="amount != null" >
-        #{amount,jdbcType=INTEGER},
+        #{amount,jdbcType=BIGINT},
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
@@ -130,7 +130,7 @@
         #{discount,jdbcType=INTEGER},
       </if>
       <if test="realAmount != null" >
-        #{realAmount,jdbcType=INTEGER},
+        #{realAmount,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -147,10 +147,10 @@
         product_count = #{productCount,jdbcType=INTEGER},
       </if>
       <if test="productPrice != null" >
-        product_price = #{productPrice,jdbcType=INTEGER},
+        product_price = #{productPrice,jdbcType=BIGINT},
       </if>
       <if test="amount != null" >
-        amount = #{amount,jdbcType=INTEGER},
+        amount = #{amount,jdbcType=BIGINT},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -174,7 +174,7 @@
         discount = #{discount,jdbcType=INTEGER},
       </if>
       <if test="realAmount != null" >
-        real_amount = #{realAmount,jdbcType=INTEGER},
+        real_amount = #{realAmount,jdbcType=BIGINT},
       </if>
     </set>
     where order_id = #{orderId,jdbcType=VARCHAR}
@@ -184,8 +184,8 @@
     set insert_time = #{insertTime,jdbcType=TIMESTAMP},
       product_id = #{productId,jdbcType=VARCHAR},
       product_count = #{productCount,jdbcType=INTEGER},
-      product_price = #{productPrice,jdbcType=INTEGER},
-      amount = #{amount,jdbcType=INTEGER},
+      product_price = #{productPrice,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=VARCHAR},
       pay_type = #{payType,jdbcType=VARCHAR},
@@ -193,7 +193,7 @@
       pay_status = #{payStatus,jdbcType=VARCHAR},
       app_id = #{appId,jdbcType=VARCHAR},
       discount = #{discount,jdbcType=INTEGER},
-      real_amount = #{realAmount,jdbcType=INTEGER}
+      real_amount = #{realAmount,jdbcType=BIGINT}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
 </mapper>

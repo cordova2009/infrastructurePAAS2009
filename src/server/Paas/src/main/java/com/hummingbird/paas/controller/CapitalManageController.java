@@ -2,9 +2,11 @@ package com.hummingbird.paas.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectAccount;
@@ -32,6 +36,7 @@ import com.hummingbird.paas.services.CapitalManageService;
 import com.hummingbird.paas.services.GeneralService;
 import com.hummingbird.paas.services.OrderService;
 import com.hummingbird.paas.services.UserService;
+import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
 import com.hummingbird.paas.vo.BankInfoReturnDetailVO;
 import com.hummingbird.paas.vo.CapitalSurveyReturnVO;
@@ -40,7 +45,9 @@ import com.hummingbird.paas.vo.CheckWithdrawalBodyVO;
 import com.hummingbird.paas.vo.FailWithdrawalsBodyVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
+import com.hummingbird.paas.vo.FreezeBondVO;
 import com.hummingbird.paas.vo.FreezeWithdrawalsBodyVO;
+import com.hummingbird.paas.vo.FreezeWithdrawalsVO;
 import com.hummingbird.paas.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.paas.vo.RechargeApplyBodyVO;
 import com.hummingbird.paas.vo.RechargeApplyReturnVO;
@@ -56,6 +63,7 @@ import com.hummingbird.paas.vo.UnfreezeBondVO;
 import com.hummingbird.paas.vo.UnfreezeVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.paas.vo.WithdrawalsApplyListReturnVO;
+import com.hummingbird.paas.vo.WithdrawalsApplyVO;
 
 @Controller
 
@@ -67,7 +75,8 @@ public class CapitalManageController extends BaseController{
 	CapitalManageService capitalManageSer;
 	@Autowired
 	OrderService orderSer;
-
+	@Autowired
+	IAuthenticationService authService;
 	
 	
 	@RequestMapping(value = "/queryMyCapitalSurvey", method = RequestMethod.POST)
@@ -105,10 +114,10 @@ public class CapitalManageController extends BaseController{
 			if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
-					survey.setBalance(String.valueOf(proActInfo.getRemainingSum()/100));
-					survey.setFreezeAmount(String.valueOf(proActInfo.getFrozenSum()/100));
-					survey.setIncome(String.valueOf(capitalManageSer.getAccountIncome(proActInfo.getAccountId())/100));
-					survey.setOutlay(String.valueOf(capitalManageSer.getAccountOutlay(proActInfo.getAccountId())/100));					
+					survey.setBalance(MoneyUtil.getMoneyStringDecimal4yuan(proActInfo.getRemainingSum()));
+					survey.setFreezeAmount(MoneyUtil.getMoneyStringDecimal4yuan(proActInfo.getFrozenSum()));
+					survey.setIncome(MoneyUtil.getMoneyStringDecimal4yuan(capitalManageSer.getAccountIncome(proActInfo.getAccountId())));
+					survey.setOutlay(MoneyUtil.getMoneyStringDecimal4yuan(capitalManageSer.getAccountOutlay(proActInfo.getAccountId())));					
 				}
 			}
 			
@@ -156,17 +165,18 @@ public class CapitalManageController extends BaseController{
 			if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
-					List<ProjectAccountOrder> records=capitalManageSer.queryAccountRecordsByAccountId(proActInfo.getAccountId(),body.toPagingnation());
+					List<ProjectAccountOrder> records=capitalManageSer.queryAccountRecordsByAccountId(proActInfo.getAccountId(),page);
 					for(ProjectAccountOrder order:records){
 						TransactionRecordsReturnVO record=new TransactionRecordsReturnVO();
-						record.setBalance(String.valueOf(order.getBalance()/100));
+						record.setBalance(MoneyUtil.getMoneyStringDecimal4yuan(order.getBalance()));
+						record.setTime(DateUtil.formatCommonDateorNull(order.getInsertTime()));
 						record.setRemark(order.getRemark());
 						record.setType(order.getType());
 						if(StringUtils.equals(order.getFlowDirection(),"IN#")){
-							record.setIncome(order.getSum().toString());
+							record.setIncome(MoneyUtil.getMoneyStringDecimal4yuan(order.getSum()));
 							record.setOutlay("0");
 						}else if(StringUtils.equals(order.getFlowDirection(),"OUT")){
-							record.setOutlay(order.getSum().toString());
+							record.setOutlay(MoneyUtil.getMoneyStringDecimal4yuan(order.getSum()));
 							record.setIncome("0");
 						}
 						list.add(record);
@@ -190,12 +200,12 @@ public class CapitalManageController extends BaseController{
 	@RequestMapping(value = "/freezeBond", method = RequestMethod.POST)
 	public @ResponseBody Object freezeBond(HttpServletRequest request) {
 		
-		final BaseTransVO<FreezeBondBodyVO> transorder;
+		FreezeBondVO transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, FreezeBondBodyVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,FreezeBondVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -209,6 +219,8 @@ public class CapitalManageController extends BaseController{
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
+			Map validateAuth = (Map) authService.validateAuth(transorder);
+			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
 			PropertiesUtil pu = new PropertiesUtil();
 			FreezeBondBodyVO body=transorder.getBody();
 			//备注字段必填
@@ -219,10 +231,10 @@ public class CapitalManageController extends BaseController{
 			}
 			
 			User user=userSer.queryUserByToken(body.getToken());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user);
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
 			FreezeBondReturnVO orderInfo=new FreezeBondReturnVO();
 			if(user!=null){
-				
+				body.setType("JBZ");
 				orderInfo=orderSer.freeze(body, user, requestURI);
 			}
 			rm.put("order", orderInfo);
@@ -269,8 +281,7 @@ public class CapitalManageController extends BaseController{
 				UnfreezeVO unfreeze=new UnfreezeVO();
 				unfreeze.setAppOrderId(body.getOrderId());
 				unfreeze.setObjectId(body.getObjectId());
-				unfreeze.setOrignalOrderId(body.getOrderId());
-				unfreeze.setOrignalTable("t_ztgl_object_makematch_bond_record");
+				unfreeze.setOrignalTable("t_project_account_order");
 				unfreeze.setRemark(body.getRemark());
 				unfreeze.setType("SBZ");
 				orderInfo=orderSer.unfreeze(unfreeze, user.getId(), requestURI);
@@ -334,12 +345,12 @@ public class CapitalManageController extends BaseController{
 	@RequestMapping(value = "/withdrawalsApply", method = RequestMethod.POST)
 	public @ResponseBody Object withdrawalsApply(HttpServletRequest request) {
 		
-		final BaseTransVO<WithdrawalsApplyBodyVO> transorder;
+		WithdrawalsApplyVO transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, WithdrawalsApplyBodyVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,WithdrawalsApplyVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -353,12 +364,14 @@ public class CapitalManageController extends BaseController{
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
+			Map validateAuth = (Map) authService.validateAuth(transorder);
+			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
 			WithdrawalsApplyBodyVO body=transorder.getBody();
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
 			User user=userSer.queryUserByToken(body.getToken());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user);
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
 			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
 			if(user!=null){
 				order.setOrderId(orderSer.withdrawalsApply(body, user,requestURI));
@@ -375,12 +388,12 @@ public class CapitalManageController extends BaseController{
 	@RequestMapping(value = "/freezeWithdrawals", method = RequestMethod.POST)
 	public @ResponseBody Object freezeWithdrawals(HttpServletRequest request) {
 		
-		final BaseTransVO<FreezeWithdrawalsBodyVO> transorder;
+		FreezeWithdrawalsVO transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, FreezeWithdrawalsBodyVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,FreezeWithdrawalsVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -394,17 +407,19 @@ public class CapitalManageController extends BaseController{
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
+			Map validateAuth = (Map) authService.validateAuth(transorder);
+			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
 			FreezeWithdrawalsBodyVO body=transorder.getBody();
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
 			//查询用户信息
 			User user=userSer.queryUserByMobile(body.getMobileNum());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user);
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
 			FreezeBondBodyVO freezeBody=new FreezeBondBodyVO();
 			freezeBody.setOriginalOrderId(body.getOrderId());
 			freezeBody.setRemark(body.getRemark());
-			freezeBody.setSum(body.getAmount());
+			freezeBody.setAmount(body.getAmount());
 			freezeBody.setType("FRZ");
 			FreezeBondReturnVO order=orderSer.freeze(freezeBody,user,requestURI);
 			
@@ -478,6 +493,13 @@ public class CapitalManageController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			WithdrawApply apply=orderSer.queryWithdrawalByOrderId(body.getOrderId());
+			if(apply==null){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));		
+			
+			}
 			//查询用户信息
 			UnfreezeVO unfreezeBody=new UnfreezeVO();
 			unfreezeBody.setAppOrderId(body.getAppOrderId());
@@ -521,6 +543,13 @@ public class CapitalManageController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			WithdrawApply apply=orderSer.queryWithdrawalByOrderId(body.getOrderId());
+			if(apply==null){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));		
+			
+			}
 			//查询用户信息
 			UnfreezeVO unfreezeBody=new UnfreezeVO();
 			unfreezeBody.setAppOrderId(body.getAppOrderId());
@@ -694,6 +723,13 @@ public class CapitalManageController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			RechargeApply apply=orderSer.queryRechargeByOrderId(body.getOrderId());
+			if(apply==null){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("账户订单号【%s】查询不到充值申请记录",body.getOrderId()));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到充值申请记录",body.getOrderId()));		
+			
+			}
 			UnfreezeVO unfreezeBody=new UnfreezeVO();
 			unfreezeBody.setAppOrderId(body.getAppOrderId());
 			unfreezeBody.setOrignalOrderId(body.getOrderId());
@@ -745,8 +781,8 @@ public class CapitalManageController extends BaseController{
 			if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
-					account.setRemainingSum(Double.valueOf(proActInfo.getRemainingSum()/100));
-					account.setFrozenSum(Double.valueOf(proActInfo.getFrozenSum()/100));
+					account.setRemainingSum(proActInfo.getRemainingSum()/(Double.valueOf(100)));
+					account.setFrozenSum(proActInfo.getFrozenSum()/(Double.valueOf(100)));
 					account.setAccountId(proActInfo.getAccountId());
 					account.setStatus(proActInfo.getStatus());
 				}

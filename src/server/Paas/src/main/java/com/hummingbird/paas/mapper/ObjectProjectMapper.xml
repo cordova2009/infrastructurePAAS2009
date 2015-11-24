@@ -160,7 +160,7 @@
     <include refid="My_Building_Column_List" />
     from t_ztgl_object a
    	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
-   	left join t_gcgl_project_payment_pay c on a.object_id = c.object_id and c.`status` = 'OK#'
+   	left join t_gcgl_project_payment_pay c on a.object_id = c.project_id and c.`status` = 'OK#'
     where  b.user_id = #{userId} and (a.object_status = 'PUB' or a.object_status = 'REV')
     limit #{begin},#{limit}
   </select>

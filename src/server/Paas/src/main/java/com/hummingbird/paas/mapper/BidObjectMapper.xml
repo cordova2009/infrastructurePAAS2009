@@ -164,31 +164,31 @@
      where  b.user_id = #{user_id,jdbcType=INTEGER} AND a.object_status = 'END' 
   </select>
   <select id="selectTotalCountTenderObject" resultType="int" parameterType="java.lang.Integer" >
-    select count(id) from t_ztgl_object a inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+    select count(id) from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
         where c.user_id =#{user_id,jdbcType=INTEGER} 
   </select>
    <select id="selectTotalCountTenderBuldingObject" resultType="int" parameterType="java.lang.Integer" >
-    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
-       where c.user_id =#{user_id,jdbcType=INTEGER}  and p.staus  = 'OK#'
+    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
+       where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
   </select>
   <select id="selectTotalCountTenderEndedObject" resultType="int" parameterType="java.lang.Integer" >
-    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
-       where c.user_id =#{user_id,jdbcType=INTEGER}  and p.staus  = 'OK#'
+    select count(a.object_id) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
+       where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
   </select>
-  <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap" parameterType="java.lang.Integer" >
-     select a.industry_id,a.object_no,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+  <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap"  >
+     select a.industry_id,a.object_no,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
         where c.user_id =#{user_id,jdbcType=INTEGER} 
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 
   </select>
   <select id="selectTotalTenderBuildingObject" resultType="int" parameterType="java.lang.Integer" >
-     select count(1) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
+     select count(1) from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
     
   </select>
     <select id="selectTenderBuildingObject" resultMap="MyTenderBuildingObjectListResultMap"  >
-     select a.object_no,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.object_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.object_id and e.status = 'CRT')
+     select a.object_no,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
         <if test="page != null" >
    		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -207,7 +207,7 @@
     </if> 
   </select>
   <select id="selectTotalTenderObjectList" resultType="int" parameterType="java.lang.String" >
-    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id 
+    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">
@@ -216,9 +216,8 @@
 		  </foreach>
        </if>    
   </select>
-
-  <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap" parameterType="java.lang.String" >
-    select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id 
+  <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
+    select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">
@@ -232,19 +231,19 @@
     </if> 
   </select>
    <select id="selectTotalIndexObjectList" resultType="int">
-    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+    select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
      
   </select>
   <select id="selectIndexObjectList" resultMap="IndexObjectListResultMap">
-     select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_bid_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+     select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 
   </select>
   <select id="selectBidIndexSurvey" resultMap="QueryBidIndexSurveyResultMap">
-    select count(a.object_id) bidNum,IFNULL(sum(a.win_bid_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_bid_project_info b on a.object_id = b.object_id
+    select count(a.object_id) bidNum,IFNULL(sum(a.win_bid_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id
         where a.object_status = 'SEL' 
     </select>
      <select id="selectTotalBidIndexList" resultType="int">
@@ -257,7 +256,7 @@
   </select>
    <select id="selectBidIndexList" resultMap="QueryBidIndexListResultMap">
     select a.object_id,a.object_name,c.short_name bideeName,d.short_name biderName,a.win_bid_amount from t_ztgl_object a 
-		INNER JOIN t_ztgl_bid_project_info b on a.object_id = b.object_id 
+		INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id 
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 

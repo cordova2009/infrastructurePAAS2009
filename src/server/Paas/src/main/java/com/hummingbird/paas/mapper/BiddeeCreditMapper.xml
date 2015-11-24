@@ -104,4 +104,10 @@
       bank_info = #{bankInfo,jdbcType=INTEGER}
     where tenderer_id = #{tendererId,jdbcType=INTEGER}
   </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_xyjf_biddee_credit
+    where tenderer_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

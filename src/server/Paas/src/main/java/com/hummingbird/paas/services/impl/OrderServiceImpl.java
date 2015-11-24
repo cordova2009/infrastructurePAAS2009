@@ -21,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 
+
+
+import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.constant.AccountConst;
 import com.hummingbird.paas.constant.OrderConst;
 import com.hummingbird.paas.entity.BidRecord;
@@ -51,6 +54,7 @@ import com.hummingbird.paas.services.OrderService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.AccountValidateUtil;
+import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.ApplyListReturnVO;
 import com.hummingbird.paas.vo.CheckRechargeApplyBodyVO;
 import com.hummingbird.paas.vo.CheckWithdrawalBodyVO;
@@ -97,7 +101,7 @@ public class OrderServiceImpl implements OrderService{
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public FreezeBondReturnVO freeze(FreezeBondBodyVO body,User user,String method) throws MaAccountException{
 		
-		if(body.getSum()>=0&&body.getSum()!=null){
+		if(body.getAmount()>=0&&body.getAmount()!=null){
 			//检查用户余额是否足够
 			ProjectAccount account=capManageSer.queryAccountInfo(user.getId());
 			AccountValidateUtil.validateAccount(account);
@@ -108,7 +112,7 @@ public class OrderServiceImpl implements OrderService{
 				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("用户【%s】资金账户查询失败",user.getMobileNum()));
 				
 			}
-			Integer remainingSum=account.getRemainingSum()-body.getSum();
+			Long remainingSum=account.getRemainingSum()-body.getAmount();
 			if(remainingSum<0){
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("用户【%s】可用余额不足",user.getMobileNum()));
@@ -132,7 +136,7 @@ public class OrderServiceImpl implements OrderService{
 				accountOrder.setOriginalTable(body.getOriginalTable());
 				accountOrder.setRemark(body.getRemark());
 				accountOrder.setStatus("OK#");
-				accountOrder.setSum(body.getSum());
+				accountOrder.setSum(body.getAmount());
 				accountOrder.setMethod(method);
 				accountOrder.setObjectId(body.getObjectId());
 				accountOrder.setFrozenSumSnapshot(remainingSum);
@@ -143,19 +147,19 @@ public class OrderServiceImpl implements OrderService{
 				accOrdDao.insert(accountOrder);
 				//更新账户信息
 				account.setUpdateTime(new Date());
-				account.setFrozenSum(account.getFrozenSum()+body.getSum());
+				account.setFrozenSum(account.getFrozenSum()+body.getAmount());
 				account.setRemainingSum(remainingSum);
 				AccountValidateUtil.updateAccountSignature(account);
 				proActDao.updateByPrimaryKey(account);
 				//组装返回信息
 				FreezeBondReturnVO bond=new FreezeBondReturnVO();
 				bond.setAccountId(account.getAccountId());
-				bond.setAmount(body.getSum());
-				bond.setBalance(remainingSum);
+				bond.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(body.getAmount()));
+				bond.setBalance(MoneyUtil.getMoneyStringDecimal4yuan(remainingSum));
 				bond.setFlowDirection(OrderConst.FLOW_DIRECTION_OUT);
 				bond.setOrderId(accountOrderId);
 				bond.setRemark(body.getRemark());
-				bond.setType("FOZ");
+				bond.setType(body.getType());
 				return bond;
 			}
 			
@@ -174,9 +178,27 @@ public class OrderServiceImpl implements OrderService{
 		ProjectAccount account=capManageSer.queryAccountInfo(userId);
 		AccountValidateUtil.validateAccount(account);
 		
-		//创建保证金订单
-		Integer balance=account.getRemainingSum()+body.getSum();
+		//根据订单号查询历史冻结订单信息
+		ProjectAccountOrder freezeOrder=accOrdDao.selectByPrimaryKey(body.getOrignalOrderId());
+		if(freezeOrder==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("账户订单号【%s】查询不到账户冻结记录",body.getOrignalOrderId()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到账户冻结记录",body.getOrignalOrderId()));		
 		
+		}
+		//查询该订单是否解冻过
+		ProjectAccountOrder unfreezeOrder=accOrdDao.queryUnfreezeRecord(body.getOrignalOrderId());
+		if(unfreezeOrder!=null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("该账户冻结订单号【%s】已解冻，无法再次解冻",body.getOrignalOrderId()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("该账户冻结订单号【%s】已解冻，无法再次解冻",body.getOrignalOrderId()));		
+		
+		}
+
+		//创建保证金订单
+		Long balance=account.getRemainingSum()+freezeOrder.getSum();
 		//插入资金账户订单表
 		ProjectAccountOrder accountOrder=new ProjectAccountOrder();
 		String accountOrderId=AccountGenerationUtil.genNO("PA00");
@@ -186,9 +208,9 @@ public class OrderServiceImpl implements OrderService{
 		accountOrder.setOriginalTable(body.getOrignalTable());
 		accountOrder.setRemark(body.getRemark());
 		accountOrder.setStatus("OK#");
-		accountOrder.setSum(body.getSum());
+		accountOrder.setSum(freezeOrder.getSum());
 		accountOrder.setMethod(method);
-		accountOrder.setObjectId(body.getObjectId());
+		accountOrder.setObjectId(freezeOrder.getObjectId());
 		accountOrder.setFrozenSumSnapshot(balance);
 		accountOrder.setInsertTime(new Date());
 		accountOrder.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
@@ -198,19 +220,18 @@ public class OrderServiceImpl implements OrderService{
 		
 		//更新账户信息
 		account.setUpdateTime(new Date());
-		account.setFrozenSum(account.getFrozenSum()-body.getSum());
+		account.setFrozenSum(account.getFrozenSum()-freezeOrder.getSum());
 		account.setRemainingSum(balance);
 		AccountValidateUtil.updateAccountSignature(account);
 		proActDao.updateByPrimaryKey(account);
 		//组装返回信息
 		FreezeBondReturnVO bond=new FreezeBondReturnVO();
 		bond.setAccountId(account.getAccountId());
-		bond.setAmount(body.getSum());
-		bond.setBalance(balance);
+		bond.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(freezeOrder.getSum()));
+		bond.setBalance(MoneyUtil.getMoneyStringDecimal4yuan(balance));
 		bond.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
 		bond.setOrderId(accountOrderId);
 		bond.setRemark(body.getRemark());
-		
 		bond.setType(body.getType());
 		return bond;
 	}
@@ -242,10 +263,10 @@ public class OrderServiceImpl implements OrderService{
 		List<ApplyListReturnVO> list=new ArrayList<ApplyListReturnVO>();
 		for(RechargeApply apply:applys){
 			ApplyListReturnVO returnvo=new ApplyListReturnVO();
-			returnvo.setAmount(apply.getAmount().toString());
-			returnvo.setCreateTime(new Date());
-			returnvo.setRechargeTime(apply.getTransportTime());
-			returnvo.setRemark("提现");
+			returnvo.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(apply.getAmount()));
+			returnvo.setCreateTime(DateUtil.formatCommonDateorNull(apply.getInsertTime()));
+			returnvo.setRechargeTime(DateUtil.formatCommonDateorNull(apply.getTransportTime()));
+			returnvo.setRemark("充值");
 			returnvo.setStatus(apply.getStatus());
 			returnvo.setVoucherNo(apply.getVoucher());
 			list.add(returnvo);
@@ -256,8 +277,10 @@ public class OrderServiceImpl implements OrderService{
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public String withdrawalsApply(WithdrawalsApplyBodyVO body, User user,String method)
 			throws MaAccountException {
-
-		Integer feeAmount=feeRateDao.selectMoney(body.getAmount(), "TX#");
+		Long feeAmount=feeRateDao.selectMoney(body.getAmount(), "TX#");
+		if(feeAmount==null){
+			feeAmount = 0l;
+		}
 		WithdrawApply apply=new WithdrawApply();
 		String applyOrderId=AccountGenerationUtil.genNO("TX00");
 		apply.setOrderId(applyOrderId);
@@ -280,14 +303,13 @@ public class OrderServiceImpl implements OrderService{
 		List<WithdrawalsApplyListReturnVO> list=new ArrayList<WithdrawalsApplyListReturnVO>();
 		for(WithdrawApply apply:applys){
 			WithdrawalsApplyListReturnVO returnvo=new WithdrawalsApplyListReturnVO();
-			returnvo.setAmount(apply.getWithdrawAmount().toString());
-			returnvo.setCreateTime(apply.getInsertTime());
-			returnvo.setHandingCharge(apply.getCommissionFees().toString());
+			returnvo.setAmount(MoneyUtil.getMoneyStringDecimal4yuan(apply.getWithdrawAmount()));
+			returnvo.setCreateTime(DateUtil.formatCommonDateorNull(apply.getInsertTime()));
+			returnvo.setHandingCharge(MoneyUtil.getMoneyStringDecimal4yuan(apply.getCommissionFees()));
 			returnvo.setRemark("提现");
 			returnvo.setStatus(apply.getStatus());
-
 			returnvo.setWithdrawalsNo(apply.getVoucher());
-			returnvo.setWithdrawalsTime(apply.getTransportTime());
+			returnvo.setWithdrawalsTime(DateUtil.formatCommonDateorNull(apply.getTransportTime()));
 			list.add(returnvo);
 		}
 		return list;
@@ -296,7 +318,6 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public WithdrawApply queryWithdrawalByOrderId(String OrderId) throws MaAccountException{
 		// TODO Auto-generated method stub
-		User user=new User();
 		WithdrawApply apply=withdrawApplyDao.selectByPrimaryKey(OrderId);
 		if(apply==null){
 			if (log.isDebugEnabled()) {
@@ -348,7 +369,7 @@ public class OrderServiceImpl implements OrderService{
 		ProjectAccount account=capManageSer.queryAccountInfo(userId);
 		AccountValidateUtil.validateAccount(account);
 		//创建保证金订单
-		Integer balance=account.getRemainingSum();
+		Long balance=account.getRemainingSum();
 		if(account.getFrozenSum()<body.getSum()){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("用户【%s】提现金额大于冻结金额，提现失败",userId));
@@ -425,7 +446,7 @@ public class OrderServiceImpl implements OrderService{
 		ProjectAccount account=capManageSer.queryAccountInfo(userId);
 		AccountValidateUtil.validateAccount(account);
 		//创建保证金订单
-		Integer balance=account.getRemainingSum()+body.getSum();
+		Long balance=account.getRemainingSum()+body.getSum();
 		
 		//插入资金账户订单表
 		ProjectAccountOrder accountOrder=new ProjectAccountOrder();

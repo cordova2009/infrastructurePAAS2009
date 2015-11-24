@@ -12,9 +12,9 @@ public class ProjectPaymentRecord {
     private Integer id;
 
     /**
-     * 标的id
+     * 工程信息id
      */
-    private String objectId;
+    private String projectId;
 
     /**
      * 期数
@@ -24,7 +24,7 @@ public class ProjectPaymentRecord {
     /**
      * 金额
      */
-    private Integer amount;
+    private Long amount;
 
     /**
      * 时间
@@ -62,18 +62,18 @@ public class ProjectPaymentRecord {
     }
 
     /**
-     * @return 标的id
+     * @return 工程信息id
      */
-    public String getObjectId() {
-        return objectId;
+    public String getProjectId() {
+        return projectId;
     }
 
     /**
-     * @param objectId 
-	 *            标的id
+     * @param projectId 
+	 *            工程信息id
      */
-    public void setObjectId(String objectId) {
-        this.objectId = objectId == null ? null : objectId.trim();
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     /**
@@ -94,7 +94,7 @@ public class ProjectPaymentRecord {
     /**
      * @return 金额
      */
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -102,7 +102,7 @@ public class ProjectPaymentRecord {
      * @param amount 
 	 *            金额
      */
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
@@ -179,7 +179,7 @@ public class ProjectPaymentRecord {
         }
         ProjectPaymentRecord other = (ProjectPaymentRecord) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
             && (this.getCurrentPeriod() == null ? other.getCurrentPeriod() == null : this.getCurrentPeriod().equals(other.getCurrentPeriod()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
             && (this.getPayTime() == null ? other.getPayTime() == null : this.getPayTime().equals(other.getPayTime()))
@@ -193,7 +193,7 @@ public class ProjectPaymentRecord {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getCurrentPeriod() == null) ? 0 : getCurrentPeriod().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
         result = prime * result + ((getPayTime() == null) ? 0 : getPayTime().hashCode());

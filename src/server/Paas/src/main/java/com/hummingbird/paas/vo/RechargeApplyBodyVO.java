@@ -15,7 +15,7 @@ public class RechargeApplyBodyVO {
 	private Date transferTime;
 	private String bankName;
 	private String voucherNo;
-	private Integer amount;
+	private Long amount;
 	private String voucherFileUrl;
 	public String getToken() {
 		return token;
@@ -43,10 +43,10 @@ public class RechargeApplyBodyVO {
 		this.voucherNo = voucherNo;
 	}
 	
-	public Integer getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
-	public void setAmount(Integer amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 	public String getVoucherFileUrl() {

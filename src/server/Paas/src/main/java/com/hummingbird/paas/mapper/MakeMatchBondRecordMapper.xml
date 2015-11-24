@@ -5,7 +5,7 @@
     <id column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="bid_id" property="bidId" jdbcType="INTEGER" />
-    <result column="bond_amount" property="bondAmount" jdbcType="INTEGER" />
+    <result column="bond_amount" property="bondAmount" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -44,7 +44,7 @@
       update_time, creator, updator
       )
     values (#{orderId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{bidId,jdbcType=INTEGER}, 
-      #{bondAmount,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{bondAmount,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}
       )
   </insert>
@@ -90,7 +90,7 @@
         #{bidId,jdbcType=INTEGER},
       </if>
       <if test="bondAmount != null" >
-        #{bondAmount,jdbcType=INTEGER},
+        #{bondAmount,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
@@ -119,7 +119,7 @@
         bid_id = #{bidId,jdbcType=INTEGER},
       </if>
       <if test="bondAmount != null" >
-        bond_amount = #{bondAmount,jdbcType=INTEGER},
+        bond_amount = #{bondAmount,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
@@ -143,7 +143,7 @@
     update t_ztgl_object_makematch_bond_record
     set object_id = #{objectId,jdbcType=VARCHAR},
       bid_id = #{bidId,jdbcType=INTEGER},
-      bond_amount = #{bondAmount,jdbcType=INTEGER},
+      bond_amount = #{bondAmount,jdbcType=BIGINT},
       status = #{status,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

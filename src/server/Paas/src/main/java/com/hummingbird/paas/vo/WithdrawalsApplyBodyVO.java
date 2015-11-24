@@ -8,7 +8,7 @@ public class WithdrawalsApplyBodyVO {
             "tradePassword":"TRADE_PASSWORD"
         }*/
 	private String token;
-	private Integer amount;
+	private Long amount;
 	private Integer bankId;
 	private String tradePassword;
 	
@@ -18,10 +18,10 @@ public class WithdrawalsApplyBodyVO {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public Integer getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
-	public void setAmount(Integer amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 	

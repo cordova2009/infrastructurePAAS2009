@@ -6,7 +6,7 @@
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="product_category_id" property="productCategoryId" jdbcType="INTEGER" />
-    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="BIGINT" />
     <result column="product_description" property="productDescription" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -27,7 +27,7 @@
       product_category_id, price, product_description
       )
     values (#{id,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{productCategoryId,jdbcType=INTEGER}, #{price,jdbcType=VARCHAR}, #{productDescription,jdbcType=VARCHAR}
+      #{productCategoryId,jdbcType=INTEGER}, #{price,jdbcType=BIGINT}, #{productDescription,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.OrderProduct" >
@@ -66,7 +66,7 @@
         #{productCategoryId,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
-        #{price,jdbcType=VARCHAR},
+        #{price,jdbcType=BIGINT},
       </if>
       <if test="productDescription != null" >
         #{productDescription,jdbcType=VARCHAR},
@@ -86,7 +86,7 @@
         product_category_id = #{productCategoryId,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
-        price = #{price,jdbcType=VARCHAR},
+        price = #{price,jdbcType=BIGINT},
       </if>
       <if test="productDescription != null" >
         product_description = #{productDescription,jdbcType=VARCHAR},
@@ -99,7 +99,7 @@
     set product_name = #{productName,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       product_category_id = #{productCategoryId,jdbcType=INTEGER},
-      price = #{price,jdbcType=VARCHAR},
+      price = #{price,jdbcType=BIGINT},
       product_description = #{productDescription,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

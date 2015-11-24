@@ -29,17 +29,17 @@ public class ProjectPaymentAccountOrder {
     /**
      * 金额，单位分
      */
-    private Integer sum;
+    private Long sum;
 
     /**
      * 标的id
      */
-    private Integer objectId;
+    private String objectId;
 
     /**
      * 结存，即发生该交易后，该账户的结存
      */
-    private Integer balance;
+    private Long balance;
 
     /**
      * app订单号
@@ -184,7 +184,7 @@ public class ProjectPaymentAccountOrder {
     /**
      * @return 金额，单位分
      */
-    public Integer getSum() {
+    public Long getSum() {
         return sum;
     }
 
@@ -192,14 +192,14 @@ public class ProjectPaymentAccountOrder {
      * @param sum 
 	 *            金额，单位分
      */
-    public void setSum(Integer sum) {
+    public void setSum(Long sum) {
         this.sum = sum;
     }
 
     /**
      * @return 标的id
      */
-    public Integer getObjectId() {
+    public String getObjectId() {
         return objectId;
     }
 
@@ -207,14 +207,14 @@ public class ProjectPaymentAccountOrder {
      * @param objectId 
 	 *            标的id
      */
-    public void setObjectId(Integer objectId) {
-        this.objectId = objectId;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId == null ? null : objectId.trim();
     }
 
     /**
      * @return 结存，即发生该交易后，该账户的结存
      */
-    public Integer getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
@@ -222,7 +222,7 @@ public class ProjectPaymentAccountOrder {
      * @param balance 
 	 *            结存，即发生该交易后，该账户的结存
      */
-    public void setBalance(Integer balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 

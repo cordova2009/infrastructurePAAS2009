@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ObjectBondSetting" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
-    <result column="biddee_bond" property="biddeeBond" jdbcType="INTEGER" />
-    <result column="bidder_bid_bond" property="bidderBidBond" jdbcType="INTEGER" />
+    <result column="biddee_bond" property="biddeeBond" jdbcType="BIGINT" />
+    <result column="bidder_bid_bond" property="bidderBidBond" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, object_id, biddee_bond, bidder_bid_bond
@@ -16,12 +16,6 @@
     from t_ztgl_object_bond_setting
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_ztgl_object_bond_setting
-    where object_id = #{objectId}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_object_bond_setting
     where id = #{id,jdbcType=INTEGER}
@@ -29,8 +23,8 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     insert into t_ztgl_object_bond_setting (id, object_id, biddee_bond, 
       bidder_bid_bond)
-    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{biddeeBond,jdbcType=INTEGER}, 
-      #{bidderBidBond,jdbcType=INTEGER})
+    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{biddeeBond,jdbcType=BIGINT}, 
+      #{bidderBidBond,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     insert into t_ztgl_object_bond_setting
@@ -56,10 +50,10 @@
         #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="biddeeBond != null" >
-        #{biddeeBond,jdbcType=INTEGER},
+        #{biddeeBond,jdbcType=BIGINT},
       </if>
       <if test="bidderBidBond != null" >
-        #{bidderBidBond,jdbcType=INTEGER},
+        #{bidderBidBond,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -70,10 +64,10 @@
         object_id = #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="biddeeBond != null" >
-        biddee_bond = #{biddeeBond,jdbcType=INTEGER},
+        biddee_bond = #{biddeeBond,jdbcType=BIGINT},
       </if>
       <if test="bidderBidBond != null" >
-        bidder_bid_bond = #{bidderBidBond,jdbcType=INTEGER},
+        bidder_bid_bond = #{bidderBidBond,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -81,15 +75,8 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ObjectBondSetting" >
     update t_ztgl_object_bond_setting
     set object_id = #{objectId,jdbcType=VARCHAR},
-      biddee_bond = #{biddeeBond,jdbcType=INTEGER},
-      bidder_bid_bond = #{bidderBidBond,jdbcType=INTEGER}
+      biddee_bond = #{biddeeBond,jdbcType=BIGINT},
+      bidder_bid_bond = #{bidderBidBond,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="getObjectBidderBond" resultType="java.lang.Integer" parameterType="java.lang.String" >
-    select 
-    bidder_bid_bond
-    from t_ztgl_object_bond_setting
-    where object_id = #{objectId,jdbcType=VARCHAR}
-  </select>
 </mapper>

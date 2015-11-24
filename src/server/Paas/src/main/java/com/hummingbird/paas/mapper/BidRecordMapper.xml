@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
-    <result column="bid_amount" property="bidAmount" jdbcType="INTEGER" />
+    <result column="bid_amount" property="bidAmount" jdbcType="BIGINT" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
@@ -29,7 +29,7 @@
     <result column="pm_safety_certification_endtime" property="pmSafetyCertificationEndtime" jdbcType="DATE" />
     <result column="bank_guarantee_No" property="bankGuaranteeNo" jdbcType="VARCHAR" />
     <result column="bank_guarantee_url" property="bankGuaranteeUrl" jdbcType="VARCHAR" />
-    <result column="bank_guarantee_amount" property="bankGuaranteeAmount" jdbcType="INTEGER" />
+    <result column="bank_guarantee_amount" property="bankGuaranteeAmount" jdbcType="BIGINT" />
     <result column="project_quotation_url" property="projectQuotationUrl" jdbcType="VARCHAR" />
     <result column="construction_commitment_url" property="constructionCommitmentUrl" jdbcType="VARCHAR" />
     <result column="construction_end_date" property="constructionEndDate" jdbcType="VARCHAR" />
@@ -56,11 +56,11 @@
     from t_ztgl_bid_record
     where id = #{id,jdbcType=INTEGER}
   </select>
-   <select id="selectByObjectIdAndBidderId" resultMap="BaseResultMap">
+   <select id="selectByObjectIdAndBidderId" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_bid_record
-    where object_id = #{0,jdbcType=VARCHAR}  and bidder_id = #{1,jdbcType=INTEGER}
+    where object_id = #{object_id,jdbcType=VARCHAR}  and bidder_id = #{bidder_id,jdbcType=INTEGER}
   </select>
   <select id="selectByObjectId" resultMap="TenderSurveyResultMap"  parameterType="java.lang.String">
     select b.object_name objectName,count(a.id) bidderNum,max(a.bid_amount) maxBidAmount,min(a.bid_amount) minBidAmount  from t_ztgl_bid_record a inner JOIN t_ztgl_object b on a.object_id = b.object_id  
@@ -97,7 +97,7 @@
       construction_end_date, construction_start_date, 
       technical_standard_url)
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{bidderId,jdbcType=INTEGER}, 
-      #{bidAmount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{bidAmount,jdbcType=BIGINT}, #{insertTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
       #{auditTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER}, 
       #{bidStatus,jdbcType=VARCHAR}, #{projectStartTime,jdbcType=DATE}, #{projectDescription,jdbcType=VARCHAR}, 
       #{projectEndTime,jdbcType=DATE}, #{pmCertificationNo,jdbcType=VARCHAR}, #{constructorCertificationNo,jdbcType=VARCHAR}, 
@@ -106,7 +106,7 @@
       #{safetyPermitUrl,jdbcType=VARCHAR}, #{pmSafetyCertificationUrl,jdbcType=VARCHAR}, 
       #{pmCertificationEndtime,jdbcType=DATE}, #{constructorCertificationEndtime,jdbcType=DATE}, 
       #{safetyPermitEndtime,jdbcType=DATE}, #{pmSafetyCertificationEndtime,jdbcType=DATE}, 
-      #{bankGuaranteeNo,jdbcType=VARCHAR}, #{bankGuaranteeUrl,jdbcType=VARCHAR}, #{bankGuaranteeAmount,jdbcType=INTEGER}, 
+      #{bankGuaranteeNo,jdbcType=VARCHAR}, #{bankGuaranteeUrl,jdbcType=VARCHAR}, #{bankGuaranteeAmount,jdbcType=BIGINT}, 
       #{projectQuotationUrl,jdbcType=VARCHAR}, #{constructionCommitmentUrl,jdbcType=VARCHAR}, 
       #{constructionEndDate,jdbcType=VARCHAR}, #{constructionStartDate,jdbcType=VARCHAR}, 
       #{technicalStandardUrl,jdbcType=VARCHAR})
@@ -225,7 +225,7 @@
         #{bidderId,jdbcType=INTEGER},
       </if>
       <if test="bidAmount != null" >
-        #{bidAmount,jdbcType=INTEGER},
+        #{bidAmount,jdbcType=BIGINT},
       </if>
       <if test="insertTime != null" >
         #{insertTime,jdbcType=TIMESTAMP},
@@ -297,7 +297,7 @@
         #{bankGuaranteeUrl,jdbcType=VARCHAR},
       </if>
       <if test="bankGuaranteeAmount != null" >
-        #{bankGuaranteeAmount,jdbcType=INTEGER},
+        #{bankGuaranteeAmount,jdbcType=BIGINT},
       </if>
       <if test="projectQuotationUrl != null" >
         #{projectQuotationUrl,jdbcType=VARCHAR},
@@ -326,7 +326,7 @@
         bidder_id = #{bidderId,jdbcType=INTEGER},
       </if>
       <if test="bidAmount != null" >
-        bid_amount = #{bidAmount,jdbcType=INTEGER},
+        bid_amount = #{bidAmount,jdbcType=BIGINT},
       </if>
       <if test="insertTime != null" >
         insert_time = #{insertTime,jdbcType=TIMESTAMP},
@@ -398,7 +398,7 @@
         bank_guarantee_url = #{bankGuaranteeUrl,jdbcType=VARCHAR},
       </if>
       <if test="bankGuaranteeAmount != null" >
-        bank_guarantee_amount = #{bankGuaranteeAmount,jdbcType=INTEGER},
+        bank_guarantee_amount = #{bankGuaranteeAmount,jdbcType=BIGINT},
       </if>
       <if test="projectQuotationUrl != null" >
         project_quotation_url = #{projectQuotationUrl,jdbcType=VARCHAR},
@@ -422,7 +422,7 @@
     update t_ztgl_bid_record
     set object_id = #{objectId,jdbcType=VARCHAR},
       bidder_id = #{bidderId,jdbcType=INTEGER},
-      bid_amount = #{bidAmount,jdbcType=INTEGER},
+      bid_amount = #{bidAmount,jdbcType=BIGINT},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=TIMESTAMP},
@@ -446,7 +446,7 @@
       pm_safety_certification_endtime = #{pmSafetyCertificationEndtime,jdbcType=DATE},
       bank_guarantee_No = #{bankGuaranteeNo,jdbcType=VARCHAR},
       bank_guarantee_url = #{bankGuaranteeUrl,jdbcType=VARCHAR},
-      bank_guarantee_amount = #{bankGuaranteeAmount,jdbcType=INTEGER},
+      bank_guarantee_amount = #{bankGuaranteeAmount,jdbcType=BIGINT},
       project_quotation_url = #{projectQuotationUrl,jdbcType=VARCHAR},
       construction_commitment_url = #{constructionCommitmentUrl,jdbcType=VARCHAR},
       construction_end_date = #{constructionEndDate,jdbcType=VARCHAR},

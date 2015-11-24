@@ -14,7 +14,7 @@ public class RechargeApply {
     /**
      * 充值金额,单位为分
      */
-    private Integer amount;
+    private Long amount;
 
     /**
      * 提出时间
@@ -84,7 +84,7 @@ public class RechargeApply {
     /**
      * @return 充值金额,单位为分
      */
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -92,7 +92,7 @@ public class RechargeApply {
      * @param amount 
 	 *            充值金额,单位为分
      */
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

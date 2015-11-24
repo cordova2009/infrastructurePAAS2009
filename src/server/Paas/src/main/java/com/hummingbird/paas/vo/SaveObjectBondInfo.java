@@ -23,7 +23,7 @@ implements PainttextAble {
 	    	/**
 	     * 投标担保金额
 	     */
-	    protected Integer bidBondAmount;
+	    protected Long bidBondAmount;
 	
 	    	/**
 	     * @return 招标项目内部编号
@@ -54,14 +54,14 @@ implements PainttextAble {
 	    	/**
 	     * @return 投标担保金额
 	     */
-	    public Integer getBidBondAmount() {
+	    public Long getBidBondAmount() {
 	        return bidBondAmount;
 	    }
 	
 	    /**
 	     * @param 投标担保金额
 	     */
-	    public void setBidBondAmount(Integer bidBondAmount) {
+	    public void setBidBondAmount(Long bidBondAmount) {
 	        this.bidBondAmount = bidBondAmount;
 	    }
 		

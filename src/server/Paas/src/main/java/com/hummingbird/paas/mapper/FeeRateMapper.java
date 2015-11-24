@@ -48,5 +48,5 @@ public interface FeeRateMapper {
 	 * @param string
 	 * @return
 	 */
-	Integer selectMoney(@Param("inputAmount") Integer inputAmount,@Param("type") String type);
+    Long selectMoney(@Param("inputAmount") Long inputAmount,@Param("type") String type);
 }

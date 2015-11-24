@@ -20,7 +20,7 @@ public class MoneyUtil extends com.hummingbird.common.util.MoneyUtil{
 			return null;
 		}
 		
-		return new DecimalFormat("0").format((double)(price.doubleValue()/100));
+		return new DecimalFormat("0.00").format((double)(price.doubleValue()/100));
 	}
 	
 	

@@ -14,12 +14,12 @@ public class WithdrawApply {
     /**
      * 提现金额
      */
-    private Integer withdrawAmount;
+    private Long withdrawAmount;
 
     /**
      * 手续费
      */
-    private Integer commissionFees;
+    private Long commissionFees;
 
     /**
      * 提出时间
@@ -94,7 +94,7 @@ public class WithdrawApply {
     /**
      * @return 提现金额
      */
-    public Integer getWithdrawAmount() {
+    public Long getWithdrawAmount() {
         return withdrawAmount;
     }
 
@@ -102,14 +102,14 @@ public class WithdrawApply {
      * @param withdrawAmount 
 	 *            提现金额
      */
-    public void setWithdrawAmount(Integer withdrawAmount) {
+    public void setWithdrawAmount(Long withdrawAmount) {
         this.withdrawAmount = withdrawAmount;
     }
 
     /**
      * @return 手续费
      */
-    public Integer getCommissionFees() {
+    public Long getCommissionFees() {
         return commissionFees;
     }
 
@@ -117,7 +117,7 @@ public class WithdrawApply {
      * @param commissionFees 
 	 *            手续费
      */
-    public void setCommissionFees(Integer commissionFees) {
+    public void setCommissionFees(Long commissionFees) {
         this.commissionFees = commissionFees;
     }
 

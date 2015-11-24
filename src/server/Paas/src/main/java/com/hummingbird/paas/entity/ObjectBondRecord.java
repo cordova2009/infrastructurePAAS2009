@@ -19,7 +19,7 @@ public class ObjectBondRecord {
     /**
      * 金额，单位为分
      */
-    private Integer bondAmount;
+    private Long bondAmount;
 
     /**
      * 收缴类型，FOZ冻结（帐户内的钱），PAY缴（保证金，中标后），REV收保证金
@@ -84,7 +84,7 @@ public class ObjectBondRecord {
     /**
      * @return 金额，单位为分
      */
-    public Integer getBondAmount() {
+    public Long getBondAmount() {
         return bondAmount;
     }
 
@@ -92,7 +92,7 @@ public class ObjectBondRecord {
      * @param bondAmount 
 	 *            金额，单位为分
      */
-    public void setBondAmount(Integer bondAmount) {
+    public void setBondAmount(Long bondAmount) {
         this.bondAmount = bondAmount;
     }
 

@@ -3,8 +3,8 @@
 <mapper namespace="com.hummingbird.paas.mapper.WithdrawApplyMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.WithdrawApply" >
     <id column="order_id" property="orderId" jdbcType="VARCHAR" />
-    <result column="withdraw_amount" property="withdrawAmount" jdbcType="INTEGER" />
-    <result column="commission_fees" property="commissionFees" jdbcType="INTEGER" />
+    <result column="withdraw_amount" property="withdrawAmount" jdbcType="BIGINT" />
+    <result column="commission_fees" property="commissionFees" jdbcType="BIGINT" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="user_bankcard_id" property="userBankcardId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -37,7 +37,7 @@
       status, bank, voucher, 
       transport_time, voucher_pic, bank_id, 
       update_time, updator)
-    values (#{orderId,jdbcType=VARCHAR}, #{withdrawAmount,jdbcType=INTEGER}, #{commissionFees,jdbcType=INTEGER}, 
+    values (#{orderId,jdbcType=VARCHAR}, #{withdrawAmount,jdbcType=BIGINT}, #{commissionFees,jdbcType=BIGINT}, 
       #{insertTime,jdbcType=TIMESTAMP}, #{userBankcardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, #{voucher,jdbcType=VARCHAR}, 
       #{transportTime,jdbcType=TIMESTAMP}, #{voucherPic,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, 
@@ -94,10 +94,10 @@
         #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="withdrawAmount != null" >
-        #{withdrawAmount,jdbcType=INTEGER},
+        #{withdrawAmount,jdbcType=BIGINT},
       </if>
       <if test="commissionFees != null" >
-        #{commissionFees,jdbcType=INTEGER},
+        #{commissionFees,jdbcType=BIGINT},
       </if>
       <if test="insertTime != null" >
         #{insertTime,jdbcType=TIMESTAMP},
@@ -138,10 +138,10 @@
     update t_ddgl_withdraw_apply
     <set >
       <if test="withdrawAmount != null" >
-        withdraw_amount = #{withdrawAmount,jdbcType=INTEGER},
+        withdraw_amount = #{withdrawAmount,jdbcType=BIGINT},
       </if>
       <if test="commissionFees != null" >
-        commission_fees = #{commissionFees,jdbcType=INTEGER},
+        commission_fees = #{commissionFees,jdbcType=BIGINT},
       </if>
       <if test="insertTime != null" >
         insert_time = #{insertTime,jdbcType=TIMESTAMP},
@@ -181,8 +181,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.WithdrawApply" >
     update t_ddgl_withdraw_apply
-    set withdraw_amount = #{withdrawAmount,jdbcType=INTEGER},
-      commission_fees = #{commissionFees,jdbcType=INTEGER},
+    set withdraw_amount = #{withdrawAmount,jdbcType=BIGINT},
+      commission_fees = #{commissionFees,jdbcType=BIGINT},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       user_bankcard_id = #{userBankcardId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
@@ -196,10 +196,10 @@
       updator = #{updator,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
-  <select id="queryWithdrawalsApplyList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="queryWithdrawalsApplyList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_ddgl_withdraw_apply
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
 </mapper>

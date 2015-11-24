@@ -24,7 +24,7 @@ public class MakeMatchBondRecord {
     /**
      * 金额，单位为分
      */
-    private Integer bondAmount;
+    private Long bondAmount;
 
     /**
      * 状态，FOZ冻结（帐户内的钱），PAY缴（保证金，中标后），REV收保证金
@@ -99,7 +99,7 @@ public class MakeMatchBondRecord {
     /**
      * @return 金额，单位为分
      */
-    public Integer getBondAmount() {
+    public Long getBondAmount() {
         return bondAmount;
     }
 
@@ -107,7 +107,7 @@ public class MakeMatchBondRecord {
      * @param bondAmount 
 	 *            金额，单位为分
      */
-    public void setBondAmount(Integer bondAmount) {
+    public void setBondAmount(Long bondAmount) {
         this.bondAmount = bondAmount;
     }
 

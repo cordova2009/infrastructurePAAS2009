@@ -39,7 +39,7 @@ implements PainttextAble {
 	    	/**
 	     * 保函金额
 	     */
-	    protected Integer bankGuaranteeAmount;
+	    protected Long bankGuaranteeAmount;
 	
 	    	/**
 	     * @return 
@@ -109,14 +109,14 @@ implements PainttextAble {
 	    	/**
 	     * @return 保函金额
 	     */
-	    public Integer getBankGuaranteeAmount() {
+	    public Long getBankGuaranteeAmount() {
 	        return bankGuaranteeAmount;
 	    }
 	
 	    /**
 	     * @param 保函金额
 	     */
-	    public void setBankGuaranteeAmount(Integer bankGuaranteeAmount) {
+	    public void setBankGuaranteeAmount(Long bankGuaranteeAmount) {
 	        this.bankGuaranteeAmount = bankGuaranteeAmount;
 	    }
 		

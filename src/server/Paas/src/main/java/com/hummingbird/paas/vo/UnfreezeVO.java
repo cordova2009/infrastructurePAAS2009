@@ -6,7 +6,7 @@ public class UnfreezeVO {
 	private String appOrderId;
 	private String orignalOrderId;
 	private String orignalTable;
-	private Integer sum;
+	private Long sum;
 	private String remark;
 	
 	public String getRemark() {
@@ -45,10 +45,10 @@ public class UnfreezeVO {
 	public void setOrignalTable(String orignalTable) {
 		this.orignalTable = orignalTable;
 	}
-	public Integer getSum() {
+	public Long getSum() {
 		return sum;
 	}
-	public void setSum(Integer sum) {
+	public void setSum(Long sum) {
 		this.sum = sum;
 	}
 	

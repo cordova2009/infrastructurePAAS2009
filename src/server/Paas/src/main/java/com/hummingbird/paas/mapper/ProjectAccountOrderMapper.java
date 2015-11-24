@@ -65,4 +65,10 @@ public interface ProjectAccountOrderMapper {
 	 * @return
 	 */
 	public Integer getAccountOutlay(String accountId);
+	/**
+	 * 查询解冻订单
+	 * @param orignalOrderId
+	 * @return
+	 */
+	ProjectAccountOrder queryUnfreezeRecord(String orignalOrderId);
 }

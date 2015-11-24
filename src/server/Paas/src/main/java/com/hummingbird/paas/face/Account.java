@@ -74,7 +74,7 @@ public interface Account {
 	 * 取帐户余额
 	 * @return
 	 */
-	Integer getRemainingSum();
+	Long getRemainingSum();
 	
 	/**
 	 * 取帐户ID

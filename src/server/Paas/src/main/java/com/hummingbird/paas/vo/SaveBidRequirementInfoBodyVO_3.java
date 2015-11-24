@@ -19,7 +19,7 @@ implements PainttextAble {
     	    	/**
 	     * 
 	     */
-	    protected Integer bankGuaranteeAmount;
+	    protected Long bankGuaranteeAmount;
 	    	/**
 	     * 
 	     */
@@ -32,14 +32,14 @@ implements PainttextAble {
 	    	/**
 	     * @return 
 	     */
-	    public Integer getBankGuaranteeAmount() {
+	    public Long getBankGuaranteeAmount() {
 	        return bankGuaranteeAmount;
 	    }
 	
 	    /**
 	     * @param 
 	     */
-	    public void setBankGuaranteeAmount(Integer bankGuaranteeAmount) {
+	    public void setBankGuaranteeAmount(Long bankGuaranteeAmount) {
 	        this.bankGuaranteeAmount = bankGuaranteeAmount;
 	    }
 	    	/**

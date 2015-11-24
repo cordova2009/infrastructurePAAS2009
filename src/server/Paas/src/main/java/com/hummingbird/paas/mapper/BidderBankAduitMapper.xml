@@ -4,12 +4,19 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidderBankAduit" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="bidder_certicate_id" property="bidderCerticateId" jdbcType="INTEGER" />
+    <result column="bankcard_certificate_msg" property="bankcardCertificateMsg" jdbcType="VARCHAR" />
+    <result column="bank_certificate_msg" property="bankCertificateMsg" jdbcType="VARCHAR" />
+    <result column="acccount_name_certificate_msg" property="acccountNameCertificateMsg" jdbcType="VARCHAR" />
     <result column="bankcard_certificate_result" property="bankcardCertificateResult" jdbcType="VARCHAR" />
+    <result column="bank_certificate_result" property="bankCertificateResult" jdbcType="VARCHAR" />
+    <result column="acccount_name_certificate_result" property="acccountNameCertificateResult" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="INTEGER" />
     <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, bidder_certicate_id, bankcard_certificate_result, auditor, audit_time
+    id, bidder_certicate_id, bankcard_certificate_msg, bank_certificate_msg, acccount_name_certificate_msg, 
+    bankcard_certificate_result, bank_certificate_result, acccount_name_certificate_result, 
+    auditor, audit_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -28,10 +35,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderBankAduit" >
-    insert into t_qyzz_bidder_bank_aduit (id, bidder_certicate_id, bankcard_certificate_result, 
-      auditor, audit_time)
-    values (#{id,jdbcType=INTEGER}, #{bidderCerticateId,jdbcType=INTEGER}, #{bankcardCertificateResult,jdbcType=VARCHAR}, 
-      #{auditor,jdbcType=INTEGER}, #{auditTime,jdbcType=TIMESTAMP})
+    insert into t_qyzz_bidder_bank_aduit (id, bidder_certicate_id, bankcard_certificate_msg, 
+      bank_certificate_msg, acccount_name_certificate_msg, 
+      bankcard_certificate_result, bank_certificate_result, 
+      acccount_name_certificate_result, auditor, 
+      audit_time)
+    values (#{id,jdbcType=INTEGER}, #{bidderCerticateId,jdbcType=INTEGER}, #{bankcardCertificateMsg,jdbcType=VARCHAR}, 
+      #{bankCertificateMsg,jdbcType=VARCHAR}, #{acccountNameCertificateMsg,jdbcType=VARCHAR}, 
+      #{bankcardCertificateResult,jdbcType=VARCHAR}, #{bankCertificateResult,jdbcType=VARCHAR}, 
+      #{acccountNameCertificateResult,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER}, 
+      #{auditTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidderBankAduit" >
     insert into t_qyzz_bidder_bank_aduit
@@ -42,8 +55,23 @@
       <if test="bidderCerticateId != null" >
         bidder_certicate_id,
       </if>
+      <if test="bankcardCertificateMsg != null" >
+        bankcard_certificate_msg,
+      </if>
+      <if test="bankCertificateMsg != null" >
+        bank_certificate_msg,
+      </if>
+      <if test="acccountNameCertificateMsg != null" >
+        acccount_name_certificate_msg,
+      </if>
       <if test="bankcardCertificateResult != null" >
         bankcard_certificate_result,
+      </if>
+      <if test="bankCertificateResult != null" >
+        bank_certificate_result,
+      </if>
+      <if test="acccountNameCertificateResult != null" >
+        acccount_name_certificate_result,
       </if>
       <if test="auditor != null" >
         auditor,
@@ -59,8 +87,23 @@
       <if test="bidderCerticateId != null" >
         #{bidderCerticateId,jdbcType=INTEGER},
       </if>
+      <if test="bankcardCertificateMsg != null" >
+        #{bankcardCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCertificateMsg != null" >
+        #{bankCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="acccountNameCertificateMsg != null" >
+        #{acccountNameCertificateMsg,jdbcType=VARCHAR},
+      </if>
       <if test="bankcardCertificateResult != null" >
         #{bankcardCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCertificateResult != null" >
+        #{bankCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="acccountNameCertificateResult != null" >
+        #{acccountNameCertificateResult,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=INTEGER},
@@ -76,8 +119,23 @@
       <if test="bidderCerticateId != null" >
         bidder_certicate_id = #{bidderCerticateId,jdbcType=INTEGER},
       </if>
+      <if test="bankcardCertificateMsg != null" >
+        bankcard_certificate_msg = #{bankcardCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCertificateMsg != null" >
+        bank_certificate_msg = #{bankCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="acccountNameCertificateMsg != null" >
+        acccount_name_certificate_msg = #{acccountNameCertificateMsg,jdbcType=VARCHAR},
+      </if>
       <if test="bankcardCertificateResult != null" >
         bankcard_certificate_result = #{bankcardCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCertificateResult != null" >
+        bank_certificate_result = #{bankCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="acccountNameCertificateResult != null" >
+        acccount_name_certificate_result = #{acccountNameCertificateResult,jdbcType=VARCHAR},
       </if>
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=INTEGER},
@@ -91,7 +149,12 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidderBankAduit" >
     update t_qyzz_bidder_bank_aduit
     set bidder_certicate_id = #{bidderCerticateId,jdbcType=INTEGER},
+      bankcard_certificate_msg = #{bankcardCertificateMsg,jdbcType=VARCHAR},
+      bank_certificate_msg = #{bankCertificateMsg,jdbcType=VARCHAR},
+      acccount_name_certificate_msg = #{acccountNameCertificateMsg,jdbcType=VARCHAR},
       bankcard_certificate_result = #{bankcardCertificateResult,jdbcType=VARCHAR},
+      bank_certificate_result = #{bankCertificateResult,jdbcType=VARCHAR},
+      acccount_name_certificate_result = #{acccountNameCertificateResult,jdbcType=VARCHAR},
       auditor = #{auditor,jdbcType=INTEGER},
       audit_time = #{auditTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

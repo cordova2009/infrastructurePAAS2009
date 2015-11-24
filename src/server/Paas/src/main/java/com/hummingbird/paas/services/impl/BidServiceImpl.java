@@ -602,7 +602,7 @@ public class BidServiceImpl implements BidService {
 		ValidateUtil.assertEmpty(body.getConstructionCommitmentUrl(), "施工承诺函附件");
 		ValidateUtil.assertEmpty(body.getConstructionEndDate(), "施工开始时间");
 		ValidateUtil.assertEmpty(body.getConstructionStartDate(), "施工结束时间");
-		bid.setBidAmount(NumberUtils.toInt(body.getBidAmount()));
+		bid.setBidAmount(NumberUtils.toLong(body.getBidAmount()));
 		bid.setProjectQuotationUrl(body.getProjectQuotationUrl());
 		bid.setConstructionCommitmentUrl(body.getConstructionCommitmentUrl());
 		bid.setConstructionEndDate(body.getConstructionEndDate());
@@ -681,7 +681,7 @@ public class BidServiceImpl implements BidService {
 		QueryBidderBondBodyVOResult result = new QueryBidderBondBodyVOResult();
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId, null);
 		BidObject object = bid.getBo();
-		Integer bidBondAmount = object.getBidBondAmount();
+		Long bidBondAmount = object.getBidBondAmount();
 		result.setBankGuaranteeAmount(MoneyUtil.getMoneyStringDecimal4yuan(bid.getBankGuaranteeAmount()));
 		result.setBankGuaranteeNo(bid.getBankGuaranteeNo());
 		result.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
@@ -744,7 +744,7 @@ public class BidServiceImpl implements BidService {
 				log.debug(String.format("投标人还没有交纳撮合保证金"));
 			}
 			// 计算撮合保证金金额
-			Integer bondmoney = frDao.selectMoney(object.getEvaluationAmount(), "BZJ");
+			Long bondmoney = frDao.selectMoney(object.getEvaluationAmount(), "BZJ");
 			if (bondmoney == null) {
 				log.error(String.format("无法找到合适的撮合保证金,费率表没有对应的设置,金额为%s分", object.getEvaluationAmount()));
 				throw ValidateException.ERROR_PARAM_NULL.clone(null, "无法找到合适的撮合保证金");
@@ -837,7 +837,7 @@ public class BidServiceImpl implements BidService {
 		}
 		
 		//创建保证金订单
-		Integer objectBond=oldActOrd.getBondAmount();
+		Long objectBond=oldActOrd.getBondAmount();
 		//创建解冻撮合担保金订单
 		MakeMatchBondRecord bondRecord=new MakeMatchBondRecord();
 		String bondorderId=AccountGenerationUtil.genNO("BZ00");
@@ -937,7 +937,7 @@ public class BidServiceImpl implements BidService {
 			bid.setBidderId(bidderId);
 			bid.setBidStatus(CommonStatusConst.STATUS_CREATE);
 			bid.setStatus(CommonStatusConst.STATUS_CREATE);
-			bid.setBidAmount(0);
+			bid.setBidAmount(0l);
 			isadd = true;
 		}
 		SaveBidRequirementInfoBodyVO_3 bankGuarantee = body.getBankGuarantee();

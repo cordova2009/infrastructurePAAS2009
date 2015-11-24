@@ -32,6 +32,7 @@ import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;

@@ -6,9 +6,9 @@
     <result column="account_id" property="accountId" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="sum" property="sum" jdbcType="INTEGER" />
-    <result column="object_id" property="objectId" jdbcType="INTEGER" />
-    <result column="balance" property="balance" jdbcType="INTEGER" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
     <result column="app_order_id" property="appOrderId" jdbcType="VARCHAR" />
     <result column="external_order_id" property="externalOrderId" jdbcType="VARCHAR" />
     <result column="peer_account_type" property="peerAccountType" jdbcType="VARCHAR" />
@@ -52,8 +52,8 @@
       app_name, method, app_alias, 
       app_alias2, external_order_time)
     values (#{orderId,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER}, #{objectId,jdbcType=INTEGER}, 
-      #{balance,jdbcType=INTEGER}, #{appOrderId,jdbcType=VARCHAR}, #{externalOrderId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{sum,jdbcType=BIGINT}, #{objectId,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=BIGINT}, #{appOrderId,jdbcType=VARCHAR}, #{externalOrderId,jdbcType=VARCHAR}, 
       #{peerAccountType,jdbcType=VARCHAR}, #{peerAccountId,jdbcType=VARCHAR}, #{peerAccountUnit,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{originalOrderId,jdbcType=VARCHAR}, 
       #{originalTable,jdbcType=VARCHAR}, #{flowDirection,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
@@ -147,13 +147,13 @@
         #{type,jdbcType=VARCHAR},
       </if>
       <if test="sum != null" >
-        #{sum,jdbcType=INTEGER},
+        #{sum,jdbcType=BIGINT},
       </if>
       <if test="objectId != null" >
-        #{objectId,jdbcType=INTEGER},
+        #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="balance != null" >
-        #{balance,jdbcType=INTEGER},
+        #{balance,jdbcType=BIGINT},
       </if>
       <if test="appOrderId != null" >
         #{appOrderId,jdbcType=VARCHAR},
@@ -218,13 +218,13 @@
         type = #{type,jdbcType=VARCHAR},
       </if>
       <if test="sum != null" >
-        sum = #{sum,jdbcType=INTEGER},
+        sum = #{sum,jdbcType=BIGINT},
       </if>
       <if test="objectId != null" >
-        object_id = #{objectId,jdbcType=INTEGER},
+        object_id = #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="balance != null" >
-        balance = #{balance,jdbcType=INTEGER},
+        balance = #{balance,jdbcType=BIGINT},
       </if>
       <if test="appOrderId != null" >
         app_order_id = #{appOrderId,jdbcType=VARCHAR},
@@ -282,9 +282,9 @@
     set account_id = #{accountId,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       type = #{type,jdbcType=VARCHAR},
-      sum = #{sum,jdbcType=INTEGER},
-      object_id = #{objectId,jdbcType=INTEGER},
-      balance = #{balance,jdbcType=INTEGER},
+      sum = #{sum,jdbcType=BIGINT},
+      object_id = #{objectId,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=BIGINT},
       app_order_id = #{appOrderId,jdbcType=VARCHAR},
       external_order_id = #{externalOrderId,jdbcType=VARCHAR},
       peer_account_type = #{peerAccountType,jdbcType=VARCHAR},

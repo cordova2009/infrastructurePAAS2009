@@ -12,9 +12,9 @@ public class ProjectPaymentPay {
     private Integer id;
 
     /**
-     * 标的id
+     * 工程信息id
      */
-    private String objectId;
+    private String projectId;
 
     /**
      * 期数
@@ -24,7 +24,7 @@ public class ProjectPaymentPay {
     /**
      * 金额,单位分
      */
-    private Integer amount;
+    private Long amount;
 
     /**
      * 应支付时间
@@ -54,7 +54,7 @@ public class ProjectPaymentPay {
     /**
      * 剩余金额,单位分
      */
-    private Integer leftAmount;
+    private Long leftAmount;
 
     /**
      * 总期数
@@ -107,18 +107,18 @@ public class ProjectPaymentPay {
     }
 
     /**
-     * @return 标的id
+     * @return 工程信息id
      */
-    public String getObjectId() {
-        return objectId;
+    public String getProjectId() {
+        return projectId;
     }
 
     /**
-     * @param objectId 
-	 *            标的id
+     * @param projectId 
+	 *            工程信息id
      */
-    public void setObjectId(String objectId) {
-        this.objectId = objectId == null ? null : objectId.trim();
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     /**
@@ -139,7 +139,7 @@ public class ProjectPaymentPay {
     /**
      * @return 金额,单位分
      */
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -147,7 +147,7 @@ public class ProjectPaymentPay {
      * @param amount 
 	 *            金额,单位分
      */
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
@@ -229,7 +229,7 @@ public class ProjectPaymentPay {
     /**
      * @return 剩余金额,单位分
      */
-    public Integer getLeftAmount() {
+    public Long getLeftAmount() {
         return leftAmount;
     }
 
@@ -237,7 +237,7 @@ public class ProjectPaymentPay {
      * @param leftAmount 
 	 *            剩余金额,单位分
      */
-    public void setLeftAmount(Integer leftAmount) {
+    public void setLeftAmount(Long leftAmount) {
         this.leftAmount = leftAmount;
     }
 
@@ -359,7 +359,7 @@ public class ProjectPaymentPay {
         }
         ProjectPaymentPay other = (ProjectPaymentPay) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
             && (this.getCurrentPeriod() == null ? other.getCurrentPeriod() == null : this.getCurrentPeriod().equals(other.getCurrentPeriod()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
             && (this.getShouldPayTime() == null ? other.getShouldPayTime() == null : this.getShouldPayTime().equals(other.getShouldPayTime()))
@@ -382,7 +382,7 @@ public class ProjectPaymentPay {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getCurrentPeriod() == null) ? 0 : getCurrentPeriod().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
         result = prime * result + ((getShouldPayTime() == null) ? 0 : getShouldPayTime().hashCode());

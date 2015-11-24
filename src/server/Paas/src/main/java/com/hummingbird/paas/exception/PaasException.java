@@ -34,6 +34,10 @@ public class PaasException extends BusinessException {
 	 * 投标资质证书异常
 	 */
 	static public int ERR_BID_CERTIFICATION_INFO_EXCEPTION=5;
+	/**
+	 * 会员异常
+	 */
+	static public int ERR_MEMBER_INFO_EXCEPTION=6;
 		
 	
 

@@ -47,7 +47,7 @@ public interface ProjectPaymentRecordMapper {
      * @param ObjectId
      * @return
      */
-    Integer getPaidAmountByObjectId(String ObjectId);
+    Long getPaidAmountByObjectId(String ObjectId);
     
     /**
      * 根据标的Id查询收款记录
@@ -61,6 +61,6 @@ public interface ProjectPaymentRecordMapper {
      * @param ObjectId
      * @return
      */
-    Integer getReceivedAmountByObjectId(String ObjectId);
+    Long getReceivedAmountByObjectId(String ObjectId);
 
 }

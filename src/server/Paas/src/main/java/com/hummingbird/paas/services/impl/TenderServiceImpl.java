@@ -253,9 +253,9 @@ public class TenderServiceImpl implements TenderService {
 			bo.setCurrency(body.getCurrency());
 			bo.setContractType(body.getContractType());
 			bo.setEvaluationAmount(body.getEvaluationAmount());
-			bo.setObjectAmount(0);
+			bo.setObjectAmount(0l);
 			bo.setProjectExpectPeriod(0);
-			bo.setBidBondAmount(0);
+			bo.setBidBondAmount(0l);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
 			bo.setInsertTime(new Date());
 
@@ -272,9 +272,9 @@ public class TenderServiceImpl implements TenderService {
 			bo.setCurrency(body.getCurrency());
 			bo.setContractType(body.getContractType());
 			bo.setEvaluationAmount(body.getEvaluationAmount());
-			bo.setObjectAmount(0);
+			bo.setObjectAmount(0l);
 			bo.setProjectExpectPeriod(0);
-			bo.setBidBondAmount(0);
+			bo.setBidBondAmount(0l);
 			dao.updateByPrimaryKey(bo);
 		}
 		if (log.isDebugEnabled()) {

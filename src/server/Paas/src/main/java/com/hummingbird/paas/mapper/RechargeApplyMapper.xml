@@ -3,7 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.RechargeApplyMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.RechargeApply" >
     <id column="order_id" property="orderId" jdbcType="VARCHAR" />
-    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
@@ -35,7 +35,7 @@
       voucher, voucher_pic, transport_time, 
       bank_id, update_time, updator
       )
-    values (#{orderId,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
+    values (#{orderId,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT}, #{insertTime,jdbcType=TIMESTAMP}, 
       #{userId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, 
       #{voucher,jdbcType=VARCHAR}, #{voucherPic,jdbcType=VARCHAR}, #{transportTime,jdbcType=TIMESTAMP}, 
       #{bankId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}
@@ -86,7 +86,7 @@
         #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="amount != null" >
-        #{amount,jdbcType=INTEGER},
+        #{amount,jdbcType=BIGINT},
       </if>
       <if test="insertTime != null" >
         #{insertTime,jdbcType=TIMESTAMP},
@@ -124,7 +124,7 @@
     update t_ddgl_recharge_apply
     <set >
       <if test="amount != null" >
-        amount = #{amount,jdbcType=INTEGER},
+        amount = #{amount,jdbcType=BIGINT},
       </if>
       <if test="insertTime != null" >
         insert_time = #{insertTime,jdbcType=TIMESTAMP},
@@ -161,7 +161,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.RechargeApply" >
     update t_ddgl_recharge_apply
-    set amount = #{amount,jdbcType=INTEGER},
+    set amount = #{amount,jdbcType=BIGINT},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       user_id = #{userId,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},

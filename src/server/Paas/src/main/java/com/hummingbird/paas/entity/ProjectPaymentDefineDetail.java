@@ -34,7 +34,7 @@ public class ProjectPaymentDefineDetail {
     /**
      * 支付金额，单位为分
      */
-    private Integer paySum;
+    private Long paySum;
 
     /**
      * @return id
@@ -114,7 +114,7 @@ public class ProjectPaymentDefineDetail {
     /**
      * @return 支付金额，单位为分
      */
-    public Integer getPaySum() {
+    public Long getPaySum() {
         return paySum;
     }
 
@@ -122,7 +122,7 @@ public class ProjectPaymentDefineDetail {
      * @param paySum 
 	 *            支付金额，单位为分
      */
-    public void setPaySum(Integer paySum) {
+    public void setPaySum(Long paySum) {
         this.paySum = paySum;
     }
 

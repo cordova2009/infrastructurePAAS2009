@@ -1,7 +1,7 @@
 <extend name="Public/base" />
 
 <block name="body">
-<div class="col-md-offset-2 col-xs-8">
+<div class="detail-content">
     <div class="page-header">
         <h1>
             资格审查

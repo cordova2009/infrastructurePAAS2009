@@ -17,9 +17,9 @@ public class ProjectPaymentReceive {
     private String status;
 
     /**
-     * 标的id
+     * 工程信息id
      */
-    private String objectId;
+    private String projectId;
 
     /**
      * 期数
@@ -29,7 +29,7 @@ public class ProjectPaymentReceive {
     /**
      * 金额,单位分
      */
-    private Integer amount;
+    private Long amount;
 
     /**
      * 应支付时间
@@ -44,7 +44,7 @@ public class ProjectPaymentReceive {
     /**
      * 总金额
      */
-    private Integer totalAmount;
+    private Long totalAmount;
 
     /**
      * 剩余期数
@@ -54,7 +54,7 @@ public class ProjectPaymentReceive {
     /**
      * 剩余金额,单位分
      */
-    private Integer leftAmount;
+    private Long leftAmount;
 
     /**
      * 总期数
@@ -97,18 +97,18 @@ public class ProjectPaymentReceive {
     }
 
     /**
-     * @return 标的id
+     * @return 工程信息id
      */
-    public String getObjectId() {
-        return objectId;
+    public String getProjectId() {
+        return projectId;
     }
 
     /**
-     * @param objectId 
-	 *            标的id
+     * @param projectId 
+	 *            工程信息id
      */
-    public void setObjectId(String objectId) {
-        this.objectId = objectId == null ? null : objectId.trim();
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     /**
@@ -129,7 +129,7 @@ public class ProjectPaymentReceive {
     /**
      * @return 金额,单位分
      */
-    public Integer getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -137,7 +137,7 @@ public class ProjectPaymentReceive {
      * @param amount 
 	 *            金额,单位分
      */
-    public void setAmount(Integer amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
@@ -174,7 +174,7 @@ public class ProjectPaymentReceive {
     /**
      * @return 总金额
      */
-    public Integer getTotalAmount() {
+    public Long getTotalAmount() {
         return totalAmount;
     }
 
@@ -182,7 +182,7 @@ public class ProjectPaymentReceive {
      * @param totalAmount 
 	 *            总金额
      */
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Long totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -204,7 +204,7 @@ public class ProjectPaymentReceive {
     /**
      * @return 剩余金额,单位分
      */
-    public Integer getLeftAmount() {
+    public Long getLeftAmount() {
         return leftAmount;
     }
 
@@ -212,7 +212,7 @@ public class ProjectPaymentReceive {
      * @param leftAmount 
 	 *            剩余金额,单位分
      */
-    public void setLeftAmount(Integer leftAmount) {
+    public void setLeftAmount(Long leftAmount) {
         this.leftAmount = leftAmount;
     }
 
@@ -260,7 +260,7 @@ public class ProjectPaymentReceive {
         ProjectPaymentReceive other = (ProjectPaymentReceive) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getObjectId() == null ? other.getObjectId() == null : this.getObjectId().equals(other.getObjectId()))
+            && (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
             && (this.getCurrentPeriod() == null ? other.getCurrentPeriod() == null : this.getCurrentPeriod().equals(other.getCurrentPeriod()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
             && (this.getShouldReceiveTime() == null ? other.getShouldReceiveTime() == null : this.getShouldReceiveTime().equals(other.getShouldReceiveTime()))
@@ -278,7 +278,7 @@ public class ProjectPaymentReceive {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getObjectId() == null) ? 0 : getObjectId().hashCode());
+        result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getCurrentPeriod() == null) ? 0 : getCurrentPeriod().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
         result = prime * result + ((getShouldReceiveTime() == null) ? 0 : getShouldReceiveTime().hashCode());

@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.FeeRate" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="fee_rate" property="feeRate" jdbcType="INTEGER" />
-    <result column="min_amount" property="minAmount" jdbcType="INTEGER" />
-    <result column="max_amount" property="maxAmount" jdbcType="INTEGER" />
-    <result column="max_fee" property="maxFee" jdbcType="INTEGER" />
+    <result column="min_amount" property="minAmount" jdbcType="BIGINT" />
+    <result column="max_amount" property="maxAmount" jdbcType="BIGINT" />
+    <result column="max_fee" property="maxFee" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -18,7 +18,7 @@
     from t_yhzj_fee_rate
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectMoney" resultType="java.lang.Integer"  >
+  <select id="selectMoney" resultType="java.lang.Long"  >
     select 
     #{inputAmount}/10000*fee_rate+max_fee
     from t_yhzj_fee_rate
@@ -35,8 +35,8 @@
     insert into t_yhzj_fee_rate (id, fee_rate, min_amount, 
       max_amount, max_fee, type
       )
-    values (#{id,jdbcType=INTEGER}, #{feeRate,jdbcType=INTEGER}, #{minAmount,jdbcType=INTEGER}, 
-      #{maxAmount,jdbcType=INTEGER}, #{maxFee,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{feeRate,jdbcType=INTEGER}, #{minAmount,jdbcType=BIGINT}, 
+      #{maxAmount,jdbcType=BIGINT}, #{maxFee,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.FeeRate" >
@@ -69,13 +69,13 @@
         #{feeRate,jdbcType=INTEGER},
       </if>
       <if test="minAmount != null" >
-        #{minAmount,jdbcType=INTEGER},
+        #{minAmount,jdbcType=BIGINT},
       </if>
       <if test="maxAmount != null" >
-        #{maxAmount,jdbcType=INTEGER},
+        #{maxAmount,jdbcType=BIGINT},
       </if>
       <if test="maxFee != null" >
-        #{maxFee,jdbcType=INTEGER},
+        #{maxFee,jdbcType=BIGINT},
       </if>
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
@@ -89,13 +89,13 @@
         fee_rate = #{feeRate,jdbcType=INTEGER},
       </if>
       <if test="minAmount != null" >
-        min_amount = #{minAmount,jdbcType=INTEGER},
+        min_amount = #{minAmount,jdbcType=BIGINT},
       </if>
       <if test="maxAmount != null" >
-        max_amount = #{maxAmount,jdbcType=INTEGER},
+        max_amount = #{maxAmount,jdbcType=BIGINT},
       </if>
       <if test="maxFee != null" >
-        max_fee = #{maxFee,jdbcType=INTEGER},
+        max_fee = #{maxFee,jdbcType=BIGINT},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
@@ -106,9 +106,9 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.FeeRate" >
     update t_yhzj_fee_rate
     set fee_rate = #{feeRate,jdbcType=INTEGER},
-      min_amount = #{minAmount,jdbcType=INTEGER},
-      max_amount = #{maxAmount,jdbcType=INTEGER},
-      max_fee = #{maxFee,jdbcType=INTEGER},
+      min_amount = #{minAmount,jdbcType=BIGINT},
+      max_amount = #{maxAmount,jdbcType=BIGINT},
+      max_fee = #{maxFee,jdbcType=BIGINT},
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

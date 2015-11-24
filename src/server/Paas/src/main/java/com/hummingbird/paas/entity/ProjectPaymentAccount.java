@@ -16,7 +16,7 @@ public class ProjectPaymentAccount {
     /**
      * 帐户余额
      */
-    private Integer balance;
+    private Long balance;
 
     /**
      * 帐户签名，按id，余额，备注，状态 进行md5加密
@@ -69,7 +69,7 @@ public class ProjectPaymentAccount {
     /**
      * @return 帐户余额
      */
-    public Integer getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
@@ -77,7 +77,7 @@ public class ProjectPaymentAccount {
      * @param balance 
 	 *            帐户余额
      */
-    public void setBalance(Integer balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 

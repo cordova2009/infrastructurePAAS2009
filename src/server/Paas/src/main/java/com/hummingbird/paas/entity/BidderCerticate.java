@@ -112,7 +112,7 @@ public class BidderCerticate {
     private String applyReason;
 
     /**
-     * 状态,OK#正常,DIS禁用
+     * 状态,'CRT'待认证,OK#正常,DIS禁用
      */
     private String status;
 
@@ -512,7 +512,7 @@ public class BidderCerticate {
     }
 
     /**
-     * @return 状态,OK#正常,DIS禁用
+     * @return 状态,'CRT'待认证,OK#正常,DIS禁用
      */
     public String getStatus() {
         return status;
@@ -520,7 +520,7 @@ public class BidderCerticate {
 
     /**
      * @param status 
-	 *            状态,OK#正常,DIS禁用
+	 *            状态,'CRT'待认证,OK#正常,DIS禁用
      */
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();

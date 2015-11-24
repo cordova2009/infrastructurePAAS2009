@@ -17,12 +17,12 @@ public class ObjectBondSetting {
     /**
      * 招标方保证金
      */
-    private Integer biddeeBond;
+    private Long biddeeBond;
 
     /**
      * 投标方保证金
      */
-    private Integer bidderBidBond;
+    private Long bidderBidBond;
 
     /**
      * @return id
@@ -57,7 +57,7 @@ public class ObjectBondSetting {
     /**
      * @return 招标方保证金
      */
-    public Integer getBiddeeBond() {
+    public Long getBiddeeBond() {
         return biddeeBond;
     }
 
@@ -65,14 +65,14 @@ public class ObjectBondSetting {
      * @param biddeeBond 
 	 *            招标方保证金
      */
-    public void setBiddeeBond(Integer biddeeBond) {
+    public void setBiddeeBond(Long biddeeBond) {
         this.biddeeBond = biddeeBond;
     }
 
     /**
      * @return 投标方保证金
      */
-    public Integer getBidderBidBond() {
+    public Long getBidderBidBond() {
         return bidderBidBond;
     }
 
@@ -80,7 +80,7 @@ public class ObjectBondSetting {
      * @param bidderBidBond 
 	 *            投标方保证金
      */
-    public void setBidderBidBond(Integer bidderBidBond) {
+    public void setBidderBidBond(Long bidderBidBond) {
         this.bidderBidBond = bidderBidBond;
     }
 

@@ -30,7 +30,7 @@ public class BidRecord {
     /**
      * 项目报价，单位分
      */
-    private Integer bidAmount;
+    private Long bidAmount;
 
     /**
      * 插入时间
@@ -150,7 +150,7 @@ public class BidRecord {
     /**
      * 保函金额,单位为分
      */
-    private Integer bankGuaranteeAmount;
+    private Long bankGuaranteeAmount;
 
     /**
      * 项目报价表
@@ -225,7 +225,7 @@ public class BidRecord {
     /**
      * @return 项目报价，单位分
      */
-    public Integer getBidAmount() {
+    public Long getBidAmount() {
         return bidAmount;
     }
 
@@ -233,7 +233,7 @@ public class BidRecord {
      * @param bidAmount 
 	 *            项目报价，单位分
      */
-    public void setBidAmount(Integer bidAmount) {
+    public void setBidAmount(Long bidAmount) {
         this.bidAmount = bidAmount;
     }
 
@@ -585,7 +585,7 @@ public class BidRecord {
     /**
      * @return 保函金额,单位为分
      */
-    public Integer getBankGuaranteeAmount() {
+    public Long getBankGuaranteeAmount() {
         return bankGuaranteeAmount;
     }
 
@@ -593,7 +593,7 @@ public class BidRecord {
      * @param bankGuaranteeAmount 
 	 *            保函金额,单位为分
      */
-    public void setBankGuaranteeAmount(Integer bankGuaranteeAmount) {
+    public void setBankGuaranteeAmount(Long bankGuaranteeAmount) {
         this.bankGuaranteeAmount = bankGuaranteeAmount;
     }
 

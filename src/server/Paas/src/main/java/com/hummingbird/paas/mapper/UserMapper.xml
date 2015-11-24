@@ -15,10 +15,11 @@
     <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="head_image" property="headImage" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, mobile_num, city, district, insert_time, update_time, union_id, qq, 
-    email, nick_name, address, head_image
+    email, nick_name, address, head_image, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,17 +31,17 @@
     delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.paas.entity.User" >
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.User" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, user_name, mobile_num, 
       city, district, insert_time, 
       update_time, union_id, qq, 
       email, nick_name, address, 
-      head_image)
+      head_image, status)
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{unionId,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{headImage,jdbcType=VARCHAR})
+      #{headImage,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.User" >
     insert into t_user
@@ -84,6 +85,9 @@
       <if test="headImage != null" >
         head_image,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -124,6 +128,9 @@
       </if>
       <if test="headImage != null" >
         #{headImage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="headImage != null" >
         head_image = #{headImage,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -182,7 +192,8 @@
       email = #{email,jdbcType=VARCHAR},
       nick_name = #{nickName,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      head_image = #{headImage,jdbcType=VARCHAR}
+      head_image = #{headImage,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="queryUserByMobile" resultMap="BaseResultMap" parameterType="java.lang.String" >

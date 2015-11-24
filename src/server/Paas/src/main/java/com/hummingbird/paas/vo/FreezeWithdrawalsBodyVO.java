@@ -15,7 +15,7 @@ public class FreezeWithdrawalsBodyVO {
 	private String tradePassword;
 	private String peerAccountUnit;
 	private String peerAccountId;
-	private Integer amount;
+	private Long amount;
 	private String remark;
 	
 	public String getMobileNum() {
@@ -48,10 +48,10 @@ public class FreezeWithdrawalsBodyVO {
 	public void setPeerAccountId(String peerAccountId) {
 		this.peerAccountId = peerAccountId;
 	}
-	public Integer getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
-	public void setAmount(Integer amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 	public String getRemark() {

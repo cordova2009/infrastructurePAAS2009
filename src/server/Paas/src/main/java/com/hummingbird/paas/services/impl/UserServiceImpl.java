@@ -71,7 +71,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,"根据手机号查询到多个用户");
 		
 		}
-		return users==null?null:users.get(0);
+		return users.size()==0?null:users.get(0);
 	}
 
 	@Override
@@ -107,7 +107,10 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		user.setInsertTime(new Date());
 		user.setNickName(body.getNickname());
 		user.setMobileNum(body.getMobileNum());
-		int userId = userDao.insert(user);
+		user.setUpdateTime(new Date());
+		user.setStatus("OK#");
+		userDao.insert(user);
+
 		//保存密码信息
 		UserPassword password=new UserPassword();
 		//尝试进行解密
@@ -131,23 +134,24 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 				
 			}
 		}
-		password.setUserId(userId);
+		password.setUserId(user.getId());
 		passwordDao.insert(password);
 		//保存实名认证信息
 		UserAuth auth=new UserAuth();
 		auth.setIdentityNo(body.getCardID());
 		auth.setRealName(body.getRealName());
-		auth.setUserId(userId);
+		auth.setUserId(user.getId());
+		auth.setRealNameVerify("OK#");
 		userAuthDao.insert(auth);
 		//添加资金账户
 		ProjectAccount account=new ProjectAccount();
 		String accountId = AccountGenerationUtil.genAmountOrderAccountNo();
 		account.setAccountId(accountId);
-		account.setFrozenSum(0);
+		account.setFrozenSum(0l);
 		account.setInsertTime(new Date());
-		account.setRemainingSum(0);
+		account.setRemainingSum(0l);
 		account.setStatus("OK#");
-		account.setUserId(userId);
+		account.setUserId(user.getId());
 		AccountValidateUtil.updateAccountSignature(account);
 		proActDao.insert(account);
 		
@@ -172,10 +176,12 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 	@Override
 	public void updateUser(User user) throws MaAccountException{
 	
-		int updateUser=userDao.updateByPrimaryKeySelective(user);
+		user.setUpdateTime(new Date());
+		int updateUser=userDao.updateByPrimaryKey(user);
 		if(updateUser!=1){
 			throw new MaAccountException(211101,"用户更新失败");
 		}
+
 	}
 	@Override
 	public Biddee queryBiddeeByUserId(Integer userId) {

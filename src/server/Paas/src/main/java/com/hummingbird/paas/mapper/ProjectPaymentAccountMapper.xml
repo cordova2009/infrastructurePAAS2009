@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentAccount" >
     <id column="account_id" property="accountId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="balance" property="balance" jdbcType="INTEGER" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -28,7 +28,7 @@
     insert into t_project_payment_account (account_id, user_id, balance, 
       signature, insert_time, update_time, 
       remark, status)
-    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, 
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{balance,jdbcType=BIGINT}, 
       #{signature,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
@@ -68,7 +68,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="balance != null" >
-        #{balance,jdbcType=INTEGER},
+        #{balance,jdbcType=BIGINT},
       </if>
       <if test="signature != null" >
         #{signature,jdbcType=VARCHAR},
@@ -94,7 +94,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="balance != null" >
-        balance = #{balance,jdbcType=INTEGER},
+        balance = #{balance,jdbcType=BIGINT},
       </if>
       <if test="signature != null" >
         signature = #{signature,jdbcType=VARCHAR},
@@ -117,7 +117,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentAccount" >
     update t_project_payment_account
     set user_id = #{userId,jdbcType=INTEGER},
-      balance = #{balance,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=BIGINT},
       signature = #{signature,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

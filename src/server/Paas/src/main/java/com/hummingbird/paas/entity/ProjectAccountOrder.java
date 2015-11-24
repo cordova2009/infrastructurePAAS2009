@@ -29,7 +29,7 @@ public class ProjectAccountOrder {
     /**
      * 金额，单位分
      */
-    private Integer sum;
+    private Long sum;
 
     /**
      * 标的id
@@ -39,7 +39,7 @@ public class ProjectAccountOrder {
     /**
      * 结存，即发生该交易后，该账户的结存
      */
-    private Integer balance;
+    private Long balance;
 
     /**
      * app订单号
@@ -124,7 +124,7 @@ public class ProjectAccountOrder {
     /**
      * 冻结余额
      */
-    private Integer frozenSumSnapshot;
+    private Long frozenSumSnapshot;
 
     /**
      * 产品名称
@@ -194,7 +194,7 @@ public class ProjectAccountOrder {
     /**
      * @return 金额，单位分
      */
-    public Integer getSum() {
+    public Long getSum() {
         return sum;
     }
 
@@ -202,7 +202,7 @@ public class ProjectAccountOrder {
      * @param sum 
 	 *            金额，单位分
      */
-    public void setSum(Integer sum) {
+    public void setSum(Long sum) {
         this.sum = sum;
     }
 
@@ -224,7 +224,7 @@ public class ProjectAccountOrder {
     /**
      * @return 结存，即发生该交易后，该账户的结存
      */
-    public Integer getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
@@ -232,7 +232,7 @@ public class ProjectAccountOrder {
      * @param balance 
 	 *            结存，即发生该交易后，该账户的结存
      */
-    public void setBalance(Integer balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 
@@ -479,7 +479,7 @@ public class ProjectAccountOrder {
     /**
      * @return 冻结余额
      */
-    public Integer getFrozenSumSnapshot() {
+    public Long getFrozenSumSnapshot() {
         return frozenSumSnapshot;
     }
 
@@ -487,7 +487,7 @@ public class ProjectAccountOrder {
      * @param frozenSumSnapshot 
 	 *            冻结余额
      */
-    public void setFrozenSumSnapshot(Integer frozenSumSnapshot) {
+    public void setFrozenSumSnapshot(Long frozenSumSnapshot) {
         this.frozenSumSnapshot = frozenSumSnapshot;
     }
 

@@ -12,23 +12,24 @@ public class WithdrawalsApplyListReturnVO {
     "withdrawalsTime":"2015-10-12 10:00:00",
     "withdrawalsNo":"WITHDRAWAL_NO"
 }]*/
-	private Date createTime;
-	private Date withdrawalsTime;
+	private String createTime;
+	private String withdrawalsTime;
 	private String amount;
 	private String handingCharge;
 	private String status;
 	private String remark;
 	private String withdrawalsNo;
-	public Date getCreateTime() {
+	
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public Date getWithdrawalsTime() {
+	public String getWithdrawalsTime() {
 		return withdrawalsTime;
 	}
-	public void setWithdrawalsTime(Date withdrawalsTime) {
+	public void setWithdrawalsTime(String withdrawalsTime) {
 		this.withdrawalsTime = withdrawalsTime;
 	}
 	public String getAmount() {

@@ -5,7 +5,7 @@ public class BuyTenderMemberBodyVO {
      private String productId;
      private Integer memberDuration;
      private String payMethod;
-     private Integer payAmount;
+     private Long payAmount;
 	 public String getToken() {
 		return token;
 	 }
@@ -31,10 +31,10 @@ public class BuyTenderMemberBodyVO {
 	public void setPayMethod(String payMethod) {
 		this.payMethod = payMethod;
 	}
-	public Integer getPayAmount() {
+	public Long getPayAmount() {
 		return payAmount;
 	}
-	public void setPayAmount(Integer payAmount) {
+	public void setPayAmount(Long payAmount) {
 		this.payAmount = payAmount;
 	}
 	@Override

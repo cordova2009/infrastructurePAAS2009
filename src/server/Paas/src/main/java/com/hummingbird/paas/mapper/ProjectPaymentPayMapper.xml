@@ -3,15 +3,15 @@
 <mapper namespace="com.hummingbird.paas.mapper.ProjectPaymentPayMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ProjectPaymentPay" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
     <result column="current_period" property="currentPeriod" jdbcType="INTEGER" />
-    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
     <result column="should_pay_time" property="shouldPayTime" jdbcType="TIMESTAMP" />
     <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="total_amount" property="totalAmount" jdbcType="INTEGER" />
     <result column="left_period" property="leftPeriod" jdbcType="INTEGER" />
-    <result column="left_amount" property="leftAmount" jdbcType="INTEGER" />
+    <result column="left_amount" property="leftAmount" jdbcType="BIGINT" />
     <result column="total_period" property="totalPeriod" jdbcType="INTEGER" />
     <result column="bank" property="bank" jdbcType="VARCHAR" />
     <result column="voucher" property="voucher" jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
     <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, object_id, current_period, amount, should_pay_time, pay_time, status, total_amount, 
+    id, project_id, current_period, amount, should_pay_time, pay_time, status, total_amount, 
     left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
     order_id, bank_id
   </sql>
@@ -36,16 +36,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentPay" >
-    insert into t_gcgl_project_payment_pay (id, object_id, current_period, 
+    insert into t_gcgl_project_payment_pay (id, project_id, current_period, 
       amount, should_pay_time, pay_time, 
       status, total_amount, left_period, 
       left_amount, total_period, bank, 
       voucher, voucher_pic, transfer_date, 
       order_id, bank_id)
-    values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{currentPeriod,jdbcType=INTEGER}, 
-      #{amount,jdbcType=INTEGER}, #{shouldPayTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=VARCHAR}, #{currentPeriod,jdbcType=INTEGER}, 
+      #{amount,jdbcType=BIGINT}, #{shouldPayTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=VARCHAR}, #{totalAmount,jdbcType=INTEGER}, #{leftPeriod,jdbcType=INTEGER}, 
-      #{leftAmount,jdbcType=INTEGER}, #{totalPeriod,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
+      #{leftAmount,jdbcType=BIGINT}, #{totalPeriod,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
       #{voucher,jdbcType=VARCHAR}, #{voucherPic,jdbcType=VARCHAR}, #{transferDate,jdbcType=DATE}, 
       #{orderId,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR})
   </insert>
@@ -55,8 +55,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="objectId != null" >
-        object_id,
+      <if test="projectId != null" >
+        project_id,
       </if>
       <if test="currentPeriod != null" >
         current_period,
@@ -108,14 +108,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="objectId != null" >
-        #{objectId,jdbcType=VARCHAR},
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="currentPeriod != null" >
         #{currentPeriod,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
-        #{amount,jdbcType=INTEGER},
+        #{amount,jdbcType=BIGINT},
       </if>
       <if test="shouldPayTime != null" >
         #{shouldPayTime,jdbcType=TIMESTAMP},
@@ -133,7 +133,7 @@
         #{leftPeriod,jdbcType=INTEGER},
       </if>
       <if test="leftAmount != null" >
-        #{leftAmount,jdbcType=INTEGER},
+        #{leftAmount,jdbcType=BIGINT},
       </if>
       <if test="totalPeriod != null" >
         #{totalPeriod,jdbcType=INTEGER},
@@ -161,14 +161,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentPay" >
     update t_gcgl_project_payment_pay
     <set >
-      <if test="objectId != null" >
-        object_id = #{objectId,jdbcType=VARCHAR},
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="currentPeriod != null" >
         current_period = #{currentPeriod,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
-        amount = #{amount,jdbcType=INTEGER},
+        amount = #{amount,jdbcType=BIGINT},
       </if>
       <if test="shouldPayTime != null" >
         should_pay_time = #{shouldPayTime,jdbcType=TIMESTAMP},
@@ -186,7 +186,7 @@
         left_period = #{leftPeriod,jdbcType=INTEGER},
       </if>
       <if test="leftAmount != null" >
-        left_amount = #{leftAmount,jdbcType=INTEGER},
+        left_amount = #{leftAmount,jdbcType=BIGINT},
       </if>
       <if test="totalPeriod != null" >
         total_period = #{totalPeriod,jdbcType=INTEGER},
@@ -214,15 +214,15 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentPay" >
     update t_gcgl_project_payment_pay
-    set object_id = #{objectId,jdbcType=VARCHAR},
+    set project_id = #{projectId,jdbcType=VARCHAR},
       current_period = #{currentPeriod,jdbcType=INTEGER},
-      amount = #{amount,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=BIGINT},
       should_pay_time = #{shouldPayTime,jdbcType=TIMESTAMP},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
       total_amount = #{totalAmount,jdbcType=INTEGER},
       left_period = #{leftPeriod,jdbcType=INTEGER},
-      left_amount = #{leftAmount,jdbcType=INTEGER},
+      left_amount = #{leftAmount,jdbcType=BIGINT},
       total_period = #{totalPeriod,jdbcType=INTEGER},
       bank = #{bank,jdbcType=VARCHAR},
       voucher = #{voucher,jdbcType=VARCHAR},
@@ -235,19 +235,22 @@
    <select id="getLastRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
 	<include refid="Base_Column_List" />
-    from t_gcgl_project_payment_pay
-    where object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
+    from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p. object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
   </select>
   <select id="getRecordByPeriod" resultMap="BaseResultMap"  >
     select 
    <include refid="Base_Column_List" />
-    from t_gcgl_project_payment_pay
-    where object_id = #{objectId,jdbcType=VARCHAR} and current_period = #{period,jdbcType=INTEGER}
+    from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p.object_id = #{objectId,jdbcType=VARCHAR} and current_period = #{period,jdbcType=INTEGER}
   </select>
   <select id="queryPaidRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
      <include refid="Base_Column_List" />
-    from t_gcgl_project_payment_pay
-    where object_id = #{objectId,jdbcType=VARCHAR} 
+    from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p. object_id = #{objectId,jdbcType=VARCHAR} 
   </select>
 </mapper>

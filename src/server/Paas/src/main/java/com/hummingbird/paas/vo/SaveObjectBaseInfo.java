@@ -55,7 +55,7 @@ implements PainttextAble {
 	    	/**
 	     * 工程标的估价
 	     */
-	    protected Integer evaluationAmount;
+	    protected Long evaluationAmount;
 	
 	    	/**
 	     * @return 用户令牌
@@ -190,14 +190,14 @@ implements PainttextAble {
 	    	/**
 	     * @return 工程标的估价
 	     */
-	    public Integer getEvaluationAmount() {
+	    public Long getEvaluationAmount() {
 	        return evaluationAmount;
 	    }
 	
 	    /**
 	     * @param 工程标的估价
 	     */
-	    public void setEvaluationAmount(Integer evaluationAmount) {
+	    public void setEvaluationAmount(Long evaluationAmount) {
 	        this.evaluationAmount = evaluationAmount;
 	    }
 		

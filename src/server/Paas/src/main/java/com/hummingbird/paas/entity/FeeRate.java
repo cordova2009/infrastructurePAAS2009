@@ -17,20 +17,20 @@ public class FeeRate {
     /**
      * 最小金额，单位分，在此等级的金额应该大于等于此值
      */
-    private Integer minAmount;
+    private Long minAmount;
 
     /**
      * 最大金额，单位分，在此等级的金额应该小于等于此值
      */
-    private Integer maxAmount;
+    private Long maxAmount;
 
     /**
      * 封顶手续费,当金额大于某个值时，会有封顶的手续费，这里设置费率为0，封顶手续费字段有值，如果有费率的情况下，这个封顶手续费应该为0，单位分
      */
-    private Integer maxFee;
+    private Long maxFee;
 
     /**
-     * 类型,BZJ 撮合保证金,TX# 提现手续费
+     * 类型，BZJ:撮合保证金，TX#:提现手续费
      */
     private String type;
 
@@ -67,7 +67,7 @@ public class FeeRate {
     /**
      * @return 最小金额，单位分，在此等级的金额应该大于等于此值
      */
-    public Integer getMinAmount() {
+    public Long getMinAmount() {
         return minAmount;
     }
 
@@ -75,14 +75,14 @@ public class FeeRate {
      * @param minAmount 
 	 *            最小金额，单位分，在此等级的金额应该大于等于此值
      */
-    public void setMinAmount(Integer minAmount) {
+    public void setMinAmount(Long minAmount) {
         this.minAmount = minAmount;
     }
 
     /**
      * @return 最大金额，单位分，在此等级的金额应该小于等于此值
      */
-    public Integer getMaxAmount() {
+    public Long getMaxAmount() {
         return maxAmount;
     }
 
@@ -90,14 +90,14 @@ public class FeeRate {
      * @param maxAmount 
 	 *            最大金额，单位分，在此等级的金额应该小于等于此值
      */
-    public void setMaxAmount(Integer maxAmount) {
+    public void setMaxAmount(Long maxAmount) {
         this.maxAmount = maxAmount;
     }
 
     /**
      * @return 封顶手续费,当金额大于某个值时，会有封顶的手续费，这里设置费率为0，封顶手续费字段有值，如果有费率的情况下，这个封顶手续费应该为0，单位分
      */
-    public Integer getMaxFee() {
+    public Long getMaxFee() {
         return maxFee;
     }
 
@@ -105,12 +105,12 @@ public class FeeRate {
      * @param maxFee 
 	 *            封顶手续费,当金额大于某个值时，会有封顶的手续费，这里设置费率为0，封顶手续费字段有值，如果有费率的情况下，这个封顶手续费应该为0，单位分
      */
-    public void setMaxFee(Integer maxFee) {
+    public void setMaxFee(Long maxFee) {
         this.maxFee = maxFee;
     }
 
     /**
-     * @return 类型,BZJ 撮合保证金,TX# 提现手续费
+     * @return 类型，BZJ:撮合保证金，TX#:提现手续费
      */
     public String getType() {
         return type;
@@ -118,7 +118,7 @@ public class FeeRate {
 
     /**
      * @param type 
-	 *            类型,BZJ 撮合保证金,TX# 提现手续费
+	 *            类型，BZJ:撮合保证金，TX#:提现手续费
      */
     public void setType(String type) {
         this.type = type == null ? null : type.trim();

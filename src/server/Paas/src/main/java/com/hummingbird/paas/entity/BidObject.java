@@ -29,7 +29,7 @@ public class BidObject {
     /**
      * 标的金额
      */
-    private Integer objectAmount;
+    private Long objectAmount;
 
     /**
      * 标的公开类型,PUB公开招标,INV邀请招标
@@ -104,7 +104,7 @@ public class BidObject {
     /**
      * 投标担保金额,单位为分
      */
-    private Integer bidBondAmount;
+    private Long bidBondAmount;
 
     /**
      * 商务标必须,YES是，NO#否
@@ -144,7 +144,7 @@ public class BidObject {
     /**
      * 工程标的估价
      */
-    private Integer evaluationAmount;
+    private Long evaluationAmount;
 
     /**
      * 招标项目范围
@@ -165,6 +165,11 @@ public class BidObject {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 项目类型,DSG设计标的,BUL 施工标的
+     */
+    private String objectType;
 
     /**
      * @return 招标编号(平台),ZB00时间戳随机数
@@ -229,7 +234,7 @@ public class BidObject {
     /**
      * @return 标的金额
      */
-    public Integer getObjectAmount() {
+    public Long getObjectAmount() {
         return objectAmount;
     }
 
@@ -237,7 +242,7 @@ public class BidObject {
      * @param objectAmount 
 	 *            标的金额
      */
-    public void setObjectAmount(Integer objectAmount) {
+    public void setObjectAmount(Long objectAmount) {
         this.objectAmount = objectAmount;
     }
 
@@ -454,7 +459,7 @@ public class BidObject {
     /**
      * @return 投标担保金额,单位为分
      */
-    public Integer getBidBondAmount() {
+    public Long getBidBondAmount() {
         return bidBondAmount;
     }
 
@@ -462,7 +467,7 @@ public class BidObject {
      * @param bidBondAmount 
 	 *            投标担保金额,单位为分
      */
-    public void setBidBondAmount(Integer bidBondAmount) {
+    public void setBidBondAmount(Long bidBondAmount) {
         this.bidBondAmount = bidBondAmount;
     }
 
@@ -574,7 +579,7 @@ public class BidObject {
     /**
      * @return 工程标的估价
      */
-    public Integer getEvaluationAmount() {
+    public Long getEvaluationAmount() {
         return evaluationAmount;
     }
 
@@ -582,7 +587,7 @@ public class BidObject {
      * @param evaluationAmount 
 	 *            工程标的估价
      */
-    public void setEvaluationAmount(Integer evaluationAmount) {
+    public void setEvaluationAmount(Long evaluationAmount) {
         this.evaluationAmount = evaluationAmount;
     }
 
@@ -646,6 +651,21 @@ public class BidObject {
         this.updateTime = updateTime;
     }
 
+    /**
+     * @return 项目类型,DSG设计标的,BUL 施工标的
+     */
+    public String getObjectType() {
+        return objectType;
+    }
+
+    /**
+     * @param objectType 
+	 *            项目类型,DSG设计标的,BUL 施工标的
+     */
+    public void setObjectType(String objectType) {
+        this.objectType = objectType == null ? null : objectType.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -689,7 +709,8 @@ public class BidObject {
             && (this.getObjectScope() == null ? other.getObjectScope() == null : this.getObjectScope().equals(other.getObjectScope()))
             && (this.getWinBidTime() == null ? other.getWinBidTime() == null : this.getWinBidTime().equals(other.getWinBidTime()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getObjectType() == null ? other.getObjectType() == null : this.getObjectType().equals(other.getObjectType()));
     }
 
     @Override
@@ -728,6 +749,7 @@ public class BidObject {
         result = prime * result + ((getWinBidTime() == null) ? 0 : getWinBidTime().hashCode());
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getObjectType() == null) ? 0 : getObjectType().hashCode());
         return result;
     }
 }

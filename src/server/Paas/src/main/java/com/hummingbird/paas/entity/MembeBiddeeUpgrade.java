@@ -32,6 +32,11 @@ public class MembeBiddeeUpgrade {
     private Integer amount;
 
     /**
+     * 产品id
+     */
+    private String productId;
+
+    /**
      * @return 记录id
      */
     public Integer getId() {
@@ -106,6 +111,21 @@ public class MembeBiddeeUpgrade {
         this.amount = amount;
     }
 
+    /**
+     * @return 产品id
+     */
+    public String getProductId() {
+        return productId;
+    }
+
+    /**
+     * @param productId 
+	 *            产品id
+     */
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -122,7 +142,8 @@ public class MembeBiddeeUpgrade {
             && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
             && (this.getMemberLevel() == null ? other.getMemberLevel() == null : this.getMemberLevel().equals(other.getMemberLevel()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
-            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()));
+            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
+            && (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()));
     }
 
     @Override
@@ -134,6 +155,7 @@ public class MembeBiddeeUpgrade {
         result = prime * result + ((getMemberLevel() == null) ? 0 : getMemberLevel().hashCode());
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
+        result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
         return result;
     }
 }

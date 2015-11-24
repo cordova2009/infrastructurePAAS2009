@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ObjectBondRecord" >
     <id column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
-    <result column="bond_amount" property="bondAmount" jdbcType="INTEGER" />
+    <result column="bond_amount" property="bondAmount" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="company_type" property="companyType" jdbcType="VARCHAR" />
@@ -31,7 +31,7 @@
       type, insert_time, company_type, 
       company_id, bond_type, bid_id
       )
-    values (#{orderId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{bondAmount,jdbcType=INTEGER}, 
+    values (#{orderId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{bondAmount,jdbcType=BIGINT}, 
       #{type,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{companyType,jdbcType=VARCHAR}, 
       #{companyId,jdbcType=INTEGER}, #{bondType,jdbcType=VARCHAR}, #{bidId,jdbcType=INTEGER}
       )
@@ -75,7 +75,7 @@
         #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="bondAmount != null" >
-        #{bondAmount,jdbcType=INTEGER},
+        #{bondAmount,jdbcType=BIGINT},
       </if>
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
@@ -104,7 +104,7 @@
         object_id = #{objectId,jdbcType=VARCHAR},
       </if>
       <if test="bondAmount != null" >
-        bond_amount = #{bondAmount,jdbcType=INTEGER},
+        bond_amount = #{bondAmount,jdbcType=BIGINT},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
@@ -130,7 +130,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ObjectBondRecord" >
     update t_ztgl_object_bond_record
     set object_id = #{objectId,jdbcType=VARCHAR},
-      bond_amount = #{bondAmount,jdbcType=INTEGER},
+      bond_amount = #{bondAmount,jdbcType=BIGINT},
       type = #{type,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       company_type = #{companyType,jdbcType=VARCHAR},

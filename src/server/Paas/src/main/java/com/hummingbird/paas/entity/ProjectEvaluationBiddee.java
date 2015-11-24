@@ -3,7 +3,7 @@ package com.hummingbird.paas.entity;
 import java.util.Date;
 
 /**
- * 标的招标方评价打分表,由招标方向投标方打分
+ * 标的招标人评价打分表,由招标人向投标人打分
  */
 public class ProjectEvaluationBiddee {
     /**
@@ -12,17 +12,17 @@ public class ProjectEvaluationBiddee {
     private Integer id;
 
     /**
-     * 标的id
+     * 工程信息id
      */
     private String projectId;
 
     /**
-     * 招标方id
+     * 招标人id
      */
     private Integer biddeeId;
 
     /**
-     * 投标方id
+     * 投标人id
      */
     private Integer bidderId;
 
@@ -66,18 +66,23 @@ public class ProjectEvaluationBiddee {
         this.id = id;
     }
 
-    public void setProjectId(String projectId) {
-		this.projectId = projectId;
-	}
-
-	
-
+    /**
+     * @return 工程信息id
+     */
     public String getProjectId() {
-		return projectId;
-	}
+        return projectId;
+    }
 
-	/**
-     * @return 招标方id
+    /**
+     * @param projectId 
+	 *            工程信息id
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    /**
+     * @return 招标人id
      */
     public Integer getBiddeeId() {
         return biddeeId;
@@ -85,14 +90,14 @@ public class ProjectEvaluationBiddee {
 
     /**
      * @param biddeeId 
-	 *            招标方id
+	 *            招标人id
      */
     public void setBiddeeId(Integer biddeeId) {
         this.biddeeId = biddeeId;
     }
 
     /**
-     * @return 投标方id
+     * @return 投标人id
      */
     public Integer getBidderId() {
         return bidderId;
@@ -100,7 +105,7 @@ public class ProjectEvaluationBiddee {
 
     /**
      * @param bidderId 
-	 *            投标方id
+	 *            投标人id
      */
     public void setBidderId(Integer bidderId) {
         this.bidderId = bidderId;

@@ -24,7 +24,7 @@ public class ProjectStatus {
     /**
      * 工程状态,OK# 施工中,END 完结,FLS 终止
      */
-    private String staus;
+    private String status;
 
     /**
      * 发包方id
@@ -89,16 +89,16 @@ public class ProjectStatus {
     /**
      * @return 工程状态,OK# 施工中,END 完结,FLS 终止
      */
-    public String getStaus() {
-        return staus;
+    public String getStatus() {
+        return status;
     }
 
     /**
-     * @param staus 
+     * @param status 
 	 *            工程状态,OK# 施工中,END 完结,FLS 终止
      */
-    public void setStaus(String staus) {
-        this.staus = staus == null ? null : staus.trim();
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 
     /**

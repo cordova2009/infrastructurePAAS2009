@@ -36,6 +36,7 @@ import com.hummingbird.paas.services.GeneralService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.vo.BankInfoReturnDetailVO;
+import com.hummingbird.paas.vo.LoginBodyVO;
 import com.hummingbird.paas.vo.LoginReturnVO;
 import com.hummingbird.paas.vo.LoginVO;
 import com.hummingbird.paas.vo.MobileNumVO;
@@ -60,8 +61,9 @@ public class UserCenterController extends BaseController{
 	IAuthenticationService authService;
 	@Autowired
 	TokenService tokenSrv;
-	@Autowired(required = true)
-	private ISmsCodeService smsService;
+	@Autowired
+	ISmsCodeService smsService;
+
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public @ResponseBody Object register(HttpServletRequest request) {
@@ -90,7 +92,7 @@ public class UserCenterController extends BaseController{
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
 			RegisterBodyVO body=transorder.getBody();
-			
+			ValidateUtil.validateMobile(body.getMobileNum());
 			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
@@ -457,7 +459,6 @@ public class UserCenterController extends BaseController{
 			//备注字段必填
 			PropertiesUtil pu = new PropertiesUtil();
 			UpdateUserInfoBodyVO body=transorder.getBody();
-			
 			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");

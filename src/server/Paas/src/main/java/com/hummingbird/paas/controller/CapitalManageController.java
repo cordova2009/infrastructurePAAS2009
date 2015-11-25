@@ -219,7 +219,7 @@ public class CapitalManageController extends BaseController{
 			}
 			
 			User user=userSer.queryUserByToken(body.getToken());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user);
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,transorder.getApp().getAppKey());
 			FreezeBondReturnVO orderInfo=new FreezeBondReturnVO();
 			if(user!=null){
 				
@@ -358,7 +358,7 @@ public class CapitalManageController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			User user=userSer.queryUserByToken(body.getToken());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user);
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,transorder.getApp().getAppKey());
 			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
 			if(user!=null){
 				order.setOrderId(orderSer.withdrawalsApply(body, user,requestURI));
@@ -400,11 +400,10 @@ public class CapitalManageController extends BaseController{
 			}
 			//查询用户信息
 			User user=userSer.queryUserByMobile(body.getMobileNum());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user);
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,transorder.getApp().getAppKey());
 			FreezeBondBodyVO freezeBody=new FreezeBondBodyVO();
 			freezeBody.setOriginalOrderId(body.getOrderId());
 			freezeBody.setRemark(body.getRemark());
-			freezeBody.setSum(body.getAmount());
 			freezeBody.setType("FRZ");
 			FreezeBondReturnVO order=orderSer.freeze(freezeBody,user,requestURI);
 			

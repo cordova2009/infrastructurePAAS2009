@@ -4,11 +4,14 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.commonbiz.vo.BaseUserToken;
 import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.Token;
 
+import net.sf.json.util.JSONUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -113,38 +116,11 @@ public class JedisPoolUtils {
 	public static void returnRes(Jedis jedis) {
 		jedisPool.returnResource(jedis);
 	}
-	
-	/**set Object*/
-    public String set(Object object,String key)
-   {
-          return this.getJedis().set(key.getBytes(), SerializeUtil.serialize(object));
-   }
-   
-    /**get Object*/
-    public Object get(String key)
-   {
-          byte[] value = getJedis().get(key.getBytes());
-          return SerializeUtil. unserialize(value);
-   }
-   
-    /**delete a key**/
-    public boolean del(String key)
-   {
-          return getJedis().del(key.getBytes())>0;
-   }
 
 
 	public static void main(String[] args) {
 		Jedis jpu = JedisPoolUtils.getJedis();
-		Token record=new Token();
-		record.setAppId("paas");
-		record.setUserId(46);
-		record.setToken("11111");
-		record.setInsertTime(new Date());
-		record.setUpdateTime(new Date());
-		record.setExpireIn(3600);
 		
-		jpu.set("11111".getBytes(), SerializeUtil.serialize(record));
 		System.out.println(jpu);
 		}
 	}

@@ -2,25 +2,32 @@ package com.hummingbird.capital.vo;
 
 public class WithdrawalsApplyBodyVO {
 	 /*"body":{
-	    "token":"USER_TOKEN",
-	    "amount":100000,
-	    "bankId":23,
-	    "tradePassword":"TRADE_PASSWORD"
-	}*/
+            "token":"USER_TOKEN",
+            "amount":100000,
+            "bankId":"BANK_ID",
+            "tradePassword":"TRADE_PASSWORD"
+        }*/
 	private String token;
-	private Integer amount;
+	private Long amount;
 	private Integer bankId;
 	private String tradePassword;
+	
+	@Override
+	public String toString() {
+		return "WithdrawalsApplyBodyVO [token=" + token + ", amount=" + amount + 
+				",bankId=" + bankId +",tradePassword="+tradePassword+ "]";
+	}
+	
 	public String getToken() {
 		return token;
 	}
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public Integer getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
-	public void setAmount(Integer amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 	

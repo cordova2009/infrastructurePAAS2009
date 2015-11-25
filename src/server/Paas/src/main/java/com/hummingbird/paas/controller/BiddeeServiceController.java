@@ -36,6 +36,7 @@ import com.hummingbird.paas.mapper.ProjectStatusMapper;
 import com.hummingbird.paas.services.BiddeeServiceService;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.BidEvaluateReturnVO;
 import com.hummingbird.paas.vo.GetMsgListBodyVO;
@@ -402,7 +403,7 @@ public class BiddeeServiceController extends BaseController{
 				ter.setStartTime(DateUtil.formatCommonDateorNull(ps.getStartTime()));//开工时间
 				ter.setEndTime(DateUtil.formatCommonDateorNull(ps.getEndTime()));
 				ter.setObjectName(bo.getObjectName());
-				ter.setWinBidAmount(bo.getWinBidAmount());
+				ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
 				ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
 			}		
 		

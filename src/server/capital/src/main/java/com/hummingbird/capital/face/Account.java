@@ -5,11 +5,6 @@
  */
 package com.hummingbird.capital.face;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
-
 /**
  * @author huangjiej_2
  * 2014年12月18日 下午10:28:57
@@ -74,7 +69,7 @@ public interface Account {
 	 * 取帐户余额
 	 * @return
 	 */
-	Integer getRemainingSum();
+	Long getRemainingSum();
 	
 	/**
 	 * 取帐户ID

@@ -2,13 +2,13 @@ package com.hummingbird.capital.services;
 
 import java.util.List;
 
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.common.vo.ValidateResult;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.UserBankcard;
-import com.hummingbird.common.exception.DataInvalidException;
-import com.hummingbird.common.face.Pagingnation;
-import com.hummingbird.common.vo.ValidateResult;
 
 public interface CapitalManageService {
 
@@ -54,6 +54,6 @@ public interface CapitalManageService {
 	 * @return
 	 * @throws DataInvalidException 
 	 */
-	public ValidateResult validatePaymentCode(String tradePassword,User user) throws DataInvalidException;
+	public ValidateResult validatePaymentCode(String tradePassword,User user,String appkey) throws DataInvalidException;
 
 }

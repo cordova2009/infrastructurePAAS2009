@@ -234,21 +234,27 @@
   </update>
    <select id="getLastRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-	<include refid="Base_Column_List" />
+	a.id, a.project_id, current_period, amount, should_pay_time, pay_time, a.status, total_amount, 
+    left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
+    order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
     where a.project_id = p.project_id
     and p. object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
   </select>
   <select id="getRecordByPeriod" resultMap="BaseResultMap"  >
     select 
-   <include refid="Base_Column_List" />
+   a.id, a.project_id, current_period, amount, should_pay_time, pay_time, a.status, total_amount, 
+    left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
+    order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
     where a.project_id = p.project_id
     and p.object_id = #{objectId,jdbcType=VARCHAR} and current_period = #{period,jdbcType=INTEGER}
   </select>
   <select id="queryPaidRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-     <include refid="Base_Column_List" />
+    a.id, a.project_id, current_period, amount, should_pay_time, pay_time, a.status, total_amount, 
+    left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
+    order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
     where a.project_id = p.project_id
     and p. object_id = #{objectId,jdbcType=VARCHAR} 

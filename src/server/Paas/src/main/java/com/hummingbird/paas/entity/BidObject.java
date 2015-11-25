@@ -44,7 +44,7 @@ public class BidObject {
     /**
      * 中标金额
      */
-    private String winBidAmount;
+    private Long winBidAmount;
 
     /**
      * 中标的承包商id
@@ -279,7 +279,7 @@ public class BidObject {
     /**
      * @return 中标金额
      */
-    public String getWinBidAmount() {
+    public Long getWinBidAmount() {
         return winBidAmount;
     }
 
@@ -287,8 +287,8 @@ public class BidObject {
      * @param winBidAmount 
 	 *            中标金额
      */
-    public void setWinBidAmount(String winBidAmount) {
-        this.winBidAmount = winBidAmount == null ? null : winBidAmount.trim();
+    public void setWinBidAmount(Long winBidAmount) {
+        this.winBidAmount = winBidAmount == null ? null : winBidAmount;
     }
 
     /**

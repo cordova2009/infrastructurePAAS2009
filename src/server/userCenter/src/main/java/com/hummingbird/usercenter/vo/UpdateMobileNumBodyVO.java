@@ -16,6 +16,14 @@ public class UpdateMobileNumBodyVO {
 	private String loginPassword;
 	private String oldMobileNum;
 	private String newMobileNum;
+	
+	@Override
+	public String toString() {
+		return "UpdateMobileNumBodyVO [token=" + token + ", firstSmsCode=" + firstSmsCode + 
+				",secondSmsCode=" + secondSmsCode +",loginPassword="+loginPassword+
+				",oldMobileNum="+oldMobileNum+",oldMobileNum="+oldMobileNum+"]";
+	}
+	
 	public String getToken() {
 		return token;
 	}

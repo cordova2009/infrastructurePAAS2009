@@ -12,6 +12,15 @@ public class LoginReturnVO {
 	private String nickname;
 	private String headImageUrl;
 	private Integer expireIn;
+	
+	@Override
+	public String toString() {
+		return "LoginReturnVO [token=" + token + ", mobileNum=" + mobileNum + 
+				",nickname=" + nickname +",headImageUrl="+headImageUrl+ 
+				",expireIn="+expireIn+"]";
+	}
+	
+	
 	public String getToken() {
 		return token;
 	}

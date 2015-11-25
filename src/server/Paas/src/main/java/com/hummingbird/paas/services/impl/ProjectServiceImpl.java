@@ -84,11 +84,11 @@ public class ProjectServiceImpl implements ProjectService{
 			if(lastPayInfo!=null){
 				willPayAmount=lastPayInfo.getLeftAmount();
 			}else if(payDefine!=null){
-				//应该是objcet.getWinBidAmount()-payDefine.getPaySum()，但是数据库不对
-				willPayAmount=payDefine.getPaySum();
+				
+				willPayAmount=objcet.getWinBidAmount()-payDefine.getPaySum();
 			}
 			query.setWillPayAmount(MoneyUtil.getMoneyStringDecimal4yuan(willPayAmount));
-			query.setWinBidAmount(objcet.getWinBidAmount());
+			query.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(objcet.getWinBidAmount()));
 			if(payDefine==null){
 				query.setNextPeriodPayAmount("0");
 				query.setNextPeriodPayTime(null);
@@ -207,8 +207,7 @@ public class ProjectServiceImpl implements ProjectService{
 			if(lastPayInfo!=null){
 				willReceiveAmount=lastPayInfo.getLeftAmount();
 			}else if(payDefine!=null){
-				//应该是objcet.getWinBidAmount()-payDefine.getPaySum()，但是数据库不对
-				willReceiveAmount=payDefine.getPaySum();
+				willReceiveAmount=objcet.getWinBidAmount()-payDefine.getPaySum();
 			}else{
 				willReceiveAmount=0l;
 			}
@@ -217,7 +216,7 @@ public class ProjectServiceImpl implements ProjectService{
 			query.setObjectName(objcet.getObjectName());
 			query.setReceivedAmount(paidAmount.toString());
 			query.setWillReceiveAmount(MoneyUtil.getMoneyStringDecimal4yuan(willReceiveAmount));
-			query.setWinBidAmount(objcet.getWinBidAmount());
+			query.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(objcet.getWinBidAmount()));
 			if(payDefine==null){
 				query.setNextPeriodReceiveAmount("0");
 				query.setNextPeriodReceiveTime(null);
@@ -254,7 +253,7 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			Long paidAmount= proRecordDao.getPaidAmountByObjectId(project.getObjectId());
 			allPaidAmount+=paidAmount;
-			allAmount+=objcet.getObjectAmount();//??标的金额是否为项目金额,这里应该是winAmount，但是数据库字段有问题
+			allAmount+=objcet.getWinBidAmount();
 			allWillPayAmount+=lastReceivedInfo==null?objcet.getObjectAmount():lastReceivedInfo.getLeftAmount();
 			Long nextPeriodPayAmount=0l;
 			if(payDefine!=null){

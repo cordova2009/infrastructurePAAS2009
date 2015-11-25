@@ -17,6 +17,15 @@ public class ApplyListReturnVO {
 	private String remark;
 	private String voucherNo;
 	private Date rechargeTime;
+	
+	@Override
+	public String toString() {
+		return "ApplyListReturnVO [createTime=" + createTime + ", amount=" + amount + 
+				",status=" + status +",remark="+remark+ 
+				",voucherNo="+voucherNo+",rechargeTime+"+rechargeTime+"]";
+	}
+	
+	
 	public Date getCreateTime() {
 		return createTime;
 	}

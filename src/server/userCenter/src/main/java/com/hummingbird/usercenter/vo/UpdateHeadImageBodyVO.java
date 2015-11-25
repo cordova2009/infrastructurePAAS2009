@@ -7,6 +7,12 @@ public class UpdateHeadImageBodyVO {
 	}*/
 	private String token;
 	private String headImageUrl;
+	
+	 @Override
+	 	public String toString() {
+	 		return "UpdateHeadImageBodyVO [token=" + token + ", headImageUrl=" + headImageUrl + "]";
+	 	}
+	
 	public String getToken() {
 		return token;
 	}

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.capital.entity.ProjectAccountOrder;
 
 public interface ProjectAccountOrderMapper {
 	 /**
@@ -65,4 +65,10 @@ public interface ProjectAccountOrderMapper {
 	 * @return
 	 */
 	public Integer getAccountOutlay(String accountId);
+	/**
+	 * 查询解冻订单
+	 * @param orignalOrderId
+	 * @return
+	 */
+	ProjectAccountOrder queryUnfreezeRecord(String orignalOrderId);
 }

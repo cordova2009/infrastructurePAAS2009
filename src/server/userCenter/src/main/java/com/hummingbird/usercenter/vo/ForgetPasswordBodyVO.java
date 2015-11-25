@@ -9,6 +9,13 @@ public class ForgetPasswordBodyVO {
 	private String smsCode;
 	private String mobileNum;
 	private String loginPassword;
+	
+	@Override
+	public String toString() {
+		return "ForgetPasswordBodyVO [smsCode=" + smsCode + ", mobileNum=" + mobileNum + 
+				",loginPassword=" + loginPassword +"]";
+	}
+	
 	public String getSmsCode() {
 		return smsCode;
 	}

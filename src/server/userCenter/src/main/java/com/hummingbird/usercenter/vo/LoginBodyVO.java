@@ -7,6 +7,12 @@ public class LoginBodyVO {
     }*/
 	private String mobileNum;
 	private String loginPassword;
+	
+	@Override
+	public String toString() {
+		return "LoginBodyVO [mobileNum=" + mobileNum + ", loginPassword=" + loginPassword +"]";
+	}
+	
 	public String getMobileNum() {
 		return mobileNum;
 	}

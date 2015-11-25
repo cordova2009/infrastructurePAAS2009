@@ -9,7 +9,7 @@
     <result column="object_amount" property="objectAmount" jdbcType="BIGINT" />
     <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
     <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
     <result column="win_bidder_id" property="winBidderId" jdbcType="INTEGER" />
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
     <result column="sector_id" property="sectorId" jdbcType="VARCHAR" />
@@ -53,7 +53,7 @@
     <result column="object_no" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
    
     <result column="company_name" property="winBidder" jdbcType="VARCHAR" />
   
@@ -67,7 +67,7 @@
     <result column="object_no" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
     <result column="company_name" property="winBidder" jdbcType="VARCHAR" />
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
   </resultMap>
@@ -75,7 +75,7 @@
     <result column="object_no" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
     <result column="company_name" property="winBidder" jdbcType="VARCHAR" />
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
   </resultMap>
@@ -98,7 +98,7 @@
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
     <result column="bideeName" property="bideeName" jdbcType="VARCHAR" />
     <result column="biderName" property="biderName" jdbcType="VARCHAR" />
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
     </resultMap>
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
@@ -285,7 +285,7 @@
       )
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
-      #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
+      #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=BIGINT}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
       #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, 
@@ -423,7 +423,7 @@
         #{objectStatus,jdbcType=VARCHAR},
       </if>
       <if test="winBidAmount != null" >
-        #{winBidAmount,jdbcType=VARCHAR},
+        #{winBidAmount,jdbcType=BIGINT},
       </if>
       <if test="winBidderId != null" >
         #{winBidderId,jdbcType=INTEGER},
@@ -524,7 +524,7 @@
         object_status = #{objectStatus,jdbcType=VARCHAR},
       </if>
       <if test="winBidAmount != null" >
-        win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
+        win_bid_amount = #{winBidAmount,jdbcType=BIGINT},
       </if>
       <if test="winBidderId != null" >
         win_bidder_id = #{winBidderId,jdbcType=INTEGER},
@@ -612,7 +612,7 @@
       object_amount = #{objectAmount,jdbcType=BIGINT},
       object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
       object_status = #{objectStatus,jdbcType=VARCHAR},
-      win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
+      win_bid_amount = #{winBidAmount,jdbcType=BIGINT},
       win_bidder_id = #{winBidderId,jdbcType=INTEGER},
       industry_id = #{industryId,jdbcType=VARCHAR},
       sector_id = #{sectorId,jdbcType=VARCHAR},

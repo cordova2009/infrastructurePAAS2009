@@ -12,14 +12,6 @@ import com.hummingbird.paas.entity.Token;
 public interface TokenService {
 
 	/**
-	 * 验证用户令牌
-	 * @param token
-	 * @return
-	 * @throws TokenException 
-	 */
-	public boolean validateToken(UserToken token) throws  TokenException;
-	
-	/**
 	 * 创建用户令牌，主要用于登录
 	 * @param appId
 	 * @param mobileNum

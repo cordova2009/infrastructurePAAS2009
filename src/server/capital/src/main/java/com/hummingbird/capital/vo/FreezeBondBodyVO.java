@@ -1,25 +1,59 @@
 package com.hummingbird.capital.vo;
 
 public class FreezeBondBodyVO {
-	 /*"token":"USER_TOKEN",
-     "objectId":"BH20150201321123",
-     "remark":"冻结50000元施工保证金",
-     "tradePassword":"TRADE_PASSWORD"*/
 	private String token;
+	private String type;
+	private Long amount;
+	private String originalOrderId;
+	private String originalTable;
 	private String objectId;
 	private String remark;
 	private String tradePassword;
-	public String getToken() {
-		return token;
+	
+	@Override
+	public String toString() {
+		return "FreezeBondBodyVO [token=" + token + ", type=" + type +
+				",amount=" + amount +",originalOrderId="+originalOrderId+ 
+				",originalTable="+originalTable+",objectId+"+objectId+
+				",remark="+remark+",tradePassword="+tradePassword+"]";
 	}
-	public void setToken(String token) {
-		this.token = token;
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getObjectId() {
 		return objectId;
 	}
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
+	}
+	public String getOriginalOrderId() {
+		return originalOrderId;
+	}
+	public void setOriginalOrderId(String originalOrderId) {
+		this.originalOrderId = originalOrderId;
+	}
+	public String getOriginalTable() {
+		return originalTable;
+	}
+	public void setOriginalTable(String originalTable) {
+		this.originalTable = originalTable;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
+	public Long getAmount() {
+		return amount;
+	}
+	public void setAmount(Long amount) {
+		this.amount = amount;
 	}
 	public String getRemark() {
 		return remark;

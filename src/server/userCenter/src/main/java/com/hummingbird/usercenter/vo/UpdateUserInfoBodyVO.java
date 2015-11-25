@@ -11,6 +11,13 @@ public class UpdateUserInfoBodyVO {
 	private String nickname;
 	private String address;
 	private String email;
+	
+	@Override
+	public String toString() {
+		return "UpdateUserInfoBodyVO [token=" + token + ", nickname=" + nickname + 
+				",address=" + address +",email="+email+"]";
+	}
+	
 	public String getToken() {
 		return token;
 	}

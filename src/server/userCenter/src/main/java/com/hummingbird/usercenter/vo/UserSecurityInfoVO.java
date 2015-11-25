@@ -15,6 +15,13 @@ public class UserSecurityInfoVO {
 	private String mobileNum;
 	private String email;
 	private UserSecurityDetailVO realname;
+	
+	@Override
+	public String toString() {
+		return "UserSecurityInfoVO [nickname=" + nickname + ", mobileNum=" + mobileNum + 
+				",email=" + email +",realname="+realname+"]";
+	}
+	
 	public String getNickname() {
 		return nickname;
 	}

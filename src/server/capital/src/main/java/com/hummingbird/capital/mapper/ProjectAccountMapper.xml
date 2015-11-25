@@ -3,13 +3,13 @@
 <mapper namespace="com.hummingbird.capital.mapper.ProjectAccountMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.capital.entity.ProjectAccount" >
     <id column="account_id" property="accountId" jdbcType="VARCHAR" />
-    <result column="remaining_sum" property="remainingSum" jdbcType="INTEGER" />
+    <result column="remaining_sum" property="remainingSum" jdbcType="BIGINT" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="frozen_sum" property="frozenSum" jdbcType="INTEGER" />
+    <result column="frozen_sum" property="frozenSum" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -31,9 +31,9 @@
       insert_time, update_time, remark, 
       status, frozen_sum, user_id
       )
-    values (#{accountId,jdbcType=VARCHAR}, #{remainingSum,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
+    values (#{accountId,jdbcType=VARCHAR}, #{remainingSum,jdbcType=BIGINT}, #{signature,jdbcType=VARCHAR}, 
       #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{frozenSum,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      #{status,jdbcType=VARCHAR}, #{frozenSum,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.capital.entity.ProjectAccount" >
@@ -72,7 +72,7 @@
         #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="remainingSum != null" >
-        #{remainingSum,jdbcType=INTEGER},
+        #{remainingSum,jdbcType=BIGINT},
       </if>
       <if test="signature != null" >
         #{signature,jdbcType=VARCHAR},
@@ -90,7 +90,7 @@
         #{status,jdbcType=VARCHAR},
       </if>
       <if test="frozenSum != null" >
-        #{frozenSum,jdbcType=INTEGER},
+        #{frozenSum,jdbcType=BIGINT},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
@@ -101,7 +101,7 @@
     update t_project_account
     <set >
       <if test="remainingSum != null" >
-        remaining_sum = #{remainingSum,jdbcType=INTEGER},
+        remaining_sum = #{remainingSum,jdbcType=BIGINT},
       </if>
       <if test="signature != null" >
         signature = #{signature,jdbcType=VARCHAR},
@@ -119,7 +119,7 @@
         status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="frozenSum != null" >
-        frozen_sum = #{frozenSum,jdbcType=INTEGER},
+        frozen_sum = #{frozenSum,jdbcType=BIGINT},
       </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -129,13 +129,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.capital.entity.ProjectAccount" >
     update t_project_account
-    set remaining_sum = #{remainingSum,jdbcType=INTEGER},
+    set remaining_sum = #{remainingSum,jdbcType=BIGINT},
       signature = #{signature,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      frozen_sum = #{frozenSum,jdbcType=INTEGER},
+      frozen_sum = #{frozenSum,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=INTEGER}
     where account_id = #{accountId,jdbcType=VARCHAR}
   </update>

@@ -7,6 +7,13 @@ public class RealNameVO {
 	}*/
 	private String realName;
 	private String cardID;
+	
+	@Override
+	public String toString() {
+		return "RealNameVO [realName=" + realName + ", cardID=" + cardID +"]";
+	}
+	
+	
 	public String getRealName() {
 		return realName;
 	}

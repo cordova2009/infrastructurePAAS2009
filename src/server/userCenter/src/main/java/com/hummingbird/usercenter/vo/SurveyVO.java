@@ -9,6 +9,15 @@ public class SurveyVO {
      private String biddingEndTime;
      private String projectSite;
      private Integer bidderNum;
+     
+     @Override
+ 	public String toString() {
+ 		return "SurveyVO [objectId=" + objectId + ", status=" + status + 
+ 				",evalutionAmount=" + evalutionAmount +",projectExpectPeriod="+projectExpectPeriod+
+ 				",announcementEndTime="+announcementEndTime+",biddingEndTime="+biddingEndTime+
+ 				",projectSite="+projectSite+",bidderNum="+bidderNum+"]";
+ 	}
+     
 	public String getObjectId() {
 		return objectId;
 	}
@@ -57,12 +66,6 @@ public class SurveyVO {
 	public void setBidderNum(Integer bidderNum) {
 		this.bidderNum = bidderNum;
 	}
-	@Override
-	public String toString() {
-		return "SurveyVO [objectId=" + objectId + ", status=" + status + ", evalutionAmount=" + evalutionAmount
-				+ ", projectExpectPeriod=" + projectExpectPeriod + ", announcementEndTime=" + announcementEndTime
-				+ ", biddingEndTime=" + biddingEndTime + ", projectSite=" + projectSite + ", bidderNum=" + bidderNum
-				+ "]";
-	}
+	
      
 }

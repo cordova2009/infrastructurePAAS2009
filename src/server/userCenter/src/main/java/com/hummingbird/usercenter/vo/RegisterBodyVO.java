@@ -18,6 +18,16 @@ public class RegisterBodyVO {
 	private String cardID;
 	private String loginPassword;
 	private String tradePassword;
+	
+	@Override
+	public String toString() {
+		return "RegisterBodyVO [smsCode=" + smsCode + ", nickname=" + nickname + 
+				",mobileNum=" + mobileNum +",realName="+realName+
+				",cardID="+cardID+",loginPassword="+loginPassword+
+				",tradePassword="+tradePassword+"]";
+	}
+	
+	
 	public String getSmsCode() {
 		return smsCode;
 	}

@@ -72,6 +72,11 @@ public class User {
     private String headImage;
 
     /**
+     * 状态,OK# 正常,OFF 禁止
+     */
+    private String status;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -266,6 +271,21 @@ public class User {
         this.headImage = headImage == null ? null : headImage.trim();
     }
 
+    /**
+     * @return 状态,OK# 正常,OFF 禁止
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status 
+	 *            状态,OK# 正常,OFF 禁止
+     */
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -290,7 +310,8 @@ public class User {
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
-            && (this.getHeadImage() == null ? other.getHeadImage() == null : this.getHeadImage().equals(other.getHeadImage()));
+            && (this.getHeadImage() == null ? other.getHeadImage() == null : this.getHeadImage().equals(other.getHeadImage()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -310,6 +331,7 @@ public class User {
         result = prime * result + ((getNickName() == null) ? 0 : getNickName().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getHeadImage() == null) ? 0 : getHeadImage().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 }

@@ -10,6 +10,11 @@ public class MobileNumVO extends AppBaseVO implements AppMobileDecidable{
 
 	private MobileVO body;
 
+	@Override
+	public String toString() {
+		return "MobileNumVO [body=" + body + ", app=" + app +"]";
+	}
+	
 	public MobileVO getBody() {
 		return body;
 	}

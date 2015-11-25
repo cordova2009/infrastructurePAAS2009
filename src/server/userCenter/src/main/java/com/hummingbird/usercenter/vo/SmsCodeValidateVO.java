@@ -7,6 +7,13 @@ public class SmsCodeValidateVO {
 	private String mobileNum;
 	private Date creatTime;
 	private Integer number;
+	
+	@Override
+	public String toString() {
+		return "SmsCodeValidateVO [appId=" + appId + ", mobileNum=" + mobileNum + 
+				",creatTime=" + creatTime +",number="+number+"]";
+	}
+	
 	public String getAppId() {
 		return appId;
 	}

@@ -340,6 +340,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		List<ObjectProject> pjs = obDao.getMyObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
 		QueryMyBidObjectListResultVO qol = null;
 		for (ObjectProject pj : pjs) {
+			if(pj != null){
 			 qol = new QueryMyBidObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());
 			qol.setBidAmount(pj.getWinBidAmount());
@@ -351,7 +352,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			}
 			qors.add(qol);
 			}
-			
+		}
 			
 		return qors;
 	}
@@ -370,20 +371,24 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		}
 
 		List<MyBuildingObjectProject> pjs = obDao.getMyBuildingObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+		
 		QueryMyBuildingObjectListResultVO qol = null;
 		for (MyBuildingObjectProject pj : pjs) {
-			 qol = new QueryMyBuildingObjectListResultVO();
-			
-			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
-			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
-//			qol.setProjectExpectStartDate(pj.getpro);
-			qol.setReceivedAmount(pj.getReceivedAmount());
-			qol.setWillReceiveAmount(pj.getWinBidAmount());
-			if(log.isDebugEnabled()){
-				log.debug("查询招标的项目列表完成:"+qol);
+			if(pj != null){
+				qol = new QueryMyBuildingObjectListResultVO();
+				
+				qol.setObjectId(pj.getObjectId());
+				qol.setObjetName(pj.getObjectName());
+				qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+//				qol.setProjectExpectStartDate(pj.getpro);
+				qol.setReceivedAmount(pj.getReceivedAmount());
+				qol.setWillReceiveAmount(pj.getWinBidAmount());
+				if(log.isDebugEnabled()){
+					log.debug("查询招标的项目列表完成:"+qol);
+				}
+				qors.add(qol);
 			}
-			qors.add(qol);
+			 
 			}
 			
 			
@@ -406,6 +411,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		List<MyEndedObjectProject> pjs = obDao.getMyEndedObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
 		QueryMyEndedObjectListResultVO qol = null;
 		for (MyEndedObjectProject pj : pjs) {
+			if(pj != null){
 			 qol = new QueryMyEndedObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());
 			qol.setBidAmount(pj.getWinBidAmount());
@@ -417,6 +423,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			}
 			qors.add(qol);
 			}
+		}
 			
 			
 		return qors;
@@ -438,6 +445,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		List<MyEndedObjectProject> pjs = obDao.getMyEndedObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
 		QueryMyLoseObjectListResultVO qol = null;
 		for (MyEndedObjectProject pj : pjs) {
+			if(pj != null){
 			 qol = new QueryMyLoseObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());
 			qol.setWinBidAmount(pj.getWinBidAmount());
@@ -449,7 +457,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			}
 			qors.add(qol);
 			}
-			
+		}
 			
 		return qors;
 	}

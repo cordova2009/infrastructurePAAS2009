@@ -13,7 +13,7 @@
 	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/aop
-	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">  
 
 <bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">

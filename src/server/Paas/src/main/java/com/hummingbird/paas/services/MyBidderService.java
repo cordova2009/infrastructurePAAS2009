@@ -6,6 +6,8 @@ import java.util.List;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
+import com.hummingbird.paas.vo.BidderAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderEqInfo;
@@ -130,5 +132,18 @@ public interface MyBidderService {
 	 * @throws BusinessException
 	 */
 	public int saveEnterpriseQualification(String appId, List<BidderEqInfo> body,Token token) throws BusinessException;
+	/**
+	 *保存投标人企业资质接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @param biddee_id
+	 * @return 审核
+	 * @throws BusinessException
+	 */
+	
+	public Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer biddee_id) throws BusinessException;
 	
 }

@@ -103,7 +103,7 @@ public interface BidObjectMapper {
 	 * @param id
 	 * @return
 	 */
-	int selectTotalTenderObjectList(String[] keywords);
+	int selectTotalTenderObjectList(@Param("keywords")String[] keywords);
 	
 	/**
 	 * 项目列表接口

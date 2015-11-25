@@ -12,6 +12,15 @@
     <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BidderEqInfoResultMap" type="com.hummingbird.paas.entity.BidderCertificationCertification" >
+<!--     <id column="id" property="id" jdbcType="INTEGER" /> -->
+    <result column="projectType" property="projectType" jdbcType="VARCHAR" />
+    <result column="eqName" property="eqName" jdbcType="VARCHAR" />
+    <result column="eqRating" property="eqRating" jdbcType="VARCHAR" />
+    <result column="eqDesc" property="eqDesc" jdbcType="VARCHAR" />
+    <result column="expiryDate" property="expiryDate" jdbcType="DATE" />
+    <result column="eqId" property="eqId" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_id, certification_id, certification_name, certification_content, expire_time, 
     applicable_region, certification_no, industry_id
@@ -22,13 +31,13 @@
     from t_qyzz_bidder_certification_certification
     where id = #{id,jdbcType=INTEGER}
   </select>
-   <select id="selectEqInfoByBidderId"  parameterType="java.lang.Integer" >
-   select m.industry_id as eqType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
+   <select id="selectEqInfoByBidderId" resultMap="BidderEqInfoResultMap"  parameterType="java.lang.Integer" >
+   select m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
       from t_qyzz_bidder_certification_certification m INNER JOIN t_qyzz_bidder_certicate u on m.certification_id = u.id  LEFT JOIN t_base_certification_type t on m.id = t.id
         where u.id = #{bidder_id,jdbcType=INTEGER} and u.status = 'OK#'
   </select>
-  <select id="selectEqInfoByUserId"  parameterType="java.lang.Integer" >
-    select m.industry_id as eqType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
+  <select id="selectEqInfoByUserId"  resultMap="BidderEqInfoResultMap"  parameterType="java.lang.Integer" >
+    select m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
       from t_qyzz_bidder_certification_certification m INNER JOIN t_qyzz_bidder_certicate u on m.certification_id = u.id  LEFT JOIN t_base_certification_type t on m.id = t.id
         where u.user_id = #{userId,jdbcType=INTEGER}  and u.status = 'OK#'
   </select>

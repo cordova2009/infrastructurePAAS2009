@@ -1,9 +1,12 @@
 package com.hummingbird.usercenter.vo;
 
-import com.hummingbird.commonbiz.vo.AppBaseVO;
-import com.hummingbird.commonbiz.vo.Decidable;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-public class RegisterVO extends AppBaseVO implements Decidable{
+import com.hummingbird.commonbiz.vo.AppBaseVO;
+import com.hummingbird.commonbiz.vo.AppMobileDecidable;
+import com.hummingbird.commonbiz.vo.Decidable;
+@JsonIgnoreProperties(value = {"appId", "type","authed","businessKeys"})
+public class RegisterVO extends AppBaseVO implements AppMobileDecidable{
 	
 	private RegisterBodyVO body;
 
@@ -19,5 +22,17 @@ public class RegisterVO extends AppBaseVO implements Decidable{
 	public String toString() {
 		return "RegisterVO [body=" + body + ", app="
 				+ app + "]";
+	}
+
+	@Override
+	public String getAppId() {
+		// TODO Auto-generated method stub
+		return app.getAppId();
+	}
+
+	@Override
+	public String getMobileNum() {
+		// TODO Auto-generated method stub
+		return body.getMobileNum();
 	}
 }

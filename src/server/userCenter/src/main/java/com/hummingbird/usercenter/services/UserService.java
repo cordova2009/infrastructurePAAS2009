@@ -40,10 +40,27 @@ public interface UserService {
 	 */
 	public void saveUser(RegisterBodyVO body,String appId,String appkey)throws ValidateException;
 	
+	/**
+	 * 查询投标人信息
+	 * @param userId
+	 * @return
+	 *//*
+	public Bidder queryBidderByUserId(Integer userId);
+	
+	*//**
+	 * 查询z招标人信息
+	 * @param userId
+	 * @return
+	 *//*
+	public Biddee queryBiddeeByUserId(Integer userId);*/
 	
 	public UserPassword queryUserPassword(Integer userId);
 	
 	public UserAuth queryUserAuth(Integer userId);
+	
+	public void updateUserPassword(UserPassword password)throws MaAccountException;
+	
+	public Boolean authPassword(Integer userId,String loginPassword)throws MaAccountException;
 	
 	/**
 	 * 更新用户信息

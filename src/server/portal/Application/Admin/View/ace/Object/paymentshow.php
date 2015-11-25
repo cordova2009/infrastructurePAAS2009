@@ -2,7 +2,7 @@
 
 <block name="body">
 	<!-- 表单 -->
-
+<?php $status=['CRT'=>'待支付','OK#'=>'已支付','FLS'=>'支付失败'];?>
 <style>
 td{width:50%;}
 </style>
@@ -16,27 +16,27 @@ td{width:50%;}
        <table class="table  table-bordered " style="margin-bottom:0px;">
 	<tbody>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">工程名称:</span>{$item.nick_name}</td>
-			<td><span style="color:#999;padding-right:8px;">订单号:</span>{$item.transport_time}</td>
+			<td><span style="color:#999;padding-right:8px;">工程名称:</span>{$item.object_name}</td>
+			<td><span style="color:#999;padding-right:8px;">订单号:</span>{$item.order_id}</td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">总期数:</span>{$item.transport_time}</td>
-			<td><span style="color:#999;padding-right:8px;">总金额:</span>{$item.amount|price_format}</td>
+			<td><span style="color:#999;padding-right:8px;">总期数:</span>{$item.total_period}</td>
+			<td><span style="color:#999;padding-right:8px;">总金额:</span>{$item.total_amount|price_format}</td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">当前期数:</span>{$item.insert_time}</td>
+			<td><span style="color:#999;padding-right:8px;">当前期数:</span>{$item.current_period}</td>
 			<td><span style="color:#999;padding-right:8px;">当前金额:</span>{$item.amount|price_format}</td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">剩余金额:</span>{$item.account_no}</td>
-			<td><span style="color:#999;padding-right:8px;">剩余期数:</span>{$item.bank_name}</td>
+			<td><span style="color:#999;padding-right:8px;">剩余期数:</span>{$item.left_period}</td>
+			<td><span style="color:#999;padding-right:8px;">剩余金额:</span>{$item.left_amount}</td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">应付时间:</span>{$item.transport_time}</td>
-			<td><span style="color:#999;padding-right:8px;">支付时间:</span>{$item.voucher}</td>
+			<td><span style="color:#999;padding-right:8px;">应付时间:</span>{$item.should_pay_time}</td>
+			<td><span style="color:#999;padding-right:8px;">支付时间:</span>{$item.pay_time}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">状态:</span>{$item.transport_time}</td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">状态:</span><?php echo $status[$item['status']];?></td>
 		</tr>
 	 </tbody>
 	</table>

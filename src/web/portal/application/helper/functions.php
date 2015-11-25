@@ -12,6 +12,53 @@
  */
 
 /**
+ * URL组装 支持不同URL模式
+ * @param string $url URL表达式，格式：'[模块/控制器/操作#锚点@域名]?参数1=值1&参数2=值2...'
+ * @param string|array $vars 传入的参数，支持数组和字符串
+ * @param string|boolean $suffix 伪静态后缀，默认为true表示获取配置值
+ * @param boolean $domain 是否显示域名
+ * @return string
+ */
+function U($url='',$vars='',$suffix=true,$domain=false) {
+
+    if($suffix){
+        $suffix = Yaf\Registry::get('config')->application->url_suffix;
+
+        if($suffix && '/' != substr($url,-1)){
+            $url  .=  '.'.ltrim($suffix,'.');
+        }
+    }
+
+    // 解析参数
+    if(is_string($vars)) { // aaa=1&bbb=2 转换成数组
+        parse_str($vars,$vars);
+    }elseif(!is_array($vars)){
+        $vars = array();
+    }
+
+    if(!empty($vars)) {
+        $vars   =   http_build_query($vars);
+        $url   .=   '?'.$vars;
+    }
+
+    if($domain) {
+        $url   =  (is_ssl()?'https://':'http://').$domain.$url;
+    }
+    return $url;
+}
+
+/**
+ * @param $resp
+ * @return bool
+ */
+function check_resp($resp){
+    $return = false;
+    if(!empty($resp) && $resp['errcode'] == '0'){
+        $return = true;
+    }
+    return $return;
+}
+/**
  * @param $mobile
  * @param $content
  * @return bool

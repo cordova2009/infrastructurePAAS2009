@@ -29,46 +29,47 @@ class IndexController extends MallController {
         $curl = new Curl();
 
         $resp = $curl->send('tender/queryObjectIndexSurvey');
-        $object_info = [];
-        if(empty($resp) || $resp['errcode'] != '0'){
-            $object_info = ['objectNum'=>0,'amount'=>'0'];
+
+        $object_info = ['objectNum'=>0,'amount'=>'0'];
+        if(check_resp($resp)){
+            $object_info = $resp['info'];
         }
 
         $resp = $curl->send('tender/queryBidIndexSurvey');
-        $bid_info = [];
-        if(empty($resp) || $resp['errcode'] != '0'){
-            $bid_info = ['bidNum'=>0,'amount'=>'0'];
+        $bid_info = ['bidNum'=>0,'amount'=>'0'];
+        if(check_resp($resp)){
+            $bid_info = $resp['info'];
         }
 
         $resp = $curl->send('tender/queryBiderIndexSurvey');
-        $bider_info = [];
-        if(empty($resp) || $resp['errcode'] != '0'){
-            $bider_info = ['stairBiderNum'=>0,'secondBiderNum'=>'0'];
+        $bider_info = ['stairBiderNum'=>0,'secondBiderNum'=>'0'];
+        if(check_resp($resp)){
+            $bider_info = $resp;
         }
 
         $resp = $curl->setData(['pageIndex'=>1,'pageSize'=>4])->send('tender/queryIndexObjectList');
         $object_list = [];
-        if(!empty($resp) && $resp['errcode'] == '0'){
+        if(check_resp($resp)){
             $object_list = $resp['list'];
         }
 
         $resp = $curl->send('tender/queryBidIndexList');
         $bid_list = [];
-        if(!empty($resp) && $resp['errcode'] == '0'){
+        if(check_resp($resp)){
             $bid_list = $resp['list'];
         }
 
         $resp = $curl->setData(['pageIndex'=>1,'pageSize'=>14])->send('tender/queryIndexBidList');
         $bider_list = [];
-        if(empty($resp) || $resp['errcode'] != '0'){
-            $bider_list = ['bidNum'=>0,'amount'=>'0'];
+        if(check_resp($resp)){
+            $bider_list = $resp['list'];
         }
 
         $this->assign('object_info',$object_info);
         $this->assign('bid_info',$bid_info);
-        $this->assign('bider_info',$bider_info);
         $this->assign('object_list',$object_list);
         $this->assign('bid_list',$bid_list);
+        $this->assign('bider_info',$bider_info);
         $this->assign('bider_list',$bider_list);
     }
 

@@ -25,11 +25,10 @@ class LayoutPlugin extends Yaf\Plugin_Abstract {
     public function postDispatch ( Yaf\Request_Abstract $request , Yaf\Response_Abstract $response ){
         /* get the body of the response */
         $body = $response->getBody();
-
-        preg_replace_callback('/<block\sname=[\'"](.+?)[\'"]\s*?>(.*?)<\/block>/is', array($this, 'parseBlock'),$body);
-
         /*clear existing response*/
         $response->clearBody();
+
+        preg_replace_callback('/<block\sname=[\'"](.+?)[\'"]\s*?>(.*?)<\/block>/is', array($this, 'parseBlock'),$body);
 
         /* wrap it in the layout */
         $view = new \Yaf\View\Simple($this->layoutDir);
@@ -38,10 +37,9 @@ class LayoutPlugin extends Yaf\Plugin_Abstract {
         foreach($this->layoutVars as $name=>$value){
             $view->assign($name,$value);
         }
-        $view->assign('block',$this->block);
 
         /* set the response to use the wrapped version of the content */
-        $response->setBody($view->render($this->layoutFile));
+        $response->setBody($this->replaceBlock($view->render($this->layoutFile)));
     }
 
     /**
@@ -56,6 +54,7 @@ class LayoutPlugin extends Yaf\Plugin_Abstract {
             $content = $name[2];
             $name    = $name[1];
         }
+
         $this->block[$name] = $content;
     }
 

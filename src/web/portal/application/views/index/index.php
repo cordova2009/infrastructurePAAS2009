@@ -100,13 +100,13 @@
                 </tr>
                 <?php foreach($object_list as $item):?>
                 <tr>
-                    <td class="td1">XXXXXXXXXXX工程</td>
-                    <td class="td2">公司简称</td>
-                    <td class="td3"><span class="tag2">A</span></td>
-                    <td class="td4">1500,000 <span class="fz12">元</span></td>
-                    <td class="td5">2015-12-1</td>
-                    <td class="td6">180天</td>
-                    <td><a href="#" class="toubiao">投标</a></td>
+                    <td class="td1"><?=$item['objectName']?></td>
+                    <td class="td2"><?=$item['companyShortName']?></td>
+                    <td class="td3"><span class="tag2"><?=$item['creditRating']?></span></td>
+                    <td class="td4"><?=$item['evaluationAmount']?> <span class="fz12">元</span></td>
+                    <td class="td5"><?=$item['objectPredictStartTime']?></td>
+                    <td class="td6"><?=$item['projectExpectPeriod']?>天</td>
+                    <td><a href="#<?=$item['objectId']?>" class="toubiao">投标</a></td>
                 </tr>
                 <?php endforeach;?>
             </table>
@@ -122,13 +122,13 @@
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">公告中标数</span>
                 <div class="left num">
-                    <span class="fz100">10</span><span class="left dw">个</span>
+                    <span class="fz100"><?=$bid_info['bidNum']?></span><span class="left dw">个</span>
                 </div>
             </div>
             <div class="left txt2">
                 <span class="left tag-txt2">中标<br>累计金额</span>
                 <div class="left num">
-                    <span class="fz100">8080</span><span class="fz87">万</span><span class="left dw">元</span>
+                    <span class="fz100"><?=price_dispose($bid_info['bidNum'],10000)?></span><span class="fz87">万</span><span class="left dw">元</span>
                 </div>
             </div>
         </div>
@@ -147,6 +147,7 @@
                     <td  class="price">评估金额</td>
                     <td class="info">详情</td>
                 </tr>
+                <?php foreach($bid_list as $item):?>
                 <tr>
                     <td  class="name"><span class="tag">土</span>XXXXXXXXXXX工程</td>
                     <td class="tenderee" class="tenderee">张翠山</td>
@@ -154,27 +155,7 @@
                     <td class="price">1500,000 <span class="fz12">元</span></td>
                     <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
                 </tr>
-                <tr>
-                    <td  class="name"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="price">1500,000 <span class="fz12">元</span></td>
-                    <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
-                </tr>
-                <tr>
-                    <td  class="name"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="price">1500,000 <span class="fz12">元</span></td>
-                    <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
-                </tr>
-                <tr>
-                    <td  class="name"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="price">1500,000 <span class="fz12">元</span></td>
-                    <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
-                </tr>
+                <?php endforeach;?>
             </table>
             <div class="list-more"><a href="#">查看更多中标结果</a></div>
         </div>
@@ -189,13 +170,13 @@
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">一级资质</span>
                 <div class="left num">
-                    <span class="fz100">888</span><span class="left dw">家</span>
+                    <span class="fz100"><?=$bider_info['stairBiderNum']?></span><span class="left dw">家</span>
                 </div>
             </div>
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">二级资质</span>
                 <div class="left num">
-                    <span class="fz100">999</span><span class="left dw">家</span>
+                    <span class="fz100"><?=$bider_info['secondBiderNum']?></span><span class="left dw">家</span>
                 </div>
             </div>
         </div>
@@ -206,25 +187,14 @@
     <div class="cent  padb20">
         <div class="in-tit1">优质投标人</div>
         <ul class="clear">
-            <li><a href="#"><img src="images/tb1.jpg"></a></li>
-            <li><a href="#"><img src="images/tb2.jpg"></a></li>
-            <li><a href="#"><img src="images/tb3.jpg"></a></li>
-            <li><a href="#"><img src="images/tb4.jpg"></a></li>
-            <li><a href="#"><img src="images/tb5.jpg"></a></li>
-            <li><a href="#"><img src="images/tb6.jpg"></a></li>
-            <li><a href="#"><img src="images/tb7.jpg"></a></li>
-            <li><a href="#"><img src="images/tb8.jpg"></a></li>
-            <li><a href="#"><img src="images/tb9.jpg"></a></li>
-            <li><a href="#"><img src="images/tb10.jpg"></a></li>
-            <li><a href="#"><img src="images/tb11.jpg"></a></li>
-            <li><a href="#"><img src="images/tb12.jpg"></a></li>
-            <li><a href="#"><img src="images/tb13.jpg"></a></li>
+            <?php foreach($bider_list as $item):?>
             <li><a href="#"><img src="images/tb14.jpg"></a></li>
+            <?php endforeach;?>
         </ul>
         <div class="list-more"><a href="#">查看更多投标人</a></div>
     </div>
 </div>
-<block>
+<block name="script">
 <script type="text/javascript">
     $(function(){
         $(".ban").slide({mainCell:".bd ul",autoPlay:true,effect:"leftLoop",autoPage:true,titCell:".hd ul"})

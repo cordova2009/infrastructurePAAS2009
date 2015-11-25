@@ -9,7 +9,7 @@
     <link href="/css/index.css?<?=md5_file('css/index.css')?>" rel="stylesheet" type="text/css" />
     <script src="/js/jquery-1.9.1.min.js"></script>
     <script src="/js/jquery.SuperSlide.2.1.1.js"></script>
-    <script src="/js/common.js?<?=md5_file('/js/common.js')?>"></script>
+    <script src="/js/common.js?<?=md5_file('js/common.js')?>"></script>
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <![endif]-->
@@ -18,11 +18,16 @@
 <body>
 <!--fly-html-->
 <!--header-->
+<block name="header">
 <header class="header ">
     <div class="top-txt clear">
         <div class="cent">
             <p class="left">您好，欢迎访问大力99！</p>
-            <div class="right"><a href="#" class="blue">快速注册</a> <a href="#"  class="blue">立即登录</a> <a href="#" class="colorf">帮助</a></div>
+            <div class="right">
+                <a href="<?=U('register')?>" class="blue">快速注册</a>
+                <a href="<?=U('login')?>"  class="blue">立即登录</a>
+                <a href="#" class="colorf">帮助</a>
+            </div>
         </div>
     </div>
     <div class="head-cont ">
@@ -47,7 +52,7 @@
         </div>
     </div>
 </header>
-
+</block>
 <!--wrap-->
 <section class="wrap">
     <?php echo $content?>
@@ -80,6 +85,8 @@
         </div>
     </div>
 </footer>
-<?php if(isset($block['script'])) echo $block['script']; ?>
+<block name="script">
+
+</block>
 </body>
 </html>

@@ -61,6 +61,7 @@ import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
+import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
@@ -1528,7 +1529,7 @@ public class TenderController extends BaseController {
 					//1.保存到招标表
 					bid.setObjectStatus("SEL");;//修改状态为定标
 					bid.setWinBidderId(transorder.getBody().getWinBidId());
-					bid.setWinBidAmount(ObjectUtils.toString(bidr.getBidAmount()));
+					bid.setWinBidAmount(bidr.getBidAmount());
 					i = bidObjectDao.updateByPrimaryKeySelective(bid);
 					//2.保存到工程付款表
 					UUID uid = UUID.randomUUID();
@@ -1708,7 +1709,7 @@ public class TenderController extends BaseController {
 					ter.setStartTime(DateUtil.formatCommonDateorNull(ps.getStartTime()));//开工时间
 					ter.setEndTime(DateUtil.formatCommonDateorNull(ps.getEndTime()));
 					ter.setObjectName(bo.getObjectName());
-					ter.setWinBidAmount(bo.getWinBidAmount());
+					ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
 				}		
 			

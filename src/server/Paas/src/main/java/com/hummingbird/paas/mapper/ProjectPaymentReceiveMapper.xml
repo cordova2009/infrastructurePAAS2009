@@ -176,14 +176,16 @@
   </update>
   <select id="getLastRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-    <include refid="Base_Column_List" />
+     a.id, a.status, a.project_id, current_period, amount, should_receive_time, receive_time, 
+    total_amount, left_period, left_amount, total_period, order_id
     from t_gcgl_project_payment_receive a,t_gcgl_project p
     where a.project_id = p.project_id
-    and p. object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
+    and p.object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
   </select>
   <select id="queryReceivedRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-     <include refid="Base_Column_List" />
+     a.id, a.status, a.project_id, current_period, amount, should_receive_time, receive_time, 
+    total_amount, left_period, left_amount, total_period, order_id
     from t_gcgl_project_payment_receive a,t_gcgl_project p
     where a.project_id = p.project_id
     and p. object_id = #{objectId,jdbcType=VARCHAR} 

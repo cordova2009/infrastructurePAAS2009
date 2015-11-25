@@ -20,6 +20,9 @@ import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.mapper.UserTokenMapper;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.util.JedisPoolUtils;
+
+import redis.clients.jedis.Jedis;
 
 /**
  * @author huangjiej_2
@@ -141,7 +144,11 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public UserToken queryToken(String appId,int userId) {
-		Token selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, String.valueOf(userId), null));
+//		Jedis jedis = JedisPoolUtils.getJedis();
+		Token selectByAppAndMobile = null;
+	
+		selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, String.valueOf(userId), null));
+
 		if(selectByAppAndMobile==null)
 		{
 			return null;
@@ -200,6 +207,15 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	public void postponeToken(Token token){
 		
+	}
+	
+	public static void main(String[] args) {
+		Jedis jedis = JedisPoolUtils.getJedis();
+//		jedis.flushDB();
+		if(jedis.exists("ls")){
+			System.out.println(jedis.get("ls"));
+//			selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, jedis.get(String.valueOf(userId)), null));
+		}
 	}
 
 }

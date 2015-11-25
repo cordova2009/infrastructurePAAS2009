@@ -1,12 +1,24 @@
 package com.hummingbird.paas.entity;
 
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.Date;
+
+import org.apache.http.entity.SerializableEntity;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.Serializer;
+import com.sun.org.apache.xml.internal.serialize.SerializerFactory;
 
 /**
  * t_user_token
  */
 public class Token {
-    /**
+  
+
+	/**
      * 用户令牌
      */
     private String token;
@@ -125,4 +137,5 @@ public class Token {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
     }
+
 }

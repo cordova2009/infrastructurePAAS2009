@@ -28,5 +28,8 @@ public class ForgetPasswordVO extends AppBaseVO implements AppMobileDecidable{
 		// TODO Auto-generated method stub
 		return body.getMobileNum();
 	}
-	
+	@Override
+	public String toString() {
+		return "ForgetPasswordVO [body=" + body + ", app=" + app +"]";
+	}
 }

@@ -11,6 +11,13 @@ public class UpdateTradePasswordBodyVO {
 	private String smsCode;
 	private String oldTradePassword;
 	private String newTradePassword;
+	
+	@Override
+	public String toString() {
+		return "UpdateTradePasswordBodyVO [token=" + token + ", smsCode=" + smsCode + 
+				",oldTradePassword=" + oldTradePassword +",newTradePassword="+newTradePassword+"]";
+	}
+	
 	public String getToken() {
 		return token;
 	}

@@ -9,6 +9,13 @@ public class UserSecurityDetailVO {
 	private String name;
 	private String cardID;
 	private String isRealName;
+	
+	@Override
+	public String toString() {
+		return "UserSecurityDetailVO [name=" + name + ", cardID=" + cardID + 
+				",isRealName=" + isRealName +"]";
+	}
+	
 	public String getName() {
 		return name;
 	}

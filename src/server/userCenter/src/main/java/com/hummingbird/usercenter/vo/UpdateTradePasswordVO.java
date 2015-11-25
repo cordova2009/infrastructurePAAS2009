@@ -9,6 +9,12 @@ import com.hummingbird.commonbiz.vo.AppMobileDecidable;
 public class UpdateTradePasswordVO extends AppBaseVO implements AppMobileDecidable{
 	private UpdateTradePasswordBodyVO body;
 
+	@Override
+	public String toString() {
+		return "UpdateTradePasswordVO [body=" + body + ", app="
+				+ app + "]";
+	}
+	
 	public UpdateTradePasswordBodyVO getBody() {
 		return body;
 	}

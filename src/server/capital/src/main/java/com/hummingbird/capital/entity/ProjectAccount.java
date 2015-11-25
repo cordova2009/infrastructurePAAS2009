@@ -17,7 +17,7 @@ public class ProjectAccount implements Account{
     /**
      * 帐户可用余额,单位为分
      */
-    private Integer remainingSum;
+    private Long remainingSum;
 
     /**
      * 帐户的签名
@@ -47,7 +47,7 @@ public class ProjectAccount implements Account{
     /**
      * 冻结余额，单位为分
      */
-    private Integer frozenSum;
+    private Long frozenSum;
 
     private Integer userId;
     
@@ -74,7 +74,7 @@ public class ProjectAccount implements Account{
     /**
      * @return 帐户可用余额,单位为分
      */
-    public Integer getRemainingSum() {
+    public Long getRemainingSum() {
         return remainingSum;
     }
 
@@ -82,7 +82,7 @@ public class ProjectAccount implements Account{
      * @param remainingSum 
 	 *            帐户可用余额,单位为分
      */
-    public void setRemainingSum(Integer remainingSum) {
+    public void setRemainingSum(Long remainingSum) {
         this.remainingSum = remainingSum;
     }
 
@@ -164,7 +164,7 @@ public class ProjectAccount implements Account{
     /**
      * @return 冻结余额，单位为分
      */
-    public Integer getFrozenSum() {
+    public Long getFrozenSum() {
         return frozenSum;
     }
 
@@ -172,7 +172,7 @@ public class ProjectAccount implements Account{
      * @param frozenSum 
 	 *            冻结余额，单位为分
      */
-    public void setFrozenSum(Integer frozenSum) {
+    public void setFrozenSum(Long frozenSum) {
         this.frozenSum = frozenSum;
     }
 

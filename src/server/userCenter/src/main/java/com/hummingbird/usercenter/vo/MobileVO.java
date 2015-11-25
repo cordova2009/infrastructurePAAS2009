@@ -8,7 +8,12 @@ import com.hummingbird.commonbiz.vo.AppMobileDecidable;
 public class MobileVO {
 	
 	private String mobileNum;
-
+	
+	@Override
+	public String toString() {
+		return "MobileVO [mobileNum=" + mobileNum +"]";
+	}
+	
 	public String getMobileNum() {
 		return mobileNum;
 	}

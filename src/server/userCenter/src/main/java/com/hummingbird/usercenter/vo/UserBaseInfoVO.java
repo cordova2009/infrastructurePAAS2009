@@ -17,6 +17,15 @@ public class UserBaseInfoVO {
 	private String email;
 	private String address;
 	private String headImageUrl;
+	
+	@Override
+	public String toString() {
+		return "UserBaseInfoVO [nickname=" + nickname + ", realName=" + realName + 
+				",cardID=" + cardID +",mobileNum="+mobileNum+
+				",email="+email+",address="+address+
+				",headImageUrl="+headImageUrl+"]";
+	}
+	
 	public String getNickname() {
 		return nickname;
 	}

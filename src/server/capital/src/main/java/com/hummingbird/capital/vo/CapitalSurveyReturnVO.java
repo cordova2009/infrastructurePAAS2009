@@ -14,6 +14,12 @@ public class CapitalSurveyReturnVO {
 	private String income;
 	private String outlay;
 	
+	@Override
+	public String toString() {
+		return "CapitalSurveyReturnVO [balance=" + balance + ", freezeAmount=" + freezeAmount + 
+				",income=" + income +",outlay="+outlay+ "]";
+	}
+	
 	public String getBalance() {
 		return balance;
 	}

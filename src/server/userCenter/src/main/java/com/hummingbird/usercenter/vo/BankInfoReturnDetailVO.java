@@ -11,6 +11,14 @@ public class BankInfoReturnDetailVO {
 	private String bank;
 	private String accountId;
 	private String accountName;
+	
+	@Override
+	public String toString() {
+		return "BankInfoReturnDetailVO [bankId=" + bankId + ", bank=" + bank + 
+				",accountId=" + accountId +",accountName="+accountName+"]";
+	}
+	
+	
 	public Integer getBankId() {
 		return bankId;
 	}

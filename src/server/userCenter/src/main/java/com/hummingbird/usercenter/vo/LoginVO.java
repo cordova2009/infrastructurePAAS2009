@@ -8,7 +8,11 @@ import com.hummingbird.commonbiz.vo.AppMobileDecidable;
 @JsonIgnoreProperties(value = {"appId", "type","authed","businessKeys"})
 public class LoginVO extends AppBaseVO implements AppMobileDecidable{
 	private LoginBodyVO body;
-
+	
+	@Override
+	public String toString() {
+		return "LoginVO [body=" + body + ", app=" + app +"]";
+	}
 	public LoginBodyVO getBody() {
 		return body;
 	}

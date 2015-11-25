@@ -40,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 	</div>
 	<table>
+	
 	<tr><td colspan="2">会员管理</td></tr>
 	<tr>
 		<td><input  value="查询会员信息接口"  onclick='setbinding("/member/queryMemberInfo","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },    \"body\":{        \"token\":\"12345\" }    }")'  type="button" ></td>

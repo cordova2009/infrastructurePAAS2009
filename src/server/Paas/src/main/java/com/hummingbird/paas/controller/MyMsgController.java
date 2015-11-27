@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.MymsgService;
 import com.hummingbird.paas.vo.GetMsgListResultVO;
 import com.hummingbird.paas.vo.GetMsgListVO;
@@ -21,6 +24,9 @@ import com.hummingbird.paas.vo.MemberQueryMemberInfoVO;
 public class MyMsgController extends BaseController {
 	 @Autowired
 	 MymsgService msgSer;
+	@Autowired
+	AppLogMapper applogDao;
+		
 	 @RequestMapping(value = "/getMsgList", method = RequestMethod.POST)
 		public @ResponseBody ResultModel queryMemberInfo(HttpServletRequest request) {
 			if(log.isDebugEnabled()){
@@ -92,4 +98,14 @@ public class MyMsgController extends BaseController {
 			}
 			return rm;
 	    }	
+		
+		/**
+		 * 写日志,需要由子类实现
+		 * @param applog
+		 */
+		protected void writeAppLog(AbstractAppLog applog) {
+			if(applog!=null){
+				applogDao.insert(new AppLog(applog));
+			}
+		}
 }

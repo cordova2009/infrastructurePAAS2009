@@ -202,4 +202,12 @@
     from t_user
     where mobile_num = #{mobileNum,jdbcType=VARCHAR}
   </select>
+  <select id="selectUser" resultMap="BaseResultMap"  >
+    select u.*
+    from t_user u,t_user_auth a
+    where u.id = a.user_id
+    and mobile_num = #{mobileNum,jdbcType=VARCHAR}
+    and identity_no = #{cardID,jdbcType=VARCHAR}
+    and real_name = #{realName,jdbcType=VARCHAR}
+  </select>
 </mapper>

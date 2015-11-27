@@ -3,6 +3,7 @@ package com.hummingbird.usercenter.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -13,40 +14,48 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
+import com.hummingbird.common.event.EventListenerContainer;
+import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.DESUtil;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.util.SmsSenderUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.service.ISmsCodeService;
 import com.hummingbird.commonbiz.util.AuthCodeUtil;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.UserToken;
+import com.hummingbird.usercenter.entity.AppLog;
+import com.hummingbird.usercenter.entity.Token;
 import com.hummingbird.usercenter.entity.User;
 import com.hummingbird.usercenter.entity.UserAuth;
 import com.hummingbird.usercenter.entity.UserPassword;
 import com.hummingbird.usercenter.exception.MaAccountException;
+import com.hummingbird.usercenter.mapper.AppLogMapper;
 import com.hummingbird.usercenter.services.GeneralService;
+import com.hummingbird.usercenter.services.UserSecurityService;
 import com.hummingbird.usercenter.services.UserService;
 import com.hummingbird.usercenter.util.IDCardUtil;
 import com.hummingbird.usercenter.vo.ForgetPasswordBodyVO;
 import com.hummingbird.usercenter.vo.ForgetPasswordVO;
 import com.hummingbird.usercenter.vo.MobileNumVO;
 import com.hummingbird.usercenter.vo.MobileVO;
+import com.hummingbird.usercenter.vo.PlatformResetPasswordBodyVO;
 import com.hummingbird.usercenter.vo.RealNameVO;
 import com.hummingbird.usercenter.vo.TokenBodyVO;
 import com.hummingbird.usercenter.vo.TokenVO;
-import com.hummingbird.usercenter.vo.UpdateHeadImageBodyVO;
 import com.hummingbird.usercenter.vo.UpdateLoginPasswordBodyVO;
 import com.hummingbird.usercenter.vo.UpdateLoginPasswordVO;
 import com.hummingbird.usercenter.vo.UpdateMobileNumBodyVO;
 import com.hummingbird.usercenter.vo.UpdateMobileNumVO;
 import com.hummingbird.usercenter.vo.UpdateTradePasswordBodyVO;
 import com.hummingbird.usercenter.vo.UpdateTradePasswordVO;
-import com.hummingbird.usercenter.vo.UpdateUserInfoBodyVO;
 import com.hummingbird.usercenter.vo.UserSecurityDetailVO;
 import com.hummingbird.usercenter.vo.UserSecurityInfoVO;
 import com.hummingbird.usercenter.vo.VerifySmsCodeVO;
@@ -55,9 +64,13 @@ import com.hummingbird.usercenter.vo.VerifySmsCodeVO;
 @RequestMapping("/userSecurity")
 public class UserSecurityController extends BaseController{
 	@Autowired 
+	UserSecurityService userSecurityService;
+	@Autowired 
 	UserService userSer;
 	@Autowired
 	GeneralService genSer;
+	@Autowired
+	AppLogMapper applogDao;
 
 	@Autowired
 	IAuthenticationService authService;
@@ -612,4 +625,48 @@ public class UserSecurityController extends BaseController{
 		}		
 		return rm;
 	}
+	
+	/**
+	 * 重置登录密码接口
+	 * @return
+	 */
+	@RequestMapping(value="/resetPassword",method=RequestMethod.POST)
+	@AccessRequered(methodName = "重置登录密码接口",isJson=true,codebase=220300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.usercenter.vo.PlatformResetPasswordBodyVO",appLog=true)
+	public @ResponseBody ResultModel resetPassword(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<PlatformResetPasswordBodyVO> transorder = (BaseTransVO<PlatformResetPasswordBodyVO>) super.getParameterObject();
+		String messagebase = "重置登录密码接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			userSecurityService.resetPassword(transorder.getApp().getAppId(),transorder.getBody());
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
+	
 }

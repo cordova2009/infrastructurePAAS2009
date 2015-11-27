@@ -5,19 +5,15 @@ package com.hummingbird.paas.controller;
  * 招标人业务
  * */
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bouncycastle.jce.provider.JCEMac.MD5;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,17 +22,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
-import com.hummingbird.common.util.CollectionTools;
-import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.JsonUtil;
-import com.hummingbird.common.util.Md5Util;
-import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
@@ -50,7 +44,6 @@ import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeBankAduitMapper;
@@ -59,24 +52,18 @@ import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
-import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
-import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.BiddeeAuditInfoVO;
 import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfo;
 import com.hummingbird.paas.vo.BiddeeBaseInfoCheck;
-import com.hummingbird.paas.vo.BiddeeCerticateSaveBaseInfoVO;
 import com.hummingbird.paas.vo.BiddeeCerticateSaveInfoVO;
 import com.hummingbird.paas.vo.BiddeeLegalPerson;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
-import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
-import com.hummingbird.paas.vo.TenderSurveyBodyVO;
-import com.hummingbird.paas.vo.TokenBodyVO;
 @Controller
 @RequestMapping(value="/myBiddee/authInfo"
 		 ,method=RequestMethod.POST)
@@ -997,4 +984,14 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 		return rm;
 	}  
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
 }

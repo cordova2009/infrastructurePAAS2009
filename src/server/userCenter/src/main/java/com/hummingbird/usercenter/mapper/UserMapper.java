@@ -2,6 +2,8 @@ package com.hummingbird.usercenter.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.usercenter.entity.User;
 
 public interface UserMapper {
@@ -39,4 +41,12 @@ public interface UserMapper {
      * 根据手机号码查询用户信息
      */
     List<User> queryUserByMobile(String mobileNum);
+
+	/**
+	 * @param mobileNum
+	 * @param cardID
+	 * @param realName
+	 * @return
+	 */
+	User selectUser(@Param("mobileNum")String mobileNum,@Param("cardID") String cardID,@Param("realName") String realName);
 }

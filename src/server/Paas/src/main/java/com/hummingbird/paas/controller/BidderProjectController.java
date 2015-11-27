@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
-import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.vo.ObjectBodyVO;
@@ -32,6 +34,8 @@ public class BidderProjectController extends BaseController{
 	UserService userSer;
 	@Autowired
 	ProjectService projectSer;
+	@Autowired(required = true)
+	protected AppLogMapper applogDao;
 	
 	@RequestMapping(value = "/queryMyIncomeList", method = RequestMethod.POST)
 	public @ResponseBody Object queryMyIncomeList(HttpServletRequest request) {
@@ -225,6 +229,15 @@ public class BidderProjectController extends BaseController{
 			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
 		}
 		return rm;
+	}
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
 	}
 	
 }

@@ -16,39 +16,34 @@ import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
-import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
-import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
 import com.hummingbird.paas.mapper.ProjectStatusMapper;
 import com.hummingbird.paas.services.BiddeeServiceService;
-import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.MoneyUtil;
-import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.BidEvaluateReturnVO;
 import com.hummingbird.paas.vo.GetMsgListBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
 import com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO;
 import com.hummingbird.paas.vo.QueryMyEndedObjectListResultVO;
 import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
-import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
 @Controller
 @RequestMapping(value = "/gw/bid", method = RequestMethod.POST)
@@ -63,6 +58,8 @@ public class BiddeeServiceController extends BaseController{
 	BidObjectMapper  bidObjectDao;
 	@Autowired
 	BiddeeMapper  biddeeDao;
+	@Autowired(required = true)
+	protected AppLogMapper applogDao;
 	
 	@Autowired
 	protected ProjectEvaluationBiddeeMapper pebDao;
@@ -420,5 +417,15 @@ public class BiddeeServiceController extends BaseController{
 		}
 		return rm;
 
+	}
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
 	}
 }

@@ -67,4 +67,11 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateUser(User user)throws MaAccountException;
+
+	/**
+	 * 创建或更新用户密码
+	 * @param userId
+	 * @param password md5加密后的密码
+	 */
+	void createOrUpdatePassword(Integer userId, String password);
 }

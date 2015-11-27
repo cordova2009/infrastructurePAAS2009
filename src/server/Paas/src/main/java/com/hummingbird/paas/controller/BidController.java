@@ -18,6 +18,7 @@ import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
@@ -26,12 +27,14 @@ import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
@@ -55,7 +58,6 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
-import com.hummingbird.paas.vo.TokenBodyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
 /**
@@ -81,6 +83,8 @@ public class BidController extends BaseController {
 	BidObjectMapper objectDao;
 	@Autowired 
 	UserService userSer;
+	@Autowired(required = true)
+	protected AppLogMapper applogDao;
 
 	/**
 	 * 查询未完成的投标资格审查信息接口
@@ -799,6 +803,16 @@ public class BidController extends BaseController {
 		}
 		return rm;
 		
+	}
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
 	}
 
 }

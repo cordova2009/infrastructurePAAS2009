@@ -202,5 +202,27 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 	}
 	
 	
+	/**
+	 * 创建或更新用户密码
+	 * @param userId
+	 * @param password md5加密后的密码
+	 */
+	@Override
+	public void createOrUpdatePassword(Integer userId,String password){
+		UserPassword up = passwordDao.selectByPrimaryKey(userId);
+		if(up==null){
+			up=new UserPassword();
+			up.setUserId(userId);
+			up.setPassword(password);
+			passwordDao.insert(up);
+		}
+		else{
+			up.setPassword(password);
+			passwordDao.updateByPrimaryKey(up);
+		}
+		
+	}
+	
+	
 
 }

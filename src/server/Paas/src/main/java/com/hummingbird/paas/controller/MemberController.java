@@ -16,10 +16,13 @@ import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.MemberService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.BuyTenderMemberVO;
@@ -30,7 +33,8 @@ import com.hummingbird.paas.vo.QueryMemberProductResultVO;
 @RequestMapping("/member")
 public class MemberController extends BaseController{
 
-
+	@Autowired(required = true)
+	protected AppLogMapper applogDao;
     @Autowired
     private MemberService mservice;
 	@Autowired
@@ -206,4 +210,14 @@ public class MemberController extends BaseController{
 		}
 		return rm;
     }	
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
 }

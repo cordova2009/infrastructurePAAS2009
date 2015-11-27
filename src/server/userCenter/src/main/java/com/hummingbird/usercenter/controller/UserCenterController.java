@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.DESUtil;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
@@ -25,11 +27,13 @@ import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.service.ISmsCodeService;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.UserToken;
+import com.hummingbird.usercenter.entity.AppLog;
 import com.hummingbird.usercenter.entity.User;
 import com.hummingbird.usercenter.entity.UserAuth;
 import com.hummingbird.usercenter.entity.UserBankcard;
 import com.hummingbird.usercenter.entity.UserPassword;
 import com.hummingbird.usercenter.exception.MaAccountException;
+import com.hummingbird.usercenter.mapper.AppLogMapper;
 import com.hummingbird.usercenter.services.GeneralService;
 import com.hummingbird.usercenter.services.TokenService;
 import com.hummingbird.usercenter.services.UserService;
@@ -51,8 +55,10 @@ import com.hummingbird.usercenter.vo.UserBaseInfoVO;
 @RequestMapping("/userCenter")
 public class UserCenterController extends BaseController{
 
-		@Autowired
+	@Autowired
 	UserService userSer;
+	@Autowired
+	AppLogMapper applogDao;
 	@Autowired
 	GeneralService genSer;
 	@Autowired
@@ -63,6 +69,7 @@ public class UserCenterController extends BaseController{
 	ISmsCodeService smsService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@AccessRequered(methodName = "用户注册接口",isJson=false,codebase=210300,appLog=true,convert2javabean=false)
 	public @ResponseBody Object register(HttpServletRequest request) {
 		
 		RegisterVO transorder;
@@ -479,7 +486,15 @@ public class UserCenterController extends BaseController{
 		return rm;
 	}
 	
-	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
 	
 	
 }

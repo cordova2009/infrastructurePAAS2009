@@ -16,6 +16,56 @@ namespace Admin\Controller;
 class ConfigController extends AdminController {
 
     /**
+     * 敏感词列表
+     * @param int $p
+     */
+    public function banwordlist($p=0){
+
+        $this->assign('active_menu','config/banwordlist');
+        $this->assign('add_url','config/addbanword');
+
+        $control = new ThinkController();
+        $control->lists('base_ban_word',$p);
+    }
+
+    /**
+     * 敏感词添加页面
+     */
+    public function addbanword(){
+
+        $this->assign('active_menu','config/banwordlist');
+        $this->assign('form_action','config/addbanword');
+
+        $control = new ThinkController();
+        $control->add(27,'config/banwordlist');
+    }
+
+    /**
+     * 敏感词编辑页面
+     * @param int $id
+     */
+    public function editbanword($id=0){
+
+        $this->assign('active_menu','config/banwordlist');
+        $this->assign('form_action','config/editbanword');
+
+        $control = new ThinkController();
+        $control->edit(27,$id,'config/banwordlist');
+    }
+
+    /**
+     * 敏感词删除
+     * @param int $id
+     */
+    public function delbanword($id=0){
+
+        if(M('base_ban_word')->where(['id'=>intval($id)])->delete()){
+            $this->success('删除成功！');
+        }else{
+            $this->error('删除失败，请重新再试！');
+        }
+    }
+    /**
      *
      */
     public function platformbank(){
@@ -135,6 +185,57 @@ class ConfigController extends AdminController {
         $this->display();
     }
 
+
+    /**
+     * 资质证书删除
+     * @param int $id
+     */
+    public function delcerttype($id=0){
+
+        if(M('base_certification_type')->where(['id'=>intval($id)])->delete()){
+            $this->success('删除成功！');
+        }else{
+            $this->error('删除失败，请重新再试！');
+        }
+    }
+    /**
+     * 资质证书列表
+     * @param int $p
+     */
+    public function certtypelist($p=0){
+
+        $this->assign('active_menu','config/certtypelist');
+        $this->assign('add_url','config/addcerttype');
+
+        $control = new ThinkController();
+        $control->lists('base_certification_type',$p);
+    }
+
+    /**
+     * 资质证书添加页面
+     */
+    public function addcerttype(){
+
+        $this->assign('active_menu','config/certtypelist');
+        $this->assign('form_action','config/addcerttype');
+
+        $control = new ThinkController();
+        $control->add(24,'config/certtypelist');
+    }
+
+    /**
+     * 资质证书编辑页面
+     * @param int $id
+     */
+    public function editcerttype($id=0){
+
+        $this->assign('active_menu','config/certtypelist');
+        $this->assign('form_action','config/editcerttype');
+
+        $control = new ThinkController();
+        $control->edit(24,$id,'config/certtypelist');
+    }
+
     /**
      * 手续费率列表
      * @param int $p
@@ -150,7 +251,6 @@ class ConfigController extends AdminController {
 
     /**
      * 手续费率添加页面
-     * @param int $id
      */
     public function addfeerate(){
 

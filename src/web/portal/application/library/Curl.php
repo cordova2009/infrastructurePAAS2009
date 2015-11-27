@@ -12,9 +12,9 @@ class Curl{
     protected $data;
     public $error;
     
-    public function __construct(){
-    
-        $this->api_url = Yaf\Registry::get('config')->url->api->paas;
+    public function __construct($api_url=null){
+
+        $this->api_url = empty($api_url) ? Yaf\Registry::get('config')->url->api->paas : $api_url;
     }
     
     public function setApiUrl($url){

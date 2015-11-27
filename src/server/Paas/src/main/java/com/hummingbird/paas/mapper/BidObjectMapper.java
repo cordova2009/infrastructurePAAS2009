@@ -10,6 +10,7 @@ import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
@@ -131,6 +132,12 @@ public interface BidObjectMapper {
 	 * @return
 	 */
 	QueryBidIndexSurveyResult selectBidIndexSurvey();
+	/**
+	 * 查询首页招标项目概况接口
+	 * @param id
+	 * @return
+	 */
+	QueryObjectIndexSurveyResult selectObjectIndexSurvey();
 	
 	/**
 	 *查询首页中标项目列表接口

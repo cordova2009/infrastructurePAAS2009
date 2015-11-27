@@ -82,6 +82,7 @@ import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
 import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
@@ -2528,6 +2529,70 @@ public class TenderController extends BaseController {
 		return rm;
 		
 	}
+	
+	/**
+	 * 查询首页招标项目概况接口
+	 * @author YJY
+	 * @since 2015年11月14日19:30:17(补充)
+	 * @return
+	 */
+	@RequestMapping(value="/queryObjectIndexSurvey",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询首页招标项目概况接口")
+	// 框架的日志处理
+	public @ResponseBody ResultModel queryObjectIndexSurvey(HttpServletRequest request,
+			HttpServletResponse response) {
+		String messagebase = "查询首页招标项目概况接口";
+		int basecode = 0;
+		BaseTransVO transorder = null;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class);
+
+		} catch (Exception e) {
+			log.error(String.format("获取%s参数出错",messagebase),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
+			return rm;
+		}
+//		// 预设的一些信息
+		
+//		rm.setBaseErrorCode(basecode);
+		rm.setErrmsg(messagebase + "成功");
+		RequestEvent qe=null ;
+		
+		
+		AppLog rnr = new AppLog();
+		rnr.setAppid(transorder.getApp().getAppId());
+		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+		rnr.setInserttime(new Date());
+		rnr.setMethod("/tender/queryObjectIndexSurvey");
+		
+		try {
+			QueryObjectIndexSurveyResult bis=new QueryObjectIndexSurveyResult();
+			bis = bidObjectDao.selectObjectIndexSurvey();
+			rm.put("info", bis);
+				
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			try {
+				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
+				applogDao.insert(rnr);
+			} catch (DataInvalidException e) {
+				log.error(String.format("日志处理出错"),e);
+			}
+			
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
 	
 
 //	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)

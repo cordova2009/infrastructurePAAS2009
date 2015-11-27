@@ -119,9 +119,25 @@ public class JedisPoolUtils {
 
 
 	public static void main(String[] args) {
-		Jedis jpu = JedisPoolUtils.getJedis();
+		Jedis jpu = JedisPoolUtils.getJedis();		 		
+		Token record=new Token();		
+		record.setAppId("paas");		
+		record.setUserId(46);		
+		record.setToken("11111");		
+		record.setInsertTime(new Date());		
+		record.setUpdateTime(new Date());		
+		record.setExpireIn(3600);		
+ 		String json;
+		try {
+			json = JsonUtil.convert2Json(record);
+			jpu.set("11111", json);		
+		} catch (DataInvalidException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	 		
 		
-		System.out.println(jpu);
+ 		System.out.println(jpu);
+		
 		}
 	}
 

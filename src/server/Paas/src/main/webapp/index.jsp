@@ -48,6 +48,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="购买投标方会员接口"  onclick='setbinding("/member/queryMemberProduct","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"12345\" ,\"productId\":\"1\",\"memberDuration\":3,\"payMethod\":\"CSA\",\"payAmount\":50000   }    }")'  type="button" ></td>
 	    <td><input  value="购买招标方会员列表接口"  onclick='setbinding("/member/buyPrivilegeMember","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"12345\" ,\"productId\":\"1\",\"memberDuration\":3,\"payMethod\":\"CSA\",\"payAmount\":50000   }    }")'  type="button" ></td>
 	</tr>
+	
+	<tr>
+	<tr><td colspan="2">公告管理</td></tr>
+	<tr>
+		<td><input  value="查询最新站点公告（列表）接口"  onclick='setbinding("/siteNews/getSiteNewsList"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"size\":1    }} ")'  type="button" ></td>
+		<td><input  value="查询更多网站公告（列表）接口"  onclick='setbinding("/siteNews/getnoticeList"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"pageIndex\":1,        \"pageSize\":2    }} ")'  type="button" ></td>
+		</tr>
+	
+	<tr>
+		<td colspan="6"></td>
+		<tr><td colspan="2">消息管理</td></tr>
+	<tr>
+	<td><input  value="添加标签"  onclick='setbinding("/tag/insert"," {\"tagName\":\"很好\",\"tagCreateObject\":\"0\",\"tagGroupName\":\"biddee_manager\",\"tagObjectCode\":\"t_qyzz_biddee\",\"businessId\":\"1\"}  ")'  type="button" ></td>
+		<td><input  value="查询标签"  onclick='setbinding("/tag/searchTag"," {\"tagGroupName\":\"biddee_manager\",\"tagObjectCode\":\"t_qyzz_biddee\",\"businessId\":\"1\"}  ")'  type="button" ></td>
+		
+		<td><input  value="查询我的消息（列表）接口"  onclick='setbinding("/myMsg/getMsgList"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"USER_TOKEN\",        \"pageIndex\":1,        \"pageSize\":2    }}  ")'  type="button" ></td>
+		<td><input  value="获取我的消息未读个数接口"  onclick='setbinding("/myMsg/getUnreadMsgNum"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"USER_TOKEN\"   }}  ")'  type="button" ></td>
+		</tr>
+	
 	<tr>
 		<td colspan="6"></td>
 	</tr>

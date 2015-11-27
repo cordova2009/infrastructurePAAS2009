@@ -4,6 +4,7 @@ package com.hummingbird.paas.controller;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
@@ -97,6 +99,7 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
@@ -108,6 +111,12 @@ import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
 import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
+import com.hummingbird.tag.dao.TagDao;
+import com.hummingbird.tag.service.TagmapService;
+import com.hummingbird.tag.web.controller.TagController;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * @author
@@ -148,6 +157,9 @@ public class TenderController extends BaseController {
 	BidderMapper  bidderDao;
 	@Autowired
 	ProjectStatusMapper  psDao;
+	@Autowired
+	TagmapService tagDao;
+	
 	
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
@@ -1712,6 +1724,27 @@ public class TenderController extends BaseController {
 					ter.setObjectName(bo.getObjectName());
 					ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
+//					String  tagJson = tagDao.searchTag(request);
+					
+//					---------------------------------------------------------------------
+					Map<String, Object> map = new HashMap<String, Object>();
+		    		map.put("business_id", "");
+		    		map.put("tag_group_id", "");
+		    		map.put("tag_object_id", "");
+		    		List<Map<String, Object>> maps = tagDao.findMaps(map);
+		    		
+					List<TagInfo> Taglist = new ArrayList<TagInfo>();
+					for(Map<String, Object> m: maps){
+						TagInfo tagInfo = new TagInfo();
+						String tagName = m.get("tag_name")!= null?String.valueOf(m.get("tag_name")):"";
+						Integer tagNum = m.get("tab_use_num")!= null?Integer.valueOf(m.get("tab_use_num").toString()):0;
+						tagInfo.setTagName(tagName);
+						tagInfo.setTagNum(tagNum);
+						
+						Taglist.add(tagInfo);
+					}
+					ter.setTag(Taglist);
+				
 				}		
 			
 			rm.put("evaluateInfo", ter);

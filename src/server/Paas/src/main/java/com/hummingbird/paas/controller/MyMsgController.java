@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
+import com.hummingbird.common.event.EventListenerContainer;
+import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.exception.TokenException;
+import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.services.MymsgService;
+import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.GetMsgListResultVO;
 import com.hummingbird.paas.vo.GetMsgListVO;
 import com.hummingbird.paas.vo.MemberQueryMemberInfoVO;
@@ -21,64 +26,98 @@ import com.hummingbird.paas.vo.MemberQueryMemberInfoVO;
 public class MyMsgController extends BaseController {
 	 @Autowired
 	 MymsgService msgSer;
+	 @Autowired
+	 TokenService tokenSrv;
 	 @RequestMapping(value = "/getMsgList", method = RequestMethod.POST)
 		public @ResponseBody ResultModel queryMemberInfo(HttpServletRequest request) {
 			if(log.isDebugEnabled()){
-				log.debug("查询会员方法中");
+				log.debug("查询我的消息列表中");
 			}
 			GetMsgListVO transorder;
+			RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
 			ResultModel rm = new ResultModel();
-			String messagebase = "查询会员";
+			String messagebase = "查询我的消息列表";
 			rm.setBaseErrorCode(280100);
 			rm.setErrmsg(messagebase+"成功");
-			String token = null;
+//			String token = null;
 			try {
 				String jsonstr = RequestUtil.getRequestPostData(request);
 				request.setAttribute("rawjson", jsonstr);
 				transorder = RequestUtil.convertJson2Obj(jsonstr, GetMsgListVO.class);
-			    token = transorder.getBody().getToken();
+//			    token = transorder.getBody().getToken();
 			} catch (Exception e) {
 				log.error(String.format("参数转化出错"),e);
-				rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+				rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数"));
 				return rm;
 			}
-			Integer pageSize = transorder.getBody().getPageSize();
-			Integer pageIndex = transorder.getBody().getPageIndex();
-			GetMsgListResultVO gv = msgSer.getMsgList(token, pageIndex, pageSize);
-			if(gv!=null){
-			     rm.put("data",gv.getData());
-			     rm.put("total",gv.getTotal());
-			}else{
-				rm.setErrcode(280110);
-				rm.setErrmsg("查询得到结果为空");
-			}
-			if(log.isDebugEnabled()){
-				log.debug("查询会员信息参数成功");
+			try {
+				// 业务数据必填等校验
+				Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+				if (token == null) {
+					log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+					
+						throw new TokenException("token验证失败,或已过期,请重新登录");
+					
+				}
+				Integer pageSize = transorder.getBody().getPageSize();
+				Integer pageIndex = transorder.getBody().getPageIndex();
+				GetMsgListResultVO gv = msgSer.getMsgList(token.getToken(), pageIndex, pageSize);
+				if(gv!=null){
+				     rm.put("data",gv.getData());
+				     rm.put("total",gv.getTotal());
+				}else{
+					rm.setErrcode(280110);
+					rm.setErrmsg("查询得到结果为空");
+				}
+				if(log.isDebugEnabled()){
+					log.debug("查询我的消息列表");
+				}
+				rm.put("pageIndex", pageIndex);
+				rm.put("pageSize", pageSize);
+			} catch (Exception e1) {
+				log.error(String.format(messagebase + "失败"), e1);
+				rm.mergeException(e1);
+				if (qe != null)
+					qe.setSuccessed(false);
+			} finally {
+				if (qe != null)
+					EventListenerContainer.getInstance().fireEvent(qe);
 			}
 			return rm;
 	    }	
 	    @RequestMapping(value = "/getUnreadMsgNum"/*, method = RequestMethod.POST*/)
 		public @ResponseBody ResultModel getUnreadMsgNum(HttpServletRequest request) {
 			if(log.isDebugEnabled()){
-				log.debug("取我的消息未读个数接口");
+				log.debug("取我的未读消息个数接口");
 			}
 			MemberQueryMemberInfoVO transorder;
+			RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
 			ResultModel rm = new ResultModel();
 			String messagebase = "取我的消息未读个数接口";
 			rm.setBaseErrorCode(280100);
 			rm.setErrmsg(messagebase+"成功");
-			String token = null;
+//			String token = null;
 			try {
 				String jsonstr = RequestUtil.getRequestPostData(request);
 				request.setAttribute("rawjson", jsonstr);
 				transorder = RequestUtil.convertJson2Obj(jsonstr, MemberQueryMemberInfoVO.class);
-			    token = transorder.getBody().getToken();
+//			    token = transorder.getBody().getToken();
 			} catch (Exception e) {
 				log.error(String.format("参数转化出错"),e);
-				rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+				rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数"));
 				return rm;
 			}
-		    Integer count  = msgSer.getUnreadMsgNum(token);
+			try {
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				
+				
+						throw new TokenException("token验证失败,或已过期,请重新登录");
+				
+			}
+		    Integer count  = msgSer.getUnreadMsgNum(token.getToken());
 		    System.out.println(count);
 		    if(count==null){
 		    	log.error("获取数据为空");
@@ -88,7 +127,17 @@ public class MyMsgController extends BaseController {
 		    }
 		    rm.put("unreadMsgNum", count);
 		    if(log.isDebugEnabled()){
-				log.debug("取我的消息未读个数接口完成");
+				log.debug("取我的未读消息个数接口完成");
+			}
+		
+			} catch (Exception e1) {
+				log.error(String.format(messagebase + "失败"), e1);
+				rm.mergeException(e1);
+				if (qe != null)
+					qe.setSuccessed(false);
+			} finally {
+				if (qe != null)
+					EventListenerContainer.getInstance().fireEvent(qe);
 			}
 			return rm;
 	    }	

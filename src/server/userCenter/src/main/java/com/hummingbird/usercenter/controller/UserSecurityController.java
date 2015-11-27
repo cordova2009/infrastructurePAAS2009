@@ -215,7 +215,7 @@ public class UserSecurityController extends BaseController{
 			//尝试进行解密
 			if(StringUtils.isNotBlank(body.getLoginPassword())){
 				try {
-					String tradePassword = DESUtil.decodeDES(body.getLoginPassword(), appkey);
+					String tradePassword = DESUtil.decodeDESwithCBC(body.getLoginPassword(), appkey);
 					password.setPassword(tradePassword);
 					userSer.updateUserPassword(password);
 				} catch (Exception e) {
@@ -281,7 +281,7 @@ public class UserSecurityController extends BaseController{
 			String oldLoginPassword=null;
 			if(StringUtils.isNotBlank(body.getOldLoginPassword())){
 				try {
-					oldLoginPassword= DESUtil.decodeDES(body.getOldLoginPassword(), appkey);
+					oldLoginPassword= DESUtil.decodeDESwithCBC(body.getOldLoginPassword(), appkey);
 					
 				} catch (Exception e) {
 					log.error(String.format("登录密码des解密出错"),e);
@@ -298,7 +298,7 @@ public class UserSecurityController extends BaseController{
 			}
 			if(StringUtils.isNotBlank(body.getNewLoginPassword())){
 				try {
-					String newLoginPassword = DESUtil.decodeDES(body.getNewLoginPassword(), appkey);
+					String newLoginPassword = DESUtil.decodeDESwithCBC(body.getNewLoginPassword(), appkey);
 					userPassword.setPassword(newLoginPassword);
 					userSer.updateUserPassword(userPassword);
 				} catch (Exception e) {
@@ -364,7 +364,7 @@ public class UserSecurityController extends BaseController{
 			String tradePassword =null;
 			if(StringUtils.isNotBlank(body.getOldTradePassword())){
 				try {
-					tradePassword = DESUtil.decodeDES(body.getOldTradePassword(), appkey);
+					tradePassword = DESUtil.decodeDESwithCBC(body.getOldTradePassword(), appkey);
 					
 				} catch (Exception e) {
 					log.error(String.format("支付密码des解密出错"),e);
@@ -381,7 +381,7 @@ public class UserSecurityController extends BaseController{
 			}
 			if(StringUtils.isNotBlank(body.getNewTradePassword())){
 				try {
-					String newtradePassword = DESUtil.decodeDES(body.getNewTradePassword(), appkey);
+					String newtradePassword = DESUtil.decodeDESwithCBC(body.getNewTradePassword(), appkey);
 					userPassword.setTradePassword(newtradePassword);
 					userSer.updateUserPassword(userPassword);
 				} catch (Exception e) {
@@ -455,7 +455,7 @@ public class UserSecurityController extends BaseController{
 			String oldLoginPassword=null;
 			if(StringUtils.isNotBlank(body.getLoginPassword())){
 				try {
-					oldLoginPassword= DESUtil.decodeDES(body.getLoginPassword(), appkey);
+					oldLoginPassword= DESUtil.decodeDESwithCBC(body.getLoginPassword(), appkey);
 					
 				} catch (Exception e) {
 					log.error(String.format("登录密码des解密出错"),e);

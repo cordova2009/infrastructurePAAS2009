@@ -108,7 +108,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		//尝试进行解密
 		if(StringUtils.isNotBlank(body.getTradePassword())){
 			try {
-				String tradePassword = DESUtil.decodeDES(body.getTradePassword(), appkey);
+				String tradePassword = DESUtil.decodeDESwithCBC(body.getTradePassword(), appkey);
 				password.setTradePassword(tradePassword);
 			} catch (Exception e) {
 				log.error(String.format("支付密码des解密出错"),e);
@@ -118,7 +118,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		}
 		if(StringUtils.isNotBlank(body.getLoginPassword())){
 			try {
-				String loginPassword = DESUtil.decodeDES(body.getLoginPassword(), appkey);
+				String loginPassword = DESUtil.decodeDESwithCBC(body.getLoginPassword(), appkey);
 				password.setPassword(loginPassword);
 			} catch (Exception e) {
 				log.error(String.format("登录密码des解密出错"),e);

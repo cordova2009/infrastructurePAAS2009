@@ -90,8 +90,12 @@
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
   </resultMap>
     <resultMap id="QueryBidIndexSurveyResultMap" type="com.hummingbird.paas.vo.QueryBidIndexSurveyResult" >
-    <result column="bidNum" property="bidNum" jdbcType="VARCHAR" />
-    <result column="amount" property="amount" jdbcType="VARCHAR" />
+    <result column="bidNum" property="bidNum" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    </resultMap>
+     <resultMap id="QueryObjectIndexSurveyResultMap" type="com.hummingbird.paas.vo.QueryObjectIndexSurveyResult" >
+    <result column="objectNum" property="objectNum" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
     </resultMap>
     <resultMap id="QueryBidIndexListResultMap" type="com.hummingbird.paas.vo.QueryBidIndexListResult" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
@@ -246,6 +250,10 @@
   <select id="selectBidIndexSurvey" resultMap="QueryBidIndexSurveyResultMap">
     select count(a.object_id) bidNum,IFNULL(sum(a.win_bid_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id
         where a.object_status = 'SEL' 
+    </select>
+    <select id="selectObjectIndexSurvey" resultMap="QueryObjectIndexSurveyResultMap">
+     select count(a.object_id) objectNum,IFNULL(sum(a.object_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id
+        where a.object_status = 'PUB'  OR a.object_status = 'REV'
     </select>
      <select id="selectTotalBidIndexList" resultType="int">
    	 select count(a.object_id) from t_ztgl_object a 

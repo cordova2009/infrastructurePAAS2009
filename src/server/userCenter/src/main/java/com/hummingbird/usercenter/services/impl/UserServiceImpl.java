@@ -94,6 +94,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public void saveUser(RegisterBodyVO body,String appId,String appkey) throws ValidateException{
+			
 		//保存用户信息
 		User user = new User();
 		user.setInsertTime(new Date());
@@ -108,7 +109,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		//尝试进行解密
 		if(StringUtils.isNotBlank(body.getTradePassword())){
 			try {
-				String tradePassword = DESUtil.decodeDES(body.getTradePassword(), appkey);
+				String tradePassword = DESUtil.decodeDESwithCBC(body.getTradePassword(), appkey);
 				password.setTradePassword(tradePassword);
 			} catch (Exception e) {
 				log.error(String.format("支付密码des解密出错"),e);
@@ -118,7 +119,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		}
 		if(StringUtils.isNotBlank(body.getLoginPassword())){
 			try {
-				String loginPassword = DESUtil.decodeDES(body.getLoginPassword(), appkey);
+				String loginPassword = DESUtil.decodeDESwithCBC(body.getLoginPassword(), appkey);
 				password.setPassword(loginPassword);
 			} catch (Exception e) {
 				log.error(String.format("登录密码des解密出错"),e);
@@ -126,10 +127,33 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 				
 			}
 		}
+			
 		password.setUserId(user.getId());
 		passwordDao.insert(password);
 		//保存实名认证信息
 		UserAuth auth=new UserAuth();
+		//尝试进行解密
+		if(StringUtils.isNotBlank(body.getRealName())){
+			try {
+				String realName = DESUtil.decodeDESwithCBC(body.getRealName(), appkey);
+				auth.setRealName(realName);
+			} catch (Exception e) {
+				log.error(String.format("支付密码des解密出错"),e);
+				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e,"支付密码des解密出错");
+				
+			}
+		}
+		if(StringUtils.isNotBlank(body.getCardID())){
+			try {
+				String cardId = DESUtil.decodeDESwithCBC(body.getCardID(), appkey);
+				auth.setIdentityNo(cardId);
+			} catch (Exception e) {
+				log.error(String.format("登录密码des解密出错"),e);
+				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e,"登录密码des解密出错");
+				
+			}
+		}				
+		
 		auth.setIdentityNo(body.getCardID());
 		auth.setRealName(body.getRealName());
 		auth.setUserId(user.getId());

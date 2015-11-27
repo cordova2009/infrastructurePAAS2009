@@ -54,18 +54,7 @@ public class SiteNewsController extends BaseController{
 		Integer size = transorder.getBody().getSize();
 		if(size!=null){
 			List<GetSiteNewsListResultVO> uns = siteSer.getSiteNewsList(size);
-            if(uns!=null){
-            	String list;
-				try {
-					list = JsonUtil.convert2Json(uns);
-					rm.put("list",list);
-				} catch (DataInvalidException e) {
-					// TODO Auto-generated catch block
-					log.error(String.format("查找到的最新站点转成字符串失败"),e);
-					rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-					return rm;
-				}
-            }			
+            rm.put("list", uns);		
 		}else{
 			if(log.isDebugEnabled()){
 				log.debug("查询会员信息出错传入页数出错");
@@ -108,15 +97,9 @@ public class SiteNewsController extends BaseController{
 		GetNoticeListResultVO gv = siteSer.getNoticeList(pageIndex,pageSize);
 		if(gv!=null){
 		rm.put("total",gv.getTotal());
-		String list;
 			if(gv.getList()!=null){
-				try {
-					list = JsonUtil.convert2Json(gv.getList());
-					rm.put("list", list);
-				} catch (DataInvalidException e) {
-					rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "公告列表转字符串错误"));
-				    return rm;
-				}
+				rm.put("list", gv.getList());
+//				return rm;
 			}else{
 				rm.setErrcode(208012);
 				rm.setErrmsg("查询列表为空");

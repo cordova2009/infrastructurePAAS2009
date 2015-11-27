@@ -102,7 +102,7 @@ public class UserCenterController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			
-			boolean authCodeSuccess = genSer.validateSMSCode(transorder.getApp()
+			/*boolean authCodeSuccess = genSer.validateSMSCode(transorder.getApp()
 					.getAppId(), body.getMobileNum(), body.getSmsCode(),true);
 			if (!authCodeSuccess) {
 				if (log.isDebugEnabled()) {
@@ -110,7 +110,7 @@ public class UserCenterController extends BaseController{
 				}
 				rm.mergeException(ValidateException.ERROR_MATCH_SMSCODE);
 				return rm;
-			}
+			}*/
 			
 			User user=userSer.queryUserByMobile(body.getMobileNum());
 			if(user!=null){
@@ -191,7 +191,7 @@ public class UserCenterController extends BaseController{
 			String loginPassword=null;
 			if(StringUtils.isNotBlank(body.getLoginPassword())){
 				try {
-					loginPassword = DESUtil.decodeDES(body.getLoginPassword(), appkey);
+					loginPassword = DESUtil.decodeDESwithCBC(body.getLoginPassword(), appkey);
 					
 				} catch (Exception e) {
 					log.error(String.format("登录密码des解密出错"),e);

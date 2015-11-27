@@ -4,6 +4,7 @@ package com.hummingbird.paas.controller;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
@@ -82,6 +84,7 @@ import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
 import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
@@ -96,6 +99,7 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
@@ -107,6 +111,12 @@ import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
 import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
+import com.hummingbird.tag.dao.TagDao;
+import com.hummingbird.tag.service.TagmapService;
+import com.hummingbird.tag.web.controller.TagController;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * @author
@@ -147,6 +157,9 @@ public class TenderController extends BaseController {
 	BidderMapper  bidderDao;
 	@Autowired
 	ProjectStatusMapper  psDao;
+	@Autowired
+	TagmapService tagDao;
+	
 	
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
@@ -1711,6 +1724,27 @@ public class TenderController extends BaseController {
 					ter.setObjectName(bo.getObjectName());
 					ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
+//					String  tagJson = tagDao.searchTag(request);
+					
+//					---------------------------------------------------------------------
+					Map<String, Object> map = new HashMap<String, Object>();
+		    		map.put("business_id", "");
+		    		map.put("tag_group_id", "");
+		    		map.put("tag_object_id", "");
+		    		List<Map<String, Object>> maps = tagDao.findMaps(map);
+		    		
+					List<TagInfo> Taglist = new ArrayList<TagInfo>();
+					for(Map<String, Object> m: maps){
+						TagInfo tagInfo = new TagInfo();
+						String tagName = m.get("tag_name")!= null?String.valueOf(m.get("tag_name")):"";
+						Integer tagNum = m.get("tab_use_num")!= null?Integer.valueOf(m.get("tab_use_num").toString()):0;
+						tagInfo.setTagName(tagName);
+						tagInfo.setTagNum(tagNum);
+						
+						Taglist.add(tagInfo);
+					}
+					ter.setTag(Taglist);
+				
 				}		
 			
 			rm.put("evaluateInfo", ter);
@@ -2528,6 +2562,70 @@ public class TenderController extends BaseController {
 		return rm;
 		
 	}
+	
+	/**
+	 * 查询首页招标项目概况接口
+	 * @author YJY
+	 * @since 2015年11月14日19:30:17(补充)
+	 * @return
+	 */
+	@RequestMapping(value="/queryObjectIndexSurvey",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询首页招标项目概况接口")
+	// 框架的日志处理
+	public @ResponseBody ResultModel queryObjectIndexSurvey(HttpServletRequest request,
+			HttpServletResponse response) {
+		String messagebase = "查询首页招标项目概况接口";
+		int basecode = 0;
+		BaseTransVO transorder = null;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class);
+
+		} catch (Exception e) {
+			log.error(String.format("获取%s参数出错",messagebase),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
+			return rm;
+		}
+//		// 预设的一些信息
+		
+//		rm.setBaseErrorCode(basecode);
+		rm.setErrmsg(messagebase + "成功");
+		RequestEvent qe=null ;
+		
+		
+		AppLog rnr = new AppLog();
+		rnr.setAppid(transorder.getApp().getAppId());
+		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+		rnr.setInserttime(new Date());
+		rnr.setMethod("/tender/queryObjectIndexSurvey");
+		
+		try {
+			QueryObjectIndexSurveyResult bis=new QueryObjectIndexSurveyResult();
+			bis = bidObjectDao.selectObjectIndexSurvey();
+			rm.put("info", bis);
+				
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			try {
+				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
+				applogDao.insert(rnr);
+			} catch (DataInvalidException e) {
+				log.error(String.format("日志处理出错"),e);
+			}
+			
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
 	
 
 //	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)

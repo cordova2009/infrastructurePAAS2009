@@ -3,6 +3,8 @@ package com.hummingbird.paas.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.hummingbird.paas.entity.Tag;
+
 public class TendererEvaluateReturnVO {
 //	 "evaluateInfo":{
 //    "bidderId":5,
@@ -28,7 +30,7 @@ public class TendererEvaluateReturnVO {
 	private String companyEvaluateNum;
 	private String   startTime;
 	private String   endTime;
-	private List tag;
+	private List<TagInfo> tag;
 	/**
 	 * @return the bidderId
 	 */
@@ -52,6 +54,12 @@ public class TendererEvaluateReturnVO {
 	 */
 	public String getObjectName() {
 		return objectName;
+	}
+	/**
+	 * @return the winBidTime
+	 */
+	public String getWinBidTime() {
+		return winBidTime;
 	}
 	/**
 	 * @return the winBidAmount
@@ -86,7 +94,7 @@ public class TendererEvaluateReturnVO {
 	/**
 	 * @return the tag
 	 */
-	public List getTag() {
+	public List<TagInfo> getTag() {
 		return tag;
 	}
 	/**
@@ -112,6 +120,12 @@ public class TendererEvaluateReturnVO {
 	 */
 	public void setObjectName(String objectName) {
 		this.objectName = objectName;
+	}
+	/**
+	 * @param winBidTime the winBidTime to set
+	 */
+	public void setWinBidTime(String winBidTime) {
+		this.winBidTime = winBidTime;
 	}
 	/**
 	 * @param winBidAmount the winBidAmount to set
@@ -146,7 +160,7 @@ public class TendererEvaluateReturnVO {
 	/**
 	 * @param tag the tag to set
 	 */
-	public void setTag(List tag) {
+	public void setTag(List<TagInfo> tag) {
 		this.tag = tag;
 	}
 	/* (non-Javadoc)
@@ -155,23 +169,11 @@ public class TendererEvaluateReturnVO {
 	@Override
 	public String toString() {
 		return "TendererEvaluateReturnVO [bidderId=" + bidderId + ", bidderCompanyName=" + bidderCompanyName
-				+ ", objectId=" + objectId + ", objectName=" + objectName + ", winBidAmount=" + winBidAmount
-				+ ", companyEvaluateScore=" + companyEvaluateScore + ", companyEvaluateNum=" + companyEvaluateNum
-				+ ", startTime=" + startTime + ", endTime=" + endTime + ", tag=" + tag + "]";
+				+ ", objectId=" + objectId + ", objectName=" + objectName + ", winBidTime=" + winBidTime
+				+ ", winBidAmount=" + winBidAmount + ", companyEvaluateScore=" + companyEvaluateScore
+				+ ", companyEvaluateNum=" + companyEvaluateNum + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", tag=" + tag + "]";
 	}
-	/**
-	 * @return the winBidTime
-	 */
-	public String getWinBidTime() {
-		return winBidTime;
-	}
-	/**
-	 * @param winBidTime the winBidTime to set
-	 */
-	public void setWinBidTime(String winBidTime) {
-		this.winBidTime = winBidTime;
-	}
-	
 	
 	
 }

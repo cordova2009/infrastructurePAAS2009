@@ -12,10 +12,13 @@ import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.MymsgService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.vo.GetMsgListResultVO;
@@ -28,6 +31,9 @@ public class MyMsgController extends BaseController {
 	 MymsgService msgSer;
 	 @Autowired
 	 TokenService tokenSrv;
+	@Autowired
+	AppLogMapper applogDao;
+		
 	 @RequestMapping(value = "/getMsgList", method = RequestMethod.POST)
 		public @ResponseBody ResultModel queryMemberInfo(HttpServletRequest request) {
 			if(log.isDebugEnabled()){
@@ -141,4 +147,14 @@ public class MyMsgController extends BaseController {
 			}
 			return rm;
 	    }	
+		
+		/**
+		 * 写日志,需要由子类实现
+		 * @param applog
+		 */
+		protected void writeAppLog(AbstractAppLog applog) {
+			if(applog!=null){
+				applogDao.insert(new AppLog(applog));
+			}
+		}
 }

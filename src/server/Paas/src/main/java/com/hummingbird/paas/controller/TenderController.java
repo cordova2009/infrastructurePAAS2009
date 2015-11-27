@@ -30,11 +30,11 @@ import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
-import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -141,7 +141,6 @@ public class TenderController extends BaseController {
 	protected MyBiddeeService myBiddeeService;
 	@Autowired
 	UserService userSer;
-
 	@Autowired
 	protected BidObjectMapper bidObjectDao;
 	@Autowired
@@ -2670,5 +2669,15 @@ public class TenderController extends BaseController {
 //		}		
 //		return rm;
 //	}
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
 	
 }

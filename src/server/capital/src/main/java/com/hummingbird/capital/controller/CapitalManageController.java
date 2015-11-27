@@ -14,22 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hummingbird.common.controller.BaseController;
-import com.hummingbird.common.exception.ValidateException;
-import com.hummingbird.common.face.Pagingnation;
-import com.hummingbird.common.util.DateUtil;
-import com.hummingbird.common.util.PropertiesUtil;
-import com.hummingbird.common.util.RequestUtil;
-import com.hummingbird.common.util.ValidateUtil;
-import com.hummingbird.common.vo.ResultModel;
-import com.hummingbird.commonbiz.service.IAuthenticationService;
-import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.capital.entity.AppLog;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.RechargeApply;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.WithdrawApply;
 import com.hummingbird.capital.exception.MaAccountException;
+import com.hummingbird.capital.mapper.AppLogMapper;
 import com.hummingbird.capital.services.CapitalManageService;
 import com.hummingbird.capital.services.OrderService;
 import com.hummingbird.capital.services.UserService;
@@ -49,15 +41,26 @@ import com.hummingbird.capital.vo.RechargeApplyBodyVO;
 import com.hummingbird.capital.vo.RechargeApplyReturnVO;
 import com.hummingbird.capital.vo.SuccessRechargeBodyVO;
 import com.hummingbird.capital.vo.SuccessWithdrawalsBodyVO;
+import com.hummingbird.capital.vo.TokenBodyVO;
 import com.hummingbird.capital.vo.TokenQueryVO;
 import com.hummingbird.capital.vo.TokenVO;
-import com.hummingbird.capital.vo.TokenBodyVO;
 import com.hummingbird.capital.vo.TransactionRecordsReturnVO;
 import com.hummingbird.capital.vo.UnfreezeBondVO;
 import com.hummingbird.capital.vo.UnfreezeVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyListReturnVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyVO;
+import com.hummingbird.common.controller.BaseController;
+import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
+import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.PropertiesUtil;
+import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.service.IAuthenticationService;
+import com.hummingbird.commonbiz.vo.BaseTransVO;
 
 @Controller
 
@@ -71,6 +74,8 @@ public class CapitalManageController extends BaseController{
 	OrderService orderSer;
 	@Autowired
 	IAuthenticationService authService;
+	@Autowired
+	AppLogMapper applogDao;
 	
 	
 	@RequestMapping(value = "/queryMyCapitalSurvey", method = RequestMethod.POST)
@@ -790,5 +795,15 @@ public class CapitalManageController extends BaseController{
 			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
 		}
 		return rm;
+	}
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
 	}
 }

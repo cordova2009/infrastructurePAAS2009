@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.SiteNewsService;
 import com.hummingbird.paas.vo.GetNoticeListResultVO;
 import com.hummingbird.paas.vo.GetNoticeListVO;
@@ -26,6 +29,9 @@ import com.hummingbird.paas.vo.GetSiteNewsListVO;
 public class SiteNewsController extends BaseController{ 
    @Autowired
    SiteNewsService siteSer;
+	@Autowired
+	AppLogMapper applogDao;
+	
    @RequestMapping(value = "/getSiteNewsList", method = RequestMethod.POST)
  	public @ResponseBody ResultModel queryMemberInfo(HttpServletRequest request) {
  		if(log.isDebugEnabled()){
@@ -107,4 +113,14 @@ public class SiteNewsController extends BaseController{
 		return rm;
   
   }
+	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
 }

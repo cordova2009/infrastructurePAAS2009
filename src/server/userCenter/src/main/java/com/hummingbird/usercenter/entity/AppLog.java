@@ -1,4 +1,4 @@
-package com.hummingbird.paas.entity;
+package com.hummingbird.usercenter.entity;
 
 import java.util.Date;
 

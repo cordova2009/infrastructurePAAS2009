@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.ProjectAccount;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.services.UserService;
-import com.hummingbird.paas.vo.CapitalSurveyReturnVO;
 import com.hummingbird.paas.vo.ObjectBodyVO;
 import com.hummingbird.paas.vo.ObjectVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
@@ -32,6 +33,8 @@ public class TenderProjectController extends BaseController{
 	UserService userSer;
 	@Autowired
 	ProjectService projectSer;
+	@Autowired
+	AppLogMapper applogDao;
 	
 	@RequestMapping(value = "/queryMyPaymentList", method = RequestMethod.POST)
 	public @ResponseBody Object queryMyPaymentList(HttpServletRequest request) {
@@ -227,4 +230,13 @@ public class TenderProjectController extends BaseController{
 		return rm;
 	}
 	
+	/**
+	 * 写日志,需要由子类实现
+	 * @param applog
+	 */
+	protected void writeAppLog(AbstractAppLog applog) {
+		if(applog!=null){
+			applogDao.insert(new AppLog(applog));
+		}
+	}
 }

@@ -7,6 +7,48 @@
 */
 class InfoController extends MemberController {
 
+    public function updateMobileAction(){
+
+        if(IS_POST){
+            $new_mobile = I('new_mobile');
+            if(empty($new_mobile)){
+                $this->error('新手机号码不能为空！');
+            }
+            $password = I('password');
+            if(empty($password)){
+                $this->error('登录密码不能为空！');
+            }
+            $sec_sms_code = I('second_sms_code');
+            if(empty($sec_sms_code)){
+                $this->error('验证码不能为空！');
+            }
+
+            $data = ['token'=>$this->user['token']];
+            $data['firstSmsCode'] = I('sms_code');
+            if(empty($data['firstSmsCode'])){
+                $this->error('短信验证码不能为空！');
+            }
+            $data['secondSmsCode'] = I('second_sms_code');
+            if(empty($data['secondSmsCode'])){
+                $this->error('短信验证码不能为空！');
+            }
+            $data['loginPassword'] = encrypt(md5($password),$this->config->api->app->appKey);
+            $data['oldMobileNum'] = $this->user['mobileNum'];
+            $data['newMobileNum'] = $new_mobile;
+
+            $curl = new Curl($this->config->url->api->user);
+
+            $resp = $curl->setData($data)
+                ->send('userSecurity/updateMobileNum');
+
+            if(check_resp($resp)) {
+                $this->success('修改成功！');
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '修改手机号码失败，请重新再试！');
+            }
+        }
+        $this->error('提交方式不正确！');
+    }
 
     /**
      * 修改支付密码

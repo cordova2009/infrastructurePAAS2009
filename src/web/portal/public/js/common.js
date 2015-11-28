@@ -154,9 +154,11 @@ $(function() {
 
     //验证码
     $("#get-sms-code,.get-code").click(function() {
-        var mobile = $.trim($("#mobile").val());
         var $this = $(this);
+
+        var data = {};
         if(!$this.hasClass('no-mobile')){
+            var mobile = $.trim($("#mobile").val());
             if(mobile == ''){
                 layer.alert('请输入手机号码！');
                 return false;
@@ -166,11 +168,12 @@ $(function() {
                 layer.alert('手机号码不合法！');
                 return false;
             }
+            data = {mobile:mobile};
         }
 
         $this.prop("disabled", true);
         $this.addClass('disabled');
-        $.post($this.attr('url') || '/public/sendSmsCode.html',{mobile:mobile}, function (resp) {
+        $.post($this.attr('url') || '/public/sendSmsCode.html',data, function (resp) {
             if(resp.status == '0'){
                 layer.msg(resp.msg,{icon:1});
                 time($this);

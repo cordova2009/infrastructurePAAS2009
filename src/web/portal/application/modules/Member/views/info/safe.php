@@ -74,53 +74,59 @@
                                     <dd class="s3">成功</dd>
                                 </dl>
                             </div>
-                            <div class="phone_form form1 active">
-                                <div class="form_item">
-                                    <div class="lab2">原手机号码</div>
-                                    <div class="value2">137****908</div>
-                                </div>
-                                <div class="form_item">
-                                    <div class="lab2">手机验证码</div>
-                                    <div class="value2">
-                                        <input type="text" class="input1 wid120" >
-                                        <input class="getBtn reg_time" value="获取验证码" type="button">
+                            <form class="ajax-form" method="post" action="<?=U('/member/info/updateMobile')?>" success="update_mobile_success">
+                                <div class="phone_form form1 active">
+                                    <div class="form_item">
+                                        <div class="lab2">原手机号码</div>
+                                        <div class="value2"><?=substr_replace($user['mobileNum'],'*****',3,5)?></div>
+                                    </div>
+                                    <div class="form_item">
+                                        <div class="lab2">手机验证码</div>
+                                        <div class="value2">
+                                            <input id="sms_code" name="sms_code" type="text" class="input1 wid120" >
+                                            <button class="getBtn get-code no-mobile" type="button">获取验证码</button>
+                                        </div>
+                                    </div>
+                                    <div class="form_item">
+                                        <div class="lab2"></div>
+                                        <div class="value2"><a href="javascript:;" class="btn" id="phone_next">下一步</a></div>
                                     </div>
                                 </div>
-                                <div class="form_item">
-                                    <div class="lab2"></div>
-                                    <div class="value2"><a href="javascript:;" class="btn phone_next">下一步</a></div>
-                                </div>
-                            </div>
-                            <div class="phone_form  form2">
-                                <div class="form_item">
-                                    <div class="lab2">手机验证码</div>
-                                    <div class="value2">
-                                        <input type="text" class="input1 " >
+
+                                <div class="phone_form  form2">
+                                    <div class="form_item">
+                                        <div class="lab2">新手机号码</div>
+                                        <div class="value2">
+                                            <input id="mobile" name="new_mobile" type="text" class="input1 " >
+                                        </div>
+                                    </div>
+                                    <div class="form_item">
+                                        <div class="lab2">手机验证码</div>
+                                        <div class="value2">
+                                            <input id="second_sms_code" name="second_sms_code" type="text" class="input1 wid120" >
+                                            <input class="getBtn get-code" value="获取验证码" type="button">
+                                        </div>
+                                    </div>
+                                    <div class="form_item">
+                                        <div class="lab2">登录密码</div>
+                                        <div class="value2">
+                                            <input name="password" type="password" class="input1 " >
+                                        </div>
+                                    </div>
+                                    <div class="form_item">
+                                        <div class="lab2"></div>
+                                        <div class="value2">
+                                            <button type="submit" class="btn">下一步</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form_item">
-                                    <div class="lab2">手机验证码</div>
-                                    <div class="value2">
-                                        <input type="text" class="input1 wid120" >
-                                        <input class="getBtn reg_time" value="获取验证码" type="button">
-                                    </div>
+                                <div class="phone_form form3">
+                                    <span class=" ico i-ok2"></span>
+                                    <div class="auto">绑定手机修改完成<br>5秒后将退出，请重新登录</div>
                                 </div>
-                                <div class="form_item">
-                                    <div class="lab2">登录密码</div>
-                                    <div class="value2">
-                                        <input type="text" class="input1 " >
-                                    </div>
-                                </div>
-                                <div class="form_item">
-                                    <div class="lab2"></div>
-                                    <div class="value2"><a href="javascript:;" class="btn phone_next">下一步</a></div>
-                                </div>
-                            </div>
-                            <div class="phone_form form3">
-                                <span class=" ico i-ok2"></span>
-                                <div class="auto">绑定手机修改完成<br>10秒后将退出，请重新登录</div>
-                            </div>
+                            </form>
                         </div>
+
                     </li>
                     <li>
                         <div class="clear">
@@ -171,14 +177,9 @@
 </div>
 <block name="script">
 <script>
-function update_pwd_success(resp,obj){
-    obj.find('input').val('');
-}
 $(function(){
     $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(1)").addClass('active');
 
-    var i = 0;//step1
-    step(i)
     $(".showBtn").click(function(event) {
         if(!$(this).hasClass('active')){
             $(this).parents(".clear").next(".hide").slideDown();
@@ -186,22 +187,42 @@ $(function(){
         }else{
             $(this).removeClass('active').html("修改");
             $(this).parents(".clear").next(".hide").slideUp();
-            i = 0;
-            step(i)
+            step(0);
         }
     });
-
-    function step(i){
-        $(".phone_line dd").removeClass('active');
-        $(".phone_line dd").eq(i).addClass('active');
-        $(".phone_form ").removeClass('active');
-        $(".phone_form").eq(i).addClass('active');
-    }
-
-    $(".phone_next").click(function() {
-        i++;
-        step(i)
-    });
 })
+
+$("#phone_next").click(function () {
+    var data = {sms_code:$("#sms_code").val()};
+    var loading = layer.load();
+    $.post('<?=U('/public/checkMobileSms')?>',data,function(resp){
+        if(resp.status != '0'){
+            valid = false;
+            layer.alert(resp.msg);
+        }else{
+            step(1);
+        }
+    },'json').always(function () {
+        layer.close(loading);
+    });
+});
+
+function step(i){
+    $(".phone_line dd").removeClass('active');
+    $(".phone_line dd").eq(i).addClass('active');
+    $(".phone_form ").removeClass('active');
+    $(".phone_form").eq(i).addClass('active');
+}
+function update_mobile_success(){
+    step(2);
+    $.getJSON('<?=U('/logout')?>');
+
+    setTimeout(function () {
+        window.location = '<?=U('/logout')?>';
+    },5000)
+}
+function update_pwd_success(resp,obj){
+    obj.find('input').val('');
+}
 </script>
 </block>

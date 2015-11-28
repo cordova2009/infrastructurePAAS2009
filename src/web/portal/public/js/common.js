@@ -67,10 +67,22 @@ function is_mobile(mobile){
 var wait = 30;
 function time(o) {
     if (wait == 0) {
-        o.prop("disabled",false).removeClass('disabled').text('获取校验码');
+        o.prop("disabled",false).removeClass('disabled');
+        var tag_name = o.get(0).tagName.toUpperCase();
+        if(tag_name == 'INPUT'){
+            o.val('获取验证码');
+        }else if(tag_name == 'BUTTON'){
+            o.text('获取验证码');
+        }
         wait = 30;
     } else {
-        o.text("获取校验码"+wait)
+        var tag_name = o.get(0).tagName.toUpperCase();
+        if(tag_name == 'INPUT'){
+            o.val("重新获取"+wait)
+        }else if(tag_name == 'BUTTON'){
+            o.text("重新获取"+wait)
+        }
+
         wait--;
         setTimeout(function() {time(o)},1000)
     }
@@ -143,18 +155,18 @@ $(function() {
     //验证码
     $("#get-sms-code,.get-code").click(function() {
         var mobile = $.trim($("#mobile").val());
-        if(mobile == ''){
-            layer.alert('请输入手机号码！');
-            return false;
-        }
-
-        if(is_mobile(mobile))
-        {
-            layer.alert('手机号码不合法！');
-            return false;
-        }
-
         var $this = $(this);
+        if(!$this.hasClass('no-mobile')){
+            if(mobile == ''){
+                layer.alert('请输入手机号码！');
+                return false;
+            }
+
+            if(is_mobile(mobile)){
+                layer.alert('手机号码不合法！');
+                return false;
+            }
+        }
 
         $this.prop("disabled", true);
         $this.addClass('disabled');

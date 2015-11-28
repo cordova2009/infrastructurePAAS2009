@@ -91,7 +91,12 @@ class PublicController extends MallController {
     public function sendSmsCodeAction(){
 
         $mobileNum = trim($this->getRequest()->getPost('mobile',''));
+        if(empty($mobileNum) && is_login()){
+
+            $mobileNum = is_login();
+        }
         if(empty($mobileNum)){
+
             $this->error('手机号码不能为空！');
         }
 

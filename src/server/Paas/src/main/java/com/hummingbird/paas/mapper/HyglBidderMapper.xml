@@ -96,4 +96,8 @@
       end_time = #{endTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getMemberContent" resultType="String" parameterType="java.lang.String" >
+   SELECT e.privilege FROM t_ddgl_member_product_privilege e,t_ddgl_member_product_attr r WHERE e.`product_id`=r.`product_id` AND r.`member_type`='TER' 
+   AND r.`level`=#{memberLevel,jdbcType=VARCHAR}
+  </select>
 </mapper>

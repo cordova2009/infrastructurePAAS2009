@@ -83,7 +83,7 @@
         expireIn = #{expireIn,jdbcType=INTEGER},
       </if>
       <if test="appId != null" >
-        expireIn = #{appId,jdbcType=VARCHAR},
+        appId = #{appId,jdbcType=VARCHAR},
       </if>
       <if test="insertTime != null" >
         insertTime = #{insertTime,jdbcType=TIMESTAMP},

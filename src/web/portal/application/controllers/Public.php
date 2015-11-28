@@ -7,22 +7,81 @@
 */
 class PublicController extends MallController {
 
+    public function logoutAction(){
+
+        session('user_auth',null);
+        $this->redirect(U('/login'));
+    }
+    /**
+     * 登录
+     */
     public function loginAction(){
 
         if(IS_POST){
+            $data                   = [];
+            $data['mobileNum']      = I('username');
+            $data['loginPassword']  = encrypt(md5(I('password')),$this->config->api->app->appKey);
 
+            $curl = new Curl($this->config->url->api->user);
+
+            $resp = $curl->setData($data)->send('userCenter/login');
+
+            if(!check_resp($resp)) {
+
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '登录失败，请重新再试！');
+            }
+
+            $user = $resp['user'];
+            $resp = $curl->setData(['token'=>$resp['user']['token']])
+                        ->send('userCenter/getUserBaseInfo');
+            if(check_resp($resp)){
+                session('user_auth',array_merge($user,$resp['user']));
+                $this->success('登录成功！',U('index'));
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '登录失败，请重新再试！');
+            }
         }
 
-        $this->layout->title = '用户登录';
-        $this->layout->no_footer = true;
+        $this->layout->meta_title = '用户登录';
     }
 
     public function registerAction(){
         if(IS_POST){
+            $data                   = [];
+            $data['mobileNum']      = I('mobile');
+            $data['nickname']       = I('nickname');
+            $data['smsCode']        = I('sms_code');
+            $data['realName']       = encrypt(I('real_name'),$this->config->api->app->appKey);
+            $data['cardID']         = encrypt(I('id_num'),$this->config->api->app->appKey);
+            $data['loginPassword']  = encrypt(md5(I('password')),$this->config->api->app->appKey);
+            $data['tradePassword']  = encrypt(md5(I('trade_password')),$this->config->api->app->appKey);
 
+            $curl = new Curl($this->config->url->api->user);
+            //调用实名认证接口
+//            $resp = $curl->setData([])->send('userSecurity/isRealName');
+
+            $resp = $curl->setData($data)->send('userCenter/register');
+
+            if(check_resp($resp)){
+                $this->success('');
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '注册失败，请重新再试！');
+            }
         }
 
-        $this->layout->title = '用户注册';
+        $this->layout->meta_title = '用户注册';
+    }
+
+    public function regCheckAction(){
+        $mobile = $this->getRequest()->getPost('mobile');
+        $sms_code = $this->getRequest()->getPost('sms_code');
+
+        $return = test_mobile_sms($mobile,$sms_code);
+        if(is_bool($return) && $return){
+            $this->success('');
+        }else{
+            $this->error($return);
+        }
     }
 
     public function forgetAction(){
@@ -36,16 +95,13 @@ class PublicController extends MallController {
             $this->error('手机号码不能为空！');
         }
 
-        $code = mt_rand(1000,9999);
-        $data = $this->config->url->api->sms->toArray();
-
-        if(send_sms($mobileNum,sprintf($data['content'],$code))){
-
+        if(send_sms($mobileNum)){
             //将短信验证码、手机、创建时间保存至会话中
-            session('MobileSmsCode',['code'=>$code,'time'=>time(),'mobile'=>$mobileNum]);
             $this->success('验证码发送成功！');
         }else{
             $this->error('验证码发送失败，请重新再试！');
         }
     }
+
+
 }

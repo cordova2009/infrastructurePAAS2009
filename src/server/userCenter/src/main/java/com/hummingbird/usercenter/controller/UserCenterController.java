@@ -263,7 +263,7 @@ public class UserCenterController extends BaseController{
 			UserBaseInfoVO userInfo=new UserBaseInfoVO();
 			userInfo.setAddress(user.getAddress());
 			userInfo.setEmail(user.getEmail());
-			userInfo.setHeadImageUrl(user.getEmail());
+			userInfo.setHeadImageUrl(user.getHeadImage());
 			userInfo.setMobileNum(user.getMobileNum());
 			userInfo.setNickname(user.getNickName());
 			UserAuth userAuth=userSer.queryUserAuth(user.getId());

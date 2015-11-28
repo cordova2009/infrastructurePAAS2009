@@ -76,7 +76,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("根据用户id[%s]查找不到用户",userToken.getUserId()));
 				}
-				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("根据用户id[%s]查找不到用户",userToken.getUserId()));
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,"根据用户编号查找不到用户");
 				
 			}
 			else{
@@ -87,7 +87,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("token[%s]无效",token));
 			}
-			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("token[%s]无效或已过期,请重新登录",token));
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("用户登录已失效,请重新登录",token));
 			
 		}
 	}

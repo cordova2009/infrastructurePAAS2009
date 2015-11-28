@@ -43,7 +43,7 @@ public class TokenServiceImpl implements TokenService {
 		{
 			if(isOvertime(to)){
 				if (log.isDebugEnabled()) {
-					log.debug(String.format("用户token已过期"));
+					log.debug(String.format("用户已过期，请重新登录"));
 				}
 				return null;
 			}

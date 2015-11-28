@@ -1,23 +1,174 @@
+// JavaScript Document
+if (!(window.console && console.log)) {
+    (function() {
+        var noop = function() {};
+        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
+        var length = methods.length;
+        var console = window.console = {};
+        while (length--) {
+            console[methods[length]] = noop;
+        }
+    }());
+}
+//判断浏览器是否支持 placeholder属性
+function isPlaceholder(){
+    var input = document.createElement('input');
+    return 'placeholder' in input;
+}
+
+if (!isPlaceholder()) {//不支持placeholder 用jquery来完成
+    $(document).ready(function() {
+        if(!isPlaceholder()){
+            //对password框的特殊处理1.创建一个text框 2获取焦点和失去焦点的时候切换
+            var inputField    = $("input[type=text],input[type=password]");
+            inputField.each(function(){
+                var $this 	= $(this);
+                var place	= $this.attr('placeholder');
+                if(place != null){
+                    var className = $this.attr('class') || '';
+                    $this.after('<input class="'+className+'" type="text" value="'+place+'" style="color:#ccc"/>');
+                    if($this.val() == ''){
+                        $this.hide().next().show();
+                    }else{
+                        $this.next().hide();
+                    }
+
+                    $this.next().focus(function(){
+                        $(this).hide().prev().show().focus()
+                    })
+
+                    $this.blur(function(){
+                        if($this.val() == '') {
+                            var o1 = $(this);
+                            var o = $(this).hide().next().show().addClass(className);
+                            setTimeout(function(){
+                                var className = o1.attr('class');
+                                o.addClass(className)
+                            },200);
+                        }
+                    });
+                }
+            });
+
+        }
+    });
+
+}
+/**
+ * 判断是不是正确的手机号码
+ * @param mobile
+ * @returns {boolean}
+ */
+function is_mobile(mobile){
+
+    return !/^(1[0-9])\d{9}$/i.test(mobile);
+}
+
+var wait = 30;
+function time(o) {
+    if (wait == 0) {
+        o.prop("disabled",false).removeClass('disabled').text('获取校验码');
+        wait = 30;
+    } else {
+        o.text("获取校验码"+wait)
+        wait--;
+        setTimeout(function() {time(o)},1000)
+    }
+}
+/**
+ * 以字符串形式执行方法
+ * @param func
+ * @param args
+ * @param defaultValue
+ * @returns {*}
+ */
+var calculateFunctionValue = function (func, args, defaultValue) {
+    if (typeof func === 'string') {
+        // support obj.func1.func2
+        var fs = func.split('.');
+
+        if (fs.length > 1) {
+            func = window;
+            $.each(fs, function (i, f) {
+                func = func[f];
+            });
+        } else {
+            func = window[func];
+        }
+    }
+    if (typeof func === 'function') {
+        return func.apply(null, args);
+    }
+    return defaultValue;
+};
+String.prototype.len=function(){return this.replace(/[^\x00-\xff]/g,"__").length;}
+
 $(function() {
-	function time(btn){
-		var count = 60;
-		var resend = setInterval(function(){
-			count--;
-			if (count > 0){
-				btn.val(count+"秒");
-			}else {
-				clearInterval(resend);
-				btn.val("重新发送").removeAttr('disabled').removeClass("disabled");
-			}
-		}, 1000);
-		btn.attr('disabled',true).addClass("disabled");
-	}
-	$(".reg_time").click(function() {
-		time($(this))
-	})
+    //
+    $(".ajax-form").submit(function(){
 
+        //$this.prop("disabled", true);
+        //$this.addClass('disabled');
+        var $this = $(this);
+        var flag = calculateFunctionValue($this.attr('before'),$this,'');
+        if(typeof flag == 'boolean' && !flag){
+            return false;
+        }
 
+        var loading = layer.load();
+        $.post(this.action,$(this).serializeArray(),function(resp){
+            if(resp.status == '0'){
 
+                if(resp.url != '' && resp.msg == ''){
+                    window.location = resp.url;
+                }else if(resp.msg != '' && resp.url != '' ){
+                    layer.msg(resp.msg,{icon:1},function(){
+                        window.location = resp.url;
+                    });
+                }else if(resp.msg != ''){
+                    layer.msg(resp.msg,{icon:1});
+                }
+                calculateFunctionValue($this.attr('success'),[resp,$this],'');
+            }
+            else{
+                layer.alert(resp.msg);
+            }
+        },'json').always(function () {
+            layer.close(loading);
+        });
+
+        return false;
+    });
+
+    //验证码
+    $("#get-sms-code,.get-code").click(function() {
+        var mobile = $.trim($("#mobile").val());
+        if(mobile == ''){
+            layer.alert('请输入手机号码！');
+            return false;
+        }
+
+        if(is_mobile(mobile))
+        {
+            layer.alert('手机号码不合法！');
+            return false;
+        }
+
+        var $this = $(this);
+
+        $this.prop("disabled", true);
+        $this.addClass('disabled');
+        $.post($this.attr('url') || '/public/sendSmsCode.html',{mobile:mobile}, function (resp) {
+            if(resp.status == '0'){
+                layer.msg(resp.msg,{icon:1});
+                time($this);
+            }else{
+                layer.alert(resp.msg);
+                $this.prop("disabled", false);
+                $this.removeClass('disabled');
+            }
+        },'json');
+    });
 
 	$(".submenu").hover(function(){
 		$(this).find("dl").show();

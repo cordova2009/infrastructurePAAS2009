@@ -19,6 +19,7 @@ class MallController extends Yaf\Controller_Abstract {
         $this->user = session('user_auth');
 
         $this->layout = Yaf\Registry::get('layout');
+        $this->layout->user = $this->user;
     }
 
     /**

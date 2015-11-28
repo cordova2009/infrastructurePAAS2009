@@ -7,9 +7,6 @@
     <meta name="Copyright" Content="深圳麦圈互动技术有限公司。All Rights Reserved" />
 
     <link href="/css/index.css?<?=md5_file('css/index.css')?>" rel="stylesheet" type="text/css" />
-    <script src="/js/jquery-1.9.1.min.js"></script>
-    <script src="/js/jquery.SuperSlide.2.1.1.js"></script>
-    <script src="/js/common.js?<?=md5_file('js/common.js')?>"></script>
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <![endif]-->
@@ -24,8 +21,13 @@
         <div class="cent">
             <p class="left">您好，欢迎访问大力99！</p>
             <div class="right">
+                <?php if(empty($user)):?>
                 <a href="<?=U('register')?>" class="blue">快速注册</a>
                 <a href="<?=U('login')?>"  class="blue">立即登录</a>
+                <?php else:?>
+                <a href="<?=U('/member/info/index')?>"  class="blue"><?=$user['nickname']?></a>你好
+                [<a href="<?=U('/logout')?>"  class="blue">退出</a>]
+                <?php endif;?>
                 <a href="#" class="colorf">帮助</a>
             </div>
         </div>
@@ -85,6 +87,10 @@
         </div>
     </div>
 </footer>
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/js/common.js?<?=md5_file('js/common.js')?>"></script>
+<script type="text/javascript" src="/js/layer/layer.min.js"></script>
 <block name="script">
 
 </block>

@@ -107,6 +107,11 @@ class PublicController extends MallController {
 
     }
 
+    public function getCodeAction(){
+        $code = new Verify(['length'=>4]);
+        $code->entry(1) ;
+    }
+
     public function sendSmsCodeAction(){
 
         $mobileNum = trim($this->getRequest()->getPost('mobile',''));

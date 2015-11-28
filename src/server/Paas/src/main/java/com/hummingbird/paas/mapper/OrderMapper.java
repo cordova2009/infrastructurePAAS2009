@@ -32,4 +32,10 @@ public interface OrderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(Order record);
+    /**
+     * 根据产品ID、用户ID、应用ID
+     * @param ord
+     * @return
+     */
+	Order getOrder(Order ord);
 }

@@ -3,8 +3,8 @@
         <li>
             <a href="javascript:">帐号管理</a>
             <div class="submenu">
-                <a href="#">基础信息</a>
-                <a href="#">安全信息</a>
+                <a href="<?=U('/member/info/index')?>">基础信息</a>
+                <a href="<?=U('/member/info/safe')?>">安全信息</a>
                 <a href="#">开户行信息</a>
             </div>
         </li>

@@ -10,6 +10,9 @@ class PublicController extends MallController {
     public function logoutAction(){
 
         session('user_auth',null);
+        if(IS_AJAX){
+            $this->success('退出成功');
+        }
         $this->redirect(U('/login'));
     }
     /**
@@ -22,6 +25,7 @@ class PublicController extends MallController {
             $data['mobileNum']      = I('username');
             $data['loginPassword']  = encrypt(md5(I('password')),$this->config->api->app->appKey);
 
+            //调用登录接口
             $curl = new Curl($this->config->url->api->user);
 
             $resp = $curl->setData($data)->send('userCenter/login');
@@ -31,6 +35,7 @@ class PublicController extends MallController {
                 $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '登录失败，请重新再试！');
             }
 
+            //调用查询用户基础信息接口，并将信息保存至会话中
             $user = $resp['user'];
             $resp = $curl->setData(['token'=>$resp['user']['token']])
                         ->send('userCenter/getUserBaseInfo');
@@ -45,6 +50,9 @@ class PublicController extends MallController {
         $this->layout->meta_title = '用户登录';
     }
 
+    /**
+     * 注册页面
+     */
     public function registerAction(){
         if(IS_POST){
             $data                   = [];
@@ -72,9 +80,20 @@ class PublicController extends MallController {
         $this->layout->meta_title = '用户注册';
     }
 
-    public function regCheckAction(){
+    public function checkMobileSmsAction(){
         $mobile = $this->getRequest()->getPost('mobile');
+
+        //当手机号码为空并且用户为登录状态的情况下
+        if(empty($mobileNum) && is_login()){
+            $mobile = is_login();
+        }
+        if(empty($mobile)){
+            $this->error('手机号码不能为空！');
+        }
         $sms_code = $this->getRequest()->getPost('sms_code');
+        if(empty($sms_code)){
+            $this->error('短信验证码不能为空！');
+        }
 
         $return = test_mobile_sms($mobile,$sms_code);
         if(is_bool($return) && $return){
@@ -96,7 +115,12 @@ class PublicController extends MallController {
     public function sendSmsCodeAction(){
 
         $mobileNum = trim($this->getRequest()->getPost('mobile',''));
+        if(empty($mobileNum) && is_login()){
+
+            $mobileNum = is_login();
+        }
         if(empty($mobileNum)){
+
             $this->error('手机号码不能为空！');
         }
 

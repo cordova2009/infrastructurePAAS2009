@@ -87,8 +87,6 @@
         $("#select-right option").prop('selected',true);
     });
 
-	//导航高亮
-	highlight_subnav('{:U('ztglobject/zzzbindex')}');
     $(function(){
         $("#to-right,#to-left").click(function(){
             var from = 'left',to = 'right';

@@ -482,7 +482,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveEnterpriseQualification(String appId, List<BidderEqInfo> eqInfos, Token token)
 			throws BusinessException {
-		// TODO Auto-generated method stub
 			int i =0;
 			BidderCerticate bidder = bidderCerticateDao.selectByUserId(token.getUserId());
 //			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
@@ -492,9 +491,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 				
 				for(BidderEqInfo be :  eqInfos){
 					
+					ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
 					BidderCertificationCertification bcc=bidderCertificationCertificationDao.selectByPrimaryKey(be.getEqId());
 					
-						ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
 					if(bcc != null){
 						bcc.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());

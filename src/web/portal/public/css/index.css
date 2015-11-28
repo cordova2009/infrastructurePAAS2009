@@ -352,7 +352,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .list4 .password .form_item{margin-bottom: 20px;font-size: 14px;}
 .list4 .password .form_item .lab2{min-height: 20px;width: 110px;padding-right: 10px;text-align: right;display: inline-block;color: #555;line-height: 25px;}
 .list4 .password .form_item .input1{font-size: 14px;line-height: 25px;margin: 0}
-.getBtn{background: #8ab46e;color: #fff;border-radius: 2px;margin-left: 5px;font-size: 14px;height:27px;border: none;line-height: 27px;width: 80px;text-align: center;cursor: pointer;}
+.getBtn{background: #8ab46e;color: #fff;border-radius: 2px;margin-left: 5px;font-size: 14px;height:27px;border: none;line-height: 27px;text-align: center;cursor: pointer;}
 .reg_time.disabled{background: #ddd;color: #444;cursor: not-allowed}
 
 /*账号管理-安全信息*/

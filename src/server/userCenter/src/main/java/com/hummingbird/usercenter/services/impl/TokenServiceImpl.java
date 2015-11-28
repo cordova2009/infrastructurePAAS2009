@@ -5,21 +5,23 @@ package com.hummingbird.usercenter.services.impl;
 
 import java.util.Date;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
-import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseUserToken;
 import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.usercenter.entity.Token;
 import com.hummingbird.usercenter.mapper.UserTokenMapper;
 import com.hummingbird.usercenter.services.TokenService;
+import com.hummingbird.usercenter.util.JedisPoolUtils;
+
+import redis.clients.jedis.Jedis;
 
 /**
  * @author huangjiej_2
@@ -38,17 +40,31 @@ public class TokenServiceImpl implements TokenService {
 	 * @return
 	 */
 	public Token getToken(String token){
-		Token to = tokenmapper.selectByTokenStr(token);
-		if(to!=null)
-		{
-			if(isOvertime(to)){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("用户token已过期"));
-				}
-				return null;
+		
+		Token to  = this.getTokenOnRedis(token);
+		if(to == null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("redis没有获取token数据,开始从数据库表查询!"));
 			}
-			return to;
+			to = tokenmapper.selectByTokenStr(token);
+			if(to!=null&&!isOvertime(to)){
+				saveTokenToRedis(to);
+			}
+			
 		}
+			
+		if(to!=null)
+			{
+				if(isOvertime(to)){
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("用户token已过期"));
+					}
+					this.removeTokenOnRedis(to.getToken());
+					return null;
+				}
+				return to;
+			}
+		
 		return null;
 	}
 
@@ -69,13 +85,26 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public Token getToken(String token,String appId){
-		Token to = tokenmapper.selectByToken(new BaseUserToken(appId,null,token));
+		
+		Token to  = this.getTokenOnRedis(token);
+		if(to == null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("redis没有获取token数据,开始从数据库表查询!"));
+			}
+			to = tokenmapper.selectByToken(new BaseUserToken(appId,null,token));
+			if(to!=null&&!isOvertime(to)){
+				saveTokenToRedis(to);
+			}
+			
+		}
+		
 		if(to!=null)
 		{
 			if(isOvertime(to)){
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("用户token已过期"));
 				}
+				this.removeTokenOnRedis(to.getToken());
 				return null;
 			}
 			return to;
@@ -83,42 +112,6 @@ public class TokenServiceImpl implements TokenService {
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.pay2b.service.ITokenService#validateToken(com.pay2b.vo.UserToken)
-	 */
-	public boolean validateToken(UserToken token)throws TokenException {
-		//如果appid，手机，令牌都存在，就校验这3者有没有关联
-		String appId = token.getAppId();
-		String userId = token.getMobileNum();
-		String tokenstr = token.getToken();
-		if(StringUtils.hasText(tokenstr)){
-			if(StringUtils.hasText(appId)&&StringUtils.hasText(userId)){
-				Token relationtoken = tokenmapper.selectByToken(token);
-				if(relationtoken==null){
-					if(log.isDebugEnabled())
-					{
-						log.debug(String.format("appid[%s],userId[%s]和token[%s]没有关联，校验不通过",appId,userId,tokenstr));
-					}
-					return false;
-				}
-			}
-			//判断token在数据库中是否存在
-			Token selectByTokenStr = tokenmapper.selectByTokenStr(tokenstr);
-			if(selectByTokenStr==null){
-				if(log.isDebugEnabled())
-				{
-					log.debug(String.format("token[%s]在系统中不存在，校验不通过",tokenstr));
-				}
-				return false;
-			}
-			//更新手机号
-			token.setMobileNum(selectByTokenStr.getUserId().toString());
-			
-			return true;
-		}
-		
-		return false;
-	}
 
 	/* (non-Javadoc)
 	 * @see com.pay2b.service.ITokenService#createToken(java.lang.String, java.lang.String)
@@ -132,6 +125,7 @@ public class TokenServiceImpl implements TokenService {
 		record.setInsertTime(new Date());
 		record.setUpdateTime(new Date());
 		record.setExpireIn(getDefaultExpireIn());
+		this.saveTokenToRedis(record);//
 		tokenmapper.insert(record);
 		return new BaseUserToken(appId,String.valueOf(userId),token,record.getExpireIn());
 	}
@@ -141,7 +135,10 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public UserToken queryToken(String appId,int userId) {
-		Token selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, String.valueOf(userId), null));
+		Token selectByAppAndMobile = null;
+	
+		selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, String.valueOf(userId), null));
+
 		if(selectByAppAndMobile==null)
 		{
 			return null;
@@ -157,6 +154,7 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public UserToken getOrCreateToken(String appId,int userId){
+		
 		Token selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, String.valueOf(userId), null));
 		if(selectByAppAndMobile!=null&&isOvertime(selectByAppAndMobile)){
 			if (log.isDebugEnabled()) {
@@ -168,6 +166,8 @@ public class TokenServiceImpl implements TokenService {
 		if(selectByAppAndMobile==null)
 		{
 			return createToken(appId, userId);
+		}else{
+			this.saveTokenToRedis(selectByAppAndMobile);
 		}
 		return new BaseUserToken(appId,String.valueOf(userId),selectByAppAndMobile.getToken(),selectByAppAndMobile.getExpireIn());
 		
@@ -199,7 +199,140 @@ public class TokenServiceImpl implements TokenService {
 	 * @param token
 	 */
 	public void postponeToken(Token token){
+		Token to = getTokenOnRedis(token.getToken());
+		if(to!= null){//从redis取数据  
+			to.setExpireIn(getDefaultExpireIn());
+			tokenmapper.updateByPrimaryKeySelective(to);
+			updateTokenOnRedis(to);
+		}else{
+			to = tokenmapper.selectByTokenStr(token.getToken());
+			if(to!=null){
+				to.setExpireIn(getDefaultExpireIn());
+				tokenmapper.updateByPrimaryKeySelective(to);
+				saveTokenToRedis(to);
+			}
+		}
+	}
+	
+	/**
+	 * 从redis读取token
+	 * @author YJY 
+	 * @param token
+	 * @since 2015-11-25 17:22:50
+	 */
+	public  Token getTokenOnRedis(String token) {
+		Jedis jedis = JedisPoolUtils.getJedisIfNessary();
+//		jedis.flushDB();
+		if(jedis != null && jedis.exists(token)){
+			String json = jedis.get(token);
+				Token to;
+				try {
+					to = JsonUtil.convertJson2Obj(json, Token.class);
+//					System.out.println(to.getToken());
+					if(to!=null)
+					{
+						return to;
+					}
+				} catch (DataInvalidException e) {
+					log.error("转换失败",e);
+				}
+			
+
+			//System.out.println(json);
+		}
+		return null;
+	}
+	
+	/**
+	 * 将token保存到redis
+	 * @author YJY 
+	 * @param token
+	 * @since 2015-11-25 17:22:50
+	 */
+	public  Token saveTokenToRedis(Token record) {
+		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
 		
+		try {
+			if(jpu!=null&&record!=null){
+				if(!jpu.exists(record.getToken())){
+					jpu.set(record.getToken(), JsonUtil.convert2Json(record));
+					jpu.expire(record.getToken(), getDefaultExpireIn());//设置有效期
+				}	 
+			}
+			
+		} catch (DataInvalidException e) {
+			log.error("转换失败",e);
+		}
+		return record;
+	}
+	
+	/**
+	 * 更新redis上的token
+	 * @author YJY 
+	 * @param token
+	 * @since 2015-11-25 17:22:50
+	 */
+	public  Token updateTokenOnRedis(Token token) {
+		Jedis jedis = JedisPoolUtils.getJedisIfNessary();
+//		jedis.flushDB();
+		if(jedis != null && token != null && jedis.exists(token.getToken())){
+			String json;
+			try {
+				json = JsonUtil.convert2Json(token);
+				jedis.set(token.getToken(), json);
+				jedis.expire(token.getToken(), token.getExpireIn());
+			} catch (DataInvalidException e) {
+				log.error("转换失败",e);
+			}
+			
+		
+		}
+		return null;
+	}
+	
+	/**
+	 * 将token从redis移除
+	 * @author YJY 
+	 * @param token
+	 * @since 2015-11-25 17:22:50
+	 */
+	public  Long removeTokenOnRedis(String token) {
+		
+		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
+		Long ll = 0L;
+		if(jpu!=null){
+		 ll= jpu.del(token);
+		}
+		
+		return ll;
+	}
+	/**
+	 * 测试
+	 * @author YJY
+	 * @param test
+	 */
+	public static void main(String[] args) {
+		Jedis jedis = JedisPoolUtils.getJedis();
+//		jedis.flushDB();
+		if(jedis.exists("11111")){
+			String json = jedis.get("11111");
+			
+		
+
+				Token aa;
+				try {
+					aa = JsonUtil.convertJson2Obj(json, Token.class);
+					aa.getToken();
+					System.out.println(aa.getAppId());
+				} catch (DataInvalidException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+
+			System.out.println(json);
+//			selectByAppAndMobile = tokenmapper.selectByToken(new BaseUserToken(appId, jedis.get(String.valueOf(userId)), null));
+		}
 	}
 
 }

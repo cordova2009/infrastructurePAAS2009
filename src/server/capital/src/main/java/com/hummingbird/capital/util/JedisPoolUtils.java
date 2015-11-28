@@ -1,17 +1,9 @@
-package com.hummingbird.paas.util;
-
-import java.util.Date;
+package com.hummingbird.capital.util;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.hummingbird.common.exception.DataInvalidException;
-import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.PropertiesUtil;
-import com.hummingbird.commonbiz.vo.BaseUserToken;
-import com.hummingbird.commonbiz.vo.UserToken;
-import com.hummingbird.paas.entity.Token;
 
-import net.sf.json.util.JSONUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -132,26 +124,26 @@ public class JedisPoolUtils {
 	}
 
 
-	public static void main(String[] args) {
-		Jedis jpu = JedisPoolUtils.getJedis();		 		
-		Token record=new Token();		
-		record.setAppId("paas");		
-		record.setUserId(46);		
-		record.setToken("11111");		
-		record.setInsertTime(new Date());		
-		record.setUpdateTime(new Date());		
-		record.setExpireIn(3600);		
- 		String json;
-		try {
-			json = JsonUtil.convert2Json(record);
-			jpu.set("11111", json);		
-		} catch (DataInvalidException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	 		
-		
- 		System.out.println(jpu);
-		
-		}
-	}
+//	public static void main(String[] args) {
+//		Jedis jpu = JedisPoolUtils.getJedis();		 		
+//		Token record=new Token();		
+//		record.setAppId("paas");		
+//		record.setUserId(46);		
+//		record.setToken("11111");		
+//		record.setInsertTime(new Date());		
+//		record.setUpdateTime(new Date());		
+//		record.setExpireIn(3600);		
+// 		String json;
+//		try {
+//			json = JsonUtil.convert2Json(record);
+//			jpu.set("11111", json);		
+//		} catch (DataInvalidException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	 		
+//		
+// 		System.out.println(jpu);
+//		
+//		}
+}
 

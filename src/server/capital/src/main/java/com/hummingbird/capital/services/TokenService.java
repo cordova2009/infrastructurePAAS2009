@@ -1,8 +1,7 @@
 package com.hummingbird.capital.services;
 
-import com.hummingbird.commonbiz.exception.TokenException;
-import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.capital.entity.Token;
+import com.hummingbird.commonbiz.vo.UserToken;
 
 /**
  * 令牌服务service
@@ -11,14 +10,6 @@ import com.hummingbird.capital.entity.Token;
  */
 public interface TokenService {
 
-	/**
-	 * 验证用户令牌
-	 * @param token
-	 * @return
-	 * @throws TokenException 
-	 */
-	public boolean validateToken(UserToken token) throws  TokenException;
-	
 	/**
 	 * 创建用户令牌，主要用于登录
 	 * @param appId

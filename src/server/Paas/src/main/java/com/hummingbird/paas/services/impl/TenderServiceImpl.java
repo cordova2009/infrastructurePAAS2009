@@ -227,11 +227,10 @@ public class TenderServiceImpl implements TenderService {
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目基础信息接口开始");
 		}
-
-		BidObject bo = null;
-		List<BidObject> objs = dao.selectUnfinishObject(biddeeId, body.getObjectId());
-		if (objs != null && !objs.isEmpty()) {
-			bo = objs.get(0);
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
+		if(bo!=null){
+			//检查编号是否存在
+			ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		}
 		if (bo == null) {
 			bo = new BidObject();

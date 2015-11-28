@@ -24,7 +24,7 @@ implements PainttextAble {
 	     * 招标项目名称
 	     */
 	    protected String objectName;
-	    	/**
+	    /**
 	     * 工程类别编号
 	     */
 	    protected String industryId;

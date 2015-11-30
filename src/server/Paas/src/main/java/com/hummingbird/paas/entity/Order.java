@@ -77,6 +77,11 @@ public class Order {
     private Long realAmount;
 
     /**
+     * 用户id
+     */
+    private Integer userId;
+
+    /**
      * @return 订单号
      */
     public String getOrderId() {
@@ -286,52 +291,18 @@ public class Order {
         this.realAmount = realAmount;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Order other = (Order) that;
-        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
-            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
-            && (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()))
-            && (this.getProductCount() == null ? other.getProductCount() == null : this.getProductCount().equals(other.getProductCount()))
-            && (this.getProductPrice() == null ? other.getProductPrice() == null : this.getProductPrice().equals(other.getProductPrice()))
-            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
-            && (this.getPayType() == null ? other.getPayType() == null : this.getPayType().equals(other.getPayType()))
-            && (this.getProductDesc() == null ? other.getProductDesc() == null : this.getProductDesc().equals(other.getProductDesc()))
-            && (this.getPayStatus() == null ? other.getPayStatus() == null : this.getPayStatus().equals(other.getPayStatus()))
-            && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
-            && (this.getDiscount() == null ? other.getDiscount() == null : this.getDiscount().equals(other.getDiscount()))
-            && (this.getRealAmount() == null ? other.getRealAmount() == null : this.getRealAmount().equals(other.getRealAmount()));
+    /**
+     * @return 用户id
+     */
+    public Integer getUserId() {
+        return userId;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
-        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
-        result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
-        result = prime * result + ((getProductCount() == null) ? 0 : getProductCount().hashCode());
-        result = prime * result + ((getProductPrice() == null) ? 0 : getProductPrice().hashCode());
-        result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
-        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
-        result = prime * result + ((getPayType() == null) ? 0 : getPayType().hashCode());
-        result = prime * result + ((getProductDesc() == null) ? 0 : getProductDesc().hashCode());
-        result = prime * result + ((getPayStatus() == null) ? 0 : getPayStatus().hashCode());
-        result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
-        result = prime * result + ((getDiscount() == null) ? 0 : getDiscount().hashCode());
-        result = prime * result + ((getRealAmount() == null) ? 0 : getRealAmount().hashCode());
-        return result;
+    /**
+     * @param userId 
+	 *            用户id
+     */
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

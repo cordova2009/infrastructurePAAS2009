@@ -147,7 +147,7 @@
                 var data = {mobile:$("#mobile").val(),sms_code:$("#sms_code").val()};
 
                 var loading = layer.load();
-                $.post('<?=U('public/regCheck')?>',data,function(resp){
+                $.post('<?=U('/public/checkMobileSms')?>',data,function(resp){
                     if(resp.status == '0'){
                         $('.reg-step ul li').eq(1).addClass('active');
                         $(".stepbox").removeClass('active');

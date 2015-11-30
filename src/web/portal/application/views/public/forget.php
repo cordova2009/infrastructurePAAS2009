@@ -2,16 +2,16 @@
 <div class=" main">
 			<div class="miancont2 ">
 				<div class="phone_yz">
-					<form action=""  id="forget-form" method="post" class="forget-form ajax-form setpassword" before="before_sub" success="forget_success">
+					<form action="public/forget.html" class="setpassword" method="POST">
 						<div class="txt3">
 							<span class="lab"><span class="red">*</span> 手机号</span> 
-							<input type="text" placeholder="输入您绑定的手机号码" class="input1" id="mobile" >
+							<input type="text" placeholder="输入您绑定的手机号码" class="input1">
 						</div>
 						<div class="txt3">
 							<span class="lab">
 								<span class="red">*</span> 验证码</span> 
-								<input type="text" class="input1" maxlength="4" id="code">
-								<img src="" alt="" class="yzm">
+								<input type="password" class="input1">
+								<img src="<?=U('/public/getcode/'.time());?>" alt="" class="yzm" title="看不清，点击换一张">
 							</div>
 							<div class="btnCont"><span class="lab"></span><input type="submit" class="btn" value="下一步"></div>
 						</form>
@@ -25,16 +25,8 @@
 			
 		function get_code()
 		{
-			$.get('<?=U('/public/getcode/'.time());?>','',function (data){
-				if(data.status==0)
-				{
-					$(".yzm").attr('src',data.src);
-				}else{
-					layer.alert(data.msg);
-				}
-			},'json');
+			$(this).attr('src','<?=U('/public/getcode/'.time());?>');
 		}
-		get_code();
 		$(".yzm").click(get_code);
 		function forget_success ()
 		{

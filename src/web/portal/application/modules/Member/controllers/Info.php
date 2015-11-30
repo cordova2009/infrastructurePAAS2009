@@ -7,6 +7,26 @@
 */
 class InfoController extends MemberController {
 
+    public function bankAction(){
+
+        $this->meta_title = '安全信息';
+        $curl = new Curl($this->config->url->api->user);
+
+        $resp = $curl->setData(['token'=>$this->user['token']])
+                        ->send('userCenter/getBankInfoList');
+
+        $info = [
+            'BeebankInfo'=>[],
+            'BerbankInfo'=>[],
+        ];
+        if(check_resp($resp)) {
+            $info = $resp;
+        }
+        $this->assign('info',$info);
+    }
+    /**
+     *修改绑定手机
+     */
     public function updateMobileAction(){
 
         if(IS_POST){

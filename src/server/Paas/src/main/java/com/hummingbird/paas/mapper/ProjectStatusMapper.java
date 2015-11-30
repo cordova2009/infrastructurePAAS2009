@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.ProjectStatus;
 
 public interface ProjectStatusMapper {
@@ -22,6 +24,11 @@ public interface ProjectStatusMapper {
      * 根据主键查询记录
      */
     ProjectStatus selectByPrimaryKey(String projectId);
+    
+    /**
+     * 根据objectId和userid查询记录
+     */
+    ProjectStatus selectByObjectIdAndUserId(@Param("objectId")String objectId,@Param("userId")Integer userId);
 
     /**
      * 根据主键更新属性不为空的记录

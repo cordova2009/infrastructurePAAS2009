@@ -152,7 +152,7 @@
     <include refid="Base1_Column_List" />
     from t_ztgl_object a
    	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
-    where  b.user_id = #{userId} and a.object_status = 'SEL'
+    where  b.user_id = #{userId} and a.object_status = 'PUB' or a.object_status = 'REV'
     limit #{begin},#{limit}
   </select>
   <select id="getMyBuildingObjectProjectPages" resultMap="MyBuildingObjectResultMap" >
@@ -161,7 +161,7 @@
     from t_ztgl_object a
    	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
    	left join t_gcgl_project_payment_pay c on a.object_id = c.project_id and c.`status` = 'OK#'
-    where  b.user_id = #{userId} and (a.object_status = 'PUB' or a.object_status = 'REV')
+    where  b.user_id = #{userId} and a.object_status = 'SEL' 
     limit #{begin},#{limit}
   </select>
   <select id="getMyEndedObjectProjectPages" resultMap="MyEndedObjectResultMap" >
@@ -172,8 +172,9 @@
   </select>
   <select id="getMyLoseObjectProjectPages" resultMap="MyLoseObjectResultMap">
     select  <include refid="My_Lose_Column_List" />  
-    from t_ztgl_object a inner join t_qyzz_biddee b on a.biddee_id = b.id INNER JOIN t_ztgl_bid_record c on a.object_id = c.object_id and a.win_bidder_id = c.bidder_id
-    where  b.user_id = #{userId} and a.object_status = 'END'  and c.bid_status = 'WIN'
+    from t_ztgl_object a INNER JOIN t_qyzz_bidder b ON a.win_bidder_id =b.id
+	INNER JOIN t_ztgl_bid_record c ON a.object_id = c.object_id AND a.win_bidder_id = c.bidder_id
+	WHERE b.user_id = #{userId} and a.object_status = 'END' or a.object_status = 'SEL'  and c.bid_status = 'LOSE'
     limit #{begin},#{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

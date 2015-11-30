@@ -20,50 +20,50 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_user_notices
+    from t_xxfb_user_notices
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="queryNoticesNewest" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_user_notices
+    from t_xxfb_user_notices
     order by insert_time desc
     limit 0,#{limit}
   </select>
    <select id="getUnreadMesgCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     select  count(1)
-    from t_user_notices
+    from t_xxfb_user_notices
     where pkUser=#{userId,jdbcType=INTEGER}
     and status='N'
   </select>
   <select id="getTotalCount" resultType="java.lang.Integer">
     select count(1)
-    from t_user_notices
+    from t_xxfb_user_notices
   </select>
   <select id="getMsgTotalCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
     select count(1)
-    from t_user_notices
+    from t_xxfb_user_notices
     where pkUser =#{pkUser,jdbcType=INTEGER}
   </select>
    <select id="getnoticeList" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_user_notices
+    from t_xxfb_user_notices
     limit #{begin},#{limit}
   </select>
    <select id="getMsgList" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_user_notices
+    from t_xxfb_user_notices
     where pkUser = #{userId}
     limit #{begin},#{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user_notices
+    delete from t_xxfb_user_notices
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.UserNotices" >
-    insert into t_user_notices (id, notice_title, notice_text, 
+    insert into t_xxfb_user_notices (id, notice_title, notice_text, 
       notice_type, status, expiry_date, 
       pkUser, insert_time, update_time, 
       creator)
@@ -73,7 +73,7 @@
       #{creator,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserNotices" >
-    insert into t_user_notices
+    insert into t_xxfb_user_notices
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -140,7 +140,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserNotices" >
-    update t_user_notices
+    update t_xxfb_user_notices
     <set >
       <if test="noticeTitle != null" >
         notice_title = #{noticeTitle,jdbcType=VARCHAR},
@@ -173,7 +173,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserNotices" >
-    update t_user_notices
+    update t_xxfb_user_notices
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_text = #{noticeText,jdbcType=VARCHAR},
       notice_type = #{noticeType,jdbcType=VARCHAR},

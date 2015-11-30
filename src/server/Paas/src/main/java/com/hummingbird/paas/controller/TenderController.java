@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.quartz.CalendarIntervalScheduleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
@@ -63,6 +64,7 @@ import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
+import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -156,8 +158,6 @@ public class TenderController extends BaseController {
 	BidderMapper  bidderDao;
 	@Autowired
 	ProjectStatusMapper  psDao;
-	@Autowired
-	TagmapService tagDao;
 	
 	
 	@Autowired(required = true)
@@ -1535,7 +1535,7 @@ public class TenderController extends BaseController {
 			TenderPaymentInfo tp = transorder.getBody().getPaymentInfo();
 			List<TenderPaymentDetailInfo> tpds= tp.getPayList();
 			if(bid==null){
-				rm.setErrmsg("未找到相应记录!");
+				rm.setErrmsg("未找到相应招标记录!");
 				return rm;
 				}else{
 					//1.保存到招标表
@@ -1672,7 +1672,7 @@ public class TenderController extends BaseController {
 	// 框架的日志处理
 	public @ResponseBody ResultModel queryTendererEvaluate(HttpServletRequest request,
 			HttpServletResponse response) {
-		String messagebase = "我的招标评标概况";
+		String messagebase = "查询投标人评价概况";
 		int basecode = 0;
 		BaseTransVO<TenderSurveyBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
@@ -1706,7 +1706,7 @@ public class TenderController extends BaseController {
 					throw new TokenException("token验证失败,或已过期,请重新登录");
 				}
 				TendererEvaluateReturnVO ter = new TendererEvaluateReturnVO();
-				ProjectStatus ps  = psDao.selectByPrimaryKey(transorder.getBody().getObjectId());
+				ProjectStatus ps  = psDao.selectByObjectIdAndUserId(transorder.getBody().getObjectId(),token.getUserId());
 				BidObject bo = bidObjectDao.selectByPrimaryKey(transorder.getBody().getObjectId());
 				
 				if(ps!= null){
@@ -1723,26 +1723,16 @@ public class TenderController extends BaseController {
 					ter.setObjectName(bo.getObjectName());
 					ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
-//					String  tagJson = tagDao.searchTag(request);
 					
+//					{"tagGroupName":"biddee_manager","tagObjectCode":"t_qyzz_biddee","businessId":"1"}  
+					
+					String  tagJson = CallInterfaceUtil.searchTag("project_manager", "t_gcgl_project", ps.getProjectId());
+					
+					
+					List<TagInfo> tagList = new ArrayList<TagInfo>();
 //					---------------------------------------------------------------------
-					Map<String, Object> map = new HashMap<String, Object>();
-		    		map.put("business_id", "");
-		    		map.put("tag_group_id", "");
-		    		map.put("tag_object_id", "");
-		    		List<Map<String, Object>> maps = tagDao.findMaps(map);
-		    		
-					List<TagInfo> Taglist = new ArrayList<TagInfo>();
-					for(Map<String, Object> m: maps){
-						TagInfo tagInfo = new TagInfo();
-						String tagName = m.get("tag_name")!= null?String.valueOf(m.get("tag_name")):"";
-						Integer tagNum = m.get("tab_use_num")!= null?Integer.valueOf(m.get("tab_use_num").toString()):0;
-						tagInfo.setTagName(tagName);
-						tagInfo.setTagNum(tagNum);
-						
-						Taglist.add(tagInfo);
-					}
-					ter.setTag(Taglist);
+					
+					ter.setTag(tagList);
 				
 				}		
 			
@@ -2218,6 +2208,7 @@ public class TenderController extends BaseController {
 				
 				List<TenderObjectListReturnVO> list=new ArrayList<TenderObjectListReturnVO>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
+				String[] keywords = transorder.getBody().getKeywords();
 				list = tenderService.getTenderObjectList(transorder.getBody().getKeywords(), page);
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
 
@@ -2530,9 +2521,9 @@ public class TenderController extends BaseController {
 	 * @since 2015年11月17日8:31:59
 	 * @return
 	 */
-	@RequestMapping(value="/queryBiderIndexSurvey",method=RequestMethod.POST)
+	@RequestMapping(value="/queryBidderIndexSurvey",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询首页投标人概况",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="",appLog=true)
-	public @ResponseBody ResultModel queryBiderIndexSurvey(HttpServletRequest request,HttpServletResponse response) {
+	public @ResponseBody ResultModel queryBidderIndexSurvey(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO transorder = (BaseTransVO) super.getParameterObject();
 		String messagebase = "查询首页投标人概况"; 

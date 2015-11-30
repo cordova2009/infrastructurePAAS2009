@@ -19,6 +19,12 @@
     from t_gcgl_project
     where project_id = #{projectId,jdbcType=VARCHAR}
   </select>
+   <select id="selectByObjectIdAndUserId" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+   	from t_gcgl_project a INNER JOIN t_qyzz_biddee b on a.biddee_id = b.id
+    where a.object_id = #{objectId,jdbcType=VARCHAR} and b.user_id=#{userId,jdbcType=INTEGER} and a.status = 'OK#'
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_gcgl_project
     where project_id = #{projectId,jdbcType=VARCHAR}

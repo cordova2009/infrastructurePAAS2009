@@ -26,12 +26,12 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from t_announcement
+    from t_xxfb_announcement
     where id = #{id,jdbcType=INTEGER}
   </select>
   
   <select id="selectTotalCountAnnouncement" resultType="int" parameterType="java.lang.String" >
-    select count(*) from t_announcement
+    select count(*) from t_xxfb_announcement
     where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
     <if test="creator !=null">
     and creator = #{creator,jdbcType=INTEGER}
@@ -50,7 +50,7 @@
   <select id="selectAnnouncement" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from t_announcement
+    from t_xxfb_announcement
      where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
     <if test="creator !=null">
         and creator = #{creator,jdbcType=INTEGER}
@@ -70,11 +70,11 @@
     </if> 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_announcement
+    delete from t_xxfb_announcement
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.Announcement" >
-    insert into t_announcement (id, type, title, 
+    insert into t_xxfb_announcement (id, type, title, 
       status, expiry_date, creator, 
       insert_time, update_time, imgUrl, 
       content)
@@ -84,7 +84,7 @@
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Announcement" >
-    insert into t_announcement
+    insert into t_xxfb_announcement
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -151,7 +151,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.Announcement" >
-    update t_announcement
+    update t_xxfb_announcement
     <set >
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
@@ -184,7 +184,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.paas.entity.Announcement" >
-    update t_announcement
+    update t_xxfb_announcement
     set type = #{type,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
@@ -197,7 +197,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Announcement" >
-    update t_announcement
+    update t_xxfb_announcement
     set type = #{type,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},

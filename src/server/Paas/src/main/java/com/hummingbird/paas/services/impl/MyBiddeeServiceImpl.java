@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.Md5Util;
@@ -37,6 +38,7 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.util.CamelUtil;
+import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
 import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
@@ -115,11 +117,13 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //	        "idCardBackUrl":"法人身份证反面地址",
 //	        "authorityBookUrl":""
 //	    }
+		StringUtil util = new StringUtil();
 		if(aa!=null){
-			String lpname = aa.getLegalPerson()!=null?Md5Util.Encrypt(aa.getLegalPerson()):null;
-			String IdCard = aa.getLegalPersonIdcard()!=null?Md5Util.Encrypt(aa.getLegalPersonIdcard()):null;
-			legalPerson.setName(lpname);
-			legalPerson.setIdCard(IdCard);
+			String lpname = aa.getLegalPerson()!=null?aa.getLegalPerson():"";
+			String IdCard = aa.getLegalPersonIdcard()!=null?aa.getLegalPersonIdcard():"";
+			
+			legalPerson.setName(util.getShowString(aa.getLegalPerson()));
+			legalPerson.setIdCard(util.getShowString(aa.getLegalPersonIdcard()));
 			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
 			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
 			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
@@ -366,6 +370,8 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					biddee.setUnifiedSocialCreditCode(newBusinessLicenseNum);
 					biddee.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
 					biddee.setNewBusinessLicense(newBusinessLicenseNum);
+					ValidateUtil.assertNull(newBusinessLicenseNum, "社会统一信用代码");
+					ValidateUtil.assertNull(newBusinessLicenseUrl, "三合一执照url");
 					/*biddee.setBusinessLicense(newBusinessLicenseNum);
 					biddee.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
 				}else if("OLD".equalsIgnoreCase(businessLicenseType)){
@@ -375,6 +381,15 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					biddee.setTaxRegistrationCertificateUrl(taxRegistrationUrl);
 					biddee.setOrgCodeCertificate(organizationCodeNum);
 					biddee.setOrgCodeCertificateUrl(organizationCodeUrl);
+					ValidateUtil.assertNull(businessLicenseNum, "营业执照");
+					ValidateUtil.assertNull(businessLicenseUrl, "营业执照url");
+					ValidateUtil.assertNull(taxRegistrationNum, "税务证书编号");
+					ValidateUtil.assertNull(taxRegistrationUrl, "税务证书url");
+					ValidateUtil.assertNull(organizationCodeNum, "组织机构代码");
+					ValidateUtil.assertNull(organizationCodeUrl, "组织机构url");
+				}else{
+						throw new BusinessException("营业执照类型不对");
+					
 				}
 	
 				biddee.setBusinessScope(businessScope);
@@ -646,4 +661,5 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //		baseInfoCheck.getCompany_name().getResult()
 		return flag;
 	}
+	
 }

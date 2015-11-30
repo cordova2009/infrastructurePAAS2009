@@ -1,4 +1,4 @@
-﻿#目的
+#目的
 
 本文档用于指导招标人服务（tender）编码实现。
 
@@ -213,7 +213,7 @@ http请求方式: post
 
 前置条件：用户必须先登录，
 
-    http://ip:port/gw/bid/queryTendererEvaluate
+    http://ip:port/gw/tender/queryTendererEvaluate
 
 
 POST数据格式：JSON
@@ -449,7 +449,8 @@ objectId|是|token|是|用户令牌
             "biddeeCompanyTelephone":"0755-56432117",
             "currency":"采用币种",
     		"contractType":"承包方式",
-            "evaluationAmount":"300000"
+            "evaluationAmount":"300000",
+            "evaluationAmountVisiable":"ENB"
     	}
     }
 
@@ -469,6 +470,7 @@ biddeeCompanyTelephone|招标办公电话
 currency|是|采用币种
 contractType|是|承包方式
 evaluationAmount|是|工程标的估价
+evaluationAmountVisiable|是|工程标的估价是否可见,ENB 是,DIS 不可见
 
 ##保存招标项目基础信息接口
 
@@ -496,14 +498,13 @@ POST数据格式：JSON
     	    "token":"435647",
     	    "objectId":"BH2015082135656",
     	    "objectName":"土石购买招标",
-            "industryId":5,
-            "biddingNo":"23009751",
             "objectScope":"招标项目范围",
             "biddeeCompanyPrincipal":"张三",
             "biddeeCompanyTelephone":"0755-56432117",
             "currency":"采用币种",
             "contractType":"承包方式",
-            "evaluationAmount":"300000"
+            "evaluationAmount":"300000",
+            "evaluationAmountVisiable":"ENB"
             
 	    }
     }
@@ -517,14 +518,13 @@ signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,
 token|是|用户令牌
 objectId|是|招标项目名称
 objectName|是|招标项目名称
-industryId|是|工程类别编号
-biddingNo|是|招标项目编号
 objectScope|是|招标项目范围
 biddeeCompanyPrincipal|是|招标经办人
 biddeeCompanyTelephone|招标办公电话
 currency|是|采用币种
 contractType|是|承包方式
 evaluationAmount|是|工程标的估价
+evaluationAmountVisiable|是|工程标的估价是否可见,ENB 是,DIS 不可见
 
 2）返回说明
 
@@ -596,7 +596,9 @@ objectId|是|招标项目内部编号
             "projectExpectInvestment":"300万",
             "employer":"XX建设单位",
             "employerPrincipal":"张三",
-            "employerTelephone":"0755-06978654"
+            "employerTelephone":"0755-06978654",
+            "industryId":"TSF",
+            "biddingNo":"23009751",
     	}
 
     }
@@ -616,6 +618,9 @@ projectExpectInvestment|否|工程计划总投资
 employer|否|建设单位
 employerPrincipal|否|建设单位经办人
 employerTelephone|否|建设单位联系电话
+industryId|是|工程类别编号
+biddingNo|是|招标项目编号
+
 
 ##保存招标项目工程信息接口
 
@@ -648,8 +653,10 @@ POST数据格式：JSON
             "projectExpectInvestment":"工程计划总投资",
             "employer":"建设单位",
             "employerPrincipal":"建设单位经办人",
-            "employerTelephone":"建设单位办公电话"
-	 }
+            "employerTelephone":"建设单位办公电话",
+            "industryId":"TSF",
+            "biddingNo":"23009751",
+	   }
      }
 
 参数|是否必须|说明
@@ -667,6 +674,8 @@ projectExpectInvestment|否|工程计划总投资
 employer|否|建设单位
 employerPrincipal|否|建设单位经办人
 employerTelephone|否|建设单位联系电话
+industryId|是|工程类别编号
+biddingNo|是|招标项目编号
 
 
 2）返回说明

@@ -198,13 +198,14 @@ public class TenderServiceImpl implements TenderService {
 		}
 		QueryObjectBaseInfoBodyVOResult result = new QueryObjectBaseInfoBodyVOResult();
 		result.setObjectName(object.getObjectName());
-		result.setBiddingNo(object.getObjectId());
+//		result.setBiddingNo(object.getObjectId());
 		result.setObjectScope(object.getObjectScope());
 		result.setBiddeeCompanyPrincipal(object.getBiddeeCompanyPrincipal());
 		result.setBiddeeCompanyTelephone(object.getObjectName());
 		result.setCurrency(object.getObjectName());
 		result.setContractType(object.getObjectName());
 		result.setEvaluationAmount(object.getObjectName());
+		result.setEvaluationAmountVisiable(object.getEvaluationAmountVisiable());
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目基础信息接口完成");
@@ -244,8 +245,8 @@ public class TenderServiceImpl implements TenderService {
 			bo.setBiddeeId(biddeeId);
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
-			bo.setIndustryId(body.getIndustryId());
-			bo.setObjectNo(body.getBiddingNo());
+//			bo.setIndustryId(body.getIndustryId());
+//			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
 			bo.setBiddeeCompanyTelephone(body.getBiddeeCompanyTelephone());
@@ -256,6 +257,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
+			bo.setEvaluationAmountVisiable(body.getEvaluationAmountVisiable());
 			bo.setInsertTime(new Date());
 
 			dao.insert(bo);
@@ -263,8 +265,8 @@ public class TenderServiceImpl implements TenderService {
 			bo.setBiddeeId(biddeeId);
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
-			bo.setIndustryId(body.getIndustryId());
-			bo.setObjectNo(body.getBiddingNo());
+//			bo.setIndustryId(body.getIndustryId());
+//			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
 			bo.setBiddeeCompanyTelephone(body.getBiddeeCompanyTelephone());
@@ -274,6 +276,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setObjectAmount(0l);
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
+			bo.setEvaluationAmountVisiable(body.getEvaluationAmountVisiable());
 			dao.updateByPrimaryKey(bo);
 		}
 		if (log.isDebugEnabled()) {
@@ -299,6 +302,7 @@ public class TenderServiceImpl implements TenderService {
 		}
 		// 请自行调整
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ObjectProjectInfo bidproject = null;
 		List<ObjectProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
 				CommonStatusConst.STATUS_CREATE);
@@ -316,6 +320,7 @@ public class TenderServiceImpl implements TenderService {
 			result.setEmployer(bidproject.getEmployer());
 			result.setEmployerPrincipal(bidproject.getEmployerPrincipal());
 			result.setEmployerTelephone(bidproject.getEmployerTelephone());
+			result.setIndustryId(bo.getIndustryId());
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目工程信息接口完成");
@@ -346,7 +351,7 @@ public class TenderServiceImpl implements TenderService {
 		ObjectProjectInfo bp = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bp == null) {
 			bp = new ObjectProjectInfo();
-
+			
 			bp.setObjectId(bo.getObjectId());
 			bp.setProjectName(body.getProjectName());
 			bp.setProjectSite(body.getProjectSite());
@@ -368,6 +373,8 @@ public class TenderServiceImpl implements TenderService {
 
 			bpdao.updateByPrimaryKey(bp);
 		}
+		bo.setIndustryId(body.getIndustryId());
+		dao.updateByPrimaryKey(bo);
 
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目工程信息接口完成");

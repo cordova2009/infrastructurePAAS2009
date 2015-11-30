@@ -935,7 +935,6 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveEnterpriseQualification",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveEnterpriseQualification(HttpServletRequest request,HttpServletResponse response) {
 //		int basecode = 2341210;//待定
 		String messagebase = "保存投标人企业资质";

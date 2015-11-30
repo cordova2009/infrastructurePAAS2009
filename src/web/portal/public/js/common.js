@@ -226,6 +226,11 @@ $(function() {
 		$(this).addClass('active');
 	});
 
+	$(".checkBtn2 a").click(function() {
+		$(this).siblings('a').removeClass('active')
+		$(this).addClass('active');
+	});
+
 	$(document.body).on('click', '.datepicker', function(){
 		$(this).datetimepicker({
 			timepicker: false,

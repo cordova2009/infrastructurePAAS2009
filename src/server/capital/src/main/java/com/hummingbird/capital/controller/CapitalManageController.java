@@ -1,6 +1,8 @@
 package com.hummingbird.capital.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.WithdrawApply;
 import com.hummingbird.capital.exception.MaAccountException;
 import com.hummingbird.capital.mapper.AppLogMapper;
+import com.hummingbird.capital.mapper.ProjectAccountMapper;
 import com.hummingbird.capital.services.CapitalManageService;
 import com.hummingbird.capital.services.OrderService;
 import com.hummingbird.capital.services.UserService;
@@ -36,6 +40,7 @@ import com.hummingbird.capital.vo.FreezeBondReturnVO;
 import com.hummingbird.capital.vo.FreezeBondVO;
 import com.hummingbird.capital.vo.FreezeWithdrawalsBodyVO;
 import com.hummingbird.capital.vo.FreezeWithdrawalsVO;
+import com.hummingbird.capital.vo.MobileBodyVO;
 import com.hummingbird.capital.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
 import com.hummingbird.capital.vo.RechargeApplyReturnVO;
@@ -47,20 +52,28 @@ import com.hummingbird.capital.vo.TokenVO;
 import com.hummingbird.capital.vo.TransactionRecordsReturnVO;
 import com.hummingbird.capital.vo.UnfreezeBondVO;
 import com.hummingbird.capital.vo.UnfreezeVO;
+import com.hummingbird.capital.vo.UserBodyVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyListReturnVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyVO;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.common.util.DESUtil;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.StrUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.common.vo.ValidateResult;
 import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.capital.face.Account;
+import com.hummingbird.capital.util.AccountFactory;
 
 @Controller
 
@@ -76,7 +89,8 @@ public class CapitalManageController extends BaseController{
 	IAuthenticationService authService;
 	@Autowired
 	AppLogMapper applogDao;
-	
+	@Autowired
+	private ProjectAccountMapper proActDao;
 	
 	@RequestMapping(value = "/queryMyCapitalSurvey", method = RequestMethod.POST)
 	public @ResponseBody Object queryMyCapitalSurvey(HttpServletRequest request) {
@@ -797,6 +811,153 @@ public class CapitalManageController extends BaseController{
 		return rm;
 	}
 	
+	
+	/**
+	 * 根据电话号码开通，现金账户开通接口
+	 * 
+	 * @param getsmsvo
+	 * @return
+	 */
+	@RequestMapping("/openByMobileNum")
+	@AccessRequered(methodName="现金账户开通")
+	public @ResponseBody Object openCashAccountByMobile(HttpServletRequest request) {
+		/*{
+		    "app":{
+		        "appId":"zjhtwallet","timeStamp":"TIMESTAMP", "nonce":"NONCE","signature":"SIGNATURE"
+		    },
+		    "open":{
+		        "mobileNum":"13912345678"
+		    }
+		}  */ 
+		final BaseTransVO<MobileBodyVO> transorder;
+		
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,MobileBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单查询参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单查询参数"));
+			return rm;
+		}
+		
+		String messagebase = "资金账户开通";
+		rm.setBaseErrorCode(27000);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			PropertiesUtil pu = new PropertiesUtil();
+			MobileBodyVO body=transorder.getBody();
+			//检查mobileNum
+			ValidateUtil.validateMobile(body.getMobileNum());
+			User user= userSer.queryUserByMobile(body.getMobileNum());
+			
+			ProjectAccount projectAccount=new ProjectAccount();
+			String mobileNum = body.getMobileNum();
+			if(user==null){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("手机号码%s没有注册",body.getMobileNum()));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("手机号码%s没有注册",body.getMobileNum()));		
+				
+			}
+			else{
+
+				projectAccount=proActDao.queryAccountInfo(user.getId());
+				//现金账户不存在，就创建，并重新获取账户信息
+				if(projectAccount==null){
+					capitalManageSer.createAccount(user.getId());
+					projectAccount=(ProjectAccount) AccountFactory.getAccount(Account.ACCOUNT_PROJECT,body.getMobileNum());
+					if(log.isDebugEnabled()){
+						log.debug("现金账户不存在，创建现金账户");
+					}
+				}
+				
+				
+			}
+			
+			
+			
+			rm.put("accountId", projectAccount.getAccountId());
+			
+		}
+		catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败，"+rm.getErrmsg());
+		}
+		
+		return rm;
+	}
+	/**
+	 * 现金账户开通接口，根据userId开通
+	 * 
+	 * @param getsmsvo
+	 * @return
+	 */
+	@RequestMapping("/open")
+	@AccessRequered(methodName="现金账户开通")
+	public @ResponseBody Object openCashAccount(HttpServletRequest request) {
+		/*{
+		    "app":{
+		        "appId":"zjhtwallet","timeStamp":"TIMESTAMP", "nonce":"NONCE","signature":"SIGNATURE"
+		    },
+		    "open":{
+		        "userId":1
+		    }
+		}  */ 
+		final BaseTransVO<UserBodyVO> transorder;
+		
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,UserBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单查询参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单查询参数"));
+			return rm;
+		}
+		
+		String messagebase = "资金账户开通";
+		rm.setBaseErrorCode(27000);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			PropertiesUtil pu = new PropertiesUtil();
+			UserBodyVO body=transorder.getBody();
+			//检查mobileNum
+			ValidateUtil.validateMobile(body.getMobileNum());
+			ProjectAccount projectAccount=new ProjectAccount();
+			
+
+			projectAccount=proActDao.queryAccountInfo(body.getUserId());
+			//现金账户不存在，就创建，并重新获取账户信息
+			if(projectAccount==null){
+				capitalManageSer.createAccount(body.getUserId());
+				if(log.isDebugEnabled()){
+					log.debug("现金账户不存在，创建现金账户");
+				}
+			}
+			
+		
+			
+		}
+		catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败，"+rm.getErrmsg());
+		}
+		
+		return rm;
+	}
 	/**
 	 * 写日志,需要由子类实现
 	 * @param applog

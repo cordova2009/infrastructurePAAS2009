@@ -7,6 +7,27 @@
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 	
+	 <!-- 调度器  -->  
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                 <!-- 触发器列表 -->  
+                <ref bean="generateAccountTask" />  
+            </list>  
+        </property>  
+    </bean> 
+	<bean id="generateAccountTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="generateAccountJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 */2 * * * ?</value>
+		</property>
+	</bean>
 	
-		
+	<bean id="generateAccountJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="accountIdGen" /></property>
+		<property name="targetMethod" value="genAccountId" />
+		<property name="concurrent" value="false"/> 
+	</bean>	
 </beans>

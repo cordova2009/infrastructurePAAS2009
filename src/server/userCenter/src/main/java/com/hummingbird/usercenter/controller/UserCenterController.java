@@ -102,7 +102,7 @@ public class UserCenterController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			
-			/*boolean authCodeSuccess = genSer.validateSMSCode(transorder.getApp()
+			boolean authCodeSuccess = genSer.validateSMSCode(transorder.getApp()
 					.getAppId(), body.getMobileNum(), body.getSmsCode(),true);
 			if (!authCodeSuccess) {
 				if (log.isDebugEnabled()) {
@@ -110,7 +110,7 @@ public class UserCenterController extends BaseController{
 				}
 				rm.mergeException(ValidateException.ERROR_MATCH_SMSCODE);
 				return rm;
-			}*/
+			}
 			
 			User user=userSer.queryUserByMobile(body.getMobileNum());
 			if(user!=null){
@@ -126,7 +126,7 @@ public class UserCenterController extends BaseController{
 			}
 			if (user == null) {
 				// 注册
-				userSer.saveUser(body, transorder.getApp().getAppId(),appkey);
+				userSer.saveUser(body, transorder.getApp().getAppId(),appkey,pu.getProperty("capital.url"),rm);
 			}
 			
 			

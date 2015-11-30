@@ -6,8 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
+import com.hummingbird.capital.mapper.AccountOrderDao;
 
-public interface ProjectAccountOrderMapper {
+public interface ProjectAccountOrderMapper extends AccountOrderDao{
 	 /**
      * 根据主键删除记录
      */

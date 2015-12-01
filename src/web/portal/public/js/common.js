@@ -115,10 +115,17 @@ var calculateFunctionValue = function (func, args, defaultValue) {
 };
 String.prototype.len=function(){return this.replace(/[^\x00-\xff]/g,"__").length;}
 
-$(function() {
-    //
-    $(".ajax-form").submit(function(){
+function toThousands() {
+    this.value = (this.value || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+}
 
+$(function() {
+    $(".price_format").each(function () {
+        toThousands.call(this);
+    }).blur(toThousands);
+
+    //
+    $(document).on('submit','.ajax-form',function(){
         //$this.prop("disabled", true);
         //$this.addClass('disabled');
         var $this = $(this);
@@ -133,14 +140,15 @@ $(function() {
 
                 if(resp.url != '' && resp.msg == ''){
                     window.location = resp.url;
-                }else if(resp.msg != '' && resp.url != '' ){
+                }else if(resp.msg != '' && resp.url != null && resp.url != '' ){
                     layer.msg(resp.msg,{icon:1},function(){
                         window.location = resp.url;
                     });
                 }else if(resp.msg != ''){
-                    layer.msg(resp.msg,{icon:1});
+                    layer.msg(resp.msg,{icon:1},function(){
+                        calculateFunctionValue($this.attr('success'),[resp,$this],'');
+                    });
                 }
-                calculateFunctionValue($this.attr('success'),[resp,$this],'');
             }
             else{
                 layer.alert(resp.msg);
@@ -212,14 +220,23 @@ $(function() {
 
 	$(".tab_box").slide({mainCell:".bd ",effect:"fade"})
 
-	$(".checklist .i-check").click(function() {
-		if($(this).hasClass('on')){
-			$(this).removeClass('on');
-		}else{
-			$(this).addClass('on');
-		}
-	});
+    $(document).on("click",".checklist .i-check",function(){
+        var $this = $(this);
 
+        if($this.hasClass('radio') && $this.hasClass('on')){
+            return false;
+        }else if($this.hasClass('radio') && !$this.hasClass('on')){
+            $(".i-check").removeClass('on');
+            $this.addClass('on').next().prop('checked',true);
+            return true;
+        }
+
+        if($this.hasClass('on')){
+            $this.removeClass('on').nextAll('input').prop('checked',false);
+        }else{
+            $this.addClass('on').nextAll('input').prop('checked',true);
+        }
+    });
 
 	$(".checkBtn a").click(function() {
 		$(this).siblings('a').removeClass('active')

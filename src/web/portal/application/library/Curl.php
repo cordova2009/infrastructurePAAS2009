@@ -22,7 +22,7 @@ class Curl{
         return $this;
     }
 
-    public function setData(Array $data=array()){
+    public function setData($data=array()){
 
         $data = ['body'=>$data];
         
@@ -34,7 +34,7 @@ class Curl{
         return $this;
     }
 
-    public function setData2(Array $data=array(),$flag=true){
+    public function setData2($data=array(),$flag=true){
 
         if($flag && !array_key_exists('app',$data)){
             $data['app'] = get_app();

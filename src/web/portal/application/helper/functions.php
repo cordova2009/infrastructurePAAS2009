@@ -122,7 +122,7 @@ function I($name,$default='',$filter=null,$datas=null) {
 
             foreach($filters as $filter){
                 if(function_exists($filter)) {
-                    $data   = is_array($data)?array_map_recursive($filter,$data):$filter($data); // 参数过滤
+                    $data  = is_array($data)?array_map_recursive($filter,$data):$filter($data); // 参数过滤
                 }else{
                     $data = filter_var($data,is_int($filter)?$filter:filter_id($filter));
                     if(false === $data) {
@@ -136,6 +136,16 @@ function I($name,$default='',$filter=null,$datas=null) {
     }
     is_array($data) && array_walk_recursive($data,'think_filter');
     return $data;
+}
+
+function array_map_recursive($filter, $data) {
+    $result = array();
+    foreach ($data as $key => $val) {
+        $result[$key] = is_array($val)
+            ? array_map_recursive($filter, $val)
+            : call_user_func($filter, $val);
+    }
+    return $result;
 }
 
 function think_filter(&$value){
@@ -356,19 +366,27 @@ function session($name,$value=''){
  */
 function price_dispose($price,$dividend=100){
 
-    return intval(floatval($price)*$dividend);
+    return intval(floatval(str_replace(',','',$price))*$dividend);
 }
 /**
  * 金额格式化方法
  * @param int $price 单位为分
- * @param number $decimals 取几位小数
+ * @param int $num
  * @return string
  */
-function price_format($price){
-    $price = number_format(intval($price)/100,2);
+function price_format($price,$num=100){
+    return number_format(price_convert($price,$num),2);
     return $price;
 }
-
+/**
+ * 金额转换方法
+ * @param int $price 单位为分
+ * @param int $num
+ * @return string
+ */
+function price_convert($price,$num=100){
+    return intval($price)/$num;
+}
 /**
  * CURL发送请求
  * @param $url

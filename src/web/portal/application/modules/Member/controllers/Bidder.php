@@ -39,8 +39,16 @@ class BidderController extends MemberController{
 	    $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
 	    $this->assign('name',$name);
 	    $this->assign('idcard',$idcard);
-	    $types =$curl->setData([])->send('tender/queryCertificateList');
-	    $this->assign('types',$types);
+	    $types =$curl->setData(new stdClass())->send('tender/queryCertificateList');
+	    $projectType = [];
+	    $certificateName = [];
+	    foreach($types['certificateList'] as $v)
+	    {
+		    $projectType[$v['industryId']] = $v['industryName'];
+		    $certificateName[$v['industryId']] = $v['certificateList'];
+	    }
+	    $this->assign('projectType',$projectType);
+	    $this->assign('certificateName',$certificateName);
 	    $this->layout->meta_title = '申请认证信息';
     }
     public function submitapplyAction()

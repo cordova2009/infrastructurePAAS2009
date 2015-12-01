@@ -47,7 +47,7 @@
 						<li data-id="bank">
 							<a href="javascript:;">银行开户信息</a>
 						</li>
-						<li data-id="">
+						<li data-id="zizhi">
 							<a href="javascript:;">企业资质</a>
 						</li>
 					</ul>
@@ -317,18 +317,105 @@
 							<div class="text-center padv30">
 								<input type="hidden" name="type" value="bankInfo" >
 								<input type="hidden" name="accountName" value="<?=$bankInfo['accountName']?>" id="accountName">
-								<input type="submit" class="btn-green2" value="保存">
+								<input type="submit" class="btn-green2" value="保存并继续">
 							</div>
 						</div>
 					</form>
 					</div>
 				</div>
+				<div class="auto  box pad0 hide" id="zizhi"> 
+					<div class="h2">企业资质</div>
+					<div class="padm30 jibenxx" id="zizhi_show">
+						<div id="zizhi_model" >
+						</div>
+						<div class=" charge_form padv20">
+						
+							<div class="item">
+								<span class="lab"><span class="red">*</span> 工程类别</span>
+								<div class="auto value ">
+									<a href="#" class="btn right">保存</a>
+									<div class="select">
+										<select name="" id="">
+<?php foreach($projectType as $k=>$v){?>
+	<option value="<?=$k?>"><?=$v?></option>
+<?php }?>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<span class="lab"><span class="red">*</span> 资质名称</span>
+								<div class="auto value ">
+									<div class="select">
+										<select name="" id="">
+											<option value="1">
+												资质名称
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<span class="lab">资质编号</span>
+								<div class="auto value ">
+									<input type="text" class="input1 ">
+								</div>
+							</div>
+							<div class="item">
+								<span class="lab"><span class="red">*</span> 资质有效期</span>
+								<div class="auto value ">
+									<input type="text" class="input1 datepicker">
+								</div>
+							</div>
+							<div class="item">
+								<span class="lab"><span class="red">*</span> 适用区域</span>
+								<div class="auto value ">
+									<input type="text" class="input1 ">
+								</div>
+							</div>
 
+							<div class="item bordb padb30">
+								<span class="lab"><span class="red">*</span> 附件上传</span>
+								<div class="auto value ">
+									<div class="btn-file3">上传文件 <input type="file"></div>
+									<div class="wid100 dib vert marl10">
+										<p class="color8 text-center lineh20">上传中…</p>
+										<div class="progress mart5">
+											<span style="width:50%" class="on"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="bordb text-center padv40">
+								<a href="#"><img src="images/add.png" height="54" width="54" alt=""></a>
+							</div>
+							<p class="checklist text-center padt20"><i class="ico i-check"></i> 我已阅读并同意《XXXX协议》</p>
+
+							<div class="text-center padv30">
+								<a href="#" class="btn-green2">保存并继续</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
 				</div>
 			<!--list-->
 
 			<block name="script">
 			<script>
+function add()
+{
+var tmp = [];
+ tmp.push('<div class="text-right padt20"> <a href="#" class="btn ">修改</a> <a href="#" class=" btn-grey2 marl10 ">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg"><img src="/images/pic3.jpg"></span>');
+tmp.push('<div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value">');
+tmp.push('');
+tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</    span> <div class="auto value">');
+tmp.push('');
+tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</    span> <div class="auto value">');
+tmp.push('</div></div>');
+$('#zizhi_model').append(tmp.join());
+}
 				function base_sucess()
 				{
 
@@ -371,11 +458,19 @@
 				}
 				function bank_sucess()
 				{
-					$(".stepbox2 .clear li").removeClass('active');
-					$(".stepbox2 .clear li:eq(3)").addClass('active');
+					$('#bank').hide();
+					$('#zizhi').show();
 					$(".side_menu li:eq(3) a").html('银行开户信息 <i class="ico i-right"></i>');
 					$('#creditRating').html('80');
 					$(".progressBox .progress span").css({'width':'80%'});
+				}
+				function zizhi_sucess()
+				{
+					$(".stepbox2 .clear li").removeClass('active');
+					$(".stepbox2 .clear li:eq(4)").addClass('active');
+					$(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
+					$('#creditRating').html('100');
+					$(".progressBox .progress span").css({'width':'100%'});
 					$('#tijiao').attr('href','<?=U('submitapply')?>');
 				}
 				function change()
@@ -392,6 +487,8 @@
 				}
 				function init()
 				{
+					var cername = <?=json_encode($certificateName);?>;
+
 					var base="<?=empty($base['companyName'])?'1':'0'?>";
 					if(base==0)
 					{

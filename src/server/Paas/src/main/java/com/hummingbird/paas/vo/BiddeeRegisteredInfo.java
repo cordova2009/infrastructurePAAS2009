@@ -34,8 +34,8 @@ public class BiddeeRegisteredInfo {
 	private String  organizationCodeUrl;
 	private String  businessScope;
 	
-	private Date    regTime;
-	private Date    businessLicenseExpireTime;
+	private String  regTime;
+	private String  businessLicenseExpireTime;
 	private String  address;
 	private String  businessLicenseType;
 	private String  newBusinessLicenseNum;
@@ -116,7 +116,7 @@ public class BiddeeRegisteredInfo {
 	/**
 	 * @return the regTime
 	 */
-	public Date getRegTime() {
+	public String getRegTime() {
 		return regTime;
 	}
 
@@ -126,7 +126,7 @@ public class BiddeeRegisteredInfo {
 	/**
 	 * @return the businessLicenseExpireTime
 	 */
-	public Date getBusinessLicenseExpireTime() {
+	public String getBusinessLicenseExpireTime() {
 		return businessLicenseExpireTime;
 	}
 
@@ -246,7 +246,7 @@ public class BiddeeRegisteredInfo {
 	/**
 	 * @param regTime the regTime to set
 	 */
-	public void setRegTime(Date regTime) {
+	public void setRegTime(String regTime) {
 		this.regTime = regTime;
 	}
 
@@ -256,7 +256,7 @@ public class BiddeeRegisteredInfo {
 	/**
 	 * @param businessLicenseExpireTime the businessLicenseExpireTime to set
 	 */
-	public void setBusinessLicenseExpireTime(Date businessLicenseExpireTime) {
+	public void setBusinessLicenseExpireTime(String businessLicenseExpireTime) {
 		this.businessLicenseExpireTime = businessLicenseExpireTime;
 	}
 

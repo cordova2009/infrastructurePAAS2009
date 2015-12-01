@@ -2,6 +2,7 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.commonbiz.vo.PagingnationVO;
 
 /**
@@ -15,9 +16,15 @@ public class AnnouncementListBodyVO extends PagingnationVO{
 		
 	}
 	private Integer creator;
+	/**
+	 * 取最新的记录
+	 */
+	private Integer size;
     private String status;
     private Date startTime;
     private Date endTime;
+    
+    
 	
 	public String getStatus() {
 		return status;
@@ -44,10 +51,37 @@ public class AnnouncementListBodyVO extends PagingnationVO{
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
+	/**
+	 * 取最新的记录 
+	 */
+	public Integer getSize() {
+		return size;
+	}
+	/**
+	 * 取最新的记录 
+	 */
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+	
+	/**
+	 * 分页组件
+	 * @return
+	 */
+	public Pagingnation toPagingnation(){
+		if(size!=null&&size>0){
+			pageSize = size;
+		}
+		if(pageIndex<=0){
+			pageIndex=1;
+		}
+		if(pageSize<=0){
+			pageSize=10;
+		}
+		if(pageSize>500){
+			pageSize=500;
+		}
+		return  new Pagingnation(pageIndex, pageSize);
+	}
 
-    
-	/*@Override
-	public String toString() {
-		return " ActivityJoinBodyVO [activityId=" + activityId + ", unionId=" + unionId +"]";
-	}*/
 }

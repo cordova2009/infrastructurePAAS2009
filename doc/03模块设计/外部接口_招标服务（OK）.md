@@ -837,7 +837,7 @@ constructionLandUsePermitEndDate|否|建设用地规划许可证有效期
 constructionLandUsePermitUrl|否|建设用地规划许可证上传地址
 buildingPermitNo|否|建设工程规划许可证编号
 buildingPermitEndDate|否|建设工程规划许可证有效期
-buildingPermitPicUrl|否|建设工程规划许可证上传地址
+buildingPermitUrl|否|建设工程规划许可证上传地址
 letterOfAcceptanceUrl|否|中标通知书上传地址
 buildingConstructPermitNo|否|建设工程施工许可证编号
 buildingConstructPermitEndDate|否|建设工程施工许可证有效期

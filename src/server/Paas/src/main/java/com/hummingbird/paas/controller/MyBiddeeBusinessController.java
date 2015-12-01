@@ -814,8 +814,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @since 2015年11月7日15:02:56
 	 * @return
 	 */
-	@RequestMapping(value="/saveBankInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	@RequestMapping(value="/saveBankInfo",method=RequestMethod.POST)
 	public @ResponseBody ResultModel saveBankInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 //		int basecode = 2341210;//待定
 		String messagebase = "保存招标人开户行信息";

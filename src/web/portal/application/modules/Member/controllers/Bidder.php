@@ -5,12 +5,12 @@
  * @desc Public控制器
  * @see http://www.php.net/manual/en/class.yaf-controller-abstract.php
 */
-class BiddeeController extends MemberController{
+class BidderController extends MemberController{
 
     public function authInfoAction(){
 	    $token = isset($this->user['token'])?$this->user['token']:'';
             $curl = new Curl($this->config->url->api->paas);
-            $resp = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getAuthInfo');
+            $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getAuthInfo');
             if(!check_resp($resp)) {
 		 $this->redirect(U('/login'));
             }
@@ -27,10 +27,10 @@ class BiddeeController extends MemberController{
     {
 	    $token = isset($this->user['token'])?$this->user['token']:'';
             $curl = new Curl($this->config->url->api->paas);
-            $base = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getBaseInfo_apply');
-            $legal= $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getLegalPersonInfo_apply');
-            $registered = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getRegisteredInfo_apply');
-            $bank = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getBankInfo_apply');
+            $base = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getBaseInfo_apply');
+            $legal= $curl->setData(['token'=>$token])->send('myBidder/authInfo/getLegalPersonInfo_apply');
+            $registered = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getRegisteredInfo_apply');
+            $bank = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getBankInfo_apply');
 	    $this->assign('bankInfo',isset($bank['bankInfo'])?$bank['bankInfo']:'');
 	    $this->assign('base',isset($base['baseInfo'])?$base['baseInfo']:'');
 	    $this->assign('registered',isset($registered['registeredInfo'])?$registered['registeredInfo']:'');
@@ -39,6 +39,8 @@ class BiddeeController extends MemberController{
 	    $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
 	    $this->assign('name',$name);
 	    $this->assign('idcard',$idcard);
+	    $types =$curl->setData([])->send('tender/queryCertificateList');
+	    $this->assign('types',$types);
 	    $this->layout->meta_title = '申请认证信息';
     }
     public function submitapplyAction()
@@ -47,7 +49,7 @@ class BiddeeController extends MemberController{
 	    {
 		    $token = isset($this->user['token'])?$this->user['token']:'';
 		    $curl = new Curl($this->config->url->api->paas);
-		    $resp = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/applay');
+		    $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/applay');
 		    if(check_resp($resp)) {
 			    $this->success('保存成功！');
 		    }else{
@@ -56,7 +58,7 @@ class BiddeeController extends MemberController{
 	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getApplication');
+	    $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getApplication');
 	    if($resp['errcode']==1)
 	    {
 		    $this->redirect(U('/login'));
@@ -115,7 +117,7 @@ class BiddeeController extends MemberController{
 	    $curl = new Curl($this->config->url->api->paas);
 	    //$name = encrypt($name,$this->config->api->app->appKey);
 	    //$idCard = encrypt($idCard,$this->config->api->app->appKey);
-	    $resp = $curl->setData(['token'=>$token,'legalPerson'=>['name'=>$name,'idCard'=>$idCard,'idCardfrontUrl'=>$idCardfrontUrl,'idCardBackUrl'=>$idCardBackUrl,'authorityBookUrl'=>$authorityBookUrl]])->send('myBiddee/authInfo/saveLegalPersonInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'legalPerson'=>['name'=>$name,'idCard'=>$idCard,'idCardfrontUrl'=>$idCardfrontUrl,'idCardBackUrl'=>$idCardBackUrl,'authorityBookUrl'=>$authorityBookUrl]])->send('myBidder/authInfo/saveLegalPersonInfo_apply');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{
@@ -186,7 +188,7 @@ class BiddeeController extends MemberController{
 	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'registeredInfo'=>$date])->send('myBiddee/authInfo/saveRegisteredInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'registeredInfo'=>$date])->send('myBidder/authInfo/saveRegisteredInfo_apply');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{
@@ -222,7 +224,22 @@ class BiddeeController extends MemberController{
 	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBiddee/authInfo/saveBaseInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInfo/saveBaseInfo_apply');
+	    if(check_resp($resp)) {
+		    $this->success('保存成功！');
+	    }else{
+		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    }
+    }
+    private function savezizhi()
+    {
+	    $email = I('email');
+	    if(empty($email)){
+		    $this->error('电子邮箱不能为空！');
+	    }
+	    $token = isset($this->user['token'])?$this->user['token']:'';
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInf');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{
@@ -242,7 +259,7 @@ class BiddeeController extends MemberController{
 	    $accountName= I('accountName');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'bankInfo'=>['bank'=>$bank,'accountId'=>$accountId,'accountName'=>$accountName]])->send('myBiddee/authInfo/saveBankInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'bankInfo'=>['bank'=>$bank,'accountId'=>$accountId,'accountName'=>$accountName]])->send('myBidder/authInfo/saveBankInfo_apply');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{

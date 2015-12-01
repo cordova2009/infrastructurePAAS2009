@@ -172,6 +172,11 @@ public class BidObject {
     private String objectType;
 
     /**
+     * 工程标的估价可见,ENB 可见, DIS 不可见
+     */
+    private String evaluationAmountVisiable;
+
+    /**
      * @return 招标编号(平台),ZB00时间戳随机数
      */
     public String getObjectId() {
@@ -666,6 +671,21 @@ public class BidObject {
         this.objectType = objectType == null ? null : objectType.trim();
     }
 
+    /**
+     * @return 工程标的估价可见,ENB 可见, DIS 不可见
+     */
+    public String getEvaluationAmountVisiable() {
+        return evaluationAmountVisiable;
+    }
+
+    /**
+     * @param evaluationAmountVisiable 
+	 *            工程标的估价可见,ENB 可见, DIS 不可见
+     */
+    public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
+        this.evaluationAmountVisiable = evaluationAmountVisiable == null ? null : evaluationAmountVisiable.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -710,7 +730,8 @@ public class BidObject {
             && (this.getWinBidTime() == null ? other.getWinBidTime() == null : this.getWinBidTime().equals(other.getWinBidTime()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getObjectType() == null ? other.getObjectType() == null : this.getObjectType().equals(other.getObjectType()));
+            && (this.getObjectType() == null ? other.getObjectType() == null : this.getObjectType().equals(other.getObjectType()))
+            && (this.getEvaluationAmountVisiable() == null ? other.getEvaluationAmountVisiable() == null : this.getEvaluationAmountVisiable().equals(other.getEvaluationAmountVisiable()));
     }
 
     @Override
@@ -750,6 +771,7 @@ public class BidObject {
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getObjectType() == null) ? 0 : getObjectType().hashCode());
+        result = prime * result + ((getEvaluationAmountVisiable() == null) ? 0 : getEvaluationAmountVisiable().hashCode());
         return result;
     }
 }

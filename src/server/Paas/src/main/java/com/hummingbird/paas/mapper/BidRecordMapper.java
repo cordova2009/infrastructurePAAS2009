@@ -1,5 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
@@ -27,7 +31,7 @@ public interface BidRecordMapper {
     /**
      * 根据object_id,bidderid查询记录
      */
-    BidRecord selectByObjectIdAndBidderId(String object_id,Integer bidder_id);
+    BidRecord selectByObjectIdAndBidderId(@Param("object_id") String object_id,@Param("bidder_id") Integer bidder_id);
     
     /**
      * 根据object_id查询记录
@@ -54,4 +58,12 @@ public interface BidRecordMapper {
      * @return
      */
     MyObjectTenderSurveyBodyVOResult selectTenderSurveyByObjectId(String objectId);
+
+	/**
+	 * 查询未完成的投标
+	 * @param bidId
+	 * @param objectId
+	 * @return
+	 */
+	List<BidRecord> selectUnfinishedBid(@Param("bidderId") Integer bidderId,@Param("objectId") String objectId);
 }

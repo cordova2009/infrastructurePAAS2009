@@ -79,4 +79,16 @@
       bidder_bid_bond = #{bidderBidBond,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <select id="getObjectBidderBond" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    bidder_bid_bond
+    from t_ztgl_object_bond_setting
+    where object_id = #{objectId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_bond_setting
+    where object_id = #{objectId}
+  </select>
 </mapper>

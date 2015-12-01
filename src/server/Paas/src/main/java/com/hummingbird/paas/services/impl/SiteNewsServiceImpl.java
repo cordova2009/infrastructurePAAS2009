@@ -17,52 +17,52 @@ import com.hummingbird.paas.vo.GetSiteNewsListResultVO;
 public class SiteNewsServiceImpl implements SiteNewsService{
     @Autowired
     UserNoticesMapper unmDao;
-	@Override
-	public List<GetSiteNewsListResultVO> getSiteNewsList(Integer size) {
-		List<GetSiteNewsListResultVO> gsl= new ArrayList<GetSiteNewsListResultVO>();;
-		GetSiteNewsListResultVO gsr =null;
-		List<UserNotices> notices = unmDao.queryNoticesNewest(size);
-		DateUtil du = new DateUtil();
-		for(UserNotices un : notices){
-			gsr = new GetSiteNewsListResultVO();
-			if(un.getInsertTime()!=null){
-				String time = du.format(un.getInsertTime(),"yyyy-MM-dd HH:mm:ss");
-				if(StringUtils.isNotBlank(time))
-				  gsr.setCreateTime(time);
-			}
-			gsr.setId(un.getId());
-            gsr.setTitle(un.getNoticeTitle());
-			gsl.add(gsr);
-		}
-		return gsl;
-	}
-	@Override
-	public GetNoticeListResultVO getNoticeList(Integer pageIndex,Integer pageSize) {
-		if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
-			return null;
-		}
-		List<UserNotices> notices=unmDao.getnoticeList((pageIndex-1)*pageSize, pageSize);
-		DateUtil du = new DateUtil();
-		GetSiteNewsListResultVO gsr =null;
-		GetNoticeListResultVO gnr = new GetNoticeListResultVO();
-		List<GetSiteNewsListResultVO> gsl= new ArrayList<GetSiteNewsListResultVO>();;
-		for(UserNotices un : notices){
-			gsr = new GetSiteNewsListResultVO();
-			if(un.getInsertTime()!=null){
-				String time = du.format(un.getInsertTime(),"yyyy-MM-dd HH:mm:ss");
-				if(StringUtils.isNotBlank(time))
-				  gsr.setCreateTime(time);
-			}
-			gsr.setId(un.getId());
-            gsr.setTitle(un.getNoticeTitle());
-            gsl.add(gsr);
-		}
-		gnr.setList(gsl);
-		Integer total = unmDao.getTotalCount();
-		if(total!=null){
-			gnr.setTotal(total);
-		}
-		return gnr;
-	}
+//	@Override
+//	public List<GetSiteNewsListResultVO> getSiteNewsList(Integer size) {
+//		List<GetSiteNewsListResultVO> gsl= new ArrayList<GetSiteNewsListResultVO>();;
+//		GetSiteNewsListResultVO gsr =null;
+//		List<UserNotices> notices = unmDao.queryNoticesNewest(size);
+//		DateUtil du = new DateUtil();
+//		for(UserNotices un : notices){
+//			gsr = new GetSiteNewsListResultVO();
+//			if(un.getInsertTime()!=null){
+//				String time = du.format(un.getInsertTime(),"yyyy-MM-dd HH:mm:ss");
+//				if(StringUtils.isNotBlank(time))
+//				  gsr.setCreateTime(time);
+//			}
+//			gsr.setId(un.getId());
+//            gsr.setTitle(un.getNoticeTitle());
+//			gsl.add(gsr);
+//		}
+//		return gsl;
+//	}
+//	@Override
+//	public GetNoticeListResultVO getNoticeList(Integer pageIndex,Integer pageSize) {
+//		if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+//			return null;
+//		}
+//		List<UserNotices> notices=unmDao.getnoticeList((pageIndex-1)*pageSize, pageSize);
+//		DateUtil du = new DateUtil();
+//		GetSiteNewsListResultVO gsr =null;
+//		GetNoticeListResultVO gnr = new GetNoticeListResultVO();
+//		List<GetSiteNewsListResultVO> gsl= new ArrayList<GetSiteNewsListResultVO>();;
+//		for(UserNotices un : notices){
+//			gsr = new GetSiteNewsListResultVO();
+//			if(un.getInsertTime()!=null){
+//				String time = du.format(un.getInsertTime(),"yyyy-MM-dd HH:mm:ss");
+//				if(StringUtils.isNotBlank(time))
+//				  gsr.setCreateTime(time);
+//			}
+//			gsr.setId(un.getId());
+//            gsr.setTitle(un.getNoticeTitle());
+//            gsl.add(gsr);
+//		}
+//		gnr.setList(gsl);
+//		Integer total = unmDao.getTotalCount();
+//		if(total!=null){
+//			gnr.setTotal(total);
+//		}
+//		return gnr;
+//	}
     
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hummingbird.paas.services.impl;
+package com.hummingbird.capital.services.impl;
 
 import java.util.Date;
 
@@ -22,10 +22,10 @@ import com.hummingbird.common.util.json.JSONException;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseUserToken;
 import com.hummingbird.commonbiz.vo.UserToken;
-import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.mapper.UserTokenMapper;
-import com.hummingbird.paas.services.TokenService;
-import com.hummingbird.paas.util.JedisPoolUtils;
+import com.hummingbird.capital.entity.Token;
+import com.hummingbird.capital.mapper.UserTokenMapper;
+import com.hummingbird.capital.services.TokenService;
+import com.hummingbird.capital.util.JedisPoolUtils;
 
 import redis.clients.jedis.Jedis;
 

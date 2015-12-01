@@ -1,11 +1,12 @@
 package com.hummingbird.usercenter.vo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.hummingbird.commonbiz.vo.AppBaseVO;
 import com.hummingbird.commonbiz.vo.AppMobileDecidable;
 import com.hummingbird.commonbiz.vo.Decidable;
-@JsonIgnoreProperties(value = {"appId", "type","authed","businessKeys"})
+@JsonIgnoreProperties(value = {"appId","mobileNum", "type","authed","businessKeys"})
 public class MobileNumVO extends AppBaseVO implements AppMobileDecidable{
 
 	private MobileVO body;
@@ -29,7 +30,6 @@ public class MobileNumVO extends AppBaseVO implements AppMobileDecidable{
 		return app.getAppId();
 	}
 
-	@Override
 	public String getMobileNum() {
 		// TODO Auto-generated method stub
 		return body.getMobileNum();

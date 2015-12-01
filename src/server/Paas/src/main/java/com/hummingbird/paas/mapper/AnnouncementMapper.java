@@ -47,7 +47,7 @@ public interface AnnouncementMapper {
     /**
      * 查询有效期公告条数
      */
-    int selectTotalCountAnnouncement(Integer creator, String status, Date startTime, Date endTime);
+    int selectTotalCountAnnouncement(@Param("creator") Integer creator,@Param("status") String status,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
     
     /**
      * 查询有效期公告记录

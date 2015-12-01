@@ -7,6 +7,14 @@
 */
 class IndexController extends MallController {
 
+    private $_curl = '';
+    
+    public function init()
+    {
+        parent::init();
+        $this->_curl = new Curl();
+    }
+
     public function testAction(){
 
         var_dump($this->getRequest()->getRequest());
@@ -33,52 +41,99 @@ class IndexController extends MallController {
         //生成缓存文件
         file_put_contents($cache_name,$this->render($this->getAction()));
          */
-
-        $curl = new Curl();
-
-        $resp = $curl->send('tender/queryObjectIndexSurvey');
+        
+        //招标项目公告
+        $this->assign('object_info',$this->_object_info());
+        //招标项目列表
+        $this->assign('object_list',$this->_object_list());
+        //中标结果公告
+        $this->assign('bid_info',$this->_bid_info());
+        //中标结果列表
+        $this->assign('bid_list',$this->_bid_list());
+        //投标人
+        $this->assign('bider_info',$this->_bider_info());
+        //优质投标人
+        $this->assign('bider_list',$this->_bider_list());
+        //公告
+        $this->assign('site_notice',$this->_site_notice());
+    }
+    
+    private function _object_info()
+    {
+        $resp = $this->_curl->send('tender/queryObjectIndexSurvey');
 
         $object_info = ['objectNum'=>0,'amount'=>'0'];
         if(check_resp($resp)){
             $object_info = $resp['info'];
         }
-
-        $resp = $curl->send('tender/queryBidIndexSurvey');
+        
+        return $object_info;
+    }
+    
+    private function _bid_info()
+    {
+        $resp = $this->_curl->send('tender/queryBidIndexSurvey');
         $bid_info = ['bidNum'=>0,'amount'=>'0'];
         if(check_resp($resp)){
             $bid_info = $resp['info'];
         }
-
-        $resp = $curl->send('tender/queryBiderIndexSurvey');
+        
+        return $bid_info;
+    }
+    
+    private function _bider_info()
+    {
+        $resp = $this->_curl->send('tender/queryBiderIndexSurvey');
         $bider_info = ['stairBiderNum'=>0,'secondBiderNum'=>'0'];
         if(check_resp($resp)){
             $bider_info = $resp;
         }
-
-        $resp = $curl->setData(['pageIndex'=>1,'pageSize'=>4])->send('tender/queryIndexObjectList');
+        
+        return $bider_info;
+    }
+    
+    private function _object_list()
+    {
+        $resp = $this->_curl->setData(['pageIndex'=>1,'pageSize'=>4])->send('tender/queryIndexObjectList');
         $object_list = [];
         if(check_resp($resp)){
             $object_list = $resp['list'];
         }
-
-        $resp = $curl->send('tender/queryBidIndexList');
+        
+        return $object_list;
+    }
+    
+    private function _bid_list()
+    {
+        $resp = $this->_curl->send('tender/queryBidIndexList');
         $bid_list = [];
         if(check_resp($resp)){
             $bid_list = $resp['list'];
         }
-
-        $resp = $curl->setData(['pageIndex'=>1,'pageSize'=>14])->send('tender/queryIndexBidList');
+        
+        return $bid_list;
+    }
+    
+    private function _bider_list()
+    {
+        $resp = $this->_curl->setData(['pageIndex'=>1,'pageSize'=>14])->send('tender/queryIndexBidList');
         $bider_list = [];
         if(check_resp($resp)){
             $bider_list = $resp['list'];
         }
-
-        $this->assign('object_info',$object_info);
-        $this->assign('bid_info',$bid_info);
-        $this->assign('object_list',$object_list);
-        $this->assign('bid_list',$bid_list);
-        $this->assign('bider_info',$bider_info);
-        $this->assign('bider_list',$bider_list);
+        
+        return $bider_list;
+    }
+    
+    private function _site_notice()
+    {
+        $resp = $this->_curl->setData(['size'=>1])->send('siteNews/getSiteNewsList');
+        $notices = ['title' => '暂无公告', 'createTime' => date('Y-m-d')];
+        if(check_resp($resp)){
+            $notices = $resp['list'];
+        }
+        
+        return $notices;
     }
 
 }

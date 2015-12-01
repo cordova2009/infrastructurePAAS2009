@@ -17,7 +17,7 @@
     from t_ztgl_bid_certification
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByBidId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByBidId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_bid_certification

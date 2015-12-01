@@ -38,7 +38,7 @@
             <div class="logo blue  left">大力99</div>
             <div class="right menu">
                 <ul>
-                    <li><a href="#">首页</a></li>
+                    <li><a href="<?=U('/')?>">首页</a></li>
                     <li><a href="#">我要招标</a></li>
                     <li><a href="#">我要投标</a></li>
                     <li><a href="#">新手指引</a></li>

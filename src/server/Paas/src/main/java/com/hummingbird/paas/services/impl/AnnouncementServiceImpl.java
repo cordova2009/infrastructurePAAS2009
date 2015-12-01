@@ -26,12 +26,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 	@Autowired
 	private AnnouncementMapper announcementDao;
 	
+	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 
 	@Override
 	public List<Announcement> selectAnnouncementInValid(Integer creator, String status, Date startTime, Date endTime,
 			Pagingnation page) {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		
 		if(page!=null&&page.isCountsize()){
 			int totalcount = announcementDao.selectTotalCountAnnouncement(creator, status, startTime, endTime);

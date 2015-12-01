@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
@@ -45,8 +46,7 @@ import com.hummingbird.paas.vo.AnnouncementDetailBodyVO;
 import com.hummingbird.paas.vo.AnnouncementListBodyVO;
 import com.hummingbird.paas.vo.AnnouncementUpdateVO;
 @Controller
-@RequestMapping(value="/announcement"
-		 ,method=RequestMethod.POST)
+@RequestMapping(value="/siteNews",method=RequestMethod.POST)
 public class AnnouncementController extends BaseController  {
 	@Autowired
 	protected AnnouncementService announcementService;
@@ -56,7 +56,7 @@ public class AnnouncementController extends BaseController  {
 	protected AppLogMapper applogDao;
 	
 	
-	@RequestMapping(value="/getnoticeList",method=RequestMethod.POST)
+	@RequestMapping(value="/getSiteNewsList",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询公告列表")
 	public @ResponseBody ResultModel QueryAnnouncementList(HttpServletRequest request,HttpServletResponse response) {
 //		int basecode = 2341200;//待定
@@ -79,13 +79,14 @@ public class AnnouncementController extends BaseController  {
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
-		rnr.setMethod("/announcement/getnoticeList");
+		rnr.setMethod("/siteNews/getSiteNewsList");
 		
 		List<Announcement> list=new ArrayList<Announcement>();
 		try {
 			com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+			
 			Integer creator = transorder.getBody().getCreator();
-			String status = transorder.getBody().getStatus();
+			String status = StringUtils.defaultIfEmpty(transorder.getBody().getStatus(),CommonStatusConst.STATUS_OK);
 			Date startTime = transorder.getBody().getStartTime();
 			Date endTime = transorder.getBody().getEndTime();
 			
@@ -131,22 +132,22 @@ public class AnnouncementController extends BaseController  {
 	}  
 	
 	/**
-	 * 查询公告详细
+	 * 查询公告分页
 	 * @return
 	 */
-	@RequestMapping(value="/getnoticeinfo",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查看公告详情")
+	@RequestMapping(value="/getnoticeList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询公告分页")
 	// 框架的日志处理
 	public @ResponseBody ResultModel getAnnouncementDetail(HttpServletRequest request,
 			HttpServletResponse response) {
-		String messagebase = "查看公告详情";
+		String messagebase = "查询公告分页";
 //		int basecode = 220002;
-		BaseTransVO<AnnouncementDetailBodyVO> transorder = null;
+		BaseTransVO<AnnouncementListBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,AnnouncementDetailBodyVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,AnnouncementListBodyVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取%s参数出错",messagebase),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
@@ -163,16 +164,37 @@ public class AnnouncementController extends BaseController  {
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
-		rnr.setMethod("/announcement/getnoticeinfo");
+		rnr.setMethod("/siteNews/getnoticeList");
 		
-		try {
-			Announcement aa = announcementDao.selectByPrimaryKey(transorder.getBody().getNoticeId());
-			Map row= BeanUtils.describe(aa);
-			row.put("insertTime", DateUtil.formatCommonDateorNull(aa.getInsertTime()));
-			row.put("updateTime", DateUtil.formatCommonDateorNull(aa.getUpdateTime()));
-			row.remove("class");
+		List<Announcement> list=new ArrayList<Announcement>();
+			try {
+				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
-			rm.put("result", row);
+				Integer creator = transorder.getBody().getCreator();
+				String status = StringUtils.defaultIfEmpty(transorder.getBody().getStatus(),CommonStatusConst.STATUS_OK);
+				Date startTime = transorder.getBody().getStartTime();
+				Date endTime = transorder.getBody().getEndTime();
+				
+				list = announcementService.selectAnnouncementInValid(creator, status, startTime, endTime, page);
+				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<Announcement, Map>() {
+
+					@Override
+					public Map convert(Announcement ori) {
+						
+						try {
+							Map row= BeanUtils.describe(ori);
+							row.put("insertTime", DateUtil.formatCommonDateorNull(ori.getInsertTime()));
+							row.put("updateTime", DateUtil.formatCommonDateorNull(ori.getUpdateTime()));
+							row.remove("class");
+							return row;
+							
+						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+							log.error(String.format("转换为map对象出错"),e);
+							return null;
+						}
+					}
+				});
+				mergeListOutput(rm, page, nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

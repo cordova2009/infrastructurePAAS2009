@@ -7,10 +7,10 @@
 					<div class="box">
 						<div class="table text-center">
 							<div class="cell">
-								信用等级 <span class="tag2 marl20"><?=isset($overall['creditRating'])?$overall['creditRating']:'无';?></span>
+								信用等级 <span class="tag2 marl20"><?=$overall['creditRating'];?></span>
 							</div>
 							<div class="cell">
-								信用积分 <span class="fz26 marl20"><?=intval($overall['creditScore']);?></span>
+								信用积分 <span class="fz26 marl20"><?=$overall['creditScore'];?></span>
 							</div>
 						</div>
 					</div>
@@ -27,7 +27,7 @@
 									<td>基本信息</td>
 									<td>个人详细信息，工作信息</td>
 									<td><?=$datail['personalInfo']['status'];?></td>
-									<td class="padl20"><?=(int)$datail['personalInfo']['creditScore'];?>分</td>
+									<td class="padl20"><?=$datail['personalInfo']['creditScore'];?>分</td>
 								</tr>
 								<tr class="bordb">
 									<td>企业信息</td>
@@ -46,15 +46,15 @@
 										<p><span class="right wid90"><?=$datail['tradeInfo']['tradeAmount']['status'];?></span>交易金额</p>
 									</td>
 									<td class="padl20">
-										<p><?=(int)$datail['tradeInfo']['tradeInfo']['creditScore'];?><i class="ico i-info"></i></p>
-										<p><?=(int)$datail['tradeInfo']['tradeAmount']['creditScore'];?></p>
+										<p><?=$datail['tradeInfo']['tradeInfo']['creditScore'];?><i class="ico i-info"></i></p>
+										<p><?=$datail['tradeInfo']['tradeAmount']['creditScore'];?></p>
 									</td>
 								</tr>
 							</tbody></table>
 						</div>
 						<div class="padm20 ">
 							<div class="charge_tips2 mart40">
-								<p><i class="ico i-tips"></i> 温馨提示： 为了投标更快一步，建议您立即<a href="<?=U('/member/biddee/applyfor');?>" class="blue">申请招标人认证</a></p>
+								<p><i class="ico i-tips"></i> 温馨提示： 为了投标更快一步，建议您立即<a href="<?=U('biddee/applyfor');?>" class="blue">申请招标人认证</a></p>
 							</div>
 						</div>
 					</div>

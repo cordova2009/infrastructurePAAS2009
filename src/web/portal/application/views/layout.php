@@ -7,7 +7,6 @@
     <meta name="Copyright" Content="深圳麦圈互动技术有限公司。All Rights Reserved" />
 
     <link href="/css/index.css?<?=md5_file('css/index.css')?>" rel="stylesheet" type="text/css" />
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <![endif]-->
@@ -92,7 +91,6 @@
 <script src="/js/jquery.SuperSlide.2.1.1.js"></script>
 <script src="/js/common.js?<?=md5_file('js/common.js')?>"></script>
 <script type="text/javascript" src="/js/layer/layer.min.js"></script>
-<script src="/js/jquery.datetimepicker.js"></script>
 <block name="script">
 
 </block>

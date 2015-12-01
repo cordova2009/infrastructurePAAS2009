@@ -27,7 +27,7 @@ public class UserNotices {
     private String noticeType;
 
     /**
-     * 状态, YES 已读, NO# 未读  ,FLS  不可用
+     * 状态
      */
     private String status;
 
@@ -39,7 +39,7 @@ public class UserNotices {
     /**
      * 接收方
      */
-    private Integer receiver;
+    private Integer pkuser;
 
     /**
      * 创建时间
@@ -54,7 +54,7 @@ public class UserNotices {
     /**
      * 发送消息方（创建者）
      */
-    private Integer sender;
+    private Integer creator;
 
     /**
      * @return id
@@ -117,7 +117,7 @@ public class UserNotices {
     }
 
     /**
-     * @return 状态, YES 已读, NO# 未读  ,FLS  不可用
+     * @return 状态
      */
     public String getStatus() {
         return status;
@@ -125,7 +125,7 @@ public class UserNotices {
 
     /**
      * @param status 
-	 *            状态, YES 已读, NO# 未读  ,FLS  不可用
+	 *            状态
      */
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
@@ -144,6 +144,21 @@ public class UserNotices {
      */
     public void setExpiryDate(Integer expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    /**
+     * @return 接收方
+     */
+    public Integer getPkuser() {
+        return pkuser;
+    }
+
+    /**
+     * @param pkuser 
+	 *            接收方
+     */
+    public void setPkuser(Integer pkuser) {
+        this.pkuser = pkuser;
     }
 
     /**
@@ -176,41 +191,18 @@ public class UserNotices {
         this.updateTime = updateTime;
     }
 
-	/**
-	 * 发送消息方（创建者） 
-	 */
-	public Integer getSender() {
-		return sender;
-	}
+    /**
+     * @return 发送消息方（创建者）
+     */
+    public Integer getCreator() {
+        return creator;
+    }
 
-	/**
-	 * 发送消息方（创建者） 
-	 */
-	public void setSender(Integer sender) {
-		this.sender = sender;
-	}
-
-	/**
-	 * 接收方 
-	 */
-	public Integer getReceiver() {
-		return receiver;
-	}
-
-	/**
-	 * 接收方 
-	 */
-	public void setReceiver(Integer receiver) {
-		this.receiver = receiver;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "UserNotices [id=" + id + ", noticeTitle=" + noticeTitle + ", noticeText=" + noticeText + ", noticeType="
-				+ noticeType + ", status=" + status + ", expiryDate=" + expiryDate + ", receiver=" + receiver
-				+ ", insertTime=" + insertTime + ", updateTime=" + updateTime + ", sender=" + sender + "]";
-	}
+    /**
+     * @param creator 
+	 *            发送消息方（创建者）
+     */
+    public void setCreator(Integer creator) {
+        this.creator = creator;
+    }
 }

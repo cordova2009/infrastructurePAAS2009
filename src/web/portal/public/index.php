@@ -4,7 +4,7 @@ ini_set('display_errors', 'On');
 define ('DS', DIRECTORY_SEPARATOR);
 define ('ROOT_PATH', realpath(dirname(__FILE__) . '/../'));
 define ('APP_PATH', ROOT_PATH.DS.'application'.DS);
-define ('CONF_PATH', '/var/www/html/conf/paas/');
+define ('CONF_PATH', '/Users/wangyf/GitHub/pass/conf/paas/');
 
 define('DOMAIN','http://'.$_SERVER['HTTP_HOST']);
 

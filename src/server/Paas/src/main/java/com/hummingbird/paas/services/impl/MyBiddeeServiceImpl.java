@@ -399,6 +399,8 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBankInfo(String appId, BiddeeBankInfo bankInfo, Token token) throws BusinessException {
+		// TODO Auto-generated method stub
+		
 		int i= 0;
 		if(token.getUserId() != null){
 			List<BiddeeBankCardCerticate> banks = bbccDao.selectBiddeeBankInfoByToken(token.getToken());

@@ -4,7 +4,7 @@ public class GetMsgListResultBodyVO {
     private Integer msgId;
     private String msgType;
     private String msgIcon;
-    private String msgTitle;
+    private String msgTitl;
     private String msgContent;
     private String createTime;
     private String isRead;
@@ -27,11 +27,11 @@ public class GetMsgListResultBodyVO {
 	public void setMsgIcon(String msgIcon) {
 		this.msgIcon = msgIcon;
 	}
-	public String getMsgTitle() {
-		return msgTitle;
+	public String getMsgTitl() {
+		return msgTitl;
 	}
-	public void setMsgTitle(String msgTitl) {
-		this.msgTitle = msgTitl;
+	public void setMsgTitl(String msgTitl) {
+		this.msgTitl = msgTitl;
 	}
 	public String getMsgContent() {
 		return msgContent;
@@ -59,8 +59,8 @@ public class GetMsgListResultBodyVO {
 	}
 	@Override
 	public String toString() {
-		return "GetMsgListResultBodyVO [msgId=" + msgId + ", msgType=" + msgType + ", msgIcon=" + msgIcon + ", msgTitle="
-				+ msgTitle + ", msgContent=" + msgContent + ", createTime=" + createTime + ", isRead=" + isRead
+		return "GetMsgListResultBodyVO [msgId=" + msgId + ", msgType=" + msgType + ", msgIcon=" + msgIcon + ", msgTitl="
+				+ msgTitl + ", msgContent=" + msgContent + ", createTime=" + createTime + ", isRead=" + isRead
 				+ ", msgSender=" + msgSender + "]";
 	}
     

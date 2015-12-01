@@ -85,7 +85,7 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		//尝试进行解密
 		if(StringUtils.isNotBlank(tradePassword)){
 			try {
-				decodeTradePassword= DESUtil.decodeDES(tradePassword, appkey);
+				decodeTradePassword= DESUtil.decodeDESwithCBC(tradePassword, appkey);
 				
 			}catch (Exception e) {
 				log.error(String.format("支付密码des解密出错"),e);

@@ -9,7 +9,7 @@ class InfoController extends MemberController {
 
     public function bankAction(){
 
-        $this->meta_title = '安全信息';
+        $this->meta_title = '开户行信息';
         $curl = new Curl($this->config->url->api->user);
 
         $resp = $curl->setData(['token'=>$this->user['token']])
@@ -23,6 +23,11 @@ class InfoController extends MemberController {
             $info = $resp;
         }
         $this->assign('info',$info);
+
+        $this->meta_title = '基本信息';
+        $this->assign('user',$this->user);
+
+
     }
     /**
      *修改绑定手机

@@ -9,13 +9,17 @@ import org.apache.commons.lang.ObjectUtils;
 public class QueryObjectBaseInfoBodyVOResult {
 
 	/**
+	 * 平台招标编号
+	 */
+	protected String objectId;
+	/**
 	 * 项目名称
 	 */
 	protected String objectName;
-//	/**
-//	 * 招标项目编号
-//	 */
-//	protected String biddingNo;
+	/**
+	 * 招标项目编号
+	 */
+	protected String biddingNo;
 	/**
 	 * 招标项目范围
 	 */
@@ -149,11 +153,11 @@ public class QueryObjectBaseInfoBodyVOResult {
 	 */
 	@Override
 	public String toString() {
-		return "QueryObjectBaseInfoBodyVOResult [objectName=" + objectName + ", objectScope=" + objectScope
-				+ ", biddeeCompanyPrincipal=" + biddeeCompanyPrincipal + ", biddeeCompanyTelephone="
-				+ biddeeCompanyTelephone + ", currency=" + currency + ", contractType=" + contractType
-				+ ", evaluationAmount=" + evaluationAmount + ", evaluationAmountVisiable=" + evaluationAmountVisiable
-				+ "]";
+		return "QueryObjectBaseInfoBodyVOResult [objectId=" + objectId + ", objectName=" + objectName + ", biddingNo="
+				+ biddingNo + ", objectScope=" + objectScope + ", biddeeCompanyPrincipal=" + biddeeCompanyPrincipal
+				+ ", biddeeCompanyTelephone=" + biddeeCompanyTelephone + ", currency=" + currency + ", contractType="
+				+ contractType + ", evaluationAmount=" + evaluationAmount + ", evaluationAmountVisiable="
+				+ evaluationAmountVisiable + "]";
 	}
 
 	/**
@@ -168,6 +172,34 @@ public class QueryObjectBaseInfoBodyVOResult {
 	 */
 	public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
 		this.evaluationAmountVisiable = evaluationAmountVisiable;
+	}
+
+	/**
+	 * 平台招标编号 
+	 */
+	public String getObjectId() {
+		return objectId;
+	}
+
+	/**
+	 * 平台招标编号 
+	 */
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+
+	/**
+	 * 招标项目编号 
+	 */
+	public String getBiddingNo() {
+		return biddingNo;
+	}
+
+	/**
+	 * 招标项目编号 
+	 */
+	public void setBiddingNo(String biddingNo) {
+		this.biddingNo = biddingNo;
 	}
 
 }

@@ -56,6 +56,12 @@
     from t_ztgl_bid_record
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectUnfinishedBid" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_bid_record
+    where object_id = #{objectId,jdbcType=VARCHAR}  and bidder_id = #{bidderId,jdbcType=INTEGER} and status='CRT'
+  </select>
    <select id="selectByObjectIdAndBidderId" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
@@ -81,7 +87,7 @@
     delete from t_ztgl_bid_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.paas.entity.BidRecord" >
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.BidRecord" useGeneratedKeys="true" keyProperty="id">
     insert into t_ztgl_bid_record (id, object_id, bidder_id, 
       bid_amount, insert_time, status, 
       audit_time, audit_status, auditor, 
@@ -111,7 +117,7 @@
       #{constructionEndDate,jdbcType=VARCHAR}, #{constructionStartDate,jdbcType=VARCHAR}, 
       #{technicalStandardUrl,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidRecord" >
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidRecord"  useGeneratedKeys="true" keyProperty="id">
     insert into t_ztgl_bid_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -197,14 +197,15 @@ public class TenderServiceImpl implements TenderService {
 			return null;
 		}
 		QueryObjectBaseInfoBodyVOResult result = new QueryObjectBaseInfoBodyVOResult();
+		result.setObjectId(object.getObjectId());
 		result.setObjectName(object.getObjectName());
-//		result.setBiddingNo(object.getObjectId());
+		result.setBiddingNo(object.getObjectNo());
 		result.setObjectScope(object.getObjectScope());
 		result.setBiddeeCompanyPrincipal(object.getBiddeeCompanyPrincipal());
-		result.setBiddeeCompanyTelephone(object.getObjectName());
-		result.setCurrency(object.getObjectName());
-		result.setContractType(object.getObjectName());
-		result.setEvaluationAmount(object.getObjectName());
+		result.setBiddeeCompanyTelephone(object.getBiddeeCompanyTelephone());
+		result.setCurrency(object.getCurrency());
+		result.setContractType(object.getContractType());
+		result.setEvaluationAmount(ObjectUtils.toString(object.getEvaluationAmount()));
 		result.setEvaluationAmountVisiable(object.getEvaluationAmountVisiable());
 
 		if (log.isDebugEnabled()) {
@@ -228,11 +229,24 @@ public class TenderServiceImpl implements TenderService {
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目基础信息接口开始");
 		}
-		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-		if(bo!=null){
-			//检查编号是否存在
-			ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		BidObject bo  = null;
+		if(StringUtils.isBlank(body.getObjectId())){
+			//查询有没有未完成的
+			List<BidObject> selectUnfinishObject = dao.selectUnfinishObject(biddeeId, null);
+			if(selectUnfinishObject!=null&&!selectUnfinishObject.isEmpty())
+			{
+				bo = selectUnfinishObject.get(0);
+			}
 		}
+		else{
+			
+			bo = dao.selectByPrimaryKey(body.getObjectId());
+			if(bo!=null){
+				//检查编号是否存在
+				ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+			}
+		}
+		
 		if (bo == null) {
 			bo = new BidObject();
 
@@ -246,7 +260,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
 //			bo.setIndustryId(body.getIndustryId());
-//			bo.setObjectNo(body.getBiddingNo());
+			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
 			bo.setBiddeeCompanyTelephone(body.getBiddeeCompanyTelephone());
@@ -257,7 +271,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
-			bo.setEvaluationAmountVisiable(body.getEvaluationAmountVisiable());
+			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(),"ENB"));
 			bo.setInsertTime(new Date());
 
 			dao.insert(bo);
@@ -266,7 +280,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
 //			bo.setIndustryId(body.getIndustryId());
-//			bo.setObjectNo(body.getBiddingNo());
+			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
 			bo.setBiddeeCompanyTelephone(body.getBiddeeCompanyTelephone());
@@ -276,7 +290,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setObjectAmount(0l);
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
-			bo.setEvaluationAmountVisiable(body.getEvaluationAmountVisiable());
+			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(),"ENB"));
 			dao.updateByPrimaryKey(bo);
 		}
 		if (log.isDebugEnabled()) {

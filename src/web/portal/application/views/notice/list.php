@@ -1,0 +1,67 @@
+<div class="main">
+    <div class="clear">
+        <div class="left sidemenu">
+            <a href="#">公司简介</a>
+            <a href="#">安全保障</a>
+            <a href="#">媒体报道</a>
+            <a href="#">社会责任</a>
+            <a href="#">招贤纳士</a>
+            <a href="javascript:void(0)" class="active">网站公告</a>
+            <a href="#">帮助中心</a>
+            <a href="/news/list.html">消息通知</a>
+            <a href="#">联系我们</a>
+        </div>
+        <div class="content auto">
+            <div class="tit1 blue">公告</div>
+            <!--list-->
+            <div class="list1">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="left">XXXXXXXXXXXX公告</p>
+                            <span class="right">2015-12-30</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--page-->
+            <?php include(dirname(dirname(__FILE__)).'/common/page.php'); ?>
+        </div>
+    </div>
+</div>

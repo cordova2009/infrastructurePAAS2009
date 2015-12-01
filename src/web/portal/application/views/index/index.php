@@ -1,12 +1,12 @@
 <!--ban-->
 <div class="ban">
     <div class="search-cont">
-        <form class="left search-box">
-            <input type="text" placeholder="输入搜索信息" class="searchInput">
-            <input type="button" class="searchBtn" value="">
+        <form id="myform" method="GET" class="left search-box">
+            <input type="text" name="keyword" value="" placeholder="输入搜索信息" class="searchInput">
+            <input type="button" class="searchBtn">
         </form>
-        <a href="#" class="btn1">找投标人</a>
-        <a href="#"  class="btn1">找工程</a>
+        <a href="javascript:void(0)" class="btn1" id="bidder">找投标人</a>
+        <a href="javascript:void(0)"  class="btn1" id="project">找工程</a>
     </div>
 
     <div class="bd">
@@ -52,13 +52,13 @@
                 <div class="bd">
                     <ul>
                         <li>
-                            <p class="left"><a href="#">XXXXX      公告11</a></p>
+                            <p class="left"><a href="/notice/detail.html">XXXXX      公告11</a></p>
                             <span class="right">2015-12-30</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <a href="#" class="more right">更多公告</a>
+            <a href="/notice/list.html" class="more right">更多公告</a>
         </div>
         <div class="clear"></div>
     </div>
@@ -157,7 +157,7 @@
                 </tr>
                 <?php endforeach;?>
             </table>
-            <div class="list-more"><a href="#">查看更多中标结果</a></div>
+            <div class="list-more"><a href="/project/bidlist.html">查看更多中标结果</a></div>
         </div>
     </div>
 </div>
@@ -205,6 +205,16 @@
         });
         $(".searchInput").blur(function(event) {
             $(this).parents(".search-box").removeClass('focus')
+        });
+        
+        $("#bidder").click(function(){
+            $("#myform").attr('action', "/search/bidder.html");
+            $("#myform").submit();
+        });
+        
+        $("#project").click(function(){
+            $("#myform").attr('action', "/search/project.html");
+            $("#myform").submit();
         });
 
     })

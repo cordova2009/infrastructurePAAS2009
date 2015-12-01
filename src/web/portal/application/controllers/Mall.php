@@ -178,4 +178,12 @@ class MallController extends Yaf\Controller_Abstract {
     {
         return $this->getRequest()->action;
     }
+    
+    protected function getPagination($total, $listRows)
+    {
+        $REQUEST = (array)I('request.');
+        $page = new Page($total, $listRows, $REQUEST);
+        $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%');
+        return $page->show();
+    }
 }

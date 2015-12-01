@@ -52,8 +52,8 @@
                 <div class="bd">
                     <ul>
                         <li>
-                            <p class="left"><a href="/notice/detail.html">XXXXX      公告11</a></p>
-                            <span class="right">2015-12-30</span>
+                            <p class="left"><a href="/notice/detail.html"><?= $site_notice['title'] ?></a></p>
+                            <span class="right"><?= $site_notice['createTime'] ?></span>
                         </li>
                     </ul>
                 </div>
@@ -110,7 +110,7 @@
                 </tr>
                 <?php endforeach;?>
             </table>
-            <div class="list-more"><a href="#">查看更多招标项目</a></div>
+            <div class="list-more"><a href="/project/list.html">查看更多招标项目</a></div>
         </div>
     </div>
 </div>
@@ -191,7 +191,7 @@
             <li><a href="#"><img src="images/tb14.jpg"></a></li>
             <?php endforeach;?>
         </ul>
-        <div class="list-more"><a href="#">查看更多投标人</a></div>
+        <div class="list-more"><a href="/bidder/list.html">查看更多投标人</a></div>
     </div>
 </div>
 <block name="script">

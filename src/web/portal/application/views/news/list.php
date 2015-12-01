@@ -16,18 +16,21 @@
             <!--list-->
             <div class="list2">
                 <ul>
+                    <?php foreach($list as $v): ?>
                     <li>
-                        <img src="uploads/logo.jpg" class="left thumbnail">
+                        <img src="<?= $v['msgIcon'] ?>" class="left thumbnail">
                         <div class="auto">
-                            <div class="tit">XXXXXXX通过</div>
-                            <div class="time">2016-1-2  16:50:21</div>
+                            <div class="tit"><?= $v['msgTitle'] ?></div>
+                            <div class="time"><?= $v['createTime'] ?></div>
                             <div class="info">
-                                <p>尊敬的xxx：您好，您与您好，您与您好，您与您好，您与您好，您与您好，您与您好，您与您好，您与您好，您与您好，</p>
-                                <div class="hide">您与您好，您与您好，您与您好，您与您好，您与您好，您与</div>
+                                <p style="white-space: nowrap; width: 550px;height: 30px; line-height: 30px;overflow: hidden;text-overflow: ellipsis">
+                                    <?= $v['msgContent'] ?>
+                                </p>
                                 <a href="javascript:;" class="blue more">展开 <i class="ico i-down"></i></a>
                             </div>
                         </div>
                     </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
             <!--page-->
@@ -35,3 +38,13 @@
         </div>
     </div>
 </div>
+<block name="script">
+        <script type="text/javascript">
+		$(function(){
+			$(".info .more").click(function(event) {
+				$(this).parents(".info").find('p').attr('style', '');
+				$(this).hide();
+			});
+		})
+	</script>
+</block>

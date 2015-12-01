@@ -22,18 +22,14 @@
                     <td >信用等级</td>
                     <td>详情</td>
                 </tr>
+                <?php foreach($list as $v): ?>
                 <tr>
-                    <td >张某某</td>
-                    <td>浙江省杭州市</td>
-                    <td><span class="tag2">A</span></td>
-                    <td><a href="#" class="blue">查看</a></td>
+                    <td ><?= $v['shortName'] ?></td>
+                    <td><?= $v['area'] ?></td>
+                    <td><span class="tag2"><?= $v['eq'] ?></span></td>
+                    <td><a href="/bidder/detail/id/<?= $v['bidderId'] ?>.html" class="blue">查看</a></td>
                 </tr>
-                <tr class="bg1">
-                    <td >张某某</td>
-                    <td>浙江省杭州市</td>
-                    <td><span class="tag2 bg-pink">AA</span></td>
-                    <td><a href="#" class="blue">查看</a></td>
-                </tr>
+                <?php endforeach; ?>
             </table>
         </div>
         <?php include(dirname(dirname(__FILE__)).'/common/page.php'); ?>

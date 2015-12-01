@@ -32,28 +32,15 @@
                         <td class="td4">评估金额</td>
                         <td>工程期限</td>
                     </tr>
+                    <?php foreach($list as $v): ?>
                     <tr>
-                        <td class="td1"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                        <td class="td2">公司简称</td>
-                        <td class="td3"><span class="tag2">A</span></td>
-                        <td class="td4">1500,000 <span class="fz12">元</span></td>
-                        <td>2015-12-1到2016-12-1</td>
+                        <td class="td1"><span class="tag">土</span><?= $v['objectName'] ?></td>
+                        <td class="td2"><?= $v['biddee'] ?></td>
+                        <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>
+                        <td class="td4"><?= $v['evaluationAmount'] ?> <span class="fz12">元</span></td>
+                        <td><?= $v['projectExpectStartDate'] ?>到 <?php date('Y-m-d', strtotime($v['projectExpectStartDate']) + $v['projectExpectPeriod']*24*3600) ?></td>
                     </tr>
-                    <tr>
-                        <td class="td1"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                        <td class="td2">公司简称</td>
-                        <td class="td3"><span class="tag2 bg-pink">A</span></td>
-                        <td class="td4">1500,000 <span class="fz12">元</span></td>
-                        <td>2015-12-1到2016-12-1</td>
-                    </tr>
-                    <tr>
-                        <td class="td1"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                        <td class="td2">公司简称</td>
-                        <td class="td3"><span class="tag2 bg-pink">A</span></td>
-                        <td class="td4">1500,000 <span class="fz12">元</span></td>
-                        <td>2015-12-1到2016-12-1</td>
-                    </tr>
-
+                    <?php endforeach; ?>
                 </table>
             </div>
         </div>

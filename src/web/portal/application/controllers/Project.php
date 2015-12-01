@@ -16,6 +16,14 @@ class ProjectController extends MallController
     }
     
     /**
+     * 更多招标项目
+     */
+    public function listAction()
+    {
+        
+    }
+
+        /**
      * 中标结果列表
      */
     public function bidlistAction()
@@ -31,10 +39,11 @@ class ProjectController extends MallController
         $list = [];
         if(check_resp($resp)){
             $list = $resp['list'];
-//            $page = $this->getPagination($resp['total'], $pageSize);
-//            $this->assign('page', $page);
+            $page = $this->getPagination($resp['total'], $pageSize);
+            $this->assign('page', $page);
         }
         $this->assign('list', $list);
+        
     }
     
 }

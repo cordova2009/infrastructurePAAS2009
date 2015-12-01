@@ -16,48 +16,14 @@
             <!--list-->
             <div class="list1">
                 <ul>
+                    <?php foreach ($list as $v): ?>
                     <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
+                        <a href="<?= $v['contentUrl']; ?>">
+                            <p class="left"><?= $v['title']; ?></p>
+                            <span class="right"><?= $v['createTime'] ?></span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <p class="left">XXXXXXXXXXXX公告</p>
-                            <span class="right">2015-12-30</span>
-                        </a>
-                    </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
             <!--page-->

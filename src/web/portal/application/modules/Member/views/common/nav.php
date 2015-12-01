@@ -27,9 +27,11 @@
         <li>
             <a href="javascript:">资金管理</a>
             <div class="submenu">
-                <a href="#">交易记录</a>
-                <a href="#">充值</a>
-                <a href="#">提现</a>
+                <a href="<?=U('/member/capital/index')?>">交易记录</a>
+                <a href="<?=U('/member/capital/rechargeApply')?>">充值申请</a>
+                <a href="<?=U('/member/capital/rechargeList')?>">充值记录</a>
+                <a href="<?=U('/member/capital/withdrawalsApply')?>">提现申请</a>
+                <a href="<?=U('/member/capital/withdrawalsList')?>">提现记录</a>
             </div>
         </li>
     </ul>

@@ -38,7 +38,7 @@
             <div class="right menu">
                 <ul>
                     <li><a href="<?=U('/')?>">首页</a></li>
-                    <li><a href="#">我要招标</a></li>
+                    <li><a href="<?=U('/member/tender/baseinfo')?>">我要招标</a></li>
                     <li><a href="#">我要投标</a></li>
                     <li><a href="#">新手指引</a></li>
                     <li  class="submenu">

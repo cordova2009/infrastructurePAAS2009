@@ -38,10 +38,6 @@ public class PaasException extends BusinessException {
 	 * 会员异常
 	 */
 	static public int ERR_MEMBER_INFO_EXCEPTION=6;
-	/**
-	 * 用户通知异常
-	 */
-	static public int ERR_USER_NOTICE_INFO_EXCEPTION=7;
 		
 	
 

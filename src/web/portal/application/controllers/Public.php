@@ -7,6 +7,9 @@
 */
 class PublicController extends MallController {
 
+    /**
+     * 退出
+     */
     public function logoutAction(){
 
         session('user_auth',null);
@@ -41,7 +44,7 @@ class PublicController extends MallController {
                         ->send('userCenter/getUserBaseInfo');
             if(check_resp($resp)){
                 session('user_auth',array_merge($user,$resp['user']));
-                $this->success('登录成功！',U('index'));
+                $this->success('登录成功！',U('/member/info/index'));
             }else{
                 $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '登录失败，请重新再试！');
             }
@@ -80,6 +83,9 @@ class PublicController extends MallController {
         $this->layout->meta_title = '用户注册';
     }
 
+    /**
+     * 检验短信验证码
+     */
     public function checkMobileSmsAction(){
         $mobile = $this->getRequest()->getPost('mobile');
 
@@ -103,15 +109,24 @@ class PublicController extends MallController {
         }
     }
 
+    /**
+     * 忘记密码
+     */
     public function forgetAction(){
 
     }
 
+    /**
+     * 获取图形验证码
+     */
     public function getCodeAction(){
         $code = new Verify(['length'=>4]);
         $code->entry(1) ;
     }
 
+    /**
+     * 发送短信验证码接口
+     */
     public function sendSmsCodeAction(){
 
         $mobileNum = trim($this->getRequest()->getPost('mobile',''));

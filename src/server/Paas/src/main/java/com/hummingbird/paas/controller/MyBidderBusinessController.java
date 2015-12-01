@@ -875,7 +875,7 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @since 2015年11月10日16:26:42
 	 * @return
 	 */
-	@RequestMapping(value="/saveBankInfo_apply",method=RequestMethod.POST)
+	@RequestMapping(value="/saveBankInfo",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveBankInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 //		int basecode = 2341210;//待定

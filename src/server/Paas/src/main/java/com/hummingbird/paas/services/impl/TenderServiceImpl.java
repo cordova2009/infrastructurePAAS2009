@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -552,19 +553,29 @@ public class TenderServiceImpl implements TenderService {
 				bpi = new ObjectProjectInfo();
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
-				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getLandUseCertificateEndDate())){
+					bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				}
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
 				bpi.setConstructionLandUsePermitNo(body.getConstructionLandUsePermitNo());
-				bpi.setConstructionLandUsePermitEnddate(
-						DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())){
+					
+					bpi.setConstructionLandUsePermitEnddate(
+							DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				}
 				bpi.setConstructionLandUsePermitUrl(body.getConstructionLandUsePermitUrl());
 				bpi.setBuildingPermitNo(body.getBuildingPermitNo());
-				bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingPermitEndDate())){
+					
+					bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				}
 				bpi.setBuildingPermitUrl(body.getBuildingPermitUrl());
 				bpi.setLetterOfAcceptanceUrl(body.getLetterOfAcceptanceUrl());
 				bpi.setBuildingConstructionPermitNo(body.getBuildingConstructPermitNo());
-				bpi.setBuildingConstructionPermitEnddate(
-						DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())){
+					bpi.setBuildingConstructionPermitEnddate(
+							DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				}
 				bpi.setBuildingConstructionPermitUrl(body.getBuildingConstructPermitUrl());
 				bpi.setObjectId(body.getObjectId());
 				bpdao.insert(bpi);
@@ -572,19 +583,27 @@ public class TenderServiceImpl implements TenderService {
 
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
-				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getLandUseCertificateEndDate())){
+					bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				}
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
 				bpi.setConstructionLandUsePermitNo(body.getConstructionLandUsePermitNo());
-				bpi.setConstructionLandUsePermitEnddate(
-						DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())){
+					bpi.setConstructionLandUsePermitEnddate(
+							DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				}
 				bpi.setConstructionLandUsePermitUrl(body.getConstructionLandUsePermitUrl());
 				bpi.setBuildingPermitNo(body.getBuildingPermitNo());
-				bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingPermitEndDate())){
+					bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				}
 				bpi.setBuildingPermitUrl(body.getBuildingPermitUrl());
 				bpi.setLetterOfAcceptanceUrl(body.getLetterOfAcceptanceUrl());
 				bpi.setBuildingConstructionPermitNo(body.getBuildingConstructPermitNo());
-				bpi.setBuildingConstructionPermitEnddate(
-						DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())){
+					bpi.setBuildingConstructionPermitEnddate(
+							DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				}
 				bpi.setBuildingConstructionPermitUrl(body.getBuildingConstructPermitUrl());
 				bpdao.updateByPrimaryKey(bpi);
 			}

@@ -61,10 +61,43 @@
         </div>
     </div>
 </div>
+<div class="modal" id="uploadBox">
+    <div class="modal-bg"></div>
+    <div class="modal-body">
+        <div class="modal-header clear">
+            <span class="left">上传头像</span>
+            <a href="javascript:;" class="right" data-miss="modal">×</a>
+        </div>
+        <div class="modal-cont">
+            <div class="upload_cont">
+                <div class="table">
+                    <div class="cell"><input type="text" class="input2"></div>
+                    <div class="cell wid110"><label class="btn-file">选择文件 <input type="file" value="选择文件" class=""></label></div>
+                </div>
+                <div class="upload_tips">你可以上传JPG、GIF或PNG文件上传图片最大4M</div>
+                <div class="text-right modal-footer">
+                    <a href="#" class="btn-blue">上传</a>
+                    <a href="#" class="btn-grey" data-miss="modal">取消</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 <block name="script">
 <script>
 $(function(){
     $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(0)").addClass('active');
+    $(".upload_avtar").click(function(event) {
+        $(".modal").show();
+    });
+    $(".btn-file input").on("change",function(){
+        var val = $(this).val();
+        $(this).parents(".table").find(".input2").val(val)
+    })
+    $(".upload_avtar").click(function() {
+
+    });
 })
 </script>
 </block>

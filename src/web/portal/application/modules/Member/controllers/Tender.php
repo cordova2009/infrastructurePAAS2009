@@ -8,6 +8,226 @@
 class TenderController extends MemberController{
 
     /**
+     * 保存招标时间要求
+     */
+    public function saveDateRequirementInfoAction(){
+
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+
+        $data['announcementBeginTime'] = I('announcementBeginTime');
+        if(empty($data['announcementBeginTime'])){
+            $this->error('公告开始时间不能为空！');
+        }
+        $data['announcementEndTime'] = I('announcementEndTime');
+        if(empty($data['announcementEndTime'])){
+            $this->error('公告结束时间不能为空！');
+        }
+        $data['biddingEndTime'] = I('biddingEndTime');
+        if(empty($data['biddingEndTime'])){
+            $this->error('投标截止时间不能为空！');
+        }
+        $data['bidOpenDate'] = I('bidOpenDate');
+        if(empty($data['bidOpenDate'])){
+            $this->error('开标时间不能为空！');
+        }
+
+        $curl = new Curl();
+        $resp = $curl->setData($data)->send('tender/saveAnswerMethodInfo');
+        if(!check_resp($resp)){
+            $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>10]);
+        }else{
+            $this->error('保存失败！');
+        }
+    }
+
+    /**
+     * 保存答疑方式
+     */
+    public function saveAnswerQuestionAction(){
+
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+
+        $data['startTime'] = I('startTime');
+        if(empty($data['startTime'])){
+            $this->error('答疑开始时间不能为空！');
+        }
+        $data['endTime'] = I('endTime');
+        if(empty($data['startTime'])){
+            $this->error('答疑结束时间不能为空！');
+        }
+
+        $data['QQ'] = I('QQ');
+        $data['QQtoken'] = I('QQtoken');
+        $data['email'] = I('email');
+        $data['telephone'] = I('telephone');
+        $data['address'] = I('address');
+        $data['addressAnswerTime'] = I('addressAnswerTime');
+        $data['addressAnswerDate'] = I('addressAnswerDate');
+
+        $curl = new Curl();
+        $resp = $curl->setData($data)->send('tender/saveAnswerMethodInfo');
+        if(check_resp($resp)){
+            $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>9]);
+        }else{
+            $this->error('保存失败！');
+        }
+    }
+
+    /**
+     * 保存招标项目投标文件
+     */
+    public function saveBidFileTypeInfoAction(){
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+        $yes_no = ['NO#','YES'];
+
+        $data['needBusinessStandard'] = $yes_no[intval(I('needBusinessStandard',0))%2];
+        $data['needTechnicalStandard'] = $yes_no[intval(I('needTechnicalStandard',0))%2];
+        $data['needCertificationCheckupFile'] = $yes_no[intval(I('needCertificationCheckupFile',0))%2];
+
+        $curl = new Curl();
+        $resp = $curl->setData($data)->send('tender/saveBidFileTypeInfo');
+        if(check_resp($resp)){
+            $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>8]);
+        }else{
+            $this->error('保存失败！');
+        }
+    }
+
+    /**
+     * 保存招标方式
+     */
+    public function saveMethodInfoAction(){
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+
+        $data['objectMethod'] = I('objectMethod','PUB');
+        if(empty($data['objectMethod'])){
+            $data['objectMethod'] = 'PUB';
+        }
+        //邀请招标
+        if($data['objectMethod'] == 'INV'){
+
+        }
+
+        $curl = new Curl();
+        $resp = $curl->setData($data)->send('tender/saveObjectMethodInfo');
+        if(check_resp($resp)){
+            $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>7]);
+        }else{
+            $this->error('保存失败！');
+        }
+    }
+
+    /**
+     * 保存保证金要求
+     */
+    public function saveBondInfoAction(){
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+
+        $data['bidBondAmount'] = price_dispose(I('bidBondAmount',0));
+        if(empty($data['bidBondAmount'])){
+            $this->error('保证金金额不能为空！');
+        }
+
+        $curl = new Curl();
+        $resp = $curl->setData($data)->send('tender/saveObjectBondInfo');
+        if(!check_resp($resp)){
+            $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>6]);
+        }else{
+            $this->error('保存失败！');
+        }
+    }
+
+    /**
+     * 保存资质证书要求
+     */
+    public function saveCertificationInfoAction(){
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+
+        $industryList = I('industry');
+        $certificateList = I('certificate');
+        if(sizeof($industryList) != sizeof($certificateList)){
+            $this->error('参数错误，行业与证书类型不一致！');
+        }
+
+        $data['bidderCertification'] = [];
+        if(!empty($industryList) && !empty($certificateList)){
+            foreach($industryList as $key=>$industryId){
+                $tmp_array = ['industryId'=>$industryId,'certificateId'=>$certificateList[$key]];
+                $data['bidderCertification'][] = $tmp_array;
+            }
+        }
+
+        $yes_no = ['NO#','YES'];
+
+        $data['needPmCertification'] = $yes_no[intval(I('needPmCertification',0))%2];
+        $data['needConstructorCertification'] = $yes_no[intval(I('needConstructorCertification',0))%2];
+        $data['needSafetyPermit'] = $yes_no[intval(I('needSafetyPermit',0))%2];
+        $data['needPmSafetyCertification'] = $yes_no[intval(I('needPmSafetyCertification',0))%2];
+
+        $curl = new Curl();
+        $resp = $curl->setData($data)->send('tender/saveObjectCertificationInfo');
+        if(check_resp($resp)){
+            $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>5]);
+        }else{
+            $this->error('保存失败！');
+        }
+    }
+
+    /**
      * 保存工期要求
      */
     public function saveRequirementInfoAction(){
@@ -104,10 +324,6 @@ class TenderController extends MemberController{
                 $data['letterOfAcceptanceUrl'] = I('letterOfAcceptanceUrl');
             }
 
-            $data['buildingConstructPermitNo'] = '';
-            $data['buildingConstructPermitEndDate'] = '';
-            $data['buildingConstructPermitUrl'] = '';
-
         }elseif($constructionProveType == 'BCP'){
             $data['buildingConstructPermitNo'] = I('buildingConstructPermitNo');
             if(empty($data['buildingConstructPermitNo'])){
@@ -122,7 +338,7 @@ class TenderController extends MemberController{
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('tender/saveObjectConstructionInfo');
-        if(!check_resp($resp)){
+        if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>3]);
         }else{
             $this->error('保存失败！');
@@ -263,8 +479,8 @@ class TenderController extends MemberController{
             'requirementInfo'=>'tender/queryProjectRequirementInfo',
             'certificationInfo'=>'tender/queryObjectCertificationInfo',
             'bondInfo'=>'tender/queryObjectBondInfo',
-            'bidFileTypeInfo'=>'tender/queryBidFileTypeInfo',
             'methodInfo'=>'tender/queryObjectMethodInfo',
+            'bidFileTypeInfo'=>'tender/queryBidFileTypeInfo',
             'answerMethodInfo'=>'tender/queryAnswerMethodInfo',
             'dateRequirementInfo'=>'tender/queryDateRequirementInfo',
             'bidEvaluationTypeInfo'=>'tender/queryBidEvaluationTypeInfo',

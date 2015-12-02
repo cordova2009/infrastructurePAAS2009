@@ -22,8 +22,8 @@ if(check_resp($resp)){
                     <span class="red">*</span> 国有土地使用证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="landUseCertificateNo[ZCB]">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="landUseCertificateEndDate[ZCB]">
+                    <input type="text" class="input1 " placeholder="编号" name="landUseCertificateNo[ZCB]" value="<?=isset($info)?$info['landUseCertificateNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="landUseCertificateEndDate[ZCB]" value="<?=isset($info)?$info['landUseCertificateEndDate']:''?>">
                 </div>
                 <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
             </li>
@@ -32,8 +32,8 @@ if(check_resp($resp)){
                     <span class="blue">a</span> 建设用地规划许可证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="constructionLandUsePermitNo[ZCB]">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="constructionLandUsePermitEndDate[ZCB]">
+                    <input type="text" class="input1 " placeholder="编号" name="constructionLandUsePermitNo[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="constructionLandUsePermitEndDate[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitEndDate']:''?>">
                 </div>
                 <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
             </li>
@@ -42,8 +42,8 @@ if(check_resp($resp)){
                     <span class="blue">b</span> 建设工程规划许可证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="buildingPermitNo[ZCB]">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingPermitEndDate[ZCB]">
+                    <input type="text" class="input1 " placeholder="编号" name="buildingPermitNo[ZCB]" value="<?=isset($info)?$info['buildingPermitNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingPermitEndDate[ZCB]" value="<?=isset($info)?$info['buildingPermitEndDate']:''?>">
                 </div>
                 <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
             </li>
@@ -81,8 +81,8 @@ if(check_resp($resp)){
                     <span class="red">*</span> 国有土地使用证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="landUseCertificateNo[KFS]">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="landUseCertificateEndDate[KFS]">
+                    <input type="text" class="input1 " placeholder="编号" name="landUseCertificateNo[KFS]" value="<?=isset($info)?$info['landUseCertificateNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="landUseCertificateEndDate[KFS]" value="<?=isset($info)?$info['landUseCertificateEndDate']:''?>">
                 </div>
                 <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
             </li>

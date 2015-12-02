@@ -375,7 +375,7 @@ function price_dispose($price,$dividend=100){
  * @return string
  */
 function price_format($price,$num=100){
-    return number_format(price_convert($price,$num),2);
+    return number_format(price_convert($price,$num),0);
     return $price;
 }
 /**

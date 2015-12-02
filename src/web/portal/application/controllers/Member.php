@@ -12,7 +12,7 @@ class MemberController extends MallController {
         parent::init();
 
         if(empty($this->user)){
-            $this->redirect('/login.html');
+            $this->redirect(U('/login'));
         }
     }
 }

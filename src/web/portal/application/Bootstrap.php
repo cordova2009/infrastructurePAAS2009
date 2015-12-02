@@ -52,8 +52,8 @@ class Bootstrap extends Yaf\Bootstrap_Abstract{
      */
     public function _initRoutes(Yaf\Dispatcher $dispatcher) {
         $router = $dispatcher->getRouter();
-        Yaf\Loader::import(CONF_PATH . 'route.php');
-        $router->addConfig($routeConfigs);
+        $config = new Yaf\Config\Ini(CONF_PATH.'route.ini','common');
+        $router->addConfig($config->routes->toArray());
     }
 
 //    public function _initDB() {

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -197,14 +198,16 @@ public class TenderServiceImpl implements TenderService {
 			return null;
 		}
 		QueryObjectBaseInfoBodyVOResult result = new QueryObjectBaseInfoBodyVOResult();
+		result.setObjectId(object.getObjectId());
 		result.setObjectName(object.getObjectName());
-		result.setBiddingNo(object.getObjectId());
+		result.setBiddingNo(object.getObjectNo());
 		result.setObjectScope(object.getObjectScope());
 		result.setBiddeeCompanyPrincipal(object.getBiddeeCompanyPrincipal());
-		result.setBiddeeCompanyTelephone(object.getObjectName());
-		result.setCurrency(object.getObjectName());
-		result.setContractType(object.getObjectName());
-		result.setEvaluationAmount(object.getObjectName());
+		result.setBiddeeCompanyTelephone(object.getBiddeeCompanyTelephone());
+		result.setCurrency(object.getCurrency());
+		result.setContractType(object.getContractType());
+		result.setEvaluationAmount(ObjectUtils.toString(object.getEvaluationAmount()));
+		result.setEvaluationAmountVisiable(object.getEvaluationAmountVisiable());
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目基础信息接口完成");
@@ -227,12 +230,24 @@ public class TenderServiceImpl implements TenderService {
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目基础信息接口开始");
 		}
-
-		BidObject bo = null;
-		List<BidObject> objs = dao.selectUnfinishObject(biddeeId, body.getObjectId());
-		if (objs != null && !objs.isEmpty()) {
-			bo = objs.get(0);
+		BidObject bo  = null;
+		if(StringUtils.isBlank(body.getObjectId())){
+			//查询有没有未完成的
+			List<BidObject> selectUnfinishObject = dao.selectUnfinishObject(biddeeId, null);
+			if(selectUnfinishObject!=null&&!selectUnfinishObject.isEmpty())
+			{
+				bo = selectUnfinishObject.get(0);
+			}
 		}
+		else{
+			
+			bo = dao.selectByPrimaryKey(body.getObjectId());
+			if(bo!=null){
+				//检查编号是否存在
+				ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+			}
+		}
+		
 		if (bo == null) {
 			bo = new BidObject();
 
@@ -245,7 +260,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setBiddeeId(biddeeId);
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
-			bo.setIndustryId(body.getIndustryId());
+//			bo.setIndustryId(body.getIndustryId());
 			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
@@ -257,6 +272,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
+			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(),"ENB"));
 			bo.setInsertTime(new Date());
 
 			dao.insert(bo);
@@ -264,7 +280,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setBiddeeId(biddeeId);
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
-			bo.setIndustryId(body.getIndustryId());
+//			bo.setIndustryId(body.getIndustryId());
 			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
@@ -275,6 +291,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setObjectAmount(0l);
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
+			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(),"ENB"));
 			dao.updateByPrimaryKey(bo);
 		}
 		if (log.isDebugEnabled()) {
@@ -300,6 +317,7 @@ public class TenderServiceImpl implements TenderService {
 		}
 		// 请自行调整
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
+		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ObjectProjectInfo bidproject = null;
 		List<ObjectProjectInfo> projects = bpdao.selectProjects(biddeeId, body.getObjectId(),
 				CommonStatusConst.STATUS_CREATE);
@@ -317,6 +335,7 @@ public class TenderServiceImpl implements TenderService {
 			result.setEmployer(bidproject.getEmployer());
 			result.setEmployerPrincipal(bidproject.getEmployerPrincipal());
 			result.setEmployerTelephone(bidproject.getEmployerTelephone());
+			result.setIndustryId(bo.getIndustryId());
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目工程信息接口完成");
@@ -347,7 +366,7 @@ public class TenderServiceImpl implements TenderService {
 		ObjectProjectInfo bp = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bp == null) {
 			bp = new ObjectProjectInfo();
-
+			
 			bp.setObjectId(bo.getObjectId());
 			bp.setProjectName(body.getProjectName());
 			bp.setProjectSite(body.getProjectSite());
@@ -369,6 +388,8 @@ public class TenderServiceImpl implements TenderService {
 
 			bpdao.updateByPrimaryKey(bp);
 		}
+		bo.setIndustryId(body.getIndustryId());
+		dao.updateByPrimaryKey(bo);
 
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目工程信息接口完成");
@@ -532,19 +553,29 @@ public class TenderServiceImpl implements TenderService {
 				bpi = new ObjectProjectInfo();
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
-				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getLandUseCertificateEndDate())){
+					bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				}
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
 				bpi.setConstructionLandUsePermitNo(body.getConstructionLandUsePermitNo());
-				bpi.setConstructionLandUsePermitEnddate(
-						DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())){
+					
+					bpi.setConstructionLandUsePermitEnddate(
+							DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				}
 				bpi.setConstructionLandUsePermitUrl(body.getConstructionLandUsePermitUrl());
 				bpi.setBuildingPermitNo(body.getBuildingPermitNo());
-				bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingPermitEndDate())){
+					
+					bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				}
 				bpi.setBuildingPermitUrl(body.getBuildingPermitUrl());
 				bpi.setLetterOfAcceptanceUrl(body.getLetterOfAcceptanceUrl());
 				bpi.setBuildingConstructionPermitNo(body.getBuildingConstructPermitNo());
-				bpi.setBuildingConstructionPermitEnddate(
-						DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())){
+					bpi.setBuildingConstructionPermitEnddate(
+							DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				}
 				bpi.setBuildingConstructionPermitUrl(body.getBuildingConstructPermitUrl());
 				bpi.setObjectId(body.getObjectId());
 				bpdao.insert(bpi);
@@ -552,19 +583,27 @@ public class TenderServiceImpl implements TenderService {
 
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
-				bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getLandUseCertificateEndDate())){
+					bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
+				}
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
 				bpi.setConstructionLandUsePermitNo(body.getConstructionLandUsePermitNo());
-				bpi.setConstructionLandUsePermitEnddate(
-						DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())){
+					bpi.setConstructionLandUsePermitEnddate(
+							DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
+				}
 				bpi.setConstructionLandUsePermitUrl(body.getConstructionLandUsePermitUrl());
 				bpi.setBuildingPermitNo(body.getBuildingPermitNo());
-				bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingPermitEndDate())){
+					bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
+				}
 				bpi.setBuildingPermitUrl(body.getBuildingPermitUrl());
 				bpi.setLetterOfAcceptanceUrl(body.getLetterOfAcceptanceUrl());
 				bpi.setBuildingConstructionPermitNo(body.getBuildingConstructPermitNo());
-				bpi.setBuildingConstructionPermitEnddate(
-						DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				if(StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())){
+					bpi.setBuildingConstructionPermitEnddate(
+							DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
+				}
 				bpi.setBuildingConstructionPermitUrl(body.getBuildingConstructPermitUrl());
 				bpdao.updateByPrimaryKey(bpi);
 			}

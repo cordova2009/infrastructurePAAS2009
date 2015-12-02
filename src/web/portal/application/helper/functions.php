@@ -11,6 +11,151 @@
  * 系统函数库
  */
 
+
+function encrypt($data,$key=''){
+    $size       = mcrypt_get_block_size(MCRYPT_DES, MCRYPT_MODE_CBC);
+    $data       = pkcs5Pad($data, $size);
+    $iv         = substr(strrev($key),0,8);
+    $passcrypt  = @mcrypt_encrypt(MCRYPT_DES ,$key, $data, MCRYPT_MODE_CBC,$iv);
+    return base64_encode($passcrypt);
+}
+
+function decrypt($data,$key=''){
+    $iv     = substr(strrev($key),0,8);
+    $str    = @mcrypt_decrypt(MCRYPT_DES,$key,base64_decode($data),MCRYPT_MODE_CBC,$iv);
+    return pkcs5Unpad($str);
+}
+
+function pkcs5Unpad($text){
+    $pad = ord($text[strlen($text)-1]);
+    if($pad >strlen($text)){
+        return false;
+    }
+    if($pad >strlen($text)){
+        return false;
+    }
+    if(strspn($text,chr($pad),strlen($text)-$pad)!=$pad){
+        return false;
+    }
+    return substr($text,0,-1*$pad);
+}
+
+function pkcs5Pad($text,$blocksize){
+    $pad = $blocksize - (strlen($text) % $blocksize);
+    return $text . str_repeat(chr($pad), $pad);
+}
+
+/**
+ * 获取输入参数 支持过滤和默认值
+ * 使用方法:
+ * <code>
+ * I('id',0); 获取id参数 自动判断get或者post
+ * I('post.name','','htmlspecialchars'); 获取$_POST['name']
+ * I('get.'); 获取$_GET
+ * </code>
+ * @param string $name 变量的名称 支持指定类型
+ * @param mixed $default 不存在的时候默认值
+ * @param mixed $filter 参数过滤方法
+ * @param mixed $datas 要获取的额外数据源
+ * @return mixed
+ */
+function I($name,$default='',$filter=null,$datas=null) {
+    $app = Yaf\Application::app();
+
+    if(strpos($name,'.')) { // 指定参数来源
+        list($method,$name) =   explode('.',$name,2);
+    }else{ // 默认为自动判断
+        $method =   'param';
+    }
+    switch(strtolower($method)) {
+        case 'get'     :   $input =& $_GET;break;
+        case 'post'    :   $input =& $_POST;break;
+        case 'put'     :   parse_str(file_get_contents('php://input'), $input);break;
+        case 'param'   :
+            switch($_SERVER['REQUEST_METHOD']) {
+                case 'POST':
+                    $input  = & $_POST;
+                    break;
+                case 'PUT':
+                    parse_str(file_get_contents('php://input'), $input);
+                    break;
+                default:
+                    $input  = & $_GET;
+            }
+            break;
+        case 'path'    :
+            $input  =   array();
+            if(!empty($_SERVER['PATH_INFO'])){
+                $input  =   explode('/',trim($_SERVER['PATH_INFO'],'/'));
+            }
+            break;
+        case 'request' :   $input =& $_REQUEST;   break;
+        case 'session' :   $input =& $_SESSION;   break;
+        case 'cookie'  :   $input =& $_COOKIE;    break;
+        case 'server'  :   $input =& $_SERVER;    break;
+        case 'globals' :   $input =& $GLOBALS;    break;
+        case 'data'    :   $input =& $datas;      break;
+        default:
+            return NULL;
+    }
+
+    if(''==$name) { // 获取全部变量
+        $data       =   $input;
+        $filters    =   isset($filter)?$filter:$app->getConfig()->get('default_filter');
+        if($filters) {
+            if(is_string($filters)){
+                $filters    = explode(',',$filters);
+            }
+            foreach($filters as $filter){
+                $data   = array_map_recursive($filter,$data); // 参数过滤
+            }
+        }
+    }elseif(isset($input[$name])) { // 取值操作
+        $data       =  $input[$name];
+        $filters    =  isset($filter)?$filter:$app->getConfig()->get('application')->get('default_filter');
+        if($filters) {
+            if(is_string($filters)){
+                $filters    = explode(',',$filters);
+            }elseif(is_int($filters)){
+                $filters    = array($filters);
+            }
+
+            foreach($filters as $filter){
+                if(function_exists($filter)) {
+                    $data  = is_array($data)?array_map_recursive($filter,$data):$filter($data); // 参数过滤
+                }else{
+                    $data = filter_var($data,is_int($filter)?$filter:filter_id($filter));
+                    if(false === $data) {
+                        return isset($default)?$default:NULL;
+                    }
+                }
+            }
+        }
+    }else{ // 变量默认值
+        $data       =    isset($default)?$default:NULL;
+    }
+    is_array($data) && array_walk_recursive($data,'think_filter');
+    return $data;
+}
+
+function array_map_recursive($filter, $data) {
+    $result = array();
+    foreach ($data as $key => $val) {
+        $result[$key] = is_array($val)
+            ? array_map_recursive($filter, $val)
+            : call_user_func($filter, $val);
+    }
+    return $result;
+}
+
+function think_filter(&$value){
+    // TODO 其他安全过滤
+
+    // 过滤查询特殊字符
+    if(preg_match('/^(EXP|NEQ|GT|EGT|LT|ELT|OR|LIKE|NOTLIKE|BETWEEN|IN)$/i',$value)){
+        $value .= ' ';
+    }
+}
 /**
  * URL组装 支持不同URL模式
  * @param string $url URL表达式，格式：'[模块/控制器/操作#锚点@域名]?参数1=值1&参数2=值2...'
@@ -21,7 +166,7 @@
  */
 function U($url='',$vars='',$suffix=true,$domain=false) {
 
-    if($suffix){
+    if(!empty($url) && $suffix){
         $suffix = Yaf\Registry::get('config')->application->url_suffix;
 
         if($suffix && '/' != substr($url,-1)){
@@ -63,19 +208,14 @@ function check_resp($resp){
  * @param $content
  * @return bool
  */
-function send_sms($mobile,$content){
+function send_sms($mobile){
 
     $config = Yaf\Registry::get('config');
+    $curl = new Curl($config->url->api->user);
+    $resp = $curl->setData(['mobileNum'=>$mobile])->send('userSecurity/getSmsCode');
 
-    $data = $config->url->api->sms->toArray();
-    $url    = array_shift($data);
-    $data['mobileNum']  = $mobile;
-    $data['content'] = $content;
-    $curl = new Curl();
-
-    $resp = $curl->setApiUrl($url)->setData2($data,false)->send('');
-
-    if($resp['errcode'] == 0){
+    $return = false;
+    if(!empty($resp) && $resp['errcode'] == 0){
         $return = true;
     }
 
@@ -114,25 +254,17 @@ function array_value_sort_to_str(Array $array=array()){
  */
 function test_mobile_sms($mobile,$sms_code){
 
-    $return = '';
+    $config = Yaf\Registry::get('config');
+    $curl = new Curl($config->url->api->user);
+    $resp = $curl->setData(['mobileNum'=>$mobile,'smsCode'=>$sms_code])
+                ->send('userSecurity/verifySmsCodeOnly');
 
-    $my_code = session('MobileSmsCode');
-
-    if(empty($mobile)){
-        $return = '请输入手机号码！';
-    }elseif(empty($sms_code)){
-        $return = '请输入短信验证码！';
-    }elseif(empty($my_code) || !is_array($my_code)){
-        $return = '您还未获取短信验证码！';
-    }elseif($mobile != $my_code['mobile'] || $sms_code != $my_code['code']){
-        $return = '验证码不匹配！';
-    }elseif(time()-$my_code['time'] > 600){
-        $return = '验证码已过期！';
+    if(!empty($resp) && $resp['errcode'] == 0){
+        $return = true;
+    }else{
+        $return = isset($resp['errmsg']) ? $resp['errmsg'] : '验证码不匹配！';
     }
 
-    if(empty($return)){
-        session('MobileSmsCode',null);
-    }
     return $return;
 }
 
@@ -146,7 +278,7 @@ function is_login(){
     if (empty($user)) {
         return 0;
     } else {
-        return isset($user['id']) ? $user['id'] : 0;
+        return isset($user['mobileNum']) ? $user['mobileNum'] : 0;
     }
 }
 
@@ -234,19 +366,27 @@ function session($name,$value=''){
  */
 function price_dispose($price,$dividend=100){
 
-    return intval(floatval($price)*$dividend);
+    return intval(floatval(str_replace(',','',$price))*$dividend);
 }
 /**
  * 金额格式化方法
  * @param int $price 单位为分
- * @param number $decimals 取几位小数
+ * @param int $num
  * @return string
  */
-function price_format($price){
-    $price = number_format(intval($price)/100,2);
+function price_format($price,$num=100){
+    return number_format(price_convert($price,$num),2);
     return $price;
 }
-
+/**
+ * 金额转换方法
+ * @param int $price 单位为分
+ * @param int $num
+ * @return string
+ */
+function price_convert($price,$num=100){
+    return intval($price)/$num;
+}
 /**
  * CURL发送请求
  * @param $url

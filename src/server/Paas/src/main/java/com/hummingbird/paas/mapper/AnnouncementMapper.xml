@@ -47,11 +47,11 @@
      </if>
      </select>
      
-  <select id="selectAnnouncement" resultMap="BaseResultMap" >
+  <select id="selectAnnouncement" resultMap="ResultMapWithBLOBs" >
     select 
-    <include refid="Base_Column_List" />
+    *
     from t_xxfb_announcement
-     where  TO_DAYS(NOW())-TO_DAYS(insert_time)&lt;expiry_date
+     where  insert_time &lt; date_add(NOW(),INTERVAL expiry_date day)
     <if test="creator !=null">
         and creator = #{creator,jdbcType=INTEGER}
     </if>

@@ -35,7 +35,8 @@ define ( 'RUNTIME_PATH', ROOT_PATH.DS.'Runtime/' );
  *自定义配置目录
  *将ThinkPHP的配置文件挪至其他位置
  */
-define('CUSTOM_CONF_PATH',      '/var/www/html/conf/paas/onethink/');
+//define('CUSTOM_CONF_PATH',      '/var/www/html/conf/paas/onethink/');
+define('CUSTOM_CONF_PATH',      '/Users/wangyf/GitHub/pass/conf/paas/onethink/');
 /**
  * 引入核心入口
  * ThinkPHP亦可移动到WEB以外的目录

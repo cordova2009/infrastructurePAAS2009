@@ -81,7 +81,7 @@ public class JedisPoolUtils {
 				log.debug("redis连接池创建成功" + redisUrl + porT + timeOut + password);
 			}
 		} catch (Exception e) {
-			log.error("redis连接池创建失败" + e);
+			log.error("redis连接池创建失败",e);
 		}
 
 	}
@@ -95,7 +95,7 @@ public class JedisPoolUtils {
 	}
 
 	/**
-	 * 获取一个jedis 对象
+	 * 获取一个jedis 对象,如果初始化失败(连接不成功),则会抛出异常
 	 * 
 	 * @return
 	 */
@@ -105,7 +105,21 @@ public class JedisPoolUtils {
 		if (jedisPool == null) {
 			poolInit();
 		}
-		  return jedisPool.getResource();
+		return jedisPool.getResource();
+	}
+	
+	/**
+	 * 尝试获取jedis 如果jedis连接失败,则返回空,
+	 * 适用于redis非必要的场合
+	 * @return
+	 */
+	public static Jedis getJedisIfNessary(){
+		try {
+			return getJedis();
+		} catch (JedisException e) {
+			log.error("无法获取redis连接",e);
+			return null;
+		}
 	}
 
 	/**

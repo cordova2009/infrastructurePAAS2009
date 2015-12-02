@@ -26,14 +26,14 @@ public interface UserNoticesMapper {
      * 根据主键查询记录
      */
     UserNotices selectByPrimaryKey(Integer id);
-    /**
-     * 查询最新的记录
-     * */
-    List<UserNotices> queryNoticesNewest(@Param("limit") int limit);
-    /**
-     * 分页查询
-     * */
-    List<UserNotices> getnoticeList(@Param("begin") int begin ,@Param("limit") int limit);
+//    /**
+//     * 查询最新的记录
+//     * */
+//    List<UserNotices> queryNoticesNewest(@Param("limit") int limit);
+//    /**
+//     * 分页查询
+//     * */
+//    List<UserNotices> getnoticeList(@Param("begin") int begin ,@Param("limit") int limit);
     /**
      * 查询我的记录
      * */

@@ -5,16 +5,20 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Biddee;
@@ -179,8 +183,8 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
 			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
 			registeredInfo.setBusinessScope(aa.getBusinessScope());
-			registeredInfo.setRegTime(aa.getRegTime());
-			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+			registeredInfo.setRegTime(DateUtil.formatShortDateorNull(aa.getRegTime()));
+			registeredInfo.setBusinessLicenseExpireTime(DateUtil.formatShortDateorNull(aa.getBusinessLicenseExpireTime()));
 			registeredInfo.setAddress(aa.getAddress());
 			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
 			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
@@ -336,8 +340,6 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveRegisteredInfo(String appId, BiddeeRegisteredInfo registeredInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
-		
 		int i= 0;
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
@@ -357,14 +359,26 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				String newBusinessLicenseUrl = registeredInfo.getNewBusinessLicenseUrl();
 				String businessScope = registeredInfo.getBusinessScope();
 				String address = registeredInfo.getAddress();
-				Date regTime = registeredInfo.getRegTime();
-				Date businessLicenseExpireTime = registeredInfo.getBusinessLicenseExpireTime();
-				
-				
-				
+				Date regTime = null;
+				Date businessLicenseExpireTime = null;
+				if(StringUtils.isNotBlank(registeredInfo.getRegTime())){
+					try {
+						regTime = DateUtils.parseDate(registeredInfo.getRegTime(),"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd");
+					} catch (ParseException e) {
+						log.error(String.format("企业成立时间%s日期格式不正确",registeredInfo.getRegTime()),e);
+						throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "企业成立时间日期格式不正确");
+					}
+				}
+				if(StringUtils.isNotBlank(registeredInfo.getBusinessLicenseExpireTime())){
+					try {
+						businessLicenseExpireTime = DateUtils.parseDate(registeredInfo.getBusinessLicenseExpireTime(),"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd");
+					} catch (ParseException e) {
+						log.error(String.format("企业营业期限%s日期格式不正确",registeredInfo.getBusinessLicenseExpireTime()),e);
+						throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "企业营业期限日期格式不正确");
+					}
+				}
 				
 				biddee.setBusinessLicenseType(businessLicenseType);
-				
 				if("NEW".equalsIgnoreCase(businessLicenseType)){
 					
 					biddee.setUnifiedSocialCreditCode(newBusinessLicenseNum);

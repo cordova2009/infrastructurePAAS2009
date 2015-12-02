@@ -1,5 +1,6 @@
 package com.hummingbird.capital.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,11 +18,16 @@ import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.UserBankcard;
 import com.hummingbird.capital.entity.UserPassword;
+import com.hummingbird.capital.exception.MaAccountException;
+import com.hummingbird.capital.face.Account;
 import com.hummingbird.capital.mapper.ProjectAccountMapper;
 import com.hummingbird.capital.mapper.ProjectAccountOrderMapper;
 import com.hummingbird.capital.mapper.UserBankcardMapper;
 import com.hummingbird.capital.mapper.UserPasswordMapper;
 import com.hummingbird.capital.services.CapitalManageService;
+import com.hummingbird.capital.entity.ProjectAccount;
+import com.hummingbird.capital.util.AccountValidateUtil;
+import com.hummingbird.capital.services.impl.AccountIdServiceImpl;
 
 @Service
 public class CapitalManageServiceImpl implements CapitalManageService{
@@ -30,11 +36,13 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	@Autowired
 	private UserBankcardMapper bankcardDao;
 	@Autowired
-	private ProjectAccountMapper ProActDao;
+	private ProjectAccountMapper proActDao;
 	@Autowired
 	ProjectAccountOrderMapper proActOrdDo;
 	@Autowired
 	UserPasswordMapper passwordDao;
+	@Autowired
+	AccountIdServiceImpl accountIdSrv;
 	@Override
 	public List<UserBankcard> queryBankListByUserId(Integer userId) {
 		// TODO Auto-generated method stub
@@ -43,7 +51,7 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	@Override
 	public ProjectAccount queryAccountInfo(Integer userId) {
 		
-		return ProActDao.queryAccountInfo(userId);
+		return proActDao.queryAccountInfo(userId);
 	}
 	@Override
 	public List<ProjectAccountOrder> queryAccountRecordsByAccountId(
@@ -77,7 +85,7 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		//尝试进行解密
 		if(StringUtils.isNotBlank(tradePassword)){
 			try {
-				decodeTradePassword= DESUtil.decodeDES(tradePassword, appkey);
+				decodeTradePassword= DESUtil.decodeDESwithCBC(tradePassword, appkey);
 				
 			}catch (Exception e) {
 				log.error(String.format("支付密码des解密出错"),e);
@@ -88,5 +96,41 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		ValidateResult vr = new ValidateResult();
 		vr.setValidateMsg("支付验证码验证成功");
 		return vr;
+	}
+	@Override
+	public Account createAccount(Integer userId) throws MaAccountException {
+		Account acc = proActDao.getAccountByUserId(userId);
+		String accountId=null;
+		if(acc==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("为用户%s创建现金帐户",userId));
+			}
+			ProjectAccount ca = new ProjectAccount();
+			ca.setUserId(userId);
+			accountId = accountIdSrv.prepareGetAccountId("9500");	
+			ca.setAccountId(accountId);
+			ca.setFrozenSum(0l);
+			ca.setInsertTime(new Date());
+			ca.setRemainingSum(0l);
+			ca.setStatus("OK#");
+			AccountValidateUtil.updateAccountSignature(ca);
+			try {
+				proActDao.insert(ca);
+			} catch (Exception e) {
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("创建资金帐户出错"),e);
+				}
+				//还原帐户
+//				accountIdSrv.returnAccountId(accountId);
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,"帐户创建失败");
+			}
+			acc = ca;
+		}else{
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("用户%s资金帐户已创建",userId));
+			}
+		}
+		
+		return acc;
 	}
 }

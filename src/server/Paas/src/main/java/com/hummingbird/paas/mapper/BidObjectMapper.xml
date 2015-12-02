@@ -35,6 +35,7 @@
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="object_type" property="objectType" jdbcType="VARCHAR" />
+    <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="MyTenderObjectListResultMap" type="com.hummingbird.paas.vo.MyTenderObjectListVO" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
@@ -112,7 +113,7 @@
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time, insert_time, update_time, object_type
+    win_bid_time, insert_time, update_time, object_type, evaluation_amount_visiable
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -289,8 +290,8 @@
       need_pm_certification, need_constructor_certification, 
       need_safety_permit, need_pm_safety_certification, 
       evaluation_amount, object_scope, win_bid_time, 
-      insert_time, update_time, object_type
-      )
+      insert_time, update_time, object_type, 
+      evaluation_amount_visiable)
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=BIGINT}, #{winBidderId,jdbcType=INTEGER}, 
@@ -302,8 +303,8 @@
       #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
       #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
       #{evaluationAmount,jdbcType=BIGINT}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}
-      )
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, 
+      #{evaluationAmountVisiable,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
@@ -407,6 +408,9 @@
       <if test="objectType != null" >
         object_type,
       </if>
+      <if test="evaluationAmountVisiable != null" >
+        evaluation_amount_visiable,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
@@ -507,6 +511,9 @@
       </if>
       <if test="objectType != null" >
         #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationAmountVisiable != null" >
+        #{evaluationAmountVisiable,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -609,6 +616,9 @@
       <if test="objectType != null" >
         object_type = #{objectType,jdbcType=VARCHAR},
       </if>
+      <if test="evaluationAmountVisiable != null" >
+        evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR},
+      </if>
     </set>
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
@@ -645,7 +655,8 @@
       win_bid_time = #{winBidTime,jdbcType=TIMESTAMP},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      object_type = #{objectType,jdbcType=VARCHAR}
+      object_type = #{objectType,jdbcType=VARCHAR},
+      evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -1,6 +1,5 @@
 package com.hummingbird.paas.mapper;
 
-import com.hummingbird.paas.entity.HyglBiddee;
 import com.hummingbird.paas.entity.HyglBidder;
 
 public interface HyglBidderMapper {
@@ -38,4 +37,11 @@ public interface HyglBidderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(HyglBidder record);
+    
+    /***
+    *
+    * @param memberLevel
+    * @return
+    */
+	String getMemberContent(String memberLevel);
 }

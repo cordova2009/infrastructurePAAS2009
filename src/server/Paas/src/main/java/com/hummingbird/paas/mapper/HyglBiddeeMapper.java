@@ -35,4 +35,11 @@ public interface HyglBiddeeMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(HyglBiddee record);
+    
+    /***
+    *
+    * @param memberLevel
+    * @return
+    */
+	String getMemberContent(String memberLevel);
 }

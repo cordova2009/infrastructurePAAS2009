@@ -1,9 +1,16 @@
 package com.hummingbird.usercenter.services.impl;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,6 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DESUtil;
+import com.hummingbird.common.util.Md5Util;
+import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.util.http.HttpRequester;
+import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.vo.AppVO;
+import com.hummingbird.usercenter.vo.MobileNumVO;
+import com.hummingbird.usercenter.vo.MobileVO;
+import com.hummingbird.usercenter.vo.UserBodyVO;
+import com.hummingbird.usercenter.vo.UserVO;
 import com.hummingbird.usercenter.entity.ProjectAccount;
 import com.hummingbird.usercenter.entity.Token;
 import com.hummingbird.usercenter.entity.User;
@@ -76,7 +92,7 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("根据用户id[%s]查找不到用户",userToken.getUserId()));
 				}
-				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("根据用户id[%s]查找不到用户",userToken.getUserId()));
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,"根据用户编号查找不到用户");
 				
 			}
 			else{
@@ -87,19 +103,19 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("token[%s]无效",token));
 			}
-			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("token[%s]无效或已过期,请重新登录",token));
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("用户登录已失效,请重新登录",token));
 			
 		}
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	public void saveUser(RegisterBodyVO body,String appId,String appkey) throws ValidateException{
+	public void saveUser(RegisterBodyVO body1,String appId,String appkey,String url,ResultModel rm) throws ValidateException,MaAccountException{
 			
 		//保存用户信息
 		User user = new User();
 		user.setInsertTime(new Date());
-		user.setNickName(body.getNickname());
-		user.setMobileNum(body.getMobileNum());
+		user.setNickName(body1.getNickname());
+		user.setMobileNum(body1.getMobileNum());
 		user.setUpdateTime(new Date());
 		user.setStatus("OK#");
 		userDao.insert(user);
@@ -107,9 +123,9 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		//保存密码信息
 		UserPassword password=new UserPassword();
 		//尝试进行解密
-		if(StringUtils.isNotBlank(body.getTradePassword())){
+		if(StringUtils.isNotBlank(body1.getTradePassword())){
 			try {
-				String tradePassword = DESUtil.decodeDESwithCBC(body.getTradePassword(), appkey);
+				String tradePassword = DESUtil.decodeDESwithCBC(body1.getTradePassword(), appkey);
 				password.setTradePassword(tradePassword);
 			} catch (Exception e) {
 				log.error(String.format("支付密码des解密出错"),e);
@@ -117,9 +133,9 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 				
 			}
 		}
-		if(StringUtils.isNotBlank(body.getLoginPassword())){
+		if(StringUtils.isNotBlank(body1.getLoginPassword())){
 			try {
-				String loginPassword = DESUtil.decodeDESwithCBC(body.getLoginPassword(), appkey);
+				String loginPassword = DESUtil.decodeDESwithCBC(body1.getLoginPassword(), appkey);
 				password.setPassword(loginPassword);
 			} catch (Exception e) {
 				log.error(String.format("登录密码des解密出错"),e);
@@ -133,9 +149,9 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		//保存实名认证信息
 		UserAuth auth=new UserAuth();
 		//尝试进行解密
-		if(StringUtils.isNotBlank(body.getRealName())){
+		if(StringUtils.isNotBlank(body1.getRealName())){
 			try {
-				String realName = DESUtil.decodeDESwithCBC(body.getRealName(), appkey);
+				String realName = DESUtil.decodeDESwithCBC(body1.getRealName(), appkey);
 				auth.setRealName(realName);
 			} catch (Exception e) {
 				log.error(String.format("支付密码des解密出错"),e);
@@ -143,9 +159,9 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 				
 			}
 		}
-		if(StringUtils.isNotBlank(body.getCardID())){
+		if(StringUtils.isNotBlank(body1.getCardID())){
 			try {
-				String cardId = DESUtil.decodeDESwithCBC(body.getCardID(), appkey);
+				String cardId = DESUtil.decodeDESwithCBC(body1.getCardID(), appkey);
 				auth.setIdentityNo(cardId);
 			} catch (Exception e) {
 				log.error(String.format("登录密码des解密出错"),e);
@@ -154,23 +170,55 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			}
 		}				
 		
-		auth.setIdentityNo(body.getCardID());
-		auth.setRealName(body.getRealName());
+		auth.setIdentityNo(body1.getCardID());
+		auth.setRealName(body1.getRealName());
 		auth.setUserId(user.getId());
 		auth.setRealNameVerify("OK#");
 		userAuthDao.insert(auth);
 		//添加资金账户
-		ProjectAccount account=new ProjectAccount();
-		String accountId = AccountGenerationUtil.genAmountOrderAccountNo();
-		account.setAccountId(accountId);
-		account.setFrozenSum(0l);
-		account.setInsertTime(new Date());
-		account.setRemainingSum(0l);
-		account.setStatus("OK#");
-		account.setUserId(user.getId());
-		AccountValidateUtil.updateAccountSignature(account);
-		proActDao.insert(account);
+		//调用资金账户管理开通资金账户接口
+		AppVO app=new AppVO();
+		app.setAppId(appId);
+		app.setNonce(String.valueOf((long)(10000000*Math.random())));
+		app.setTimeStamp(String.valueOf(System.currentTimeMillis()));
+		String mingwen=ValidateUtil.sortbyValues(app.getAppId(),appkey,app.getNonce(),app.getTimeStamp());
+		String signature = Md5Util.Encrypt(mingwen);
+		app.setSignature(signature);
+		UserBodyVO body=new UserBodyVO();
+		body.setMobileNum(body1.getMobileNum());
+		body.setUserId(user.getId());
+		UserVO transOrder=new UserVO();
+		transOrder.setApp(app);
+		transOrder.setBody(body);
+		String requestJson=null;
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT,
+				Boolean.TRUE);
+		try {
+			requestJson = mapper.writeValueAsString(transOrder);
 		
+		String paygatewayUrl = String.format("%s/capitalManage/open",url);
+		String result = new HttpRequester().postRequest(paygatewayUrl,
+				requestJson);
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("调用资金账户管理系统开通资金账户接口返回结果为%s",result));
+		}
+		HashMap resultmap = mapper.readValue(result, HashMap.class);
+		rm.putAll(resultmap);
+		//返回结果处理
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		boolean mapsuccess = "0".equals(ObjectUtils.toString(rm.get("errcode")));
+		if(!mapsuccess){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("用户【%s】开通资金账户失败",user.getMobileNum()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("用户【%s】开通资金账户失败",user.getMobileNum()));
+			
+		}
 	}
 
 	/*@Override

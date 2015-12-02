@@ -1,8 +1,9 @@
 package com.hummingbird.capital.mapper;
 
 import com.hummingbird.capital.entity.ProjectAccount;
+import com.hummingbird.capital.mapper.DefaultAccountDao;
 
-public interface ProjectAccountMapper {
+public interface ProjectAccountMapper extends DefaultAccountDao{
     /**
      * 根据主键删除记录
      */

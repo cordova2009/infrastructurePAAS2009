@@ -7,6 +7,14 @@
 */
 class IndexController extends MallController {
 
+    public function testAction(){
+
+        var_dump($this->getRequest()->getRequest());
+        var_dump($this->getRequest()->getParam('a'));
+        var_dump($this->getRequest()->getParams());
+
+        die;
+    }
     /**
     * 默认动作，首页
     * Yaf支持直接把Yaf\Request_Abstract::getParam()得到的同名参数作为Action的形参

@@ -37,6 +37,15 @@
                 <!-- 输出为JSON数据-->
                 <bean
                     class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+                    	<property name="objectMapper">
+                    		<bean class="org.codehaus.jackson.map.ObjectMapper">
+                    			<property name="dateFormat">
+                    				<bean class="java.text.SimpleDateFormat">
+                    					<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+                    				</bean>
+                    			</property>
+                    		</bean>
+                    	</property>
                 </bean>
             </list>
             <!-- JAXB XML View -->

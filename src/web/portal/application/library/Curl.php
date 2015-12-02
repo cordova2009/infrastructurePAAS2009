@@ -12,9 +12,9 @@ class Curl{
     protected $data;
     public $error;
     
-    public function __construct(){
-    
-        $this->api_url = Yaf\Registry::get('config')->url->api->paas;
+    public function __construct($api_url=null){
+
+        $this->api_url = empty($api_url) ? Yaf\Registry::get('config')->url->api->paas : $api_url;
     }
     
     public function setApiUrl($url){
@@ -22,7 +22,7 @@ class Curl{
         return $this;
     }
 
-    public function setData(Array $data=array()){
+    public function setData($data=array()){
 
         $data = ['body'=>$data];
         
@@ -34,7 +34,7 @@ class Curl{
         return $this;
     }
 
-    public function setData2(Array $data=array(),$flag=true){
+    public function setData2($data=array(),$flag=true){
 
         if($flag && !array_key_exists('app',$data)){
             $data['app'] = get_app();

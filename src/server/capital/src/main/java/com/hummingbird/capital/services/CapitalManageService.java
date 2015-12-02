@@ -9,6 +9,9 @@ import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.UserBankcard;
+import com.hummingbird.capital.exception.MaAccountException;
+import com.hummingbird.capital.face.Account;
+
 
 public interface CapitalManageService {
 
@@ -56,4 +59,11 @@ public interface CapitalManageService {
 	 */
 	public ValidateResult validatePaymentCode(String tradePassword,User user,String appkey) throws DataInvalidException;
 
+	/**
+	 * 创建现金帐户
+	 * @throws MaAccountException 
+	 * @see com.hummingbird.maaccount.service.impl.DefaultAccountService#createAccount(java.lang.Integer)
+	 */
+	public Account createAccount(Integer userId) throws MaAccountException;
+	
 }

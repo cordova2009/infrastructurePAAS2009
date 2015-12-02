@@ -24,7 +24,7 @@ implements PainttextAble {
 	     * 招标项目名称
 	     */
 	    protected String objectName;
-	    	/**
+	    /**
 	     * 工程类别编号
 	     */
 	    protected String industryId;
@@ -56,6 +56,10 @@ implements PainttextAble {
 	     * 工程标的估价
 	     */
 	    protected Long evaluationAmount;
+	    /**
+	     * 工程标的估价可见,ENB 可见, DIS 不可见
+	     */
+	    private String evaluationAmountVisiable;
 	
 	    	/**
 	     * @return 用户令牌
@@ -212,8 +216,31 @@ implements PainttextAble {
 	}
 	
 
-    public String toString() {
-		return org.apache.commons.lang.builder.ToStringBuilder.reflectionToString(this);
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "SaveObjectBaseInfo [token=" + token + ", objectId=" + objectId + ", objectName=" + objectName
+				+ ", industryId=" + industryId + ", biddingNo=" + biddingNo + ", objectScope=" + objectScope
+				+ ", biddeeCompanyPrincipal=" + biddeeCompanyPrincipal + ", biddeeCompanyTelephone="
+				+ biddeeCompanyTelephone + ", currency=" + currency + ", contractType=" + contractType
+				+ ", evaluationAmount=" + evaluationAmount + ", evaluationAmountVisiable=" + evaluationAmountVisiable
+				+ "]";
+	}
+
+	/**
+	 * 工程标的估价可见ENB 可见 DIS 不可见 
+	 */
+	public String getEvaluationAmountVisiable() {
+		return evaluationAmountVisiable;
+	}
+
+	/**
+	 * 工程标的估价可见ENB 可见 DIS 不可见 
+	 */
+	public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
+		this.evaluationAmountVisiable = evaluationAmountVisiable;
 	}
 
     

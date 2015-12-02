@@ -7,9 +7,12 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hummingbird.common.constant.CommonStatusConst;
+import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserNotices;
+import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.UserNoticesMapper;
 import com.hummingbird.paas.mapper.UserTokenMapper;
 import com.hummingbird.paas.services.MymsgService;
@@ -23,17 +26,38 @@ public class MymsgServiceImpl implements MymsgService{
     UserTokenMapper utDao;
     org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			.getLog(this.getClass());
-	public GetMsgListResultVO getMsgList(String token, Integer pageIndex, Integer pageSize) {
+    
+    
+	/**
+	 * 获取消息明细
+	 * @param msgId
+	 * @return
+	 * @throws PaasException 
+	 */
+	public UserNotices getMsgDetail(Integer msgId) throws PaasException{
+		UserNotices un = umDao.selectByPrimaryKey(msgId);
+		if(un==null){
+			throw new PaasException(PaasException.ERR_USER_NOTICE_INFO_EXCEPTION,"用户消息不存在");
+		}
+		if(StringUtils.equals("FLS",un.getStatus())){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("消息%s状态是fls,不能查询"));
+			}
+			throw new PaasException(PaasException.ERR_USER_NOTICE_INFO_EXCEPTION,"用户消息不存在");
+		}
+		if(StringUtils.equals("NO#",un.getStatus())){
+			un.setStatus("YES");
+			umDao.updateByPrimaryKey(un);
+		}
+		return un;
+	}
+    
+    
+	public GetMsgListResultVO getMsgList(Integer userId, Integer pageIndex, Integer pageSize) {
 		
-		if(StringUtils.isBlank(token)||pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+		if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
 			return null;
 		}
-		Token tk = utDao.selectByTokenStr(token);
-        if(tk==null){
-           log.error("获取我自己的站点信息错误");
-           return null;
-        }
-        Integer userId = tk.getUserId();
         if(userId==null||userId<=0){
         	log.error("用户ID为空或错误");
         	return null;
@@ -41,21 +65,20 @@ public class MymsgServiceImpl implements MymsgService{
 		List<GetMsgListResultBodyVO> gmbs = new ArrayList<GetMsgListResultBodyVO>();
 		GetMsgListResultBodyVO  gb = null;
 		DateUtil du = new DateUtil();
-		List<UserNotices> uns = umDao.getMsgList(userId, pageIndex,pageSize);
+		int start = (pageIndex-1)*pageSize;//从1开始,第一页是第0条
+		List<UserNotices> uns = umDao.getMsgList(userId, start,pageSize);
 		for(UserNotices un:uns){
 			 gb = new GetMsgListResultBodyVO();
-			 if(un.getStatus().equalsIgnoreCase("Y")){
-				 gb.setIsRead("YES");
-			 }else{
-				 gb.setIsRead("NO");
-			 }
-		     if(un.getInsertTime()!=null){
-		    	 gb.setCreateTime(du.format(un.getInsertTime(),""));
-		     }
+			 gb.setIsRead(un.getStatus());
+			 gb.setCreateTime(DateUtil.formatCommonDateorNull(un.getInsertTime()));
 		     gb.setMsgContent(un.getNoticeText());
 		     gb.setMsgId(un.getId());
-		     gb.setMsgTitl(un.getNoticeTitle());
+		     gb.setMsgTitle(un.getNoticeTitle());
 		     gb.setMsgType(un.getNoticeType());
+		     if(un.getSender()==0){
+		    	 gb.setMsgSender("系统");
+		     }
+		   //TODO 未知sender要怎么弄
 		     gmbs.add(gb);
 		}
 		GetMsgListResultVO gmv = new GetMsgListResultVO();
@@ -68,13 +91,8 @@ public class MymsgServiceImpl implements MymsgService{
 		return gmv;
 	}
 	@Override
-	public Integer getUnreadMsgNum(String token) {
-		Token tk = utDao.selectByTokenStr(token);
-        if(tk==null){
-           log.error("获取我自己的站点信息错误");
-           return null;
-        }
-        Integer userId = tk.getUserId();
+	public Integer getUnreadMsgNum(Integer userId) {
+
         if(userId==null||userId<=0){
         	log.error("用户ID为空或错误");
         	return null;

@@ -3,7 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidderCertificationCertificationMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidderCertificationCertification" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="biddee_apply_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="bidder_apply_id" property="bidderId" jdbcType="INTEGER" />
     <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
     <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
     <result column="certification_content" property="certificationContent" jdbcType="VARCHAR" />
@@ -25,7 +25,7 @@
     <result column="eqId" property="eqId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, biddee_apply_id, certification_id, certification_name, certification_content, expire_time, 
+    id, bidder_apply_id, certification_id, certification_name, certification_content, expire_time, 
     applicable_region, certification_no, industry_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -53,7 +53,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
-    insert into t_qyzz_bidder_certification_certification (id, biddee_apply_id, certification_id, 
+    insert into t_qyzz_bidder_certification_certification (id, bidder_apply_id, certification_id, 
       certification_name, certification_content, 
       expire_time, applicable_region, certification_no, 
       industry_id)
@@ -69,7 +69,7 @@
         id,
       </if>
       <if test="bidderId != null" >
-        biddee_apply_id,
+        bidder_apply_id,
       </if>
       <if test="certificationId != null" >
         certification_id,
@@ -127,7 +127,7 @@
     update t_qyzz_bidder_certification_certification
     <set >
       <if test="bidderId != null" >
-        biddee_apply_id = #{bidderId,jdbcType=INTEGER},
+        bidder_apply_id = #{bidderId,jdbcType=INTEGER},
       </if>
       <if test="certificationId != null" >
         certification_id = #{certificationId,jdbcType=INTEGER},
@@ -155,7 +155,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
     update t_qyzz_bidder_certification_certification
-    set biddee_apply_id = #{bidderId,jdbcType=INTEGER},
+    set bidder_apply_id = #{bidderId,jdbcType=INTEGER},
       certification_id = #{certificationId,jdbcType=INTEGER},
       certification_name = #{certificationName,jdbcType=VARCHAR},
       certification_content = #{certificationContent,jdbcType=VARCHAR},

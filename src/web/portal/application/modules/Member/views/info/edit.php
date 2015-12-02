@@ -7,7 +7,7 @@
             <div class="tit3"><a href="<?=U('/member/info/index')?>" class="right btn">取消修改</a>基本信息</div>
             <div class="clear base_info">
                 <a href="javascript:;" data-toggle="modal" data-target="#uploadBox">
-                    <img id="avatar" src="<?=empty($user['headImageUrl']) ? '/uploads/avtar.png' : imageView2($user['headImageUrl'])?>" class="avtar " >
+                    <img id="avatar" src="<?=empty($user['headImageUrl']) ? '/uploads/avtar.png' : imageView2($user['headImageUrl'],200,200)?>" class="avtar " >
                 </a>
                 <div class="auto">
                     <form action="<?=U('/member/info/edit')?>" method="post" class="ajax-form">
@@ -112,7 +112,8 @@ $(function(){
     });
     $("#file-upload").fileupload({
         url:this.action,//文件上传地址，当然也可以直接写在input的data-url属性内
-        formData:{param1:"p1",param2:"p2"},//如果需要额外添加参数可以在这里添加
+        formData:{},//如果需要额外添加参数可以在这里添加
+//        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         add: function (e, data) {
             if (e.isDefaultPrevented()) {
                 return false;
@@ -123,8 +124,7 @@ $(function(){
         },
         done:function(e,data){
             //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-            //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
-            //返回的数据在result.result中，假设我们服务器返回了一个json对象
+            //返回的数据在data.result中，假设我们服务器返回了一个json对象
             if(data.result.status == '0'){
                 $.post('<?=U('/member/info/updateAvatar')?>',{headImageUrl:data.result.url},function(resp){
                     if(resp.status == '0'){

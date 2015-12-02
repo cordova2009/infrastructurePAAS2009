@@ -58,8 +58,8 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 			String accountId,Pagingnation page) {
 		if(page!=null&&page.isCountsize()){
 			int totalcount = proActOrdDo.selectTotalCountByaccountId(accountId);
-			page.calculatePageCount();
 			page.setTotalCount(totalcount);
+			page.calculatePageCount();
 		}
 		return proActOrdDo.queryRecordsByAccountId(accountId,page);
 	}

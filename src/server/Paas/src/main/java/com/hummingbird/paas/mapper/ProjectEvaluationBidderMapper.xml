@@ -28,7 +28,7 @@
     where bidder_id = #{bidder_id,jdbcType=INTEGER}
   </select>
   <select id="countEvaluationScoreByBidderId" resultType="double" parameterType="java.lang.Integer" >
-    select sum(score)/count(id) from t_gcgl_project_evaluation_bidder
+  	select cast(IFNULL(sum(score)/count(id),0) as DECIMAL(10)) from t_gcgl_project_evaluation_bidder
     where bidder_id = #{bidder_id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

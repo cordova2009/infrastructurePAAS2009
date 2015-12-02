@@ -14,22 +14,22 @@ public class MemberBiddee {
     /**
      * 发包方id
      */
-    private Integer tenderer_id;
+    private Integer biddeeId;
 
     /**
      * 会员级别，STD标准会员，ADV高级会员
      */
-    private String member_level;
+    private String memberLevel;
 
     /**
      * 会员开始时间
      */
-    private Date start_time;
+    private Date startTime;
 
     /**
      * 会员结束时间
      */
-    private Date end_time;
+    private Date endTime;
 
     /**
      * @return 会员id
@@ -49,61 +49,61 @@ public class MemberBiddee {
     /**
      * @return 发包方id
      */
-    public Integer getTenderer_id() {
-        return tenderer_id;
+    public Integer getBiddeeId() {
+        return biddeeId;
     }
 
     /**
-     * @param tendererId 
+     * @param biddeeId 
 	 *            发包方id
      */
-    public void setTenderer_id(Integer tenderer_id) {
-        this.tenderer_id = tenderer_id;
+    public void setBiddeeId(Integer biddeeId) {
+        this.biddeeId = biddeeId;
     }
 
     /**
      * @return 会员级别，STD标准会员，ADV高级会员
      */
-    public String getMember_level() {
-        return member_level;
+    public String getMemberLevel() {
+        return memberLevel;
     }
 
     /**
      * @param memberLevel 
 	 *            会员级别，STD标准会员，ADV高级会员
      */
-    public void setMember_level(String member_level) {
-        this.member_level = member_level == null ? null : member_level.trim();
+    public void setMemberLevel(String memberLevel) {
+        this.memberLevel = memberLevel == null ? null : memberLevel.trim();
     }
 
     /**
      * @return 会员开始时间
      */
-    public Date getStart_time() {
-        return start_time;
+    public Date getStartTime() {
+        return startTime;
     }
 
     /**
      * @param startTime 
 	 *            会员开始时间
      */
-    public void setStart_time(Date start_time) {
-        this.start_time = start_time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     /**
      * @return 会员结束时间
      */
-    public Date getEnd_time() {
-        return end_time;
+    public Date getEndTime() {
+        return endTime;
     }
 
     /**
      * @param endTime 
 	 *            会员结束时间
      */
-    public void setEnd_time(Date end_time) {
-        this.end_time = end_time;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -119,10 +119,10 @@ public class MemberBiddee {
         }
         MemberBiddee other = (MemberBiddee) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getTenderer_id() == null ? other.getTenderer_id() == null : this.getTenderer_id().equals(other.getTenderer_id()))
-            && (this.getMember_level() == null ? other.getMember_level() == null : this.getMember_level().equals(other.getMember_level()))
-            && (this.getStart_time() == null ? other.getStart_time() == null : this.getStart_time().equals(other.getStart_time()))
-            && (this.getEnd_time() == null ? other.getEnd_time() == null : this.getEnd_time().equals(other.getEnd_time()));
+            && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
+            && (this.getMemberLevel() == null ? other.getMemberLevel() == null : this.getMemberLevel().equals(other.getMemberLevel()))
+            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
     }
 
     @Override
@@ -130,10 +130,17 @@ public class MemberBiddee {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getTenderer_id() == null) ? 0 : getTenderer_id().hashCode());
-        result = prime * result + ((getMember_level() == null) ? 0 : getMember_level().hashCode());
-        result = prime * result + ((getStart_time() == null) ? 0 : getStart_time().hashCode());
-        result = prime * result + ((getEnd_time() == null) ? 0 : getEnd_time().hashCode());
+        result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
+        result = prime * result + ((getMemberLevel() == null) ? 0 : getMemberLevel().hashCode());
+        result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
+        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         return result;
+    }
+    /**
+     * 是否过期
+     * @return
+     */
+    public boolean isOvertime(){
+    	return getEndTime()!=null?getEndTime().before(new Date()):false;
     }
 }

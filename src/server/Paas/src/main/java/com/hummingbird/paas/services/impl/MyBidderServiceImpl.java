@@ -498,26 +498,34 @@ public class MyBidderServiceImpl implements MyBidderService {
 //			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(eqInfos!= null && eqInfos.size()>0){
 				
-				BidderCertificationCertification b =new BidderCertificationCertification();
+				
 				
 				for(BidderEqInfo be :  eqInfos){
-					
-					ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
+					BidderCertificationCertification b =new BidderCertificationCertification();
+//					ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
 					BidderCertificationCertification bcc=bidderCertificationCertificationDao.selectByPrimaryKey(be.getEqId());
 					
 					if(bcc != null){
-						bcc.setExpireTime(be.getExpiryDate());
+						b.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());
-						bcc.setCertificationContent(be.getEqDesc());
-						bcc.setCertificationName(be.getEqName());
-						bcc.setIndustryId(be.getProjectType());//工程 类别
-						bidderCertificationCertificationDao.updateByPrimaryKeySelective(bcc);
+						b.setBidderId(bidder.getId());
+						b.setCertificationContent(be.getEqDesc());
+						b.setCertificationName(be.getEqName());
+						b.setIndustryId(be.getProjectType());//工程 类别
+						b.setApplicableRegion(be.getApplicableRegion());
+						b.setCertificationNo(be.getCertificationNo());
+						b.setId(be.getEqId());
+						bidderCertificationCertificationDao.deleteByPrimaryKey(be.getEqId());
+						bidderCertificationCertificationDao.insertSelective(b);
 						i++;
 //						i = bidderCertificationCertificationDao.updateByPrimaryKeySelective(b);
 						
 					}else{
 						b.setExpireTime(be.getExpiryDate());
 						b.setBidderId(bidder.getId());
+						b.setApplicableRegion(be.getApplicableRegion());
+						b.setBidderId(bidder.getId());
+						b.setCertificationNo(be.getCertificationNo());
 						b.setCertificationContent(be.getEqDesc());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别

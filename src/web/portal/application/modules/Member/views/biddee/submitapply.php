@@ -31,11 +31,11 @@
 						</tr>
 						<tr class="tr-bg1">
 							<td class="lab">法人姓名</td>
-							<td class="value"><?=$name?></td>
+							<td class="value"><?=$legal['name']?></td>
 						</tr>
 						<tr>
 							<td class="lab">法人身份证号</td>
-							<td class="value"><?=$idcard?></td>
+							<td class="value"><?=$legal['idCard']?></td>
 						</tr>
 <?php if($registered['businessLicenseType']=='OLD') {?>
 						<tr class="tr-bg1">

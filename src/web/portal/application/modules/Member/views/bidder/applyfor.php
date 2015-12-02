@@ -122,13 +122,13 @@
 							<div class="item">
 								<span class="lab">法人姓名</span>
 								<div class="auto value ">
-									<input type="text" class="input1 wid350" name="name" value="<?=$name?>" >
+									<input type="text" class="input1 wid350" name="name" value="<?=$legal['name']?>" >
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab">法人身份证号</span>
 								<div class="auto value ">
-									<input type="text" class="input1 wid350" name="idCard" value="<?=$idcard?>" >
+									<input type="text" class="input1 wid350" name="idCard" value="<?=$legal['idCard']?>" >
 								</div>
 							</div>
 							<div class="item">

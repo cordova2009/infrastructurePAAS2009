@@ -35,10 +35,10 @@ class BidderController extends MemberController{
 	    $this->assign('base',isset($base['baseInfo'])?$base['baseInfo']:'');
 	    $this->assign('registered',isset($registered['registeredInfo'])?$registered['registeredInfo']:'');
 	    $this->assign('legal',isset($legal['legalPerson'])?$legal['legalPerson']:'');
-	    $name = decrypt($legal['legalPerson']['name'],$this->config->api->app->appKey);
-	    $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
-	    $this->assign('name',$name);
-	    $this->assign('idcard',$idcard);
+	   // $name = decrypt($legal['legalPerson']['name'],$this->config->api->app->appKey);
+	   // $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
+	   // $this->assign('name',$name);
+	   // $this->assign('idcard',$idcard);
 	    $types =$curl->setData(new stdClass())->send('tender/queryCertificateList');
 	    $projectType = [];
 	    $certificateName = [];
@@ -79,10 +79,10 @@ class BidderController extends MemberController{
 	    $this->assign('registered',$resp['registeredInfo']);
 	    $this->assign('legal',$resp['legalPerson']);
 	    $this->assign('eqInfo',$resp['eqInfo']);
-	    $name = decrypt($resp['legalPerson']['name'],$this->config->api->app->appKey);
-	    $idcard = decrypt($resp['legalPerson']['idCard'],$this->config->api->app->appKey);
-	    $this->assign('name',$name);
-	    $this->assign('idcard',$idcard);
+	    //$name = decrypt($resp['legalPerson']['name'],$this->config->api->app->appKey);
+	   // $idcard = decrypt($resp['legalPerson']['idCard'],$this->config->api->app->appKey);
+	   // $this->assign('name',$name);
+	   // $this->assign('idcard',$idcard);
 	    $this->layout->meta_title = '提交申请认证信息';
     }
     public function doapplyAction()

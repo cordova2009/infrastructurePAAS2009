@@ -337,7 +337,7 @@
 									<div class="select">
 										<select name="projectType" id="projectType">
 <?php foreach($projectType as $k=>$v){?>
-	<option value="<?=$v?>"><?=$v?></option>
+	<option value="<?=$k?>"><?=$v?></option>
 <?php }?>
 										</select>
 									</div>
@@ -410,6 +410,8 @@ var tmp = [];
 tmp.push(obj.certificationContent);
 tmp.push('"></span><div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value" data-name="projectType">');
 tmp.push(obj.projectType);
+tmp.push('</div><div class="auto value hide" data-name="projectTypeid">');
+tmp.push(obj.projectTypeid);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value" data-name="eqName">');
 tmp.push(obj.eqName);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质编号</span> <div class="auto value" data-name="certificationNo">');
@@ -441,7 +443,8 @@ function save(){
 var obj ={};
 obj.certificationContent = $('#certificationContent').val();
 $('#certificationContent').val('');
-obj.projectType= $('#projectType').val();
+obj.projectTypeid= $('#projectType').val();
+obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
 $('#projectType').val('');
 obj.eqName= $('#eqName').val();
 $('#eqName').val('');
@@ -460,6 +463,15 @@ $('#zizhi_model').find('.subitem').each(function (i,o){
 var tmp = {}
 $(o).find('.value').each(function(i,o){
 var id = $(o).data('name')
+if(id=='projectType')
+{
+return;
+}
+if(id=='projectTypeid')
+{
+tmp['projectType']= $(o).html();
+return;
+}
 tmp[id]= $(o).html();
 });
 var src = $(o).find('img').eq(0).attr('src');
@@ -479,7 +491,7 @@ obj.push(tmp);
                     });
                 }else if(resp.msg != ''){
                     layer.msg(resp.msg,{icon:1},function(){
-                        calculateFunctionValue($this.attr('success'),[resp,$this],'');
+                        calculateFunctionValue($('#submit').attr('success'),[resp,{type:'zizhi',data:obj}],'');
                     });
                 }
             }
@@ -598,6 +610,19 @@ $('#eqName').append('<option value="'+o[i].certificateName+'">'+o[i].certificate
 					if(bankInfo==0)
 					{
 						bank_sucess();
+					}else{
+						return;
+					}
+					var zizhi=<?=json_encode($zizhi)?>;
+					if(zizhi[0]!=undefined)
+					{
+						zizhi_sucess();
+						for(var i=0;i<zizhi.length;i++)
+						{
+							zizhi[i].projectTypeid = zizhi[i].projectType;
+							zizhi[i].projectType = zizhi[i].projectTypeName;
+							add(zizhi[i]);
+						}
 					}else{
 						return;
 					}

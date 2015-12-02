@@ -38,15 +38,15 @@
 							<td class="value"><?=$idcard?></td>
 						</tr>
 <?php if($registered['businessLicenseType']=='OLD') {?>
-						<tr>
+						<tr class="tr-bg1">
 							<td class="lab">营业执照</td>
 							<td class="value"><?=$registered['businessLicenseNum']?></td>
 						</tr>
-						<tr class="tr-bg1">
+						<tr>
 							<td class="lab">组织机构代码证</td>
 							<td class="value"><?=$registered['organizationCodeNum']?></td>
 						</tr>
-						<tr>
+						<tr class="tr-bg1">
 							<td class="lab">税务登记证</td>
 							<td class="value"><?=$registered['taxRegistrationNum']?></td>
 						</tr>
@@ -56,23 +56,23 @@
 							<td class="value"><?=$registered['newBusinessLicenseNum']?></td>
 						</tr>
 <?php }?>
-						<tr class="tr-bg1">
+						<tr class="">
 							<td class="lab">经营范围</td>
 							<td class="value"><?=$registered['businessScope']?></td>
 						</tr>
-						<tr>
+						<tr class="tr-bg1">
 							<td class="lab">成立时间</td>
 							<td class="value"><?=$registered['regTime']?></td>
 						</tr>
-						<tr class="tr-bg1">
+						<tr>
 							<td class="lab">营业期限</td>
 							<td class="value"><?=$registered['businessLicenseExpireTime']?>年</td>
 						</tr>
-						<tr>
+						<tr class="tr-bg1">
 							<td class="lab">公司地址</td>
 							<td class="value"><?=$registered['address']?></td>
 						</tr>
-						<tr class="tr-bg1">
+						<tr>
 							<td class="lab">开户银行</td>
 							<td class="value"><?=$bank['bank']?></td>
 						</tr>
@@ -80,7 +80,7 @@
 							<td class="lab">账号名称</td>
 							<td class="value"><?=$bank['accountName']?></td>
 						</tr>
-						<tr class="tr-bg1">
+						</tr>
 							<td class="lab">银行账号</td>
 							<td class="value"><?=$bank['accountId']?></td>
 						</tr>

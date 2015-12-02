@@ -54,7 +54,7 @@
 						</div>
 						<div class="padm20 ">
 							<div class="charge_tips2 mart40">
-								<p><i class="ico i-tips"></i> 温馨提示： 为了投标更快一步，建议您立即<a href="<?=U('/member/biddee/applyfor');?>" class="blue">申请招标人认证</a></p>
+								<p><i class="ico i-tips"></i> 温馨提示： 为了投标更快一步，建议您立即<a href="<?=U('/member/biddee/applyfor');?>" class="blue">申请投标人认证</a></p>
 							</div>
 						</div>
 					</div>
@@ -64,7 +64,7 @@
 <block name="script">
 <script>
 $(function(){
-    $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(0)").addClass('active');
+    $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(1) a:eq(0)").addClass('active');
 })
 </script>
 </block>

@@ -129,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="查询首页中标结果概况接口"  onclick='setbinding("/tender/queryBidIndexSurvey","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }} ")'  type="button" ></td>
 	</tr>
 	<tr>
-		<td><input  value="查询首页中标项目列表接口"  onclick='setbinding("/tender/queryBidIndexList","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }} ")'  type="button" ></td>
+		<td><input  value="查询首页中标项目列表接口"  onclick='setbinding("/tender/queryBidIndexList","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\" },\"body\":{\"pageIndex\":1,\"pageSize\":1,\"projectName\":\"土石\",\"publishTime\":2}} ")'  type="button" ></td>
 		
 	</tr>
 	<tr>

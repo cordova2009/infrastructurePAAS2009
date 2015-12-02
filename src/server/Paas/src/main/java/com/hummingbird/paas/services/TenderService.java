@@ -356,8 +356,8 @@ public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
 * @return 
 * @throws BusinessException 
 */
-//public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException;
-public List<QueryBidIndexListResult> getBidIndexList() throws BusinessException;
+public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page,String projectName,Integer publishTime) throws BusinessException;
+
 /**
 * 查询首页中标结果概况接口
 * @param appId 应用id

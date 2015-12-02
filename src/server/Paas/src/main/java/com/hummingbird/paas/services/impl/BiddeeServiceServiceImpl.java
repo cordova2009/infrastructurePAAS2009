@@ -35,6 +35,7 @@ import com.hummingbird.paas.services.BiddeeServiceService;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.MyBuildingObjectProject;
 import com.hummingbird.paas.vo.MyEndedObjectProject;
+import com.hummingbird.paas.vo.MyLoseObjectProject;
 import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
 import com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO;
 import com.hummingbird.paas.vo.QueryMyEndedObjectListResultVO;
@@ -442,9 +443,9 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			return null;
 		}
 
-		List<MyEndedObjectProject> pjs = obDao.getMyEndedObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+		List<MyLoseObjectProject> pjs = obDao.getMyLoseObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
 		QueryMyLoseObjectListResultVO qol = null;
-		for (MyEndedObjectProject pj : pjs) {
+		for (MyLoseObjectProject pj : pjs) {
 			if(pj != null){
 			 qol = new QueryMyLoseObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());

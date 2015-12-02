@@ -468,7 +468,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public List<BidderEqInfo> getEnterpriseQualification(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
 		List<BidderEqInfo> aa = bidderCertificationCertificationDao.selectEqInfoByUserId(token.getUserId());
 
 		if(aa==null){

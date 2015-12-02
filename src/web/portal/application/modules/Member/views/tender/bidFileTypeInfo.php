@@ -13,7 +13,10 @@ if(check_resp($resp)){
             <div class="item mart0">
                 <div class="lab">招标文件</div>
                 <div class="value">
-                    <label class="btn-file2 padm20" ><input type="file">上传附件</label>
+                    <label class="btn-file2 padm20" >
+                        <input type="file" name="file">上传附件
+                        <input type="hidden" name="" value="<?=isset($info)?$info['needBusinessStandard']:''?>">
+                    </label>
                 </div>
             </div>
             <div class="tit6"><span class="red">*</span>请选择投标方需要提交的电子标书</div>
@@ -48,3 +51,17 @@ if(check_resp($resp)){
 
     </div>
 </div>
+<script>
+    $(".file-upload").fileupload({
+        url:'<?=U('/member/upload/file')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+        done:function(e,data){
+            //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+            //返回的数据在data.result中，假设我们服务器返回了一个json对象
+            if(data.result.status == '0'){
+                $(this).next().val(data.result.url);
+            }else{
+                layer.alert(data.result.msg,{icon:2});
+            }
+        }
+    })
+</script>

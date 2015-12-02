@@ -33,7 +33,7 @@ if(check_resp($resp)){
             <div class="item ">
                 <div class="lab"><span class="red">*</span>技术标评标地点</div>
                 <div class="value">
-                    <input type="text" class="input1 " placeholder="深圳市福田区竹子林求是大厦西座20开标大厅" name="bidEvaluationSite">
+                    <input type="text" class="input1 " placeholder="深圳市福田区竹子林求是大厦西座20开标大厅" name="bidEvaluationSite" value="<?=isset($info)?$info['bidEvaluationSite']:''?>">
                 </div>
             </div>
             <div class="item ">
@@ -42,11 +42,11 @@ if(check_resp($resp)){
                     <div class="checkBtn2">
                         <a href="javascript:;" >
                             直接票决定标
-                            <input name="bidWinnerDetermineWay" type="radio" class="hide" value="ORV" checked>
+                            <input name="bidWinnerDetermineWay" type="radio" class="hide" value="ORV">
                         </a>
                         <a href="javascript:;" class="active">
                             逐轮票决定标
-                            <input name="bidWinnerDetermineWay" type="radio" class="hide" value="MRV">
+                            <input name="bidWinnerDetermineWay" type="radio" class="hide" value="MRV" checked>
                         </a>
                         <a href="javascript:;" >
                             票决筹钱定标
@@ -61,11 +61,11 @@ if(check_resp($resp)){
                     <div class="checkBtn2">
                         <a href="javascript:;" >
                             简单铎书法
-                            <input name="voteWinWay" type="radio" class="hide" value="SMP" checked>
+                            <input name="voteWinWay" type="radio" class="hide" value="SMP">
                         </a>
                         <a href="javascript:;" class="active">
                             对比胜出法
-                            <input name="voteWinWay" type="radio" class="hide" value="CPN">
+                            <input name="voteWinWay" type="radio" class="hide" value="CPN" checked>
                         </a>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ if(check_resp($resp)){
         </div>
 
         <div class="text-center padv30">
-            <button type="submit" class="btn-green2">保存并继续</button>
+            <button type="submit" class="btn-green2">提交招标申请</button>
         </div>
 
         </form>

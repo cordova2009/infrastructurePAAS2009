@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	public Object queryPayResult(String orderId){
 		//请求支付宝查询支付结果
-		
+		return null;
 	}
 
 }

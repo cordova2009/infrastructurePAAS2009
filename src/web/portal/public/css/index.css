@@ -589,7 +589,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .checkBtn a.active:after{width: 16px;height: 12px;background: url(../images/ico1.png);background-position: -24px -278px;content: "";position: absolute;right: 5px;bottom: 5px;}
 .zhizhao{padding-left: 120px;}
 
-.i-right{background-position: -24px -280px;width: 16px;height: 11px;display: inline-block;vertical-align: middle;}
+.i-right{background-position: -24px -280px;width: 16px;height: 11px;display: inline-block;vertical-align: middle; float: right; top: 20px; right: 7px;}
 .zhizhao p{color: #555;font-size: 15px;padding-top: 25px;}
 
 .yaoqiu{border: #ff9b09 1px solid;border-radius: 2px;background: #ffe2b7;padding: 0 18px;}
@@ -693,7 +693,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .select:after{position:absolute;display:block;top:35%;right:20px;content:'';border-left:5px solid transparent;border-right:5px solid transparent;border-top:9px solid #aaa;pointer-events:none;}
 .select select{position:relative;height:40px;line-height:40px;display:block;width:100%;padding:0;padding-left:0.25rem;border:0;color:#333;text-overflow:'';background:transparent;background:rgba(255,255,255,0);cursor:pointer;border-radius:0;box-shadow:none;appearance:none;-moz-appearance:none;-webkit-appearance:none;}
 .select select:focus{text-shadow:none;}
-.select select:-ms-expand{display:none;}
+.select select::-ms-expand{display:none;}
 
 
 
@@ -738,7 +738,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .red2{color: #ff1b1b;}
 .btn{color: #fff;font-size: 16px;background: #8ab46e;border:none;line-height: 30px;cursor: pointer;;border-radius: 20px;padding: 0 20px;display: inline-block;}
 .btn-orange{font-size: 16px;color: #fff;background: #ff9b09;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
-.btn-blue{font-size: 16px;color: #fff;background: #1b8fff;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
+.btn-blue{font-size: 16px;color: #fff;background: #1b8fff;line-height: 30px;display: inline-block;padding: 0 20px; border: none; border-radius: 20px;}
 .btn-green{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
 .btn-green2{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 40px;display: inline-block;padding: 0 40px;}
 .btn-green3{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}

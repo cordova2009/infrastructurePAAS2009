@@ -122,13 +122,13 @@
 							<div class="item">
 								<span class="lab">法人姓名</span>
 								<div class="auto value ">
-									<input type="text" class="input1 wid350" name="name" value="<?=$name?>" >
+									<input type="text" class="input1 wid350" name="name" value="<?=$legal['name']?>" >
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab">法人身份证号</span>
 								<div class="auto value ">
-									<input type="text" class="input1 wid350" name="idCard" value="<?=$idcard?>" >
+									<input type="text" class="input1 wid350" name="idCard" value="<?=$legal['idCard']?>" >
 								</div>
 							</div>
 							<div class="item">
@@ -330,13 +330,12 @@
 						<div id="zizhi_model" >
 						</div>
 						<div class=" charge_form padv20">
-						<form action="<?=U('doapply')?>" method="post" class="ajax-form" success="zizhi_sucess">
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 工程类别</span>
 								<div class="auto value ">
-									<a href="#" class="btn right">保存</a>
+									<a href="#" class="btn right" id="save">保存</a>
 									<div class="select">
-										<select name="projectType" id="obj.projectType">
+										<select name="projectType" id="projectType">
 <?php foreach($projectType as $k=>$v){?>
 	<option value="<?=$k?>"><?=$v?></option>
 <?php }?>
@@ -348,10 +347,7 @@
 								<span class="lab"><span class="red">*</span> 资质名称</span>
 								<div class="auto value ">
 									<div class="select">
-										<select name="eqName" id="eqName">
-											<option value="1">
-												资质名称
-											</option>
+										<select name="eqName" id="eqName" >
 										</select>
 									</div>
 								</div>
@@ -359,19 +355,19 @@
 							<div class="item">
 								<span class="lab">资质编号</span>
 								<div class="auto value ">
-									<input type="text" class="input1 " name="eqNum">
+									<input type="text" class="input1 " name="certificationNo" id="certificationNo">
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 资质有效期</span>
 								<div class="auto value ">
-									<input type="text" class="input1 datepicker" name="expiryDate">
+									<input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate">
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 适用区域</span>
 								<div class="auto value ">
-									<input type="text" class="input1 " name="eqDesc">
+									<input type="text" class="input1 " name="applicableRegion" id="applicableRegion">
 								</div>
 							</div>
 
@@ -387,17 +383,17 @@
 									</div>
 								</div>
 							</div>
-
+<!--
 							<div class="bordb text-center padv40">
 								<a href="#"><img src="/images/add.png" height="54" width="54" alt=""></a>
 							</div>
 							<p class="checklist text-center padt20"><i class="ico i-check"></i> 我已阅读并同意《XXXX协议》</p>
 
+-->
 							<div class="text-center padv30">
 								<input type="hidden" name="type" value="bankInfo" >
-								<input type="hidden" class="btn-green2" value="保存并继续" >
+								<input type="button" id="submit" success="zizhi_sucess" class="btn-green2" value="保存并继续" >
 							</div>
-</form>
 						</div>
 					</div>
 				</div>
@@ -405,20 +401,117 @@
 			<!--list-->
 
 			<block name="script">
-<script src="/js/jquery.datetimepicker.js"></script>
+			<script src="/js/jquery.datetimepicker.js"></script>
 			<script>
 function add(obj)
 {
 var tmp = [];
- tmp.push('<div class="text-right padt20"> <a href="#" class="btn ">修改</a> <a href="#" class=" btn-grey2 marl10 ">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg"><img src="/images/pic3.jpg"></span>');
-tmp.push('<div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value">');
+ tmp.push('<div class="subitem"><div class="text-right padt20"> <a href="javascript:;" class="btn " onclick="edit();">修改</a> <a href="javascript:;" class=" btn-grey2 marl10 " onclick="del();">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg "><img src="');
+tmp.push(obj.certificationContent);
+tmp.push('"></span><div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value" data-name="projectType">');
 tmp.push(obj.projectType);
-tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value">');
+tmp.push('</div><div class="auto value hide" data-name="projectTypeid">');
+tmp.push(obj.projectTypeid);
+tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value" data-name="eqName">');
 tmp.push(obj.eqName);
-tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value">');
-tmp.push(obj.eqName);
-tmp.push('</div></div>');
-$('#zizhi_model').append(tmp.join());
+tmp.push('</div> </div> <div class="item"> <span class="lab">资质编号</span> <div class="auto value" data-name="certificationNo">');
+tmp.push(obj.certificationNo);
+tmp.push('</div> </div> <div class="item"> <span class="lab">资质有效期</span> <div class="auto value" data-name="expiryDate">');
+tmp.push(obj.expiryDate);
+tmp.push('</div> </div> <div class="item"> <span class="lab">适用区域</span> <div class="auto value" data-name="applicableRegion">');
+tmp.push(obj.applicableRegion);
+tmp.push('</div></div></div>');
+$('#zizhi_model').append(tmp.join(''));
+}
+function del()
+{
+var _this = event.target;
+$(_this).parent().parent().remove();
+}
+function edit()
+{
+var _this = event.target;
+$(_this).parent().parent().find('.value').each(function(i,o){
+var id = $(o).data('name')
+$('#'+id).val($(o).html());
+});
+var src = $(_this).parent().parent().find('img').eq(0).attr('src');
+$('#certificationContent').attr('src',src);
+$(_this).parent().parent().remove();
+}
+function save(){
+var obj ={};
+obj.certificationContent = $('#certificationContent').val();
+$('#certificationContent').val('');
+obj.projectTypeid= $('#projectType').val();
+obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
+$('#projectType').val('');
+obj.eqName= $('#eqName').val();
+$('#eqName').val('');
+obj.certificationNo= $('#certificationNo').val();
+$('#certificationNo').val('');
+obj.expiryDate= $('#expiryDate').val();
+$('#expiryDate').val('');
+obj.applicableRegion= $('#applicableRegion').val();
+$('#applicableRegion').val('');
+add(obj);
+}
+function submit()
+{
+var obj = [];
+$('#zizhi_model').find('.subitem').each(function (i,o){
+var tmp = {}
+$(o).find('.value').each(function(i,o){
+var id = $(o).data('name')
+if(id=='projectType')
+{
+return;
+}
+if(id=='projectTypeid')
+{
+tmp['projectType']= $(o).html();
+return;
+}
+tmp[id]= $(o).html();
+});
+var src = $(o).find('img').eq(0).attr('src');
+tmp.certificationContent=src;
+obj.push(tmp);
+});
+	
+	var loading = layer.load();
+        $.post('<?=U('doapply')?>',{type:'zizhi',data:obj},function(resp){
+            if(resp.status == '0'){
+
+                if(resp.url != '' && resp.msg == ''){
+                    window.location = resp.url;
+                }else if(resp.msg != '' && resp.url != null && resp.url != '' ){
+                    layer.msg(resp.msg,{icon:1},function(){
+                        window.location = resp.url;
+                    });
+                }else if(resp.msg != ''){
+                    layer.msg(resp.msg,{icon:1},function(){
+                        calculateFunctionValue($('#submit').attr('success'),[resp,{type:'zizhi',data:obj}],'');
+                    });
+                }
+            }
+            else{
+                layer.alert(resp.msg);
+            }
+        },'json').always(function () {
+            layer.close(loading);
+        });
+}
+var eqName = <?=json_encode($certificateName);?>;
+function selected()
+{
+var val = $('#projectType').val();
+var o = eqName[val];
+$('#eqName').empty();
+for(var i=0;i<o.length;i++)
+{
+$('#eqName').append('<option value="'+o[i].certificateName+'">'+o[i].certificateName+'</option>');
+}
 }
 				function base_sucess()
 				{
@@ -468,7 +561,7 @@ $('#zizhi_model').append(tmp.join());
 					$('#creditRating').html('80');
 					$(".progressBox .progress span").css({'width':'80%'});
 				}
-				function zizhi_sucess(a,b)
+				function zizhi_sucess()
 				{
 					$(".stepbox2 .clear li").removeClass('active');
 					$(".stepbox2 .clear li:eq(4)").addClass('active');
@@ -476,7 +569,6 @@ $('#zizhi_model').append(tmp.join());
 					$('#creditRating').html('100');
 					$(".progressBox .progress span").css({'width':'100%'});
 					$('#tijiao').attr('href','<?=U('submitapply')?>');
-					add(b);
 				}
 				function change()
 				{
@@ -492,8 +584,7 @@ $('#zizhi_model').append(tmp.join());
 				}
 				function init()
 				{
-					var cername = <?=json_encode($certificateName);?>;
-
+					selected();
 					var base="<?=empty($base['companyName'])?'1':'0'?>";
 					if(base==0)
 					{
@@ -522,6 +613,19 @@ $('#zizhi_model').append(tmp.join());
 					}else{
 						return;
 					}
+					var zizhi=<?=json_encode($zizhi)?>;
+					if(zizhi[0]!=undefined)
+					{
+						zizhi_sucess();
+						for(var i=0;i<zizhi.length;i++)
+						{
+							zizhi[i].projectTypeid = zizhi[i].projectType;
+							zizhi[i].projectType = zizhi[i].projectTypeName;
+							add(zizhi[i]);
+						}
+					}else{
+						return;
+					}
 				}
 				$(function(){
 					$(".jibenxx .checkBtn a").click(function() {
@@ -538,8 +642,12 @@ $('#zizhi_model').append(tmp.join());
 
 					});
 					$(".side_menu li").click(change);
+					$("#save").click(save);
+					$('#projectType').change(selected);
+					$('#submit').click(submit);
 					init();
 				})
+
 	
 			</script>
 			</block>

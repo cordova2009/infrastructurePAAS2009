@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['bidFileTypeInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto box pad0" id="bidFileTypeInfo">
     <div class="h2">招投标文件要求</div>
     <div class="padm30">
         <form action="<?=U('/member/tender/saveBidFileTypeInfo')?>" method="post" class="ajax-form" success="save_success" next_step="answerMethodInfo">

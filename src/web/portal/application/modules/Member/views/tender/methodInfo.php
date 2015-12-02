@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['objectMethodInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto box pad0" id="methodInfo">
     <div class="h2">招标方式</div>
     <div class="padm40">
         <form action="<?=U('/member/tender/saveMethodInfo')?>" method="post" class="ajax-form" success="save_success" next_step="bidFileTypeInfo">

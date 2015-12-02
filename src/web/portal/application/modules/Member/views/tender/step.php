@@ -1,6 +1,6 @@
-<div class="box  pad0 bg-orange">
+<div class="box pad0 bg-orange">
     <div class="stepbox2">
-        <ul class="clear">
+        <ul class="clear" id="step-box">
             <li class="first active">
                 <span class="num"></span>
                 <div class="line"></div>

@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['bidEvaluationTypeInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto box pad0" id="bidEvaluationTypeInfo">
     <div class="h2">评标方式</div>
     <div class="padm30">
 

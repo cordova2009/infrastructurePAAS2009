@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['bondInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto  box pad0" id="bondInfo">
     <div class="h2">保证金</div>
     <div class="padm30">
         <form action="<?=U('/member/tender/saveBondInfo')?>" method="post" class="ajax-form" success="save_success" next_step="methodInfo">

@@ -509,7 +509,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 						b.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());
 						b.setBidderId(bidder.getId());
-						b.setCertificationContent(be.getEqDesc());
+						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别
 						b.setApplicableRegion(be.getApplicableRegion());
@@ -526,7 +526,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 						b.setApplicableRegion(be.getApplicableRegion());
 						b.setBidderId(bidder.getId());
 						b.setCertificationNo(be.getCertificationNo());
-						b.setCertificationContent(be.getEqDesc());
+						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别
 						b.setCertificationId(be.getEqId());

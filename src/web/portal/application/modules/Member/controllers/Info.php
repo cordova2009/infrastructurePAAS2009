@@ -7,6 +7,33 @@
 */
 class InfoController extends MemberController {
 
+    /**
+     *修改头像
+     */
+    public function updateAvatarAction(){
+        if(IS_POST){
+
+            $data = [
+                'token'=>$this->user['token'],
+                'headImageUrl'=>I('headImageUrl')
+            ];
+
+            $curl = new Curl($this->config->url->api->user);
+            $resp = $curl->setData($data)
+                        ->send('userCenter/updateHeadImage');
+
+            if(check_resp($resp)) {
+                session('user_auth',array_merge($this->user,$data));
+                $this->success('修改成功！');
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '修改头像失败，请重新再试！');
+            }
+        }
+        $this->error('提交方式不正确！');
+    }
+    /**
+     * 银行开户信息
+     */
     public function bankAction(){
 
         $this->meta_title = '开户行信息';

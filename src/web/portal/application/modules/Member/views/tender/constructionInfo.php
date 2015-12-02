@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['ConstructionInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto box pad0" id="constructionInfo">
     <div class="h2">工程施工证明 <span class="fz16 color9">(1、2、3任选一种)</span></div>
 
     <div class="zhengming">

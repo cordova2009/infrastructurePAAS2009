@@ -7,10 +7,10 @@
 					<div class="box">
 						<div class="table text-center">
 							<div class="cell">
-								信用等级 <span class="tag2 marl20"><?=$overall['creditRating'];?></span>
+								信用等级 <span class="tag2 marl20"><?=isset($overall['creditRating'])?$overall['creditRating']:'无';?></span>
 							</div>
 							<div class="cell">
-								信用积分 <span class="fz26 marl20"><?=$overall['creditScore'];?></span>
+								信用积分 <span class="fz26 marl20"><?=intval($overall['creditScore']);?></span>
 							</div>
 						</div>
 					</div>
@@ -27,7 +27,7 @@
 									<td>基本信息</td>
 									<td>个人详细信息，工作信息</td>
 									<td><?=$datail['personalInfo']['status'];?></td>
-									<td class="padl20"><?=$datail['personalInfo']['creditScore'];?>分</td>
+									<td class="padl20"><?=(int)$datail['personalInfo']['creditScore'];?>分</td>
 								</tr>
 								<tr class="bordb">
 									<td>企业信息</td>
@@ -46,8 +46,8 @@
 										<p><span class="right wid90"><?=$datail['tradeInfo']['tradeAmount']['status'];?></span>交易金额</p>
 									</td>
 									<td class="padl20">
-										<p><?=$datail['tradeInfo']['tradeInfo']['creditScore'];?><i class="ico i-info"></i></p>
-										<p><?=$datail['tradeInfo']['tradeAmount']['creditScore'];?></p>
+										<p><?=(int)$datail['tradeInfo']['tradeInfo']['creditScore'];?><i class="ico i-info"></i></p>
+										<p><?=(int)$datail['tradeInfo']['tradeAmount']['creditScore'];?></p>
 									</td>
 								</tr>
 							</tbody></table>

@@ -1,5 +1,4 @@
 <div class=" main">
-<link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
 			<div class="box  pad0 bg-orange">
 				<div class="stepbox2">
 					<ul class="clear">
@@ -48,12 +47,9 @@
 						<li data-id="bank">
 							<a href="javascript:;">银行开户信息</a>
 						</li>
-						<li data-id="zizhi">
-							<a href="javascript:;">企业资质</a>
-						</li>
 					</ul>
 					<div class="tijiao">
-						<a href="#" id="tijiao" class="btn-tijiao">提交投标人认证</a>
+						<a href="#" id="tijiao" class="btn-tijiao">提交招标人认证</a>
 					</div>
 
 				</div>
@@ -87,7 +83,7 @@
 								</div>
 							</div>
 							<div class="item">
-								<span class="lab">注册资本</span>
+								<span class="lab"> 注册资本</span>
 								<div class="auto value ">
 									<input type="text" class="input1 " name="registeredCapital" value="<?=$base['registeredCapital']?>" >
 								</div>
@@ -318,111 +314,20 @@
 							<div class="text-center padv30">
 								<input type="hidden" name="type" value="bankInfo" >
 								<input type="hidden" name="accountName" value="<?=$bankInfo['accountName']?>" id="accountName">
-								<input type="submit" class="btn-green2" value="保存并继续">
+								<input type="submit" class="btn-green2" value="保存">
 							</div>
 						</div>
 					</form>
 					</div>
 				</div>
-				<div class="auto  box pad0 hide" id="zizhi"> 
-					<div class="h2">企业资质</div>
-					<div class="padm30 jibenxx" id="zizhi_show">
-						<div id="zizhi_model" >
-						</div>
-						<div class=" charge_form padv20">
-						<form action="<?=U('doapply')?>" method="post" class="ajax-form" success="zizhi_sucess">
-							<div class="item">
-								<span class="lab"><span class="red">*</span> 工程类别</span>
-								<div class="auto value ">
-									<a href="#" class="btn right">保存</a>
-									<div class="select">
-										<select name="projectType" id="obj.projectType">
-<?php foreach($projectType as $k=>$v){?>
-	<option value="<?=$k?>"><?=$v?></option>
-<?php }?>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<span class="lab"><span class="red">*</span> 资质名称</span>
-								<div class="auto value ">
-									<div class="select">
-										<select name="eqName" id="eqName">
-											<option value="1">
-												资质名称
-											</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<span class="lab">资质编号</span>
-								<div class="auto value ">
-									<input type="text" class="input1 " name="eqNum">
-								</div>
-							</div>
-							<div class="item">
-								<span class="lab"><span class="red">*</span> 资质有效期</span>
-								<div class="auto value ">
-									<input type="text" class="input1 datepicker" name="expiryDate">
-								</div>
-							</div>
-							<div class="item">
-								<span class="lab"><span class="red">*</span> 适用区域</span>
-								<div class="auto value ">
-									<input type="text" class="input1 " name="eqDesc">
-								</div>
-							</div>
 
-							<div class="item bordb padb30">
-								<span class="lab"><span class="red">*</span> 附件上传</span>
-								<div class="auto value ">
-									<div class="btn-file3">上传文件 <input type="file"></div>
-									<div class="wid100 dib vert marl10">
-										<p class="color8 text-center lineh20">上传中…</p>
-										<div class="progress mart5">
-											<span style="width:50%" class="on"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="bordb text-center padv40">
-								<a href="#"><img src="/images/add.png" height="54" width="54" alt=""></a>
-							</div>
-							<p class="checklist text-center padt20"><i class="ico i-check"></i> 我已阅读并同意《XXXX协议》</p>
-
-							<div class="text-center padv30">
-								<input type="hidden" name="type" value="bankInfo" >
-								<input type="hidden" class="btn-green2" value="保存并继续" >
-							</div>
-</form>
-						</div>
-					</div>
-				</div>
 				</div>
 			<!--list-->
 
 			<block name="script">
-<script src="/js/jquery.datetimepicker.js"></script>
 			<script>
-function add(obj)
-{
-var tmp = [];
- tmp.push('<div class="text-right padt20"> <a href="#" class="btn ">修改</a> <a href="#" class=" btn-grey2 marl10 ">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg"><img src="/images/pic3.jpg"></span>');
-tmp.push('<div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value">');
-tmp.push(obj.projectType);
-tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value">');
-tmp.push(obj.eqName);
-tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value">');
-tmp.push(obj.eqName);
-tmp.push('</div></div>');
-$('#zizhi_model').append(tmp.join());
-}
 				function base_sucess()
 				{
-
 					$('#base').hide();
 					$('#legal').show();
 					$(".stepbox2 .clear li").removeClass('active');
@@ -430,13 +335,12 @@ $('#zizhi_model').append(tmp.join());
 					$(".side_menu li").removeClass('on');
 					$(".side_menu li:eq(1)").addClass('on');
 					$(".side_menu li:eq(0) a").html('基本信息 <i class="ico i-right"></i>');
-					$('#creditRating').html('20');
-					$(".progressBox .progress span").css({'width':'20%'});
+					$('#creditRating').html('25');
+					$(".progressBox .progress span").css({'width':'25%'});
 					$('#accountName').val($('#companyName').val());
 				}
 				function legal_sucess()
 				{
-
 					$('#legal').hide();
 					$('#companyRegistered').show();
 					$(".stepbox2 .clear li").removeClass('active');
@@ -444,12 +348,11 @@ $('#zizhi_model').append(tmp.join());
 					$(".side_menu li").removeClass('on');
 					$(".side_menu li:eq(2)").addClass('on');
 					$(".side_menu li:eq(1) a").html('法人信息 <i class="ico i-right"></i>');
-					$('#creditRating').html('40');
-					$(".progressBox .progress span").css({'width':'40%'})
+					$('#creditRating').html('50');
+					$(".progressBox .progress span").css({'width':'50%'})
 				}
 				function companyRegistered_sucess()
 				{
-
 					$('#companyRegistered').hide();
 					$('#bank').show();
 					$(".stepbox2 .clear li").removeClass('active');
@@ -457,26 +360,17 @@ $('#zizhi_model').append(tmp.join());
 					$(".side_menu li").removeClass('on');
 					$(".side_menu li:eq(3)").addClass('on');
 					$(".side_menu li:eq(2) a").html('公司注册信息 <i class="ico i-right"></i>');
-					$('#creditRating').html('60');
-					$(".progressBox .progress span").css({'width':'60%'})
+					$('#creditRating').html('75');
+					$(".progressBox .progress span").css({'width':'75%'})
 				}
 				function bank_sucess()
 				{
-					$('#bank').hide();
-					$('#zizhi').show();
-					$(".side_menu li:eq(3) a").html('银行开户信息 <i class="ico i-right"></i>');
-					$('#creditRating').html('80');
-					$(".progressBox .progress span").css({'width':'80%'});
-				}
-				function zizhi_sucess(a,b)
-				{
 					$(".stepbox2 .clear li").removeClass('active');
-					$(".stepbox2 .clear li:eq(4)").addClass('active');
-					$(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
+					$(".stepbox2 .clear li:eq(3)").addClass('active');
+					$(".side_menu li:eq(3) a").html('银行开户信息 <i class="ico i-right"></i>');
 					$('#creditRating').html('100');
 					$(".progressBox .progress span").css({'width':'100%'});
 					$('#tijiao').attr('href','<?=U('submitapply')?>');
-					add(b);
 				}
 				function change()
 				{
@@ -492,34 +386,28 @@ $('#zizhi_model').append(tmp.join());
 				}
 				function init()
 				{
-					var cername = <?=json_encode($certificateName);?>;
-
 					var base="<?=empty($base['companyName'])?'1':'0'?>";
 					if(base==0)
 					{
 						base_sucess();
-					}else{
 						return;
 					}
 					var legal="<?=empty($legal['name'])?'1':'0'?>";
 					if(legal==0)
 					{
 						legal_sucess();
-					}else{
 						return;
 					}
 					var registered="<?=empty($registered['businessLicenseType'])?'1':'0'?>";
 					if(registered==0)
 					{
 						companyRegistered_sucess();
-					}else{
 						return;
 					}
 					var bankInfo="<?=empty($bankInfo['accountId'])?'1':'0'?>";
 					if(bankInfo==0)
 					{
 						bank_sucess();
-					}else{
 						return;
 					}
 				}
@@ -535,7 +423,6 @@ $('#zizhi_model').append(tmp.join());
 						{
 							$('#businessLicenseType').val('OLD');
 						}
-
 					});
 					$(".side_menu li").click(change);
 					init();

@@ -140,18 +140,18 @@ public interface BidObjectMapper {
 	QueryObjectIndexSurveyResult selectObjectIndexSurvey();
 	
 	/**
-	 *查询首页中标项目列表接口
-	 * @param id
+	 * 查询首页中标项目列表接口
+	 * @param publishTime 
+	 * @param projectName 
 	 * @return
 	 */
-	int selectTotalBidIndexList();
+	int selectTotalBidIndexList(@Param("projectName")String projectName,@Param("publishTime") Integer publishTime);
 	
 	/**
-	 *查询首页中标项目列表接口
-	 * @param id
+	 * 查询首页中标项目列表接口
 	 * @return
 	 */
-	List<QueryBidIndexListResult> selectBidIndexList(@Param("page")Pagingnation page);
+	List<QueryBidIndexListResult> selectBidIndexList(@Param("projectName")String projectName,@Param("publishTime") Integer publishTime,@Param("page")Pagingnation page);
 	
 
     /**

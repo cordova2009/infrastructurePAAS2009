@@ -2443,12 +2443,12 @@ public class TenderController extends BaseController {
 		
 		try {
 			
-//				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
 				List<QueryBidIndexListResult> list=new ArrayList<QueryBidIndexListResult>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
 //				list = tenderService.getBidIndexList(page);
-				list = tenderService.getBidIndexList();
+				list = tenderService.getBidIndexList(page,transorder.getBody().getProjectName(),transorder.getBody().getPublishTime());
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryBidIndexListResult, Map>() {
 
 					@Override
@@ -2465,8 +2465,8 @@ public class TenderController extends BaseController {
 						}
 					}
 				});
-				rm.put("list", nos);
-//				mergeListOutput(rm, page, nos);
+//				rm.put("list", nos);
+				mergeListOutput(rm, page, nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
@@ -67,6 +68,8 @@ import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
+import com.hummingbird.paas.vo.JsonResult;
+import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
@@ -1731,6 +1734,22 @@ public class TenderController extends BaseController {
 					
 					List<TagInfo> tagList = new ArrayList<TagInfo>();
 //					---------------------------------------------------------------------
+					Gson ss = new Gson();
+					try{
+						JsonResult str = ss.fromJson(tagJson, JsonResult.class);
+
+						if(str!= null&&"0".equals(str.getErrcode())){
+							for(JsonResultMsg msg : str.getErrmsg()){
+								TagInfo aa =new TagInfo();
+								aa.setTagName(msg.getTagName());
+								aa.setTagNum(msg.getTabUseNum());
+								tagList.add(aa);
+							}
+							
+						}
+					}catch(JsonSyntaxException e){
+						log.error(e.getMessage());
+					}
 					
 					ter.setTag(tagList);
 				

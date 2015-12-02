@@ -74,10 +74,11 @@
    <resultMap id="TenderObjectListResultMap" type="com.hummingbird.paas.vo.TenderObjectListReturnVO" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-   
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
-    <result column="company_name" property="winBidder" jdbcType="VARCHAR" />
-    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="company_name" property="biddee" jdbcType="VARCHAR" />
+     <result column="level_name" property="creditRating" jdbcType="VARCHAR" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
+    <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
+    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="IndexObjectListResultMap" type="com.hummingbird.paas.vo.QueryIndexObjectListResult" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />

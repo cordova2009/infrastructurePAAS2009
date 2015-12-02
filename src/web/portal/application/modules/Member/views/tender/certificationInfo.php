@@ -33,8 +33,8 @@ if(check_resp($resp)){
                 <tr>
                     <td class="checklist">
                         <i class="ico i-check"></i>
-                        <input type="checkbox" name="industry[]" value="<?=$industry['industryId']?>" class="">
-                        <input type="checkbox" name="certificate[]" value="<?=$item['certificateId']?>" class="">
+                        <input type="checkbox" name="industry[]" value="<?=$industry['industryId']?>" class="hide" >
+                        <input type="checkbox" name="certificate[]" value="<?=$item['certificateId']?>" class="hide">
                     </td>
                     <td class=""><?=$industry['industryName']?></td>
                     <td class=""><?=$item['certificateName']?></td>
@@ -56,26 +56,26 @@ if(check_resp($resp)){
             <p class="txt">投标人主要人员资质</p>
             <ul class="clear">
                 <li>
-                    <i class="ico i-check"></i>
-                    <input type="checkbox" name="needPmCertification" value="YES" class="">
+                    <i class="ico i-check <?php if(isset($info) && $info['needPmCertification'] == 'YES') echo 'on'?>"></i>
+                    <input type="checkbox" name="needPmCertification" value="1" class="hide" <?php if(isset($info) && $info['needPmCertification'] == 'YES') echo 'checked'?>>
                     需要投标人项目经理证
                 </li>
                 <li>
-                    <i class="ico i-check"></i>
-                    <input type="checkbox" name="needConstructorCertification" value="YES" class="">
+                    <i class="ico i-check <?php if(isset($info) && $info['needConstructorCertification'] == 'YES') echo 'on'?>"></i>
+                    <input type="checkbox" name="needConstructorCertification" value="1" class="hide" <?php if(isset($info) && $info['needConstructorCertification'] == 'YES') echo 'checked'?>>
                     需要投标人建造师证
                 </li>
             </ul>
             <p class="txt">投标人安全生产证明</p>
             <ul class="clear">
                 <li>
-                    <i class="ico i-check"></i>
-                    <input type="checkbox" name="needSafetyPermit" value="YES" class="">
+                    <i class="ico i-check <?php if(isset($info) && $info['needSafetyPermit'] == 'YES') echo 'on'?>"></i>
+                    <input type="checkbox" name="needSafetyPermit" value="1" class="hide" <?php if(isset($info) && $info['needSafetyPermit'] == 'YES') echo 'checked'?>>
                     需要安全生产许可证明
                 </li>
                 <li>
-                    <i class="ico i-check"></i>
-                    <input type="checkbox" name="needPmSafetyCertification" value="YES" class="">
+                    <i class="ico i-check <?php if(isset($info) && $info['needPmSafetyCertification'] == 'YES') echo 'on'?>"></i>
+                    <input type="checkbox" name="needPmSafetyCertification" value="1" class="hide" <?php if(isset($info) && $info['needPmSafetyCertification'] == 'YES') echo 'checked'?>>
                     需要项目经理安全生产考核合格证明
                 </li>
             </ul>

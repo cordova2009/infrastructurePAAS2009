@@ -18,16 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.commonbiz.face.NotificationResponse;
 import com.hummingbird.commonbiz.vo.HttpResponseWapper;
-import com.hummingbird.fnbilling.service.OrderService;
-import com.hummingbird.fnbilling.service.PaymentNotifyReceiver;
+import com.hummingbird.payment.service.PaymentNotifyReceiver;
 import com.hummingbird.payment.util.AlipayNotify;
+import com.hummingbird.payment.util.Payment;
 import com.hummingbird.payment.vo.AlipayPayNotification;
 
 /**
@@ -40,8 +40,6 @@ import com.hummingbird.payment.vo.AlipayPayNotification;
 public class AlipayPaymentController extends BaseController{
 
 	
-	@Autowired
-	OrderService orderSrv;
 	@Autowired
 	PaymentNotifyReceiver receiver;
 	
@@ -150,6 +148,55 @@ public class AlipayPaymentController extends BaseController{
 			}
 		
 		}
+	}
+	
+	/**
+	 * 查询支付结果
+	 * 
+	 * @author kimi
+	 * @dateTime 2012-6-18 下午8:21:33
+	 * @param result
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return ，只接收成功的
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryPayResult", method = RequestMethod.POST)
+	protected void queryPayResult(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("查询支付结果%s",RequestUtil.geturl(request)));
+		}
+		
+		PropertiesUtil pu = new PropertiesUtil();
+		//获取内容
+		String paygateway = "https://www.alipay.com/cooperate/gateway.do?"; //支付接口(不可修改)
+		String service = "single_trade_query";//支付宝查询服务--单笔查询服务(不可修改)
+		String sign_type = "MD5";//加密机制(不可修改)
+		String out_trade_no = request.getParameter("orderNo").trim();	//商户网站订单（也就是外部订单号，是通过客户网站传给支付宝，不可以重复）
+		String input_charset = pu.getProperty("input_charset");   //页面编码(不可修改)
+		//partner和key提取方法：登陆签约支付宝账户--->点击“商家服务”就可以看到
+		String partner = pu.getProperty("partner"); //支付宝合作伙伴id (账户内提取)
+		String key = pu.getProperty("private_key"); //支付宝安全校验码(账户内提取)
+
+		String ItemUrl = Payment.CreateUrl(paygateway, service, partner, sign_type,
+				out_trade_no, key, input_charset);
+		  //*使用解析类对结果行解析，如果出现问题请注销解析类*/
+			//response.sendRedirect(ItemUrl);
+			System.out.println(ItemUrl);
+			/*解析XML
+			  您可以在这里解析后获取，然后写入您们的后台数据库*/
+			dom4j dom4 = new dom4j();
+			String result = dom4.DomXml(ItemUrl);
+			//做完解析后您可以完成页面的跳转（目前这里通过重定向完成）
+
+			//response.sendRedirect("http://wow.alipay.com");
+
+
+
+			
+		
 	}
 	
 }

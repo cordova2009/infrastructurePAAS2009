@@ -1,4 +1,4 @@
-package com.hummingbird.paas.entity;
+package com.hummingbird.payment.entity;
 
 import java.util.Date;
 

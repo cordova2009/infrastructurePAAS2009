@@ -229,6 +229,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input type="button"  value="查询项目应收款详情"  onclick='setbinding("/myIncome/queryWillReceiveAmountDetail","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"  },\"body\":{\"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",\"objectId\":\"ZB0020151117160110354552525\"}}")'></td>
 		<td><input type="button"  value="查询项目收款详情"  onclick='setbinding("/myIncome/queryReceivedAmountDetail","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"  },\"body\":{\"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",\"objectId\":\"ZB0020151117160110354552525\"}}")'></td>
 	</tr>
+	<tr><td colspan="6">订单</td></tr>
+	<tr>
+		<td><input  value="支付宝网关支付通知"  onclick='setbinding("/order/payNotify","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },        \"body\":{           \"errcode\":0, \"errmsg\":\"支付成功\",\"orderId\":\"FN2010219392838232\",\"payTime\":\"2015-02-02 12:12:12\"        }    }")'  type="button" ></td>
+	</tr>
 </table>
   </body>
     <script>

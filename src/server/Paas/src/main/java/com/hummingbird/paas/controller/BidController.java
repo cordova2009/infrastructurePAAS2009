@@ -38,7 +38,7 @@ import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
-import com.hummingbird.paas.mapper.MembeBiddeeMapper;
+import com.hummingbird.paas.mapper.MemberBiddeeMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
@@ -78,7 +78,7 @@ public class BidController extends BaseController {
 	@Autowired
 	BiddeeMapper biddeeDao;
 	@Autowired
-	MembeBiddeeMapper membiddeeDao;
+	MemberBiddeeMapper membiddeeDao;
 	@Autowired
 	BidObjectMapper objectDao;
 	@Autowired 

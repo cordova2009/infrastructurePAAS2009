@@ -3,11 +3,11 @@ package com.hummingbird.paas.entity;
 import java.util.Date;
 
 /**
- * 发包方会员表
+ * 发包方会员升级记录表
  */
-public class MembeBiddee {
+public class MemberBiddeeUpgrade {
     /**
-     * 会员id
+     * 记录id
      */
     private Integer id;
 
@@ -22,17 +22,22 @@ public class MembeBiddee {
     private String memberLevel;
 
     /**
-     * 会员开始时间
+     * 升级时间
      */
-    private Date startTime;
+    private Date insertTime;
 
     /**
-     * 会员结束时间
+     * 升级价格，单位为分
      */
-    private Date endTime;
+    private Integer amount;
 
     /**
-     * @return 会员id
+     * 产品id
+     */
+    private String productId;
+
+    /**
+     * @return 记录id
      */
     public Integer getId() {
         return id;
@@ -40,7 +45,7 @@ public class MembeBiddee {
 
     /**
      * @param id 
-	 *            会员id
+	 *            记录id
      */
     public void setId(Integer id) {
         this.id = id;
@@ -77,33 +82,48 @@ public class MembeBiddee {
     }
 
     /**
-     * @return 会员开始时间
+     * @return 升级时间
      */
-    public Date getStartTime() {
-        return startTime;
+    public Date getInsertTime() {
+        return insertTime;
     }
 
     /**
-     * @param startTime 
-	 *            会员开始时间
+     * @param insertTime 
+	 *            升级时间
      */
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
     }
 
     /**
-     * @return 会员结束时间
+     * @return 升级价格，单位为分
      */
-    public Date getEndTime() {
-        return endTime;
+    public Integer getAmount() {
+        return amount;
     }
 
     /**
-     * @param endTime 
-	 *            会员结束时间
+     * @param amount 
+	 *            升级价格，单位为分
      */
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * @return 产品id
+     */
+    public String getProductId() {
+        return productId;
+    }
+
+    /**
+     * @param productId 
+	 *            产品id
+     */
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
     }
 
     @Override
@@ -117,12 +137,13 @@ public class MembeBiddee {
         if (getClass() != that.getClass()) {
             return false;
         }
-        MembeBiddee other = (MembeBiddee) that;
+        MemberBiddeeUpgrade other = (MemberBiddeeUpgrade) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
             && (this.getMemberLevel() == null ? other.getMemberLevel() == null : this.getMemberLevel().equals(other.getMemberLevel()))
-            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
+            && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
+            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
+            && (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()));
     }
 
     @Override
@@ -132,8 +153,9 @@ public class MembeBiddee {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
         result = prime * result + ((getMemberLevel() == null) ? 0 : getMemberLevel().hashCode());
-        result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
-        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
+        result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
+        result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
+        result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
         return result;
     }
 }

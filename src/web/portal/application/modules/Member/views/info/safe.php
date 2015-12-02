@@ -135,7 +135,7 @@
                             <span class="value"><?=$user['email']?></span>
                         </div>
                     </li>
-                    <li>
+                    <li class="bordn">
                         <div class="clear">
                             <span class=" ico  i-password2"></span>
                             <span class="lab">交易密码</span>

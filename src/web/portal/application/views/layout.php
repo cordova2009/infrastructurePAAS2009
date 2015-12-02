@@ -22,11 +22,11 @@
             <p class="left">您好，欢迎访问大力99！</p>
             <div class="right">
                 <?php if(empty($user)):?>
-                <a href="<?=U('register')?>" class="blue">快速注册</a>
-                <a href="<?=U('login')?>"  class="blue">立即登录</a>
+                <a href="<?=U('/public/register')?>" class="blue">快速注册</a>
+                <a href="<?=U('/public/login')?>"  class="blue">立即登录</a>
                 <?php else:?>
                 <a href="<?=U('/member/info/index')?>"  class="blue"><?=$user['nickname']?></a>你好
-                [<a href="<?=U('/logout')?>"  class="blue">退出</a>]
+                [<a href="<?=U('/public/logout')?>"  class="blue">退出</a>]
                 <?php endif;?>
                 <a href="#" class="colorf">帮助</a>
             </div>

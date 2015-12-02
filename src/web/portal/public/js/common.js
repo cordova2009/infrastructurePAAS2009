@@ -122,7 +122,19 @@ function toThousands() {
 $(function() {
     $(".price_format").each(function () {
         toThousands.call(this);
-    }).blur(toThousands);
+    });
+
+    $(document).on('blur','.price_format',toThousands);
+
+    $(document).on("click",".checkBtn a",function(){
+        $(this).siblings('a').removeClass('active')
+        $(this).addClass('active');
+    });
+
+    $(document).on("click",".checkBtn2 a",function(){
+        $(this).siblings('a').removeClass('active')
+        $(this).addClass('active').children('input').prop('checked',true);
+    });
 
     //
     $(document).on('submit','.ajax-form',function(){
@@ -159,6 +171,35 @@ $(function() {
 
         return false;
     });
+
+    $(document).on("click",".checklist .i-check",function(){
+        var $this = $(this);
+
+        if($this.hasClass('radio') && $this.hasClass('on')){
+            return false;
+        }else if($this.hasClass('radio') && !$this.hasClass('on')){
+            $(".i-check").removeClass('on');
+            $this.addClass('on').next().prop('checked',true);
+            return true;
+        }
+
+        if($this.hasClass('on')){
+            $this.removeClass('on').nextAll('input').prop('checked',false);
+        }else{
+            $this.addClass('on').nextAll('input').prop('checked',true);
+        }
+    });
+
+    $(document.body).on('click', '.datepicker', function(){
+        $(this).datetimepicker({
+            timepicker: false,
+            lang: 'ch',
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d'
+        });
+        $(this).datetimepicker('show')
+    })
+
 
     //验证码
     $("#get-sms-code,.get-code").click(function() {
@@ -219,43 +260,5 @@ $(function() {
 	});
 
 	$(".tab_box").slide({mainCell:".bd ",effect:"fade"})
-
-    $(document).on("click",".checklist .i-check",function(){
-        var $this = $(this);
-
-        if($this.hasClass('radio') && $this.hasClass('on')){
-            return false;
-        }else if($this.hasClass('radio') && !$this.hasClass('on')){
-            $(".i-check").removeClass('on');
-            $this.addClass('on').next().prop('checked',true);
-            return true;
-        }
-
-        if($this.hasClass('on')){
-            $this.removeClass('on').nextAll('input').prop('checked',false);
-        }else{
-            $this.addClass('on').nextAll('input').prop('checked',true);
-        }
-    });
-
-	$(".checkBtn a").click(function() {
-		$(this).siblings('a').removeClass('active')
-		$(this).addClass('active');
-	});
-
-	$(".checkBtn2 a").click(function() {
-		$(this).siblings('a').removeClass('active')
-		$(this).addClass('active');
-	});
-
-	$(document.body).on('click', '.datepicker', function(){
-		$(this).datetimepicker({
-			timepicker: false,
-			lang: 'ch',
-			format: 'Y-m-d',
-			formatDate: 'Y-m-d'
-		});
-		$(this).datetimepicker('show')
-	})
 
 })

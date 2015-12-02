@@ -39,7 +39,7 @@
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="MyTenderObjectListResultMap" type="com.hummingbird.paas.vo.MyTenderObjectListVO" >
-    <result column="object_no" property="objectId" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
@@ -52,7 +52,7 @@
     <result column="project_expect_end_date" property="biddingEndTime" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="MyTenderBuildingObjectListResultMap" type="com.hummingbird.paas.vo.TenderMyBuildingObjectVO" >
-    <result column="object_no" property="objectId" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
     <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
@@ -66,7 +66,7 @@
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="MyTenderEnableObjectListResultMap" type="com.hummingbird.paas.vo.TenderMyBuildingObjectVO" >
-    <result column="object_no" property="objectId" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
     <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
@@ -74,15 +74,16 @@
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
   </resultMap>
    <resultMap id="TenderObjectListResultMap" type="com.hummingbird.paas.vo.TenderObjectListReturnVO" >
-    <result column="object_no" property="objectId" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-   
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
-    <result column="company_name" property="winBidder" jdbcType="VARCHAR" />
-    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="company_name" property="biddee" jdbcType="VARCHAR" />
+     <result column="level_name" property="creditRating" jdbcType="VARCHAR" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
+    <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
+    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="IndexObjectListResultMap" type="com.hummingbird.paas.vo.QueryIndexObjectListResult" >
-    <result column="object_no" property="objectId" jdbcType="VARCHAR" />
+    <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="VARCHAR" />
@@ -132,7 +133,7 @@
     </if>
   </select>
   <select id="countAmountByBid" resultType="double" parameterType="java.lang.Integer" >
-    select sum(win_bid_amount) from t_ztgl_object
+    select IFNULL(sum(win_bid_amount),0) from t_ztgl_object
     where biddee_id = #{biddeeId} 
     <if test="objectId != null">
     and object_id = #{objectId}
@@ -184,7 +185,7 @@
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
   </select>
   <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap"  >
-     select a.industry_id,a.object_no,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
         where c.user_id =#{user_id,jdbcType=INTEGER} 
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -196,7 +197,7 @@
     
   </select>
     <select id="selectTenderBuildingObject" resultMap="MyTenderBuildingObjectListResultMap"  >
-     select a.object_no,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
+     select a.object_id,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
         <if test="page != null" >
    		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -208,7 +209,7 @@
         where c.user_id =#{user_id,jdbcType=INTEGER} and p.status  = 'END' 
   </select>
   <select id="selectTenderEndedObject" resultMap="MyTenderEnableObjectListResultMap" parameterType="java.lang.Integer" >
-    select a.industry_id,a.object_no,a.object_name,a.win_bid_amount,c.company_name from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id 
+    select a.industry_id,a.object_id,a.object_name,a.win_bid_amount,c.company_name from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id 
         where c.user_id =#{user_id,jdbcType=INTEGER} and p.status  = 'END' 
           <if test="page != null" >
    		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -225,7 +226,7 @@
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
-    select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">
@@ -244,7 +245,7 @@
      
   </select>
   <select id="selectIndexObjectList" resultMap="IndexObjectListResultMap">
-     select a.object_no,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+     select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -256,7 +257,6 @@
     </select>
     <select id="selectObjectIndexSurvey" resultMap="QueryObjectIndexSurveyResultMap">
      select count(a.object_id) objectNum,IFNULL(sum(a.object_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id
-        where a.object_status = 'PUB'  OR a.object_status = 'REV'
     </select>
      <select id="selectTotalBidIndexList" resultType="int">
    	 select count(a.object_id) from t_ztgl_object a 

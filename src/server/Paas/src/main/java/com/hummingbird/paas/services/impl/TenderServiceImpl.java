@@ -770,6 +770,7 @@ public class TenderServiceImpl implements TenderService {
 		if (ob == null) {
 			ob = new ObjectBondSetting();
 			ob.setObjectId(bo.getObjectId());
+			ob.setBiddeeBond(0l);
 			ob.setBidderBidBond(body.getBidBondAmount());
 			obsDao.insert(ob);
 		} else {

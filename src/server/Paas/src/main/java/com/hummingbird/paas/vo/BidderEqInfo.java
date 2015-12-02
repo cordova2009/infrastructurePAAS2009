@@ -33,7 +33,9 @@ public class BidderEqInfo {
 	private String eqName;
 	private String eqRating;
 	private Integer eqId;
-	private String eqDesc;
+	private String certificationContent;
+	private String applicableRegion;
+	private String certificationNo;
 	
 	private Date expiryDate;
 
@@ -42,6 +44,13 @@ public class BidderEqInfo {
 	 */
 	public String getProjectType() {
 		return projectType;
+	}
+
+	/**
+	 * @return the projectTypeName
+	 */
+	public String getProjectTypeName() {
+		return projectTypeName;
 	}
 
 	/**
@@ -66,92 +75,106 @@ public class BidderEqInfo {
 	}
 
 	/**
-	 * @return the eqDesc
+	 * @return the certificationContent
 	 */
-	public String getEqDesc() {
-		return eqDesc;
+	public String getCertificationContent() {
+		return certificationContent;
+	}
+
+	/**
+	 * @return the applicableRegion
+	 */
+	public String getApplicableRegion() {
+		return applicableRegion;
+	}
+
+	/**
+	 * @return the certificationNo
+	 */
+	public String getCertificationNo() {
+		return certificationNo;
 	}
 
 	/**
 	 * @return the expiryDate
 	 */
-	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getExpiryDate() {
 		return expiryDate;
 	}
 
 	/**
-	 * @param projectType
-	 *            the projectType to set
+	 * @param projectType the projectType to set
 	 */
 	public void setProjectType(String projectType) {
 		this.projectType = projectType;
 	}
 
 	/**
-	 * @param eqName
-	 *            the eqName to set
+	 * @param projectTypeName the projectTypeName to set
+	 */
+	public void setProjectTypeName(String projectTypeName) {
+		this.projectTypeName = projectTypeName;
+	}
+
+	/**
+	 * @param eqName the eqName to set
 	 */
 	public void setEqName(String eqName) {
 		this.eqName = eqName;
 	}
 
 	/**
-	 * @param eqRating
-	 *            the eqRating to set
+	 * @param eqRating the eqRating to set
 	 */
 	public void setEqRating(String eqRating) {
 		this.eqRating = eqRating;
 	}
 
 	/**
-	 * @param eqId
-	 *            the eqId to set
+	 * @param eqId the eqId to set
 	 */
 	public void setEqId(Integer eqId) {
 		this.eqId = eqId;
 	}
 
 	/**
-	 * @param eqDesc
-	 *            the eqDesc to set
+	 * @param certificationContent the certificationContent to set
 	 */
-	public void setEqDesc(String eqDesc) {
-		this.eqDesc = eqDesc;
+	public void setCertificationContent(String certificationContent) {
+		this.certificationContent = certificationContent;
 	}
 
 	/**
-	 * @param expiryDate
-	 *            the expiryDate to set
+	 * @param applicableRegion the applicableRegion to set
+	 */
+	public void setApplicableRegion(String applicableRegion) {
+		this.applicableRegion = applicableRegion;
+	}
+
+	/**
+	 * @param certificationNo the certificationNo to set
+	 */
+	public void setCertificationNo(String certificationNo) {
+		this.certificationNo = certificationNo;
+	}
+
+	/**
+	 * @param expiryDate the expiryDate to set
 	 */
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "BidderEqInfo [projectType=" + projectType + ", projectTypeName=" + projectTypeName + ", eqName="
-				+ eqName + ", eqRating=" + eqRating + ", eqId=" + eqId + ", eqDesc=" + eqDesc + ", expiryDate="
-				+ expiryDate + "]";
+				+ eqName + ", eqRating=" + eqRating + ", eqId=" + eqId + ", certificationContent="
+				+ certificationContent + ", applicableRegion=" + applicableRegion + ", certificationNo="
+				+ certificationNo + ", expiryDate=" + expiryDate + "]";
 	}
 
-	/**
-	 * 工程类别名称
-	 */
-	public String getProjectTypeName() {
-		return projectTypeName;
-	}
-
-	/**
-	 * 工程类别名称
-	 */
-	public void setProjectTypeName(String projectTypeName) {
-		this.projectTypeName = projectTypeName;
-	}
-
+	
 }

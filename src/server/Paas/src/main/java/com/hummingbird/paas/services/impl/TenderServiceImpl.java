@@ -1250,6 +1250,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getBiddeeId(), biddeeId, "项目非您的招标项目,不能进行操作");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		bo.setObjectStatus("PUB");
+		bo.setPublishTime(new Date());
 		dao.updateByPrimaryKey(bo);
 		if (log.isDebugEnabled()) {
 			log.debug("发布标的接口完成");
@@ -1341,25 +1342,18 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException {
-		// TODO Auto-generated method stub
 			QueryBidIndexSurveyResult bis = dao.selectBidIndexSurvey();
 			return bis;
 	}
 
 	@Override
-//	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException {
-	public List<QueryBidIndexListResult> getBidIndexList() throws BusinessException {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
-		com.hummingbird.common.face.Pagingnation page = new Pagingnation();
-		page.setCurrPage(1);
-		page.setPageSize(10);
+	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page,String projectName,Integer publishTime) throws BusinessException {
 		if(page!=null&&page.isCountsize()){
-			int totalcount = dao.selectTotalBidIndexList();
+			int totalcount = dao.selectTotalBidIndexList(projectName,publishTime);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(page); 
+		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(projectName,publishTime,page); 
 		
 		return ans;
 	}

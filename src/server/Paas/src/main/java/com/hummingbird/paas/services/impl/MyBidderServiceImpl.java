@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,6 +42,7 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.util.CamelUtil;
+import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
 import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderAuditBodyInfo;
@@ -126,11 +126,11 @@ public class MyBidderServiceImpl implements MyBidderService {
 //	        "authorityBookUrl":""
 //	    }
 		BidderLegalPerson legalPerson = new BidderLegalPerson();
+		StringUtil util = new StringUtil();
 		if(aa !=null){
-			String lpname = aa.getLegalPerson()!=null?Md5Util.Encrypt(aa.getLegalPerson()):null;
-			String IdCard = aa.getLegalPersonIdcard()!=null?Md5Util.Encrypt(aa.getLegalPersonIdcard()):null;
-			legalPerson.setName(lpname);
-			legalPerson.setIdCard(IdCard);
+			
+			legalPerson.setName(util.getShowString(aa.getLegalPerson()));
+			legalPerson.setIdCard(util.getShowString(aa.getLegalPersonIdcard()));
 			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
 			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
 			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
@@ -372,11 +372,14 @@ public class MyBidderServiceImpl implements MyBidderService {
 				
 				bidder.setBusinessLicenseType(businessLicenseType);
 				
+			
 				if("NEW".equalsIgnoreCase(businessLicenseType)){
 					
 					bidder.setUnifiedSocialCreditCode(newBusinessLicenseNum);
 					bidder.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
 					bidder.setNewBusinessLicense(newBusinessLicenseNum);
+					ValidateUtil.assertNull(newBusinessLicenseNum, "社会统一信用代码");
+					ValidateUtil.assertNull(newBusinessLicenseUrl, "三合一执照url");
 					/*bidder.setBusinessLicense(newBusinessLicenseNum);
 					bidder.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
 				}else if("OLD".equalsIgnoreCase(businessLicenseType)){
@@ -386,8 +389,17 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setTaxRegistrationCertificateUrl(taxRegistrationUrl);
 					bidder.setOrgCodeCertificate(organizationCodeNum);
 					bidder.setOrgCodeCertificateUrl(organizationCodeUrl);
+					ValidateUtil.assertNull(businessLicenseNum, "营业执照");
+					ValidateUtil.assertNull(businessLicenseUrl, "营业执照url");
+					ValidateUtil.assertNull(taxRegistrationNum, "税务证书编号");
+					ValidateUtil.assertNull(taxRegistrationUrl, "税务证书url");
+					ValidateUtil.assertNull(organizationCodeNum, "组织机构代码");
+					ValidateUtil.assertNull(organizationCodeUrl, "组织机构url");
+				}else{
+						throw new BusinessException("营业执照类型不对");
+					
 				}
-	
+				
 				bidder.setBusinessScope(businessScope);
 				bidder.setAddress(address);
 				
@@ -486,30 +498,40 @@ public class MyBidderServiceImpl implements MyBidderService {
 //			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(eqInfos!= null && eqInfos.size()>0){
 				
-				BidderCertificationCertification b =new BidderCertificationCertification();
+				
 				
 				for(BidderEqInfo be :  eqInfos){
-					
-					ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
+					BidderCertificationCertification b =new BidderCertificationCertification();
+//					ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");
 					BidderCertificationCertification bcc=bidderCertificationCertificationDao.selectByPrimaryKey(be.getEqId());
 					
 					if(bcc != null){
-						bcc.setExpireTime(be.getExpiryDate());
+						b.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());
-						bcc.setCertificationContent(be.getEqDesc());
-						bcc.setCertificationName(be.getEqName());
-						bcc.setIndustryId(be.getProjectType());//工程 类别
-						i = bidderCertificationCertificationDao.updateByPrimaryKeySelective(bcc);
+						b.setBidderId(bidder.getId());
+						b.setCertificationContent(be.getCertificationContent());
+						b.setCertificationName(be.getEqName());
+						b.setIndustryId(be.getProjectType());//工程 类别
+						b.setApplicableRegion(be.getApplicableRegion());
+						b.setCertificationNo(be.getCertificationNo());
+						b.setId(be.getEqId());
+						bidderCertificationCertificationDao.deleteByPrimaryKey(be.getEqId());
+						bidderCertificationCertificationDao.insertSelective(b);
+						i++;
 //						i = bidderCertificationCertificationDao.updateByPrimaryKeySelective(b);
 						
 					}else{
 						b.setExpireTime(be.getExpiryDate());
 						b.setBidderId(bidder.getId());
-						b.setCertificationContent(be.getEqDesc());
+						b.setApplicableRegion(be.getApplicableRegion());
+						b.setBidderId(bidder.getId());
+						b.setCertificationNo(be.getCertificationNo());
+						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别
 						b.setCertificationId(be.getEqId());
-						i = bidderCertificationCertificationDao.insert(b);
+						bidderCertificationCertificationDao.insert(b);
+						i++;
 						
 					}
 					

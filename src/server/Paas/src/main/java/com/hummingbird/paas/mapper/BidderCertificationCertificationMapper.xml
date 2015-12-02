@@ -3,7 +3,7 @@
 <mapper namespace="com.hummingbird.paas.mapper.BidderCertificationCertificationMapper" >
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.BidderCertificationCertification" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bidder_id" property="bidderId" jdbcType="INTEGER" />
+    <result column="bidder_apply_id" property="bidderId" jdbcType="INTEGER" />
     <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
     <result column="certification_name" property="certificationName" jdbcType="VARCHAR" />
     <result column="certification_content" property="certificationContent" jdbcType="VARCHAR" />
@@ -18,12 +18,14 @@
     <result column="projectTypeName" property="projectTypeName" jdbcType="VARCHAR" />
     <result column="eqName" property="eqName" jdbcType="VARCHAR" />
     <result column="eqRating" property="eqRating" jdbcType="VARCHAR" />
-    <result column="eqDesc" property="eqDesc" jdbcType="VARCHAR" />
+    <result column="certification_content" property="certificationContent" jdbcType="VARCHAR" />
     <result column="expiryDate" property="expiryDate" jdbcType="DATE" />
+    <result column="applicable_region" property="applicableRegion" jdbcType="VARCHAR" />
+    <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
     <result column="eqId" property="eqId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, bidder_id, certification_id, certification_name, certification_content, expire_time, 
+    id, bidder_apply_id, certification_id, certification_name, certification_content, expire_time, 
     applicable_region, certification_no, industry_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -33,15 +35,17 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
    <select id="selectEqInfoByBidderId" resultMap="BidderEqInfoResultMap"  parameterType="java.lang.Integer" >
-   select i.industry_name projectTypeName, m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
+   select  i.industry_name projectTypeName,m.applicable_region,m.certification_no,m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content,m.expire_time as expiryDate
       from t_qyzz_bidder_certification_certification m INNER JOIN t_qyzz_bidder_certicate u on m.certification_id = u.id  LEFT JOIN t_base_certification_type t on m.id = t.id
       inner join t_base_industry i on i.id = m.industry_id
         where u.id = #{bidder_id,jdbcType=INTEGER} and u.status = 'CRT'
   </select>
   <select id="selectEqInfoByUserId"  resultMap="BidderEqInfoResultMap"  parameterType="java.lang.Integer" >
-    select  i.industry_name projectTypeName, m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content as eqDesc,m.expire_time as expiryDate
-      from t_qyzz_bidder_certification_certification m INNER JOIN t_qyzz_bidder_certicate u on m.certification_id = u.id  LEFT JOIN t_base_certification_type t on m.id = t.id
-      inner join t_base_industry i on i.id = m.industry_id
+    select  i.industry_name projectTypeName,m.applicable_region,m.certification_no,m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content,m.expire_time as expiryDate
+      from t_qyzz_bidder_certification_certification m 
+      INNER JOIN t_qyzz_bidder_certicate u ON m.bidder_apply_id = u.id
+	  LEFT JOIN t_base_certification_type t ON m.certification_id= t.id
+	  INNER JOIN t_base_industry i ON i.id = m.industry_id
       where u.user_id = #{userId,jdbcType=INTEGER}  and u.status = 'CRT'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -49,7 +53,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
-    insert into t_qyzz_bidder_certification_certification (id, bidder_id, certification_id, 
+    insert into t_qyzz_bidder_certification_certification (id, bidder_apply_id, certification_id, 
       certification_name, certification_content, 
       expire_time, applicable_region, certification_no, 
       industry_id)
@@ -65,7 +69,7 @@
         id,
       </if>
       <if test="bidderId != null" >
-        bidder_id,
+        bidder_apply_id,
       </if>
       <if test="certificationId != null" >
         certification_id,
@@ -123,7 +127,7 @@
     update t_qyzz_bidder_certification_certification
     <set >
       <if test="bidderId != null" >
-        bidder_id = #{bidderId,jdbcType=INTEGER},
+        bidder_apply_id = #{bidderId,jdbcType=INTEGER},
       </if>
       <if test="certificationId != null" >
         certification_id = #{certificationId,jdbcType=INTEGER},
@@ -151,7 +155,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
     update t_qyzz_bidder_certification_certification
-    set bidder_id = #{bidderId,jdbcType=INTEGER},
+    set bidder_apply_id = #{bidderId,jdbcType=INTEGER},
       certification_id = #{certificationId,jdbcType=INTEGER},
       certification_name = #{certificationName,jdbcType=VARCHAR},
       certification_content = #{certificationContent,jdbcType=VARCHAR},

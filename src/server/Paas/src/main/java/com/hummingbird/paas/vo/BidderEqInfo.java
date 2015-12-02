@@ -33,7 +33,7 @@ public class BidderEqInfo {
 	private String eqName;
 	private String eqRating;
 	private Integer eqId;
-	private String eqDesc;
+	private String certificationContent;
 	private String applicableRegion;
 	private String certificationNo;
 	
@@ -75,10 +75,10 @@ public class BidderEqInfo {
 	}
 
 	/**
-	 * @return the eqDesc
+	 * @return the certificationContent
 	 */
-	public String getEqDesc() {
-		return eqDesc;
+	public String getCertificationContent() {
+		return certificationContent;
 	}
 
 	/**
@@ -138,10 +138,10 @@ public class BidderEqInfo {
 	}
 
 	/**
-	 * @param eqDesc the eqDesc to set
+	 * @param certificationContent the certificationContent to set
 	 */
-	public void setEqDesc(String eqDesc) {
-		this.eqDesc = eqDesc;
+	public void setCertificationContent(String certificationContent) {
+		this.certificationContent = certificationContent;
 	}
 
 	/**
@@ -171,10 +171,10 @@ public class BidderEqInfo {
 	@Override
 	public String toString() {
 		return "BidderEqInfo [projectType=" + projectType + ", projectTypeName=" + projectTypeName + ", eqName="
-				+ eqName + ", eqRating=" + eqRating + ", eqId=" + eqId + ", eqDesc=" + eqDesc + ", applicableRegion="
-				+ applicableRegion + ", certificationNo=" + certificationNo + ", expiryDate=" + expiryDate + "]";
+				+ eqName + ", eqRating=" + eqRating + ", eqId=" + eqId + ", certificationContent="
+				+ certificationContent + ", applicableRegion=" + applicableRegion + ", certificationNo="
+				+ certificationNo + ", expiryDate=" + expiryDate + "]";
 	}
 
 	
-
 }

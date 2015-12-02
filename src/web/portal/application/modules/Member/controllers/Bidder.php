@@ -45,7 +45,8 @@ class BidderController extends MemberController{
 	    foreach($types['certificateList'] as $v)
 	    {
 		    $projectType[$v['industryId']] = $v['industryName'];
-		    $certificateName[$v['industryId']] = $v['certificateList'];
+		    $certificateName[$v['industryName']] = $v['certificateList'];
+		    //$certificateName[$v['industryId']] = $v['certificateList'];
 	    }
 	    $this->assign('projectType',$projectType);
 	    $this->assign('certificateName',$certificateName);
@@ -99,6 +100,10 @@ class BidderController extends MemberController{
 	    if($type=='bankInfo')
 	    {
 		    $this->savebank();
+	    }
+	    if($type=='zizhi')
+	    {
+		    $this->savezizhi();
 	    }
 	    exit;
     }
@@ -241,13 +246,10 @@ class BidderController extends MemberController{
     }
     private function savezizhi()
     {
-	    $email = I('email');
-	    if(empty($email)){
-		    $this->error('电子邮箱不能为空！');
-	    }
+	    $eqInfo  =  I('data');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInf');
+	    $resp = $curl->setData(['token'=>$token,'eqInfo'=>$eqInfo])->send('myBidder/authInfo/saveEnterpriseQualification');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{

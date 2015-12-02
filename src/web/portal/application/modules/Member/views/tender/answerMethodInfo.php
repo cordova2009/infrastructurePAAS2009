@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['answerQuestion'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto box pad0" id="answerMethodInfo">
     <div class="h2">答疑方式</div>
     <div class="padm30">
         <form action="<?=U('/member/tender/saveAnswerQuestion')?>" method="post" class="ajax-form" success="save_success" next_step="dateRequirementInfo">

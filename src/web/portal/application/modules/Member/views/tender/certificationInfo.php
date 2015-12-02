@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['certificationInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto  box pad0" id="certificationInfo">
     <div class="h2">资质要求</div>
     <div class="padm40">
         <form action="<?=U('/member/tender/saveCertificationInfo')?>" method="post" class="ajax-form" success="save_success" next_step="bondInfo">

@@ -7,37 +7,37 @@
     </div>
     <ul id="side_menu_ul">
         <li>
-            <a href="#">项目基本信息</a>
+            <a href="#baseInfo">项目基本信息</a>
         </li>
         <li>
-            <a href="#">工程基本信息</a>
+            <a href="#projectInfo">工程基本信息</a>
         </li>
         <li>
-            <a href="#">工程施工证明</a>
+            <a href="#constructionInfo">工程施工证明</a>
         </li>
         <li >
-            <a href="#">工期要求</a>
+            <a href="#requirementInfo">工期要求</a>
         </li>
         <li>
-            <a href="#">资质要求</a>
+            <a href="#certificationInfo">资质要求</a>
         </li>
         <li>
-            <a href="#">保证金</a>
+            <a href="#bondInfo">保证金</a>
         </li>
         <li>
-            <a href="#">招标方式</a>
+            <a href="#methodInfo">招标方式</a>
         </li>
         <li>
-            <a href="#">招投标文件要求</a>
+            <a href="#bidFileTypeInfo">招投标文件要求</a>
         </li>
         <li>
-            <a href="#">答疑方式</a>
+            <a href="#answerMethodInfo">答疑方式</a>
         </li>
         <li >
-            <a href="#">招标时间要求</a>
+            <a href="#dateRequirementInfo">招标时间要求</a>
         </li>
         <li>
-            <a href="#">评标方式</a>
+            <a href="#bidEvaluationTypeInfo">评标方式</a>
         </li>
     </ul>
     <div class="tijiao">

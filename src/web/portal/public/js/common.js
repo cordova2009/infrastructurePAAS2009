@@ -163,7 +163,7 @@ $(function() {
                 }
             }
             else{
-                layer.alert(resp.msg);
+                layer.alert(resp.msg,{icon:2});
             }
         },'json').always(function () {
             layer.close(loading);
@@ -209,12 +209,12 @@ $(function() {
         if(!$this.hasClass('no-mobile')){
             var mobile = $.trim($("#mobile").val());
             if(mobile == ''){
-                layer.alert('请输入手机号码！');
+                layer.alert('请输入手机号码！',{icon:2});
                 return false;
             }
 
             if(is_mobile(mobile)){
-                layer.alert('手机号码不合法！');
+                layer.alert('手机号码不合法！',{icon:2});
                 return false;
             }
             data = {mobile:mobile};
@@ -227,7 +227,7 @@ $(function() {
                 layer.msg(resp.msg,{icon:1});
                 time($this);
             }else{
-                layer.alert(resp.msg);
+                layer.alert(resp.msg,{icon:2});
                 $this.prop("disabled", false);
                 $this.removeClass('disabled');
             }

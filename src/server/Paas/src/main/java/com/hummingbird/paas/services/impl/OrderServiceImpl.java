@@ -1,7 +1,12 @@
 package com.hummingbird.paas.services.impl;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -10,8 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.RequestException;
+import com.hummingbird.common.exception.SignatureException;
 import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.util.http.HttpRequester;
+import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.util.TransOrderBuilder;
+import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.Order;
 import com.hummingbird.paas.entity.OrderProduct;
 import com.hummingbird.paas.entity.User;
@@ -152,10 +166,43 @@ public class OrderServiceImpl implements OrderService {
 	 * 查询支付结果
 	 * @param orderId
 	 * @return
+	 * @throws BusinessException 
 	 */
-	public PayResult queryPayResult(String orderId, String payType){
+	public PayResult queryPayResult(String orderId, String payType) throws BusinessException{
+		//根据payType 来判断是支付宝还是其它支付平台
 		//请求支付宝查询支付结果
-		return null;
+		PayResult pr = new PayResult();
+		pr.setOrderId(orderId);
+		pr.setPayType(payType);
+		//默认不存在
+		pr.setPayStatus("NON");
+		try {
+			Map body = new HashMap<>();
+			body.put("orderId", orderId);
+			BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", "", body, false, false);
+			String requestjson = JsonUtil.convert2Json(buildBaseTrans);
+			PropertiesUtil pu= new PropertiesUtil();
+			String url = pu.getProperty("third.alipay.url");
+			String postRequest = new HttpRequester().postRequest(url, requestjson);
+			if(postRequest==null){
+				throw ValidateException.ERROR_REQUEST_INVALID.clone(null, "查询支付宝订单状态出错,地址无法访问");
+			}
+			ResultModel rm = JsonUtil.convertJson2Obj(postRequest, ResultModel.class);
+			if(rm.isSuccessed()){
+				pr.setPayStatus(ObjectUtils.toString(rm.get("payResult")));
+				String paytime = ObjectUtils.toString(rm.get("payTime"));
+				if(StringUtils.isNotBlank(paytime)){
+					pr.setPayTime(DateUtil.parse2date(paytime, "yyyy-MM-dd HH:mm:ss"));
+				}
+				pr.setTradeId(ObjectUtils.toString(rm.get("tradeId")));
+			}
+			else
+				throw new BusinessException(BusinessException.ERRCODE_REQUEST,"查询支付宝订单状态出错,结果错误");
+		} catch (DataInvalidException | SignatureException | RequestException | ParseException e) {
+			log.error(String.format("查询支付宝订单状态出错,程序错误"),e);
+			throw new BusinessException(BusinessException.ERRCODE_REQUEST,"查询支付宝订单状态出错,程序错误",e);
+		}
+		return pr;
 	}
 
 }

@@ -35,8 +35,9 @@ public interface OrderService  {
 	 * 查询支付结果
 	 * @param orderId
 	 * @return
+	 * @throws BusinessException 
 	 */
-	public PayResult queryPayResult(String orderId, String payType);
+	public PayResult queryPayResult(String orderId, String payType) throws BusinessException;
 
 	/**
 	 * 支付成功处理

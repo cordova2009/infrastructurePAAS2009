@@ -160,28 +160,62 @@ public class BidServiceImpl implements BidService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List queryBidderCertificationInfo(Integer bidderId) throws BusinessException {
+	public Map queryBidderCertificationInfo(QueryBidBodyVO body,Integer bidderId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标人资质证书接口进入");
 		}
-		List biddercertificationlist = new ArrayList<>();
+		//查询招标的证书要求
+		//查询投标人的证书
+		List<CertificationRequirement> certs = crDao.selectCertisByObjectId(body.getObjectId());
 		List<BidderCertification> biddercerts = bcertDao.selectByBidderId(bidderId);
+		List misslist = new ArrayList<>();
+		List bidderList = new ArrayList<>();
+		List requirementList = new ArrayList<>();
+		Map certificationInfo = new HashMap<>();
+		certificationInfo.put("missingList", misslist);
+		certificationInfo.put("bidderList", bidderList);
+		certificationInfo.put("requirementList", requirementList);
+		Map bidderCertMap = new HashMap<>();
 		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
 			BidderCertification bidderCertification = (BidderCertification) iterator.next();
-			Map biddercert = new HashMap<>();
-			biddercert.put("bidderCertificateId", bidderCertification.getId());
-			biddercert.put("certificationName", bidderCertification.getCertificationName());
-			biddercert.put("certificationId", bidderCertification.getCertificationId());
-			biddercertificationlist.add(biddercert);
-//			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
-//			if(cert!=null){
-//				bidderCertification.setCertificationType(cert);
-//			}
+			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
+			if(cert!=null){
+				bidderCertification.setCertificationType(cert);
+				addCert2list(bidderList, cert);
+			}
+		}
+		List<CertificationMatchVO> nofitcerts = new ArrayList<>();
+		StringBuilder reason = new StringBuilder();
+		for (Iterator iterator = certs.iterator(); iterator.hasNext();) {
+			CertificationRequirement cr = (CertificationRequirement) iterator.next();
+			Integer certificationId = cr.getCertificationId();
+			CertificationType cert = certDao.selectByPrimaryKey(certificationId);
+			if(cert!=null)
+			{
+				addCert2list(requirementList,cert);
+				//查询投标人有没有对应的资质
+				CertificationMatchVO matchresult = getSuitableCert(cert,biddercerts);
+				if(!matchresult.isMatch()){
+					addCert2list(misslist,cert);
+				}
+			}
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标人资质证书接口完成");
 		}
-		return biddercertificationlist;
+		return certificationInfo;
+	}
+
+	/**
+	 * 添加证书信息到list中
+	 * @param list
+	 * @param cert
+	 */
+	private void addCert2list(List list, CertificationType cert) {
+		Map certmap = new HashMap<>();
+		certmap.put("certificateId", cert.getId());
+		certmap.put("certificationName", cert.getCertificationName());
+		list.add(certmap);
 	}
 
 	//@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
@@ -631,6 +665,7 @@ public class BidServiceImpl implements BidService {
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId);
 		ValidateUtil.assertEmpty(body.getTechnicalStandardUrl(), "技术标附件");
 		bid.setTechnicalStandardUrl(body.getTechnicalStandardUrl());
+		dao.updateByPrimaryKey(bid);
 		if (log.isDebugEnabled()) {
 			log.debug("保存投标的技术标信息接口完成");
 		}

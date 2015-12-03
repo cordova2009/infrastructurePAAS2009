@@ -16,7 +16,7 @@ class BiddeeController extends MemberController{
             }
 	    if(empty($resp['datail'])||empty($resp['overall']))
 	    {
-		    $this->redirect(U('applyfor'));
+		  //  $this->redirect(U('applyfor'));
 	    }
 	    $this->assign('datail',isset($resp['datail'])?$resp['datail']:[]);
 	    $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);

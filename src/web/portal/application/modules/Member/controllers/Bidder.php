@@ -16,10 +16,11 @@ class BidderController extends MemberController{
             }
 	    if(empty($resp['datail'])||empty($resp['overall']))
 	    {
-		    $this->redirect(U('applyfor'));
+		 //   $this->redirect(U('applyfor'));
 	    }
 	    $this->assign('datail',isset($resp['datail'])?$resp['datail']:[]);
 	    $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);
+	    $this->assign('zizhi',isset($resp['zizhi'])?$resp['zizhi']:[]);
 	    $this->layout->meta_title = '认证信息';
     }
 

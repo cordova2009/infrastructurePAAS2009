@@ -740,7 +740,7 @@ public class TenderServiceImpl implements TenderService {
 		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
 		QueryObjectBondInfoResult result = new QueryObjectBondInfoResult();
 		if (objectBidderBond != null) {
-			result.setBidBondAmount(objectBidderBond / 100 + "元");
+			result.setBidBondAmount(ObjectUtils.toString(objectBidderBond ));
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目保证金接口完成");

@@ -205,7 +205,7 @@ public class BidServiceImpl implements BidService {
 		for (ObjectProject pj : pjs) {
 			qol = new QueryObjectListResultVO();
 			if (pj.getEvaluationAmount() != null)
-				qol.setEvaluationAmount(ObjectUtils.toString(pj.getEvaluationAmount())+"元");
+				qol.setEvaluationAmount(ObjectUtils.toString(pj.getEvaluationAmount()));
 			ProjectInfos proj = pIDao.selectByPrimaryKey(pj.getObjectId());
 			if (proj != null && proj.getProjectExpectStartDate() != null)
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());

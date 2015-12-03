@@ -43,6 +43,31 @@ class ProjectController extends MallController
             $this->assign('page', $page);
         }
         $this->assign('list', $list);
+        $this->layout->meta_title = "中标结果列表";
+    }
+    
+    /**
+     * 招标详情
+     */
+    public function detailAction()
+    {
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
+        
+        $objectId = $this->getRequest()->get('object_id', 0);
+        
+        $resp = $this->_curl->setData([
+            'token' => $this->user['token'],
+            'objectId'=> $objectId
+        ])->send('bid/queryObjectDetail');
+        
+        $info = [];
+        if(check_resp($resp)){
+            $info = $resp['body'];
+        }
+        
+        $this->assign('info', $info);
         
     }
     

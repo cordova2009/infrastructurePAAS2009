@@ -26,7 +26,7 @@ class SearchController extends MallController
             'keywords' => $keywords,
             'pageIndex' => $pageIndex,
             'pageSize'=>  $this->pageSize
-        ])->send('tender/queryObjectList_homepage');
+        ])->send('tender/queryBidderList_homepage');
         
         $list = [];
         if(check_resp($resp)){
@@ -36,7 +36,7 @@ class SearchController extends MallController
         }
         
         $this->assign('list', $list);
-        
+        $this->layout->meta_title = '投标人搜索';
     }
     
     /**
@@ -65,7 +65,7 @@ class SearchController extends MallController
         }
         
         $this->assign('list', $list);
-        
+        $this->layout->meta_title = '招标项目搜索';
     }
     
 }

@@ -18,6 +18,7 @@ import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
 import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
@@ -217,4 +218,17 @@ public interface BidService {
 	 */
 	public QueryObjectDetailResultVO queryObjectDetail(String appId, QueryBidBodyVO body, Integer bidderId) throws BusinessException;
 
+	/**
+	 * 查询投标要求基础信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectCertificationInfoResult queryObjectRequirementInfo(String appId, QueryBidBodyVO body
+			) throws BusinessException;
 }

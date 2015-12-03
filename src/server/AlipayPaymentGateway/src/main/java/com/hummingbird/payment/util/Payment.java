@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.hummingbird.common.util.Md5Util;
 /**
  * 名称：支付主类
  * 功能：支付宝外部服务接口控制
@@ -51,7 +53,7 @@ public class Payment {
         prestr = prestr + key;
         //System.out.println("prestr=" + prestr);
 
-        String sign = com.alipay.util.Md5Encrypt.md5(getContent(params, key));
+        String sign = Md5Util.Encrypt(getContent(params, key));
 
         String parameter = "";
         parameter = parameter + paygateway;

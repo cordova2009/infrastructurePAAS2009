@@ -1360,7 +1360,8 @@ objectId|是|招标项目内部编号
 	    "bidFileTypeInfo":{
             "needBusinessStandard":"YES",
             "needTechnicalStandard":"YES",
-            "needCertificationCheckupFile":"YES"
+            "needCertificationCheckupFile":"YES",
+            "tenderFile":"url"
         }
 	
     }
@@ -1376,7 +1377,7 @@ objectId|是|招标项目内部编号
 needBusinessStandard|是|投标方是否需要上传商务标书，YES，是。NO#，否。
 needTechnicalStandard|是|投标方是否需要上传技术标书，YES，是。NO#，否。
 needCertificationCheckupFile|是|投标方是否需要上传资格审查文件，YES，是。NO#，否。
-
+tenderFile|是|投标文件
 
 ##保存招标项目投标文件接口
 
@@ -1403,9 +1404,10 @@ POST数据格式：JSON
         {
             "objectId":"BH2015082135656",
             "token":"356578",
-	    "needBusinessStandard":"YES",
+	        "needBusinessStandard":"YES",
             "needTechnicalStandard":"YES",
-            "needCertificationCheckupFile":"YES"
+            "needCertificationCheckupFile":"YES",
+            "tenderFile":"url"
 	}
     }
 
@@ -1421,6 +1423,8 @@ objectId|是|招标项目内部编号
 needBusinessStandard|是|投标方是否需要上传商务标书，YES，是。NO#，否。
 needTechnicalStandard|是|投标方是否需要上传技术标书，YES，是。NO#，否。
 needCertificationCheckupFile|是|投标方是否需要上传资格审查文件，YES，是。NO#，否。
+tenderFile|是|投标文件
+
 
 
 2）返回说明
@@ -1436,6 +1440,7 @@ needCertificationCheckupFile|是|投标方是否需要上传资格审查文件�
     {
         "errcode":10000,"errmsg":"保存招标项目投标文件失败，其它错误"
     }
+
 
 ##查询投标方列表接口
 

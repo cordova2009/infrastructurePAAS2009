@@ -32,6 +32,7 @@ import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
+import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
@@ -830,12 +831,30 @@ public class TenderServiceImpl implements TenderService {
 		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-		ValidateUtil.assertNull(bo, "招标项目不存在");
+		if(bo==null){
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "招标项目不存在");
+		}
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		ValidateUtil.assertEmpty(body.getTenderFile(), "招标文件");
+		
 		bo.setNeedBusinessStandard(StringUtils.defaultIfEmpty(body.getNeedBusinessStandard(), "NO#"));
 		bo.setNeedCertificationCheckupFile(StringUtils.defaultIfEmpty(body.getNeedCertificationCheckupFile(), "NO#"));
 		bo.setNeedTechnicalStandard(StringUtils.defaultIfEmpty(body.getNeedTechnicalStandard(), "NO#"));
 		dao.updateByPrimaryKey(bo);
+		//删除原来的文件
+		List<ObjectAttachment> selctByObjectId = oaDao.selctByObjectId(bo.getObjectId());
+		for (Iterator iterator = selctByObjectId.iterator(); iterator.hasNext();) {
+			ObjectAttachment objectAttachment = (ObjectAttachment) iterator.next();
+			oaDao.deleteByPrimaryKey(objectAttachment.getId());
+		}
+		//重新添加
+		ObjectAttachment objectAttachment = new ObjectAttachment();
+		objectAttachment.setObjectId(bo.getObjectId());
+		objectAttachment.setInsertTime(new Date());
+		objectAttachment.setAttachmentUrl(body.getTenderFile());
+//		objectAttachment.getInsertBy();
+		objectAttachment.setAttachmentName("TF#");
+		oaDao.insert(objectAttachment);
 		// 请自行调整
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目投标文件接口完成");

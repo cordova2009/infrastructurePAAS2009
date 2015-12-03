@@ -66,6 +66,7 @@ import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
+import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_1;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_2;
@@ -74,6 +75,7 @@ import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectDetailAnswerQuestion;
 import com.hummingbird.paas.vo.QueryObjectDetailBaseVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
@@ -412,7 +414,7 @@ public class BidServiceImpl implements BidService {
 	}
 
 	/**
-	 * 查询未完成的投标资格审查信息接口
+	 * 查询投标要求基础信息接口
 	 * 
 	 * @param appId
 	 *            应用id
@@ -423,72 +425,24 @@ public class BidServiceImpl implements BidService {
 	 * @throws BusinessException
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public QueryBidRequirementInfoBodyVOResult queryBidRequirementInfo(String appId, QueryBidBodyVO body,
-			Integer bidderId) throws BusinessException {
+	public QueryObjectCertificationInfoResult queryObjectRequirementInfo(String appId, QueryBidBodyVO body) throws BusinessException {
 		if (log.isDebugEnabled()) {
-			log.debug("查询未完成的投标资格审查信息接口开始");
+			log.debug("查询投标要求基础信息接口");
 		}
 		BidObject bidObject = objectdao.selectByPrimaryKey(body.getObjectId());
 		if (bidObject == null) {
 			log.error(String.format("标的[%s]不存在", body.getObjectId()));
 			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的不存在");
 		}
-		if (!bidObject.getObjectStatus().equals("PUB")) {
-			log.error(String.format("标的[%s]非发布中", body.getObjectId()));
-			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的状态不正确,目前并非发布中");
-		}
-		//查询投标信息
-		List<BidRecord> bids =   dao.selectUnfinishedBid(bidderId, body.getObjectId());
-		
-		BidRecord bid = null ;
-		if(bids!=null&&!bids.isEmpty()){
-			bid = bids.get(0);
-		}
-		QueryBidRequirementInfoBodyVOResult result = new QueryBidRequirementInfoBodyVOResult();
-		if(bid==null){
-			result = null; 
-		}
-		else{
-			
-			QueryBidRequirementInfoBodyVOResult_1 result1 = new QueryBidRequirementInfoBodyVOResult_1();
-			result1.setSafetyPermitNo(bid.getSafetyPermitNo());
-			result1.setSafetyPermitEndDate(getStringFromDateOrNull(bid.getSafetyPermitEndtime()));
-			result1.setSafetyPermitUrl(bid.getSafetyPermitUrl());
-			result1.setPmSafetyCertificationNo(bid.getPmSafetyCertificationNo());
-			result1.setPmSafetyCertificationEndDate(getStringFromDateOrNull(bid.getPmSafetyCertificationEndtime()));
-			result1.setPmSafetyCertificationUrl(bid.getPmSafetyCertificationUrl());
-			
-			QueryBidRequirementInfoBodyVOResult_2 result2 = new QueryBidRequirementInfoBodyVOResult_2();
-			result2.setPmCertificationNo(bid.getPmCertificationNo());
-			result2.setPmCertificationEndDate(getStringFromDateOrNull(bid.getPmCertificationEndtime()));
-			result2.setPmCertificationUrl(bid.getPmCertificationUrl());
-			result2.setConstructorCertificationNo(bid.getConstructorCertificationNo());
-			result2.setConstructorCertificationEndDate(getStringFromDateOrNull(bid.getConstructorCertificationEndtime()));
-			result2.setConstructorCertificationUrl(bid.getConstructorCertificationUrl());
-			
-			QueryBidRequirementInfoBodyVOResult_3 result3 = new QueryBidRequirementInfoBodyVOResult_3();
-			result3.setBankGuaranteeAmount(
-					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount() / 100)));
-			result3.setBankGuaranteeNo(bid.getBankGuaranteeNo());
-			result3.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
-			// 查询投标资质
-			List<BidCertification> bclist = bcdao.selectByBidId((body.getBidId()));
-			List<Integer> bcilist = new ArrayList<>();
-			for (Iterator iterator = bclist.iterator(); iterator.hasNext();) {
-				BidCertification bidCertification = (BidCertification) iterator.next();
-				bcilist.add(bidCertification.getBidId());
-			}
-			
-			result.setBidId(bid.getId());
-			result.setBankGuarantee(result3);
-			result.setBidPeopleRequirement(result2);
-			result.setBidSafetyInfo(result1);
-			result.setCertificationList(bcilist);
-		}
+		QueryObjectCertificationInfoResult result = new QueryObjectCertificationInfoResult();
+		result.setNeedConstructorCertification(bidObject.getNeedConstructorCertification());
+		result.setNeedPmCertification(bidObject.getNeedPmCertification());
+		result.setNeedPmSafetyCertification(bidObject.getNeedPmSafetyCertification());
+		result.setNeedSafetyPermit(bidObject.getNeedSafetyPermit());
 
 
 		if (log.isDebugEnabled()) {
-			log.debug("查询未完成的投标资格审查信息接口完成");
+			log.debug("查询投标要求基础信息接口");
 		}
 		return result;
 	}
@@ -1179,6 +1133,88 @@ public class BidServiceImpl implements BidService {
 		matchvo.setReason("缺乏相应资质");
 		matchvo.setMatch(false);
 		return matchvo;
+	}
+
+	/**
+	 * 查询未完成的投标资格审查信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public QueryBidRequirementInfoBodyVOResult queryBidRequirementInfo(String appId, QueryBidBodyVO body,
+			Integer bidderId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标资格审查信息接口开始");
+		}
+		BidObject bidObject = objectdao.selectByPrimaryKey(body.getObjectId());
+		if (bidObject == null) {
+			log.error(String.format("标的[%s]不存在", body.getObjectId()));
+			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的不存在");
+		}
+		if (!bidObject.getObjectStatus().equals("PUB")) {
+			log.error(String.format("标的[%s]非发布中", body.getObjectId()));
+			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的状态不正确,目前并非发布中");
+		}
+		//查询投标信息
+		List<BidRecord> bids =   dao.selectUnfinishedBid(bidderId, body.getObjectId());
+		
+		BidRecord bid = null ;
+		if(bids!=null&&!bids.isEmpty()){
+			bid = bids.get(0);
+		}
+		QueryBidRequirementInfoBodyVOResult result = new QueryBidRequirementInfoBodyVOResult();
+		if(bid==null){
+			result = null; 
+		}
+		else{
+			
+			QueryBidRequirementInfoBodyVOResult_1 result1 = new QueryBidRequirementInfoBodyVOResult_1();
+			result1.setSafetyPermitNo(bid.getSafetyPermitNo());
+			result1.setSafetyPermitEndDate(getStringFromDateOrNull(bid.getSafetyPermitEndtime()));
+			result1.setSafetyPermitUrl(bid.getSafetyPermitUrl());
+			result1.setPmSafetyCertificationNo(bid.getPmSafetyCertificationNo());
+			result1.setPmSafetyCertificationEndDate(getStringFromDateOrNull(bid.getPmSafetyCertificationEndtime()));
+			result1.setPmSafetyCertificationUrl(bid.getPmSafetyCertificationUrl());
+			
+			QueryBidRequirementInfoBodyVOResult_2 result2 = new QueryBidRequirementInfoBodyVOResult_2();
+			result2.setPmCertificationNo(bid.getPmCertificationNo());
+			result2.setPmCertificationEndDate(getStringFromDateOrNull(bid.getPmCertificationEndtime()));
+			result2.setPmCertificationUrl(bid.getPmCertificationUrl());
+			result2.setConstructorCertificationNo(bid.getConstructorCertificationNo());
+			result2.setConstructorCertificationEndDate(getStringFromDateOrNull(bid.getConstructorCertificationEndtime()));
+			result2.setConstructorCertificationUrl(bid.getConstructorCertificationUrl());
+			
+			QueryBidRequirementInfoBodyVOResult_3 result3 = new QueryBidRequirementInfoBodyVOResult_3();
+			result3.setBankGuaranteeAmount(
+					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount() / 100)));
+			result3.setBankGuaranteeNo(bid.getBankGuaranteeNo());
+			result3.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
+			// 查询投标资质
+			List<BidCertification> bclist = bcdao.selectByBidId((body.getBidId()));
+			List<Integer> bcilist = new ArrayList<>();
+			for (Iterator iterator = bclist.iterator(); iterator.hasNext();) {
+				BidCertification bidCertification = (BidCertification) iterator.next();
+				bcilist.add(bidCertification.getBidId());
+			}
+			
+			result.setBidId(bid.getId());
+			result.setBankGuarantee(result3);
+			result.setBidPeopleRequirement(result2);
+			result.setBidSafetyInfo(result1);
+			result.setCertificationList(bcilist);
+		}
+
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标资格审查信息接口完成");
+		}
+		return result;
 	}
 	
 	

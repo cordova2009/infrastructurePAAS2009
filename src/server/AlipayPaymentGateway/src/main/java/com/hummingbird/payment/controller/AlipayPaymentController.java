@@ -28,6 +28,7 @@ import com.hummingbird.commonbiz.vo.HttpResponseWapper;
 import com.hummingbird.payment.service.PaymentNotifyReceiver;
 import com.hummingbird.payment.util.AlipayNotify;
 import com.hummingbird.payment.util.Payment;
+import com.hummingbird.payment.util.dom4j;
 import com.hummingbird.payment.vo.AlipayPayNotification;
 
 /**
@@ -174,7 +175,8 @@ public class AlipayPaymentController extends BaseController{
 		String paygateway = "https://www.alipay.com/cooperate/gateway.do?"; //支付接口(不可修改)
 		String service = "single_trade_query";//支付宝查询服务--单笔查询服务(不可修改)
 		String sign_type = "MD5";//加密机制(不可修改)
-		String out_trade_no = request.getParameter("orderNo").trim();	//商户网站订单（也就是外部订单号，是通过客户网站传给支付宝，不可以重复）
+		String out_trade_no = request.getParameter("orderNo");	//商户网站订单（也就是外部订单号，是通过客户网站传给支付宝，不可以重复）
+		out_trade_no = "FB2015080419510700000006238320";
 		String input_charset = pu.getProperty("input_charset");   //页面编码(不可修改)
 		//partner和key提取方法：登陆签约支付宝账户--->点击“商家服务”就可以看到
 		String partner = pu.getProperty("partner"); //支付宝合作伙伴id (账户内提取)
@@ -192,7 +194,7 @@ public class AlipayPaymentController extends BaseController{
 			//做完解析后您可以完成页面的跳转（目前这里通过重定向完成）
 
 			//response.sendRedirect("http://wow.alipay.com");
-
+			System.out.println(result);
 
 
 			

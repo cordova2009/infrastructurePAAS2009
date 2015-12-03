@@ -44,7 +44,8 @@ class TenderController extends MemberController{
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('tender/saveBidEvaluationTypeInfo');
-        if(!check_resp($resp) && check_resp($curl->setData($data2)->send('tender/submitObject'))){
+
+        if(check_resp($resp) && check_resp($curl->setData($data2)->send('tender/submitObject'))){
 //            $this->ajaxReturn(['msg'=>'标的发布成功','status'=>0,'objectId'=>$data['objectId'],'step'=>10]);
             $this->success('标的发布成功',U('/member/info/index'));
         }else{
@@ -87,7 +88,7 @@ class TenderController extends MemberController{
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('tender/saveDateRequirementInfo');
-        if(!check_resp($resp)){
+        if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>10]);
         }else{
             $this->error('保存失败！');
@@ -220,7 +221,7 @@ class TenderController extends MemberController{
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('tender/saveObjectBondInfo');
-        if(!check_resp($resp)){
+        if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>6]);
         }else{
             $this->error('保存失败！');

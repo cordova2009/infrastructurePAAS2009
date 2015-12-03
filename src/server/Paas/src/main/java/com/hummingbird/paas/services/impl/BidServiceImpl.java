@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,7 +38,6 @@ import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
-import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
@@ -61,12 +61,10 @@ import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
-import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
-import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_1;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_2;
@@ -82,7 +80,6 @@ import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailBidFilTypeInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailBidderBidderCertification;
 import com.hummingbird.paas.vo.QueryObjectDetailBidderCertificationInfo;
-import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBondInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailConstructionInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailDateRequirementInfo;
@@ -208,7 +205,7 @@ public class BidServiceImpl implements BidService {
 		for (ObjectProject pj : pjs) {
 			qol = new QueryObjectListResultVO();
 			if (pj.getEvaluationAmount() != null)
-				qol.setEvaluationAmount(MoneyUtil.getMoneyStringDecimal4yuan(pj.getEvaluationAmount())+"元");
+				qol.setEvaluationAmount(ObjectUtils.toString(pj.getEvaluationAmount())+"元");
 			ProjectInfos proj = pIDao.selectByPrimaryKey(pj.getObjectId());
 			if (proj != null && proj.getProjectExpectStartDate() != null)
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
@@ -546,7 +543,7 @@ public class BidServiceImpl implements BidService {
 		}
 		QueryBusinessStandardInfoBodyVOResult result = new QueryBusinessStandardInfoBodyVOResult();
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), null);
-		result.setBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bid.getBidAmount()));
+		result.setBidAmount(ObjectUtils.toString(bid.getBidAmount()));
 		result.setProjectQuotationUrl(bid.getProjectQuotationUrl());
 		result.setConstructionCommitmentUrl(bid.getConstructionCommitmentUrl());
 		result.setConstructionEndDate((bid.getConstructionEndDate()));
@@ -659,10 +656,10 @@ public class BidServiceImpl implements BidService {
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId, null);
 		BidObject object = bid.getBo();
 		Long bidBondAmount = object.getBidBondAmount();
-		result.setBankGuaranteeAmount(MoneyUtil.getMoneyStringDecimal4yuan(bid.getBankGuaranteeAmount()));
+		result.setBankGuaranteeAmount(ObjectUtils.toString(bid.getBankGuaranteeAmount()));
 		result.setBankGuaranteeNo(bid.getBankGuaranteeNo());
 		result.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
-		result.setBidBondAmount(MoneyUtil.getMoneyStringDecimal4yuan(bidBondAmount));
+		result.setBidBondAmount(ObjectUtils.toString(bidBondAmount));
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标保证金信息接口完成");
 		}
@@ -726,7 +723,7 @@ public class BidServiceImpl implements BidService {
 				log.error(String.format("无法找到合适的撮合保证金,费率表没有对应的设置,金额为%s分", object.getEvaluationAmount()));
 				throw ValidateException.ERROR_PARAM_NULL.clone(null, "无法找到合适的撮合保证金");
 			}
-			result.setMakeMatchBidderBondAmount(MoneyUtil.getMoneyStringDecimal4yuan(bondmoney));
+			result.setMakeMatchBidderBondAmount(ObjectUtils.toString(bondmoney));
 			// 检查投标人的可用余额,远程访问用户资金帐户
 			// TODO 改为访问用户资金帐户
 			Integer remainingsum = 30000000;
@@ -736,7 +733,7 @@ public class BidServiceImpl implements BidService {
 				result.setSatisfy("NEN");
 			}
 		} else {
-			result.setMakeMatchBidderBondAmount(MoneyUtil.getMoneyStringDecimal4yuan(mmbond.getBondAmount()));
+			result.setMakeMatchBidderBondAmount(ObjectUtils.toString(mmbond.getBondAmount()));
 			result.setSatisfy("PAY");
 		}
 

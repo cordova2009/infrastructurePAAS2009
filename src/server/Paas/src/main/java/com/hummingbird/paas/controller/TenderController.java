@@ -1716,7 +1716,7 @@ public class TenderController extends BaseController {
 					ter.setStartTime(DateUtil.formatCommonDateorNull(ps.getStartTime()));//开工时间
 					ter.setEndTime(DateUtil.formatCommonDateorNull(ps.getEndTime()));
 					ter.setObjectName(bo.getObjectName());
-					ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
+					ter.setWinBidAmount(ObjectUtils.toString(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
 					
 //					{"tagGroupName":"biddee_manager","tagObjectCode":"t_qyzz_biddee","businessId":"1"}  

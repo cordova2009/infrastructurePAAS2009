@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,6 @@ import com.hummingbird.paas.mapper.QyzzBidderMapper;
 import com.hummingbird.paas.mapper.UserTokenMapper;
 import com.hummingbird.paas.services.MemberService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
-import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BuyTenderMemberBodyVO;
 import com.hummingbird.paas.vo.QueryMemberInfoResultVO;
 import com.hummingbird.paas.vo.QueryMemberProductResultBodyVO;
@@ -231,7 +231,7 @@ public class MembeServiceImpl implements MemberService {
 							OrderProduct or = opmDao.selectByPrimaryKey(productId.toString());
 							if (or != null) {
 								resultOne = new QueryMemberProductResultBodyVO();
-								resultOne.setProductPrice(MoneyUtil.getMoneyStringDecimal4yuan(or.getPrice()));
+								resultOne.setProductPrice(ObjectUtils.toString(or.getPrice()));
 								if (StringUtils.isNotBlank(or.getProductDescription()))
 									resultOne.setProductDesc(or.getProductDescription());
 								if (StringUtils.isNotBlank(or.getProductName()))
@@ -281,7 +281,7 @@ public class MembeServiceImpl implements MemberService {
 							OrderProduct or = opmDao.selectByPrimaryKey(productId.toString());
 							if (or != null) {
 								QueryMemberProductResultBodyVO resultOne2 = new QueryMemberProductResultBodyVO();
-								resultOne2.setProductPrice(MoneyUtil.getMoneyStringDecimal4yuan(or.getPrice()));
+								resultOne2.setProductPrice(ObjectUtils.toString(or.getPrice()));
 								if (StringUtils.isNotBlank(or.getProductDescription()))
 									resultOne2.setProductDesc(or.getProductDescription());
 								if (StringUtils.isNotBlank(or.getProductName()))

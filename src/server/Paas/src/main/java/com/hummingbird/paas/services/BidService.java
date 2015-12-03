@@ -16,6 +16,7 @@ import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidderCompanyInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
@@ -233,4 +234,18 @@ public interface BidService {
 	 */
 	public QueryObjectCertificationInfoResult queryObjectRequirementInfo(String appId, QueryBidBodyVO body
 			) throws BusinessException;
+	
+	/**
+	 * 查询投标人基础信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidderCompanyInfoBodyVOResult queryBidderCompanyInfo(String appId, QueryBidBodyVO body,
+			Bidder bidder) throws BusinessException;
+	
 }

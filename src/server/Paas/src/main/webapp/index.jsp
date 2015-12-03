@@ -216,6 +216,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="查询投标要求基础信息接口"  onclick='setbinding("/bid/queryObjectCertificationInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {    \"objectId\":\"BH2015082135656\" }    } ")'  type="button" ></td>
 		<td><input  value="查询投标要求基础信息接口"  onclick='setbinding("/bid/queryObjectCertificationInfo","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {    \"objectId\":\"BH2015082135656\" }    } ")'  type="button" ></td>
 	</tr>
+	<tr>
+		<td><input  value="查询投标人基础信息接口"  onclick='setbinding("/bid/queryBidderCompanyInfo","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },        \"body\":{     \"token\":\"12345\"      }    }")'  type="button" ></td>
+	
+	</tr>
 	<tr><td colspan="6">工程管理-招标人</td></tr>
 	<tr>
 		<td><input type="button"  value="查询我的招标项目付款情况"  onclick='setbinding("/myPayment/queryMyPaymentList","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"  },\"body\":{\"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\"}}")'></td>

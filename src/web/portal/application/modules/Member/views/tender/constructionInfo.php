@@ -25,7 +25,12 @@ if(check_resp($resp)){
                     <input type="text" class="input1 " placeholder="编号" name="landUseCertificateNo[ZCB]" value="<?=isset($info)?$info['landUseCertificateNo']:''?>">
                     <input type="text" class="input1 datepicker" placeholder="有效期" name="landUseCertificateEndDate[ZCB]" value="<?=isset($info)?$info['landUseCertificateEndDate']:''?>">
                 </div>
-                <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell padr40">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="landUseCertificateUrl[ZCB]" value="<?=isset($info)?$info['letterOfAcceptanceUrl']:''?>">
+                    </a>
+                </div>
             </li>
             <li>
                 <div class="cell lab">
@@ -35,7 +40,12 @@ if(check_resp($resp)){
                     <input type="text" class="input1 " placeholder="编号" name="constructionLandUsePermitNo[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitNo']:''?>">
                     <input type="text" class="input1 datepicker" placeholder="有效期" name="constructionLandUsePermitEndDate[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitEndDate']:''?>">
                 </div>
-                <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell padr40">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="constructionLandUsePermitUrl[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitUrl']:''?>">
+                    </a>
+                </div>
             </li>
             <li>
                 <div class="cell lab">
@@ -45,7 +55,12 @@ if(check_resp($resp)){
                     <input type="text" class="input1 " placeholder="编号" name="buildingPermitNo[ZCB]" value="<?=isset($info)?$info['buildingPermitNo']:''?>">
                     <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingPermitEndDate[ZCB]" value="<?=isset($info)?$info['buildingPermitEndDate']:''?>">
                 </div>
-                <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell padr40">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="buildingPermitUrl[ZCB]" value="<?=isset($info)?$info['buildingPermitUrl']:''?>">
+                    </a>
+                </div>
             </li>
             <li>
                 <div class="cell lab"></div>
@@ -57,7 +72,12 @@ if(check_resp($resp)){
                 <div class="cell lab padr20">
                     <span class="red">*</span> 中标通知书
                 </div>
-                <div class="cell "><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell ">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="letterOfAcceptanceUrl" value="<?=isset($info)?$info['letterOfAcceptanceUrl']:''?>">
+                    </a>
+                </div>
                 <div class="cell ">
                     <p class="red">
                         如果国有土地使用证中使用单位与招标人不一致，<br>
@@ -84,27 +104,42 @@ if(check_resp($resp)){
                     <input type="text" class="input1 " placeholder="编号" name="landUseCertificateNo[KFS]" value="<?=isset($info)?$info['landUseCertificateNo']:''?>">
                     <input type="text" class="input1 datepicker" placeholder="有效期" name="landUseCertificateEndDate[KFS]" value="<?=isset($info)?$info['landUseCertificateEndDate']:''?>">
                 </div>
-                <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell padr40">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="landUseCertificateUrl[KFS]" value="<?=isset($info)?$info['landUseCertificateUrl']:''?>">
+                    </a>
+                </div>
             </li>
             <li>
                 <div class="cell lab">
                     <span class="blue">a</span> 建设用地规划许可证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="constructionLandUsePermitNo[KFS]">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="constructionLandUsePermitEndDate[KFS]">
+                    <input type="text" class="input1 " placeholder="编号" name="constructionLandUsePermitNo[KFS]" value="<?=isset($info)?$info['constructionLandUsePermitNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="constructionLandUsePermitEndDate[KFS]" value="<?=isset($info)?$info['constructionLandUsePermitEndDate']:''?>">
                 </div>
-                <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell padr40">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="constructionLandUsePermitUrl[KFS]" value="<?=isset($info)?$info['constructionLandUsePermitUrl']:''?>">
+                    </a>
+                </div>
             </li>
             <li>
                 <div class="cell lab">
                     <span class="blue">b</span> 建设工程规划许可证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="buildingPermitNo[KFS]">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingPermitEndDate[KFS]">
+                    <input type="text" class="input1 " placeholder="编号" name="buildingPermitNo[KFS]" value="<?=isset($info)?$info['buildingPermitNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingPermitEndDate[KFS]" value="<?=isset($info)?$info['buildingPermitEndDate']:''?>">
                 </div>
-                <div class="cell padr40"><a href="#" class="btn-file2"><input type="file"> 上传附件</a></div>
+                <div class="cell padr40">
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="buildingPermitUrl[KFS]" value="<?=isset($info)?$info['buildingPermitUrl']:''?>">
+                    </a>
+                </div>
             </li>
             <li>
                 <div class="cell lab"></div>
@@ -127,11 +162,14 @@ if(check_resp($resp)){
                     <span class="red">*</span> 建设工程施工许可证
                 </div>
                 <div class="cell padl20">
-                    <input type="text" class="input1 " placeholder="编号" name="buildingConstructPermitNo">
-                    <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingConstructPermitEndDate">
+                    <input type="text" class="input1 " placeholder="编号" name="buildingConstructPermitNo" value="<?=isset($info)?$info['buildingConstructPermitNo']:''?>">
+                    <input type="text" class="input1 datepicker" placeholder="有效期" name="buildingConstructPermitEndDate" value="<?=isset($info)?$info['buildingConstructPermitEndDate']:''?>">
                 </div>
                 <div class="cell padr40">
-                    <a href="#" class="btn-file2"><input type="file"> 上传附件</a>
+                    <a href="javascript:" class="btn-file2">
+                        <input type="file" name="file" class="file-upload"> 上传附件
+                        <input type="hidden" name="buildingConstructPermitUrl" value="<?=isset($info)?$info['buildingConstructPermitUrl']:''?>">
+                    </a>
                 </div>
             </li>
 
@@ -144,3 +182,17 @@ if(check_resp($resp)){
         </form>
     </div>
 </div>
+<script>
+$(".file-upload").fileupload({
+    url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+    done:function(e,data){
+        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+        //返回的数据在data.result中，假设我们服务器返回了一个json对象
+        if(data.result.status == '0'){
+            $(this).next().val(data.result.url);
+        }else{
+            layer.alert(data.result.msg,{icon:2});
+        }
+    }
+})
+</script>

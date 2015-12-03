@@ -13,6 +13,11 @@
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
   </properties>
   <dependencies>
+  <dependency>
+	<groupId>dom4j</groupId>
+	<artifactId>dom4j</artifactId>
+	<version>1.6.1</version>
+</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -209,12 +214,12 @@
 		<dependency>
 			<groupId>com.hummingbird</groupId>
 			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hummingbird</groupId>
 			<artifactId>commonbiz</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hummingbird</groupId>
@@ -226,13 +231,6 @@
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>1.4.7</version>
-		</dependency>
-		<dependency>
-			<groupId>com.hummingbird</groupId>
-			<artifactId>fnBilling</artifactId>
-			<classifier>api</classifier>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>jar</type>
 		</dependency>
   </dependencies>
   <!--  配置不同的环境目录  -->

@@ -94,8 +94,10 @@
 <block name="script">
 <script>
 $(function(){
+    //左侧菜单第一个设置为高亮
     $("#side_menu_ul li:eq(0)").addClass('on');
 
+    //左侧菜单事件绑定
     $("#side_menu_ul li").click(function () {
         var $this = $(this);
         var wrap = $($this.children('a').attr('href'));
@@ -120,7 +122,12 @@ $(function(){
     <?php endif;?>
 })
 
-
+/**
+ * 表单保存成功后的回调
+ * @param resp
+ * @param form
+ * @returns {boolean}
+ */
 function save_success(resp,form) {
     var next_step = form.attr('next_step');
     var wrap = $("#"+next_step);
@@ -135,7 +142,6 @@ function save_success(resp,form) {
                 $this.parent('li').addClass('on');
                 //顶部的进度条变化
                 step_toggle(i);
-
             }
         })
         return true;
@@ -167,6 +173,10 @@ function save_success(resp,form) {
     });
 }
 
+/**
+ * 顶部的进度条变化
+ * @param step
+ */
 function step_toggle(step){
     if(step >= 1 && step < 4){
         $("#step-box li:eq(0)").addClass('active');
@@ -184,4 +194,10 @@ function step_toggle(step){
 </script>
 
 <script src="/js/jquery.datetimepicker.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/js/upload/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/js/upload/jquery.fileupload.js"></script>
 </block>

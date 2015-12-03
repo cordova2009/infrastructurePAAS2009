@@ -770,6 +770,7 @@ public class TenderServiceImpl implements TenderService {
 		if (ob == null) {
 			ob = new ObjectBondSetting();
 			ob.setObjectId(bo.getObjectId());
+			ob.setBiddeeBond(0l);
 			ob.setBidderBidBond(body.getBidBondAmount());
 			obsDao.insert(ob);
 		} else {
@@ -1114,7 +1115,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo != null) {
+		if (baseinfo == null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());
@@ -1209,7 +1210,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo != null) {
+		if (baseinfo == null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());

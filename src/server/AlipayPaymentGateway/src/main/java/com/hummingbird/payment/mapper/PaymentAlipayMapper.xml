@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hummingbird.paas.mapper.PaymentAlipayMapper" >
-  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.PaymentAlipay" >
+<mapper namespace="com.hummingbird.payment.mapper.PaymentAlipayMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.payment.entity.PaymentAlipay" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="trade_id" property="tradeId" jdbcType="VARCHAR" />
@@ -25,7 +25,7 @@
     delete from t_ddgl_payment_alipay
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
+  <insert id="insert" parameterType="com.hummingbird.payment.entity.PaymentAlipay" >
     insert into t_ddgl_payment_alipay (id, order_id, trade_id, 
       pay_status, insert_time, app_id, 
       product_desc, sum, pay_time
@@ -35,7 +35,7 @@
       #{productDesc,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
+  <insert id="insertSelective" parameterType="com.hummingbird.payment.entity.PaymentAlipay" >
     insert into t_ddgl_payment_alipay
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -96,7 +96,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.payment.entity.PaymentAlipay" >
     update t_ddgl_payment_alipay
     <set >
       <if test="orderId != null" >
@@ -126,7 +126,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.payment.entity.PaymentAlipay" >
     update t_ddgl_payment_alipay
     set order_id = #{orderId,jdbcType=VARCHAR},
       trade_id = #{tradeId,jdbcType=VARCHAR},

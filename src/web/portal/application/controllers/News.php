@@ -26,7 +26,7 @@ class NewsController extends MemberController
         }
         
         $this->assign('list', $list);
-        
+        $this->layout->meta_title = '我的消息列表';
     }
     
     public function detailAction()

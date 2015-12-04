@@ -38,7 +38,7 @@
                         <td class="td2"><?= $v['biddee'] ?></td>
                         <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>
                         <td class="td4"><?= $v['evaluationAmount'] ?> <span class="fz12">元</span></td>
-                        <td><?= $v['projectExpectStartDate'] ?>到 <?php date('Y-m-d', strtotime($v['projectExpectStartDate']) + $v['projectExpectPeriod']*24*3600) ?></td>
+                        <td><?= $v['projectExpectStartDate'] ?> 到 <?= $v['projectExpectEndDate'] ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </table>

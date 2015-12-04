@@ -149,10 +149,10 @@
                 </tr>
                 <?php foreach($bid_list as $item):?>
                 <tr>
-                    <td  class="name"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                    <td class="tenderee" class="tenderee">张翠山</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="price">1500,000 <span class="fz12">元</span></td>
+                    <td  class="name"><span class="tag">土</span><?= $item['objectName'] ?></td>
+                    <td class="tenderee" class="tenderee"><?= $item['bidderName'] ?></td>
+                    <td class="tenderee"><?= $item['biddeeName'] ?></td>
+                    <td class="price"><?= $item['winBidAmount']>0 ? $item['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
                     <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach;?>

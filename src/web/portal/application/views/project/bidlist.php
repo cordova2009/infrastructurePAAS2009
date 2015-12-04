@@ -30,9 +30,9 @@
                 <?php foreach($list as $v): ?>
                 <tr>
                     <td  class="name"><span class="tag">土</span><?= $v['objectName'] ?></td>
-                    <td class="tenderee" class="tenderee"><?= $v['biderName'] ?></td>
-                    <td class="tenderee"><?= $v['bideeName'] ?></td>
-                    <td class="price"><?= $v['winBidAmount'] ?> <span class="fz12">元</span></td>
+                    <td class="tenderee" class="tenderee"><?= $v['bidderName'] ?></td>
+                    <td class="tenderee"><?= $v['biddeeName'] ?></td>
+                    <td class="price"><?= $v['winBidAmount']>0 ? $v['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
                     <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach; ?>

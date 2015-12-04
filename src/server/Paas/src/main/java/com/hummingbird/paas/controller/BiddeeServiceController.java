@@ -416,7 +416,7 @@ public class BiddeeServiceController extends BaseController{
 				ter.setStartTime(DateUtil.formatCommonDateorNull(ps.getStartTime()));//开工时间
 				ter.setEndTime(DateUtil.formatCommonDateorNull(ps.getEndTime()));
 				ter.setObjectName(bo.getObjectName());
-				ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
+				ter.setWinBidAmount(ObjectUtils.toString(bo.getWinBidAmount()));
 				ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
 				String  tagJson = CallInterfaceUtil.searchTag("project_manager", "t_gcgl_project", ps.getProjectId());
 				

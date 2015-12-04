@@ -149,10 +149,10 @@
                 </tr>
                 <?php foreach($bid_list as $item):?>
                 <tr>
-                    <td  class="name"><span class="tag">土</span>XXXXXXXXXXX工程</td>
-                    <td class="tenderee" class="tenderee">张翠山</td>
-                    <td class="tenderee">张翠山</td>
-                    <td class="price">1500,000 <span class="fz12">元</span></td>
+                    <td  class="name"><span class="tag">土</span><?= $item['objectName'] ?></td>
+                    <td class="tenderee" class="tenderee"><?= $item['bidderName'] ?></td>
+                    <td class="tenderee"><?= $item['biddeeName'] ?></td>
+                    <td class="price"><?= $item['winBidAmount']>0 ? $item['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
                     <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach;?>
@@ -170,13 +170,13 @@
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">一级资质</span>
                 <div class="left num">
-                    <span class="fz100"><?=$bider_info['stairBiderNum']?></span><span class="left dw">家</span>
+                    <span class="fz100"><?=$bidder_info['stairBiderNum']?></span><span class="left dw">家</span>
                 </div>
             </div>
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">二级资质</span>
                 <div class="left num">
-                    <span class="fz100"><?=$bider_info['secondBiderNum']?></span><span class="left dw">家</span>
+                    <span class="fz100"><?=$bidder_info['secondBiderNum']?></span><span class="left dw">家</span>
                 </div>
             </div>
         </div>
@@ -187,7 +187,7 @@
     <div class="cent  padb20">
         <div class="in-tit1">优质投标人</div>
         <ul class="clear">
-            <?php foreach($bider_list as $item):?>
+            <?php foreach($bidder_list as $item):?>
             <li><a href="#"><img src="images/tb14.jpg"></a></li>
             <?php endforeach;?>
         </ul>

@@ -15,26 +15,34 @@
                         <td class="wid90">转账凭证号</td>
                         <td>备注</td>
                     </tr>
-                    <?php foreach($list as $item):?>
+                    <?php foreach($list as $item):
+                        if($item['status']=='CRT'){
+                            $status="申请中待确认";
+                        }else if($item['status']=='OK#'){
+                            $status="充值成功！";
+                        }else if($item['status']=='FLS'){
+                            $status="充值失败！";
+                        }
+                        ?>
                     <tr>
-                        <td>2016-5-9</td>
-                        <td class="text-right">50,000元</td>
-                        <td class="text-left">申请中待确认</td>
-                        <td class="text-left">2016-5-6</td>
-                        <td>102302456</td>
-                        <td></td>
+                        <td><?=$item['createTime']?></td>
+                        <td class="text-right"><?=$item['amount']?>元</td>
+                        <td class="text-left"><?=$status?></td>
+                        <td class="text-left"><?= date('Y-m-d', strtotime($item['rechargeTime'])) ?></td>
+                        <td><?=$item['voucherNo']?></td>
+                        <td><?=$item['remark']?></td>
                     </tr>
                     <?php endforeach; ?>
                 </table>
             </div>
-            <div class="page">
+            <!--<div class="page">
                 <a class="disabled">上一页</a>
                 <a href="#" class="active">1</a>
                 <a href="#">2</a>
                 <a href="#">3</a>
                 <a href="#">4</a>
                 <a href="#">下一页</a>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

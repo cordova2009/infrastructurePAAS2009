@@ -25,8 +25,8 @@
                         </div>
                     </div>
                     <div class="text-center padt30">
-                        <a href="#" class="btn btn-blue">充值</a>
-                        <a href="#" class="btn btn-green">提现</a>
+                        <a href="<?=U('/member/capital/rechargeApply')?>" class="btn btn-blue">充值</a>
+                        <a href="<?=U('/member/capital/withdrawalsApply')?>" class="btn btn-green">提现</a>
                     </div>
                 </div>
             </div>
@@ -41,32 +41,43 @@
                             <td class="wid90 text-right">结余（元）</td>
                             <td>备注</td>
                         </tr>
-                        <tr>
-                            <td>2016-5-9</td>
-                            <td class="text-left">冻结保证金</td>
-                            <td class="text-right">500,000</td>
-                            <td class="text-right"></td>
-                            <td class="text-right">200,000</td>
-                            <td></td>
-                        </tr>
+                        <?php foreach($list as $item):
+                           /* SBZ收 "退还保证金"(解冻)，
+                            JBZ交纳保证金(冻结)，
+                            CHZ冲正,
+                            TX#提现,CZ#充值,FRZ 冻结,UFZ 解冻,SXF 交手续费,TSX 退手续费',*/
+                        if($item['type']=='SBZ'){
+                            $status="退还撮合担保金";
+                        }else if($item['type']=='JBZ'){
+                            $status="交纳撮合担保金";
+                        }else if($item['type']=='CHZ'){
+                            $status="冲正";
+                        }else if($item['type']=='TX#'){
+                            $status="提现";
+                        }else if($item['type']=='CZ#'){
+                            $status="充值";
+                        }else if($item['type']=='FRZ'){
+                            $status="冻结";
+                        }else if($item['type']=='UFZ'){
+                            $status="解冻";
+                        }else if($item['type']=='SXF'){
+                            $status="交手续费";
+                        }else if($item['type']=='TSX'){
+                            $status="退手续费";
+                        }
+                        ?>
                         <tr  class="bg1">
-                            <td>2016-5-9</td>
-                            <td class="text-left">冻结保证金</td>
-                            <td class="text-right">500,000</td>
-                            <td class="text-right"></td>
-                            <td class="text-right">200,000</td>
-                            <td></td>
+                            <td><?= date('Y-m-d', strtotime($item['time']))?></td>
+                            <td class="text-left"><?=$status?></td>
+                            <td class="text-right"><?=$item['income']?>元</td>
+                            <td class="text-right"><?=$item['outlay']?>元</td>
+                            <td class="text-right"><?=$item['balance']?>元</td>
+                            <td><?=$item['remark']?></td>
                         </tr>
+                        <?php endforeach; ?>
                     </table>
                 </div>
-                <div class="page">
-                    <a class="disabled">上一页</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">下一页</a>
-                </div>
+                <?php include(APP_PATH . 'views/common/page.php'); ?>
             </div>
         </div>
     </div>

@@ -40,5 +40,12 @@ public interface ObjectAttachmentMapper {
 	 * @param objectId
 	 * @return
 	 */
-	List<ObjectAttachment> selctByObjectId(String objectId);
+	List<ObjectAttachment> selectByObjectId(String objectId);
+	
+	/**
+	 * 查询招标附件
+	 * @param objectId
+	 * @return
+	 */
+	List<ObjectAttachment> selectTenderFileByObjectId(String objectId);
 }

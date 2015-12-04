@@ -6,11 +6,11 @@ package com.hummingbird.paas.services.impl;
 import java.util.Date;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.google.gson.Gson;
 import com.hummingbird.common.exception.DataInvalidException;
@@ -46,7 +46,9 @@ public class TokenServiceImpl implements TokenService {
 	 * @return
 	 */
 	public Token getToken(String token){
-		
+		if(StringUtils.isBlank(token)){
+			return null;
+		}
 		Token to  = this.getTokenOnRedis(token);
 		if(to == null){
 			if (log.isDebugEnabled()) {
@@ -91,7 +93,9 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public Token getToken(String token,String appId){
-		
+		if(StringUtils.isBlank(token)){
+			return null;
+		}
 		Token to  = this.getTokenOnRedis(token);
 		if(to == null){
 			if (log.isDebugEnabled()) {

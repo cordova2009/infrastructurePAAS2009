@@ -80,6 +80,7 @@
      <result column="level_name" property="creditRating" jdbcType="VARCHAR" />
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
     <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
+    <result column="project_expect_end_date" property="projectExpectEndDate" jdbcType="VARCHAR" />
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="IndexObjectListResultMap" type="com.hummingbird.paas.vo.QueryIndexObjectListResult" >
@@ -226,7 +227,7 @@
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
-    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">

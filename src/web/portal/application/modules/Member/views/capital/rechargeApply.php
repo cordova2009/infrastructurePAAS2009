@@ -86,10 +86,14 @@
         </div>
     </div>
 </div>
+<block>
+    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+</block>
 <block name="script">
 <script>
 $(function(){
     $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(1)").addClass('active');
 })
 </script>
+<script src="/js/jquery.datetimepicker.js"></script>
 </block>

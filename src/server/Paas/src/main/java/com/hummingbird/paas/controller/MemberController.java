@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.codehaus.jackson.map.SerializationConfig;
+
+import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.event.RequestEvent;
@@ -50,12 +52,14 @@ import com.hummingbird.paas.mapper.PaymentAlipayMapper;
 import com.hummingbird.paas.mapper.QyzzBiddeeMapper;
 import com.hummingbird.paas.mapper.QyzzBidderMapper;
 import com.hummingbird.paas.mapper.UserMapper;
+import com.hummingbird.paas.services.OrderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.VIPService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.vo.AlipayGatewayVO;
 import com.hummingbird.paas.vo.BuyBiddeeVIPListVO;
 import com.hummingbird.paas.vo.BuyVIPListVOResult;
+import com.hummingbird.paas.vo.PayResult;
 import com.hummingbird.paas.vo.QueryAlipayGatewayVO;
 import com.hummingbird.paas.vo.QueryVIPBodyVO;
 import com.hummingbird.paas.vo.QueryVIPInfoVOResult;
@@ -100,6 +104,8 @@ public class MemberController extends BaseController{
 	//订单表DAO  订单表
 	@Autowired
 	OrderMapper orderMapper;
+	@Autowired
+	OrderService ordersrv;
 	
 	//注册用户DAO 注册用户表 
 	@Autowired
@@ -123,11 +129,10 @@ public class MemberController extends BaseController{
 	BidderUpgradeMapper bidderUpgradeMapper;
 	//查询会员信息接口
     @RequestMapping(value = "/queryMemberInfo", method = RequestMethod.POST)
-    @AccessRequered(methodName = "查询会员信息接口", isJson = true, codebase = 210100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryVIPBodyVO", appLog = true)
+    @AccessRequered(methodName = "查询会员信息接口", isJson = true, codebase = 280100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryVIPBodyVO", appLog = true)
 	public @ResponseBody ResultModel queryMemberInfo(HttpServletRequest request,HttpServletResponse response) {
     	//结果集汇总类
 		ResultModel rm = super.getResultModel();
-		System.out.println("-------------huangxihua---------------");
 		if(rm != null){
 			//接受查询参数
 			BaseTransVO<QueryVIPBodyVO> transorder = (BaseTransVO<QueryVIPBodyVO>) super.getParameterObject();
@@ -717,7 +722,7 @@ public class MemberController extends BaseController{
     }	
     //购买招标方会员
     @RequestMapping(value = "/buyTenderMember", method = RequestMethod.POST)
-    @AccessRequered(methodName = "购买投标方会员接口", isJson = true, codebase = 246100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
+    @AccessRequered(methodName = "购买投标方会员接口", isJson = true, codebase = 280200, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
   	public @ResponseBody ResultModel buyTenderMember(HttpServletRequest request, HttpServletResponse response) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -757,8 +762,6 @@ public class MemberController extends BaseController{
 				Integer userId=token.getUserId();
 				if( userId != null){
 					
-					rm.setErrcode(850000);
-					rm.setErrmsg(messagebase+"成功");
 					//---------------------招标人验证-----------------------------------------------
 					//招标人表t_qyzz_biddee 
 					QyzzBidder bidder = qyzzBidderMapper.selectByUserId(userId);
@@ -777,7 +780,7 @@ public class MemberController extends BaseController{
 						Date date=new Date();
 						Date endTime=hyglBidder.getEndTime();
 						if(hyglBidder != null && endTime.getTime()>date.getTime()){
-							rm.setErrcode(850001);
+							rm.setErrcode(280201);
 							rm.setErrmsg("您已是会员");
 						}else{
 							//***检查用户的订单表有没有购买招标人会员的订单,订单状态为CRT(待支付),调用支付宝网关,查询订单状态*****
@@ -791,203 +794,203 @@ public class MemberController extends BaseController{
 							// 如果第2步查询订单时,查询不到订单,则新建一条订单,返回订单号
 							if(order == null){
 								//如果没有订单则创建订单
-								Order ord = new Order();
-								String orderId = AccountGenerationUtil.genNO("RM",8);//订单号
-								ord.setInsertTime(date);//创建时间
-								ord.setProductId( productId);//产品ID
-								OrderProduct orderProduct=orderProductMapper.selectByPrimaryKey(productId);
-								Long amount=null;
-								if( orderProduct != null){
-									amount=orderProduct.getPrice()*1;
-									ord.setProductCount(1);//产品数量
-									ord.setProductPrice(orderProduct.getPrice());//产品单价
-									ord.setAmount(amount);//总价
-									ord.setProductDesc(orderProduct.getProductDescription());//产品描述
-								}
-								ord.setUpdateTime(date);//更新时间
-								User user =userMapper.selectByPrimaryKey(userId);
-								if(user != null){
-									ord.setCreateBy(user.getUserName());//创建人
-									ord.setUserId(userId);//用户id
-								}
-								ord.setPayType("CAS");//支付类型
-								ord.setPayStatus("CRT");//支付状态
-								ord.setAppId(appId);//应用id
-								ord.setDiscount(100);//产品折扣
-								ord.setRealAmount(amount);//折后价格
-								ord.setOrderId(orderId);
-								int number=orderMapper.insert(ord);
-								if(number>0){
-									rm.setErrmsg("购买会员成功");
-									rm.put("orderId", orderId);
-								}
+								Order createOrder = ordersrv.createOrder(transorder.getApp().getAppId(),productId,userId,100);
+								rm.setErrmsg("购买会员成功");
+								rm.put("orderId", createOrder.getOrderId());
 							}else{
 								//支付宝网关支付查询接口
 								//订单id,对应支付宝的outTradeId
-								PropertiesUtil pu = new PropertiesUtil();
-								ObjectMapper mapper = new ObjectMapper();
-								mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT,Boolean.TRUE);
-								AlipayGatewayVO alipayGatewayVO=new AlipayGatewayVO();
-								String orderId=order.getOrderId();
-								alipayGatewayVO.setOrderId(orderId);
-								BaseTransVO<AlipayGatewayVO> transVO = new BaseTransVO<AlipayGatewayVO>();
-								transVO.setBody(alipayGatewayVO);
-								String requestJson = mapper.writeValueAsString(transVO);
-								//调用支付宝网关,查询订单状态
-								String paygatewayUrl = String.format("%s/order/query",pu.getProperty("map.url"));
-								String result = new HttpRequester().postRequest(paygatewayUrl,requestJson);
-								if(result !=null ){
-									QueryAlipayGatewayVO queryAlipayGatewayVO=RequestUtil.convertJson2Obj(result, QueryAlipayGatewayVO.class);
-									if(queryAlipayGatewayVO != null){
-										String falg=queryAlipayGatewayVO.getResult().getStatus();
-/*										如果为已支付,则把订单状态改为已支付,且为用户添加会员身份(如果原来没有会员,则添加会员,如果原来有会员,
-										则调整会员的开始时间和结束时间),在会员升级表添加一条历史记录,并且返回{"errcode":210106,"errmsg":"您已是会员"},
-										其中errcode中的 21010 要根据功能编号来改.
-										*/
-										if(falg.equals("OK#")){
-											
-											//****************订单更新状态操作***********************
-											order.setPayStatus("OK#");
-											order.setUpdateTime(new Date());
-											int updateCount=orderMapper.updateByPrimaryKey(order);
-											//****************订单更新状态操作***********************
-											if(updateCount>0){
-												rm.setErrmsg("您已是会员");
-												//******************支付宝支付记录表****start**************************
-												PaymentAlipay paymentAlipay=new PaymentAlipay();
-												paymentAlipay.setOrderId(orderId);//订单号
-												String tradeId=queryAlipayGatewayVO.getResult().getAlipayOrderId();//支付宝订单号
-												paymentAlipay.setTradeId(tradeId);////支付宝订单号
-												paymentAlipay.setPayStatus(order.getPayStatus());//支付状态
-												paymentAlipay.setProductDesc(order.getProductDesc());//产品描述
-												paymentAlipay.setAppId(appId);//应用ID
-												paymentAlipay.setInsertTime(date);//新增时间
-												//执行支付宝支付记录表t_ddgl_payment_alipay
-												PaymentAlipayMapper.insert(paymentAlipay);
-												//******************支付宝支付记录表*****end************************* 
-												
-												MemberProductAttr memberProductAttr=MemberProductAttrMapper.selectByPrimaryKey(productId);
-												
-												//******************招标人会员表	*****start************************* 
-												hyglBidder=hyglBidderMapper.selectByBidderId(bidderId);
-												Calendar rightNow = Calendar.getInstance();
-												Date startTime=rightNow.getTime();
-												rightNow.add(Calendar.YEAR, 1);
-												Date hyglendTime=rightNow.getTime();
-												boolean hyglBidderFalg=false;
-												if(hyglBidder != null){
-
-													hyglBidder.setStartTime(startTime);//会员开始时间
-													hyglBidder.setEndTime(hyglendTime);//会员结束时间
-													int count=hyglBidderMapper.updateByPrimaryKey(hyglBidder);
-													if(count>0){
-														hyglBidderFalg=true;
-													}
-												}else{
-													hyglBidder=new HyglBidder();
-													hyglBidder.setBidderId(bidderId);//招标人id
-													hyglBidder.setStartTime(startTime);//会员开始时间
-													hyglBidder.setEndTime(hyglendTime);//会员结束时间
-													
-													if(memberProductAttr != null){
-														hyglBidder.setMemberLevel(memberProductAttr.getLevel());//会员级别
-													}
-													int count=hyglBidderMapper.insert(hyglBidder);
-													if(count>0){
-														hyglBidderFalg=true;
-													}
-													//会员级别
-												}
-												//******************招标人会员表	*****end************************* 
-												
-												//***********************招标人会员购买记录表************************
-												if(hyglBidderFalg){
-													BidderUpgrade bidderUpgrade=new BidderUpgrade();
-													bidderUpgrade.setBidderId(bidderId);//招标人id
-													bidderUpgrade.setMemberLevel(memberProductAttr.getLevel());//会员级别
-													bidderUpgrade.setInsertTime(startTime);//更新时间
-													bidderUpgrade.setAmount(order.getProductPrice().intValue());//升级价格
-													bidderUpgrade.setProductId(productId);
-													bidderUpgradeMapper.insert(bidderUpgrade);
-												}
-												//***********************招标人会员购买记录表************************
-											}	
-										}else if(falg.equals("FLS")){
-											order.setPayStatus("FLS");
-											int updateCount=orderMapper.updateByPrimaryKey(order);
-											if(updateCount>0){
-												rm.setErrmsg("购买会员失败");
-												//如果没有订单则创建订单
-												Order ord = new Order();
-												String orderNumber  = AccountGenerationUtil.genNO("RM",8);//订单号
-												ord.setInsertTime(date);//创建时间
-												ord.setProductId( productId);//产品ID
-												OrderProduct orderProduct=orderProductMapper.selectByPrimaryKey(productId);
-												Long amount=null;
-												if( orderProduct != null){
-													amount=orderProduct.getPrice()*1;
-													ord.setProductCount(1);//产品数量
-													ord.setProductPrice(orderProduct.getPrice());//产品单价
-													ord.setAmount(amount);//总价
-													ord.setProductDesc(orderProduct.getProductDescription());//产品描述
-												}
-												ord.setUpdateTime(date);//更新时间
-												User user =userMapper.selectByPrimaryKey(userId);
-												if(user != null){
-													ord.setCreateBy(user.getUserName());//创建人
-													ord.setUserId(userId);//用户id
-												}
-												ord.setPayType("CAS");//支付类型
-												ord.setPayStatus("CRT");//支付状态
-												ord.setAppId(appId);//应用id
-												ord.setDiscount(100);//产品折扣
-												ord.setRealAmount(amount);//折后价格
-												ord.setOrderId(orderNumber);//订单号
-												int number=orderMapper.insert(ord);
-												if(number>0){
-													rm.setErrmsg("购买会员成功");
-													rm.put("orderId", orderNumber);
-												}
-											}
-
-										}else if(falg.equals("NON")){
-											rm.put("orderId", order.getOrderId());
-										}else if(falg.equals("OTH")){
-											//如果没有订单则创建订单
-											Order ord = new Order();
-											String orderNumber  = AccountGenerationUtil.genNO("RM",8);//订单号
-											ord.setInsertTime(date);//创建时间
-											ord.setProductId( productId);//产品ID
-											OrderProduct orderProduct=orderProductMapper.selectByPrimaryKey(productId);
-											Long amount=null;
-											if( orderProduct != null){
-												amount=orderProduct.getPrice()*1;
-												ord.setProductCount(1);//产品数量
-												ord.setProductPrice(orderProduct.getPrice());//产品单价
-												ord.setAmount(amount);//总价
-												ord.setProductDesc(orderProduct.getProductDescription());//产品描述
-											}
-											ord.setUpdateTime(date);//更新时间
-											User user =userMapper.selectByPrimaryKey(userId);
-											if(user != null){
-												ord.setCreateBy(user.getUserName());//创建人
-												ord.setUserId(userId);//用户id
-											}
-											ord.setPayType("CAS");//支付类型
-											ord.setPayStatus("CRT");//支付状态
-											ord.setAppId(appId);//应用id
-											ord.setDiscount(100);//产品折扣
-											ord.setRealAmount(amount);//折后价格
-											ord.setOrderId(orderNumber);//订单号
-											int number=orderMapper.insert(ord);
-											if(number>0){
-												rm.setErrmsg("购买会员成功");
-												rm.put("orderId", orderNumber);
-											}
-										}
+								PayResult pr = ordersrv.queryPayResult(order.getOrderId(),order.getPayType());
+								if(pr==null){
+									//访问 失败
+								}
+								else{
+									if(CommonStatusConst.STATUS_OK.equals(pr.getPayStatus())){
+										//支付成功
+										ordersrv.paySuccess(order);
+									}
+									else if("NON".equals(pr.getPayStatus())){
+										// 未支付,使用原来的订单id
+										rm.setErrmsg("购买会员成功");
+										rm.put("orderId", order.getOrderId());
 										
 									}
+									else if("CRT".equals(pr.getPayStatus()))
+									{
+										//待支付,关闭原来的支付
+										
+									}
+									else{
+										//支付失败等
+										order.setPayStatus("FLS");
+										order.setUpdateTime(new Date());
+										orderMapper.updateByPrimaryKey(order);
+									}
 								}
+//								PropertiesUtil pu = new PropertiesUtil();
+//								ObjectMapper mapper = new ObjectMapper();
+//								mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT,Boolean.TRUE);
+//								AlipayGatewayVO alipayGatewayVO=new AlipayGatewayVO();
+//								String orderId=order.getOrderId();
+//								alipayGatewayVO.setOrderId(orderId);
+//								BaseTransVO<AlipayGatewayVO> transVO = new BaseTransVO<AlipayGatewayVO>();
+//								transVO.setBody(alipayGatewayVO);
+//								String requestJson = mapper.writeValueAsString(transVO);
+//								//调用支付宝网关,查询订单状态
+//								String paygatewayUrl = String.format("%s/order/query",pu.getProperty("map.url"));
+//								String result = new HttpRequester().postRequest(paygatewayUrl,requestJson);
+//								if(result !=null ){
+//									QueryAlipayGatewayVO queryAlipayGatewayVO=RequestUtil.convertJson2Obj(result, QueryAlipayGatewayVO.class);
+//									if(queryAlipayGatewayVO != null){
+//										String falg=queryAlipayGatewayVO.getResult().getStatus();
+///*										如果为已支付,则把订单状态改为已支付,且为用户添加会员身份(如果原来没有会员,则添加会员,如果原来有会员,
+//										则调整会员的开始时间和结束时间),在会员升级表添加一条历史记录,并且返回{"errcode":210106,"errmsg":"您已是会员"},
+//										其中errcode中的 21010 要根据功能编号来改.
+//										*/
+//										if(falg.equals("OK#")){
+//											
+//											//****************订单更新状态操作***********************
+//											order.setPayStatus("OK#");
+//											order.setUpdateTime(new Date());
+//											int updateCount=orderMapper.updateByPrimaryKey(order);
+//											//****************订单更新状态操作***********************
+//											if(updateCount>0){
+//												rm.setErrmsg("您已是会员");
+//												//******************支付宝支付记录表****start**************************
+//												PaymentAlipay paymentAlipay=new PaymentAlipay();
+//												paymentAlipay.setOrderId(orderId);//订单号
+//												String tradeId=queryAlipayGatewayVO.getResult().getAlipayOrderId();//支付宝订单号
+//												paymentAlipay.setTradeId(tradeId);////支付宝订单号
+//												paymentAlipay.setPayStatus(order.getPayStatus());//支付状态
+//												paymentAlipay.setProductDesc(order.getProductDesc());//产品描述
+//												paymentAlipay.setAppId(appId);//应用ID
+//												paymentAlipay.setInsertTime(date);//新增时间
+//												//执行支付宝支付记录表t_ddgl_payment_alipay
+//												PaymentAlipayMapper.insert(paymentAlipay);
+//												//******************支付宝支付记录表*****end************************* 
+//												
+//												MemberProductAttr memberProductAttr=MemberProductAttrMapper.selectByPrimaryKey(productId);
+//												
+//												//******************招标人会员表	*****start************************* 
+//												hyglBidder=hyglBidderMapper.selectByBidderId(bidderId);
+//												Calendar rightNow = Calendar.getInstance();
+//												Date startTime=rightNow.getTime();
+//												rightNow.add(Calendar.YEAR, 1);
+//												Date hyglendTime=rightNow.getTime();
+//												boolean hyglBidderFalg=false;
+//												if(hyglBidder != null){
+//
+//													hyglBidder.setStartTime(startTime);//会员开始时间
+//													hyglBidder.setEndTime(hyglendTime);//会员结束时间
+//													int count=hyglBidderMapper.updateByPrimaryKey(hyglBidder);
+//													if(count>0){
+//														hyglBidderFalg=true;
+//													}
+//												}else{
+//													hyglBidder=new HyglBidder();
+//													hyglBidder.setBidderId(bidderId);//招标人id
+//													hyglBidder.setStartTime(startTime);//会员开始时间
+//													hyglBidder.setEndTime(hyglendTime);//会员结束时间
+//													
+//													if(memberProductAttr != null){
+//														hyglBidder.setMemberLevel(memberProductAttr.getLevel());//会员级别
+//													}
+//													int count=hyglBidderMapper.insert(hyglBidder);
+//													if(count>0){
+//														hyglBidderFalg=true;
+//													}
+//													//会员级别
+//												}
+//												//******************招标人会员表	*****end************************* 
+//												
+//												//***********************招标人会员购买记录表************************
+//												if(hyglBidderFalg){
+//													BidderUpgrade bidderUpgrade=new BidderUpgrade();
+//													bidderUpgrade.setBidderId(bidderId);//招标人id
+//													bidderUpgrade.setMemberLevel(memberProductAttr.getLevel());//会员级别
+//													bidderUpgrade.setInsertTime(startTime);//更新时间
+//													bidderUpgrade.setAmount(order.getProductPrice().intValue());//升级价格
+//													bidderUpgrade.setProductId(productId);
+//													bidderUpgradeMapper.insert(bidderUpgrade);
+//												}
+//												//***********************招标人会员购买记录表************************
+//											}	
+//										}else if(falg.equals("FLS")){
+//											order.setPayStatus("FLS");
+//											int updateCount=orderMapper.updateByPrimaryKey(order);
+//											if(updateCount>0){
+//												rm.setErrmsg("购买会员失败");
+//												//如果没有订单则创建订单
+//												Order ord = new Order();
+//												String orderNumber  = AccountGenerationUtil.genNO("RM",8);//订单号
+//												ord.setInsertTime(date);//创建时间
+//												ord.setProductId( productId);//产品ID
+//												OrderProduct orderProduct=orderProductMapper.selectByPrimaryKey(productId);
+//												Long amount=null;
+//												if( orderProduct != null){
+//													amount=orderProduct.getPrice()*1;
+//													ord.setProductCount(1);//产品数量
+//													ord.setProductPrice(orderProduct.getPrice());//产品单价
+//													ord.setAmount(amount);//总价
+//													ord.setProductDesc(orderProduct.getProductDescription());//产品描述
+//												}
+//												ord.setUpdateTime(date);//更新时间
+//												User user =userMapper.selectByPrimaryKey(userId);
+//												if(user != null){
+//													ord.setCreateBy(user.getUserName());//创建人
+//													ord.setUserId(userId);//用户id
+//												}
+//												ord.setPayType("CAS");//支付类型
+//												ord.setPayStatus("CRT");//支付状态
+//												ord.setAppId(appId);//应用id
+//												ord.setDiscount(100);//产品折扣
+//												ord.setRealAmount(amount);//折后价格
+//												ord.setOrderId(orderNumber);//订单号
+//												int number=orderMapper.insert(ord);
+//												if(number>0){
+//													rm.setErrmsg("购买会员成功");
+//													rm.put("orderId", orderNumber);
+//												}
+//											}
+//
+//										}else if(falg.equals("NON")){
+//											rm.put("orderId", order.getOrderId());
+//										}else if(falg.equals("OTH")){
+//											//如果没有订单则创建订单
+//											Order ord = new Order();
+//											String orderNumber  = AccountGenerationUtil.genNO("RM",8);//订单号
+//											ord.setInsertTime(date);//创建时间
+//											ord.setProductId( productId);//产品ID
+//											OrderProduct orderProduct=orderProductMapper.selectByPrimaryKey(productId);
+//											Long amount=null;
+//											if( orderProduct != null){
+//												amount=orderProduct.getPrice()*1;
+//												ord.setProductCount(1);//产品数量
+//												ord.setProductPrice(orderProduct.getPrice());//产品单价
+//												ord.setAmount(amount);//总价
+//												ord.setProductDesc(orderProduct.getProductDescription());//产品描述
+//											}
+//											ord.setUpdateTime(date);//更新时间
+//											User user =userMapper.selectByPrimaryKey(userId);
+//											if(user != null){
+//												ord.setCreateBy(user.getUserName());//创建人
+//												ord.setUserId(userId);//用户id
+//											}
+//											ord.setPayType("CAS");//支付类型
+//											ord.setPayStatus("CRT");//支付状态
+//											ord.setAppId(appId);//应用id
+//											ord.setDiscount(100);//产品折扣
+//											ord.setRealAmount(amount);//折后价格
+//											ord.setOrderId(orderNumber);//订单号
+//											int number=orderMapper.insert(ord);
+//											if(number>0){
+//												rm.setErrmsg("购买会员成功");
+//												rm.put("orderId", orderNumber);
+//											}
+//										}
+//										
+//									}
+//								}
 							}
 						}
 					}

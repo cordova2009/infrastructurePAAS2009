@@ -5,27 +5,22 @@ package com.hummingbird.capital.services.impl;
 
 import java.util.Date;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import com.google.gson.Gson;
-import com.hummingbird.common.exception.DataInvalidException;
-import com.hummingbird.common.util.JsonUtil;
-import com.hummingbird.common.util.Md5Util;
-import com.hummingbird.common.util.PropertiesUtil;
-import com.hummingbird.common.util.json.JSONArray;
-import com.hummingbird.common.util.json.JSONException;
-import com.hummingbird.commonbiz.exception.TokenException;
-import com.hummingbird.commonbiz.vo.BaseUserToken;
-import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.capital.entity.Token;
 import com.hummingbird.capital.mapper.UserTokenMapper;
 import com.hummingbird.capital.services.TokenService;
 import com.hummingbird.capital.util.JedisPoolUtils;
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.Md5Util;
+import com.hummingbird.common.util.PropertiesUtil;
+import com.hummingbird.commonbiz.vo.BaseUserToken;
+import com.hummingbird.commonbiz.vo.UserToken;
 
 import redis.clients.jedis.Jedis;
 
@@ -46,7 +41,9 @@ public class TokenServiceImpl implements TokenService {
 	 * @return
 	 */
 	public Token getToken(String token){
-		
+		if(StringUtils.isBlank(token)){
+			return null;
+		}
 		Token to  = this.getTokenOnRedis(token);
 		if(to == null){
 			if (log.isDebugEnabled()) {
@@ -91,7 +88,9 @@ public class TokenServiceImpl implements TokenService {
 	 */
 	@Override
 	public Token getToken(String token,String appId){
-		
+		if(StringUtils.isBlank(token)){
+			return null;
+		}
 		Token to  = this.getTokenOnRedis(token);
 		if(to == null){
 			if (log.isDebugEnabled()) {

@@ -33,7 +33,7 @@ public interface OrderMapper {
      */
     int updateByPrimaryKey(Order record);
     /**
-     * 根据产品ID、用户ID、应用ID
+     * 根据产品ID、用户ID、应用ID 查询未支付的订单
      * @param ord
      * @return
      */

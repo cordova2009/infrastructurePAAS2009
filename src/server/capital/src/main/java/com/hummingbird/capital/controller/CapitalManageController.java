@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hummingbird.capital.entity.AppLog;
+import com.hummingbird.capital.entity.PlatformBankcard;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.RechargeApply;
@@ -25,6 +26,7 @@ import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.WithdrawApply;
 import com.hummingbird.capital.exception.MaAccountException;
 import com.hummingbird.capital.mapper.AppLogMapper;
+import com.hummingbird.capital.mapper.PlatformBankcardMapper;
 import com.hummingbird.capital.mapper.ProjectAccountMapper;
 import com.hummingbird.capital.services.CapitalManageService;
 import com.hummingbird.capital.services.OrderService;
@@ -40,6 +42,7 @@ import com.hummingbird.capital.vo.FreezeBondReturnVO;
 import com.hummingbird.capital.vo.FreezeBondVO;
 import com.hummingbird.capital.vo.FreezeWithdrawalsBodyVO;
 import com.hummingbird.capital.vo.FreezeWithdrawalsVO;
+import com.hummingbird.capital.vo.GetPlatformBankcardReturnVO;
 import com.hummingbird.capital.vo.MobileBodyVO;
 import com.hummingbird.capital.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
@@ -89,6 +92,9 @@ public class CapitalManageController extends BaseController{
 	IAuthenticationService authService;
 	@Autowired
 	AppLogMapper applogDao;
+	
+	@Autowired
+	PlatformBankcardMapper platformBankcardDao;
 	@Autowired
 	private ProjectAccountMapper proActDao;
 	
@@ -803,6 +809,56 @@ public class CapitalManageController extends BaseController{
 			}
 			
 			rm.put("account",account);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "/getPlatformBankcard", method = RequestMethod.POST)
+	public @ResponseBody Object getPlatformBankcard(HttpServletRequest request) {
+		
+		TokenVO transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "获取平台方银行账户";
+		rm.setBaseErrorCode(252500);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			PropertiesUtil pu = new PropertiesUtil();
+			TokenBodyVO body=transorder.getBody();
+			
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+			User user=userSer.queryUserByToken(body.getToken());
+			GetPlatformBankcardReturnVO bankInfo=new GetPlatformBankcardReturnVO();
+			if(user!=null){
+				PlatformBankcard proActInfo=platformBankcardDao.getPlatformBankcard()==null?null:platformBankcardDao.getPlatformBankcard().get(0);
+				if(proActInfo!=null){
+					bankInfo.setAccountId(proActInfo.getAccountNo());
+					bankInfo.setAccountName(proActInfo.getAccountName());
+					bankInfo.setBankName(proActInfo.getBankName()+proActInfo.getBankBranchName());
+				}
+			}
+			
+			rm.put("bankInfo",bankInfo);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

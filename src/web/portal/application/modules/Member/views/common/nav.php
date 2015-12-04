@@ -34,6 +34,14 @@
                 <a href="<?=U('/member/capital/withdrawalsList')?>">提现记录</a>
             </div>
         </li>
+        <li>
+            <a href="javascript:">发布信息管理</a>
+            <div class="submenu">
+                <a href="<?=U('/member/information/index')?>">发布信息管理</a>
+                <a href="<?=U('/member/information/publishList')?>">已发布信息</a>
+                <a href="<?=U('/member/information/publishDetail')?>">待发布信息</a>
+            </div>
+        </li>
     </ul>
 
 </div>

@@ -91,6 +91,7 @@ if(check_resp($resp)){
         $("input[name=bidEvaluationType]").each(function(){
 
             if(this.value == '<?=$info['bidEvaluationType']?>'){
+                $(this).parent().addClass('active').siblings().removeClass('active');
                 this.checked = true;
                 return false;
             }
@@ -102,6 +103,7 @@ if(check_resp($resp)){
         $("input[name=bidWinnerDetermineWay]").each(function(){
 
             if(this.value == '<?=$info['bidWinnerDetermineWay']?>'){
+                $(this).parent().addClass('active').siblings().removeClass('active');
                 this.checked = true;
                 return false;
             }
@@ -113,6 +115,7 @@ if(check_resp($resp)){
         $("input[name=voteWinWay]").each(function(){
 
             if(this.value == '<?=$info['voteWinWay']?>'){
+                $(this).parent().addClass('active').siblings().removeClass('active');
                 this.checked = true;
                 return false;
             }

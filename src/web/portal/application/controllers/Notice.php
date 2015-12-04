@@ -26,6 +26,7 @@ class NoticeController extends MallController
         }
         
         $this->assign('list', $list);
+        $this->layout->meta_title = '公告列表';
     }
     
     public function detailAction()

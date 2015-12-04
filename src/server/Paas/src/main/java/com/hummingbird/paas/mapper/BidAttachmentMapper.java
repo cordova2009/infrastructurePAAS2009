@@ -1,5 +1,7 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.BidAttachment;
 
 public interface BidAttachmentMapper {
@@ -32,4 +34,17 @@ public interface BidAttachmentMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidAttachment record);
+    /**
+	 * 根据投标id查询附件
+	 * @param objectId
+	 * @return
+	 */
+	List<BidAttachment> selectByBidId(String bidId);
+	
+	/**
+	 * 查询投标附件
+	 * @param objectId
+	 * @return
+	 */
+	List<BidAttachment> selectBidFile(String bidId);
 }

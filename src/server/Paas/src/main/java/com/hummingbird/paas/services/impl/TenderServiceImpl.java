@@ -32,6 +32,7 @@ import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
+import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
@@ -739,7 +740,7 @@ public class TenderServiceImpl implements TenderService {
 		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
 		QueryObjectBondInfoResult result = new QueryObjectBondInfoResult();
 		if (objectBidderBond != null) {
-			result.setBidBondAmount(objectBidderBond / 100 + "元");
+			result.setBidBondAmount(ObjectUtils.toString(objectBidderBond ));
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目保证金接口完成");
@@ -770,6 +771,7 @@ public class TenderServiceImpl implements TenderService {
 		if (ob == null) {
 			ob = new ObjectBondSetting();
 			ob.setObjectId(bo.getObjectId());
+			ob.setBiddeeBond(0l);
 			ob.setBidderBidBond(body.getBidBondAmount());
 			obsDao.insert(ob);
 		} else {
@@ -829,12 +831,30 @@ public class TenderServiceImpl implements TenderService {
 		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-		ValidateUtil.assertNull(bo, "招标项目不存在");
+		if(bo==null){
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "招标项目不存在");
+		}
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
+		ValidateUtil.assertEmpty(body.getTenderFile(), "招标文件");
+		
 		bo.setNeedBusinessStandard(StringUtils.defaultIfEmpty(body.getNeedBusinessStandard(), "NO#"));
 		bo.setNeedCertificationCheckupFile(StringUtils.defaultIfEmpty(body.getNeedCertificationCheckupFile(), "NO#"));
 		bo.setNeedTechnicalStandard(StringUtils.defaultIfEmpty(body.getNeedTechnicalStandard(), "NO#"));
 		dao.updateByPrimaryKey(bo);
+		//删除原来的文件
+		List<ObjectAttachment> selctByObjectId = oaDao.selctByObjectId(bo.getObjectId());
+		for (Iterator iterator = selctByObjectId.iterator(); iterator.hasNext();) {
+			ObjectAttachment objectAttachment = (ObjectAttachment) iterator.next();
+			oaDao.deleteByPrimaryKey(objectAttachment.getId());
+		}
+		//重新添加
+		ObjectAttachment objectAttachment = new ObjectAttachment();
+		objectAttachment.setObjectId(bo.getObjectId());
+		objectAttachment.setInsertTime(new Date());
+		objectAttachment.setAttachmentUrl(body.getTenderFile());
+//		objectAttachment.getInsertBy();
+		objectAttachment.setAttachmentName("TF#");
+		oaDao.insert(objectAttachment);
 		// 请自行调整
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目投标文件接口完成");
@@ -1114,7 +1134,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo != null) {
+		if (baseinfo == null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());
@@ -1209,7 +1229,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ObjectBaseinfo baseinfo = obiDao.selectByPrimaryKey(body.getObjectId());
 		boolean isadd = false;
-		if (baseinfo != null) {
+		if (baseinfo == null) {
 			isadd = true;
 			baseinfo = new ObjectBaseinfo();
 			baseinfo.setObjectId(body.getObjectId());
@@ -1250,6 +1270,7 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNotEqual(bo.getBiddeeId(), biddeeId, "项目非您的招标项目,不能进行操作");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		bo.setObjectStatus("PUB");
+		bo.setPublishTime(new Date());
 		dao.updateByPrimaryKey(bo);
 		if (log.isDebugEnabled()) {
 			log.debug("发布标的接口完成");
@@ -1341,25 +1362,18 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException {
-		// TODO Auto-generated method stub
 			QueryBidIndexSurveyResult bis = dao.selectBidIndexSurvey();
 			return bis;
 	}
 
 	@Override
-//	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page) throws BusinessException {
-	public List<QueryBidIndexListResult> getBidIndexList() throws BusinessException {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
-		com.hummingbird.common.face.Pagingnation page = new Pagingnation();
-		page.setCurrPage(1);
-		page.setPageSize(10);
+	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page,String projectName,Integer publishTime) throws BusinessException {
 		if(page!=null&&page.isCountsize()){
-			int totalcount = dao.selectTotalBidIndexList();
+			int totalcount = dao.selectTotalBidIndexList(projectName,publishTime);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(page); 
+		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(projectName,publishTime,page); 
 		
 		return ans;
 	}

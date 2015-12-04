@@ -1,6 +1,7 @@
 package com.hummingbird.paas.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +16,11 @@ import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidderCompanyInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
 import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
@@ -142,11 +145,12 @@ public interface BidService {
 
 	/**
 	 * 查询投标人资质证书接口
+	 * @param body 
 	 * @param bidderId
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List queryBidderCertificationInfo(Integer bidderId) throws BusinessException;
+	public Map queryBidderCertificationInfo(QueryBidBodyVO body, Integer bidderId) throws BusinessException;
 
 
 	/**
@@ -217,4 +221,31 @@ public interface BidService {
 	 */
 	public QueryObjectDetailResultVO queryObjectDetail(String appId, QueryBidBodyVO body, Integer bidderId) throws BusinessException;
 
+	/**
+	 * 查询投标要求基础信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectCertificationInfoResult queryObjectRequirementInfo(String appId, QueryBidBodyVO body
+			) throws BusinessException;
+	
+	/**
+	 * 查询投标人基础信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidderCompanyInfoBodyVOResult queryBidderCompanyInfo(String appId, QueryBidBodyVO body,
+			Bidder bidder) throws BusinessException;
+	
 }

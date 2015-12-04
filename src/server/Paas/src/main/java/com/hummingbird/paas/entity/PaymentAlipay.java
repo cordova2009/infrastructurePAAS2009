@@ -42,6 +42,16 @@ public class PaymentAlipay {
     private String productDesc;
 
     /**
+     * 支付金额,单位分
+     */
+    private Integer sum;
+
+    /**
+     * 支付时间
+     */
+    private Date payTime;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -146,6 +156,36 @@ public class PaymentAlipay {
         this.productDesc = productDesc == null ? null : productDesc.trim();
     }
 
+    /**
+     * @return 支付金额,单位分
+     */
+    public Integer getSum() {
+        return sum;
+    }
+
+    /**
+     * @param sum 
+	 *            支付金额,单位分
+     */
+    public void setSum(Integer sum) {
+        this.sum = sum;
+    }
+
+    /**
+     * @return 支付时间
+     */
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    /**
+     * @param payTime 
+	 *            支付时间
+     */
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -164,7 +204,9 @@ public class PaymentAlipay {
             && (this.getPayStatus() == null ? other.getPayStatus() == null : this.getPayStatus().equals(other.getPayStatus()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getAppId() == null ? other.getAppId() == null : this.getAppId().equals(other.getAppId()))
-            && (this.getProductDesc() == null ? other.getProductDesc() == null : this.getProductDesc().equals(other.getProductDesc()));
+            && (this.getProductDesc() == null ? other.getProductDesc() == null : this.getProductDesc().equals(other.getProductDesc()))
+            && (this.getSum() == null ? other.getSum() == null : this.getSum().equals(other.getSum()))
+            && (this.getPayTime() == null ? other.getPayTime() == null : this.getPayTime().equals(other.getPayTime()));
     }
 
     @Override
@@ -178,6 +220,8 @@ public class PaymentAlipay {
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getAppId() == null) ? 0 : getAppId().hashCode());
         result = prime * result + ((getProductDesc() == null) ? 0 : getProductDesc().hashCode());
+        result = prime * result + ((getSum() == null) ? 0 : getSum().hashCode());
+        result = prime * result + ((getPayTime() == null) ? 0 : getPayTime().hashCode());
         return result;
     }
 }

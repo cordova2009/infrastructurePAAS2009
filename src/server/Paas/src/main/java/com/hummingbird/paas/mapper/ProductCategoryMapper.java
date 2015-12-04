@@ -32,4 +32,11 @@ public interface ProductCategoryMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProductCategory record);
+
+	/**
+	 * 查询某个产品的产品目录
+	 * @param productId
+	 * @return
+	 */
+	ProductCategory selectCategoryByProductId(String productId);
 }

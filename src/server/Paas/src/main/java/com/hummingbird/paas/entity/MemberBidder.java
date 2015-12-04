@@ -136,4 +136,11 @@ public class MemberBidder {
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         return result;
     }
+    /**
+     * 是否过期
+     * @return
+     */
+    public boolean isOvertime(){
+    	return getEndTime()!=null?getEndTime().before(new Date()):false;
+    }
 }

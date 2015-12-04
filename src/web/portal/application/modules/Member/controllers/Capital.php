@@ -14,6 +14,23 @@ class CapitalController extends MemberController {
      */
     public function indexAction(){
 
+        $pageSize = 5;
+        $curl2 = new Curl($this->config->url->api->capital);
+        $pageIndex = $this->getRequest()->getQuery('page', 0);
+        $resp2 = $curl2->setData([
+                'token'=>$this->user['token'],
+                'pageSize'=> $pageSize,
+                'pageIndex' => $pageIndex
+            ])->send('capitalManage/queryTransactionRecords');
+        $list = [];
+        if(check_resp($resp2)) {
+            $list = $resp2['list'];
+            $page = $this->getPagination($resp2['total'], $pageSize);
+            $this->assign('page', $page);
+        }
+        $this->assign('list',$list);
+
+
         $curl = new Curl($this->config->url->api->capital);
 
         $resp = $curl->setData(['token'=>$this->user['token']])
@@ -56,20 +73,17 @@ class CapitalController extends MemberController {
             if(empty($data['amount'])){
                 $this->error('转账金额不能为空！');
             }
-
+            $data['amount']=$data['amount']*100;
             $data['voucherFileUrl'] = 'voucherFileUrl';
-            /*if(empty($data['voucherFileUrl'])){
-                $this->error('银行转账凭证不能为空！');
-            }*/
 
 
             $curl = new Curl($this->config->url->api->capital);
 
-           $resp = $curl->setData($data)->send('/capitalManage/rechargeApply');
+           $resp = $curl->setData($data)->send('capitalManage/rechargeApply');
 
            if(check_resp($resp)) {
 
-               $this->success('保存成功！',U('/member/capital/rechargeApply'));
+               $this->success('保存成功！',U('/member/capital/rechargeList'));
            }else{
                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '充值失败，请重新再试！');
            }
@@ -153,12 +167,14 @@ class CapitalController extends MemberController {
                 $this->error('开户行不正确！');
             }
             $data['amount'] = I('amount');
+
             if(empty($data['amount'])){
                 $this->error('提现金额不能为空！');
             }
             if( is_double($data['amount'])&&$data['amount']>0){
                 $this->error('提现金额必须大于0！');
             }
+            $data['amount']=$data['amount']*100;
             $data['tradePassword'] = encrypt(md5(I('tradePassword')),$this->config->api->app->appKey);
             if(empty($data['tradePassword'])){
                 $this->error('交易密码不能为空！');
@@ -170,7 +186,7 @@ class CapitalController extends MemberController {
 
             if(check_resp($resp)) {
 
-                $this->success('保存成功！',U('/member/capital/withdrawalsApply'));
+                $this->success('保存成功！',U('/member/capital/withdrawalsList'));
             }else{
                 $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '提现申请失败，请重新再试！');
             }
@@ -184,7 +200,15 @@ class CapitalController extends MemberController {
 
 
     public function withdrawalsListAction(){
+        $curl1 = new Curl($this->config->url->api->capital);
 
+        $resp2 = $curl1->setData(['token'=>$this->user['token']])
+            ->send('capitalManage/queryWithdrawalsApplyList');
+
+        if(check_resp($resp2)) {
+            $list = $resp2['list'];
+        }
+        $this->assign('list',$list);
         $this->meta_title = '提现记录';
     }
 }

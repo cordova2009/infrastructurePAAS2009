@@ -1,5 +1,6 @@
 package com.hummingbird.paas.mapper;
 
+import com.hummingbird.paas.entity.MemberBiddee;
 import com.hummingbird.paas.entity.MemberBidder;
 
 public interface MemberBidderMapper {
@@ -32,4 +33,11 @@ public interface MemberBidderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(MemberBidder record);
+    
+    /**
+	 * 根据投标人id查询会员
+	 * @param id
+	 * @return
+	 */
+	MemberBidder selectByBidderId(Integer biddeeId);
 }

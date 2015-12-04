@@ -177,6 +177,11 @@ public class BidObject {
     private String evaluationAmountVisiable;
 
     /**
+     * 发布时间,当标的状态 从CRT到PUB后,此时间为发布时间 
+     */
+    private Date publishTime;
+
+    /**
      * @return 招标编号(平台),ZB00时间戳随机数
      */
     public String getObjectId() {
@@ -293,7 +298,7 @@ public class BidObject {
 	 *            中标金额
      */
     public void setWinBidAmount(Long winBidAmount) {
-        this.winBidAmount = winBidAmount == null ? null : winBidAmount;
+        this.winBidAmount = winBidAmount;
     }
 
     /**
@@ -624,7 +629,7 @@ public class BidObject {
      */
     public void setWinBidTime(Date winBidTime) {
         this.winBidTime = winBidTime;
-   }
+    }
 
     /**
      * @return 插入时间
@@ -686,6 +691,21 @@ public class BidObject {
         this.evaluationAmountVisiable = evaluationAmountVisiable == null ? null : evaluationAmountVisiable.trim();
     }
 
+    /**
+     * @return 发布时间,当标的状态 从CRT到PUB后,此时间为发布时间 
+     */
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    /**
+     * @param publishTime 
+	 *            发布时间,当标的状态 从CRT到PUB后,此时间为发布时间 
+     */
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -731,7 +751,8 @@ public class BidObject {
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getObjectType() == null ? other.getObjectType() == null : this.getObjectType().equals(other.getObjectType()))
-            && (this.getEvaluationAmountVisiable() == null ? other.getEvaluationAmountVisiable() == null : this.getEvaluationAmountVisiable().equals(other.getEvaluationAmountVisiable()));
+            && (this.getEvaluationAmountVisiable() == null ? other.getEvaluationAmountVisiable() == null : this.getEvaluationAmountVisiable().equals(other.getEvaluationAmountVisiable()))
+            && (this.getPublishTime() == null ? other.getPublishTime() == null : this.getPublishTime().equals(other.getPublishTime()));
     }
 
     @Override
@@ -772,6 +793,7 @@ public class BidObject {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getObjectType() == null) ? 0 : getObjectType().hashCode());
         result = prime * result + ((getEvaluationAmountVisiable() == null) ? 0 : getEvaluationAmountVisiable().hashCode());
+        result = prime * result + ((getPublishTime() == null) ? 0 : getPublishTime().hashCode());
         return result;
     }
 }

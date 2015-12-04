@@ -3,7 +3,7 @@ if(check_resp($resp)){
     $info = $resp['projectInfo'];
 }
 ?>
-<div class="auto  box pad0">
+<div class="auto  box pad0" id="projectInfo">
     <div class="h2">工程基本信息</div>
     <div class="padm30">
         <form action="<?=U('/member/tender/saveProjectInfo')?>" method="post" class="ajax-form" success="save_success" next_step="constructionInfo">

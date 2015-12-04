@@ -35,18 +35,21 @@ class BidderController extends MemberController{
 	    $this->assign('base',isset($base['baseInfo'])?$base['baseInfo']:'');
 	    $this->assign('registered',isset($registered['registeredInfo'])?$registered['registeredInfo']:'');
 	    $this->assign('legal',isset($legal['legalPerson'])?$legal['legalPerson']:'');
-	    $name = decrypt($legal['legalPerson']['name'],$this->config->api->app->appKey);
-	    $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
-	    $this->assign('name',$name);
-	    $this->assign('idcard',$idcard);
+	   // $name = decrypt($legal['legalPerson']['name'],$this->config->api->app->appKey);
+	   // $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
+	   // $this->assign('name',$name);
+	   // $this->assign('idcard',$idcard);
 	    $types =$curl->setData(new stdClass())->send('tender/queryCertificateList');
 	    $projectType = [];
 	    $certificateName = [];
 	    foreach($types['certificateList'] as $v)
 	    {
 		    $projectType[$v['industryId']] = $v['industryName'];
+		    //$certificateName[$v['industryName']] = $v['certificateList'];
 		    $certificateName[$v['industryId']] = $v['certificateList'];
 	    }
+            $zizhi= $curl->setData(['token'=>$token])->send('myBidder/authInfo/getEnterpriseQualification');
+	    $this->assign('zizhi',isset($zizhi['eqInfo'])?$zizhi['eqInfo']:'');
 	    $this->assign('projectType',$projectType);
 	    $this->assign('certificateName',$certificateName);
 	    $this->layout->meta_title = '申请认证信息';
@@ -75,10 +78,11 @@ class BidderController extends MemberController{
 	    $this->assign('base',$resp['baseInfo']);
 	    $this->assign('registered',$resp['registeredInfo']);
 	    $this->assign('legal',$resp['legalPerson']);
-	    $name = decrypt($resp['legalPerson']['name'],$this->config->api->app->appKey);
-	    $idcard = decrypt($resp['legalPerson']['idCard'],$this->config->api->app->appKey);
-	    $this->assign('name',$name);
-	    $this->assign('idcard',$idcard);
+	    $this->assign('eqInfo',$resp['eqInfo']);
+	    //$name = decrypt($resp['legalPerson']['name'],$this->config->api->app->appKey);
+	   // $idcard = decrypt($resp['legalPerson']['idCard'],$this->config->api->app->appKey);
+	   // $this->assign('name',$name);
+	   // $this->assign('idcard',$idcard);
 	    $this->layout->meta_title = '提交申请认证信息';
     }
     public function doapplyAction()
@@ -99,6 +103,10 @@ class BidderController extends MemberController{
 	    if($type=='bankInfo')
 	    {
 		    $this->savebank();
+	    }
+	    if($type=='zizhi')
+	    {
+		    $this->savezizhi();
 	    }
 	    exit;
     }
@@ -241,13 +249,10 @@ class BidderController extends MemberController{
     }
     private function savezizhi()
     {
-	    $email = I('email');
-	    if(empty($email)){
-		    $this->error('电子邮箱不能为空！');
-	    }
+	    $eqInfo  =  I('data');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInf');
+	    $resp = $curl->setData(['token'=>$token,'eqInfo'=>$eqInfo])->send('myBidder/authInfo/saveEnterpriseQualification');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{
@@ -267,7 +272,7 @@ class BidderController extends MemberController{
 	    $accountName= I('accountName');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'bankInfo'=>['bank'=>$bank,'accountId'=>$accountId,'accountName'=>$accountName]])->send('myBidder/authInfo/saveBankInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'bankInfo'=>['bank'=>$bank,'accountId'=>$accountId,'accountName'=>$accountName]])->send('myBidder/authInfo/saveBankInfo');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{

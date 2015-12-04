@@ -18,6 +18,14 @@
     from t_ddgl_product_category
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectCategoryByProductId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ddgl_product_category
+    where id in (
+    	select  product_category_id     from t_ddgl_order_product where id = #{productId}
+    )
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ddgl_product_category
     where id = #{id,jdbcType=INTEGER}

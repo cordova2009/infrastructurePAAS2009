@@ -6,7 +6,7 @@
         <div class="content auto">
             <div class="tit3"><a href="<?=U('/member/info/edit')?>" class="right btn">修改信息</a>基本信息</div>
             <div class="clear base_info">
-                <img src="<?=empty($user['headImageUrl']) ? '/uploads/avtar.png' : $user['/uploads/avtar.png']?>" class="avtar" >
+                <img src="<?=empty($user['headImageUrl']) ? '/uploads/avtar.png' :imageView2($user['headImageUrl'],200,200)?>" class="avtar" >
                 <div class="auto">
                     <div class="item">
                         <span class="lab">昵称</span>

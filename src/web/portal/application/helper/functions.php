@@ -319,8 +319,23 @@ function get_client_ip($type = 0,$adv=false) {
  * @param int $h
  * @return string
  */
-function imageView2($url,$w=100,$h=100){
-    return $url.'?imageView2/1/w/'.$w.'/h/'.$h.'/interlace/1';
+function imageView2($url,$w=null,$h=null){
+    if(empty($w) || empty($h)){
+        $url = $url.'?e='.(time()+3600);
+    }else{
+        $url = $url.'?imageView2/1/w/'.$w.'/h/'.$h.'/interlace/1&e='.(time()+3600);
+    }
+
+    $config = Yaf\Registry::get('config');
+    $sign = hash_hmac('sha1', $url, $config->qiniu->secrectKey, true);
+    return $url.'&token='.$config->qiniu->accessKey.':'.urlsafe_base64_encode($sign);
+}
+
+function urlsafe_base64_encode($str) // URLSafeBase64Encode
+{
+    $find = array("+","/");
+    $replace = array("-", "_");
+    return str_replace($find, $replace, base64_encode($str));
 }
 
 /**

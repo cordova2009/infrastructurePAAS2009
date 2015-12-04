@@ -18,7 +18,8 @@ public class QueryBidIndexListResult
   protected String objectId;
   protected String objectName;
   protected String industryId;
-  protected String biddee;
+  protected String biddeeName;
+  protected String bidderName;
   protected String winBidAmount;
 /**
  * @return the objectId
@@ -41,8 +42,8 @@ public String getIndustryId() {
 /**
  * @return the biddee
  */
-public String getBiddee() {
-	return biddee;
+public String getBiddeeName() {
+	return biddeeName;
 }
 /**
  * @return the winBidAmount
@@ -71,8 +72,8 @@ public void setIndustryId(String industryId) {
 /**
  * @param biddee the biddee to set
  */
-public void setBiddee(String biddee) {
-	this.biddee = biddee;
+public void setBiddeeName(String biddee) {
+	this.biddeeName = biddee;
 }
 /**
  * @param winBidAmount the winBidAmount to set
@@ -86,7 +87,19 @@ public void setWinBidAmount(String winBidAmount) {
 @Override
 public String toString() {
 	return "QueryBidIndexListResult [objectId=" + objectId + ", objectName=" + objectName + ", industryId=" + industryId
-			+ ", biddee=" + biddee + ", winBidAmount=" + winBidAmount + "]";
+			+ ", biddeeName=" + biddeeName + ", winBidAmount=" + winBidAmount + "]";
+}
+/**
+ * #{bare_field_comment} 
+ */
+public String getBidderName() {
+	return bidderName;
+}
+/**
+ * #{bare_field_comment} 
+ */
+public void setBidderName(String bidder) {
+	this.bidderName = bidder;
 }
 
     

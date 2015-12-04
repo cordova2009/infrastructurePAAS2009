@@ -9,9 +9,11 @@
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="app_id" property="appId" jdbcType="VARCHAR" />
     <result column="product_desc" property="productDesc" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_id, trade_id, pay_status, insert_time, app_id, product_desc
+    id, order_id, trade_id, pay_status, insert_time, app_id, product_desc, sum, pay_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,10 +28,12 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
     insert into t_ddgl_payment_alipay (id, order_id, trade_id, 
       pay_status, insert_time, app_id, 
-      product_desc)
+      product_desc, sum, pay_time
+      )
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{tradeId,jdbcType=VARCHAR}, 
       #{payStatus,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR}, 
-      #{productDesc,jdbcType=VARCHAR})
+      #{productDesc,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.PaymentAlipay" >
     insert into t_ddgl_payment_alipay
@@ -55,6 +59,12 @@
       <if test="productDesc != null" >
         product_desc,
       </if>
+      <if test="sum != null" >
+        sum,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -77,6 +87,12 @@
       </if>
       <if test="productDesc != null" >
         #{productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null" >
+        #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -101,6 +117,12 @@
       <if test="productDesc != null" >
         product_desc = #{productDesc,jdbcType=VARCHAR},
       </if>
+      <if test="sum != null" >
+        sum = #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -111,7 +133,9 @@
       pay_status = #{payStatus,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       app_id = #{appId,jdbcType=VARCHAR},
-      product_desc = #{productDesc,jdbcType=VARCHAR}
+      product_desc = #{productDesc,jdbcType=VARCHAR},
+      sum = #{sum,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

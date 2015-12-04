@@ -3,7 +3,7 @@
     <div class="clear mart30" id="right-content">
 
         <?php require_once 'nav.php'?>
-        <div class="auto box pad0" id="base-info">
+        <div class="auto box pad0" id="baseInfo">
             <div class="h2">招标项目信息</div>
             <div class="padm30">
                 <form action="<?=U('/member/tender/baseInfo')?>" method="post" class="ajax-form" success="save_success" next_step="projectInfo">
@@ -94,8 +94,23 @@
 <block name="script">
 <script>
 $(function(){
-//    $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(0)").addClass('active');
+    //左侧菜单第一个设置为高亮
     $("#side_menu_ul li:eq(0)").addClass('on');
+
+    //左侧菜单事件绑定
+    $("#side_menu_ul li").click(function () {
+        var $this = $(this);
+        var wrap = $($this.children('a').attr('href'));
+        if(wrap.length > 0){
+            $("#right-content .box").hide();
+            $("#side_menu_ul li").removeClass('on');
+            wrap.show();
+            $this.addClass('on');
+            //顶部的进度条变化
+            step_toggle($this.index());
+        }
+        return false;
+    });
 
     <?php if(isset($info) && $info['evaluationAmountVisiable'] == 'DIS'):?>
     $(".amount-visiable").each(function(){
@@ -107,13 +122,36 @@ $(function(){
     <?php endif;?>
 })
 
-
+/**
+ * 表单保存成功后的回调
+ * @param resp
+ * @param form
+ * @returns {boolean}
+ */
 function save_success(resp,form) {
-    var data = {step: form.attr('next_step'),objectId:resp.objectId};
+    var next_step = form.attr('next_step');
+    var wrap = $("#"+next_step);
+    //已经加载过的，不需要再次加载
+    if(wrap.length > 0){
+        $("#right-content .box").hide();
+        $("#side_menu_ul li").removeClass('on');
+        wrap.show();
+        $("#side_menu_ul li a").each(function(i){
+            var $this = $(this);
+            if($this.attr('href') == '#'+next_step){
+                $this.parent('li').addClass('on');
+                //顶部的进度条变化
+                step_toggle(i);
+            }
+        })
+        return true;
+    }
 
+    var data = {step: next_step,objectId:resp.objectId};
     var loading = layer.load();
+    //开始加载下一个页面
     $.post('<?=U('/member/tender/step')?>', data, function (rs) {
-        $("#right-content .box").addClass('hide');
+        $("#right-content .box").hide();
         $("#right-content").append(rs.html);
 
         $("#side_menu_ul li")
@@ -122,6 +160,10 @@ function save_success(resp,form) {
             .addClass('on').prev('li').children('a')
             .append('<i class="ico i-right"></i>');
 
+        //顶部的进度条变化
+        step_toggle(resp.step);
+
+        //左侧的进度条变化
         var integrity = ((resp.step/11)*100).toFixed(0);
         $("#progress-info").text(integrity+'%');
         $("#progress-bar").animate({width:integrity+'%'},"slow");
@@ -130,7 +172,32 @@ function save_success(resp,form) {
         layer.close(loading);
     });
 }
+
+/**
+ * 顶部的进度条变化
+ * @param step
+ */
+function step_toggle(step){
+    if(step >= 1 && step < 4){
+        $("#step-box li:eq(0)").addClass('active');
+        $("#step-box li:gt(0)").removeClass('active');
+    }else if(step >= 4 && step < 7){
+        $("#step-box li:eq(1)").addClass('active');
+        $("#step-box li:gt(1)").removeClass('active');
+    }else if(step >= 7 && step < 10){
+        $("#step-box li:eq(2)").addClass('active');
+        $("#step-box li:gt(2)").removeClass('active');
+    }else if(step == 10){
+        $("#step-box li:eq(3)").addClass('active');
+    }
+}
 </script>
 
 <script src="/js/jquery.datetimepicker.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/js/upload/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/js/upload/jquery.fileupload.js"></script>
 </block>

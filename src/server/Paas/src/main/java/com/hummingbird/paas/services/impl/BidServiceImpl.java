@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,7 +38,6 @@ import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
-import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
@@ -61,7 +61,6 @@ import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
-import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
@@ -71,16 +70,17 @@ import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_1;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_2;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_3;
 import com.hummingbird.paas.vo.QueryBidderBondBodyVOResult;
+import com.hummingbird.paas.vo.QueryBidderCompanyInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBusinessStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryMakeMatchBidderBondBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
+import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectDetailAnswerQuestion;
 import com.hummingbird.paas.vo.QueryObjectDetailBaseVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBidEvaluationTypeInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailBidFilTypeInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailBidderBidderCertification;
 import com.hummingbird.paas.vo.QueryObjectDetailBidderCertificationInfo;
-import com.hummingbird.paas.vo.QueryObjectDetailBodyVO;
 import com.hummingbird.paas.vo.QueryObjectDetailBondInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailConstructionInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailDateRequirementInfo;
@@ -132,7 +132,7 @@ public class BidServiceImpl implements BidService {
 	@Autowired
 	BidderMapper berDao;
 	@Autowired
-	BidderCertificationMapper bcertDao;//投标证书
+	BidderCertificationMapper bcertDao;// 投标证书
 	@Autowired
 	BidRecordMapper brDao;
 	@Autowired
@@ -154,59 +154,98 @@ public class BidServiceImpl implements BidService {
 	@Autowired
 	InviteBidderMapper ibDao;
 
-	//@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
+	// Exception.class, value = "txManager")
 	/**
 	 * 查询投标人资质证书接口
+	 * 
 	 * @param bidderId
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List queryBidderCertificationInfo(Integer bidderId) throws BusinessException {
+	public Map queryBidderCertificationInfo(QueryBidBodyVO body, Integer bidderId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标人资质证书接口进入");
 		}
-		List biddercertificationlist = new ArrayList<>();
+		// 查询招标的证书要求
+		// 查询投标人的证书
+		List<CertificationRequirement> certs = crDao.selectCertisByObjectId(body.getObjectId());
 		List<BidderCertification> biddercerts = bcertDao.selectByBidderId(bidderId);
+		List misslist = new ArrayList<>();
+		List bidderList = new ArrayList<>();
+		List requirementList = new ArrayList<>();
+		Map certificationInfo = new HashMap<>();
+		certificationInfo.put("missingList", misslist);
+		certificationInfo.put("bidderList", bidderList);
+		certificationInfo.put("requirementList", requirementList);
+		Map bidderCertMap = new HashMap<>();
 		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
 			BidderCertification bidderCertification = (BidderCertification) iterator.next();
-			Map biddercert = new HashMap<>();
-			biddercert.put("bidderCertificateId", bidderCertification.getId());
-			biddercert.put("certificationName", bidderCertification.getCertificationName());
-			biddercert.put("certificationId", bidderCertification.getCertificationId());
-			biddercertificationlist.add(biddercert);
-//			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
-//			if(cert!=null){
-//				bidderCertification.setCertificationType(cert);
-//			}
+			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
+			if (cert != null) {
+				bidderCertification.setCertificationType(cert);
+				addCert2list(bidderList, cert);
+			}
+		}
+		List<CertificationMatchVO> nofitcerts = new ArrayList<>();
+		StringBuilder reason = new StringBuilder();
+		for (Iterator iterator = certs.iterator(); iterator.hasNext();) {
+			CertificationRequirement cr = (CertificationRequirement) iterator.next();
+			Integer certificationId = cr.getCertificationId();
+			CertificationType cert = certDao.selectByPrimaryKey(certificationId);
+			if (cert != null) {
+				addCert2list(requirementList, cert);
+				// 查询投标人有没有对应的资质
+				CertificationMatchVO matchresult = getSuitableCert(cert, biddercerts);
+				if (!matchresult.isMatch()) {
+					addCert2list(misslist, cert);
+				}
+			}
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标人资质证书接口完成");
 		}
-		return biddercertificationlist;
+		return certificationInfo;
 	}
 
-	//@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public List<QueryObjectListResultVO> queryObjectList(Pagingnation pagingnation,Integer userId) throws BusinessException {
+	/**
+	 * 添加证书信息到list中
+	 * 
+	 * @param list
+	 * @param cert
+	 */
+	private void addCert2list(List list, CertificationType cert) {
+		Map certmap = new HashMap<>();
+		certmap.put("certificateId", cert.getId());
+		certmap.put("certificationName", cert.getCertificationName());
+		list.add(certmap);
+	}
+
+	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
+	// Exception.class, value = "txManager")
+	public List<QueryObjectListResultVO> queryObjectList(Pagingnation pagingnation, Integer userId)
+			throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("查询招标的项目列表");
 		}
 		List<QueryObjectListResultVO> qors = new ArrayList<QueryObjectListResultVO>();
 		QueryObjectListResultVO qol = null;
-//		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
-//			return null;
-//		}
-//		Pagingnation pagingnation = body.toPagingnation();
+		// if (pageIndex == null || pageIndex <= 0 || pageSize == null ||
+		// pageSize <= 0) {
+		// return null;
+		// }
+		// Pagingnation pagingnation = body.toPagingnation();
 		Map param = new HashMap<>();
 		param.put("userId", userId);
 		int count = obDao.queryObjectCount(param);
 		pagingnation.setTotalCount(count);
 		pagingnation.calculatePageCount();
-		
-		List<ObjectProject> pjs = obDao.queryObjectByPage(pagingnation,param);
+
+		List<ObjectProject> pjs = obDao.queryObjectByPage(pagingnation, param);
 		for (ObjectProject pj : pjs) {
 			qol = new QueryObjectListResultVO();
 			if (pj.getEvaluationAmount() != null)
-				qol.setEvaluationAmount(MoneyUtil.getMoneyStringDecimal4yuan(pj.getEvaluationAmount())+"元");
+				qol.setEvaluationAmount(ObjectUtils.toString(pj.getEvaluationAmount()));
 			ProjectInfos proj = pIDao.selectByPrimaryKey(pj.getObjectId());
 			if (proj != null && proj.getProjectExpectStartDate() != null)
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
@@ -220,7 +259,7 @@ public class BidServiceImpl implements BidService {
 					qol.setCompanyShortName(dee.getCompanyName());
 				}
 				BiddeeCredit bc = bcDao.selectByPrimaryKey(biddeeId);
-				//生成信用评价,需要调整
+				// 生成信用评价,需要调整
 				if (bc != null) {
 					Integer score = bc.getBaseinfoCreditScore();
 					if (score != null) {
@@ -241,12 +280,14 @@ public class BidServiceImpl implements BidService {
 	}
 
 	/**
-	 * 查询标的详情接口 
+	 * 查询标的详情接口
+	 * 
 	 * @see com.hummingbird.paas.services.BidService#queryObjectDetail(com.hummingbird.paas.vo.QueryObjectDetailBodyVO)
 	 */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public QueryObjectDetailResultVO queryObjectDetail(String appId, QueryBidBodyVO body, Integer bidderId) throws BusinessException {
+	public QueryObjectDetailResultVO queryObjectDetail(String appId, QueryBidBodyVO body, Integer bidderId)
+			throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("进入查询招标项目详情:");
 		}
@@ -254,7 +295,7 @@ public class BidServiceImpl implements BidService {
 		ObjectProject ob = obDao.selectByPrimaryKey(objectId);
 		if (StringUtils.isBlank(objectId) || ob == null) {
 			log.error(String.format("标的不存在"));
-			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"标的不存在");
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的不存在");
 		}
 		QueryObjectDetailResultVO qodr = new QueryObjectDetailResultVO();
 		qodr.setObjectId(objectId);
@@ -412,7 +453,7 @@ public class BidServiceImpl implements BidService {
 	}
 
 	/**
-	 * 查询未完成的投标资格审查信息接口
+	 * 查询投标要求基础信息接口
 	 * 
 	 * @param appId
 	 *            应用id
@@ -423,72 +464,24 @@ public class BidServiceImpl implements BidService {
 	 * @throws BusinessException
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public QueryBidRequirementInfoBodyVOResult queryBidRequirementInfo(String appId, QueryBidBodyVO body,
-			Integer bidderId) throws BusinessException {
+	public QueryObjectCertificationInfoResult queryObjectRequirementInfo(String appId, QueryBidBodyVO body)
+			throws BusinessException {
 		if (log.isDebugEnabled()) {
-			log.debug("查询未完成的投标资格审查信息接口开始");
+			log.debug("查询投标要求基础信息接口");
 		}
 		BidObject bidObject = objectdao.selectByPrimaryKey(body.getObjectId());
 		if (bidObject == null) {
 			log.error(String.format("标的[%s]不存在", body.getObjectId()));
 			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的不存在");
 		}
-		if (!bidObject.getObjectStatus().equals("PUB")) {
-			log.error(String.format("标的[%s]非发布中", body.getObjectId()));
-			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的状态不正确,目前并非发布中");
-		}
-		//查询投标信息
-		List<BidRecord> bids =   dao.selectUnfinishedBid(bidderId, body.getObjectId());
-		
-		BidRecord bid = null ;
-		if(bids!=null&&!bids.isEmpty()){
-			bid = bids.get(0);
-		}
-		QueryBidRequirementInfoBodyVOResult result = new QueryBidRequirementInfoBodyVOResult();
-		if(bid==null){
-			result = null; 
-		}
-		else{
-			
-			QueryBidRequirementInfoBodyVOResult_1 result1 = new QueryBidRequirementInfoBodyVOResult_1();
-			result1.setSafetyPermitNo(bid.getSafetyPermitNo());
-			result1.setSafetyPermitEndDate(getStringFromDateOrNull(bid.getSafetyPermitEndtime()));
-			result1.setSafetyPermitUrl(bid.getSafetyPermitUrl());
-			result1.setPmSafetyCertificationNo(bid.getPmSafetyCertificationNo());
-			result1.setPmSafetyCertificationEndDate(getStringFromDateOrNull(bid.getPmSafetyCertificationEndtime()));
-			result1.setPmSafetyCertificationUrl(bid.getPmSafetyCertificationUrl());
-			
-			QueryBidRequirementInfoBodyVOResult_2 result2 = new QueryBidRequirementInfoBodyVOResult_2();
-			result2.setPmCertificationNo(bid.getPmCertificationNo());
-			result2.setPmCertificationEndDate(getStringFromDateOrNull(bid.getPmCertificationEndtime()));
-			result2.setPmCertificationUrl(bid.getPmCertificationUrl());
-			result2.setConstructorCertificationNo(bid.getConstructorCertificationNo());
-			result2.setConstructorCertificationEndDate(getStringFromDateOrNull(bid.getConstructorCertificationEndtime()));
-			result2.setConstructorCertificationUrl(bid.getConstructorCertificationUrl());
-			
-			QueryBidRequirementInfoBodyVOResult_3 result3 = new QueryBidRequirementInfoBodyVOResult_3();
-			result3.setBankGuaranteeAmount(
-					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount() / 100)));
-			result3.setBankGuaranteeNo(bid.getBankGuaranteeNo());
-			result3.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
-			// 查询投标资质
-			List<BidCertification> bclist = bcdao.selectByBidId((body.getBidId()));
-			List<Integer> bcilist = new ArrayList<>();
-			for (Iterator iterator = bclist.iterator(); iterator.hasNext();) {
-				BidCertification bidCertification = (BidCertification) iterator.next();
-				bcilist.add(bidCertification.getBidId());
-			}
-			
-			result.setBidId(bid.getId());
-			result.setBankGuarantee(result3);
-			result.setBidPeopleRequirement(result2);
-			result.setBidSafetyInfo(result1);
-			result.setCertificationList(bcilist);
-		}
-
+		QueryObjectCertificationInfoResult result = new QueryObjectCertificationInfoResult();
+		result.setNeedConstructorCertification(bidObject.getNeedConstructorCertification());
+		result.setNeedPmCertification(bidObject.getNeedPmCertification());
+		result.setNeedPmSafetyCertification(bidObject.getNeedPmSafetyCertification());
+		result.setNeedSafetyPermit(bidObject.getNeedSafetyPermit());
 
 		if (log.isDebugEnabled()) {
-			log.debug("查询未完成的投标资格审查信息接口完成");
+			log.debug("查询投标要求基础信息接口");
 		}
 		return result;
 	}
@@ -572,8 +565,6 @@ public class BidServiceImpl implements BidService {
 		}
 	}
 
-	
-
 	/**
 	 * 查询未完成投标的商务标信息接口
 	 * 
@@ -592,7 +583,7 @@ public class BidServiceImpl implements BidService {
 		}
 		QueryBusinessStandardInfoBodyVOResult result = new QueryBusinessStandardInfoBodyVOResult();
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), null);
-		result.setBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bid.getBidAmount()));
+		result.setBidAmount(ObjectUtils.toString(bid.getBidAmount()));
 		result.setProjectQuotationUrl(bid.getProjectQuotationUrl());
 		result.setConstructionCommitmentUrl(bid.getConstructionCommitmentUrl());
 		result.setConstructionEndDate((bid.getConstructionEndDate()));
@@ -680,6 +671,7 @@ public class BidServiceImpl implements BidService {
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId);
 		ValidateUtil.assertEmpty(body.getTechnicalStandardUrl(), "技术标附件");
 		bid.setTechnicalStandardUrl(body.getTechnicalStandardUrl());
+		dao.updateByPrimaryKey(bid);
 		if (log.isDebugEnabled()) {
 			log.debug("保存投标的技术标信息接口完成");
 		}
@@ -705,10 +697,10 @@ public class BidServiceImpl implements BidService {
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId, null);
 		BidObject object = bid.getBo();
 		Long bidBondAmount = object.getBidBondAmount();
-		result.setBankGuaranteeAmount(MoneyUtil.getMoneyStringDecimal4yuan(bid.getBankGuaranteeAmount()));
+		result.setBankGuaranteeAmount(ObjectUtils.toString(bid.getBankGuaranteeAmount()));
 		result.setBankGuaranteeNo(bid.getBankGuaranteeNo());
 		result.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
-		result.setBidBondAmount(MoneyUtil.getMoneyStringDecimal4yuan(bidBondAmount));
+		result.setBidBondAmount(ObjectUtils.toString(bidBondAmount));
 		if (log.isDebugEnabled()) {
 			log.debug("查询投标保证金信息接口完成");
 		}
@@ -772,7 +764,7 @@ public class BidServiceImpl implements BidService {
 				log.error(String.format("无法找到合适的撮合保证金,费率表没有对应的设置,金额为%s分", object.getEvaluationAmount()));
 				throw ValidateException.ERROR_PARAM_NULL.clone(null, "无法找到合适的撮合保证金");
 			}
-			result.setMakeMatchBidderBondAmount(MoneyUtil.getMoneyStringDecimal4yuan(bondmoney));
+			result.setMakeMatchBidderBondAmount(ObjectUtils.toString(bondmoney));
 			// 检查投标人的可用余额,远程访问用户资金帐户
 			// TODO 改为访问用户资金帐户
 			Integer remainingsum = 30000000;
@@ -782,7 +774,7 @@ public class BidServiceImpl implements BidService {
 				result.setSatisfy("NEN");
 			}
 		} else {
-			result.setMakeMatchBidderBondAmount(MoneyUtil.getMoneyStringDecimal4yuan(mmbond.getBondAmount()));
+			result.setMakeMatchBidderBondAmount(ObjectUtils.toString(mmbond.getBondAmount()));
 			result.setSatisfy("PAY");
 		}
 
@@ -835,35 +827,37 @@ public class BidServiceImpl implements BidService {
 			log.debug("提交撮合投标保证金信息接口完成");
 		}
 	}
-	
+
 	@Override
-	public FreezeBondReturnVO unfreezeMakeMatchBidderBond(UnfreezeBondVO body, Bidder bidder,
-			String method) throws BusinessException {
-		//根据orderId查询原来的订单信息
-		MakeMatchBondRecord oldActOrd=mmbrDao.selectByPrimaryKey(body.getOrderId());
-		if(oldActOrd==null){
+	public FreezeBondReturnVO unfreezeMakeMatchBidderBond(UnfreezeBondVO body, Bidder bidder, String method)
+			throws BusinessException {
+		// 根据orderId查询原来的订单信息
+		MakeMatchBondRecord oldActOrd = mmbrDao.selectByPrimaryKey(body.getOrderId());
+		if (oldActOrd == null) {
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("根据订单号【%s】查询不到原来的订单信息",body.getOrderId()));
+				log.debug(String.format("根据订单号【%s】查询不到原来的订单信息", body.getOrderId()));
 			}
-			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据订单号【%s】查询不到原来的订单信息",body.getOrderId()));
-			
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
+					String.format("根据订单号【%s】查询不到原来的订单信息", body.getOrderId()));
+
 		}
 		BidObject object = null;
 		BidRecord bid = validateBid(oldActOrd.getBidId(), oldActOrd.getObjectId(), bidder.getId(), object);
-		
-		List<MakeMatchBondRecord> returnActOrds=mmbrDao.selectReturnByBidId(oldActOrd.getBidId());
-		if(returnActOrds.size()>0){
+
+		List<MakeMatchBondRecord> returnActOrds = mmbrDao.selectReturnByBidId(oldActOrd.getBidId());
+		if (returnActOrds.size() > 0) {
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还",oldActOrd.getBidId()));
+				log.debug(String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还", oldActOrd.getBidId()));
 			}
-			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还",oldActOrd.getBidId()));		
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
+					String.format("投标订单号【%s】已经退还过撮合保证金，无法再次退还", oldActOrd.getBidId()));
 		}
-		
-		//创建保证金订单
-		Long objectBond=oldActOrd.getBondAmount();
-		//创建解冻撮合担保金订单
-		MakeMatchBondRecord bondRecord=new MakeMatchBondRecord();
-		String bondorderId=AccountGenerationUtil.genNO("BZ00");
+
+		// 创建保证金订单
+		Long objectBond = oldActOrd.getBondAmount();
+		// 创建解冻撮合担保金订单
+		MakeMatchBondRecord bondRecord = new MakeMatchBondRecord();
+		String bondorderId = AccountGenerationUtil.genNO("BZ00");
 		bondRecord.setOrderId(bondorderId);
 		bondRecord.setUpdateTime(new Date());
 		bondRecord.setBidId(oldActOrd.getBidId());
@@ -874,16 +868,16 @@ public class BidServiceImpl implements BidService {
 		bondRecord.setStatus("REV");
 		mmbrDao.insert(bondRecord);
 		// 调用用户资金接口,记录用户资金
-		//组装返回信息
-		FreezeBondReturnVO bond=new FreezeBondReturnVO();
-		/*bond.setAccountId(account.getAccountId());
-		bond.setAmount(objectBond.toString());
-		bond.setBalance(balance.toString());
-		bond.setFlowDirection("IN#");
-		bond.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
-		bond.setOrderId(accountOrderId);
-		bond.setRemark("退还保证金");
-		bond.setType("REV");*/
+		// 组装返回信息
+		FreezeBondReturnVO bond = new FreezeBondReturnVO();
+		/*
+		 * bond.setAccountId(account.getAccountId());
+		 * bond.setAmount(objectBond.toString());
+		 * bond.setBalance(balance.toString()); bond.setFlowDirection("IN#");
+		 * bond.setFlowDirection(OrderConst.FLOW_DIRECTION_IN);
+		 * bond.setOrderId(accountOrderId); bond.setRemark("退还保证金");
+		 * bond.setType("REV");
+		 */
 		return bond;
 	}
 
@@ -905,7 +899,7 @@ public class BidServiceImpl implements BidService {
 		BidObject object = null;
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidder.getId(), object);
 		bid.setStatus(CommonStatusConst.STATUS_OK);
-		
+
 		dao.updateByPrimaryKey(bid);
 
 		if (log.isDebugEnabled()) {
@@ -921,7 +915,7 @@ public class BidServiceImpl implements BidService {
 	 * @param body
 	 *            参数
 	 * @param bidderId
-	 * @return 
+	 * @return
 	 * @return
 	 * @throws BusinessException
 	 */
@@ -931,20 +925,18 @@ public class BidServiceImpl implements BidService {
 		if (log.isDebugEnabled()) {
 			log.debug("保存投标资格审查信息接口开始");
 		}
-		BidRecord bid  = null;
-		if(null==body.getBidId()){
-			//查询有没有未完成的
+		BidRecord bid = null;
+		if (null == body.getBidId()) {
+			// 查询有没有未完成的
 			List<BidRecord> selectUnfinishObject = dao.selectUnfinishedBid(bidderId, body.getObjectId());
-			if(selectUnfinishObject!=null&&!selectUnfinishObject.isEmpty())
-			{
+			if (selectUnfinishObject != null && !selectUnfinishObject.isEmpty()) {
 				bid = selectUnfinishObject.get(0);
 			}
-		}
-		else{
-			
+		} else {
+
 			bid = dao.selectByPrimaryKey((body.getBidId()));
-			if(bid!=null){
-				//检查编号是否存在
+			if (bid != null) {
+				// 检查编号是否存在
 				ValidateUtil.assertNotEqual(bid.getBidStatus(), "CRT", "项目非编制中,不能进行操作");
 			}
 		}
@@ -1024,62 +1016,61 @@ public class BidServiceImpl implements BidService {
 		}
 		return bid;
 	}
-	
-	public void hadQualify2bid(QueryObjectBodyVO queryobject,Integer userId) throws BusinessException {
+
+	public void hadQualify2bid(QueryObjectBodyVO queryobject, Integer userId) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("接口查询用户是否具有投标的资质进入");
 		}
-		
+
 		if (userId == null) {
 			log.error(String.format("用户ID为空"));
-			throw ValidateException.ERROR_PARAM_NULL.clone(null,"用户不存在");
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "用户不存在");
 		}
 		Bidder bidder = berDao.selectByUserId(userId);
 		if (bidder == null) {
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("用户[%s]没有进行投标人资格认证",userId));
+				log.debug(String.format("用户[%s]没有进行投标人资格认证", userId));
 			}
-			throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION,"你还不是投标人,不能参与投标");
+			throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION, "你还不是投标人,不能参与投标");
 		}
 		if (!CommonStatusConst.STATUS_OK.equals(bidder.getStatus())) {
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("用户[%s]投标人信息状态不对",userId));
+				log.debug(String.format("用户[%s]投标人信息状态不对", userId));
 			}
-			throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION,"你的状态非正常状态,不能参与投标");
+			throw new PaasException(PaasException.ERR_BIDDER_INFO_EXCEPTION, "你的状态非正常状态,不能参与投标");
 		}
-		
+
 		String objectId = queryobject.getObjectId();
-		if(StringUtils.isBlank(objectId)){
+		if (StringUtils.isBlank(objectId)) {
 			log.error(String.format("标的编号为空,没有办法判断"));
-			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"标的编号为空,没有办法判断");
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的编号为空,没有办法判断");
 		}
 		ObjectProject object = obDao.selectByPrimaryKey(objectId);
-		if(object==null){
+		if (object == null) {
 			log.error(String.format("招标信息为空,没有办法判断"));
-			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"招标信息为空,没有办法判断");
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "招标信息为空,没有办法判断");
 		}
-		if(!StringUtils.equals(object.getObjectStatus(),"PUB")){
+		if (!StringUtils.equals(object.getObjectStatus(), "PUB")) {
 			log.error(String.format("招标信息状态非发布中,不能投标"));
-			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"招标信息状态非发布中,不能投标");
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "招标信息状态非发布中,不能投标");
 		}
-		//如果招标的邀请招标,检查是否在邀请招标名单内
-		if(StringUtils.equals(object.getObjectPublishType(),"INV"))
-		{
-			int count=ibDao.hadInvited(object.getObjectId(),bidder.getId());
-			if(count==0){
+		// 如果招标的邀请招标,检查是否在邀请招标名单内
+		if (StringUtils.equals(object.getObjectPublishType(), "INV")) {
+			int count = ibDao.hadInvited(object.getObjectId(), bidder.getId());
+			if (count == 0) {
 				log.error(String.format("招标信息是邀请招标但你未被邀请,不能投标"));
-				throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"招标信息是邀请招标但你未被邀请,不能投标");
+				throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "招标信息是邀请招标但你未被邀请,不能投标");
 			}
 		}
-		//检查招标人资质信息
-		
+		// 检查招标人资质信息
+
 		List<CertificationRequirement> certs = crDao.selectCertisByObjectId(objectId);
 		List<BidderCertification> biddercerts = bcertDao.selectByBidderId(bidder.getId());
 		Map bidderCertMap = new HashMap<>();
 		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
 			BidderCertification bidderCertification = (BidderCertification) iterator.next();
 			CertificationType cert = certDao.selectByPrimaryKey(bidderCertification.getCertificationId());
-			if(cert!=null){
+			if (cert != null) {
 				bidderCertification.setCertificationType(cert);
 			}
 		}
@@ -1089,47 +1080,48 @@ public class BidServiceImpl implements BidService {
 			CertificationRequirement cr = (CertificationRequirement) iterator.next();
 			Integer certificationId = cr.getCertificationId();
 			CertificationType cert = certDao.selectByPrimaryKey(certificationId);
-			if(cert!=null)
-			{
-				//查询投标人有没有对应的资质
-				CertificationMatchVO matchresult = getSuitableCert(cert,biddercerts);
-				if(!matchresult.isMatch()){
-					//nofitcerts.add(matchresult);
+			if (cert != null) {
+				// 查询投标人有没有对应的资质
+				CertificationMatchVO matchresult = getSuitableCert(cert, biddercerts);
+				if (!matchresult.isMatch()) {
+					// nofitcerts.add(matchresult);
 					reason.append(cert.getCertificationName());
 					reason.append(matchresult.getReason());
-					if(iterator.hasNext()){
+					if (iterator.hasNext()) {
 						reason.append("，");
-						
+
 					}
-					
+
 				}
 			}
 		}
-		if(reason.length()>0){
+		if (reason.length() > 0) {
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("投标人资质证书不匹配:%s",reason.toString()));
+				log.debug(String.format("投标人资质证书不匹配:%s", reason.toString()));
 			}
-			throw new PaasException(PaasException.ERR_BID_CERTIFICATION_INFO_EXCEPTION,"资质要求不能满足:"+reason.toString());
+			throw new PaasException(PaasException.ERR_BID_CERTIFICATION_INFO_EXCEPTION,
+					"资质要求不能满足:" + reason.toString());
 		}
 	}
 
 	/**
 	 * 匹配证书
+	 * 
 	 * @param cert
 	 * @param biddercerts
-	 * @return 投标方资质证书记录主键,如不匹配返回null 
+	 * @return 投标方资质证书记录主键,如不匹配返回null
 	 */
 	private CertificationMatchVO getSuitableCert(CertificationType targetcert, List<BidderCertification> biddercerts) {
 		if (log.isDebugEnabled()) {
-			log.debug(String.format("尝试匹配证书%s",targetcert));
+			log.debug(String.format("尝试匹配证书%s", targetcert));
 		}
 		CertificationMatchVO matchvo = new CertificationMatchVO();
 		matchvo.setCertificationTypeId(targetcert.getId());
 		for (Iterator iterator = biddercerts.iterator(); iterator.hasNext();) {
 			BidderCertification bidderCertification = (BidderCertification) iterator.next();
 			CertificationType cert = bidderCertification.getCertificationType();
-			if(cert!=null){
-				if(targetcert.getId()==cert.getId()){
+			if (cert != null) {
+				if (targetcert.getId() == cert.getId()) {
 					if (log.isDebugEnabled()) {
 						log.debug(String.format("证书相同,匹配成功"));
 					}
@@ -1137,41 +1129,38 @@ public class BidServiceImpl implements BidService {
 					matchvo.setMatch(true);
 					matchvo.setBidderCertificationId(bidderCertification.getId());
 					return matchvo;
-				}
-				else if(StringUtils.equals(targetcert.getCertificationGroupname(), cert.getCertificationGroupname())
-						){
-					
-					if(targetcert.getCertificationLevel() >= cert.getCertificationLevel()){
-						//证书等级匹配
+				} else
+					if (StringUtils.equals(targetcert.getCertificationGroupname(), cert.getCertificationGroupname())) {
+
+					if (targetcert.getCertificationLevel() >= cert.getCertificationLevel()) {
+						// 证书等级匹配
 						if (log.isDebugEnabled()) {
 							log.debug(String.format("证书等级匹配成功,匹配成功"));
 						}
 						matchvo.setReason("匹配成功");
 						matchvo.setMatch(true);
 						matchvo.setBidderCertificationId(bidderCertification.getId());
-					}
-					else{
-						//证书等级不对
+					} else {
+						// 证书等级不对
 						if (log.isDebugEnabled()) {
 							log.debug(String.format("证书等级匹配失败,匹配失败"));
 						}
 						matchvo.setReason("证书等级不匹配");
 						matchvo.setMatch(false);
 					}
-					
+
 					return matchvo;
+				} else {
+					// 证书不同,先跳过
 				}
-				else{
-					//证书不同,先跳过
-				}
-				
+
 			}
-//			else
-//			{
-//				if (log.isDebugEnabled()) {
-//					log.debug(String.format("招标资质要求的证书,投标人没有"));
-//				}
-//			}
+			// else
+			// {
+			// if (log.isDebugEnabled()) {
+			// log.debug(String.format("招标资质要求的证书,投标人没有"));
+			// }
+			// }
 		}
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("招标资质要求的证书,投标人没有"));
@@ -1180,7 +1169,118 @@ public class BidServiceImpl implements BidService {
 		matchvo.setMatch(false);
 		return matchvo;
 	}
-	
-	
+
+	/**
+	 * 查询未完成的投标资格审查信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public QueryBidRequirementInfoBodyVOResult queryBidRequirementInfo(String appId, QueryBidBodyVO body,
+			Integer bidderId) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标资格审查信息接口开始");
+		}
+		BidObject bidObject = objectdao.selectByPrimaryKey(body.getObjectId());
+		if (bidObject == null) {
+			log.error(String.format("标的[%s]不存在", body.getObjectId()));
+			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的不存在");
+		}
+		if (!bidObject.getObjectStatus().equals("PUB")) {
+			log.error(String.format("标的[%s]非发布中", body.getObjectId()));
+			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的状态不正确,目前并非发布中");
+		}
+		// 查询投标信息
+		List<BidRecord> bids = dao.selectUnfinishedBid(bidderId, body.getObjectId());
+
+		BidRecord bid = null;
+		if (bids != null && !bids.isEmpty()) {
+			bid = bids.get(0);
+		}
+		QueryBidRequirementInfoBodyVOResult result = new QueryBidRequirementInfoBodyVOResult();
+		if (bid == null) {
+			result = null;
+		} else {
+
+			QueryBidRequirementInfoBodyVOResult_1 result1 = new QueryBidRequirementInfoBodyVOResult_1();
+			result1.setSafetyPermitNo(bid.getSafetyPermitNo());
+			result1.setSafetyPermitEndDate(getStringFromDateOrNull(bid.getSafetyPermitEndtime()));
+			result1.setSafetyPermitUrl(bid.getSafetyPermitUrl());
+			result1.setPmSafetyCertificationNo(bid.getPmSafetyCertificationNo());
+			result1.setPmSafetyCertificationEndDate(getStringFromDateOrNull(bid.getPmSafetyCertificationEndtime()));
+			result1.setPmSafetyCertificationUrl(bid.getPmSafetyCertificationUrl());
+
+			QueryBidRequirementInfoBodyVOResult_2 result2 = new QueryBidRequirementInfoBodyVOResult_2();
+			result2.setPmCertificationNo(bid.getPmCertificationNo());
+			result2.setPmCertificationEndDate(getStringFromDateOrNull(bid.getPmCertificationEndtime()));
+			result2.setPmCertificationUrl(bid.getPmCertificationUrl());
+			result2.setConstructorCertificationNo(bid.getConstructorCertificationNo());
+			result2.setConstructorCertificationEndDate(
+					getStringFromDateOrNull(bid.getConstructorCertificationEndtime()));
+			result2.setConstructorCertificationUrl(bid.getConstructorCertificationUrl());
+
+			QueryBidRequirementInfoBodyVOResult_3 result3 = new QueryBidRequirementInfoBodyVOResult_3();
+			result3.setBankGuaranteeAmount(
+					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount() / 100)));
+			result3.setBankGuaranteeNo(bid.getBankGuaranteeNo());
+			result3.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
+			// 查询投标资质
+			List<BidCertification> bclist = bcdao.selectByBidId((body.getBidId()));
+			List<Integer> bcilist = new ArrayList<>();
+			for (Iterator iterator = bclist.iterator(); iterator.hasNext();) {
+				BidCertification bidCertification = (BidCertification) iterator.next();
+				bcilist.add(bidCertification.getBidId());
+			}
+
+			result.setBidId(bid.getId());
+			result.setBankGuarantee(result3);
+			result.setBidPeopleRequirement(result2);
+			result.setBidSafetyInfo(result1);
+			result.setCertificationList(bcilist);
+		}
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标资格审查信息接口完成");
+		}
+		return result;
+	}
+
+	/**
+	 * 查询投标人基础信息接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidderCompanyInfoBodyVOResult queryBidderCompanyInfo(String appId, QueryBidBodyVO body,
+			Bidder bidder) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询投标人基础信息接口开始");
+		}
+		QueryBidderCompanyInfoBodyVOResult result = new QueryBidderCompanyInfoBodyVOResult();
+		result.setBusinessLicenseNum(bidder.getBusinessLicense());
+		result.setBusinessLicenseType(bidder.getBusinessLicenseType());
+		result.setBusinessLicenseUrl(bidder.getBusinessLicenseUrl());
+		result.setCompanyName(bidder.getCompanyName());
+		result.setNewBusinessLicenseNum(bidder.getUnifiedSocialCreditCode());
+		result.setNewBusinessLicenseUrl(bidder.getUnifiedSocialCreditCodeUrl());
+		result.setOrganizationCodeNum(bidder.getOrgCodeCertificate());
+		result.setOrganizationCodeUrl(bidder.getOrgCodeCertificateUrl());
+		result.setTaxRegistrationNum(bidder.getTaxRegistrationCertificate());
+		result.setTaxRegistrationUrl(bidder.getTaxRegistrationCertificateUrl());
+		if (log.isDebugEnabled()) {
+			log.debug("查询投标人基础信息接口完成");
+		}
+		return result;
+	}
 
 }

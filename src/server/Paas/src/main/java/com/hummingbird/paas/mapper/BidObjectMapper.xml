@@ -36,6 +36,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="object_type" property="objectType" jdbcType="VARCHAR" />
     <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="MyTenderObjectListResultMap" type="com.hummingbird.paas.vo.MyTenderObjectListVO" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
@@ -103,8 +104,8 @@
     <resultMap id="QueryBidIndexListResultMap" type="com.hummingbird.paas.vo.QueryBidIndexListResult" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-    <result column="bideeName" property="bideeName" jdbcType="VARCHAR" />
-    <result column="biderName" property="biderName" jdbcType="VARCHAR" />
+    <result column="biddee" property="biddeeName" jdbcType="VARCHAR" />
+    <result column="bidder" property="bideerName" jdbcType="VARCHAR" />
     <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
     </resultMap>
   <sql id="Base_Column_List" >
@@ -114,7 +115,8 @@
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time, insert_time, update_time, object_type, evaluation_amount_visiable
+    win_bid_time, insert_time, update_time, object_type, evaluation_amount_visiable, 
+    publish_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -263,14 +265,26 @@
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 
-     
+     	<if test="projectName != null" >
+		 	and a.object_name like "%"#{projectName}"%"
+		 </if>
+		 <if test="publishTime != null" >
+		 	and a.publish_time > date_sub(now(), interval #{publishTime} day)
+		 </if>
   </select>
    <select id="selectBidIndexList" resultMap="QueryBidIndexListResultMap">
-    select a.object_id,a.object_name,c.short_name bideeName,d.short_name biderName,a.win_bid_amount from t_ztgl_object a 
+    select a.object_id,a.object_name,c.short_name biddee,d.short_name bidder,a.win_bid_amount 
+    	from t_ztgl_object a 
 		INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id 
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 
+		 <if test="projectName != null" >
+		 	and a.object_name like "%"#{projectName}"%"
+		 </if>
+		 <if test="publishTime != null" >
+		 	and a.publish_time > date_sub(now(), interval #{publishTime} day)
+		 </if>
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 
@@ -292,7 +306,8 @@
       need_safety_permit, need_pm_safety_certification, 
       evaluation_amount, object_scope, win_bid_time, 
       insert_time, update_time, object_type, 
-      evaluation_amount_visiable)
+      evaluation_amount_visiable, publish_time
+      )
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=BIGINT}, #{winBidderId,jdbcType=INTEGER}, 
@@ -305,7 +320,8 @@
       #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
       #{evaluationAmount,jdbcType=BIGINT}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, 
       #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, 
-      #{evaluationAmountVisiable,jdbcType=VARCHAR})
+      #{evaluationAmountVisiable,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
@@ -412,6 +428,9 @@
       <if test="evaluationAmountVisiable != null" >
         evaluation_amount_visiable,
       </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
@@ -515,6 +534,9 @@
       </if>
       <if test="evaluationAmountVisiable != null" >
         #{evaluationAmountVisiable,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -620,6 +642,9 @@
       <if test="evaluationAmountVisiable != null" >
         evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR},
       </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
@@ -657,7 +682,8 @@
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       object_type = #{objectType,jdbcType=VARCHAR},
-      evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR}
+      evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

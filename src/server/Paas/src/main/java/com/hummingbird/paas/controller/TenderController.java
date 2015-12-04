@@ -4,7 +4,6 @@ package com.hummingbird.paas.controller;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.quartz.CalendarIntervalScheduleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
@@ -45,7 +43,7 @@ import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
-import com.hummingbird.paas.entity.MembeBiddee;
+import com.hummingbird.paas.entity.MemberBiddee;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectStatus;
@@ -56,7 +54,7 @@ import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
-import com.hummingbird.paas.mapper.MembeBiddeeMapper;
+import com.hummingbird.paas.mapper.MemberBiddeeMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
@@ -116,12 +114,6 @@ import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
 import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
-import com.hummingbird.tag.dao.TagDao;
-import com.hummingbird.tag.service.TagmapService;
-import com.hummingbird.tag.web.controller.TagController;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * @author
@@ -139,7 +131,7 @@ public class TenderController extends BaseController {
 	@Autowired
 	BiddeeMapper biddeeDao;
 	@Autowired
-	MembeBiddeeMapper membiddeeDao;
+	MemberBiddeeMapper membiddeeDao;
 	@Autowired
 	BidObjectMapper objectDao;
 	@Autowired
@@ -244,7 +236,7 @@ public class TenderController extends BaseController {
 				throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您没有招标方资质认证,请先进行认证");
 			}
 			//检查是否会员,非会员只能发布一次
-			MembeBiddee membiddee = membiddeeDao.selectByBiddeeId(biddee.getId());
+			MemberBiddee membiddee = membiddeeDao.selectByBiddeeId(biddee.getId());
 			if(membiddee==null||membiddee.getEndTime().after(new Date()))
 			{
 				List<BidObject> selectbyBiddeeId = objectDao.selectbyBiddeeId(biddee.getId(), null);
@@ -1724,7 +1716,7 @@ public class TenderController extends BaseController {
 					ter.setStartTime(DateUtil.formatCommonDateorNull(ps.getStartTime()));//开工时间
 					ter.setEndTime(DateUtil.formatCommonDateorNull(ps.getEndTime()));
 					ter.setObjectName(bo.getObjectName());
-					ter.setWinBidAmount(MoneyUtil.getMoneyStringDecimal4yuan(bo.getWinBidAmount()));
+					ter.setWinBidAmount(ObjectUtils.toString(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
 					
 //					{"tagGroupName":"biddee_manager","tagObjectCode":"t_qyzz_biddee","businessId":"1"}  
@@ -2453,12 +2445,12 @@ public class TenderController extends BaseController {
 		
 		try {
 			
-//				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
 				List<QueryBidIndexListResult> list=new ArrayList<QueryBidIndexListResult>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
 //				list = tenderService.getBidIndexList(page);
-				list = tenderService.getBidIndexList();
+				list = tenderService.getBidIndexList(page,transorder.getBody().getProjectName(),transorder.getBody().getPublishTime());
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryBidIndexListResult, Map>() {
 
 					@Override
@@ -2475,8 +2467,8 @@ public class TenderController extends BaseController {
 						}
 					}
 				});
-				rm.put("list", nos);
-//				mergeListOutput(rm, page, nos);
+//				rm.put("list", nos);
+				mergeListOutput(rm, page, nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

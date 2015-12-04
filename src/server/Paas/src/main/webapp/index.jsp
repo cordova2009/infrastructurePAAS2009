@@ -48,7 +48,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="购买投标方会员接口"  onclick='setbinding("/member/queryMemberProduct","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"12345\" ,\"productId\":\"1\",\"memberDuration\":3,\"payMethod\":\"CSA\",\"payAmount\":50000   }    }")'  type="button" ></td>
 	    <td><input  value="购买招标方会员列表接口"  onclick='setbinding("/member/buyPrivilegeMember","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {        \"token\":\"12345\" ,\"productId\":\"1\",\"memberDuration\":3,\"payMethod\":\"CSA\",\"payAmount\":50000   }    }")'  type="button" ></td>
 	</tr>
+	<tr>
+	<tr><td colspan="2">用户信息管理</td></tr>
+	<tr>
+		<td><input  value="提交举报接口"  onclick='setbinding("/report/submitReport"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"reportType\":\"UTT\",        \"refType\":\"TER\",        \"refId\":\"1\",        \"reportContent\":\"这条信息涉嫌诈骗\"    }}  ")'  type="button" ></td>
+		<td><input  value="提交投诉接口"  onclick='setbinding("/complain/submitComplain"," {  \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"complainType\":\"PPP\",        \"refType\":\"PPP\",        \"refId\":\"1\",        \"complainContent\":\"付款很慢\"    }}  ")'  type="button" ></td>
+		<td><input  value="提交用户信息接口"  onclick='setbinding("/userInformation/submitUserInformation"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"objectAmount\":\"3000万\",        \"informationId\":1,        \"district\":\"广州市\",        \"objectName\":\"项目名称\",        \"employer\":\"甲方xxxxxx\",        \"phase\":\"招标阶段\",        \"projectPeriod\":\"半年\",        \"projectSituation\":\"本项目主要是xxxx\",        \"address\":\"xx路666号\"    }}  ")'  type="button" ></td>
+		<td><input  value="查看我的发布信息详情接口"  onclick='setbinding("/userInformation/getUserInformationDetail"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"informationId\":1    }} ")'  type="button" ></td>
+		<td><input  value="查看发布信息详情接口"  onclick='setbinding("/userInformation/getUserInformationDetailWithComments"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"informationId\":1    }}  ")'  type="button" ></td>
+		<td><input  value="查询发布信息列表接口"  onclick='setbinding("/userInformation/queryUserInformationPage"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"pageIndex\":1,        \"pageSize\":10,        \"status\":\"CRT\"    }}  ")'  type="button" ></td>
+		<td><input  value="回复用户信息接口"  onclick='setbinding("/userInformation/replyUserInformation"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"informationId\":1,        \"replyContent\":\"我可以试试\"    }}  ")'  type="button" ></td>		
+		</tr>
 	
+	<tr>
+		<td colspan="6"></td>
 	<tr>
 	<tr><td colspan="2">公告管理</td></tr>
 	<tr>

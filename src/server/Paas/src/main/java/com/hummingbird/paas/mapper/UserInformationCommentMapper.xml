@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.UserInformationCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.UserInformationComment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="information_id" property="informationId" jdbcType="INTEGER" />
+    <result column="replier" property="replier" jdbcType="INTEGER" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+  </resultMap>
+<!--   private Integer   replier;
+	private String   replierName;
+	private String   replyContent;
+	private Date   replyTime; -->
+  <resultMap id="UserInformationCommentsResultMap" type="com.hummingbird.paas.vo.UserInformationComments" >
+    <result column="replier" property="replier" jdbcType="INTEGER" />
+    <result column="replier_name" property="replierName" jdbcType="VARCHAR" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, information_id, replier, reply_time, status, reply_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_xxfb_user_information_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByInformationId" resultMap="UserInformationCommentsResultMap" parameterType="java.lang.Integer" >
+     select a.replier,b.user_name replier_name,a.reply_time,a.reply_content from t_xxfb_user_information_comment a 
+     LEFT JOIN t_user b on a.replier = b.id
+     where a.information_id = #{information_id,jdbcType=INTEGER} and a.status = 'OK#'
+  </select>
+    <select id="selectByInformationIdAndUserId" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_xxfb_user_information_comment
+    where information_id = #{informationId,jdbcType=INTEGER} and replier = #{userId,jdbcType=INTEGER} and status = 'OK#'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_xxfb_user_information_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.UserInformationComment" >
+    insert into t_xxfb_user_information_comment (id, information_id, replier, 
+      reply_time, status, reply_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{informationId,jdbcType=INTEGER}, #{replier,jdbcType=INTEGER}, 
+      #{replyTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{replyContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserInformationComment" >
+    insert into t_xxfb_user_information_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="informationId != null" >
+        information_id,
+      </if>
+      <if test="replier != null" >
+        replier,
+      </if>
+      <if test="replyTime != null" >
+        reply_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="replyContent != null" >
+        reply_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="informationId != null" >
+        #{informationId,jdbcType=INTEGER},
+      </if>
+      <if test="replier != null" >
+        #{replier,jdbcType=INTEGER},
+      </if>
+      <if test="replyTime != null" >
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="replyContent != null" >
+        #{replyContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserInformationComment" >
+    update t_xxfb_user_information_comment
+    <set >
+      <if test="informationId != null" >
+        information_id = #{informationId,jdbcType=INTEGER},
+      </if>
+      <if test="replier != null" >
+        replier = #{replier,jdbcType=INTEGER},
+      </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="replyContent != null" >
+        reply_content = #{replyContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserInformationComment" >
+    update t_xxfb_user_information_comment
+    set information_id = #{informationId,jdbcType=INTEGER},
+      replier = #{replier,jdbcType=INTEGER},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      reply_content = #{replyContent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

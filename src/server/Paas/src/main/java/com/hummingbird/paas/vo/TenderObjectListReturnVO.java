@@ -27,6 +27,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	private String creditRating;
 	private Long evaluationAmount;
 	private String projectExpectStartDate;
+	private String projectExpectEndDate;
 	private String projectExpectPeriod;
 	/**
 	 * @return the objectId
@@ -63,6 +64,12 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	 */
 	public String getProjectExpectStartDate() {
 		return projectExpectStartDate;
+	}
+	/**
+	 * @return the projectExpectEndDate
+	 */
+	public String getProjectExpectEndDate() {
+		return projectExpectEndDate;
 	}
 	/**
 	 * @return the projectExpectPeriod
@@ -107,6 +114,12 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 		this.projectExpectStartDate = projectExpectStartDate;
 	}
 	/**
+	 * @param projectExpectEndDate the projectExpectEndDate to set
+	 */
+	public void setProjectExpectEndDate(String projectExpectEndDate) {
+		this.projectExpectEndDate = projectExpectEndDate;
+	}
+	/**
 	 * @param projectExpectPeriod the projectExpectPeriod to set
 	 */
 	public void setProjectExpectPeriod(String projectExpectPeriod) {
@@ -119,10 +132,9 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	public String toString() {
 		return "TenderObjectListReturnVO [objectId=" + objectId + ", objectName=" + objectName + ", biddee=" + biddee
 				+ ", creditRating=" + creditRating + ", evaluationAmount=" + evaluationAmount
-				+ ", projectExpectStartDate=" + projectExpectStartDate + ", projectExpectPeriod=" + projectExpectPeriod
-				+ "]";
+				+ ", projectExpectStartDate=" + projectExpectStartDate + ", projectExpectEndDate="
+				+ projectExpectEndDate + ", projectExpectPeriod=" + projectExpectPeriod + "]";
 	}
 	
-
 
 }

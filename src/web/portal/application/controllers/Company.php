@@ -10,7 +10,6 @@ class CompanyController extends MallController
     
     public function indexAction()
     {
-        
         $companyId = $this->getRequest()->get('company_id', 0);
         $type = $this->getRequest()->get('type', '');
         
@@ -29,7 +28,7 @@ class CompanyController extends MallController
         }
         
         $this->assign('info', $info);
-        
+        $this->layout->meta_title = '公司信息';
     }
     
 }

@@ -8,9 +8,10 @@
     <result column="attachment_url" property="attachmentUrl" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="insert_by" property="insertBy" jdbcType="VARCHAR" />
+    <result column="attachment_type" property="attachmentType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, object_id, attachment_name, attachment_url, insert_time, insert_by
+    id, object_id, attachment_name, attachment_url, insert_time, insert_by, attachment_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -18,11 +19,17 @@
     from t_ztgl_object_attachment
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selctByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_object_attachment
     where object_id = #{objectId}
+  </select>
+  <select id="selectTenderFileByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_object_attachment
+    where object_id = #{objectId} and attachment_type = 'TF#'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_object_attachment
@@ -30,11 +37,11 @@
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ObjectAttachment" >
     insert into t_ztgl_object_attachment (id, object_id, attachment_name, 
-      attachment_url, insert_time, insert_by
-      )
+      attachment_url, insert_time, insert_by, 
+      attachment_type)
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{attachmentName,jdbcType=VARCHAR}, 
-      #{attachmentUrl,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR}
-      )
+      #{attachmentUrl,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR}, 
+      #{attachmentType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectAttachment" >
     insert into t_ztgl_object_attachment
@@ -57,6 +64,9 @@
       <if test="insertBy != null" >
         insert_by,
       </if>
+      <if test="attachmentType != null" >
+        attachment_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -76,6 +86,9 @@
       </if>
       <if test="insertBy != null" >
         #{insertBy,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentType != null" >
+        #{attachmentType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -97,6 +110,9 @@
       <if test="insertBy != null" >
         insert_by = #{insertBy,jdbcType=VARCHAR},
       </if>
+      <if test="attachmentType != null" >
+        attachment_type = #{attachmentType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -106,7 +122,8 @@
       attachment_name = #{attachmentName,jdbcType=VARCHAR},
       attachment_url = #{attachmentUrl,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=VARCHAR}
+      insert_by = #{insertBy,jdbcType=VARCHAR},
+      attachment_type = #{attachmentType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

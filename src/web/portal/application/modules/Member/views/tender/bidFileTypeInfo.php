@@ -12,11 +12,15 @@ if(check_resp($resp)){
             <div class="tit6"><span class="red">*</span>请上传招标文件</div>
             <div class="item mart0">
                 <div class="lab">招标文件</div>
-                <div class="value">
+                <div class="value <?=(isset($info) ? 'hide' : '')?>" id="upload-tender-file">
                     <label class="btn-file2 padm20" >
-                        <input type="file" name="file">上传附件
-                        <input type="hidden" name="" value="<?=isset($info)?$info['needBusinessStandard']:''?>">
+                        <input class="file-upload" type="file" name="file">上传附件
+                        <input type="hidden" name="tenderFile" value="<?=isset($info)?$info['tenderFile']:''?>">
                     </label>
+                </div>
+                <div class="value <?=(isset($info) ? '' : 'hide')?>" id="uploaded">
+                    <a id="download-tender-file" class="btn-file2 padm20" href="<?=isset($info)?get_qiniu_file_durl($info['tenderFile']):''?>" target="_blank">下载</a>
+                    <a class="btn-file2 padm20 bg-grey" id="delete-tender-file">删除</a>
                 </div>
             </div>
             <div class="tit6"><span class="red">*</span>请选择投标方需要提交的电子标书</div>
@@ -59,9 +63,16 @@ if(check_resp($resp)){
             //返回的数据在data.result中，假设我们服务器返回了一个json对象
             if(data.result.status == '0'){
                 $(this).next().val(data.result.url);
+                $("#uploaded").removeClass('hide').prev().addClass('hide');
+                $("#download-tender-file").attr('href',data.result.src);
             }else{
                 layer.alert(data.result.msg,{icon:2});
             }
         }
+    })
+    $("#delete-tender-file").click(function () {
+        $("#uploaded").addClass('hide');
+        $("input[name=tenderFile]").val('');
+        $("#upload-tender-file").removeClass('hide');
     })
 </script>

@@ -50,7 +50,7 @@ class UploadController extends MemberController {
                                     'status'=>0,
                                     'msg'=>'上传成功',
                                     'url'=>$info['url'],
-                                    'src'=>imageView2($info['url'])
+                                    'src'=>get_qiniu_file_durl($info['url'])
                                 ]
                             );
         }else{

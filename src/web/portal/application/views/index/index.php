@@ -170,13 +170,13 @@
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">一级资质</span>
                 <div class="left num">
-                    <span class="fz100"><?=$bider_info['stairBiderNum']?></span><span class="left dw">家</span>
+                    <span class="fz100"><?=$bidder_info['stairBiderNum']?></span><span class="left dw">家</span>
                 </div>
             </div>
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">二级资质</span>
                 <div class="left num">
-                    <span class="fz100"><?=$bider_info['secondBiderNum']?></span><span class="left dw">家</span>
+                    <span class="fz100"><?=$bidder_info['secondBiderNum']?></span><span class="left dw">家</span>
                 </div>
             </div>
         </div>
@@ -187,7 +187,7 @@
     <div class="cent  padb20">
         <div class="in-tit1">优质投标人</div>
         <ul class="clear">
-            <?php foreach($bider_list as $item):?>
+            <?php foreach($bidder_list as $item):?>
             <li><a href="#"><img src="images/tb14.jpg"></a></li>
             <?php endforeach;?>
         </ul>

@@ -528,8 +528,8 @@ return;
 }
 tmp[id]= $(o).html();
 });
-var src = $(o).find('img').eq(0).attr('src');
-tmp.certificationContent=src;
+//var src = $(o).find('img').eq(0).attr('src');
+//tmp.certificationContent=src;
 obj.push(tmp);
 });
 	

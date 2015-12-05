@@ -13,6 +13,9 @@ class InformationController extends MemberController {
      * 对于如下的例子, 当访问http://yourhost/y/index/index/index/name/yantze 的时候, 你就会发现不同
      */
     public function indexAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         if(IS_POST){
             /* "body":{
                  "token":"12345",
@@ -78,6 +81,9 @@ class InformationController extends MemberController {
 
     }
     public function publishListAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         /*"body":{
             "token":"12345",
             "pageIndex":1,
@@ -106,6 +112,9 @@ class InformationController extends MemberController {
 
 
     public function unpublishListAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         /*"body":{
             "token":"12345",
             "pageIndex":1,
@@ -133,12 +142,15 @@ class InformationController extends MemberController {
     }
 
     public function publishDetailAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         /*"body":{
             "token":"12345",
             "informationId":1
         }*/
         $curl = new Curl($this->config->url->api->paas);
-        $informationId = I('informationId');
+        $informationId =1;// I('informationId');
         if(empty($informationId)){
             $this->error('发布信息编号获取失败！');
         }

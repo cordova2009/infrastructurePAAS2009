@@ -283,7 +283,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .fanganInfo table{width: 100%;font-size: 13px;color: #808080}
 .fanganInfo td{padding-left: 40px;line-height: 48px;}
 .fanganInfo .lab{width: 210px;text-align: right;}
-.fanganInfo .value{color: #222;}
+.fanganInfo .value{color: #222;font-weight:bold;}
 
 .payBOx{width: 480px;margin: 0 auto;padding-top: 42px;}
 .payBOx .txt1{font-size: 18px;text-align: center;color: #222;}
@@ -407,6 +407,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 
 .charge_table table .thead td{font-size: 13px;padding-top: 6px;padding-bottom: 6px;}
 .charge_table td{padding-left:20px;padding-right: 20px;}
+.charge_table .toubiao{color: #fff;background: #5cbe5c;height: 25px;line-height: 25px;border-radius: 10px;width: 64px;font-size: 15px;display: inline-block;}
 
 .tab_tit ul  li{background: #e7e7e7;float: left;width: 50%;text-align: center;height: 52px;line-height: 52px;border-top: #e6e6e6 1px solid;}
 .tab_tit ul  li.on{background: #fff;position: relative;}

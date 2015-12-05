@@ -119,6 +119,20 @@ public interface UserInfoService {
 
 
 	/**
+	 * 查看发布信息详情接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * 
+	 * @return
+	 * @throws BusinessException
+	 */
+	public int queryUserInformationPageTotal(String appId, UserInformationPageBodyVO body,Token token)
+			throws BusinessException;
+
+	/**
 	 * 回复用户信息接口
 	 * 
 	 * @param appId

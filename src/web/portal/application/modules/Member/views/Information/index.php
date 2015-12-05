@@ -6,7 +6,7 @@
         <div class="auto box pad0" id="base-info">
             <div class="h2">发布信息</div>
             <div class="padm30">
-                <form action="<?=U('/member/tender/baseInfo')?>" method="post" class="ajax-form" success="save_success" next_step="projectInfo">
+                <form action="<?=U('/member/Information/index')?>" method="post" class="ajax-form" success="save_success" next_step="projectInfo">
                     <input name="objectId" value="<?=isset($info)?$info['objectId']:''?>" type="hidden" />
                     <div class="shangwubiao zbxmxx">
                         <div class="item ">
@@ -14,8 +14,8 @@
                             <div class="value">
                                 <div class="select">
                                     <select name="district">
-                                        <option value="CNY">北京</option>
-                                        <option value="USD">上海</option>
+                                        <option value="北京">北京</option>
+                                        <option value="上海">上海</option>
                                     </select>
                                 </div>
                             </div>
@@ -52,8 +52,9 @@
                             <div class="value">
                                 <div class="select">
                                     <select name="phase" id="">
-                                        <option value="CNY" >人民币</option>
-                                        <option value="USD" >美元</option>
+                                        <option value="施工准备阶段" >施工准备阶段</option>
+                                        <option value="施工阶段" >施工阶段</option>竣工阶段
+                                        <option value="竣工阶段" >竣工阶段</option>
                                     </select>
                                 </div>
                             </div>
@@ -63,8 +64,8 @@
                             <div class="value">
                                 <div class="select">
                                     <select name="objectType" id="">
-                                        <option value="CNY" >人民币</option>
-                                        <option value="USD" >美元</option>
+                                        <option value="房屋建筑工程" >房屋建筑工程</option>
+                                        <option value="公路工程" >公路工程</option>
                                     </select>
                                 </div>
                             </div>
@@ -84,8 +85,8 @@
                         <div class="item">
                             <div class="lab"></div>
                             <div class="value">
-                                <a href="#" class="btn-green2 " style="margin-right: 143px">确定</a>
-                                <a href="#" class="btn-green2 bg-grey " >返回</a>
+                                <button class="btn-green2 " type="submit" style="margin-right: 143px">确定</button>
+                                <button type="reset" class="btn-green2 bg-grey " >重置</button>
 
                             </div>
                         </div>

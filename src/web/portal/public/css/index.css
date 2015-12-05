@@ -260,7 +260,8 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .comInfo-tit{background: #e5f3ff;padding: 0 36px;line-height: 50px;}
 .comInfo-table table{width: 100%;table-layout: fixed;}
 .comInfo-table td{line-height: 24px;color: #555;padding: 10px 0;padding-left: 35px;}
-.comInfo-table .lab{text-align: right;width: 120px;}
+.comInfo-table .lab{text-align: right;width: 240px;}
+.comInfo-table td.value{ font-weight: bold}
 .assess-cont{padding: 15px 42px;color: #808080;}
 .assess-cont .txt2{padding-left: 85px;}
 .assess-cont .txt3{padding: 10px 0 30px;}
@@ -753,6 +754,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .btn-green{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
 .btn-green2{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 40px;display: inline-block;padding: 0 40px;}
 .btn-green3{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
+.btn-green4{font-size: 16px;color: #fff;background: #5cbe5c;border: none;cursor: pointer;line-height: 40px;display: inline-block;padding: 0 20px;}
 .btn-grey{font-size: 16px;color: #fff;background: #dbdbdb;border: none;cursor: pointer;;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
 .btn-grey2{font-size: 16px;color: #fff;background: #909090;border: none;cursor: pointer;;line-height: 30px;display: inline-block;padding: 0 20px;border-radius: 20px;}
 .tag{background: #1b8fff;border-radius: 2px;width: 24px;height: 24px;margin-right: 5px;display: inline-block;color: #fff;line-height: 24px;text-align: center;}

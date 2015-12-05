@@ -29,7 +29,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByInformationId" resultMap="UserInformationCommentsResultMap" parameterType="java.lang.Integer" >
-     select a.replier,b.user_name replier_name,a.reply_time,a.reply_content from t_xxfb_user_information_comment a 
+     select a.replier,b.nick_name replier_name,a.reply_time,a.reply_content from t_xxfb_user_information_comment a 
      LEFT JOIN t_user b on a.replier = b.id
      where a.information_id = #{information_id,jdbcType=INTEGER} and a.status = 'OK#'
   </select>

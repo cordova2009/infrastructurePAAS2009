@@ -5,6 +5,7 @@ import java.util.List;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
@@ -15,6 +16,7 @@ import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
+import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
@@ -392,6 +394,20 @@ public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
 */
 public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex,Integer pageSize) throws BusinessException; 
 
+/**
+* 查询招标公司信息接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public CompanyInfo queryTenderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException; 
+/**
+* 查询投标公司信息接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public CompanyInfo queryBidderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException; 
 
 
 }

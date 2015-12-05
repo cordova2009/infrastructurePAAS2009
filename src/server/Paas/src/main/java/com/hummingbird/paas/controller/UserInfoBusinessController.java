@@ -216,13 +216,17 @@ public class UserInfoBusinessController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			Integer pageIndex =transorder.getBody().getPageIndex();
+			Integer pageIndex =transorder.getBody().getPageIndex()+1;
 			Integer pageSize =transorder.getBody().getPageSize();
 			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){log.error(String.format(messagebase + "失败"));
 			rm.setErrmsg("参数错误");
 			return rm;
 			}
 			liq = uiService.queryUserInformationPage(transorder.getApp().getAppId(), transorder.getBody(),token);
+			int total = uiService.queryUserInformationPageTotal(transorder.getApp().getAppId(), transorder.getBody(),token);
+			rm.put("total", total);
+			rm.put("pageIndex", pageIndex);
+			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

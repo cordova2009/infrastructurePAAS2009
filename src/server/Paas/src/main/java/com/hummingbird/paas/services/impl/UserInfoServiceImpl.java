@@ -272,5 +272,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 			return i;
 	}
 
+	@Override
+	public int queryUserInformationPageTotal(String appId, UserInformationPageBodyVO body, Token token)
+			throws BusinessException {
+		// TODO Auto-generated method stub
+		int num = 0;
+		num = uiDao.selectTotalByUserIdAndStatus(token.getUserId(), body.getStatus());
+		return num;
+	}
+
 
 }

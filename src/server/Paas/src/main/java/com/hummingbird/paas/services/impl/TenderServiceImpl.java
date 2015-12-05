@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.ValidateException;
@@ -29,6 +31,7 @@ import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
@@ -45,6 +48,8 @@ import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
+import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
+import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.IndustryMapper;
@@ -54,11 +59,21 @@ import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.CompanyBaseInfo;
+import com.hummingbird.paas.vo.CompanyBidInfo;
+import com.hummingbird.paas.vo.CompanyCerticateInfo;
+import com.hummingbird.paas.vo.CompanyEvaluationInfo;
+import com.hummingbird.paas.vo.CompanyInfo;
+import com.hummingbird.paas.vo.CompanySurvey;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.InviteTenderVO;
+import com.hummingbird.paas.vo.JsonResult;
+import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
@@ -70,6 +85,7 @@ import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
+import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
@@ -92,6 +108,7 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
@@ -140,6 +157,10 @@ public class TenderServiceImpl implements TenderService {
 	ProjectInfoMapper projectInfoDao;
 	@Autowired
 	ProjectEvaluationBiddeeMapper evaluationBiddeeDao;
+	@Autowired
+	BiddeeMapper beDao;  //ProjectPaymentPayMapper
+	@Autowired
+	ProjectPaymentPayMapper pppDao;
 	/**
 	 * 我的招标评标概况接口
 	 * 
@@ -1486,9 +1507,92 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setProjectId(project.getProjectId());
 		evaluationBiddee.setScore(body.getEvaluateScore());
 		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
-		//标签部分缺少
+		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
+		if(body.getTags()!=null){
+			for(String tag : body.getTags()){
+				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info", body.getObjectId());
+			}
+		}
+		
+		
 		evaluationBiddeeDao.insert(evaluationBiddee);
 		
 		
 	}
+
+	@Override
+	public CompanyInfo queryTenderCompanyInfo(String appId, QueryCompanyInfoBodyVO mm) throws BusinessException {
+		// TODO Auto-generated method stub
+		CompanyInfo cc = new CompanyInfo();
+//		1.概况
+		CompanyBaseInfo cb = new CompanyBaseInfo();
+		CompanySurvey cs = beDao.selectCompanySurveyById(mm.getCompanyId());
+		cc.setSurvey(cs);
+//		2.基本信息
+		Biddee biddee = beDao.selectByPrimaryKey(mm.getCompanyId());
+		ValidateUtil.assertNull(biddee,"招标信息不存在！");
+		cb.setAddress(biddee.getAddress());
+		cb.setBusinessScope(biddee.getBusinessScope());
+		cb.setCompanyName(biddee.getCompanyName());
+		cb.setContactMobileNum(biddee.getContactMobileNum());
+		cb.setContactName(biddee.getContactName());
+		cb.setDescription(biddee.getDescription());
+		cb.setEmail(biddee.getEmail());
+		cb.setRegisteredCapital(biddee.getRegisteredCapital());
+		cb.setRegTime(biddee.getRegTime());
+		cc.setBaseInfo(cb);
+//		3.证书信息
+		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
+		cc.setCerticate(ccis);
+//		4.招投标信息
+		CompanyBidInfo  cbi  = new CompanyBidInfo();
+		cbi.setTenderNum(dao.selectTenderNumbyBiddeeId(mm.getCompanyId()));
+		cbi.setBidNum(dao.selectBidNumbyBiddeeId(mm.getCompanyId()));
+		cbi.setFlowNum(dao.selectFlowNumbyBiddeeId(mm.getCompanyId()));
+		cbi.setWinNum(dao.selectWinNumbyBiddeeId(mm.getCompanyId()));
+		cbi.setOnTimeNum(pppDao.getBiddeeOnTimeNum(mm.getCompanyId()));
+		cbi.setOutTimeNum(pppDao.getBiddeeOutTimeNum(mm.getCompanyId()));
+		cc.setBidInfo(cbi);
+//		5.评价信息
+		CompanyEvaluationInfo  cei  = new CompanyEvaluationInfo();
+		cei.setCompanyEvaluateNum(evaluationBiddeeDao.countEvaluationNumByBiddeeId(mm.getCompanyId()));
+		cei.setCompanyEvaluateScore(evaluationBiddeeDao.countEvaluationScoreByBiddeeId(mm.getCompanyId()));
+//		cei.set
+		
+		//标签 
+		String  tagJson = CallInterfaceUtil.searchTag("biddee_manager", "t_qyzz_biddee", mm.getCompanyId());
+		
+		
+		List<TagInfo> tagList = new ArrayList<TagInfo>();
+//		---------------------------------------------------------------------
+		Gson ss = new Gson();
+		try{
+			JsonResult str = ss.fromJson(tagJson, JsonResult.class);
+
+			if(str!= null&&"0".equals(str.getErrcode())){
+				for(JsonResultMsg msg : str.getErrmsg()){
+					TagInfo aa =new TagInfo();
+					aa.setTagName(msg.getTagName());
+					aa.setTagNum(msg.getTabUseNum());
+					tagList.add(aa);
+				}
+				
+			}
+		}catch(JsonSyntaxException e){
+			log.error(e.getMessage());
+		}
+		
+		cei.setTag(tagList);
+		cc.setEvaluationInfo(cei);
+		return cc;
+	}
+
+	@Override
+	public CompanyInfo queryBidderCompanyInfo(String appId, QueryCompanyInfoBodyVO mm) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
+
 }

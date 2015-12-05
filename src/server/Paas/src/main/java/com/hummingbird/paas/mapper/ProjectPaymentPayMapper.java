@@ -56,4 +56,23 @@ public interface ProjectPaymentPayMapper {
      * @return
      */
     List<ProjectPaymentPay> queryPaidRecord(String objectId);
+    
+    /**
+     * 按时付款次数
+     */
+    int getBiddeeOnTimeNum(Integer biddeeId);
+    
+    /**
+     * 逾期付款次数
+     */
+    int getBiddeeOutTimeNum(Integer biddeeId);
+    /**
+     * 按时付款次数
+     */
+    int getBidderOnTimeNum(Integer bidderId);
+    
+    /**
+     * 逾期付款次数
+     */
+    int getBidderOutTimeNum(Integer bidderId);
 }

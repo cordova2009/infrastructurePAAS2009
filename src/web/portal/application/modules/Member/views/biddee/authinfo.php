@@ -7,10 +7,10 @@
 					<div class="box">
 						<div class="table text-center">
 							<div class="cell">
-								信用等级 <span class="tag2 marl20"><?=$overall['creditRating'];?></span>
+								信用等级 <span class="tag2 marl20"><?=isset($overall['creditRating'])?$overall['creditRating']:'无';?></span>
 							</div>
 							<div class="cell">
-								信用积分 <span class="fz26 marl20"><?=$overall['creditScore'];?></span>
+								信用积分 <span class="fz26 marl20"><?=isset($overall['creditScore'])?$overall['creditScore']:'0';?></span>
 							</div>
 						</div>
 					</div>
@@ -26,28 +26,28 @@
 								<tr class="bordb">
 									<td>基本信息</td>
 									<td>个人详细信息，工作信息</td>
-									<td><?=$datail['personalInfo']['status'];?></td>
-									<td class="padl20"><?=$datail['personalInfo']['creditScore'];?>分</td>
+									<td><?=isset($datail['personalInfo']['status'])?$datail['personalInfo']['status']:'';?></td>
+									<td class="padl20"><?=isset($datail['personalInfo']['creditScore'])?$datail['personalInfo']['creditScore']:0;?>分</td>
 								</tr>
 								<tr class="bordb">
 									<td>企业信息</td>
 									<td colspan="2">
-										<p class="bordb"><span class="right wid90"><?=$datail['myBiddeeInfo']['baseInfo']['status'];?></span>基本信息</p>
-										<p class="bordb"><span class="right wid90"><?=$datail['myBiddeeInfo']['legalPersonInfo']['status'];?></span>法人信息</p>
-										<p class="bordb"><span class="right wid90"><?=$datail['myBiddeeInfo']['companyRegisteredInfo']['status'];?></span>公司注册信息</p>
-										<p><span class="right wid90"><?=$datail['myBiddeeInfo']['bankInfo']['status'];?></span>银行开户信息</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['baseInfo']['status'])?$datail['myBiddeeInfo']['baseInfo']['status']:'未认证';?></span>基本信息</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['legalPersonInfo']['status'])?$datail['myBiddeeInfo']['legalPersonInfo']['status']:'未认证';?></span>法人信息</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['companyRegisteredInfo']['status'])?$datail['myBiddeeInfo']['companyRegisteredInfo']['status']:'未认证';?></span>公司注册信息</p>
+										<p><span class="right wid90"><?=isset($datail['myBiddeeInfo']['bankInfo']['status'])?$datail['myBiddeeInfo']['bankInfo']['status']:'未认证';?></span>银行开户信息</p>
 									</td>
 									<td></td>
 								</tr>
 								<tr>
 									<td>交易记录</td>
 									<td colspan="2">
-										<p class="bordb"><span class="right wid90"><?=$datail['tradeInfo']['biddeeNum']['status'];?></span>发布标的次数</p>
-										<p><span class="right wid90"><?=$datail['tradeInfo']['tradeAmount']['status'];?></span>交易金额</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['tradeInfo']['biddeeNum']['status'])?$datail['tradeInfo']['biddeeNum']['status']:'0';?>次</span>发布标的次数</p>
+										<p><span class="right wid90"><?=isset($datail['tradeInfo']['tradeAmount']['status'])?$datail['tradeInfo']['tradeAmount']['status']:'0';?>元</span>交易金额</p>
 									</td>
 									<td class="padl20">
-										<p><?=$datail['tradeInfo']['tradeInfo']['creditScore'];?><i class="ico i-info"></i></p>
-										<p><?=$datail['tradeInfo']['tradeAmount']['creditScore'];?></p>
+										<p><?=isset($datail['tradeInfo']['tradeInfo']['creditScore'])?$datail['tradeInfo']['tradeInfo']['creditScore']:'0';?>分 <i class="ico i-info"></i></p>
+										<p><?=isset($datail['tradeInfo']['tradeAmount']['creditScore'])?$datail['tradeInfo']['tradeAmount']['creditScore']:'0';?>分</p>
 									</td>
 								</tr>
 							</tbody></table>
@@ -64,7 +64,7 @@
 <block name="script">
 <script>
 $(function(){
-    $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(0)").addClass('active');
+    $("#left-menu .submenu:eq(1),#left-menu .submenu:eq(1) a:eq(0)").addClass('active');
 })
 </script>
 </block>

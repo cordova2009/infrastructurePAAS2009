@@ -1,4 +1,33 @@
 <div class=" main">
+<style>
+.btn-file2{position: relative;}
+.btn-file2 input {
+  cursor: pointer;
+  direction: ltr;
+  height: 44px;
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 92px;
+display:block;
+}
+/*img{max-width:178px;}*/
+.btn-file3{position: relative;}
+.btn-file3 input {
+  cursor: pointer;
+  direction: ltr;
+  height: 44px;
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 92px;
+display:block;
+}
+</style>
 <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
 			<div class="box  pad0 bg-orange">
 				<div class="stepbox2">
@@ -77,8 +106,9 @@
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
 								<div class="auto value ">
-									<div class="btn-file2 padm10"><input type="file" class=""  name="logoUrl"  value="<?=$base['logoUrl']?>"> 上传公司LOGO</div>
-								</div>
+									<div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
+ 上传公司LOGO</div>
+																	</div>
 							</div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 公司（单位）简介</span>
@@ -135,23 +165,30 @@
 								<span class="lab">法人身份证扫描件</span>
 								<div class="value auto">
 									<div class="marb20 clear">
-										<img src="/uploads/pic.jpg" alt="" class="left marr10">
+										<img src="/uploads/pic.jpg" alt="" class="left marr10" >
 										<div class="left wid110">
-											<label class="btn-file3  "> 上传附件<input type="file" name="idCardfrontUrl"></label>
+											<label class="btn-file3  "> 上传附件<input type="file" name="file" >
+<input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" ></label>
+<!--
 											<div class="progress mart20">
 												<span style="width:50%" class="on"></span>
 											</div>
 											<p class="color8 text-center">上传中…</p>
+-->
 										</div>
 									</div>
 									<div class="marb20 clear">
 										<img src="/uploads/pic.jpg" alt="" class="left marr10">
 										<div class="left wid110">
-											<label class="btn-file3  "> 上传附件<input type="file" name="idCardBackUrl"></label>
+											<label class="btn-file3  "> 上传附件<input type="file" name="file">
+<input type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" ></label>
+
+<!--
 											<div class="progress mart20">
 												<span style="width:50%" class="on"></span>
 											</div>
 											<p class="color8 text-center">上传中…</p>
+-->
 										</div>
 									</div>
 								</div>
@@ -159,7 +196,7 @@
 							<div class="item">
 								<span class="lab">法人授权书扫描件</span>
 								<div class="auto value ">
-									<div class="btn-file3 ">上传文件 <input type="file" name="authorityBookUrl"></div>
+									<div class="btn-file3 ">上传文件 <input type="file" name="file"><input type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" ></div>
 									<i class="ico tip-qus2 verm marl20"></i>
 									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，<br>
 										需要上传法人授权书</span>
@@ -198,11 +235,13 @@
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 统一社会信用代码扫描件</span>
 								<div class="auto value ">
-									<div class="btn-file3">上传文件 <input type="file" name="newBusinessLicenseUrl"></div>
+									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>"></div>
+<!--
 									<div class="progress wid100 dib">
 										<span style="width:50%" class="on"></span>
 									</div>
 									<span class="color8 text-center">上传中…</span>
+-->
 								</div>
 							</div>
 </div>
@@ -217,11 +256,13 @@
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 营业执照扫描件</span>
 								<div class="auto value ">
-									<div class="btn-file3">上传文件 <input type="file" name="businessLicenseUrl"></div>
+									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>"></div>
+<!--
 									<div class="progress wid100 dib">
 										<span style="width:50%" class="on"></span>
 									</div>
 									<span class="color8 text-center">上传中…</span>
+-->
 								</div>
 							</div>
 
@@ -235,11 +276,13 @@
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 组织机构代码证扫描件</span>
 								<div class="auto value ">
-									<div class="btn-file3">上传文件 <input type="file" name="organizationCodeUrl"></div>
+									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>"></div>
+<!--
 									<div class="progress wid100 dib hide">
 										<span style="width:50%" class="on"></span>
 									</div>
 									<span class="color8 text-center hide">上传中…</span>
+-->
 								</div>
 							</div>
 
@@ -252,8 +295,8 @@
 							
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 税务登记证扫描件</span>
-								<div class="auto value ">
-									<div class="btn-file3">上传文件 <input type="file" name="taxRegistrationUrl"></div>
+								<div class="auto value " id=""> 
+									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>"></div>
 
 								</div>
 							</div>
@@ -276,7 +319,7 @@
 									<div class="select">
 										<select name="businessLicenseExpireTime" id="">
 											<option value="1" <?=$registered['businessLicenseExpireTime']=='1'?'selected':''?> >一年</option>
-											<option value="2" <?=$registered['businessLicenseExpireTime']=='1'?'selected':''?> >两年</option>
+											<option value="2" <?=$registered['businessLicenseExpireTime']=='2'?'selected':''?> >两年</option>
 										</select>
 									</div>
 								</div>
@@ -374,13 +417,15 @@
 							<div class="item bordb padb30">
 								<span class="lab"><span class="red">*</span> 附件上传</span>
 								<div class="auto value ">
-									<div class="btn-file3">上传文件 <input type="file"></div>
+									<div class="btn-file3">上传文件 <input type="file" name="file" > <input type="hidden" name="certificationContent" value="" id="certificationContent"><input type="hidden" name="cshow" value="" id="cshow"></div>
+<!--
 									<div class="wid100 dib vert marl10">
 										<p class="color8 text-center lineh20">上传中…</p>
 										<div class="progress mart5">
 											<span style="width:50%" class="on"></span>
 										</div>
 									</div>
+-->
 								</div>
 							</div>
 <!--
@@ -402,16 +447,24 @@
 
 			<block name="script">
 			<script src="/js/jquery.datetimepicker.js"></script>
+			<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+			<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
+			<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+			<script src="/js/upload/jquery.iframe-transport.js"></script>
+			<!-- The basic File Upload plugin -->
+			<script src="/js/upload/jquery.fileupload.js"></script>
 			<script>
 function add(obj)
 {
 var tmp = [];
  tmp.push('<div class="subitem"><div class="text-right padt20"> <a href="javascript:;" class="btn " onclick="edit();">修改</a> <a href="javascript:;" class=" btn-grey2 marl10 " onclick="del();">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg "><img src="');
-tmp.push(obj.certificationContent);
+tmp.push(obj.cshow);
 tmp.push('"></span><div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value" data-name="projectType">');
 tmp.push(obj.projectType);
 tmp.push('</div><div class="auto value hide" data-name="projectTypeid">');
 tmp.push(obj.projectTypeid);
+tmp.push('</div><div class="auto value hide" data-name="certificationContent">');
+tmp.push(obj.certificationContent);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value" data-name="eqName">');
 tmp.push(obj.eqName);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质编号</span> <div class="auto value" data-name="certificationNo">');
@@ -436,12 +489,13 @@ var id = $(o).data('name')
 $('#'+id).val($(o).html());
 });
 var src = $(_this).parent().parent().find('img').eq(0).attr('src');
-$('#certificationContent').attr('src',src);
+$('#cshow').val(src);
 $(_this).parent().parent().remove();
 }
 function save(){
 var obj ={};
 obj.certificationContent = $('#certificationContent').val();
+obj.cshow= $('#cshow').val();
 $('#certificationContent').val('');
 obj.projectTypeid= $('#projectType').val();
 obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
@@ -649,5 +703,27 @@ $('#eqName').append('<option value="'+o[i].certificateName+'">'+o[i].certificate
 				})
 
 	
+$(function(){
+
+    $("input[type=file]").fileupload({
+        url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+        formData:{},//如果需要额外添加参数可以在这里添加
+        done:function(e,data){
+            //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+            //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
+            //返回的数据在result.result中，假设我们服务器返回了一个json对象
+            if(data.result.status == '0'){
+	    	$(this).next().val(data.result.url);
+		if($(this).next().next().attr('name')=='cshow')
+		{
+		$(this).next().next().val(data.result.src);
+		}
+                layer.msg('上传成功',{icon:1});
+            }else{
+                layer.alert(data.result.msg,{icon:2});
+            }
+        }
+    })
+})
 			</script>
 			</block>

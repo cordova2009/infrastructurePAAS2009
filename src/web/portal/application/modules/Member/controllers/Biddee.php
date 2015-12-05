@@ -322,4 +322,30 @@ class BiddeeController extends MemberController{
 	    $page = $this->getPagination($resp['total'], $this->pageSize);
 	    $this->assign('page', $page);
     }
+    public function evaluateAction()
+    {
+	    $id=I('id');
+	    if(IS_POST)
+	    {
+		    $s = I('evaluateScore');
+		    $c = I('evaluateContent');
+		    $t = I('tags',[]);
+		    $token = isset($this->user['token'])?$this->user['token']:'';
+		    $curl = new Curl($this->config->url->api->paas);
+		    $resp = $curl->setData(['token'=>$token,'evaluateScore'=>$s,'tags'=>$t,'evaluateContent'=>$c])->send('tender/evaluateBidder');
+		    if(check_resp($resp)) {
+			    $this->success('保存成功！');
+		    }else{
+			    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+		    }
+	    }
+	    $token = isset($this->user['token'])?$this->user['token']:'';
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('tender/queryTendererEvaluate');
+	    if(check_resp($resp)) {
+		    $this->assign('evaluate',$resp['evaluateInfo']);
+	    }else{
+		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    }
+    }
 }

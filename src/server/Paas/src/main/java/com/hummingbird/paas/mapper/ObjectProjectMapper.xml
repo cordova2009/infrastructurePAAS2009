@@ -113,7 +113,7 @@
     win_bid_time,company_name
   </sql>
   <sql id="My_Lose_Column_List" >
-    object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    a.object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, a.industry_id, a.sector_id, a.province, a.district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
@@ -174,7 +174,7 @@
     select  <include refid="My_Lose_Column_List" />  
     from t_ztgl_object a INNER JOIN t_qyzz_bidder b ON a.win_bidder_id =b.id
 	INNER JOIN t_ztgl_bid_record c ON a.object_id = c.object_id AND a.win_bidder_id = c.bidder_id
-	WHERE b.user_id = #{userId} and a.object_status = 'END' or a.object_status = 'SEL'  and c.bid_status = 'LOSE'
+	WHERE b.user_id = #{userId} and (a.object_status = 'END' or a.object_status = 'SEL' ) and c.bid_status = 'LOSE'
     limit #{begin},#{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

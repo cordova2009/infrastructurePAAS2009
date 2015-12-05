@@ -382,7 +382,7 @@ public class BidServiceImpl implements BidService {
 			qodbis.setBidBondAmount(ob.getBidBondAmount().toString());
 		dv.setBondInfo(qodbis);
 		QueryObjectDetailConstructionInfo qodci = new QueryObjectDetailConstructionInfo();
-		ProjectInfos pi = new ProjectInfos();
+		ProjectInfos pi =pIDao.selectByPrimaryKey(objectId);
 		if (pi != null) {
 			if (pi.getBuildingConstructionPermitEnddate() != null)
 				qodci.setBuildingConstructPermitEndDate(
@@ -408,10 +408,10 @@ public class BidServiceImpl implements BidService {
 		dv.setConstructionInfo(qodci);
 		QueryObjectDetailDateRequirementInfo qoddri = new QueryObjectDetailDateRequirementInfo();
 		if (obi != null) {
-			qoddri.setAnnouncementBeginTime(qoddri.getAnnouncementBeginTime());
-			qoddri.setAnnouncementEndTime(qoddri.getAnnouncementEndTime());
-			qoddri.setBiddingEndTime(qoddri.getBiddingEndTime());
-			qoddri.setBidOpenDate(qoddri.getBidOpenDate());
+			qoddri.setAnnouncementBeginTime(DateUtil.formatCommonDateorNull(obi.getAnnouncementBeginTime()));
+			qoddri.setAnnouncementEndTime(DateUtil.formatCommonDateorNull(obi.getAnnouncementEndTime()));
+			qoddri.setBiddingEndTime(DateUtil.formatCommonDateorNull(obi.getBiddingEndTime()));
+			qoddri.setBidOpenDate(DateUtil.formatCommonDateorNull(ob.getBidOpenDate()));
 		}
 		dv.setDateRequirementInfo(qoddri);
 		QueryObjectDetailObjectMethondInfo qodom = new QueryObjectDetailObjectMethondInfo();
@@ -428,21 +428,19 @@ public class BidServiceImpl implements BidService {
 		qodom.setInviteTender(tens);
 		dv.setObjectMethodInfo(qodom);
 		QueryObjectDetailProjectInfo qodop = new QueryObjectDetailProjectInfo();
-		ProjectInfos pin = new ProjectInfos();
-		pin = pIDao.selectByPrimaryKey(objectId);
-		if (pin != null) {
-			qodop.setEmployer(pin.getEmployer());
-			qodop.setEmployerPrincipal(pin.getEmployerPrincipal());
-			qodop.setProjectExpectInvestment(pin.getProjectExpectInvestment());
-			qodop.setProjectName(pin.getProjectName());
-			qodop.setProjectScale(pin.getProjectScale());
-			qodop.setProjectSite(pin.getProjectSite());
+		if (pi != null) {
+			qodop.setEmployer(pi.getEmployer());
+			qodop.setEmployerPrincipal(pi.getEmployerPrincipal());
+			qodop.setProjectExpectInvestment(pi.getProjectExpectInvestment());
+			qodop.setProjectName(pi.getProjectName());
+			qodop.setProjectScale(pi.getProjectScale());
+			qodop.setProjectSite(pi.getProjectSite());
 		}
 		dv.setProjectInfo(qodop);
 		QueryObjectDetailProjectRequirementInfo qodpr = new QueryObjectDetailProjectRequirementInfo();
-		if (pin != null) {
-			qodpr.setProjectExpectPeriod(pin.getProjectExpectPeriod());
-			qodpr.setProjectExpectStartDate(pin.getProjectExpectStartDate());
+		if (pi != null) {
+			qodpr.setProjectExpectPeriod(pi.getProjectExpectPeriod());
+			qodpr.setProjectExpectStartDate(pi.getProjectExpectStartDate());
 		}
 		dv.setProjectRequirementInfo(qodpr);
 		qodr.setDetail(dv);

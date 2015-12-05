@@ -25,7 +25,7 @@ public class UserInformationPageReturnVO{
 	
 	
 	private String   objectAmount;
-//	private Integer  informationId;
+	private Integer  informationId;
 	private String   district;
 	private String   objectName;
 	private String   objectType;
@@ -177,6 +177,18 @@ public class UserInformationPageReturnVO{
 				+ objectName + ", objectType=" + objectType + ", employer=" + employer + ", phase=" + phase
 				+ ", projectPeriod=" + projectPeriod + ", projectSituation=" + projectSituation + ", address=" + address
 				+ ", status=" + status + ", userName=" + userName + "]";
+	}
+	/**
+	 * @return the informationId
+	 */
+	public Integer getInformationId() {
+		return informationId;
+	}
+	/**
+	 * @param informationId the informationId to set
+	 */
+	public void setInformationId(Integer informationId) {
+		this.informationId = informationId;
 	}
 
 

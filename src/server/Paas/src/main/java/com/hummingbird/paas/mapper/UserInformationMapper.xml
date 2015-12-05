@@ -22,6 +22,7 @@
     <result column="audit_time" property="auditTime" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="UserInformationPageResultMap" type="com.hummingbird.paas.vo.UserInformationPageReturnVO" >
+    <result column="information_id" property="informationId" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="object_amount" property="objectAmount" jdbcType="VARCHAR" />
@@ -46,7 +47,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByUserIdAndStatus" resultMap="UserInformationPageResultMap"  >
-   select a.address,a.district,a.employer,a.object_amount,a.object_name,a.object_type,a.phase,a.project_period,a.project_situation,a.status,b.nick_name
+   select a.id information_id,a.address,a.district,a.employer,a.object_amount,a.object_name,a.object_type,a.phase,a.project_period,a.project_situation,a.status,b.nick_name
 	from t_zxgl_user_information a LEFT JOIN t_user b  on a.user_id = b.id
 	where a.user_id = #{userId} and a.status =#{status}  
    limit #{begin},#{limit}

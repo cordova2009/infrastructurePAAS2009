@@ -69,4 +69,11 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateUser(User user)throws MaAccountException;
+
+	/**
+	 * 加载用户信息
+	 * @param userId
+	 * @return
+	 */
+	public User loadUser(Integer userId);
 }

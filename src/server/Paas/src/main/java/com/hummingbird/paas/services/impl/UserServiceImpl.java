@@ -209,6 +209,13 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		return true;
 	}
 	
-	
+	/**
+	 * 加载用户信息
+	 * @param userId
+	 * @return
+	 */
+	public User loadUser(Integer userId){
+		return userDao.selectByPrimaryKey(userId);
+	}
 
 }

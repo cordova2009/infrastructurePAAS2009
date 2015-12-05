@@ -36,8 +36,9 @@ class BidController extends MemberController {
         $this->assign('bidRequirementInfo',$bidRequirementInfo);
         //查询投标要求基础信息
         $resp3 = $curl->setData(['token'=>$this->user['token']])
-            ->send('bid/queryBidderCompanyInfo');
-
+            ->send('bid/queryObjectRequirementInfo');
+        $bidSafetyInfo=[];
+        $bidPeopleRequirement=[];
         if(check_resp($resp3)) {
             $bidSafetyInfo = $resp3['bidSafetyInfo'];
             $bidPeopleRequirement = $resp3['bidPeopleRequirement'];
@@ -45,14 +46,14 @@ class BidController extends MemberController {
         $this->assign('bidSafetyInfo',$bidSafetyInfo);
         $this->assign('bidPeopleRequirement',$bidPeopleRequirement);
 
-
+        $objectId='BH2015082135656';
         //保存投标资格审查信息
         if(IS_POST) {
 
-            $objectId = I('objectId');
+            /*$objectId = I('objectId');
             if (!empty($objectId)) {
                 $data['objectId'] = $objectId;
-            }
+            }*/
             $bidId = I('bidId');
             if (!empty($bidId)) {
                 $data['objectId'] = $bidId;

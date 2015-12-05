@@ -255,6 +255,9 @@ token|是|用户令牌
             "winBidAmount":"50000",
             "companyEvaluateScore":7,
             "companyEvaluateNum":8,
+            "startTime":"2015-11-3",
+            "endTime":"2015-12-31",
+            "logo":"logourl",
             "tag":[{
                 "tagName":"质量好啊","tagNum":3
             },{
@@ -280,6 +283,9 @@ objectName|是|标的名称
 winBidAmount|是|中标金额
 companyEvaluateScore|是|公司评价分数
 companyEvaluateNum|是|公司被评价次数
+startTime|是|实际开工时间
+endTime|是|实际结束时间
+logo|是|头像,为用户注册时的头像
 tag.tagName|是|标签名称
 tag.tagNum|是|标签数量
 

@@ -13,7 +13,9 @@ class CapitalController extends MemberController {
      * 对于如下的例子, 当访问http://yourhost/y/index/index/index/name/yantze 的时候, 你就会发现不同
      */
     public function indexAction(){
-
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         $pageSize = 5;
         $curl2 = new Curl($this->config->url->api->capital);
         $pageIndex = $this->getRequest()->getQuery('page', 0);
@@ -46,8 +48,19 @@ class CapitalController extends MemberController {
     }
 
     public function rechargeApplyAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
+        $curl = new Curl($this->config->url->api->capital);
+        $resp2 = $curl->setData(['token'=>$this->user['token']])
+            ->send('capitalManage/getPlatformBankcard');
+
+        if(check_resp($resp2)) {
+            $bankInfo = $resp2['bankInfo'];
+        }
+        $this->assign('bankInfo',$bankInfo);
         if(IS_POST){
-           /* {"app":{"appId":"paas","timeStamp":"TIMESTAMP",  "nonce":"NONCE", "signature":"21aa0011472249b4292e81504f3917bd"  },
+            /* {"app":{"appId":"paas","timeStamp":"TIMESTAMP",  "nonce":"NONCE", "signature":"21aa0011472249b4292e81504f3917bd"  },
                 "body":{
                     "token":"96c5f0e5e3c52fa0fc632aaa30d4fb85",
                     "transferTime":"2015-10-12",
@@ -56,19 +69,19 @@ class CapitalController extends MemberController {
                     "amount":100000,
                     "voucherFileUrl":"VOCHER_FILE_URL"
                 }}*/
-           $data = ['token'=>$this->user['token']];
-           $data['transferTime'] = I('transferTime');
-           if(empty($data['transferTime'])){
+            $data = ['token'=>$this->user['token']];
+            $data['transferTime'] = I('transferTime');
+            if(empty($data['transferTime'])){
                $this->error('转账时间不能为空！');
-           }
+            }
             $data['bankName'] = I('bankName');
-           if(empty($data['bankName'])){
+            if(empty($data['bankName'])){
                $this->error('转账银行名称为空！');
-           }
+            }
             $data['voucherNo'] = I('voucherNo');
-           if(empty($data['voucherNo'])){
+            if(empty($data['voucherNo'])){
                $this->error('银行转账凭证号不能为空！');
-           }
+            }
             $data['amount'] = I('amount');
             if(empty($data['amount'])){
                 $this->error('转账金额不能为空！');
@@ -76,19 +89,15 @@ class CapitalController extends MemberController {
             $data['amount']=$data['amount']*100;
             $data['voucherFileUrl'] = 'voucherFileUrl';
 
+            $resp = $curl->setData($data)->send('capitalManage/rechargeApply');
 
-            $curl = new Curl($this->config->url->api->capital);
-
-           $resp = $curl->setData($data)->send('capitalManage/rechargeApply');
-
-           if(check_resp($resp)) {
-
+            if(check_resp($resp)) {
                $this->success('保存成功！',U('/member/capital/rechargeList'));
-           }else{
+            }else{
                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '充值失败，请重新再试！');
-           }
+            }
 
-           $this->error(var_export($data,true));
+            $this->error(var_export($data,true));
         }
 
         $this->meta_title = '充值';
@@ -96,6 +105,9 @@ class CapitalController extends MemberController {
     }
 
     public function rechargeListAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])
@@ -109,6 +121,9 @@ class CapitalController extends MemberController {
     }
 
     public function withdrawalsApplyAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])
@@ -200,6 +215,9 @@ class CapitalController extends MemberController {
 
 
     public function withdrawalsListAction(){
+        if(empty($this->user)){
+            $this->redirect(U('/login'));
+        }
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])

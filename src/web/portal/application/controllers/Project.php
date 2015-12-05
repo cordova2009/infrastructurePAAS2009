@@ -51,24 +51,58 @@ class ProjectController extends MallController
      */
     public function detailAction()
     {
+
         if(empty($this->user)){
             $this->redirect(U('/login'));
         }
-        
-        $objectId = $this->getRequest()->get('object_id', 0);
+        $objectId ='BH2015082135657';
+        //$objectId = I('$objectId');
+        /*$objectId = $this->getRequest()->get('object_id', 0);*/
         
         $resp = $this->_curl->setData([
             'token' => $this->user['token'],
             'objectId'=> $objectId
         ])->send('bid/queryObjectDetail');
-        
-        $info = [];
-        if(check_resp($resp)){
-            $info = $resp['body'];
+
+
+        if(!check_resp($resp)) {
+            $this->error('项目不存在！');
         }
-        
+        $info = $resp['body'];
+        $survey=$resp['body']['survey'];
+        $baseInfo=$resp['body']['detail']['baseInfo'];
+        $projectInfo=$resp['body']['detail']['projectInfo'];
+        $constructionInfo=$resp['body']['detail']['constructionInfo'];
+        $projectRequirementInfo=$resp['body']['detail']['projectRequirementInfo'];
+        $bondInfo=$resp['body']['detail']['bondInfo'];
+        $bidderCertificationInfo=$resp['body']['detail']['bidderCertificationInfo'];
+        $bidFileTypeInfo=$resp['body']['detail']['bidFileTypeInfo'];
+        $objectMethodInfo=$resp['body']['detail']['objectMethodInfo'];
+        $answerQuestion=$resp['body']['detail']['answerQuestion'];
+        $dateRequirementInfo=$resp['body']['detail']['dateRequirementInfo'];
+        $bidEvaluationTypeInfo=$resp['body']['detail']['bidEvaluationTypeInfo'];
+        //倒计时
+        $date1=strtotime($survey['biddingEndTime']);  //把日期转换成时间戳
+        $date2=time(); //取当前时间的时间戳
+        $days=floor(($date1-$date2)/3600/24)<0?0:floor(($date1-$date2)/3600/24);  //四舍五入
+        $hours=((floor(($date1-$date2)/3600))%24)<0?0:(floor(($date1-$date2)/3600))%24;
+        $mins=floor(($date1-$date2)/60)%60<0?0:floor(($date1-$date2)/60)%60;
+
+        $daojishi=$days.'天'.$hours.'时'.$mins.'分';
+        $this->assign('daojishi', $daojishi);
+        $this->assign('survey', $survey);
         $this->assign('info', $info);
-        
+        $this->assign('baseInfo', $baseInfo);
+        $this->assign('projectInfo', $projectInfo);
+        $this->assign('constructionInfo', $constructionInfo);
+        $this->assign('projectRequirementInfo', $projectRequirementInfo);
+        $this->assign('bondInfo', $bondInfo);
+        $this->assign('bidderCertificationInfo', $bidderCertificationInfo);
+        $this->assign('bidFileTypeInfo', $bidFileTypeInfo);
+        $this->assign('objectMethodInfo', $objectMethodInfo);
+        $this->assign('answerQuestion', $answerQuestion);
+        $this->assign('dateRequirementInfo', $dateRequirementInfo);
+        $this->assign('bidEvaluationTypeInfo', $bidEvaluationTypeInfo);
     }
     
 }

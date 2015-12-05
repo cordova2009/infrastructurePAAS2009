@@ -37,6 +37,11 @@ public class BidAttachment {
     private String insertBy;
 
     /**
+     * 附件类型,BF# 投标文件
+     */
+    private String attachmentType;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -126,6 +131,21 @@ public class BidAttachment {
         this.insertBy = insertBy == null ? null : insertBy.trim();
     }
 
+    /**
+     * @return 附件类型,BF# 投标文件
+     */
+    public String getAttachmentType() {
+        return attachmentType;
+    }
+
+    /**
+     * @param attachmentType 
+	 *            附件类型,BF# 投标文件
+     */
+    public void setAttachmentType(String attachmentType) {
+        this.attachmentType = attachmentType == null ? null : attachmentType.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -143,7 +163,8 @@ public class BidAttachment {
             && (this.getAttachmentName() == null ? other.getAttachmentName() == null : this.getAttachmentName().equals(other.getAttachmentName()))
             && (this.getAttachmentUrl() == null ? other.getAttachmentUrl() == null : this.getAttachmentUrl().equals(other.getAttachmentUrl()))
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
-            && (this.getInsertBy() == null ? other.getInsertBy() == null : this.getInsertBy().equals(other.getInsertBy()));
+            && (this.getInsertBy() == null ? other.getInsertBy() == null : this.getInsertBy().equals(other.getInsertBy()))
+            && (this.getAttachmentType() == null ? other.getAttachmentType() == null : this.getAttachmentType().equals(other.getAttachmentType()));
     }
 
     @Override
@@ -156,6 +177,7 @@ public class BidAttachment {
         result = prime * result + ((getAttachmentUrl() == null) ? 0 : getAttachmentUrl().hashCode());
         result = prime * result + ((getInsertTime() == null) ? 0 : getInsertTime().hashCode());
         result = prime * result + ((getInsertBy() == null) ? 0 : getInsertBy().hashCode());
+        result = prime * result + ((getAttachmentType() == null) ? 0 : getAttachmentType().hashCode());
         return result;
     }
 }

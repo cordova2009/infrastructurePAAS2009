@@ -153,6 +153,10 @@ class TenderController extends MemberController{
         }
         $yes_no = ['NO#','YES'];
 
+        $data['tenderFile'] = I('tenderFile');
+        if(empty($data['tenderFile'])){
+            $this->error('请上传招标文件！');
+        }
         $data['needBusinessStandard'] = $yes_no[intval(I('needBusinessStandard',0))%2];
         $data['needTechnicalStandard'] = $yes_no[intval(I('needTechnicalStandard',0))%2];
         $data['needCertificationCheckupFile'] = $yes_no[intval(I('needCertificationCheckupFile',0))%2];

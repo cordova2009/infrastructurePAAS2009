@@ -1,51 +1,60 @@
 <div class=" main">
     <!--company-->
     <div class="box pad0 zbxm_info">
-        <div class="tit5"><?= $info['detail']['baseInfo']['objectName'] ?>（编号：<?= $info['detail']['baseInfo']['biddingNo'] ?>）</div>
+        <div class="tit5"><?=isset($baseInfo)?$baseInfo['objectName']:''?>（编号：<?=isset($info)?$info['objectId']:''?>）</div>
         <div class="clear">
             <div class="left leftBox">
                 <div class="table">
                     <div class="cell leibie">
-                        <div class="txt1"><span class="tag3">土</span> <?php //echo $info['detail']['bidderCertificationInfo']['industryName'] ?></div>
+                        <div class="txt1"><span class="tag3">土</span> 土石方</div>
                         <div class="txt2">工程类别</div>
                     </div>
                     <div class="cell gujia">
-                        <div class="txt1"><span class="orange"><?= $info['detail']['baseInfo']['evaluationAmount'] ? $info['detail']['baseInfo']['evaluationAmount'] : 0 ?></span> <span class="fz20">元</span></div>
+                        <div class="txt1"><span class="orange"><?=isset($survey['evalutionAmount'])?price_format($survey['evalutionAmount']):'0'?></span> <span class="fz20">元</span></div>
                         <div class="txt2">标的估价</div>
                     </div>
                     <div class="cell gongqi">
-                        <div class="txt1"><?= $info['detail']['projectRequirementInfo']['projectExpectPeriod'] ?><span class="fz20">天</span></div>
+                        <div class="txt1"><?=isset($survey['projectExpectPeriod'])?$survey['projectExpectPeriod']:'0'?><span class="fz20">天</span></div>
                         <div class="txt2">工程工期</div>
                     </div>
                 </div>
                 <div class="table txtCont2">
                     <div class="cell wdi50">
                         <div class="clear">
-                            <div class="lab">公告起始时间 </div>
-                            <div class="value"><?= $info['detail']['dateRequirementInfo']['announcementBeginTime'] ?></div>
+                            <div class="lab">公告截止时间 </div>
+                            <div class="value"><?=isset($survey['announcementEndTime'])?$survey['announcementEndTime']:'未填写'?></div>
                         </div>
                         <div class="clear">
-                            <div class="lab">公告截止时间 </div>
-                            <div class="value"><?= $info['detail']['dateRequirementInfo']['announcementEndTime'] ?></div>
+                            <div class="lab">投标截止时间 </div>
+                            <div class="value"><?=isset($survey['biddingEndTime'])?$survey['biddingEndTime']:'未填写'?></div>
                         </div>
                     </div>
                     <div class="cell ">
                         <div class="clear">
                             <div class="lab">工程地址 </div>
-                            <div class="value"><?= $info['detail']['projectInfo']['projectSite'] ?></div>
+                            <div class="value"><?=isset($survey['projectSite'])?$survey['projectSite']:'未填写'?></div>
                         </div>
                         <div class="clear">
                             <div class="lab">保证金 </div>
-                            <div class="value"><?= $info['detail']['bondInfo']['bidBondAmount'] ?>元</div>
+                            <div class="value"><?=isset($bondInfo['bidBondAmount'])?price_format($bondInfo['bidBondAmount']).'元':'未填写'?></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="right rightBox">
-                <div class="time"><?= $info['survey']['biddingEndTime'] ?></div>
+                <div class="time"><?=$daojishi?></div>
                 <div class="txt2">截止时间</div>
-                <div class="txt3 blue fz36"><?= $info['survey']['bidderNum'] ?></div>
-                <div class="txt4">投标公司</div>
+                <div >
+                    <div class="txt3 blue fz36"><?=isset($survey['bidderNum'])?$survey['bidderNum']:'未填写'?>
+                        <?php if($info['status']=='PUB'){?>
+                        <div class="text-center padt30 right">
+                            <a href="<?=U('/member/bid/requirement',['objectId'=>$v['objectId']])?>" class="btn-green4">我要投标</a>
+                        </div>
+                        <?php }?>
+                    </div>
+                    <div class="txt4">投标公司</div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -57,27 +66,27 @@
                 <li class="first active">
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt">dfasdfds<br>招标发布</span>
+                    <span class="txt"><?=isset($dateRequirementInfo['announcementBeginTime'])?$dateRequirementInfo['announcementBeginTime']:'未填写'?><br>招标发布</span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?= $info['detail']['dateRequirementInfo']['announcementEndTime'] ?><br>公告截止</span>
+                    <span class="txt"><?=isset($dateRequirementInfo['announcementEndTime'])?$dateRequirementInfo['announcementEndTime']:'未填写'?><br>公告截止</span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?= $info['detail']['dateRequirementInfo']['biddingEndTime'] ?><br>投标截止</span>
+                    <span class="txt"><?=isset($dateRequirementInfo['biddingEndTime'])?$dateRequirementInfo['biddingEndTime']:'未填写'?><br>投标截止</span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?= $info['detail']['dateRequirementInfo']['bidOpenDate'] ?><br>开标</span>
+                    <span class="txt"><?=isset($dateRequirementInfo['bidOpenDate'])?$dateRequirementInfo['bidOpenDate']:'未填写'?><br>开标</span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?= $info['detail']['projectRequirementInfo']['projectExpectStartDate'] ?><br>工程开始</span>
+                    <span class="txt"><?=isset($projectRequirementInfo['projectExpectStartDate'])?$projectRequirementInfo['projectExpectStartDate']:'未填写'?><br>工程开始</span>
                 </li>
                 <li class="last">
                     <span class="num"></span>
@@ -100,138 +109,160 @@
                     <table>
                         <tr>
                             <td class="lab">招标项目名称</td>
-                            <td class="value"><?= $info['detail']['baseInfo']['objectName'] ?></td>
+                            <td class="value" ><?=isset($baseInfo['objectName'])?$baseInfo['objectName']:'未填写'?></td>
 
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">招标项目编号</td>
-                            <td class="value"><?= $info['detail']['baseInfo']['biddingNo'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['biddingNo'])?$baseInfo['biddingNo']:'未填写'?></td>
 
                         </tr>
                         <tr>
                             <td class="lab">招标项目范围</td>
-                            <td class="value"> <?= $info['detail']['baseInfo']['objectScope'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['objectScope'])?$baseInfo['objectScope']:'未填写'?></td>
 
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">招标经办人</td>
-                            <td class="value"> <?= $info['detail']['baseInfo']['biddeeCompanyPrincipal'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['biddeeCompanyPrincipal'])?$baseInfo['biddeeCompanyPrincipal']:'未填写'?></td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">招标办公电话</td>
-                            <td class="value"> <?= $info['detail']['baseInfo']['biddeeCompanyTelephone'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['biddeeCompanyTelephone'])?$baseInfo['biddeeCompanyTelephone']:'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">采用币种</td>
-                            <td class="value"> <?= $info['detail']['baseInfo']['currency'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['currency'])?$baseInfo['currency']:'未填写'?></td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">标的估价</td>
-                            <td class="value"> <?= $info['detail']['baseInfo']['evaluationAmount'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['evaluationAmount'])?price_format($baseInfo['evaluationAmount']).'元':'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">承包方式</td>
-                            <td class="value"> <?= $info['detail']['baseInfo']['contractType'] ?> </td>
+                            <td class="value"><?=isset($baseInfo['contractType'])?$baseInfo['contractType']:'未填写'?></td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">工程名称</td>
-                            <td class="value"> <?= $info['detail']['projectInfo']['projectName'] ?> </td>
+                            <td class="value"><?=isset($projectInfo['projectName'])?$projectInfo['projectName']:'未填写'?> </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">工程地点</td>
-                            <td class="value"> <?= $info['detail']['projectInfo']['projectSite'] ?> </td>
+                            <td class="value"><?=isset($projectInfo['projectSite'])?$projectInfo['projectSite']:'未填写'?> </td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">工程规模及特征</td>
-                            <td class="value"> <?= $info['detail']['projectInfo']['projectScale'] ?> </td>
+                            <td class="value"><?=isset($projectInfo['projectScale'])?$projectInfo['projectScale']:'未填写'?>  </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">建设单位</td>
-                            <td class="value"> <?= $info['detail']['projectInfo']['employer'] ?> </td>
+                            <td class="value"><?=isset($projectInfo['employer'])?$projectInfo['employer']:'未填写'?>  </td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">建设单位经办人</td>
-                            <td class="value"> <?= $info['detail']['projectInfo']['employerPrincipal'] ?> </td>
+                            <td class="value"><?=isset($projectInfo['employerPrincipal'])?$projectInfo['employerPrincipal']:'未填写'?> </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">建设单位联系电话</td>
-                            <td class="value"> <?= $info['detail']['projectInfo']['employerTelephone'] ?> </td>
+                            <td class="value"><?=isset($projectInfo['employerTelephone'])?$projectInfo['employerTelephone']:'未填写'?></td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">国有土地使用证</td>
-                            <td class="value">xxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+                            <td class="value"><?=isset($constructionInfo['landUseCertificateNo'])?$constructionInfo['landUseCertificateNo']:'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">建设用地规划许可证</td>
-                            <td class="value">xxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+                            <td class="value"><?=isset($constructionInfo['constructionLandUsePermitNo'])?$constructionInfo['constructionLandUsePermitNo']:'未填写'?></td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr>
                             <td class="lab">计划开工日期</td>
-                            <td class="value"> <?= $info['detail']['projectRequirementInfo']['projectExpectStartDate'] ?> </td>
+                            <td class="value"><?=isset($projectRequirementInfo['projectExpectStartDate'])?$projectRequirementInfo['projectExpectStartDate']:'未填写'?>  </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">标准工期</td>
-                            <td class="value"> <?= $info['detail']['projectRequirementInfo']['projectExpectPeriod'] ?> </td>
+                            <td class="value"><?=isset($projectRequirementInfo['projectExpectPeriod'])?$projectRequirementInfo['projectExpectPeriod'].'天':'未填写'?>  </td>
+                        </tr>
+                        <tr >
+                            <td class="lab">建造师要求</td>
+                            <?php $constructorCertification = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidderCertificationInfo['needConstructorCertification'])?$constructorCertification[$bidderCertificationInfo['needConstructorCertification']]:'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
-                            <td class="lab">投标人资质等级要求</td>
-                            <td class="value">xxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+                            <td class="lab">项目经理要求</td>
+                            <?php $pmCertification = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidderCertificationInfo['needPmCertification'])?$pmCertification[$bidderCertificationInfo['needPmCertification']]:'未填写'?></td>
+                        </tr>
+                        <tr >
+                            <td class="lab">安全生产许可证要求</td>
+                            <?php $safetyPermit = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidderCertificationInfo['needSafetyPermit'])?$pmCertification[$bidderCertificationInfo['needSafetyPermit']]:'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
-                            <td class="lab">投标人项目经理(建造师)要求</td>
-                            <td class="value">xxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+                            <td class="lab">项目经理安全生产考核合格证要求</td>
+                            <?php $pmSafetyCertification = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidderCertificationInfo['$pmSafetyCertification'])?$pmCertification[$bidderCertificationInfo['$pmSafetyCertification']]:'未填写'?></td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">投标担保金额</td>
-                            <td class="value"> <?= $info['detail']['bondInfo']['bidBondAmount'] ?> </td>
+                            <td class="value"><?=isset($bondInfo['bidBondAmount'])?price_format($bondInfo['bidBondAmount']).'元':'未填写'?>  </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">招标方式</td>
                             <?php $objectMethod = ['PUB' => '公开招标', 'INVI' => '邀请投标']; ?>
-                            <td class="value"> <?= $objectMethod[$info['detail']['objectMethodInfo']['objectMethodInfo']] ?> </td>
+                            <td class="value"> <?=isset($objectMethodInfo['objectMethodInfo'])?$objectMethod[$objectMethodInfo['objectMethodInfo']]:'未填写'?> </td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">资格审查文件电子标书1份</td>
-                            <td class="value">xxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+                            <?php $certificationCheckupFile = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidFileTypeInfo['needCertificationCheckupFile'])?$certificationCheckupFile[$bidFileTypeInfo['needCertificationCheckupFile']]:'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">商务标部分电子标书1份</td>
-                            <td class="value">xxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+                            <?php $businessStandard = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidFileTypeInfo['needBusinessStandard'])?$businessStandard[$bidFileTypeInfo['needBusinessStandard']]:'未填写'?></td>
+                        </tr>
+                        <tr >
+                            <td class="lab">技术标部分电子标书1份</td>
+                            <?php $technicalStandard = ['YES' => '需要提供', 'NO#' => '不需要提供']; ?>
+                            <td class="value"><?=isset($bidFileTypeInfo['needCertificationCheckupFile'])?$technicalStandard[$bidFileTypeInfo['needCertificationCheckupFile']]:'未填写'?></td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">答疑方式</td>
                             <td class="value">
-                                <?php if($info['detail']['answerQuestion']['qq']): ?>QQ疑答，QQ群号<?= $info['detail']['answerQuestion']['qq'] ?> <?php endif; ?> 
-                                <?php if($info['detail']['answerQuestion']['email']): ?>&nbsp;&nbsp;&nbsp;email疑答，答疑邮件<?= $info['detail']['answerQuestion']['email'] ?> <?php endif; ?> 
-                                &nbsp;&nbsp;&nbsp;&nbsp;<?= $info['detail']['answerQuestion']['startTime'] . ' － ' . $info['detail']['answerQuestion']['endTime'] . $info['detail']['answerQuestion']['address'] ?>
+                                QQ答疑， <?=isset($answerQuestion['qq'])?'QQ群号：'.$answerQuestion['qq'].',群口令：'.$answerQuestion['qqtoken']:'未设置'?>
+                                <br >邮件答疑，<?=isset($answerQuestion['email'])?'邮箱地址：'.$answerQuestion['email']:'未设置'?>
+                                <br >现场答疑<?=isset($answerQuestion['address'])?'，答疑地址：'.$answerQuestion['address'].'答疑时间：'.$answerQuestion['answerTime']:'未设置'?>
+                                <br >电话答疑，<?=isset($answerQuestion['telephone'])?'联系电话：'.$answerQuestion['telephone']:'未设置'?>
+
                             </td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr>
                             <td class="lab">招标时间要求</td>
-                            <td class="value"> <?= $info['detail']['dateRequirementInfo']['bidOpenDate'] ?> </td>
+                            <td class="value"> <?=isset($dateRequirementInfo['bidOpenDate'])?$info['detail']['dateRequirementInfo']['bidOpenDate']:'未设置'?> </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">评标方法及标准</td>
                             <?php $evaluationType = ['QLT' => '定性', 'CRE' => '信用商户评价', 'OVE' => '综合评估']; ?>
-                            <td class="value"> <?= $evaluationType[$info['detail']['bidEvaluationTypeInfo']['bidEvalutionType']] ?> </td>
+                            <td class="value"> <?=isset($bidEvaluationTypeInfo['bidEvalutionType'])? $evaluationType[$info['detail']['bidEvaluationTypeInfo']['bidEvalutionType']]:'未设置'?> </td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr>
                             <td class="lab">技术标评标地点</td>
-                            <td class="value"> <?= $info['detail']['bidEvaluationTypeInfo']['bidEvalutionSite'] ?> </td>
-                        </tr
+                            <td class="value"> <?=isset($bidEvaluationTypeInfo['bidEvalutionSite'])?$info['detail']['bidEvaluationTypeInfo']['bidEvalutionSite']:'未设置'?> </td>
+                        </tr>
                         <tr class="tr-bg1">
                             <td class="lab">中标人的确定方法</td>
                             <?php $bidWinnerDetermineWay = ['ORV' => '直接票决定标', 'MRV' => '逐轮票决定标', 'VDM' => '票决筹钱定标']; ?>
-                            <td class="value"> <?= $bidWinnerDetermineWay[$info['detail']['bidEvaluationTypeInfo']['bidWinnerDatemineWay']] ?> </td>
+                            <td class="value"><?=isset($bidEvaluationTypeInfo['bidWinnerDatemineWay'])?$bidWinnerDetermineWay[$info['detail']['bidEvaluationTypeInfo']['bidWinnerDatemineWay']]:'未设置'?> </td>
                         </tr>
-                        <tr class="tr-bg1">
+                        <tr >
                             <td class="lab">票决方式</td>
                             <?php $voteWinWay = ['SMP' => '简单铎书法', 'CPN' => '对比胜出法']; ?>
-                            <td class="value"> <?= $voteWinWay[$info['detail']['bidEvaluationTypeInfo']['voteWinWay']] ?> </td>
+                            <td class="value"> <?=isset($bidEvaluationTypeInfo['voteWinWay'])?$voteWinWay[$info['detail']['bidEvaluationTypeInfo']['voteWinWay']]:'未设置'?> </td>
                         </tr>
                     </table>
                 </div>
                 <div class="ques">
+
                     <p>1. 什么是薪计划？</p>
 
                     <p>薪计划是人人贷针对工薪族推出的高效、便捷的自动投标工具，每月固定日期加入固定资金，轻松攒钱同时享受高收益，

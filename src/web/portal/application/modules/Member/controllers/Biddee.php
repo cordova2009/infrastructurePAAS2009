@@ -7,6 +7,9 @@
 */
 class BiddeeController extends MemberController{
 
+
+	var $pageSize=10;
+
     public function authInfoAction(){
 	    $token = isset($this->user['token'])?$this->user['token']:'';
             $curl = new Curl($this->config->url->api->paas);
@@ -16,7 +19,7 @@ class BiddeeController extends MemberController{
             }
 	    if(empty($resp['datail'])||empty($resp['overall']))
 	    {
-		    $this->redirect(U('applyfor'));
+		  //  $this->redirect(U('applyfor'));
 	    }
 	    $this->assign('datail',isset($resp['datail'])?$resp['datail']:[]);
 	    $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);
@@ -247,5 +250,76 @@ class BiddeeController extends MemberController{
 	    }else{
 		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
 	    }
+    }
+    public function probjectAction()
+    {
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token])->send('tender/queryMyObjectSurvey');
+	    if(check_resp($resp)) {
+		    $this->assign('bidingNum',$resp['bidingNum']);
+		    $this->assign('doingNum',$resp['doingNum']);
+		    $this->assign('doneNum',$resp['doneNum']);
+	    }
+	    $this->assign('pageIndex',I('pageIndex'));
+	    $this->assign('type',I('type','biding'));
+    }
+    public function getProbjectAction()
+    {
+	    $i = I('pageIndex');
+	    $type = I('type');
+	    if(empty($type))
+	    {
+		    $type = 'biding';
+	    }
+	    $func = 'queryMyTenderObject';
+	    if($type=='biding')
+	    {
+		    $func = 'queryMyTenderObject';
+	    }
+	    if($type=='doing')
+	    {
+		    $func = 'queryMyBuildingObject';
+	    }
+	    if($type=='done')
+	    {
+		    $func = 'queryMyEndedObject';
+	    }
+	    $p = $this->pageSize;
+	    $i = $i==''?0:$i;
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('tender/'.$func);
+	    $page = $this->getPagination($resp['total'], $this->pageSize);
+	    $html = $this->render($type,['page'=>$page,$type=>$resp['list']]);
+	    $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
+    }
+    public function surveyAction()
+    {
+	    $id=I('id');
+	    if(IS_AJAX)
+	    {
+		    $p = $this->pageSize;
+		    $i = $i==''?0:$i;
+		    $token = $this->user['token'];
+		    $curl = new Curl($this->config->url->api->paas);
+		    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
+		    $page = $this->getPagination($resp['total'], $this->pageSize);
+		    $resp['page'] = $page;
+		    $this->ajaxReturn($resp);
+	    }
+	    $token = isset($this->user['token'])?$this->user['token']:'';
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('tender/queryMyObjectTenderSurvey');
+	    if(check_resp($resp)) {
+		    $this->assign('survey',$resp['survey']);
+	    }else{
+		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    }
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
+	    $this->assign('list',$resp['list']);
+	    $page = $this->getPagination($resp['total'], $this->pageSize);
+	    $this->assign('page', $page);
     }
 }

@@ -22,6 +22,11 @@ public class QueryBidFileTypeInfoResult
 	     * 投标方是否需要上传资格审查文件，YES，是。NO#，否。
 	     */
 	    protected String needCertificationCheckupFile;
+	    
+	    /**
+	     * 招标文件
+	     */
+	    protected String tenderFile;
 	
 	    	/**
 	     * @return 
@@ -68,6 +73,20 @@ public class QueryBidFileTypeInfoResult
 
     public String toString() {
 		return org.apache.commons.lang.builder.ToStringBuilder.reflectionToString(this);
+	}
+
+	/**
+	 * 招标文件 
+	 */
+	public String getTenderFile() {
+		return tenderFile;
+	}
+
+	/**
+	 * 招标文件 
+	 */
+	public void setTenderFile(String tenderFile) {
+		this.tenderFile = tenderFile;
 	}
 
     

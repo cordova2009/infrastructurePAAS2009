@@ -11,19 +11,19 @@
                     <div class="item">
                         <span class="lab">账户名称</span>
                         <div class="auto value">
-                            深圳大力99技术有限公司
+                            <?=isset($bankInfo)?$bankInfo['accountName']:''?>
                         </div>
                     </div>
                     <div class="item">
                         <span class="lab">账号</span>
                         <div class="auto value">
-                            6222555533338888
+                            <?=isset($bankInfo)?$bankInfo['accountId']:''?>
                         </div>
                     </div>
                     <div class="item">
                         <span class="lab">开户行名称</span>
                         <div class="auto value">
-                            某某银行某某支行
+                            <?=isset($bankInfo)?$bankInfo['bankName']:''?>
                         </div>
                     </div>
                 </div>

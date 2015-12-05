@@ -51,9 +51,9 @@ class IndexController extends MallController {
         //中标结果列表
         $this->assign('bid_list',$this->_bid_list());
         //投标人
-        $this->assign('bider_info',$this->_bider_info());
+        $this->assign('bidder_info',$this->_bidder_info());
         //优质投标人
-        $this->assign('bider_list',$this->_bider_list());
+        $this->assign('bidder_list',$this->_bidder_list());
         //公告
         $this->assign('site_notice',$this->_site_notice());
     }
@@ -81,15 +81,15 @@ class IndexController extends MallController {
         return $bid_info;
     }
     
-    private function _bider_info()
+    private function _bidder_info()
     {
-        $resp = $this->_curl->send('tender/queryBiderIndexSurvey');
-        $bider_info = ['stairBiderNum'=>0,'secondBiderNum'=>'0'];
+        $resp = $this->_curl->send('tender/queryBidderIndexSurvey');
+        $bidder_info = ['stairBiderNum'=>0,'secondBiderNum'=>'0'];
         if(check_resp($resp)){
-            $bider_info = $resp;
+            $bidder_info = $resp;
         }
-        
-        return $bider_info;
+
+        return $bidder_info;
     }
     
     private function _object_list()
@@ -114,15 +114,15 @@ class IndexController extends MallController {
         return $bid_list;
     }
     
-    private function _bider_list()
+    private function _bidder_list()
     {
         $resp = $this->_curl->setData(['pageIndex'=>1,'pageSize'=>14])->send('tender/queryIndexBidList');
-        $bider_list = [];
+        $bidder_list = [];
         if(check_resp($resp)){
-            $bider_list = $resp['list'];
+            $bidder_list = $resp['list'];
         }
         
-        return $bider_list;
+        return $bidder_list;
     }
     
     private function _site_notice()

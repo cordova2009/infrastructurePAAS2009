@@ -23,12 +23,15 @@
                 <div class="tit6">投标人资质证书</div>
                 <div class="yaoqiu">
                     <div class="txt1"><i class="ico i-paper"></i> 招标要求</div>
-                    <?php for($num=0;$num<$bidderInfo['requirementList'].size();$num=$num+2): ?>
-                    <div class="clear txt2  <?=(($num+2)>=$bidderInfo['requirementList'].size())?  : bordb2; ?>">
-                        <div class="li">$bidderInfo['requirementList'][$num]['certificationName']</div>
-                        <div class="li">$bidderInfo['requirementList'][$num+1]['certificationName']</div>
-                    </div>
-                    <?php endfor; ?>
+                    <?php
+/*                    $count = sizeof($bidderInfo['requirementList']);
+                    for($num=0;$num<$count;$num=$num+2):
+                        */?><!--
+                        <div class="clear txt2  <?/*=(($num+2) >= $count) ? '' : bordb2; */?>">
+                            <div class="li">$bidderInfo['requirementList'][$num]['certificationName']</div>
+                            <div class="li">$bidderInfo['requirementList'][$num+1]['certificationName']</div>
+                        </div>
+                    --><?php /*endfor; */?>
                 </div>
                 <p class="tips2">请根据招标要求填写或选择相应资质</p>
                 <div class="zhengshu checklist">

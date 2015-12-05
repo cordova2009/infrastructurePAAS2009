@@ -33,7 +33,7 @@
                     <td class="tenderee" class="tenderee"><?= $v['bidderName'] ?></td>
                     <td class="tenderee"><?= $v['biddeeName'] ?></td>
                     <td class="price"><?= $v['winBidAmount']>0 ? $v['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
-                    <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
+                    <td class="info"><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach; ?>
             </table>

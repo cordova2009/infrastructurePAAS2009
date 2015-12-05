@@ -242,7 +242,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 		
 		List<UserInformationPageReturnVO> qlr = new ArrayList<UserInformationPageReturnVO>();
-		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), body.getPageIndex()-1, body.getPageSize());
+		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), body.getPageIndex(), body.getPageSize());
 		return qlr;
 	}
 

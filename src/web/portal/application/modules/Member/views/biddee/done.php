@@ -16,7 +16,6 @@
 												</tr>
 <?php }}else{?>
 <tr><td colspan="5">暂无数据</td></tr>
-
 <?php }?>
 											</tbody></table>
         <?php include(APP_PATH.'views/common/page.php'); ?>

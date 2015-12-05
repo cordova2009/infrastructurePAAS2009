@@ -56,7 +56,7 @@
 <block name="script">
 <script>
 $(function(){
-    $("#left-menu .submenu:eq(1),#left-menu .submenu:eq(1) a:eq(0)").addClass('active');
+    $("#left-menu .submenu:eq(1),#left-menu .submenu:eq(1) a:eq(1)").addClass('active');
     $(".tblistTbale tr:odd").addClass('bg1');
 function loadings()
 {
@@ -67,13 +67,13 @@ function loadings()
         wrap.parent().show();
 	return ;
     }
+
 //    var data = <?=json_encode(['type'=>$type,'pageIndex'=>$pageIndex])?>;
     var data = {'type':type,'pageIndex':index};
     var loading = layer.load();
     //开始加载下一个页面
     $.post('<?=U('getProbject')?>', data, function (rs) {
-        $("#"+type).html(rs.html);
-	console.log(rs.html);
+        wrap.append(rs.html);
     }, 'json').always(function () {
         layer.close(loading);
     });

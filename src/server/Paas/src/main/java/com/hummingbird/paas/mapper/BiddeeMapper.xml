@@ -41,6 +41,18 @@
     <result column="unified_social_credit_code" property="unifiedSocialCreditCode" jdbcType="VARCHAR" />
     <result column="unified_social_credit_code_url" property="unifiedSocialCreditCodeUrl" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="CompanySurveyResultMap" type="com.hummingbird.paas.vo.CompanySurvey" >
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="logoUrl" property="logoUrl" jdbcType="VARCHAR" />
+    <result column="creditRating" property="creditRating" jdbcType="VARCHAR" />
+    <result column="creditScore" property="creditScore" jdbcType="VARCHAR" />
+    <result column="evaluationRating" property="evaluationRating" jdbcType="VARCHAR" />
+    <result column="evaluationScore" property="evaluationScore" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="CompanyCerticateResultMap" type="com.hummingbird.paas.vo.CompanyCerticateInfo" >
+    <result column="certicateName" property="certicateName" jdbcType="VARCHAR" />
+    <result column="certicateUrl" property="certicateUrl" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
     business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
@@ -63,6 +75,21 @@
     <include refid="Base_Column_List" />
     from t_qyzz_biddee
     where user_Id = #{userId,jdbcType=INTEGER}  and status="OK#"
+
+  </select>
+  <select id="selectCompanySurveyById" resultMap="CompanySurveyResultMap" parameterType="java.lang.Integer" >
+    SELECT mm.*,f.level_name evaluationRating from(select a.id,a.company_name companyName,a.logo logoUrl,e.level_name creditRating,b.credit_score creditScore,IFNULL(sum(c.score),0) evaluationScore from t_qyzz_biddee a  
+	LEFT JOIN t_xyjf_biddee_credit b on b.tenderer_id = a.id
+	LEFT JOIN t_gcgl_project_evaluation_biddee c on a.id = c.biddee_id
+	LEFT JOIN t_xyjf_score_level e on (b.credit_score &gt;e.min_score and b.credit_score &lt;e.max_score))mm
+	LEFT JOIN t_xyjf_score_level f on (mm.evaluationScore &gt;f.min_score and mm.evaluationScore &lt;f.max_score)
+    where mm.id = #{id,jdbcType=INTEGER} 
+  </select>
+  <select id="selectCompanyCerticateInfoById" resultMap="CompanyCerticateResultMap" parameterType="java.lang.Integer" >
+     select  b.certification_name,b.certification_content from t_qyzz_biddee a 
+     LEFT JOIN t_qyzz_biddee_certification b on a.id = b.tenderer_id
+	 where a.id = #{id,jdbcType=INTEGER} 
+    
 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

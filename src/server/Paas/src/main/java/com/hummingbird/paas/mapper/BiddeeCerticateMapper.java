@@ -1,6 +1,7 @@
 package com.hummingbird.paas.mapper;
 
 import com.hummingbird.paas.entity.BiddeeCerticate;
+import com.hummingbird.paas.vo.CompanySurvey;
 
 public interface BiddeeCerticateMapper {
     /**

@@ -686,4 +686,37 @@
       publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
+  <select id="selectTenderNumbyBiddeeId" resultType="int">
+    select count(a.object_id)  from t_ztgl_object a 
+        where a.object_status !='CRT' and a.biddee_id=#{biddeeId,jdbcType=INTEGER}
+    </select>
+    <select id="selectBidNumbyBiddeeId" resultType="int">
+     select count(a.object_id)  from t_ztgl_bid_record a 
+     where a.bidder_id =#{biddeeId,jdbcType=INTEGER}
+    </select>
+    <select id="selectFlowNumbyBiddeeId" resultType="int">
+    select count(a.object_id)  from t_ztgl_object a 
+        where a.object_status ='FLS' and a.biddee_id=#{biddeeId,jdbcType=INTEGER}
+    </select>
+     <select id="selectWinNumbyBiddeeId" resultType="int">
+    select count(a.object_id)  from t_ztgl_object a 
+        where a.object_status ='SEL' or a.object_status ='END'  and a.biddee_id=#{biddeeId,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectTenderNumbyBidderId" resultType="int">
+    select count(a.object_id)  from t_ztgl_object a 
+        where a.object_status !='CRT' and a.biddee_id=#{bidderId,jdbcType=INTEGER}
+    </select>
+    <select id="selectBidNumbyBidderId" resultType="int">
+    select count(a.object_id)  from t_ztgl_bid_record a 
+     where a.bidder_id =#{bidderId,jdbcType=INTEGER}
+    </select>
+    <select id="selectFlowNumbyBidderId" resultType="int">
+    select count(a.object_id)  from t_ztgl_object a 
+        where a.object_status ='FLS' and a.biddee_id=#{bidderId,jdbcType=INTEGER}
+    </select>
+     <select id="selectWinNumbyBidderId" resultType="int">
+     select count(a.object_id)  from t_ztgl_bid_record a 
+     where a.bidder_id =#{bidderId,jdbcType=INTEGER} and a.bid_status = 'win' and a.status !='FLS'
+    </select>
 </mapper>

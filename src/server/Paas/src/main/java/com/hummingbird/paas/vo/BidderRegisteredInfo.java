@@ -2,6 +2,10 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+
 /**
  * 投标人公司注册信息 
  * @author YJY  
@@ -116,6 +120,7 @@ public class BidderRegisteredInfo {
 	/**
 	 * @return the regTime
 	 */
+	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getRegTime() {
 		return regTime;
 	}

@@ -2,6 +2,11 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+import com.hummingbird.common.util.convertor.JacksonDateTimeSerializer;
+
 /**
  * 查看发布信息详情接口 
  * @author YJY  
@@ -9,12 +14,14 @@ import java.util.Date;
  * @see 用于规范json
  * */
 
-//{"replier":12,"replierName":"王大力","replyContent:"好","replyTime":"2015-01-01 01:01:01"}
+//{"replier":12,"replierName":"王大力","replierLogo":"URL","isMember":"true","replyContent:"好","replyTime":"2015-01-01 01:01:01"},
 public class UserInformationComments{
 	
 	private Integer   replier;
 	private String   replierName;
 	private String   replyContent;
+//	private String   replierLogo;
+//	private String   isMember;
 	private Date   replyTime;
 	/**
 	 * @return the replier
@@ -37,6 +44,7 @@ public class UserInformationComments{
 	/**
 	 * @return the replyTime
 	 */
+	@JsonSerialize(using = JacksonDateTimeSerializer.class)
 	public Date getReplyTime() {
 		return replyTime;
 	}
@@ -72,7 +80,6 @@ public class UserInformationComments{
 		return "UserInformationCommentsVO [replier=" + replier + ", replierName=" + replierName + ", replyContent="
 				+ replyContent + ", replyTime=" + replyTime + "]";
 	}
-	
 
 
 

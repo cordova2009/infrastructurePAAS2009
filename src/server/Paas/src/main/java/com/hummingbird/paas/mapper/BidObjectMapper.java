@@ -176,4 +176,53 @@ public interface BidObjectMapper {
 	 * @return
 	 */
 	List<BidObject> selectbyBiddeeId(@Param("biddeeId")Integer biddeeId,@Param("status")String status);
+	/**
+	 * 根据biddeeId查询招标数量
+	 * @param id
+	 * @return
+	 */
+	int selectTenderNumbyBiddeeId(Integer biddeeId);
+	/**
+	 * 根据biddeeId查询投标数量
+	 * @param id
+	 * @return
+	 */
+	int selectBidNumbyBiddeeId(Integer biddeeId);
+	/**
+	 * 根据biddeeId查询流标数量
+	 * @param id
+	 * @return
+	 */
+	int selectFlowNumbyBiddeeId(Integer biddeeId);
+	/**
+	 * 根据biddeeId查询中标数量
+	 * @param id
+	 * @return
+	 */
+	int selectWinNumbyBiddeeId(Integer biddeeId);
+	/**
+	 * 根据bidderId查询招标数量
+	 * @param id
+	 * @return
+	 */
+	int selectTenderNumbyBidderId(Integer bidderId);
+	/**
+	 * 根据bidderId查询投标数量
+	 * @param id
+	 * @return
+	 */
+	int selectBidNumbyBidderId(Integer bidderId);
+	/**
+	 * 根据bidderId查询流标数量
+	 * @param id
+	 * @return
+	 */
+	int selectFlowNumbyBidderId(Integer bidderId);
+	/**
+	 * 根据bidderId查询中标数量
+	 * @param id
+	 * @return
+	 */
+	int selectWinNumbyBidderId(Integer bidderId);
+	
 }

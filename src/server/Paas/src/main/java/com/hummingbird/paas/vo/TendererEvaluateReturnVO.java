@@ -28,8 +28,12 @@ public class TendererEvaluateReturnVO {
 	private String winBidAmount;
 	private String companyEvaluateScore;
 	private String companyEvaluateNum;
-	private String   startTime;
-	private String   endTime;
+	private String startTime;
+	private String endTime;
+	/**
+	 * 公司投标
+	 */
+	private String logo;
 	private List<TagInfo> tag;
 	/**
 	 * @return the bidderId
@@ -172,7 +176,19 @@ public class TendererEvaluateReturnVO {
 				+ ", objectId=" + objectId + ", objectName=" + objectName + ", winBidTime=" + winBidTime
 				+ ", winBidAmount=" + winBidAmount + ", companyEvaluateScore=" + companyEvaluateScore
 				+ ", companyEvaluateNum=" + companyEvaluateNum + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", tag=" + tag + "]";
+				+ ", logo=" + logo + ", tag=" + tag + "]";
+	}
+	/**
+	 * 公司投标 
+	 */
+	public String getLogo() {
+		return logo;
+	}
+	/**
+	 * 公司投标 
+	 */
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 	
 	

@@ -48,6 +48,7 @@ import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
@@ -1718,7 +1719,10 @@ public class TenderController extends BaseController {
 					ter.setObjectName(bo.getObjectName());
 					ter.setWinBidAmount(ObjectUtils.toString(bo.getWinBidAmount()));
 					ter.setWinBidTime(DateUtil.formatCommonDateorNull(bo.getWinBidTime()));
-					
+					//加载用户的id
+					Integer userId = bid.getUserId();
+					User user = userSer.loadUser(userId);
+					ter.setLogo(user.getHeadImage());
 //					{"tagGroupName":"biddee_manager","tagObjectCode":"t_qyzz_biddee","businessId":"1"}  
 					
 					String  tagJson = CallInterfaceUtil.searchTag("project_manager", "t_gcgl_project", ps.getProjectId());

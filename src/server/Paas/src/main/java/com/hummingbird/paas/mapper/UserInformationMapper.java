@@ -33,6 +33,11 @@ public interface UserInformationMapper {
     List<UserInformationPageReturnVO> selectByUserIdAndStatus(@Param("userId") int userId ,@Param("status") String status,@Param("begin") int begin ,@Param("limit") int limit);
 
     /**
+     * 根据userId status查询记录数
+     */
+    int selectTotalByUserIdAndStatus(@Param("userId") int userId ,@Param("status") String status);
+
+    /**
      * 根据主键更新属性不为空的记录
      */
     int updateByPrimaryKeySelective(UserInformation record);

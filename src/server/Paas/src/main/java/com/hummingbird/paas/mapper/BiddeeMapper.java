@@ -1,6 +1,11 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.vo.CompanyBaseInfo;
+import com.hummingbird.paas.vo.CompanyCerticateInfo;
+import com.hummingbird.paas.vo.CompanySurvey;
 
 public interface BiddeeMapper {
     /**
@@ -35,6 +40,14 @@ public interface BiddeeMapper {
      * 根据userId查询记录
      */
     Biddee selectByUserId(Integer userId);
+    /**
+     * 根据id查询概况信息
+     */
+    CompanySurvey selectCompanySurveyById(Integer id);
+    /**
+     * 根据id查询证书信息
+     */
+    List<CompanyCerticateInfo> selectCompanyCerticateInfoById(Integer id);
 
     /**
      * 根据主键更新属性不为空的记录

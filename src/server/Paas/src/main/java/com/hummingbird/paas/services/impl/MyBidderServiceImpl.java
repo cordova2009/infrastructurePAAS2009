@@ -18,6 +18,7 @@ import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
@@ -462,17 +463,10 @@ public class MyBidderServiceImpl implements MyBidderService {
 		if(token.getUserId() != null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
 			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
-			if(bidder==null){
-				if(log.isDebugEnabled()){
-					log.debug("未找到相应记录 ,请先填写基本信息!");
-				}
-				}else{
-					bidder.setStatus("OK#");//修改状态为已认证
-					i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
-				}
-			
-				
-				i = bidderCerticateDao.insertSelective(bidder);
+	
+			bidder.setStatus("OK#");//修改状态为已认证
+			i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
+		
 			}
 			return i;
 	

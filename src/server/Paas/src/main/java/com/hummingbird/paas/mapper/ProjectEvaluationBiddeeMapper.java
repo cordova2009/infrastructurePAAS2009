@@ -1,6 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
+import com.hummingbird.paas.vo.CompanyEvaluationDetailInfo;
 
 public interface ProjectEvaluationBiddeeMapper {
     /**
@@ -41,4 +44,8 @@ public interface ProjectEvaluationBiddeeMapper {
      * 查询评价积分
      */
     double countEvaluationScoreByBiddeeId(Integer biddeeId);
+    /**
+     * 根据biddeeId查询评价列表
+     */
+    List<CompanyEvaluationDetailInfo> selectEvaluationDetailByBiddeeId(Integer biddeeId);
 }

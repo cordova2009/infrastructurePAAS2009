@@ -66,6 +66,7 @@ import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
+import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -79,6 +80,7 @@ import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
+import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
@@ -1691,7 +1693,7 @@ public class TenderController extends BaseController {
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
 		rnr.setInserttime(new Date());
-		rnr.setMethod("/bid/queryTendererEvaluate");
+		rnr.setMethod("/tender/queryTendererEvaluate");
 		
 		try {
 			// 业务数据必填等校验
@@ -2627,6 +2629,44 @@ public class TenderController extends BaseController {
 		
 	}
 	
+	/**
+	 * 查询公司信息接口
+	 * @author YJY
+	 * @since 2015年12月4日16:09:52
+	 * @return
+	 */
+	@RequestMapping(value = "/queryCompanyInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询公司信息接口", isJson = true, codebase = 241900, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryCompanyInfoBodyVO", appLog = true)
+	public @ResponseBody ResultModel queryCompanyInfo(HttpServletRequest request, HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryCompanyInfoBodyVO> transorder = (BaseTransVO<QueryCompanyInfoBodyVO>) super.getParameterObject();
+		String messagebase = "查询公司信息接口";
+
+		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
+
+		try {
+			CompanyInfo cc = new CompanyInfo();
+			if("BEE".equals(transorder.getBody().getType())){//招标
+				 cc = tenderService.queryTenderCompanyInfo(transorder.getApp().getAppId(), transorder.getBody());
+			}else if("BER".equals(transorder.getBody().getType())){//投标 
+				 cc = tenderService.queryBidderCompanyInfo(transorder.getApp().getAppId(), transorder.getBody());
+			}
+			
+
+			rm.put("info", cc);
+
+		} catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if (qe != null)
+				qe.setSuccessed(false);
+		} finally {
+			if (qe != null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+
+	}
 	
 
 //	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)

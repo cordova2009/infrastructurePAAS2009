@@ -257,6 +257,27 @@
     order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
     where a.project_id = p.project_id
-    and p. object_id = #{objectId,jdbcType=VARCHAR} 
+    and p. objec
+    t_id = #{objectId,jdbcType=VARCHAR} 
+  </select>
+   <select id="getBiddeeOnTimeNum" resultType="int" parameterType="java.lang.Integer" >
+     select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p.biddee_id=#{biddeeId,jdbcType=INTEGER}  and  a.should_pay_time &gt;a.pay_time 
+  </select>
+  <select id="getBiddeeOutTimeNum" resultType="int" parameterType="java.lang.Integer" >
+     select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p.biddee_id=#{biddeeId,jdbcType=INTEGER}  and  a.should_pay_time &lt; a.pay_time 
+  </select>
+   <select id="getBidderOnTimeNum" resultType="int" parameterType="java.lang.Integer" >
+     select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p.bidder_id=#{bidderId,jdbcType=INTEGER}  and  a.should_pay_time &gt;a.pay_time 
+  </select>
+  <select id="getBidderOutTimeNum" resultType="int" parameterType="java.lang.Integer" >
+     select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p.bidder_id=#{bidderId,jdbcType=INTEGER}  and  a.should_pay_time &lt;a.pay_time 
   </select>
 </mapper>

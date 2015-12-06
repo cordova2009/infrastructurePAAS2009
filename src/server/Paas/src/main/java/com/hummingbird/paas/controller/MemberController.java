@@ -321,8 +321,6 @@ public class MemberController extends BaseController{
 				Integer userId=token.getUserId(); 
 				
 				if(userId != null){
-					rm.setErrcode(840000);
-					rm.setErrmsg(messagebase+"成功");
 					//会员身份属性,NCP:未资质认证,NON:非会员,OK#:会员,EPE:会员过期
 					String[] isMember =new String[]{"NCP","NON","OK#","EPE"};
 					//会员类型，TER招标人会员，BIR投标人会员

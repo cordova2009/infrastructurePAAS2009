@@ -827,7 +827,7 @@ public class MemberController extends BaseController{
 						// 查询招标人会员信息  t_hygl_biddee 招标人会员表
 						HyglBidder hyglBidder=hyglBidderMapper.selectByBidderId(bidderId);
 						Date date=new Date();
-						Date endTime=hyglBidder.getEndTime();
+						Date endTime=hyglBidder!=null?hyglBidder.getEndTime():null;
 						if(hyglBidder != null && endTime.getTime()>date.getTime()){
 							rm.setErrcode(280201);
 							rm.setErrmsg("您已是会员");

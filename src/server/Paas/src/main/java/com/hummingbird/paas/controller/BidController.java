@@ -55,6 +55,7 @@ import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.vo.BidEvaluateReturnVO;
+import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.GetMsgListBodyVO;
 import com.hummingbird.paas.vo.JsonResult;
@@ -1187,5 +1188,46 @@ public class BidController extends BaseController {
 		return rm;
 
 	}
+	
+	/**
+	 * 投标方给招标方评价接口
+	 * @return
+	 */
+	@RequestMapping(value="/evaluateBiddee",method=RequestMethod.POST)
+	@AccessRequered(methodName = "投标方给招标方评价接口",isJson=true,codebase=247600,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.EvaluateBiddeeBodyVO",appLog=true)
+	public @ResponseBody ResultModel evaluateBiddee(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<EvaluateBiddeeBodyVO> transorder = (BaseTransVO<EvaluateBiddeeBodyVO>) super.getParameterObject();
+		String messagebase = "投标方给招标方评价接口"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			bidService.evaluateBiddee(transorder.getApp().getAppId(),transorder.getBody(),bidder);
+			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
 
 }

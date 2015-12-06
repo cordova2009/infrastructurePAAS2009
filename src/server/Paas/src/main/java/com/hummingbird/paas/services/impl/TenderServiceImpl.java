@@ -44,6 +44,7 @@ import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
@@ -1305,9 +1306,6 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public List<MyTenderObjectListVO> getTenderObjectList(Integer user_id, Pagingnation page) throws BusinessException {
-		// TODO Auto-generated method stub
-
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		
 		if(page!=null&&page.isCountsize()){
 			int totalcount = dao.selectTotalCountTenderObject(user_id);
@@ -1323,8 +1321,6 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer user_id, Pagingnation page)
 			throws BusinessException {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		
 		if(page!=null&&page.isCountsize()){
 			int totalcount = dao.selectTotalTenderBuildingObject(user_id);
@@ -1339,8 +1335,6 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer user_id, Pagingnation page)
 			throws BusinessException {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		
 		if(page!=null&&page.isCountsize()){
 			int totalcount = dao.selectTotalTenderEndedObject(user_id);
@@ -1355,8 +1349,6 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
 			throws BusinessException {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		
 		if(page!=null&&page.isCountsize()){
 			int totalcount = dao.selectTotalTenderObjectList(keywords);
@@ -1592,6 +1584,59 @@ public class TenderServiceImpl implements TenderService {
 		// TODO Auto-generated method stub
 		
 		return null;
+	}
+	
+	/**
+	 * 招标方给投标方评价
+	 * @param appId
+	 * @param body
+	 * @param biddee
+	 */
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee)throws BusinessException{
+		
+		int i = 0;
+		String objectId = body.getObjectId();
+		BidObject bidObject = dao.selectByPrimaryKey(objectId);
+		if(bidObject==null){
+			log.error( "标的不存在:"+objectId);
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "标的不存在:");
+		}
+		if(StringUtils.equals(bidObject.getObjectStatus(),"END")){
+			log.error( "标的未结束:"+objectId);
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的未结束");
+		}
+		List<ProjectInfo> projects = projectInfoDao.selectByObjectId(objectId);
+		if(org.apache.commons.collections.CollectionUtils.isEmpty(projects)){
+			log.error( "标的工程不存在:"+objectId);
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的工程不存在");
+		}
+		ProjectInfo project=projects.get(0);
+//		if(project==null){
+//			if(log.isDebugEnabled()){
+//				log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+//			}
+//			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+//		}
+		ProjectEvaluationBiddee evaluationBiddee=new ProjectEvaluationBiddee();
+		evaluationBiddee.setStarCount(0);
+		evaluationBiddee.setBiddeeId(project.getBiddeeId());
+		evaluationBiddee.setBidderId(project.getBidderId());
+		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
+		evaluationBiddee.setInsertBy(biddee.getUserId().toString());
+		evaluationBiddee.setInsertTime(new Date());
+		evaluationBiddee.setProjectId(project.getProjectId());
+		evaluationBiddee.setScore(body.getEvaluateScore());
+		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
+		evaluationBiddeeDao.insert(evaluationBiddee);
+		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
+		//调用接口时,如果数据库失败,这个标签也会保存进去
+		if(body.getTags()!=null){
+			for(String tag : body.getTags()){
+				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info", body.getObjectId());
+			}
+		}
+		
 	}
 
 

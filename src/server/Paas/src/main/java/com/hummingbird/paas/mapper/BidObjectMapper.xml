@@ -54,13 +54,9 @@
   <resultMap id="MyTenderBuildingObjectListResultMap" type="com.hummingbird.paas.vo.TenderMyBuildingObjectVO" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-   
     <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
-   
-    <result column="company_name" property="winBidder" jdbcType="VARCHAR" />
-  
+    <result column="winBidder" property="winBidder" jdbcType="VARCHAR" />
     <result column="receivedAmount" property="receivedAmount" jdbcType="VARCHAR" />
- 
     <result column="willReceiveAmount" property="willReceiveAmount" jdbcType="VARCHAR" />
     <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
@@ -198,7 +194,7 @@
     
   </select>
     <select id="selectTenderBuildingObject" resultMap="MyTenderBuildingObjectListResultMap"  >
-     select a.object_id,a.object_name,a.win_bid_amount,c.company_name,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT')
+     select a.object_id,a.object_name,a.win_bid_amount,concat(ifnull(u.user_name,''),'(',r.company_name,')') winBidder,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a inner JOIN t_qyzz_biddee c on c.id = a.biddee_id  INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id  LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT') inner JOIN t_qyzz_bidder r on r.id = a.win_bidder_id inner join t_user u on u.id = r.user_id
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
         <if test="page != null" >
    		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}

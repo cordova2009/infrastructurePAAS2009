@@ -65,14 +65,14 @@
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>
-   <resultMap id="MyBuildingObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
+   <resultMap id="MyBuildingObjectResultMap" type="com.hummingbird.paas.vo.MyBuildingObjectProject" extends="BaseResultMap" >
     <result column="receivedAmount" property="receivedAmount" jdbcType="VARCHAR" />
     <result column="willReceiveAmount" property="willReceiveAmount" jdbcType="VARCHAR" />
   </resultMap>
-   <resultMap id="MyEndedObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
+   <resultMap id="MyEndedObjectResultMap" type="com.hummingbird.paas.vo.MyEndedObjectProject" extends="BaseResultMap" >
     <result column="company_name" property="biddee" jdbcType="VARCHAR" />
   </resultMap>
-   <resultMap id="MyLoseObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
+   <resultMap id="MyLoseObjectResultMap" type="com.hummingbird.paas.vo.MyLoseObjectProject" extends="BaseResultMap" >
     <result column="company_name" property="biddee" jdbcType="VARCHAR" />
   </resultMap>
   

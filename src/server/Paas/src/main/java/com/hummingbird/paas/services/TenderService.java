@@ -6,6 +6,7 @@ import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.vo.CompanyInfo;
+import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
@@ -407,7 +408,15 @@ public CompanyInfo queryTenderCompanyInfo(String appId,QueryCompanyInfoBodyVO bo
 * @return 
 * @throws BusinessException 
 */
-public CompanyInfo queryBidderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException; 
+public CompanyInfo queryBidderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException;
+
+/**
+ * 招标方给投标方评价
+ * @param appId
+ * @param body
+ * @param biddee
+ */
+public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee)throws BusinessException; 
 
 
 }

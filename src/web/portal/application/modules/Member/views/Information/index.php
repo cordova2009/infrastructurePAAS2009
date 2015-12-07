@@ -23,19 +23,19 @@
                         <div class="item ">
                             <div class="lab"><span class="red">*</span>  项目名称</div>
                             <div class="value">
-                                <input name="objectName" type="text" class="input1 " placeholder="" >
+                                <input name="objectName" value="<?=$result['objectName']?>" type="text" class="input1 " placeholder="" >
                             </div>
                         </div>
                         <div class="item ">
                             <div class="lab"><span class="red">*</span>地址</div>
                             <div class="value">
-                                <input name="address" type="text" class="input1 " placeholder="" >
+                                <input name="address" value="<?=$result['address']?>" type="text" class="input1 " placeholder="" >
                             </div>
                         </div>
                         <div class="item ">
                             <div class="lab"><span class="red">*</span>工期</div>
                             <div class="value">
-                                <input name="projectPeriod" type="text" class="input1 " placeholder="" >
+                                <input name="projectPeriod" value="<?=$result['projectPeriod']?>"  type="text" class="input1 " placeholder="" >
                             </div>
                         </div>
                         <div class="item ">
@@ -43,7 +43,7 @@
                             <div class="value">
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input name="objectAmount" type="text" class="input1 price_format" placeholder="" >
+                                <input name="objectAmount" value="<?=$result['objectAmount']?>"  type="text" class="input1 price_format" placeholder="" >
                             </span>
                             </div>
                         </div>
@@ -73,13 +73,13 @@
                         <div class="item ">
                             <div class="lab"><span class="red">*</span>概况</div>
                             <div class="value">
-                                <textarea name="projectSituation" class="textarea" placeholder=""></textarea>
+                                <textarea name="projectSituation" value="<?=$result['projectSituation']?>" class="textarea" placeholder=""></textarea>
                             </div>
                         </div>
                         <div class="item ">
                             <div class="lab"><span class="red">*</span>甲方</div>
                             <div class="value">
-                                <textarea name="employer" class="textarea" placeholder=""></textarea>
+                                <textarea name="employer" value="<?=$result['employer']?>" class="textarea" placeholder=""></textarea>
                             </div>
                         </div>
                         <div class="item">

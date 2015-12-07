@@ -377,6 +377,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 				qol = new QueryMyBuildingObjectListResultVO();
 				
 				qol.setObjectId(pj.getObjectId());
+//				qol.set
 				qol.setObjetName(pj.getObjectName());
 				qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
 //				qol.setProjectExpectStartDate(pj.getpro);

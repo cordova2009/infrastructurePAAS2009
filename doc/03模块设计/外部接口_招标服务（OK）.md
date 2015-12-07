@@ -2363,3 +2363,125 @@ objectId|是|招标项目内部编号
 objectName|是|标的名称
 winBidAmount|是|中标金额
 winBidder|是|中标人
+
+
+##查询工程类别列表接口
+
+本接口用于查询工程类别列表信息。
+
+http请求方式: post
+
+    http://ip:port/gw/tender/getIndustryList
+
+
+POST数据格式：JSON
+
+    {
+        "app":{
+            "appId":"zjhtwallet",
+            "timeStamp":"TIMESTAMP", 
+            "nonce":"NONCE",
+            "signature":"SIGNATURE"
+        }
+        "body":{
+            
+        }
+    } 
+
+
+参数|是否必须|说明
+----|----|-----
+appId|是|应用ID
+timestamp|是|时间戳
+nonce|是|随机数
+signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
+
+
+2）返回说明
+
+正常时的返回JSON数据包示例：
+ 
+    {
+        "errcode":0,"errmsg":"查询工程类别列表成功",
+        "list":[{
+            "industryId":"TSF",
+            "industryIcon":"土",
+            "industryName":"土石方基础"
+        }]
+    }
+
+
+错误时的JSON数据包示例：
+
+    {
+        "errcode":10000,"errmsg":"查询工程类别列表失败，其它错误"
+    }
+
+
+参数|是否必须|说明
+----|----|-----
+industryId|是|工程类别编号
+industryIcon|是|工程类别图标
+industryName|是|工程类别名称
+
+
+
+##查询工程类别详细信息接口
+
+本接口用于查询工程类别详细信息。
+
+http请求方式: post
+
+    http://ip:port/gw/tender/getIndustryDetail
+
+
+POST数据格式：JSON
+
+    {
+        "app":{
+            "appId":"zjhtwallet",
+            "timeStamp":"TIMESTAMP", 
+            "nonce":"NONCE",
+            "signature":"SIGNATURE"
+        }
+        "body":{
+            "industryId":"TSF"
+        }
+    } 
+
+
+参数|是否必须|说明
+----|----|-----
+appId|是|应用ID
+timestamp|是|时间戳
+nonce|是|随机数
+signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
+industryId|是|工程id
+
+
+2）返回说明
+
+正常时的返回JSON数据包示例：
+ 
+    {
+        "errcode":0,"errmsg":"查询工程类别详细信息成功",
+	"result":{
+            "industryId":"TSF",
+            "industryIcon":"土",
+            "industryName":"土石方基础"
+        }
+    }
+
+
+错误时的JSON数据包示例：
+
+    {
+        "errcode":10000,"errmsg":"查询工程类别详细信息失败，其它错误"
+    }
+
+
+参数|是否必须|说明
+----|----|-----
+industryId|是|工程类别编号
+industryIcon|是|工程类别图标
+industryName|是|工程类别名称

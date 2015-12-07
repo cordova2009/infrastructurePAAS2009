@@ -65,9 +65,11 @@ import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
-import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;
+import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
+import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
+import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -1785,7 +1787,6 @@ public class TenderController extends BaseController {
 	 */
 	@RequestMapping(value="/queryMyObjectSurvey",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询我的招标概况")
-	// 框架的日志处理
 	public @ResponseBody ResultModel queryMyObjectSurvey(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询我的招标概况";
@@ -2014,7 +2015,7 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryMyBuildingObject",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询我的招标概况")
+	@AccessRequered(methodName = "查询我的施工项目列表接口")
 	// 框架的日志处理
 	public @ResponseBody ResultModel queryMyBuildingObject(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -2673,48 +2674,45 @@ public class TenderController extends BaseController {
 	}
 	
 
-//	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)
-//	public @ResponseBody Object evaluateBidder(HttpServletRequest request) {
-//		
-//		final BaseTransVO<EvaluateBidderBodyVO> transorder;
-//		ResultModel rm = new ResultModel();
-//		try {
-//			String jsonstr = RequestUtil.getRequestPostData(request);
-//			request.setAttribute("rawjson", jsonstr);
-//			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class,EvaluateBidderBodyVO.class);
-//		} catch (Exception e) {
-//			log.error(String.format("获取订单参数出错"),e);
-//			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-//			return rm;
-//		}
-//		
-//		String messagebase = "招标方给投标方评价";
-//		rm.setBaseErrorCode(240600);
-//		rm.setErrmsg(messagebase+"成功");
-//		try {
-//			//获取url以作为method的内容
-//			String requestURI = request.getRequestURI();
-//			requestURI=requestURI.replace(request.getContextPath(), "");
-//			
-//			//备注字段必填
-//			PropertiesUtil pu = new PropertiesUtil();
-//			EvaluateBidderBodyVO body=transorder.getBody();
-//			ValidateUtil.assertNull(body.getObjectId(), "项目Id不能为空");
-//			if(log.isDebugEnabled()){
-//				log.debug("检验通过，获取请求");
-//			}
-//			
-//
-//			User user=userSer.queryUserByToken(body.getToken());
-//			
-//			
-//		} catch (Exception e1) {
-//			log.error(String.format(messagebase+"失败"),e1);
-//			rm.mergeException(e1);
-//			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
-//		}		
-//		return rm;
-//	}
+	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)
+	@AccessRequered(methodName = "招标方给投标方评价接口", isJson = true, codebase = 242400, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.EvaluateBidderBodyVO", appLog = true)
+	public @ResponseBody Object evaluateBidder(HttpServletRequest request) {
+		
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<EvaluateBidderBodyVO> transorder = (BaseTransVO<EvaluateBidderBodyVO>) super.getParameterObject();
+		String messagebase = "招标方给投标方评价接口"; 
+		RequestEvent qe=null ; 
+		List<QueryBidderListResultVO> liq = null;
+		try {
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Biddee biddee = biddeeDao.selectByUserId(token.getUserId());
+			if(biddee==null)
+			{
+				log.error(String.format("用户%s查找不到招标方信息,可能未进行资格认证", token.getUserId()));
+				throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您没有招标方资质认证,请先进行认证");
+			}
+			
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			tenderService.evaluateBidder(transorder.getApp().getAppId(),transorder.getBody(),biddee);
+			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+	}
 	
 	/**
 	 * 写日志,需要由子类实现
@@ -2724,6 +2722,74 @@ public class TenderController extends BaseController {
 		if(applog!=null){
 			applogDao.insert(new AppLog(applog));
 		}
+	}
+	
+	/**
+	 * 查询工程类别列表
+	 * @return
+	 */
+	@RequestMapping(value="/getIndustryList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询工程类别列表",isJson=true,codebase=247700,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="java.util.Map",appLog=true)
+	public @ResponseBody ResultModel getIndustryList(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<Map> transorder = (BaseTransVO<Map>) super.getParameterObject();
+		String messagebase = "查询工程类别列表"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			List<GetIndustryListBodyVOResult>  result = tenderService.getIndustryList(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("result",result);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询工程类别详情
+	 * @return
+	 */
+	@RequestMapping(value="/getIndustryDetail",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询工程类别详情",isJson=true,codebase=247800,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetIndustryDetailBodyVO",appLog=true)
+	public @ResponseBody ResultModel getIndustryDetail(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetIndustryDetailBodyVO> transorder = (BaseTransVO<GetIndustryDetailBodyVO>) super.getParameterObject();
+		String messagebase = "查询工程类别详情"; 
+		
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			GetIndustryListBodyVOResult  result = tenderService.getIndustryDetail(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("result",result);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
 	}
 	
 }

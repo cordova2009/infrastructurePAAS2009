@@ -39,7 +39,7 @@ public class BidderRegisteredInfo {
 	private String  businessScope;
 	
 	private Date    regTime;
-	private Date    businessLicenseExpireTime;
+	private String  businessLicenseExpireTime;
 	private String  address;
 	private String  businessLicenseType;
 	private String  newBusinessLicenseNum;
@@ -131,7 +131,7 @@ public class BidderRegisteredInfo {
 	/**
 	 * @return the businessLicenseExpireTime
 	 */
-	public Date getBusinessLicenseExpireTime() {
+	public String getBusinessLicenseExpireTime() {
 		return businessLicenseExpireTime;
 	}
 
@@ -261,7 +261,7 @@ public class BidderRegisteredInfo {
 	/**
 	 * @param businessLicenseExpireTime the businessLicenseExpireTime to set
 	 */
-	public void setBusinessLicenseExpireTime(Date businessLicenseExpireTime) {
+	public void setBusinessLicenseExpireTime(String businessLicenseExpireTime) {
 		this.businessLicenseExpireTime = businessLicenseExpireTime;
 	}
 

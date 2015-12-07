@@ -264,6 +264,20 @@ class BiddeeController extends MemberController{
 	    $this->assign('pageIndex',I('pageIndex'));
 	    $this->assign('type',I('type','biding'));
     }
+    private function getIndustrys()
+    {
+	    $tmp = [];
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token])->send('tender/getIndustryList');
+	    if(check_resp($resp)) {
+		    foreach($resp['list'] as $v)
+		    {
+			    $tmp[$v['industryId']] = ['industryIcon'=>$v['industryIcon'],'industryName'=>$v['industryName']];
+		    }
+	    }
+	    return $tmp;
+    }
     public function getProbjectAction()
     {
 	    $i = I('pageIndex');
@@ -291,7 +305,8 @@ class BiddeeController extends MemberController{
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('tender/'.$func);
 	    $page = $this->getPagination($resp['total'], $this->pageSize);
-	    $html = $this->render($type,['page'=>$page,$type=>$resp['list']]);
+	    $ret = $this->getIndustrys();
+	    $html = $this->render($type,['page'=>$page,$type=>$resp['list'],'industry'=>$ret]);
 	    $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
     }
     public function surveyAction()
@@ -356,7 +371,9 @@ class BiddeeController extends MemberController{
 	    if(check_resp($resp)) {
 		    $this->assign('income',$resp['overall']);
 	    }
-	    $resp = $curl->setData(['token'=>$token])->send('myPayment/queryMyPaymentList');
+	    $p = $this->pageSize;
+	    $i = empty($i)?1:$i;
+	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('myPayment/queryMyPaymentList');
 	    if(check_resp($resp)) {
 		    $this->assign('list',$resp['list']);
 		    $page = $this->getPagination($resp['total'], $this->pageSize);
@@ -407,6 +424,26 @@ class BiddeeController extends MemberController{
 	    if(check_resp($resp)) {
 		    $this->assign('bankInfo',$resp['bankInfo']);
 		    $this->assign('objectId',$id);
+	    }
+    }
+    public function receivedAction()
+    {
+	    $id = I('id');
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myPayment/queryPaidAmountDetail');
+	    if(check_resp($resp)) {
+		    $this->assign('list',$resp['list']);
+	    }
+    }
+    public function willreceiveAction()
+    {
+	    $id = I('id');
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myPayment/queryWillPayAmountDetail');
+	    if(check_resp($resp)) {
+		    $this->assign('list',$resp['list']);
 	    }
     }
 }

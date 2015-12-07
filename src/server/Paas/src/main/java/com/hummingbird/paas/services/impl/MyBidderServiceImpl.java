@@ -366,16 +366,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 				String businessScope = registeredInfo.getBusinessScope();
 				String address = registeredInfo.getAddress();
 				Date regTime = registeredInfo.getRegTime();
-				Date businessLicenseExpireTime = registeredInfo.getBusinessLicenseExpireTime();
-				
-				
-				
-				
+				String businessLicenseExpireTime = registeredInfo.getBusinessLicenseExpireTime();
 				bidder.setBusinessLicenseType(businessLicenseType);
-				
-			
 				if("NEW".equalsIgnoreCase(businessLicenseType)){
-					
 					bidder.setUnifiedSocialCreditCode(newBusinessLicenseNum);
 					bidder.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
 					bidder.setNewBusinessLicense(newBusinessLicenseNum);

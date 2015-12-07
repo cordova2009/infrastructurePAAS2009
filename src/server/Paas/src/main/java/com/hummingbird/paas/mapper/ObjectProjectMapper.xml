@@ -65,14 +65,14 @@
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>
-   <resultMap id="MyBuildingObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
+   <resultMap id="MyBuildingObjectResultMap" type="com.hummingbird.paas.vo.MyBuildingObjectProject" extends="BaseResultMap" >
     <result column="receivedAmount" property="receivedAmount" jdbcType="VARCHAR" />
     <result column="willReceiveAmount" property="willReceiveAmount" jdbcType="VARCHAR" />
   </resultMap>
-   <resultMap id="MyEndedObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
+   <resultMap id="MyEndedObjectResultMap" type="com.hummingbird.paas.vo.MyEndedObjectProject" extends="BaseResultMap" >
     <result column="company_name" property="biddee" jdbcType="VARCHAR" />
   </resultMap>
-   <resultMap id="MyLoseObjectResultMap" type="com.hummingbird.paas.entity.ObjectProject" extends="BaseResultMap" >
+   <resultMap id="MyLoseObjectResultMap" type="com.hummingbird.paas.vo.MyLoseObjectProject" extends="BaseResultMap" >
     <result column="company_name" property="biddee" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -113,7 +113,7 @@
     win_bid_time,company_name
   </sql>
   <sql id="My_Lose_Column_List" >
-    object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    a.object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, a.industry_id, a.sector_id, a.province, a.district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
@@ -174,7 +174,7 @@
     select  <include refid="My_Lose_Column_List" />  
     from t_ztgl_object a INNER JOIN t_qyzz_bidder b ON a.win_bidder_id =b.id
 	INNER JOIN t_ztgl_bid_record c ON a.object_id = c.object_id AND a.win_bidder_id = c.bidder_id
-	WHERE b.user_id = #{userId} and a.object_status = 'END' or a.object_status = 'SEL'  and c.bid_status = 'LOSE'
+	WHERE b.user_id = #{userId} and (a.object_status = 'END' or a.object_status = 'SEL' ) and c.bid_status = 'LOSE'
     limit #{begin},#{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

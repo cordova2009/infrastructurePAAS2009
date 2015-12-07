@@ -321,8 +321,6 @@ public class MemberController extends BaseController{
 				Integer userId=token.getUserId(); 
 				
 				if(userId != null){
-					rm.setErrcode(840000);
-					rm.setErrmsg(messagebase+"成功");
 					//会员身份属性,NCP:未资质认证,NON:非会员,OK#:会员,EPE:会员过期
 					String[] isMember =new String[]{"NCP","NON","OK#","EPE"};
 					//会员类型，TER招标人会员，BIR投标人会员
@@ -829,7 +827,7 @@ public class MemberController extends BaseController{
 						// 查询招标人会员信息  t_hygl_biddee 招标人会员表
 						HyglBidder hyglBidder=hyglBidderMapper.selectByBidderId(bidderId);
 						Date date=new Date();
-						Date endTime=hyglBidder.getEndTime();
+						Date endTime=hyglBidder!=null?hyglBidder.getEndTime():null;
 						if(hyglBidder != null && endTime.getTime()>date.getTime()){
 							rm.setErrcode(280201);
 							rm.setErrmsg("您已是会员");

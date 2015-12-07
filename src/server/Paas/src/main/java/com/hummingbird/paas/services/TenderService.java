@@ -418,7 +418,15 @@ public CompanyInfo queryTenderCompanyInfo(String appId,QueryCompanyInfoBodyVO bo
 * @return 
 * @throws BusinessException 
 */
-public CompanyInfo queryBidderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException; 
+public CompanyInfo queryBidderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException;
+
+/**
+ * 招标方给投标方评价
+ * @param appId
+ * @param body
+ * @param biddee
+ */
+public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee)throws BusinessException; 
 
 
 }

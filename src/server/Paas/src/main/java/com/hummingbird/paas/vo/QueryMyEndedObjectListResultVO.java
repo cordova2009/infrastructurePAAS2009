@@ -81,7 +81,6 @@ public class QueryMyEndedObjectListResultVO {
 		return "QueryMyEndedObjectListResultVO [objectId=" + objectId + ", objetName=" + objetName + ", industryId="
 				+ industryId + ", bidAmount=" + bidAmount + ", biddee=" + biddee + "]";
 	}
-	
 
 
 }

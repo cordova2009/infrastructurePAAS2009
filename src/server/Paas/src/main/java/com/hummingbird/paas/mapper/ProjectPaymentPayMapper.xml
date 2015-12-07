@@ -257,8 +257,7 @@
     order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
     where a.project_id = p.project_id
-    and p. objec
-    t_id = #{objectId,jdbcType=VARCHAR} 
+    and p. object_id = #{objectId,jdbcType=VARCHAR} 
   </select>
    <select id="getBiddeeOnTimeNum" resultType="int" parameterType="java.lang.Integer" >
      select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p

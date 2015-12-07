@@ -87,11 +87,6 @@ public class BidObject {
     private Date bidOpenDate;
 
     /**
-     * 标准工期,单位是日历天
-     */
-    private Integer projectExpectPeriod;
-
-    /**
      * 承包方式
      */
     private String contractType;
@@ -422,21 +417,6 @@ public class BidObject {
     }
 
     /**
-     * @return 标准工期,单位是日历天
-     */
-    public Integer getProjectExpectPeriod() {
-        return projectExpectPeriod;
-    }
-
-    /**
-     * @param projectExpectPeriod 
-	 *            标准工期,单位是日历天
-     */
-    public void setProjectExpectPeriod(Integer projectExpectPeriod) {
-        this.projectExpectPeriod = projectExpectPeriod;
-    }
-
-    /**
      * @return 承包方式
      */
     public String getContractType() {
@@ -734,7 +714,6 @@ public class BidObject {
             && (this.getBiddeeCompanyPrincipal() == null ? other.getBiddeeCompanyPrincipal() == null : this.getBiddeeCompanyPrincipal().equals(other.getBiddeeCompanyPrincipal()))
             && (this.getBiddeeCompanyTelephone() == null ? other.getBiddeeCompanyTelephone() == null : this.getBiddeeCompanyTelephone().equals(other.getBiddeeCompanyTelephone()))
             && (this.getBidOpenDate() == null ? other.getBidOpenDate() == null : this.getBidOpenDate().equals(other.getBidOpenDate()))
-            && (this.getProjectExpectPeriod() == null ? other.getProjectExpectPeriod() == null : this.getProjectExpectPeriod().equals(other.getProjectExpectPeriod()))
             && (this.getContractType() == null ? other.getContractType() == null : this.getContractType().equals(other.getContractType()))
             && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()))
             && (this.getBidBondAmount() == null ? other.getBidBondAmount() == null : this.getBidBondAmount().equals(other.getBidBondAmount()))
@@ -775,7 +754,6 @@ public class BidObject {
         result = prime * result + ((getBiddeeCompanyPrincipal() == null) ? 0 : getBiddeeCompanyPrincipal().hashCode());
         result = prime * result + ((getBiddeeCompanyTelephone() == null) ? 0 : getBiddeeCompanyTelephone().hashCode());
         result = prime * result + ((getBidOpenDate() == null) ? 0 : getBidOpenDate().hashCode());
-        result = prime * result + ((getProjectExpectPeriod() == null) ? 0 : getProjectExpectPeriod().hashCode());
         result = prime * result + ((getContractType() == null) ? 0 : getContractType().hashCode());
         result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
         result = prime * result + ((getBidBondAmount() == null) ? 0 : getBidBondAmount().hashCode());

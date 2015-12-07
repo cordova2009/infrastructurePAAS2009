@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.vo.CompanyCerticateInfo;
+import com.hummingbird.paas.vo.CompanySurvey;
 import com.hummingbird.paas.vo.MyLoseObjectProject;
 
 public interface BidderMapper {
@@ -74,6 +76,14 @@ public interface BidderMapper {
      */
     int countSecondBiderNum();
     
+    /**
+     * 根据id查询概况信息
+     */
+    CompanySurvey selectCompanySurveyById(Integer id);
     
+    /**
+     * 根据id查询证书信息
+     */
+    List<CompanyCerticateInfo> selectCompanyCerticateInfoById(Integer id);
     
 }

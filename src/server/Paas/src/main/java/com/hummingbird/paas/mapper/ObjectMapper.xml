@@ -18,7 +18,6 @@
     <result column="biddee_company_principal" property="biddeeCompanyPrincipal" jdbcType="VARCHAR" />
     <result column="biddee_company_telephone" property="biddeeCompanyTelephone" jdbcType="VARCHAR" />
     <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
-    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
     <result column="certification_checkup_type" property="certificationCheckupType" jdbcType="VARCHAR" />
@@ -40,7 +39,7 @@
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
-    biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
+    biddee_company_principal, biddee_company_telephone, bid_open_date,  
     contract_type, currency, certification_checkup_type, bid_evaluation_type, bid_evaluation_site, 
     bid_winner_determine_way, vote_win_way, bid_bond_amount, need_business_standard, 
     need_technical_standard, need_certification_checkup_file, need_pm_certification, 
@@ -70,7 +69,7 @@
       object_status, win_bid_amount, win_bidder_id, 
       industry_id, sector_id, province, 
       district, biddee_company_principal, biddee_company_telephone, 
-      bid_open_date, project_expect_period, contract_type, 
+      bid_open_date,  contract_type, 
       currency, certification_checkup_type, bid_evaluation_type, 
       bid_evaluation_site, bid_winner_determine_way, 
       vote_win_way, bid_bond_amount, need_business_standard, 
@@ -83,7 +82,7 @@
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
-      #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, 
+      #{bidOpenDate,jdbcType=DATE},  #{contractType,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{certificationCheckupType,jdbcType=VARCHAR}, #{bidEvaluationType,jdbcType=VARCHAR}, 
       #{bidEvaluationSite,jdbcType=VARCHAR}, #{bidWinnerDetermineWay,jdbcType=VARCHAR}, 
       #{voteWinWay,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=INTEGER}, #{needBusinessStandard,jdbcType=VARCHAR}, 
@@ -142,9 +141,6 @@
       </if>
       <if test="bidOpenDate != null" >
         bid_open_date,
-      </if>
-      <if test="projectExpectPeriod != null" >
-        project_expect_period,
       </if>
       <if test="contractType != null" >
         contract_type,
@@ -247,9 +243,6 @@
       <if test="bidOpenDate != null" >
         #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="projectExpectPeriod != null" >
-        #{projectExpectPeriod,jdbcType=INTEGER},
-      </if>
       <if test="contractType != null" >
         #{contractType,jdbcType=VARCHAR},
       </if>
@@ -351,9 +344,6 @@
       <if test="bidOpenDate != null" >
         bid_open_date = #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="projectExpectPeriod != null" >
-        project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
-      </if>
       <if test="contractType != null" >
         contract_type = #{contractType,jdbcType=VARCHAR},
       </if>
@@ -425,7 +415,6 @@
       biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       bid_open_date = #{bidOpenDate,jdbcType=DATE},
-      project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
       certification_checkup_type = #{certificationCheckupType,jdbcType=VARCHAR},

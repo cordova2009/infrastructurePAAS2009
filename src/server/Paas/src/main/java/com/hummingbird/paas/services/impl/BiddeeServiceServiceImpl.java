@@ -421,7 +421,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if(log.isDebugEnabled()){
 				log.debug("查询招标的项目列表完成:"+qol);
 			}
-			qors.add(qol);
+			qors.add(qol);;
 			}
 		}
 			

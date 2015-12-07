@@ -239,10 +239,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public List<UserInformationPageReturnVO> queryUserInformationPage(String appId, UserInformationPageBodyVO body,
 			Token token) throws BusinessException {
 		// TODO Auto-generated method stub
-		
+		Integer pageIndex = body.getPageIndex();
+		Integer pageSize = body.getPageSize();
 		
 		List<UserInformationPageReturnVO> qlr = new ArrayList<UserInformationPageReturnVO>();
-		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), body.getPageIndex()-1, body.getPageSize());
+		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), (pageIndex-1)*pageSize, pageSize);
 		return qlr;
 	}
 

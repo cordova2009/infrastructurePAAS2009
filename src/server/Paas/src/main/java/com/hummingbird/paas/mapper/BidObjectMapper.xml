@@ -18,7 +18,6 @@
     <result column="biddee_company_principal" property="biddeeCompanyPrincipal" jdbcType="VARCHAR" />
     <result column="biddee_company_telephone" property="biddeeCompanyTelephone" jdbcType="VARCHAR" />
     <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
-    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
     <result column="bid_bond_amount" property="bidBondAmount" jdbcType="BIGINT" />
@@ -41,13 +40,9 @@
   <resultMap id="MyTenderObjectListResultMap" type="com.hummingbird.paas.vo.MyTenderObjectListVO" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-   
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
-   
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
-  
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
- 
     <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
     <result column="project_expect_end_date" property="biddingEndTime" jdbcType="VARCHAR" />
   </resultMap>
@@ -107,12 +102,11 @@
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
-    biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
-    contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
-    need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
-    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time, insert_time, update_time, object_type, evaluation_amount_visiable, 
-    publish_time
+    biddee_company_principal, biddee_company_telephone, bid_open_date, contract_type, 
+    currency, bid_bond_amount, need_business_standard, need_technical_standard, need_certification_checkup_file, 
+    need_pm_certification, need_constructor_certification, need_safety_permit, need_pm_safety_certification, 
+    evaluation_amount, object_scope, win_bid_time, insert_time, update_time, object_type, 
+    evaluation_amount_visiable, publish_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -182,7 +176,8 @@
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
   </select>
   <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap"  >
-     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date 
+     from t_ztgl_object a inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
         where c.user_id =#{user_id,jdbcType=INTEGER} 
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -194,7 +189,7 @@
     
   </select>
     <select id="selectTenderBuildingObject" resultMap="MyTenderBuildingObjectListResultMap"  >
-     select a.object_id,a.object_name,a.win_bid_amount,concat(ifnull(u.user_name,''),'(',r.company_name,')') winBidder,d.total_amount receivedAmount,e.total_amount willReceiveAmount,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a inner JOIN t_qyzz_biddee c on c.id = a.biddee_id  INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id  LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT') inner JOIN t_qyzz_bidder r on r.id = a.win_bidder_id inner join t_user u on u.id = r.user_id
+     select a.object_id,a.object_name,a.win_bid_amount,concat(ifnull(u.user_name,''),'(',r.company_name,')') winBidder,d.total_amount receivedAmount,e.total_amount willReceiveAmount,b.project_expect_period,b.project_expect_start_date from t_ztgl_object a inner JOIN t_qyzz_biddee c on c.id = a.biddee_id  INNER JOIN t_gcgl_project p on a.object_id = p.object_id inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id  LEFT JOIN t_gcgl_project_payment_receive d on (a.object_id = d.project_id and d.status = 'OK#') LEFT JOIN t_gcgl_project_payment_receive e on (a.object_id = e.project_id and e.status = 'CRT') inner JOIN t_qyzz_bidder r on r.id = a.win_bidder_id inner join t_user u on u.id = r.user_id
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
         <if test="page != null" >
    		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -223,7 +218,7 @@
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
-    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">
@@ -239,11 +234,13 @@
    <select id="selectTotalIndexObjectList" resultType="int">
     select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
+       where a.object_status != 'CRT'
      
   </select>
   <select id="selectIndexObjectList" resultMap="IndexObjectListResultMap">
-     select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+     select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,b.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
+      where a.object_status != 'CRT'
        <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 
@@ -295,29 +292,27 @@
       object_status, win_bid_amount, win_bidder_id, 
       industry_id, sector_id, province, 
       district, biddee_company_principal, biddee_company_telephone, 
-      bid_open_date, project_expect_period, contract_type, 
-      currency, bid_bond_amount, need_business_standard, 
-      need_technical_standard, need_certification_checkup_file, 
-      need_pm_certification, need_constructor_certification, 
-      need_safety_permit, need_pm_safety_certification, 
-      evaluation_amount, object_scope, win_bid_time, 
-      insert_time, update_time, object_type, 
-      evaluation_amount_visiable, publish_time
-      )
+      bid_open_date, contract_type, currency, 
+      bid_bond_amount, need_business_standard, need_technical_standard, 
+      need_certification_checkup_file, need_pm_certification, 
+      need_constructor_certification, need_safety_permit, 
+      need_pm_safety_certification, evaluation_amount, 
+      object_scope, win_bid_time, insert_time, 
+      update_time, object_type, evaluation_amount_visiable, 
+      publish_time)
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=BIGINT}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
-      #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=BIGINT}, #{needBusinessStandard,jdbcType=VARCHAR}, 
-      #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
-      #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
-      #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
-      #{evaluationAmount,jdbcType=BIGINT}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, 
-      #{evaluationAmountVisiable,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}
-      )
+      #{bidOpenDate,jdbcType=DATE}, #{contractType,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, 
+      #{bidBondAmount,jdbcType=BIGINT}, #{needBusinessStandard,jdbcType=VARCHAR}, #{needTechnicalStandard,jdbcType=VARCHAR}, 
+      #{needCertificationCheckupFile,jdbcType=VARCHAR}, #{needPmCertification,jdbcType=VARCHAR}, 
+      #{needConstructorCertification,jdbcType=VARCHAR}, #{needSafetyPermit,jdbcType=VARCHAR}, 
+      #{needPmSafetyCertification,jdbcType=VARCHAR}, #{evaluationAmount,jdbcType=BIGINT}, 
+      #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, #{evaluationAmountVisiable,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
@@ -369,9 +364,6 @@
       </if>
       <if test="bidOpenDate != null" >
         bid_open_date,
-      </if>
-      <if test="projectExpectPeriod != null" >
-        project_expect_period,
       </if>
       <if test="contractType != null" >
         contract_type,
@@ -477,9 +469,6 @@
       <if test="bidOpenDate != null" >
         #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="projectExpectPeriod != null" >
-        #{projectExpectPeriod,jdbcType=INTEGER},
-      </if>
       <if test="contractType != null" >
         #{contractType,jdbcType=VARCHAR},
       </if>
@@ -584,9 +573,6 @@
       <if test="bidOpenDate != null" >
         bid_open_date = #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="projectExpectPeriod != null" >
-        project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
-      </if>
       <if test="contractType != null" >
         contract_type = #{contractType,jdbcType=VARCHAR},
       </if>
@@ -661,7 +647,6 @@
       biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       bid_open_date = #{bidOpenDate,jdbcType=DATE},
-      project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
       bid_bond_amount = #{bidBondAmount,jdbcType=BIGINT},

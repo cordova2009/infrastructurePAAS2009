@@ -47,6 +47,7 @@ import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.MemberBiddeeMapper;
+import com.hummingbird.paas.mapper.ObjectProjectMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
 import com.hummingbird.paas.mapper.ProjectStatusMapper;
 import com.hummingbird.paas.services.BidService;
@@ -118,6 +119,8 @@ public class BidController extends BaseController {
 	BidObjectMapper  bidObjectDao;
 	@Autowired
 	protected ProjectEvaluationBiddeeMapper pebDao;
+	@Autowired
+	ObjectProjectMapper obDao;
 
 	/**
 	 * 查询投标要求基础信息接口
@@ -963,7 +966,12 @@ public class BidController extends BaseController {
 				return rm;
 			}
 			liq = beeServiceSer.queryMyBidObjectList(token.getUserId(), pageIndex, pageSize);
+			int total = obDao.getMyObjectProjectCount(token.getUserId());
+			rm.put("total", total);
+			rm.put("pageIndex", pageIndex);
+			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
+			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1007,6 +1015,10 @@ public class BidController extends BaseController {
 				return rm;
 			}
 			liq = beeServiceSer.queryMyBuildingObjectList(token.getUserId(), pageIndex, pageSize);
+			int total = obDao.getMyBuildingObjectProjectCount(token.getUserId());
+			rm.put("total", total);
+			rm.put("pageIndex", pageIndex);
+			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -1050,6 +1062,10 @@ public class BidController extends BaseController {
 				return rm;
 			}
 			liq = beeServiceSer.queryMyEndedObjectList(token.getUserId(), pageIndex, pageSize);
+			int total = obDao.getMyEndedObjectProjectCount(token.getUserId());
+			rm.put("total", total);
+			rm.put("pageIndex", pageIndex);
+			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -1092,6 +1108,10 @@ public class BidController extends BaseController {
 			return rm;
 			}
 			liq = beeServiceSer.queryMyLoseObjectList(token.getUserId(), pageIndex, pageSize);
+			int total = obDao.getMyLoseObjectProjectCount(token.getUserId());
+			rm.put("total", total);
+			rm.put("pageIndex", pageIndex);
+			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

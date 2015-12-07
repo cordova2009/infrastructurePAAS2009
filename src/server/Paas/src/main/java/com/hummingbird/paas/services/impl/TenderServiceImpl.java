@@ -40,6 +40,7 @@ import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.Qanda;
+import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
@@ -56,6 +57,7 @@ import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
 import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
+import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
@@ -65,6 +67,7 @@ import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.vo.CompanyBaseInfo;
 import com.hummingbird.paas.vo.CompanyBidInfo;
 import com.hummingbird.paas.vo.CompanyCerticateInfo;
+import com.hummingbird.paas.vo.CompanyEvaluationDetailInfo;
 import com.hummingbird.paas.vo.CompanyEvaluationInfo;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.CompanySurvey;
@@ -158,7 +161,12 @@ public class TenderServiceImpl implements TenderService {
 	@Autowired
 	ProjectEvaluationBiddeeMapper evaluationBiddeeDao;
 	@Autowired
-	BiddeeMapper beDao; // ProjectPaymentPayMapper
+	ProjectEvaluationBidderMapper evaluationBidderDao;
+	@Autowired
+	BiddeeMapper beDao;  //ProjectPaymentPayMapper
+
+	@Autowired
+	BidderMapper brDao;  //ProjectPaymentPayMapper
 	@Autowired
 	ProjectPaymentPayMapper pppDao;
 
@@ -1486,12 +1494,13 @@ public class TenderServiceImpl implements TenderService {
 		return qlr;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public void evaluateBidder(EvaluateBidderBodyVO body, User user) throws MaAccountException {
-		ProjectInfo project = projectInfoDao.selectByObjectId(body.getObjectId()) == null ? null
-				: projectInfoDao.selectByObjectId(body.getObjectId()).get(0);
-		if (project == null) {
-			if (log.isDebugEnabled()) {
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public int evaluateBidder(EvaluateBidderBodyVO body,Token token)
+			throws MaAccountException {
+		int i = 0;
+		ProjectInfo project=projectInfoDao.selectByObjectId(body.getObjectId())==null?null:projectInfoDao.selectByObjectId(body.getObjectId()).get(0);
+		if(project==null){
+			if(log.isDebugEnabled()){
 				log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
 			}
 			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
@@ -1501,7 +1510,7 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setBiddeeId(project.getBiddeeId());
 		evaluationBiddee.setBidderId(project.getBidderId());
 		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
-		evaluationBiddee.setInsertBy(user.getId().toString());
+		evaluationBiddee.setInsertBy(token.getUserId().toString());
 		evaluationBiddee.setInsertTime(new Date());
 		evaluationBiddee.setProjectId(project.getProjectId());
 		evaluationBiddee.setScore(body.getEvaluateScore());
@@ -1513,9 +1522,11 @@ public class TenderServiceImpl implements TenderService {
 						body.getObjectId());
 			}
 		}
-
-		evaluationBiddeeDao.insert(evaluationBiddee);
-
+		
+		
+		i = evaluationBiddeeDao.insert(evaluationBiddee);
+		
+		return i;
 	}
 
 	@Override
@@ -1555,11 +1566,14 @@ public class TenderServiceImpl implements TenderService {
 		CompanyEvaluationInfo cei = new CompanyEvaluationInfo();
 		cei.setCompanyEvaluateNum(evaluationBiddeeDao.countEvaluationNumByBiddeeId(mm.getCompanyId()));
 		cei.setCompanyEvaluateScore(evaluationBiddeeDao.countEvaluationScoreByBiddeeId(mm.getCompanyId()));
-		// cei.set
-
-		// 标签
-		String tagJson = CallInterfaceUtil.searchTag("biddee_manager", "t_qyzz_biddee", mm.getCompanyId());
-
+		List<CompanyEvaluationDetailInfo> cedis = evaluationBiddeeDao.selectEvaluationDetailByBiddeeId(mm.getCompanyId());
+		cei.setList(cedis);
+//		cei.set
+		
+		//标签 
+		String  tagJson = CallInterfaceUtil.searchTag("biddee_manager", "t_qyzz_biddee", mm.getCompanyId());
+		
+		
 		List<TagInfo> tagList = new ArrayList<TagInfo>();
 		// ---------------------------------------------------------------------
 		Gson ss = new Gson();
@@ -1587,8 +1601,71 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public CompanyInfo queryBidderCompanyInfo(String appId, QueryCompanyInfoBodyVO mm) throws BusinessException {
 		// TODO Auto-generated method stub
+		
+		CompanyInfo cc = new CompanyInfo();
+//		1.概况
+		CompanyBaseInfo cb = new CompanyBaseInfo();
+		CompanySurvey cs = brDao.selectCompanySurveyById(mm.getCompanyId());
+		cc.setSurvey(cs);
+//		2.基本信息
+		Bidder bidder = brDao.selectByPrimaryKey(mm.getCompanyId());
+		ValidateUtil.assertNull(bidder,"招标信息不存在！");
+		cb.setAddress(bidder.getAddress());
+		cb.setBusinessScope(bidder.getBusinessScope());
+		cb.setCompanyName(bidder.getCompanyName());
+		cb.setContactMobileNum(bidder.getContactMobileNum());
+		cb.setContactName(bidder.getContactName());
+		cb.setDescription(bidder.getDescription());
+		cb.setEmail(bidder.getEmail());
+		cb.setRegisteredCapital(bidder.getRegisteredCapital());
+		cb.setRegTime(bidder.getRegTime());
+		cc.setBaseInfo(cb);
+//		3.证书信息
+		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
+		cc.setCerticate(ccis);
+//		4.招投标信息
+		CompanyBidInfo  cbi  = new CompanyBidInfo();
+		cbi.setTenderNum(dao.selectTenderNumbyBidderId(mm.getCompanyId()));
+		cbi.setBidNum(dao.selectBidNumbyBidderId(mm.getCompanyId()));
+		cbi.setFlowNum(dao.selectFlowNumbyBidderId(mm.getCompanyId()));
+		cbi.setWinNum(dao.selectWinNumbyBidderId(mm.getCompanyId()));
+		cbi.setOnTimeNum(pppDao.getBidderOnTimeNum(mm.getCompanyId()));
+		cbi.setOutTimeNum(pppDao.getBidderOutTimeNum(mm.getCompanyId()));
+		cc.setBidInfo(cbi);
+//		5.评价信息
+		CompanyEvaluationInfo  cei  = new CompanyEvaluationInfo();
+		cei.setCompanyEvaluateNum(evaluationBidderDao.countEvaluationNumByBidderId(mm.getCompanyId()));
+		cei.setCompanyEvaluateScore(evaluationBidderDao.countEvaluationScoreByBidderId(mm.getCompanyId()));
+		List<CompanyEvaluationDetailInfo> cedis = evaluationBidderDao.selectEvaluationDetailByBidderId(mm.getCompanyId());
+		cei.setList(cedis);
+//		cei.set
+		
+		//标签 
+		String  tagJson = CallInterfaceUtil.searchTag("bidder_manager", "t_qyzz_bidder", mm.getCompanyId());
+		
+		
+		List<TagInfo> tagList = new ArrayList<TagInfo>();
+//		---------------------------------------------------------------------
+		Gson ss = new Gson();
+		try{
+			JsonResult str = ss.fromJson(tagJson, JsonResult.class);
 
-		return null;
+			if(str!= null&&"0".equals(str.getErrcode())){
+				for(JsonResultMsg msg : str.getErrmsg()){
+					TagInfo aa =new TagInfo();
+					aa.setTagName(msg.getTagName());
+					aa.setTagNum(msg.getTabUseNum());
+					tagList.add(aa);
+				}
+				
+			}
+		}catch(JsonSyntaxException e){
+			log.error(e.getMessage());
+		}
+		
+		cei.setTag(tagList);
+		cc.setEvaluationInfo(cei);
+		return cc;
 	}
 
 	/**

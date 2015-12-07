@@ -1,5 +1,6 @@
 package com.hummingbird.paas.vo;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class EvaluateBidderBodyVO {
@@ -15,36 +16,75 @@ public class EvaluateBidderBodyVO {
 	private String objectId;
 	private String evaluateContent;
 	private Integer evaluateScore;
-	private List<String> tags;
+	private String[] tags;
+	/**
+	 * @return the token
+	 */
 	public String getToken() {
 		return token;
 	}
-	public void setToken(String token) {
-		this.token = token;
-	}
+	/**
+	 * @return the objectId
+	 */
 	public String getObjectId() {
 		return objectId;
 	}
-	public void setObjectId(String objectId) {
-		this.objectId = objectId;
-	}
+	/**
+	 * @return the evaluateContent
+	 */
 	public String getEvaluateContent() {
 		return evaluateContent;
 	}
-	public void setEvaluateContent(String evaluateContent) {
-		this.evaluateContent = evaluateContent;
-	}
+	/**
+	 * @return the evaluateScore
+	 */
 	public Integer getEvaluateScore() {
 		return evaluateScore;
 	}
+	/**
+	 * @return the tags
+	 */
+	public String[] getTags() {
+		return tags;
+	}
+	/**
+	 * @param token the token to set
+	 */
+	public void setToken(String token) {
+		this.token = token;
+	}
+	/**
+	 * @param objectId the objectId to set
+	 */
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+	/**
+	 * @param evaluateContent the evaluateContent to set
+	 */
+	public void setEvaluateContent(String evaluateContent) {
+		this.evaluateContent = evaluateContent;
+	}
+	/**
+	 * @param evaluateScore the evaluateScore to set
+	 */
 	public void setEvaluateScore(Integer evaluateScore) {
 		this.evaluateScore = evaluateScore;
 	}
-	public List<String> getTags() {
-		return tags;
-	}
-	public void setTags(List<String> tags) {
+	/**
+	 * @param tags the tags to set
+	 */
+	public void setTags(String[] tags) {
 		this.tags = tags;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "EvaluateBidderBodyVO [token=" + token + ", objectId=" + objectId + ", evaluateContent="
+				+ evaluateContent + ", evaluateScore=" + evaluateScore + ", tags=" + Arrays.toString(tags) + "]";
+	}
+	
 	
 }

@@ -11,6 +11,9 @@ public class ObjectProjectInfo {
      */
     private String objectId;
 
+    /**
+     * 工程预计开始时间
+     */
     private String projectExpectStartDate;
 
     /**
@@ -18,6 +21,9 @@ public class ObjectProjectInfo {
      */
     private String projectExpectEndDate;
 
+    /**
+     * 工程名称
+     */
     private String projectName;
 
     /**
@@ -96,7 +102,7 @@ public class ObjectProjectInfo {
     private String letterOfAcceptanceUrl;
 
     /**
-     * 工程施工证明类型,转包,建设单位
+     * 工程施工证明类型,BCP 有施工许可,KFS开发商(必须有国有地址使用证), ZCB 总承包(必须带有中标通知书,国有地址使用证)
      */
     private String constructionProveType;
 
@@ -180,6 +186,9 @@ public class ObjectProjectInfo {
         this.objectId = objectId == null ? null : objectId.trim();
     }
 
+    /**
+     * @return 工程预计开始时间
+     */
     public String getProjectExpectStartDate() {
         return projectExpectStartDate;
     }
@@ -207,6 +216,9 @@ public class ObjectProjectInfo {
         this.projectExpectEndDate = projectExpectEndDate == null ? null : projectExpectEndDate.trim();
     }
 
+    /**
+     * @return 工程名称
+     */
     public String getProjectName() {
         return projectName;
     }

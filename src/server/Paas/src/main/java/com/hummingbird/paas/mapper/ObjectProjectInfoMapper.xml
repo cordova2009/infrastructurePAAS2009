@@ -19,7 +19,7 @@
     <result column="project_site_province" property="projectSiteProvince" jdbcType="VARCHAR" />
     <result column="project_site" property="projectSite" jdbcType="VARCHAR" />
     <result column="project_scale" property="projectScale" jdbcType="VARCHAR" />
-    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
+    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
     <result column="letter_of_acceptance_url" property="letterOfAcceptanceUrl" jdbcType="VARCHAR" />
     <result column="construction_prove_type" property="constructionProveType" jdbcType="VARCHAR" />
     <result column="project_period_deadline" property="projectPeriodDeadline" jdbcType="INTEGER" />
@@ -95,7 +95,7 @@
       #{employer,jdbcType=VARCHAR}, #{employerPrincipal,jdbcType=VARCHAR}, #{employerTelephone,jdbcType=VARCHAR}, 
       #{projectManagerRequirement,jdbcType=VARCHAR}, #{otherRequirement,jdbcType=VARCHAR}, 
       #{projectSiteTown,jdbcType=VARCHAR}, #{projectSiteCity,jdbcType=VARCHAR}, #{projectSiteProvince,jdbcType=VARCHAR}, 
-      #{projectSite,jdbcType=VARCHAR}, #{projectScale,jdbcType=VARCHAR}, #{projectExpectPeriod,jdbcType=INTEGER}, 
+      #{projectSite,jdbcType=VARCHAR}, #{projectScale,jdbcType=VARCHAR}, #{projectExpectPeriod,jdbcType=VARCHAR}, 
       #{letterOfAcceptanceUrl,jdbcType=VARCHAR}, #{constructionProveType,jdbcType=VARCHAR}, 
       #{projectPeriodDeadline,jdbcType=INTEGER}, #{landUseCertificateEnddate,jdbcType=DATE}, 
       #{constructionLandUsePermitEnddate,jdbcType=DATE}, #{buildingPermitEnddate,jdbcType=DATE}, 
@@ -261,7 +261,7 @@
         #{projectScale,jdbcType=VARCHAR},
       </if>
       <if test="projectExpectPeriod != null" >
-        #{projectExpectPeriod,jdbcType=INTEGER},
+        #{projectExpectPeriod,jdbcType=VARCHAR},
       </if>
       <if test="letterOfAcceptanceUrl != null" >
         #{letterOfAcceptanceUrl,jdbcType=VARCHAR},
@@ -362,7 +362,7 @@
         project_scale = #{projectScale,jdbcType=VARCHAR},
       </if>
       <if test="projectExpectPeriod != null" >
-        project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
+        project_expect_period = #{projectExpectPeriod,jdbcType=VARCHAR},
       </if>
       <if test="letterOfAcceptanceUrl != null" >
         letter_of_acceptance_url = #{letterOfAcceptanceUrl,jdbcType=VARCHAR},
@@ -430,7 +430,7 @@
       project_site_province = #{projectSiteProvince,jdbcType=VARCHAR},
       project_site = #{projectSite,jdbcType=VARCHAR},
       project_scale = #{projectScale,jdbcType=VARCHAR},
-      project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
+      project_expect_period = #{projectExpectPeriod,jdbcType=VARCHAR},
       letter_of_acceptance_url = #{letterOfAcceptanceUrl,jdbcType=VARCHAR},
       construction_prove_type = #{constructionProveType,jdbcType=VARCHAR},
       project_period_deadline = #{projectPeriodDeadline,jdbcType=INTEGER},

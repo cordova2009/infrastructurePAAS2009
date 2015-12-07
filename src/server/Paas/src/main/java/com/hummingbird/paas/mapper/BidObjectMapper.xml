@@ -18,7 +18,6 @@
     <result column="biddee_company_principal" property="biddeeCompanyPrincipal" jdbcType="VARCHAR" />
     <result column="biddee_company_telephone" property="biddeeCompanyTelephone" jdbcType="VARCHAR" />
     <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
-    <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
     <result column="bid_bond_amount" property="bidBondAmount" jdbcType="BIGINT" />
@@ -107,12 +106,11 @@
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
-    biddee_company_principal, biddee_company_telephone, bid_open_date, project_expect_period, 
-    contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
-    need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
-    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time, insert_time, update_time, object_type, evaluation_amount_visiable, 
-    publish_time
+    biddee_company_principal, biddee_company_telephone, bid_open_date, contract_type, 
+    currency, bid_bond_amount, need_business_standard, need_technical_standard, need_certification_checkup_file, 
+    need_pm_certification, need_constructor_certification, need_safety_permit, need_pm_safety_certification, 
+    evaluation_amount, object_scope, win_bid_time, insert_time, update_time, object_type, 
+    evaluation_amount_visiable, publish_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -295,29 +293,27 @@
       object_status, win_bid_amount, win_bidder_id, 
       industry_id, sector_id, province, 
       district, biddee_company_principal, biddee_company_telephone, 
-      bid_open_date, project_expect_period, contract_type, 
-      currency, bid_bond_amount, need_business_standard, 
-      need_technical_standard, need_certification_checkup_file, 
-      need_pm_certification, need_constructor_certification, 
-      need_safety_permit, need_pm_safety_certification, 
-      evaluation_amount, object_scope, win_bid_time, 
-      insert_time, update_time, object_type, 
-      evaluation_amount_visiable, publish_time
-      )
+      bid_open_date, contract_type, currency, 
+      bid_bond_amount, need_business_standard, need_technical_standard, 
+      need_certification_checkup_file, need_pm_certification, 
+      need_constructor_certification, need_safety_permit, 
+      need_pm_safety_certification, evaluation_amount, 
+      object_scope, win_bid_time, insert_time, 
+      update_time, object_type, evaluation_amount_visiable, 
+      publish_time)
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
       #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
       #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=BIGINT}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
-      #{bidOpenDate,jdbcType=DATE}, #{projectExpectPeriod,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=BIGINT}, #{needBusinessStandard,jdbcType=VARCHAR}, 
-      #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
-      #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
-      #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
-      #{evaluationAmount,jdbcType=BIGINT}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, 
-      #{evaluationAmountVisiable,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}
-      )
+      #{bidOpenDate,jdbcType=DATE}, #{contractType,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, 
+      #{bidBondAmount,jdbcType=BIGINT}, #{needBusinessStandard,jdbcType=VARCHAR}, #{needTechnicalStandard,jdbcType=VARCHAR}, 
+      #{needCertificationCheckupFile,jdbcType=VARCHAR}, #{needPmCertification,jdbcType=VARCHAR}, 
+      #{needConstructorCertification,jdbcType=VARCHAR}, #{needSafetyPermit,jdbcType=VARCHAR}, 
+      #{needPmSafetyCertification,jdbcType=VARCHAR}, #{evaluationAmount,jdbcType=BIGINT}, 
+      #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, #{evaluationAmountVisiable,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidObject" >
     insert into t_ztgl_object
@@ -369,9 +365,6 @@
       </if>
       <if test="bidOpenDate != null" >
         bid_open_date,
-      </if>
-      <if test="projectExpectPeriod != null" >
-        project_expect_period,
       </if>
       <if test="contractType != null" >
         contract_type,
@@ -477,9 +470,6 @@
       <if test="bidOpenDate != null" >
         #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="projectExpectPeriod != null" >
-        #{projectExpectPeriod,jdbcType=INTEGER},
-      </if>
       <if test="contractType != null" >
         #{contractType,jdbcType=VARCHAR},
       </if>
@@ -584,9 +574,6 @@
       <if test="bidOpenDate != null" >
         bid_open_date = #{bidOpenDate,jdbcType=DATE},
       </if>
-      <if test="projectExpectPeriod != null" >
-        project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
-      </if>
       <if test="contractType != null" >
         contract_type = #{contractType,jdbcType=VARCHAR},
       </if>
@@ -661,7 +648,6 @@
       biddee_company_principal = #{biddeeCompanyPrincipal,jdbcType=VARCHAR},
       biddee_company_telephone = #{biddeeCompanyTelephone,jdbcType=VARCHAR},
       bid_open_date = #{bidOpenDate,jdbcType=DATE},
-      project_expect_period = #{projectExpectPeriod,jdbcType=INTEGER},
       contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
       bid_bond_amount = #{bidBondAmount,jdbcType=BIGINT},

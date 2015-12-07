@@ -1,6 +1,9 @@
 package com.hummingbird.paas.mapper;
 
+import java.util.List;
+
 import com.hummingbird.paas.entity.ProjectEvaluationBidder;
+import com.hummingbird.paas.vo.CompanyEvaluationDetailInfo;
 
 public interface ProjectEvaluationBidderMapper {
     /**
@@ -42,4 +45,9 @@ public interface ProjectEvaluationBidderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectEvaluationBidder record);
+    
+    /**
+     * 根据bidderId查询评价列表
+     */
+    List<CompanyEvaluationDetailInfo> selectEvaluationDetailByBidderId(Integer bidderId);
 }

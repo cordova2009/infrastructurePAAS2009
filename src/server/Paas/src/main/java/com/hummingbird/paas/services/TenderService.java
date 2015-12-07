@@ -5,7 +5,10 @@ import java.util.List;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.vo.CompanyInfo;
+import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
@@ -393,6 +396,14 @@ public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
 * @throws BusinessException 
 */
 public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex,Integer pageSize) throws BusinessException; 
+
+/**
+* 查询首页投标人推荐列表接口
+*
+* @return 
+* @throws BusinessException 
+*/
+public int evaluateBidder(EvaluateBidderBodyVO body,Token token) throws BusinessException; 
 
 /**
 * 查询招标公司信息接口

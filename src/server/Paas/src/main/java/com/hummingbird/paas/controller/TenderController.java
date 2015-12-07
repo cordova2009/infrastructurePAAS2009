@@ -34,7 +34,9 @@ import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -68,6 +70,7 @@ import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;
+import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -2673,48 +2676,54 @@ public class TenderController extends BaseController {
 	}
 	
 
-//	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)
-//	public @ResponseBody Object evaluateBidder(HttpServletRequest request) {
-//		
-//		final BaseTransVO<EvaluateBidderBodyVO> transorder;
-//		ResultModel rm = new ResultModel();
-//		try {
-//			String jsonstr = RequestUtil.getRequestPostData(request);
-//			request.setAttribute("rawjson", jsonstr);
-//			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class,EvaluateBidderBodyVO.class);
-//		} catch (Exception e) {
-//			log.error(String.format("获取订单参数出错"),e);
-//			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-//			return rm;
-//		}
-//		
-//		String messagebase = "招标方给投标方评价";
-//		rm.setBaseErrorCode(240600);
-//		rm.setErrmsg(messagebase+"成功");
-//		try {
-//			//获取url以作为method的内容
-//			String requestURI = request.getRequestURI();
-//			requestURI=requestURI.replace(request.getContextPath(), "");
-//			
-//			//备注字段必填
-//			PropertiesUtil pu = new PropertiesUtil();
-//			EvaluateBidderBodyVO body=transorder.getBody();
-//			ValidateUtil.assertNull(body.getObjectId(), "项目Id不能为空");
-//			if(log.isDebugEnabled()){
-//				log.debug("检验通过，获取请求");
-//			}
-//			
-//
+	@RequestMapping(value = "/evaluateBidder", method = RequestMethod.POST)
+	public @ResponseBody Object evaluateBidder(HttpServletRequest request) {
+		
+		final BaseTransVO<EvaluateBidderBodyVO> transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class,EvaluateBidderBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "招标方给投标方评价";
+		rm.setBaseErrorCode(240600);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			//业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+		
+			EvaluateBidderBodyVO body=transorder.getBody();
+			ValidateUtil.assertNull(body.getObjectId(), "项目Id不能为空");
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+
 //			User user=userSer.queryUserByToken(body.getToken());
-//			
-//			
-//		} catch (Exception e1) {
-//			log.error(String.format(messagebase+"失败"),e1);
-//			rm.mergeException(e1);
-//			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
-//		}		
-//		return rm;
-//	}
+			int i = 0;
+			
+			i = tenderService.evaluateBidder(body, token);
+			
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}		
+		return rm;
+	}
 	
 	/**
 	 * 写日志,需要由子类实现

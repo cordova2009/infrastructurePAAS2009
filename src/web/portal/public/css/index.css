@@ -450,8 +450,8 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .tab_tit2{background: #f9f9f9;height: 53px;}
 .tab_tit2 span{display: inline-block;width: 220px;line-height: 48px;border-top: #89c3fb 5px solid;background: #fff;text-align: center;color: #555;font-size: 16px;}
 
-.impress {display: inline-block;padding-bottom: 20px;line-height: 27px;padding: 25px 40px;color: #555}
-.impress .auto  a{display: inline-block;background: #ffebc8;line-height: 27px;padding: 0 5px;margin-right: 25px;color: #555;}
+.impress {display: inline-block;padding-bottom: 20px;line-height: 27px;padding: 25px 40px;color: #555;border: rgba（255，255，255，0.8）1px solid}
+.impress .auto .tags a{display: inline-block;background: #ffebc8;line-height: 27px;padding: 0 5px;margin-right: 25px;color: #555;}
 .addimpress{padding-top: 20px;}
 .addimpress .input1{line-height: 30px;margin: 0}
 
@@ -976,11 +976,11 @@ a.blue:hover{color: #73e2ff}
 
 
 
-
 .bordn{border: none!important;}
 .verm{vertical-align: middle;}
 .vert{vertical-align: top;}
 .radiu0{border-radius: 0;}
+.taged{border:#A6B010 1px solid}
 
 
 

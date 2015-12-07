@@ -152,16 +152,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</tr>
 	<tr><td colspan="2">投标服务（外部接口）</td></tr>
 	<tr>
-		<td><input  value="查询我的已结束项目列表接口"  onclick='setbinding("/gw/bid/queryMyEndedObject","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}   ")'  type="button" ></td>
-		<td><input  value="查询我的未中标项目接口"  onclick='setbinding("/gw/bid/queryMyLoseObject","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}   ")'  type="button" ></td>
+		<td><input  value="查询我的已结束项目列表接口"  onclick='setbinding("/bid/queryMyEndedObject","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}   ")'  type="button" ></td>
+		<td><input  value="查询我的未中标项目接口"  onclick='setbinding("/bid/queryMyLoseObject","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}   ")'  type="button" ></td>
 		<td><input  value="查询招标人评价概况接口"  onclick='setbinding("/tender/queryTendererEvaluate","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"objectId\":\"BH2345464356\"    }}   ")'  type="button" ></td>
 		<td><input  value="查询我的投标概况接口"  onclick='setbinding("/tender/queryMyBidSurvey","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\"    }}    ")'  type="button" ></td>
-		<td><input  value="查询我的投标中项目列表接口"  onclick='setbinding("/gw/bid/queryMyBidObject","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}   ")'  type="button" ></td>
-		<td><input  value="查询我的实施中项目列表接口"  onclick='setbinding("/gw/bid/queryMyBuildingObject"," {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}    ")'  type="button" ></td>
+		<td><input  value="查询我的投标中项目列表接口"  onclick='setbinding("/bid/queryMyBidObject","  {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}   ")'  type="button" ></td>
+		<td><input  value="查询我的实施中项目列表接口"  onclick='setbinding("/bid/queryMyBuildingObject"," {    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":1,        \"pageSize\":10    }}    ")'  type="button" ></td>
 		
 		</tr>
 	<tr>
-		<td><input  value="查询首页投标人概况接口"  onclick='setbinding("/tender/queryBiderIndexSurvey","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    } }   ")'  type="button" ></td>
+		<td><input  value="查询首页投标人概况接口"  onclick='setbinding("/tender/queryBidderIndexSurvey","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    } }   ")'  type="button" ></td>
 		<td><input  value="查询首页投标人推荐列表接口"  onclick='setbinding("/tender/queryIndexBidList","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    } }   ")'  type="button" ></td>
 		</tr>
 		<tr>
@@ -203,6 +203,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<tr>
 		<td><input  value="查询招标资质接口"  onclick='setbinding("/tender/queryCertificateList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":      { }     }")'  type="button" ></td>
 		<td><input  value="查询投标方列表接口"  onclick='setbinding("/tender/queryBidderList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":      { }     }")'  type="button" ></td>
+		<td><input  value="招标方给投标方评价接口"  onclick='setbinding("/tender/evaluateBidder","{\"app\":{\"appId\":\"zjhtwallet\",\"timeStamp\":\"TIMESTAMP\",\"nonce\":\"NONCE\",\"signature\":\"SIGNATURE\"},\"body\":{\"token\":\"12345\",\"objectId\":\"BH2015082135656\",\"evaluateScore\":7,\"tags\":[\"速度够快\",\"质量很高\"],\"evaluateContent\":\"合作愉快，期待下次继续！\"}}")'  type="button" ></td>
 	
 	</tr>
 	<tr><td colspan="6">投标管理</td></tr>
@@ -233,6 +234,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</tr>
 	<tr>
 		<td><input  value="查询投标人基础信息接口"  onclick='setbinding("/bid/queryBidderCompanyInfo","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },        \"body\":{     \"token\":\"12345\"      }    }")'  type="button" ></td>
+		<td><input  value="投标方给招标方评价接口"  onclick='setbinding("/bid/evaluateBiddee","{\"app\":{\"appId\":\"zjhtwallet\",\"timeStamp\":\"TIMESTAMP\",\"nonce\":\"NONCE\",\"signature\":\"SIGNATURE\"},\"body\":{\"token\":\"12345\",\"objectId\":\"BH2015082135656\",\"evaluateScore\":7,\"tags\":[\"速度够快\",\"质量很高\"],\"evaluateContent\":\"合作愉快，期待下次继续！\"}}")'  type="button" ></td>
 	
 	</tr>
 	<tr><td colspan="6">工程管理-招标人</td></tr>

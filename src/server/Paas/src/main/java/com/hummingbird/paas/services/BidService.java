@@ -12,6 +12,7 @@ import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
@@ -247,5 +248,14 @@ public interface BidService {
 	 */
 	public QueryBidderCompanyInfoBodyVOResult queryBidderCompanyInfo(String appId, QueryBidBodyVO body,
 			Bidder bidder) throws BusinessException;
+
+	/**
+	 * 投标方给招标方评价接口
+	 * @param appId
+	 * @param body
+	 * @param bidder
+	 * @throws BusinessException 
+	 */
+	public void evaluateBiddee(String appId, EvaluateBiddeeBodyVO body, Bidder bidder) throws BusinessException;
 	
 }

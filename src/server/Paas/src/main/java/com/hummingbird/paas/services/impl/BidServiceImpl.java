@@ -36,6 +36,8 @@ import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.MakeMatchBondRecord;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
+import com.hummingbird.paas.entity.ProjectEvaluationBidder;
+import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.exception.MaAccountException;
@@ -56,13 +58,18 @@ import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectMapper;
 import com.hummingbird.paas.mapper.ObjectProjectMapper;
+import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
+import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
+import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectInfosMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
+import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
+import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
@@ -130,6 +137,8 @@ public class BidServiceImpl implements BidService {
 	@Autowired
 	ProjectInfosMapper pIDao;
 	@Autowired
+	ProjectInfoMapper projectInfoDao;
+	@Autowired
 	BidderMapper berDao;
 	@Autowired
 	BidderCertificationMapper bcertDao;// 投标证书
@@ -153,6 +162,8 @@ public class BidServiceImpl implements BidService {
 	FeeRateMapper frDao;
 	@Autowired
 	InviteBidderMapper ibDao;
+	@Autowired
+	ProjectEvaluationBidderMapper evaluationBidderDao;
 
 	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
 	// Exception.class, value = "txManager")
@@ -382,7 +393,7 @@ public class BidServiceImpl implements BidService {
 			qodbis.setBidBondAmount(ob.getBidBondAmount().toString());
 		dv.setBondInfo(qodbis);
 		QueryObjectDetailConstructionInfo qodci = new QueryObjectDetailConstructionInfo();
-		ProjectInfos pi = new ProjectInfos();
+		ProjectInfos pi =pIDao.selectByPrimaryKey(objectId);
 		if (pi != null) {
 			if (pi.getBuildingConstructionPermitEnddate() != null)
 				qodci.setBuildingConstructPermitEndDate(
@@ -408,10 +419,10 @@ public class BidServiceImpl implements BidService {
 		dv.setConstructionInfo(qodci);
 		QueryObjectDetailDateRequirementInfo qoddri = new QueryObjectDetailDateRequirementInfo();
 		if (obi != null) {
-			qoddri.setAnnouncementBeginTime(qoddri.getAnnouncementBeginTime());
-			qoddri.setAnnouncementEndTime(qoddri.getAnnouncementEndTime());
-			qoddri.setBiddingEndTime(qoddri.getBiddingEndTime());
-			qoddri.setBidOpenDate(qoddri.getBidOpenDate());
+			qoddri.setAnnouncementBeginTime(DateUtil.formatCommonDateorNull(obi.getAnnouncementBeginTime()));
+			qoddri.setAnnouncementEndTime(DateUtil.formatCommonDateorNull(obi.getAnnouncementEndTime()));
+			qoddri.setBiddingEndTime(DateUtil.formatCommonDateorNull(obi.getBiddingEndTime()));
+			qoddri.setBidOpenDate(DateUtil.formatCommonDateorNull(ob.getBidOpenDate()));
 		}
 		dv.setDateRequirementInfo(qoddri);
 		QueryObjectDetailObjectMethondInfo qodom = new QueryObjectDetailObjectMethondInfo();
@@ -428,21 +439,19 @@ public class BidServiceImpl implements BidService {
 		qodom.setInviteTender(tens);
 		dv.setObjectMethodInfo(qodom);
 		QueryObjectDetailProjectInfo qodop = new QueryObjectDetailProjectInfo();
-		ProjectInfos pin = new ProjectInfos();
-		pin = pIDao.selectByPrimaryKey(objectId);
-		if (pin != null) {
-			qodop.setEmployer(pin.getEmployer());
-			qodop.setEmployerPrincipal(pin.getEmployerPrincipal());
-			qodop.setProjectExpectInvestment(pin.getProjectExpectInvestment());
-			qodop.setProjectName(pin.getProjectName());
-			qodop.setProjectScale(pin.getProjectScale());
-			qodop.setProjectSite(pin.getProjectSite());
+		if (pi != null) {
+			qodop.setEmployer(pi.getEmployer());
+			qodop.setEmployerPrincipal(pi.getEmployerPrincipal());
+			qodop.setProjectExpectInvestment(pi.getProjectExpectInvestment());
+			qodop.setProjectName(pi.getProjectName());
+			qodop.setProjectScale(pi.getProjectScale());
+			qodop.setProjectSite(pi.getProjectSite());
 		}
 		dv.setProjectInfo(qodop);
 		QueryObjectDetailProjectRequirementInfo qodpr = new QueryObjectDetailProjectRequirementInfo();
-		if (pin != null) {
-			qodpr.setProjectExpectPeriod(pin.getProjectExpectPeriod());
-			qodpr.setProjectExpectStartDate(pin.getProjectExpectStartDate());
+		if (pi != null) {
+			qodpr.setProjectExpectPeriod(pi.getProjectExpectPeriod());
+			qodpr.setProjectExpectStartDate(pi.getProjectExpectStartDate());
 		}
 		dv.setProjectRequirementInfo(qodpr);
 		qodr.setDetail(dv);
@@ -1281,6 +1290,63 @@ public class BidServiceImpl implements BidService {
 			log.debug("查询投标人基础信息接口完成");
 		}
 		return result;
+	}
+	
+	/**
+	 * 投标方给招标方评价接口
+	 * @param appId 应用id
+	 * @param body 参数
+	 * @return 
+	 * @throws BusinessException 
+	 */
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public void evaluateBiddee(String appId,EvaluateBiddeeBodyVO body,Bidder bidder) throws BusinessException{
+		if(log.isDebugEnabled()){
+				log.debug("投标方给招标方评价接口开始");
+		}
+		String objectId = body.getObjectId();
+		BidObject bidObject = objectdao.selectByPrimaryKey(objectId);
+		if(bidObject==null){
+			log.error( "标的不存在:"+objectId);
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "标的不存在:");
+		}
+		if(StringUtils.equals(bidObject.getObjectStatus(),"END")){
+			log.error( "标的未结束:"+objectId);
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的未结束");
+		}
+		List<ProjectInfo> projects = projectInfoDao.selectByObjectId(objectId);
+		if(org.apache.commons.collections.CollectionUtils.isEmpty(projects)){
+			log.error( "标的工程不存在:"+objectId);
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的工程不存在");
+		}
+		ProjectInfo project=projects.get(0);
+//		if(project==null){
+//			if(log.isDebugEnabled()){
+//				log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+//			}
+//			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+//		}
+		ProjectEvaluationBidder evaluationBidder=new ProjectEvaluationBidder();
+		evaluationBidder.setStarCount(0);
+		evaluationBidder.setBiddeeId(project.getBiddeeId());
+		evaluationBidder.setBidderId(project.getBidderId());
+		evaluationBidder.setEvaluationContent(body.getEvaluateContent());
+		evaluationBidder.setInsertBy(bidder.getUserId().toString());
+		evaluationBidder.setInsertTime(new Date());
+		evaluationBidder.setProjectId(project.getProjectId());
+		evaluationBidder.setScore(body.getEvaluateScore());
+//		evaluationBidder.setStarCount(evaluationBidder.getStarCount());
+		evaluationBidderDao.insert(evaluationBidder);
+		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
+		//调用接口时,如果数据库失败,这个标签也会保存进去
+		if(body.getTags()!=null){
+			for(String tag : body.getTags()){
+				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info", body.getObjectId());
+			}
+		}
+		if(log.isDebugEnabled()){
+				log.debug("投标方给招标方评价接口完成");
+		}
 	}
 
 }

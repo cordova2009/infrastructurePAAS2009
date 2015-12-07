@@ -12,6 +12,15 @@
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="insert_by" property="insertBy" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="CompanyEvaluationDetailResultMap" type="com.hummingbird.paas.vo.CompanyEvaluationDetailInfo" >
+    <result column="evaluationCompanyType" property="evaluationCompanyType" jdbcType="VARCHAR" />
+    <result column="evaluationCompanyId" property="evaluationCompanyId" jdbcType="INTEGER" />
+    <result column="evaluationCompanyName" property="evaluationCompanyName" jdbcType="VARCHAR" />
+    <result column="evaluationCompanyContent" property="evaluationCompanyContent" jdbcType="VARCHAR" />
+    <result column="evaluationCompanyTime" property="evaluationCompanyTime" jdbcType="TIMESTAMP" />
+    <result column="objectId" property="objectId" jdbcType="VARCHAR" />
+    <result column="objectName" property="objectName" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, project_id, biddee_id, bidder_id, evaluation_content, score, star_count, insert_time, 
     insert_by
@@ -148,4 +157,11 @@
       insert_by = #{insertBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <select id="selectEvaluationDetailByBidderId" resultMap="CompanyEvaluationDetailResultMap" parameterType="java.lang.Integer" >
+    select a.bidder_id evaluationCompanyId,a.evaluation_content evaluationCompanyContent,"BER" evaluationCompanyType,a.insert_time evaluationCompanyTime,b.company_name evaluationCompanyName,c.object_id objectId,c.object_name objectName from t_gcgl_project_evaluation_bidder a 
+	INNER JOIN t_qyzz_bidder b on a.bidder_id = b.id  
+  	LEFT JOIN t_ztgl_bid_record d on d.bidder_id = b.id
+  	LEFT JOIN t_ztgl_object c on c.object_id  = d.object_id
+  	where a.bidder_id =  #{bidderId,jdbcType=INTEGER}
+  </select>
 </mapper>

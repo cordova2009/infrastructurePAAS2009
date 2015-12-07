@@ -46,14 +46,19 @@ public interface ObjectProjectMapper {
     
     @Deprecated()
     List<ObjectProject> getPages(@Param("begin") int begin ,@Param("limit") int limit);
+    int getPagesCount();
     
     List<ObjectProject> getMyObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    int getMyObjectProjectCount(@Param("userId")Integer userId);
     
     List<MyBuildingObjectProject> getMyBuildingObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    int getMyBuildingObjectProjectCount(@Param("userId")Integer userId);
     
     List<MyEndedObjectProject> getMyEndedObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    int getMyEndedObjectProjectCount(@Param("userId")Integer userId);
     
     List<MyLoseObjectProject> getMyLoseObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    int getMyLoseObjectProjectCount(@Param("userId")Integer userId);
 
 	/**
 	 * 统计总记录数

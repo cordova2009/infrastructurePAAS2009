@@ -237,11 +237,13 @@
    <select id="selectTotalIndexObjectList" resultType="int">
     select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
+       where a.object_status != 'CRT'
      
   </select>
   <select id="selectIndexObjectList" resultMap="IndexObjectListResultMap">
      select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,a.project_expect_period,b.project_expect_start_date from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
+      where a.object_status != 'CRT'
        <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 

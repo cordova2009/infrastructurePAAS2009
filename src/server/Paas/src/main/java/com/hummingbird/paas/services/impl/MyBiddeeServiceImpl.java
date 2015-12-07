@@ -183,8 +183,8 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
 			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
 			registeredInfo.setBusinessScope(aa.getBusinessScope());
-			registeredInfo.setRegTime(DateUtil.formatShortDateorNull(aa.getRegTime()));
-			registeredInfo.setBusinessLicenseExpireTime((aa.getBusinessLicenseExpireTime()));
+			registeredInfo.setRegTime(aa.getRegTime());
+			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
 			registeredInfo.setAddress(aa.getAddress());
 			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
 			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
@@ -359,16 +359,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				String newBusinessLicenseUrl = registeredInfo.getNewBusinessLicenseUrl();
 				String businessScope = registeredInfo.getBusinessScope();
 				String address = registeredInfo.getAddress();
-				Date regTime = null;
-				String businessLicenseExpireTime = registeredInfo.getBusinessLicenseExpireTime();
-				if(StringUtils.isNotBlank(registeredInfo.getRegTime())){
-					try {
-						regTime = DateUtils.parseDate(registeredInfo.getRegTime(),"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd");
-					} catch (ParseException e) {
-						log.error(String.format("企业成立时间%s日期格式不正确",registeredInfo.getRegTime()),e);
-						throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "企业成立时间日期格式不正确");
-					}
-				}
+				Date regTime = registeredInfo.getRegTime();
 				
 				biddee.setBusinessLicenseType(businessLicenseType);
 				if("NEW".equalsIgnoreCase(businessLicenseType)){
@@ -394,7 +385,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					ValidateUtil.assertNull(organizationCodeNum, "组织机构代码");
 					ValidateUtil.assertNull(organizationCodeUrl, "组织机构url");
 				}else{
-					throw new BusinessException("营业执照类型不对");
+						throw new BusinessException("营业执照类型不对");
 					
 				}
 	
@@ -402,7 +393,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				biddee.setAddress(address);
 				
 				biddee.setRegTime(regTime);
-				biddee.setBusinessLicenseExpireTime(businessLicenseExpireTime);
+				biddee.setBusinessLicenseExpireTime(registeredInfo.getBusinessLicenseExpireTime());
 			}	
 			if(biddee==null && biddee.getId()==null){
 				//biddee=new BiddeeCerticate();
@@ -420,6 +411,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBankInfo(String appId, BiddeeBankInfo bankInfo, Token token) throws BusinessException {
+		// TODO Auto-generated method stub
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -454,6 +446,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int applay(String appId, Token token) throws BusinessException {
+		// TODO Auto-generated method stub
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -471,6 +464,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public  Boolean checkApplication(String appId, BiddeeAuditBodyInfo body, Integer biddeeId) throws BusinessException {
+		// TODO Auto-generated method stub
 		boolean flag = true;
 		BiddeeBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 		BiddeeLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();

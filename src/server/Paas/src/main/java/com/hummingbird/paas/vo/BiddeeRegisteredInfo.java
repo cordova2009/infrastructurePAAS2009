@@ -38,276 +38,169 @@ public class BiddeeRegisteredInfo {
 	private String  organizationCodeUrl;
 	private String  businessScope;
 	
-	private String  regTime;
+	private Date    regTime;
 	private String  businessLicenseExpireTime;
 	private String  address;
 	private String  businessLicenseType;
 	private String  newBusinessLicenseNum;
 	private String  newBusinessLicenseUrl;
-
-
-
 	/**
 	 * @return the businessLicenseNum
 	 */
 	public String getBusinessLicenseNum() {
 		return businessLicenseNum;
 	}
-
-
-
-
 	/**
 	 * @return the businessLicenseUrl
 	 */
 	public String getBusinessLicenseUrl() {
 		return businessLicenseUrl;
 	}
-
-
-
-
 	/**
 	 * @return the taxRegistrationNum
 	 */
 	public String getTaxRegistrationNum() {
 		return taxRegistrationNum;
 	}
-
-
-
-
 	/**
 	 * @return the taxRegistrationUrl
 	 */
 	public String getTaxRegistrationUrl() {
 		return taxRegistrationUrl;
 	}
-
-
-
-
 	/**
 	 * @return the organizationCodeNum
 	 */
 	public String getOrganizationCodeNum() {
 		return organizationCodeNum;
 	}
-
-
-
-
 	/**
 	 * @return the organizationCodeUrl
 	 */
 	public String getOrganizationCodeUrl() {
 		return organizationCodeUrl;
 	}
-
-
-
-
 	/**
 	 * @return the businessScope
 	 */
 	public String getBusinessScope() {
 		return businessScope;
 	}
-
-
-
-
 	/**
 	 * @return the regTime
 	 */
 	@JsonSerialize(using = JacksonDateSerializer.class)
-	public String getRegTime() {
+	public Date getRegTime() {
 		return regTime;
 	}
-
-
-
-
 	/**
 	 * @return the businessLicenseExpireTime
 	 */
 	public String getBusinessLicenseExpireTime() {
 		return businessLicenseExpireTime;
 	}
-
-
-
-
 	/**
 	 * @return the address
 	 */
 	public String getAddress() {
 		return address;
 	}
-
-
-
-
 	/**
 	 * @return the businessLicenseType
 	 */
 	public String getBusinessLicenseType() {
 		return businessLicenseType;
 	}
-
-
-
-
 	/**
 	 * @return the newBusinessLicenseNum
 	 */
 	public String getNewBusinessLicenseNum() {
 		return newBusinessLicenseNum;
 	}
-
-
-
-
 	/**
 	 * @return the newBusinessLicenseUrl
 	 */
 	public String getNewBusinessLicenseUrl() {
 		return newBusinessLicenseUrl;
 	}
-
-
-
-
 	/**
 	 * @param businessLicenseNum the businessLicenseNum to set
 	 */
 	public void setBusinessLicenseNum(String businessLicenseNum) {
 		this.businessLicenseNum = businessLicenseNum;
 	}
-
-
-
-
 	/**
 	 * @param businessLicenseUrl the businessLicenseUrl to set
 	 */
 	public void setBusinessLicenseUrl(String businessLicenseUrl) {
 		this.businessLicenseUrl = businessLicenseUrl;
 	}
-
-
-
-
 	/**
 	 * @param taxRegistrationNum the taxRegistrationNum to set
 	 */
 	public void setTaxRegistrationNum(String taxRegistrationNum) {
 		this.taxRegistrationNum = taxRegistrationNum;
 	}
-
-
-
-
 	/**
 	 * @param taxRegistrationUrl the taxRegistrationUrl to set
 	 */
 	public void setTaxRegistrationUrl(String taxRegistrationUrl) {
 		this.taxRegistrationUrl = taxRegistrationUrl;
 	}
-
-
-
-
 	/**
 	 * @param organizationCodeNum the organizationCodeNum to set
 	 */
 	public void setOrganizationCodeNum(String organizationCodeNum) {
 		this.organizationCodeNum = organizationCodeNum;
 	}
-
-
-
-
 	/**
 	 * @param organizationCodeUrl the organizationCodeUrl to set
 	 */
 	public void setOrganizationCodeUrl(String organizationCodeUrl) {
 		this.organizationCodeUrl = organizationCodeUrl;
 	}
-
-
-
-
 	/**
 	 * @param businessScope the businessScope to set
 	 */
 	public void setBusinessScope(String businessScope) {
 		this.businessScope = businessScope;
 	}
-
-
-
-
 	/**
 	 * @param regTime the regTime to set
 	 */
-	public void setRegTime(String regTime) {
+	public void setRegTime(Date regTime) {
 		this.regTime = regTime;
 	}
-
-
-
-
 	/**
 	 * @param businessLicenseExpireTime the businessLicenseExpireTime to set
 	 */
 	public void setBusinessLicenseExpireTime(String businessLicenseExpireTime) {
 		this.businessLicenseExpireTime = businessLicenseExpireTime;
 	}
-
-
-
-
 	/**
 	 * @param address the address to set
 	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-
-
-
 	/**
 	 * @param businessLicenseType the businessLicenseType to set
 	 */
 	public void setBusinessLicenseType(String businessLicenseType) {
 		this.businessLicenseType = businessLicenseType;
 	}
-
-
-
-
 	/**
 	 * @param newBusinessLicenseNum the newBusinessLicenseNum to set
 	 */
 	public void setNewBusinessLicenseNum(String newBusinessLicenseNum) {
 		this.newBusinessLicenseNum = newBusinessLicenseNum;
 	}
-
-
-
-
 	/**
 	 * @param newBusinessLicenseUrl the newBusinessLicenseUrl to set
 	 */
 	public void setNewBusinessLicenseUrl(String newBusinessLicenseUrl) {
 		this.newBusinessLicenseUrl = newBusinessLicenseUrl;
 	}
-
-
-
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -322,6 +215,9 @@ public class BiddeeRegisteredInfo {
 				+ ", newBusinessLicenseUrl=" + newBusinessLicenseUrl + "]";
 	}
 
+
+
+	
 
 
 }

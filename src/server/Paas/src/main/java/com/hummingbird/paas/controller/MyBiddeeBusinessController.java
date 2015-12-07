@@ -287,14 +287,14 @@ public class MyBiddeeBusinessController extends BaseController  {
 		BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
 		try {
 			// 业务数据必填等校验
-			UserToken token = tokenSrv.getOrCreateToken(transorder.getApp().getAppId(),46);
-//			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+//			UserToken token = tokenSrv.getOrCreateToken(transorder.getApp().getAppId(),46);
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
 			if (token == null) {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-//			baseInfo = myBiddeeService.getBaseInfo_apply(token);
+			baseInfo = myBiddeeService.getBaseInfo_apply(token);
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 			rm.put("baseInfo", baseInfo);

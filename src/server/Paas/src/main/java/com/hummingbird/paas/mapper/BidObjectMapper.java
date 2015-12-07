@@ -39,7 +39,7 @@ public interface BidObjectMapper {
     /**
      * 根据biddeeId查询记录
      */
-    double countAmountByBid(Integer user_id);
+    Long countAmountByBid(Integer user_id);
     /**
      * 根据user_id查询招标项目招标中的数量
      */

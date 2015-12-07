@@ -251,7 +251,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setContactMobileNum(telephone);
 					bidder.setEmail(email);
 					bidder.setLogo(logo);
-					
+					bidder.setStatus("CRT");
 				}
 			
 				
@@ -501,6 +501,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 						b.setIndustryId(be.getProjectType());//工程 类别
 						b.setApplicableRegion(be.getApplicableRegion());
 						b.setCertificationNo(be.getCertificationNo());
+						b.setCertificationId(be.getCertificationId());
 						b.setId(be.getEqId());
 						bidderCertificationCertificationDao.deleteByPrimaryKey(be.getEqId());
 						bidderCertificationCertificationDao.insertSelective(b);
@@ -516,7 +517,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别
-						b.setCertificationId(be.getEqId());
+						b.setCertificationId(be.getCertificationId());
 						bidderCertificationCertificationDao.insert(b);
 						i++;
 						

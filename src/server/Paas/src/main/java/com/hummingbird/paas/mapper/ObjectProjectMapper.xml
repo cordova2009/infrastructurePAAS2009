@@ -99,7 +99,7 @@
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
     need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time,sum(c.total_amount) receivedAmount,sum(c.left_amount) willReceiveAmount
+    win_bid_time,IFNULL(sum(c.total_amount),0) receivedAmount,IFNULL(sum(c.left_amount),0) willReceiveAmount
   </sql>
   <sql id="My_Ended_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 

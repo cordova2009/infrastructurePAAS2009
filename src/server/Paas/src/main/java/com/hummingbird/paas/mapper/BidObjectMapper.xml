@@ -123,7 +123,7 @@
     and object_id = #{objectId}
     </if>
   </select>
-  <select id="countAmountByBid" resultType="double" parameterType="java.lang.Integer" >
+  <select id="countAmountByBid" resultType="long" parameterType="java.lang.Integer" >
     select IFNULL(sum(win_bid_amount),0) from t_ztgl_object
     where biddee_id = #{biddeeId} 
     <if test="objectId != null">

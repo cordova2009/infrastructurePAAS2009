@@ -2,6 +2,10 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+
 public class QueryMyBuildingObjectListResultVO {
 //	"objectId":"32456",
 //    "objectName":"7665",
@@ -50,6 +54,7 @@ public class QueryMyBuildingObjectListResultVO {
 	/**
 	 * @return the projectExpectStartDate
 	 */
+	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getProjectExpectStartDate() {
 		return projectExpectStartDate;
 	}

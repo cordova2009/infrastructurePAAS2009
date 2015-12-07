@@ -170,8 +170,6 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 			}
 		}				
 		
-		auth.setIdentityNo(body1.getCardID());
-		auth.setRealName(body1.getRealName());
 		auth.setUserId(user.getId());
 		auth.setRealNameVerify("OK#");
 		userAuthDao.insert(auth);

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,6 +25,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.entity.BidAttachment;
 import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
@@ -42,6 +44,7 @@ import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.BidAttachmentMapper;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -107,6 +110,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SubmitBidBodyVO;
 import com.hummingbird.paas.vo.SurveyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
@@ -164,6 +168,8 @@ public class BidServiceImpl implements BidService {
 	InviteBidderMapper ibDao;
 	@Autowired
 	ProjectEvaluationBidderMapper evaluationBidderDao;
+	@Autowired
+	BidAttachmentMapper baDao;
 
 	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
 	// Exception.class, value = "txManager")
@@ -902,14 +908,28 @@ public class BidServiceImpl implements BidService {
 	 * @throws BusinessException
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public void submitBid(String appId, QueryBidBodyVO body, Bidder bidder) throws BusinessException {
+	public void submitBid(String appId, SubmitBidBodyVO body, Bidder bidder) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("提交投标接口开始");
 		}
 		BidObject object = null;
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidder.getId(), object);
 		bid.setStatus(CommonStatusConst.STATUS_OK);
-
+		//添加附件
+		BidAttachment ba = new BidAttachment();
+		List<BidAttachment> selectBidFile = baDao.selectBidFile(body.getBidId());
+		if(CollectionUtils.isNotEmpty(selectBidFile))
+		{
+			for (Iterator iterator = selectBidFile.iterator(); iterator.hasNext();) {
+				BidAttachment bidAttachment = (BidAttachment) iterator.next();
+				baDao.deleteByPrimaryKey(bidAttachment.getId());
+			}
+		}
+		ba.setAttachmentUrl(body.getBidFile());
+		ba.setBidId(body.getBidId());
+		ba.setInsertTime(new Date());
+		ba.setAttachmentType("BF#");
+		baDao.insert(ba);
 		dao.updateByPrimaryKey(bid);
 
 		if (log.isDebugEnabled()) {

@@ -31,6 +31,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SubmitBidBodyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
 /**
@@ -195,12 +196,12 @@ public interface BidService {
 	 * 
 	 * @param appId
 	 *            应用id
-	 * @param body
+	 * @param submitBidBodyVO
 	 *            参数
 	 * @return
 	 * @throws BusinessException
 	 */
-	public void submitBid(String appId, QueryBidBodyVO body, Bidder bidder) throws BusinessException;
+	public void submitBid(String appId, SubmitBidBodyVO submitBidBodyVO, Bidder bidder) throws BusinessException;
 
 	/**
 		 * 查询用户是否具有投标的资质

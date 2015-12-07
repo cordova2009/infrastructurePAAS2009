@@ -82,6 +82,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SubmitBidBodyVO;
 import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
@@ -807,10 +808,10 @@ public class BidController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/submitBid",method=RequestMethod.POST)
-	@AccessRequered(methodName = "提交投标接口",isJson=true,codebase=247100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryBidBodyVO",appLog=true)
+	@AccessRequered(methodName = "提交投标接口",isJson=true,codebase=247100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SubmitBidBodyVO",appLog=true)
 	public @ResponseBody ResultModel submitBid(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<QueryBidBodyVO> transorder = (BaseTransVO<QueryBidBodyVO>) super.getParameterObject();
+		BaseTransVO<SubmitBidBodyVO> transorder = (BaseTransVO<SubmitBidBodyVO>) super.getParameterObject();
 		String messagebase = "提交投标接口"; 
 	
 		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求

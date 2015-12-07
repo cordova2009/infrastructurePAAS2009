@@ -33,7 +33,6 @@ implements PainttextAble {
 	    	/**
 	     * @return 
 	     */
-	    @JsonIgnore
 	    public String getToken() {
 	        return token;
 	    }

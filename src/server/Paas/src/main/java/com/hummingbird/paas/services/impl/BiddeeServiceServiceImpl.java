@@ -189,8 +189,6 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if (ob.getEvaluationAmount() != null)
 				sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
 			sv.setObjectId(obi.getObjectId());
-			if (ob.getProjectExpectPeriod() != null)
-				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());
 			//sv.setProjectSite(ob);
 			sv.setStatus(ob.getObjectStatus());
 		}
@@ -240,10 +238,10 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		qodbci.setNeedSafetyPermit(ob.getNeedSafetyPermit());
 		dv.setBidderCertificationInfo(qodbci);
 		QueryObjectDetailBidEvaluationTypeInfo qodbevti = new QueryObjectDetailBidEvaluationTypeInfo();
-	/*	qodbevti.setBidEvalutionSite(ob.getBidEvaluationSite());
-		qodbevti.setBidEvalutionType(ob.getBidEvaluationType());
-		qodbevti.setBidWinnerDatemineWay(ob.getBidWinnerDetermineWay());
-		qodbevti.setVoteWinWay(ob.getVoteWinWay());*/
+		qodbevti.setBidEvalutionSite(obi.getBidEvaluationSite());
+		qodbevti.setBidEvalutionType(obi.getBidEvaluationType());
+		qodbevti.setBidWinnerDatemineWay(obi.getBidWinnerDetermineWay());
+		qodbevti.setVoteWinWay(obi.getVoteWinWay());
 		dv.setBidEvaluationTypeInfo(qodbevti);
 		QueryObjectDetailBidFilTypeInfo qodbft = new QueryObjectDetailBidFilTypeInfo();
 		qodbft.setNeedBusinessStandard(ob.getNeedBusinessStandard());
@@ -306,6 +304,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			qodop.setEmployerPrincipal(pi.getEmployerPrincipal());
 			qodop.setProjectExpectInvestment(pi.getProjectExpectInvestment());
 			qodop.setProjectName(pi.getProjectName());
+			qodop.setEmployerTelephone(pi.getEmployerTelephone());
 			qodop.setProjectScale(pi.getProjectScale());
 			qodop.setProjectSite(pi.getProjectSite());
 		}

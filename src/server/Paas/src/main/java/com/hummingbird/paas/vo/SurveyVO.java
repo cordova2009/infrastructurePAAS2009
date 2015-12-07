@@ -4,7 +4,6 @@ public class SurveyVO {
      private String objectId;
      private String status;
      private String evalutionAmount;
-     private String projectExpectPeriod;
      private String announcementEndTime;
      private String biddingEndTime;
      private String projectSite;
@@ -26,12 +25,6 @@ public class SurveyVO {
 	}
 	public void setEvalutionAmount(String evalutionAmount) {
 		this.evalutionAmount = evalutionAmount;
-	}
-	public String getProjectExpectPeriod() {
-		return projectExpectPeriod;
-	}
-	public void setProjectExpectPeriod(String projectExpectPeriod) {
-		this.projectExpectPeriod = projectExpectPeriod;
 	}
 	public String getAnnouncementEndTime() {
 		return announcementEndTime;
@@ -60,7 +53,7 @@ public class SurveyVO {
 	@Override
 	public String toString() {
 		return "SurveyVO [objectId=" + objectId + ", status=" + status + ", evalutionAmount=" + evalutionAmount
-				+ ", projectExpectPeriod=" + projectExpectPeriod + ", announcementEndTime=" + announcementEndTime
+				+ ", announcementEndTime=" + announcementEndTime
 				+ ", biddingEndTime=" + biddingEndTime + ", projectSite=" + projectSite + ", bidderNum=" + bidderNum
 				+ "]";
 	}

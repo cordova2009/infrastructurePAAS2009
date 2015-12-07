@@ -91,19 +91,19 @@ display:block;
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 公司（单位）全称</span>
 								<div class="auto value ">
-									<input type="text" class="input1 " name="companyName" id="companyName" value="<?=$base['companyName']?>">
+									<input type="text" class="input1 " name="companyName" id="companyName" value="<?=isset($base['companyName'])?$base['companyName']:''?>">
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 公司（单位）简称</span>
 								<div class="auto value ">
-									<input type="text" class="input1" name="shortName" value="<?=$base['shortName']?>">
+									<input type="text" class="input1" name="shortName" value="<?=isset($base['shortName'])?$base['companyName']:''?>">
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
 								<div class="auto value ">
-									<div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
+									<div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=isset($base['logoUrl'])?$base['logoUrl']:''?>">
  上传公司LOGO</div>
 																	</div>
 							</div>
@@ -441,24 +441,28 @@ display:block;
 					if(base==0)
 					{
 						base_sucess();
+					}else{
 						return;
 					}
 					var legal="<?=empty($legal['name'])?'1':'0'?>";
 					if(legal==0)
 					{
 						legal_sucess();
+					}else{
 						return;
 					}
 					var registered="<?=empty($registered['businessLicenseType'])?'1':'0'?>";
 					if(registered==0)
 					{
 						companyRegistered_sucess();
+					}else{
 						return;
 					}
 					var bankInfo="<?=empty($bankInfo['accountId'])?'1':'0'?>";
 					if(bankInfo==0)
 					{
 						bank_sucess();
+					}else{
 						return;
 					}
 				}

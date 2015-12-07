@@ -46,5 +46,10 @@ public interface ProjectPaymentDefineDetailMapper {
      * 根据招标Id查询项目未付款部分的定义列表
      */
     List<ProjectPaymentDefineDetail> selectPayByObjectId(@Param("objectId")String objectId,@Param("period")Integer payPeriod);
+    
+    /**
+     * 根据招标Id查询项目下期未付款的定义
+     */
+    ProjectPaymentDefineDetail selectNextPayByObjectId(@Param("objectId")String objectId,@Param("period")Integer payPeriod);
 
 }

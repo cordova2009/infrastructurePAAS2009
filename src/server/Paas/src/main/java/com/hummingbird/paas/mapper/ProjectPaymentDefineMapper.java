@@ -32,4 +32,9 @@ public interface ProjectPaymentDefineMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectPaymentDefine record);
+    
+    /**
+     * 根据objectId查询记录
+     */
+    ProjectPaymentDefine selectByObjectId(String objectId);
 }

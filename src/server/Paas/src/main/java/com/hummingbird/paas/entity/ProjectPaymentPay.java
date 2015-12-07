@@ -44,7 +44,7 @@ public class ProjectPaymentPay {
     /**
      * 总金额
      */
-    private Integer totalAmount;
+    private Long totalAmount;
 
     /**
      * 剩余期数
@@ -199,7 +199,7 @@ public class ProjectPaymentPay {
     /**
      * @return 总金额
      */
-    public Integer getTotalAmount() {
+    public Long getTotalAmount() {
         return totalAmount;
     }
 
@@ -207,7 +207,7 @@ public class ProjectPaymentPay {
      * @param totalAmount 
 	 *            总金额
      */
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Long totalAmount) {
         this.totalAmount = totalAmount;
     }
 

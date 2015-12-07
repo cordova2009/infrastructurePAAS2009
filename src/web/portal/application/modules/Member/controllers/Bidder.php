@@ -322,8 +322,23 @@ class BidderController extends MemberController{
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('bid/'.$func);
 	    $page = $this->getPagination(isset($resp['total'])?$resp['total']:'0', $this->pageSize);
-	    $html = $this->render($type,['page'=>$page,$type=>isset($resp['list'])?$resp['list']:[]]);
+	    $ret = $this->getIndustrys();
+	    $html = $this->render($type,['page'=>$page,$type=>$resp['list'],'industry'=>$ret]);
 	    $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
+    }
+    private function getIndustrys()
+    {
+	    $tmp = [];
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token])->send('tender/getIndustryList');
+	    if(check_resp($resp)) {
+		    foreach($resp['list'] as $v)
+		    {
+			    $tmp[$v['industryId']] = ['industryIcon'=>$v['industryIcon'],'industryName'=>$v['industryName']];
+		    }
+	    }
+	    return $tmp;
     }
     public function surveyAction()
     {
@@ -362,7 +377,9 @@ class BidderController extends MemberController{
 	    if(check_resp($resp)) {
 		    $this->assign('income',$resp['overall']);
 	    }
-	    $resp = $curl->setData(['token'=>$token])->send('myIncome/queryMyIncomeList');
+	    $p = $this->pageSize;
+	    $i = empty($i)?1:$i;
+	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('myIncome/queryMyIncomeList');
 	    if(check_resp($resp)) {
 		    $this->assign('list',$resp['list']);
 		    $page = $this->getPagination($resp['total'], $this->pageSize);

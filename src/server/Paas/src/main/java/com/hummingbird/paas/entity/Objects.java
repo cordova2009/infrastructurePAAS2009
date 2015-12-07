@@ -87,11 +87,6 @@ public class Objects {
     private Date bidOpenDate;
 
     /**
-     * 标准工期,单位是日历天
-     */
-    private Integer projectExpectPeriod;
-
-    /**
      * 承包方式
      */
     private String contractType;
@@ -416,20 +411,6 @@ public class Objects {
         this.bidOpenDate = bidOpenDate;
     }
 
-    /**
-     * @return 标准工期,单位是日历天
-     */
-    public Integer getProjectExpectPeriod() {
-        return projectExpectPeriod;
-    }
-
-    /**
-     * @param projectExpectPeriod 
-	 *            标准工期,单位是日历天
-     */
-    public void setProjectExpectPeriod(Integer projectExpectPeriod) {
-        this.projectExpectPeriod = projectExpectPeriod;
-    }
 
     /**
      * @return 承包方式

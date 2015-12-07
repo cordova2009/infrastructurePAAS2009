@@ -1368,8 +1368,6 @@ public class TenderServiceImpl implements TenderService {
 	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
 	// page) throws BusinessException {
 	public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException {
-		// TODO Auto-generated method stub
-		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		com.hummingbird.common.face.Pagingnation page = new Pagingnation();
 		page.setCurrPage(1);
 		page.setPageSize(10);

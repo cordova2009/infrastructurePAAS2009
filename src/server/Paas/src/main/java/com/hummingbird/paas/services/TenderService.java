@@ -1,14 +1,21 @@
 package com.hummingbird.paas.services;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
+import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
+import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
@@ -62,12 +69,12 @@ public interface TenderService {
 	 *            应用id
 	 * @param body
 	 *            参数
-	 * @param biddee 
+	 * @param biddee
 	 * @return
 	 * @throws BusinessException
 	 */
-	public MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body, Biddee biddee)
-			throws BusinessException;
+	public MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
+			Biddee biddee) throws BusinessException;
 
 	/**
 	 * 查询未完成招标项目基础信息接口
@@ -93,7 +100,7 @@ public interface TenderService {
 	 * @return 招标编号
 	 * @throws BusinessException
 	 */
-	public String saveObjectBaseInfo(String appId, SaveObjectBaseInfo body,Integer biddeeId) throws BusinessException;
+	public String saveObjectBaseInfo(String appId, SaveObjectBaseInfo body, Integer biddeeId) throws BusinessException;
 
 	/**
 	 * 查询未完成招标项目工程信息接口
@@ -105,7 +112,7 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public QueryObjectProjectInfoResult queryObjectProjectInfo(String appId, QueryObjectBodyVO body,Integer biddeeId)
+	public QueryObjectProjectInfoResult queryObjectProjectInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
 			throws BusinessException;
 
 	/**
@@ -118,315 +125,437 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public void saveObjectProjectInfo(String appId,int userId, SaveObjectProjectInfoBodyVO body,Integer biddeeId) throws BusinessException;
+	public void saveObjectProjectInfo(String appId, int userId, SaveObjectProjectInfoBodyVO body, Integer biddeeId)
+			throws BusinessException;
 
 	/**
- * 查询未完成招标项目工程要求接口
- * @param appId 应用id
- * @param queryObjectBodyVO 参数
- * @return 
- * @throws BusinessException 
- */
-public SaveObjectProjectInfoBodyVOResult queryProjectRequirementInfo(String appId,QueryObjectBodyVO queryObjectBodyVO,Integer biddeeId) throws BusinessException;
-	
-/**
-* 保存招标项目工程施工证明接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void saveProjectRequirementInfo(String appId,SaveProjectRequirementInfoBodyVO body,Integer biddeeId) throws BusinessException;
-	
-/**
-* 查询未完成招标项目工程施工证明接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryObjectConstructionInfoResult queryObjectConstructionInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	 * 查询未完成招标项目工程要求接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param queryObjectBodyVO
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public SaveObjectProjectInfoBodyVOResult queryProjectRequirementInfo(String appId,
+			QueryObjectBodyVO queryObjectBodyVO, Integer biddeeId) throws BusinessException;
 
-/**
-* 保存招标项目工程施工证明接口
-* @param appId 应用id
-* @param body 参数
- * @param biddeeId 
-* @return 
-* @throws BusinessException 
-*/
-public void saveObjectConstructionInfo(String appId,SaveObjectConstructionInfo body, Integer biddeeId) throws BusinessException;
-/**
-* 查询未完成招标项目资质要求接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryObjectCertificationInfoResult queryObjectCertificationInfo(String appId,QueryObjectBodyVO body, Integer biddeeId) throws BusinessException;
+	/**
+	 * 保存招标项目工程施工证明接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveProjectRequirementInfo(String appId, SaveProjectRequirementInfoBodyVO body, Integer biddeeId)
+			throws BusinessException;
 
+	/**
+	 * 查询未完成招标项目工程施工证明接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectConstructionInfoResult queryObjectConstructionInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException;
 
-/**
- * 保存招标项目资质要求接口
- * @param appId 应用id
- * @param body 参数
- * @return 
- * @throws BusinessException 
- */
-public void saveObjectCertificationInfo(String appId,SaveObjectCertificationInfo body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 保存招标项目工程施工证明接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @param biddeeId
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveObjectConstructionInfo(String appId, SaveObjectConstructionInfo body, Integer biddeeId)
+			throws BusinessException;
 
+	/**
+	 * 查询未完成招标项目资质要求接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectCertificationInfoResult queryObjectCertificationInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException;
 
-/**
- * 查询未完成招标项目保证金接口
- * @param appId 应用id
- * @param body 参数
- * @return 
- * @throws BusinessException 
- */
-public QueryObjectBondInfoResult queryObjectBondInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
-/**
-* 保存招标项目保证金接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void saveObjectBondInfo(String appId,SaveObjectBondInfo body,Integer biddeeId) throws BusinessException;
-/**
-* 查询标项目投标列表列表
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
+	/**
+	 * 保存招标项目资质要求接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveObjectCertificationInfo(String appId, SaveObjectCertificationInfo body, Integer biddeeId)
+			throws BusinessException;
 
-/**
-* 查询未完成招标项目投标文件接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryBidFileTypeInfoResult queryBidFileTypeInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 查询未完成招标项目保证金接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectBondInfoResult queryObjectBondInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
+			throws BusinessException;
 
-/**
-* 保存招标项目投标文件接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void saveBidFileTypeInfo(String appId,SaveBidFileTypeInfo body,Integer biddeeId) throws BusinessException;
-	
-/**
- * 查询未完成招标方式接口
- * @param appId 应用id
- * @param body 参数
- * @return 
- * @throws BusinessException 
- */
-public QueryObjectMethodInfoResult queryObjectMethodInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 保存招标项目保证金接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveObjectBondInfo(String appId, SaveObjectBondInfo body, Integer biddeeId) throws BusinessException;
 
-/**
- * saveObjectMethodInfo
- * @param appId 应用id
- * @param body 参数
- * @return 
- * @throws BusinessException 
- */
-public void saveObjectMethodInfo(String appId,SaveObjectMethodInfo body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 查询标项目投标列表列表
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
 
-/**
-* 查询未完成招标答疑方式接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryAnswerMethodInfoBodyVOResult queryAnswerMethodInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 查询未完成招标项目投标文件接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidFileTypeInfoResult queryBidFileTypeInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
+			throws BusinessException;
 
-/**
-* 保存招标答疑方式接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void saveAnswerMethodInfo(String appId,SaveAnswerMethodInfoBodyVO body) throws BusinessException;
-/**
-* 查询未完成招标时间要求接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryDateRequirementInfoBodyVOResult queryDateRequirementInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 保存招标项目投标文件接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveBidFileTypeInfo(String appId, SaveBidFileTypeInfo body, Integer biddeeId) throws BusinessException;
 
+	/**
+	 * 查询未完成招标方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryObjectMethodInfoResult queryObjectMethodInfo(String appId, QueryObjectBodyVO body, Integer biddeeId)
+			throws BusinessException;
 
-/**
-* 保存招标时间要求
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void saveDateRequirementInfo(String appId,SaveDateRequirementInfoBodyVO body) throws BusinessException;
-/**
-* 查询未完成招标评标方式接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryBidEvaluationTypeInfoBodyVOResult queryBidEvaluationTypeInfo(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	/**
+	 * saveObjectMethodInfo
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveObjectMethodInfo(String appId, SaveObjectMethodInfo body, Integer biddeeId)
+			throws BusinessException;
 
-/**
- * 保存招标评标方式接口
- * @param appId 应用id
- * @param body 参数
- * @return 
- * @throws BusinessException 
- */
-public void saveBidEvaluationTypeInfo(String appId,SaveBidEvaluationTypeInfoBodyVO body) throws BusinessException;
+	/**
+	 * 查询未完成招标答疑方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryAnswerMethodInfoBodyVOResult queryAnswerMethodInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException;
 
-/**
-* 发布标的接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public void submitObject(String appId,QueryObjectBodyVO body,Integer biddeeId) throws BusinessException;
+	/**
+	 * 保存招标答疑方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveAnswerMethodInfo(String appId, SaveAnswerMethodInfoBodyVO body) throws BusinessException;
 
+	/**
+	 * 查询未完成招标时间要求接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryDateRequirementInfoBodyVOResult queryDateRequirementInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException;
 
-/**
-* 取得我的招标项目列表
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public List<MyTenderObjectListVO> getTenderObjectList(Integer  user_id,Pagingnation page) throws BusinessException;
+	/**
+	 * 保存招标时间要求
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveDateRequirementInfo(String appId, SaveDateRequirementInfoBodyVO body) throws BusinessException;
 
-/**
-* 查询我的施工项目列表接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer  user_id,Pagingnation page) throws BusinessException;
+	/**
+	 * 查询未完成招标评标方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidEvaluationTypeInfoBodyVOResult queryBidEvaluationTypeInfo(String appId, QueryObjectBodyVO body,
+			Integer biddeeId) throws BusinessException;
 
-/**
-* 查询我的已结束项目列表接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer  user_id,Pagingnation page) throws BusinessException;
+	/**
+	 * 保存招标评标方式接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void saveBidEvaluationTypeInfo(String appId, SaveBidEvaluationTypeInfoBodyVO body) throws BusinessException;
 
-/**
-* 查询招标项目列表接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords,Pagingnation page) throws BusinessException;
+	/**
+	 * 发布标的接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void submitObject(String appId, QueryObjectBodyVO body, Integer biddeeId) throws BusinessException;
 
+	/**
+	 * 取得我的招标项目列表
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<MyTenderObjectListVO> getTenderObjectList(Integer user_id, Pagingnation page) throws BusinessException;
 
-/**
-* 查询首页招标项目列表接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-//public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException;
-public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException;
-/**
-* 查询首页中标结果概况接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
-/**
-* 查询首页中标结果列表接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page,String projectName,Integer publishTime) throws BusinessException;
+	/**
+	 * 查询我的施工项目列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer user_id, Pagingnation page)
+			throws BusinessException;
 
-/**
-* 查询首页中标结果概况接口
-* @param appId 应用id
-* @param body 参数
-* @return 
-* @throws BusinessException 
-*/
-//public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
+	/**
+	 * 查询我的已结束项目列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer user_id, Pagingnation page)
+			throws BusinessException;
 
-/**
-* 查询资质证书类型列表接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public List<QueryCertificateListResultVO> queryCertificateList() throws BusinessException;
+	/**
+	 * 查询招标项目列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
+			throws BusinessException;
 
-/**
-* 查询投标方列表接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
+	/**
+	 * 查询首页招标项目列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
+	// page) throws BusinessException;
+	public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException;
 
-	
-/**
-* 查询首页投标人推荐列表接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex,Integer pageSize) throws BusinessException; 
+	/**
+	 * 查询首页中标结果概况接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException;
 
-/**
-* 查询首页投标人推荐列表接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public int evaluateBidder(EvaluateBidderBodyVO body,Token token) throws BusinessException; 
+	/**
+	 * 查询首页中标结果列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page, String projectName, Integer publishTime)
+			throws BusinessException;
 
-/**
-* 查询招标公司信息接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public CompanyInfo queryTenderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException; 
-/**
-* 查询投标公司信息接口
-*
-* @return 
-* @throws BusinessException 
-*/
-public CompanyInfo queryBidderCompanyInfo(String appId,QueryCompanyInfoBodyVO body) throws BusinessException;
+	/**
+	 * 查询首页中标结果概况接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	// public QueryBidIndexSurveyResult getBidIndexSurvey() throws
+	// BusinessException;
 
-/**
- * 招标方给投标方评价
- * @param appId
- * @param body
- * @param biddee
- */
-public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee)throws BusinessException; 
+	/**
+	 * 查询资质证书类型列表接口
+	 *
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<QueryCertificateListResultVO> queryCertificateList() throws BusinessException;
 
+	/**
+	 * 查询投标方列表接口
+	 *
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
+
+	/**
+	 * 查询首页投标人推荐列表接口
+	 *
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
+			throws BusinessException;
+
+	/**
+	 * 查询招标公司信息接口
+	 *
+	 * @return
+	 * @throws BusinessException
+	 */
+	public CompanyInfo queryTenderCompanyInfo(String appId, QueryCompanyInfoBodyVO body) throws BusinessException;
+
+	/**
+	 * 查询投标公司信息接口
+	 *
+	 * @return
+	 * @throws BusinessException
+	 */
+	public CompanyInfo queryBidderCompanyInfo(String appId, QueryCompanyInfoBodyVO body) throws BusinessException;
+
+	/**
+	 * 招标方给投标方评价
+	 * 
+	 * @param appId
+	 * @param body
+	 * @param biddee
+	 */
+	public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException;
+
+	/**
+	 * 查询工程类别列表
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	List<GetIndustryListBodyVOResult> getIndustryList(String appId, Map body) throws BusinessException;
+
+	/**
+	 * 查询工程类别详情
+	 * 
+	 * @param appId
+	 * @param body
+	 * @return
+	 * @throws BusinessException
+	 */
+	public GetIndustryListBodyVOResult getIndustryDetail(String appId, GetIndustryDetailBodyVO body)
+			throws BusinessException;
 
 }

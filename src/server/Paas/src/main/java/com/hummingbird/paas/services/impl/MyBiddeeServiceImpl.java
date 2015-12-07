@@ -184,7 +184,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
 			registeredInfo.setBusinessScope(aa.getBusinessScope());
 			registeredInfo.setRegTime(aa.getRegTime());
-			registeredInfo.setBusinessLicenseExpireTime(DateUtil.formatShortDateorNull(aa.getBusinessLicenseExpireTime()));
+			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
 			registeredInfo.setAddress(aa.getAddress());
 			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
 			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
@@ -360,16 +360,6 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				String businessScope = registeredInfo.getBusinessScope();
 				String address = registeredInfo.getAddress();
 				Date regTime = registeredInfo.getRegTime();
-				Date businessLicenseExpireTime = null;
-				
-				if(StringUtils.isNotBlank(registeredInfo.getBusinessLicenseExpireTime())){
-					try {
-						businessLicenseExpireTime = DateUtils.parseDate(registeredInfo.getBusinessLicenseExpireTime(),"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd");
-					} catch (ParseException e) {
-						log.error(String.format("企业营业期限%s日期格式不正确",registeredInfo.getBusinessLicenseExpireTime()),e);
-						throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "企业营业期限日期格式不正确");
-					}
-				}
 				
 				biddee.setBusinessLicenseType(businessLicenseType);
 				if("NEW".equalsIgnoreCase(businessLicenseType)){
@@ -403,7 +393,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				biddee.setAddress(address);
 				
 				biddee.setRegTime(regTime);
-				biddee.setBusinessLicenseExpireTime(businessLicenseExpireTime);
+				biddee.setBusinessLicenseExpireTime(registeredInfo.getBusinessLicenseExpireTime());
 			}	
 			if(biddee==null && biddee.getId()==null){
 				//biddee=new BiddeeCerticate();

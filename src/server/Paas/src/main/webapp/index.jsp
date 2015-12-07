@@ -262,6 +262,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<tr>
 		<td><input  value="支付宝网关支付通知"  onclick='setbinding("/order/payNotify","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },        \"body\":{           \"errcode\":0, \"errmsg\":\"支付成功\",\"orderId\":\"FN2010219392838232\",\"payTime\":\"2015-02-02 12:12:12\"        }    }")'  type="button" ></td>
 	</tr>
+	<tr><td colspan="6">其它</td></tr>
+	<tr>
+		<td><input  value="查询工程类别列表"  onclick='setbinding("/tender/getIndustryList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {          }    }")'  type="button" ></td>
+		<td><input  value="查询工程类别详情"  onclick='setbinding("/tender/getIndustryDetail","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {    \"industryId\":\"TSF\"      }    }")'  type="button" ></td>
+	</tr>
 </table>
   </body>
     <script>

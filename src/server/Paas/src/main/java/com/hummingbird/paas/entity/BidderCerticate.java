@@ -69,7 +69,7 @@ public class BidderCerticate {
     /**
      * 企业营业期限
      */
-    private Date businessLicenseExpireTime;
+    private String businessLicenseExpireTime;
 
     /**
      * 企业电子邮箱
@@ -379,7 +379,7 @@ public class BidderCerticate {
     /**
      * @return 企业营业期限
      */
-    public Date getBusinessLicenseExpireTime() {
+    public String getBusinessLicenseExpireTime() {
         return businessLicenseExpireTime;
     }
 
@@ -387,8 +387,8 @@ public class BidderCerticate {
      * @param businessLicenseExpireTime 
 	 *            企业营业期限
      */
-    public void setBusinessLicenseExpireTime(Date businessLicenseExpireTime) {
-        this.businessLicenseExpireTime = businessLicenseExpireTime;
+    public void setBusinessLicenseExpireTime(String businessLicenseExpireTime) {
+        this.businessLicenseExpireTime = businessLicenseExpireTime == null ? null : businessLicenseExpireTime.trim();
     }
 
     /**

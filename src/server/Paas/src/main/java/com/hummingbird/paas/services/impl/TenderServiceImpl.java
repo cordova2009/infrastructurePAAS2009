@@ -11,7 +11,6 @@ import java.util.Map;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,17 +20,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
-import com.hummingbird.paas.entity.Announcement;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
-import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
@@ -39,6 +36,7 @@ import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
+import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.Qanda;
@@ -48,9 +46,7 @@ import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
-import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
-import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
@@ -59,6 +55,7 @@ import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
 import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
+import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
@@ -75,6 +72,8 @@ import com.hummingbird.paas.vo.CompanyEvaluationInfo;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.CompanySurvey;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
+import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
+import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
@@ -165,10 +164,12 @@ public class TenderServiceImpl implements TenderService {
 	ProjectEvaluationBidderMapper evaluationBidderDao;
 	@Autowired
 	BiddeeMapper beDao;  //ProjectPaymentPayMapper
+
 	@Autowired
 	BidderMapper brDao;  //ProjectPaymentPayMapper
 	@Autowired
 	ProjectPaymentPayMapper pppDao;
+
 	/**
 	 * 我的招标评标概况接口
 	 * 
@@ -260,24 +261,22 @@ public class TenderServiceImpl implements TenderService {
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目基础信息接口开始");
 		}
-		BidObject bo  = null;
-		if(StringUtils.isBlank(body.getObjectId())){
-			//查询有没有未完成的
+		BidObject bo = null;
+		if (StringUtils.isBlank(body.getObjectId())) {
+			// 查询有没有未完成的
 			List<BidObject> selectUnfinishObject = dao.selectUnfinishObject(biddeeId, null);
-			if(selectUnfinishObject!=null&&!selectUnfinishObject.isEmpty())
-			{
+			if (selectUnfinishObject != null && !selectUnfinishObject.isEmpty()) {
 				bo = selectUnfinishObject.get(0);
 			}
-		}
-		else{
-			
+		} else {
+
 			bo = dao.selectByPrimaryKey(body.getObjectId());
-			if(bo!=null){
-				//检查编号是否存在
+			if (bo != null) {
+				// 检查编号是否存在
 				ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 			}
 		}
-		
+
 		if (bo == null) {
 			bo = new BidObject();
 
@@ -290,7 +289,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setBiddeeId(biddeeId);
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
-//			bo.setIndustryId(body.getIndustryId());
+			// bo.setIndustryId(body.getIndustryId());
 			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
@@ -302,7 +301,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
-			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(),"ENB"));
+			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(), "ENB"));
 			bo.setInsertTime(new Date());
 
 			dao.insert(bo);
@@ -310,7 +309,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setBiddeeId(biddeeId);
 			bo.setObjectName(body.getObjectName());
 			bo.setObjectName(body.getObjectName());
-//			bo.setIndustryId(body.getIndustryId());
+			// bo.setIndustryId(body.getIndustryId());
 			bo.setObjectNo(body.getBiddingNo());
 			bo.setObjectScope(body.getObjectScope());
 			bo.setBiddeeCompanyPrincipal(body.getBiddeeCompanyPrincipal());
@@ -321,7 +320,7 @@ public class TenderServiceImpl implements TenderService {
 			bo.setObjectAmount(0l);
 			bo.setProjectExpectPeriod(0);
 			bo.setBidBondAmount(0l);
-			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(),"ENB"));
+			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(), "ENB"));
 			dao.updateByPrimaryKey(bo);
 		}
 		if (log.isDebugEnabled()) {
@@ -396,7 +395,7 @@ public class TenderServiceImpl implements TenderService {
 		ObjectProjectInfo bp = bpdao.selectByPrimaryKey(body.getObjectId());
 		if (bp == null) {
 			bp = new ObjectProjectInfo();
-			
+
 			bp.setObjectId(bo.getObjectId());
 			bp.setProjectName(body.getProjectName());
 			bp.setProjectSite(body.getProjectSite());
@@ -583,26 +582,26 @@ public class TenderServiceImpl implements TenderService {
 				bpi = new ObjectProjectInfo();
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
-				if(StringUtils.isNotBlank(body.getLandUseCertificateEndDate())){
+				if (StringUtils.isNotBlank(body.getLandUseCertificateEndDate())) {
 					bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
 				}
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
 				bpi.setConstructionLandUsePermitNo(body.getConstructionLandUsePermitNo());
-				if(StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())){
-					
+				if (StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())) {
+
 					bpi.setConstructionLandUsePermitEnddate(
 							DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
 				}
 				bpi.setConstructionLandUsePermitUrl(body.getConstructionLandUsePermitUrl());
 				bpi.setBuildingPermitNo(body.getBuildingPermitNo());
-				if(StringUtils.isNotBlank(body.getBuildingPermitEndDate())){
-					
+				if (StringUtils.isNotBlank(body.getBuildingPermitEndDate())) {
+
 					bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
 				}
 				bpi.setBuildingPermitUrl(body.getBuildingPermitUrl());
 				bpi.setLetterOfAcceptanceUrl(body.getLetterOfAcceptanceUrl());
 				bpi.setBuildingConstructionPermitNo(body.getBuildingConstructPermitNo());
-				if(StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())){
+				if (StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())) {
 					bpi.setBuildingConstructionPermitEnddate(
 							DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
 				}
@@ -613,24 +612,24 @@ public class TenderServiceImpl implements TenderService {
 
 				bpi.setConstructionProveType(body.getConstructionProveType());
 				bpi.setLandUseCertificateNo(body.getLandUseCertificateNo());
-				if(StringUtils.isNotBlank(body.getLandUseCertificateEndDate())){
+				if (StringUtils.isNotBlank(body.getLandUseCertificateEndDate())) {
 					bpi.setLandUseCertificateEnddate(DateUtil.parse(body.getLandUseCertificateEndDate()).getTime());
 				}
 				bpi.setLandUseCertificateUrl(body.getLandUseCertificateUrl());
 				bpi.setConstructionLandUsePermitNo(body.getConstructionLandUsePermitNo());
-				if(StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())){
+				if (StringUtils.isNotBlank(body.getConstructionLandUsePermitEndDate())) {
 					bpi.setConstructionLandUsePermitEnddate(
 							DateUtil.parse(body.getConstructionLandUsePermitEndDate()).getTime());
 				}
 				bpi.setConstructionLandUsePermitUrl(body.getConstructionLandUsePermitUrl());
 				bpi.setBuildingPermitNo(body.getBuildingPermitNo());
-				if(StringUtils.isNotBlank(body.getBuildingPermitEndDate())){
+				if (StringUtils.isNotBlank(body.getBuildingPermitEndDate())) {
 					bpi.setBuildingPermitEnddate(DateUtil.parse(body.getBuildingPermitEndDate()).getTime());
 				}
 				bpi.setBuildingPermitUrl(body.getBuildingPermitUrl());
 				bpi.setLetterOfAcceptanceUrl(body.getLetterOfAcceptanceUrl());
 				bpi.setBuildingConstructionPermitNo(body.getBuildingConstructPermitNo());
-				if(StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())){
+				if (StringUtils.isNotBlank(body.getBuildingConstructPermitEndDate())) {
 					bpi.setBuildingConstructionPermitEnddate(
 							DateUtil.parse(body.getBuildingConstructPermitEndDate()).getTime());
 				}
@@ -766,11 +765,13 @@ public class TenderServiceImpl implements TenderService {
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
-		Integer objectBidderBond = obsDao.getObjectBidderBond(body.getObjectId());
+		// Integer objectBidderBond =
+		// obsDao.getObjectBidderBond(body.getObjectId());
+
 		QueryObjectBondInfoResult result = new QueryObjectBondInfoResult();
-		if (objectBidderBond != null) {
-			result.setBidBondAmount(ObjectUtils.toString(objectBidderBond ));
-		}
+		// if (objectBidderBond != null) {
+		result.setBidBondAmount(ObjectUtils.toString(bo.getBidBondAmount()));
+		// }
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标项目保证金接口完成");
 		}
@@ -796,17 +797,19 @@ public class TenderServiceImpl implements TenderService {
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
 		ValidateUtil.assertNull(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
-		ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
-		if (ob == null) {
-			ob = new ObjectBondSetting();
-			ob.setObjectId(bo.getObjectId());
-			ob.setBiddeeBond(0l);
-			ob.setBidderBidBond(body.getBidBondAmount());
-			obsDao.insert(ob);
-		} else {
-			ob.setBidderBidBond(body.getBidBondAmount());
-			obsDao.updateByPrimaryKey(ob);
-		}
+		bo.setBidBondAmount(body.getBidBondAmount());
+		dao.updateByPrimaryKey(bo);
+		// ObjectBondSetting ob = obsDao.selectByObjectId(bo.getObjectId());
+		// if (ob == null) {
+		// ob = new ObjectBondSetting();
+		// ob.setObjectId(bo.getObjectId());
+		// ob.setBiddeeBond(0l);
+		// ob.setBidderBidBond(body.getBidBondAmount());
+		// obsDao.insert(ob);
+		// } else {
+		// ob.setBidderBidBond(body.getBidBondAmount());
+		// obsDao.updateByPrimaryKey(ob);
+		// }
 
 		if (log.isDebugEnabled()) {
 			log.debug("保存招标项目保证金接口完成");
@@ -835,9 +838,9 @@ public class TenderServiceImpl implements TenderService {
 		result.setNeedBusinessStandard(bo.getNeedBusinessStandard());
 		result.setNeedCertificationCheckupFile(bo.getNeedCertificationCheckupFile());
 		result.setNeedTechnicalStandard(bo.getNeedTechnicalStandard());
-		//从附件表中查询,如果有多个,则尝试拿名称有标记 TF#,如果没有,则尝试拿 第一个
+		// 从附件表中查询,如果有多个,则尝试拿名称有标记 TF#,如果没有,则尝试拿 第一个
 		List<ObjectAttachment> attachments = oaDao.selectTenderFileByObjectId(bo.getObjectId());
-		if(attachments!=null&&!attachments.isEmpty()){
+		if (attachments != null && !attachments.isEmpty()) {
 			result.setTenderFile(attachments.get(0).getAttachmentUrl());
 		}
 		// 请自行调整
@@ -865,28 +868,28 @@ public class TenderServiceImpl implements TenderService {
 		}
 		ValidateUtil.assertNull(body.getObjectId(), "招标编号");
 		BidObject bo = dao.selectByPrimaryKey(body.getObjectId());
-		if(bo==null){
+		if (bo == null) {
 			throw ValidateException.ERROR_PARAM_NULL.clone(null, "招标项目不存在");
 		}
 		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "CRT", "项目非编制中,不能进行操作");
 		ValidateUtil.assertEmpty(body.getTenderFile(), "招标文件");
-		
+
 		bo.setNeedBusinessStandard(StringUtils.defaultIfEmpty(body.getNeedBusinessStandard(), "NO#"));
 		bo.setNeedCertificationCheckupFile(StringUtils.defaultIfEmpty(body.getNeedCertificationCheckupFile(), "NO#"));
 		bo.setNeedTechnicalStandard(StringUtils.defaultIfEmpty(body.getNeedTechnicalStandard(), "NO#"));
 		dao.updateByPrimaryKey(bo);
-		//删除原来的文件
+		// 删除原来的文件
 		List<ObjectAttachment> selctByObjectId = oaDao.selectTenderFileByObjectId(bo.getObjectId());
 		for (Iterator iterator = selctByObjectId.iterator(); iterator.hasNext();) {
 			ObjectAttachment objectAttachment = (ObjectAttachment) iterator.next();
 			oaDao.deleteByPrimaryKey(objectAttachment.getId());
 		}
-		//重新添加
+		// 重新添加
 		ObjectAttachment objectAttachment = new ObjectAttachment();
 		objectAttachment.setObjectId(bo.getObjectId());
 		objectAttachment.setInsertTime(new Date());
 		objectAttachment.setAttachmentUrl(body.getTenderFile());
-//		objectAttachment.getInsertBy();
+		// objectAttachment.getInsertBy();
 		objectAttachment.setAttachmentType("TF#");
 		oaDao.insert(objectAttachment);
 		// 请自行调整
@@ -992,20 +995,24 @@ public class TenderServiceImpl implements TenderService {
 		return null;
 	}
 
-//	@Override
-//	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
-//		// TODO Auto-generated method stub
-//		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
-//		
-//		if(page!=null&&page.isCountsize()){
-//			int totalcount = notificationDao.selectTotalCountByTokenAndStatus(token, status);
-//			page.setTotalCount(totalcount);
-//			page.calculatePageCount();
-//		}
-//		List<InstationNotification> nos = notificationDao.selectByUserInValid(token, status, page); 
-//		
-//		return nos;
-//	}
+	// @Override
+	// public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer
+	// userId, String objectId, Pagingnation page) {
+	// // TODO Auto-generated method stub
+	// org.apache.commons.logging.Log log =
+	// org.apache.commons.logging.LogFactory.getLog(this.getClass());
+	//
+	// if(page!=null&&page.isCountsize()){
+	// int totalcount = notificationDao.selectTotalCountByTokenAndStatus(token,
+	// status);
+	// page.setTotalCount(totalcount);
+	// page.calculatePageCount();
+	// }
+	// List<InstationNotification> nos =
+	// notificationDao.selectByUserInValid(token, status, page);
+	//
+	// return nos;
+	// }
 
 	/**
 	 * 查询未完成招标答疑方式接口
@@ -1313,96 +1320,98 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public List<MyTenderObjectListVO> getTenderObjectList(Integer user_id, Pagingnation page) throws BusinessException {
-		
-		if(page!=null&&page.isCountsize()){
+
+		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalCountTenderObject(user_id);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<MyTenderObjectListVO> ans = dao.selectTenderObject(user_id, page); 
-		
+		List<MyTenderObjectListVO> ans = dao.selectTenderObject(user_id, page);
+
 		return ans;
-	
+
 	}
 
 	@Override
 	public List<TenderMyBuildingObjectVO> getTenderBuildingObjectList(Integer user_id, Pagingnation page)
 			throws BusinessException {
-		
-		if(page!=null&&page.isCountsize()){
+
+		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalTenderBuildingObject(user_id);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<TenderMyBuildingObjectVO> ans = dao.selectTenderBuildingObject(user_id, page); 
-		
+		List<TenderMyBuildingObjectVO> ans = dao.selectTenderBuildingObject(user_id, page);
+
 		return ans;
 	}
 
 	@Override
 	public List<TenderMyEndedObjectVO> getTenderEndedObjectList(Integer user_id, Pagingnation page)
 			throws BusinessException {
-		
-		if(page!=null&&page.isCountsize()){
+
+		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalTenderEndedObject(user_id);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<TenderMyEndedObjectVO> ans = dao.selectTenderEndedObject(user_id, page); 
-		
+		List<TenderMyEndedObjectVO> ans = dao.selectTenderEndedObject(user_id, page);
+
 		return ans;
 	}
 
 	@Override
 	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
 			throws BusinessException {
-		
-		if(page!=null&&page.isCountsize()){
+
+		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalTenderObjectList(keywords);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(keywords, page); 
-		
+		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(keywords, page);
+
 		return ans;
 	}
 
 	@Override
-//	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException {
+	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
+	// page) throws BusinessException {
 	public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException {
 		// TODO Auto-generated method stub
 		org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 		com.hummingbird.common.face.Pagingnation page = new Pagingnation();
 		page.setCurrPage(1);
 		page.setPageSize(10);
-		if(page!=null&&page.isCountsize()){
+		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalIndexObjectList();
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page); 
-		
+		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page);
+
 		return ans;
 	}
 
 	@Override
 	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException {
-			QueryBidIndexSurveyResult bis = dao.selectBidIndexSurvey();
-			return bis;
+		QueryBidIndexSurveyResult bis = dao.selectBidIndexSurvey();
+		return bis;
 	}
 
 	@Override
-	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page,String projectName,Integer publishTime) throws BusinessException {
-		if(page!=null&&page.isCountsize()){
-			int totalcount = dao.selectTotalBidIndexList(projectName,publishTime);
+	public List<QueryBidIndexListResult> getBidIndexList(Pagingnation page, String projectName, Integer publishTime)
+			throws BusinessException {
+		if (page != null && page.isCountsize()) {
+			int totalcount = dao.selectTotalBidIndexList(projectName, publishTime);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(projectName,publishTime,page); 
-		
+		List<QueryBidIndexListResult> ans = dao.selectBidIndexList(projectName, publishTime, page);
+
 		return ans;
 	}
-	
+
 	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException {
 		List<Bidder> bers = berDao.selectAll();
 		List<QueryBidderListResultVO> qlr = new ArrayList<QueryBidderListResultVO>();
@@ -1415,6 +1424,7 @@ public class TenderServiceImpl implements TenderService {
 		}
 		return qlr;
 	}
+
 	/**
 	 * 查询资质证书类型列表接口
 	 * 
@@ -1425,14 +1435,14 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<QueryCertificateListResultVO> queryCertificateList(){
+	public List<QueryCertificateListResultVO> queryCertificateList() {
 		if (log.isDebugEnabled()) {
 			log.debug("查询资质证书类型列表接口开始");
 		}
 		List<Industry> inds = indDao.selectAll();
-		if(inds == null){
-			if(log.isDebugEnabled()){
-			    log.debug("得到industry为空"+inds);
+		if (inds == null) {
+			if (log.isDebugEnabled()) {
+				log.debug("得到industry为空" + inds);
 			}
 			return null;
 		}
@@ -1460,7 +1470,7 @@ public class TenderServiceImpl implements TenderService {
 		}
 		return qc;
 	}
-	
+
 	/**
 	 * 查询首页投标人推荐列表接口
 	 * 
@@ -1475,7 +1485,7 @@ public class TenderServiceImpl implements TenderService {
 	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
 			throws BusinessException {
 		// TODO Auto-generated method stub
-		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex,pageSize);
+		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex, pageSize);
 		List<QueryIndexBidListResultVO> qlr = new ArrayList<QueryIndexBidListResultVO>();
 		QueryIndexBidListResultVO qr = null;
 		for (Bidder ber : bers) {
@@ -1496,9 +1506,11 @@ public class TenderServiceImpl implements TenderService {
 		if(project==null){
 			if(log.isDebugEnabled()){
 				log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
-			}throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
+					String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
 		}
-		ProjectEvaluationBiddee evaluationBiddee=new ProjectEvaluationBiddee();
+		ProjectEvaluationBiddee evaluationBiddee = new ProjectEvaluationBiddee();
 		evaluationBiddee.setBiddeeId(project.getBiddeeId());
 		evaluationBiddee.setBidderId(project.getBidderId());
 		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
@@ -1507,10 +1519,11 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setProjectId(project.getProjectId());
 		evaluationBiddee.setScore(body.getEvaluateScore());
 		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
-		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
-		if(body.getTags()!=null){
-			for(String tag : body.getTags()){
-				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info", body.getObjectId());
+		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
+		if (body.getTags() != null) {
+			for (String tag : body.getTags()) {
+				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info",
+						body.getObjectId());
 			}
 		}
 		
@@ -1524,13 +1537,13 @@ public class TenderServiceImpl implements TenderService {
 	public CompanyInfo queryTenderCompanyInfo(String appId, QueryCompanyInfoBodyVO mm) throws BusinessException {
 		// TODO Auto-generated method stub
 		CompanyInfo cc = new CompanyInfo();
-//		1.概况
+		// 1.概况
 		CompanyBaseInfo cb = new CompanyBaseInfo();
 		CompanySurvey cs = beDao.selectCompanySurveyById(mm.getCompanyId());
 		cc.setSurvey(cs);
-//		2.基本信息
+		// 2.基本信息
 		Biddee biddee = beDao.selectByPrimaryKey(mm.getCompanyId());
-		ValidateUtil.assertNull(biddee,"招标信息不存在！");
+		ValidateUtil.assertNull(biddee, "招标信息不存在！");
 		cb.setAddress(biddee.getAddress());
 		cb.setBusinessScope(biddee.getBusinessScope());
 		cb.setCompanyName(biddee.getCompanyName());
@@ -1541,11 +1554,11 @@ public class TenderServiceImpl implements TenderService {
 		cb.setRegisteredCapital(biddee.getRegisteredCapital());
 		cb.setRegTime(biddee.getRegTime());
 		cc.setBaseInfo(cb);
-//		3.证书信息
+		// 3.证书信息
 		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
 		cc.setCerticate(ccis);
-//		4.招投标信息
-		CompanyBidInfo  cbi  = new CompanyBidInfo();
+		// 4.招投标信息
+		CompanyBidInfo cbi = new CompanyBidInfo();
 		cbi.setTenderNum(dao.selectTenderNumbyBiddeeId(mm.getCompanyId()));
 		cbi.setBidNum(dao.selectBidNumbyBiddeeId(mm.getCompanyId()));
 		cbi.setFlowNum(dao.selectFlowNumbyBiddeeId(mm.getCompanyId()));
@@ -1553,8 +1566,8 @@ public class TenderServiceImpl implements TenderService {
 		cbi.setOnTimeNum(pppDao.getBiddeeOnTimeNum(mm.getCompanyId()));
 		cbi.setOutTimeNum(pppDao.getBiddeeOutTimeNum(mm.getCompanyId()));
 		cc.setBidInfo(cbi);
-//		5.评价信息
-		CompanyEvaluationInfo  cei  = new CompanyEvaluationInfo();
+		// 5.评价信息
+		CompanyEvaluationInfo cei = new CompanyEvaluationInfo();
 		cei.setCompanyEvaluateNum(evaluationBiddeeDao.countEvaluationNumByBiddeeId(mm.getCompanyId()));
 		cei.setCompanyEvaluateScore(evaluationBiddeeDao.countEvaluationScoreByBiddeeId(mm.getCompanyId()));
 		List<CompanyEvaluationDetailInfo> cedis = evaluationBiddeeDao.selectEvaluationDetailByBiddeeId(mm.getCompanyId());
@@ -1566,24 +1579,24 @@ public class TenderServiceImpl implements TenderService {
 		
 		
 		List<TagInfo> tagList = new ArrayList<TagInfo>();
-//		---------------------------------------------------------------------
+		// ---------------------------------------------------------------------
 		Gson ss = new Gson();
-		try{
+		try {
 			JsonResult str = ss.fromJson(tagJson, JsonResult.class);
 
-			if(str!= null&&"0".equals(str.getErrcode())){
-				for(JsonResultMsg msg : str.getErrmsg()){
-					TagInfo aa =new TagInfo();
+			if (str != null && "0".equals(str.getErrcode())) {
+				for (JsonResultMsg msg : str.getErrmsg()) {
+					TagInfo aa = new TagInfo();
 					aa.setTagName(msg.getTagName());
 					aa.setTagNum(msg.getTabUseNum());
 					tagList.add(aa);
 				}
-				
+
 			}
-		}catch(JsonSyntaxException e){
+		} catch (JsonSyntaxException e) {
 			log.error(e.getMessage());
 		}
-		
+
 		cei.setTag(tagList);
 		cc.setEvaluationInfo(cei);
 		return cc;
@@ -1658,40 +1671,43 @@ public class TenderServiceImpl implements TenderService {
 		cc.setEvaluationInfo(cei);
 		return cc;
 	}
-	
+
 	/**
 	 * 招标方给投标方评价
+	 * 
 	 * @param appId
 	 * @param body
 	 * @param biddee
 	 */
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee)throws BusinessException{
-		
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException {
+
 		int i = 0;
 		String objectId = body.getObjectId();
 		BidObject bidObject = dao.selectByPrimaryKey(objectId);
-		if(bidObject==null){
-			log.error( "标的不存在:"+objectId);
+		if (bidObject == null) {
+			log.error("标的不存在:" + objectId);
 			throw ValidateException.ERROR_PARAM_NULL.clone(null, "标的不存在:");
 		}
-		if(StringUtils.equals(bidObject.getObjectStatus(),"END")){
-			log.error( "标的未结束:"+objectId);
+		if (StringUtils.equals(bidObject.getObjectStatus(), "END")) {
+			log.error("标的未结束:" + objectId);
 			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的未结束");
 		}
 		List<ProjectInfo> projects = projectInfoDao.selectByObjectId(objectId);
-		if(org.apache.commons.collections.CollectionUtils.isEmpty(projects)){
-			log.error( "标的工程不存在:"+objectId);
+		if (org.apache.commons.collections.CollectionUtils.isEmpty(projects)) {
+			log.error("标的工程不存在:" + objectId);
 			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的工程不存在");
 		}
-		ProjectInfo project=projects.get(0);
-//		if(project==null){
-//			if(log.isDebugEnabled()){
-//				log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
-//			}
-//			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
-//		}
-		ProjectEvaluationBiddee evaluationBiddee=new ProjectEvaluationBiddee();
+		ProjectInfo project = projects.get(0);
+		// if(project==null){
+		// if(log.isDebugEnabled()){
+		// log.debug(String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
+		// }
+		// throw new
+		// PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败",
+		// body.getObjectId()));
+		// }
+		ProjectEvaluationBiddee evaluationBiddee = new ProjectEvaluationBiddee();
 		evaluationBiddee.setStarCount(0);
 		evaluationBiddee.setBiddeeId(project.getBiddeeId());
 		evaluationBiddee.setBidderId(project.getBidderId());
@@ -1702,15 +1718,70 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setScore(body.getEvaluateScore());
 		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
 		evaluationBiddeeDao.insert(evaluationBiddee);
-		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
-		//调用接口时,如果数据库失败,这个标签也会保存进去
-		if(body.getTags()!=null){
-			for(String tag : body.getTags()){
-				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info", body.getObjectId());
+		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
+		// 调用接口时,如果数据库失败,这个标签也会保存进去
+		if (body.getTags() != null) {
+			for (String tag : body.getTags()) {
+				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info",
+						body.getObjectId());
 			}
 		}
-		
+
 	}
 
+	/**
+	 * 查询工程类别列表
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	@Override
+	public List<GetIndustryListBodyVOResult> getIndustryList(String appId, Map body) throws BusinessException {
+		if (log.isDebugEnabled()) {
+			log.debug("查询工程类别列表开始");
+		}
+		List<GetIndustryListBodyVOResult> result = new ArrayList<>();
+		List<Industry> selectAll = indDao.selectAll();
+		for (Iterator iterator = selectAll.iterator(); iterator.hasNext();) {
+			Industry industry = (Industry) iterator.next();
+			GetIndustryListBodyVOResult item = new GetIndustryListBodyVOResult();
+			result.add(item);
+			item.setIndustryIcon(industry.getIndustryIcon());
+			item.setIndustryId(industry.getId());
+			item.setIndustryName(industry.getIndustryName());
+		}
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询工程类别列表完成");
+		}
+		return result;
+	}
+
+	/**
+	 * 查询工程类别详情
+	 * 
+	 * @param appId
+	 * @param body
+	 * @return
+	 * @throws BusinessException
+	 */
+	public GetIndustryListBodyVOResult getIndustryDetail(String appId, GetIndustryDetailBodyVO body)
+			throws BusinessException {
+		Industry industry = indDao.selectByPrimaryKey(body.getIndustryId());
+		if (industry == null) {
+			log.error(String.format("工程类型%s不存在", body.getIndustryId()));
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "工程类型不存在");
+		}
+		GetIndustryListBodyVOResult item = new GetIndustryListBodyVOResult();
+		item.setIndustryIcon(industry.getIndustryIcon());
+		item.setIndustryId(industry.getId());
+		item.setIndustryName(industry.getIndustryName());
+		return item;
+
+	}
 
 }

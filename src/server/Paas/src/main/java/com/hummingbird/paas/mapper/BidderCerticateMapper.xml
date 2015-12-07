@@ -14,7 +14,7 @@
     <result column="tax_registration_certificate" property="taxRegistrationCertificate" jdbcType="VARCHAR" />
     <result column="new_business_license" property="newBusinessLicense" jdbcType="VARCHAR" />
     <result column="business_license_type" property="businessLicenseType" jdbcType="VARCHAR" />
-    <result column="business_license_expire_time" property="businessLicenseExpireTime" jdbcType="TIMESTAMP" />
+    <result column="business_license_expire_time" property="businessLicenseExpireTime" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="legal_person_authority_book" property="legalPersonAuthorityBook" jdbcType="VARCHAR" />
     <result column="project_scope" property="projectScope" jdbcType="VARCHAR" />
@@ -87,7 +87,7 @@
       #{legalPerson,jdbcType=VARCHAR}, #{regTime,jdbcType=TIMESTAMP}, #{contactName,jdbcType=VARCHAR}, 
       #{contactMobileNum,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{orgCodeCertificate,jdbcType=VARCHAR}, 
       #{taxRegistrationCertificate,jdbcType=VARCHAR}, #{newBusinessLicense,jdbcType=VARCHAR}, 
-      #{businessLicenseType,jdbcType=VARCHAR}, #{businessLicenseExpireTime,jdbcType=TIMESTAMP}, 
+      #{businessLicenseType,jdbcType=VARCHAR}, #{businessLicenseExpireTime,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{legalPersonAuthorityBook,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{applyTime,jdbcType=TIMESTAMP}, #{applyReason,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
@@ -255,7 +255,7 @@
         #{businessLicenseType,jdbcType=VARCHAR},
       </if>
       <if test="businessLicenseExpireTime != null" >
-        #{businessLicenseExpireTime,jdbcType=TIMESTAMP},
+        #{businessLicenseExpireTime,jdbcType=VARCHAR},
       </if>
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
@@ -371,7 +371,7 @@
         business_license_type = #{businessLicenseType,jdbcType=VARCHAR},
       </if>
       <if test="businessLicenseExpireTime != null" >
-        business_license_expire_time = #{businessLicenseExpireTime,jdbcType=TIMESTAMP},
+        business_license_expire_time = #{businessLicenseExpireTime,jdbcType=VARCHAR},
       </if>
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
@@ -464,7 +464,7 @@
       tax_registration_certificate = #{taxRegistrationCertificate,jdbcType=VARCHAR},
       new_business_license = #{newBusinessLicense,jdbcType=VARCHAR},
       business_license_type = #{businessLicenseType,jdbcType=VARCHAR},
-      business_license_expire_time = #{businessLicenseExpireTime,jdbcType=TIMESTAMP},
+      business_license_expire_time = #{businessLicenseExpireTime,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       legal_person_authority_book = #{legalPersonAuthorityBook,jdbcType=VARCHAR},
       project_scope = #{projectScope,jdbcType=VARCHAR},

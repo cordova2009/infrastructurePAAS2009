@@ -15,6 +15,11 @@ public class Industry {
     private String industryName;
 
     /**
+     * 行业图标
+     */
+    private String industryIcon;
+
+    /**
      * @return 行业id
      */
     public String getId() {
@@ -44,6 +49,21 @@ public class Industry {
         this.industryName = industryName == null ? null : industryName.trim();
     }
 
+    /**
+     * @return 行业图标
+     */
+    public String getIndustryIcon() {
+        return industryIcon;
+    }
+
+    /**
+     * @param industryIcon 
+	 *            行业图标
+     */
+    public void setIndustryIcon(String industryIcon) {
+        this.industryIcon = industryIcon == null ? null : industryIcon.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -57,7 +77,8 @@ public class Industry {
         }
         Industry other = (Industry) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getIndustryName() == null ? other.getIndustryName() == null : this.getIndustryName().equals(other.getIndustryName()));
+            && (this.getIndustryName() == null ? other.getIndustryName() == null : this.getIndustryName().equals(other.getIndustryName()))
+            && (this.getIndustryIcon() == null ? other.getIndustryIcon() == null : this.getIndustryIcon().equals(other.getIndustryIcon()));
     }
 
     @Override
@@ -66,6 +87,7 @@ public class Industry {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getIndustryName() == null) ? 0 : getIndustryName().hashCode());
+        result = prime * result + ((getIndustryIcon() == null) ? 0 : getIndustryIcon().hashCode());
         return result;
     }
 }

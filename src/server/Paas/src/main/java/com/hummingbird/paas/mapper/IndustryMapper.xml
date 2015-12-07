@@ -4,9 +4,10 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.Industry" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="industry_name" property="industryName" jdbcType="VARCHAR" />
+    <result column="industry_icon" property="industryIcon" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, industry_name
+    id, industry_name, industry_icon
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,8 +25,10 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.Industry" >
-    insert into t_base_industry (id, industry_name)
-    values (#{id,jdbcType=VARCHAR}, #{industryName,jdbcType=VARCHAR})
+    insert into t_base_industry (id, industry_name, industry_icon
+      )
+    values (#{id,jdbcType=VARCHAR}, #{industryName,jdbcType=VARCHAR}, #{industryIcon,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.Industry" >
     insert into t_base_industry
@@ -36,6 +39,9 @@
       <if test="industryName != null" >
         industry_name,
       </if>
+      <if test="industryIcon != null" >
+        industry_icon,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -43,6 +49,9 @@
       </if>
       <if test="industryName != null" >
         #{industryName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryIcon != null" >
+        #{industryIcon,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -52,12 +61,16 @@
       <if test="industryName != null" >
         industry_name = #{industryName,jdbcType=VARCHAR},
       </if>
+      <if test="industryIcon != null" >
+        industry_icon = #{industryIcon,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.Industry" >
     update t_base_industry
-    set industry_name = #{industryName,jdbcType=VARCHAR}
+    set industry_name = #{industryName,jdbcType=VARCHAR},
+      industry_icon = #{industryIcon,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

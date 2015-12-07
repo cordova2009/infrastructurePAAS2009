@@ -154,7 +154,7 @@
     where biddee_id = #{biddeeId,jdbcType=INTEGER}
   </select>
   <select id="countEvaluationScoreByBiddeeId" resultType="double" parameterType="java.lang.Integer" >
-    select sum(score)/count(id) from t_gcgl_project_evaluation_biddee
+    select CAST(IFNULL(sum(score)/count(id),0) AS DECIMAL(10)) from t_gcgl_project_evaluation_biddee
     where biddee_id = #{biddeeId,jdbcType=INTEGER}
   </select>
   <select id="selectEvaluationDetailByBiddeeId" resultMap="CompanyEvaluationDetailResultMap" parameterType="java.lang.Integer" >

@@ -34,7 +34,7 @@ public interface ProjectEvaluationBidderMapper {
     /**
      * 查询评价积分
      */
-    double countEvaluationScoreByBidderId(Integer bidder_id);
+    Double countEvaluationScoreByBidderId(Integer bidder_id);
 
     /**
      * 根据主键更新属性不为空的记录

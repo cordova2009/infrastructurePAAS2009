@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,6 +25,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.entity.BidAttachment;
 import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
@@ -42,6 +44,7 @@ import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.BidAttachmentMapper;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -107,6 +110,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SubmitBidBodyVO;
 import com.hummingbird.paas.vo.SurveyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
@@ -164,6 +168,8 @@ public class BidServiceImpl implements BidService {
 	InviteBidderMapper ibDao;
 	@Autowired
 	ProjectEvaluationBidderMapper evaluationBidderDao;
+	@Autowired
+	BidAttachmentMapper baDao;
 
 	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
 	// Exception.class, value = "txManager")
@@ -325,8 +331,8 @@ public class BidServiceImpl implements BidService {
 			if (ob.getEvaluationAmount() != null)
 				sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
 			sv.setObjectId(obi.getObjectId());
-			if (ob.getProjectExpectPeriod() != null)
-				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());
+//			if (ob.getProjectExpectPeriod() != null)
+//				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());
 			// sv.setProjectSite(ob);
 			sv.setStatus(ob.getObjectStatus());
 		}
@@ -376,12 +382,12 @@ public class BidServiceImpl implements BidService {
 		qodbci.setNeedSafetyPermit(ob.getNeedSafetyPermit());
 		dv.setBidderCertificationInfo(qodbci);
 		QueryObjectDetailBidEvaluationTypeInfo qodbevti = new QueryObjectDetailBidEvaluationTypeInfo();
-		/*
-		 * qodbevti.setBidEvalutionSite(ob.getBidEvaluationSite());
-		 * qodbevti.setBidEvalutionType(ob.getBidEvaluationType());
-		 * qodbevti.setBidWinnerDatemineWay(ob.getBidWinnerDetermineWay());
-		 * qodbevti.setVoteWinWay(ob.getVoteWinWay());
-		 */
+		
+		qodbevti.setBidEvalutionSite(obi.getBidEvaluationSite());
+		qodbevti.setBidEvalutionType(obi.getBidEvaluationType());
+		qodbevti.setBidWinnerDatemineWay(obi.getBidWinnerDetermineWay());
+		qodbevti.setVoteWinWay(obi.getVoteWinWay());
+
 		dv.setBidEvaluationTypeInfo(qodbevti);
 		QueryObjectDetailBidFilTypeInfo qodbft = new QueryObjectDetailBidFilTypeInfo();
 		qodbft.setNeedBusinessStandard(ob.getNeedBusinessStandard());
@@ -442,6 +448,7 @@ public class BidServiceImpl implements BidService {
 		if (pi != null) {
 			qodop.setEmployer(pi.getEmployer());
 			qodop.setEmployerPrincipal(pi.getEmployerPrincipal());
+			qodop.setEmployerTelephone(pi.getEmployerTelephone());
 			qodop.setProjectExpectInvestment(pi.getProjectExpectInvestment());
 			qodop.setProjectName(pi.getProjectName());
 			qodop.setProjectScale(pi.getProjectScale());
@@ -901,14 +908,28 @@ public class BidServiceImpl implements BidService {
 	 * @throws BusinessException
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public void submitBid(String appId, QueryBidBodyVO body, Bidder bidder) throws BusinessException {
+	public void submitBid(String appId, SubmitBidBodyVO body, Bidder bidder) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("提交投标接口开始");
 		}
 		BidObject object = null;
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidder.getId(), object);
 		bid.setStatus(CommonStatusConst.STATUS_OK);
-
+		//添加附件
+		BidAttachment ba = new BidAttachment();
+		List<BidAttachment> selectBidFile = baDao.selectBidFile(body.getBidId());
+		if(CollectionUtils.isNotEmpty(selectBidFile))
+		{
+			for (Iterator iterator = selectBidFile.iterator(); iterator.hasNext();) {
+				BidAttachment bidAttachment = (BidAttachment) iterator.next();
+				baDao.deleteByPrimaryKey(bidAttachment.getId());
+			}
+		}
+		ba.setAttachmentUrl(body.getBidFile());
+		ba.setBidId(body.getBidId());
+		ba.setInsertTime(new Date());
+		ba.setAttachmentType("BF#");
+		baDao.insert(ba);
 		dao.updateByPrimaryKey(bid);
 
 		if (log.isDebugEnabled()) {
@@ -1236,7 +1257,7 @@ public class BidServiceImpl implements BidService {
 
 			QueryBidRequirementInfoBodyVOResult_3 result3 = new QueryBidRequirementInfoBodyVOResult_3();
 			result3.setBankGuaranteeAmount(
-					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount() / 100)));
+					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount())));
 			result3.setBankGuaranteeNo(bid.getBankGuaranteeNo());
 			result3.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
 			// 查询投标资质
@@ -1347,6 +1368,41 @@ public class BidServiceImpl implements BidService {
 		if(log.isDebugEnabled()){
 				log.debug("投标方给招标方评价接口完成");
 		}
+	}
+	
+	
+	/**
+	 * 查询未完成的投标信息(投标附件)
+	 * @param appId
+	 * @param body
+	 * @param id
+	 * @return
+	 * @throws DataInvalidException 
+	 */
+	public SubmitBidBodyVO queryBidSubmit(String appId, QueryBidBodyVO body, Integer bidderId) throws DataInvalidException{
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标信息(投标附件)开始");
+		}
+		BidObject object = null;
+		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId, object);
+		//添加附件
+		SubmitBidBodyVO result = new SubmitBidBodyVO();
+		List<BidAttachment> selectBidFile = baDao.selectBidFile(body.getBidId());
+		if(CollectionUtils.isNotEmpty(selectBidFile))
+		{
+			for (Iterator iterator = selectBidFile.iterator(); iterator.hasNext();) {
+				BidAttachment bidAttachment = (BidAttachment) iterator.next();
+				result.setBidFile(bidAttachment.getAttachmentUrl());
+				break;
+			}
+		}
+		result.setBidId(body.getBidId());
+		result.setObjectId(body.getObjectId());
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标信息(投标附件)完成");
+		}
+		return result;
 	}
 
 }

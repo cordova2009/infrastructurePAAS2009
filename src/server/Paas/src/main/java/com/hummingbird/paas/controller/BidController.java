@@ -82,6 +82,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SubmitBidBodyVO;
 import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
@@ -803,14 +804,55 @@ public class BidController extends BaseController {
 	}
 	
 	/**
+	 * 查询未完成的投标附件
+	 * @return
+	 */
+	@RequestMapping(value="/queryBidFile4Submit",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询未完成的投标附件",isJson=true,codebase=247600,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryBidBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryBidFile4Submit(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryBidBodyVO> transorder = (BaseTransVO<QueryBidBodyVO>) super.getParameterObject();
+		String messagebase = "查询未完成的投标附件"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			SubmitBidBodyVO  result = bidService.queryBidSubmit(transorder.getApp().getAppId(),transorder.getBody(),bidder.getId());
+			rm.put("result",result);
+			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
 	 * 提交投标接口
 	 * @return
 	 */
 	@RequestMapping(value="/submitBid",method=RequestMethod.POST)
-	@AccessRequered(methodName = "提交投标接口",isJson=true,codebase=247100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryBidBodyVO",appLog=true)
+	@AccessRequered(methodName = "提交投标接口",isJson=true,codebase=247100,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.SubmitBidBodyVO",appLog=true)
 	public @ResponseBody ResultModel submitBid(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<QueryBidBodyVO> transorder = (BaseTransVO<QueryBidBodyVO>) super.getParameterObject();
+		BaseTransVO<SubmitBidBodyVO> transorder = (BaseTransVO<SubmitBidBodyVO>) super.getParameterObject();
 		String messagebase = "提交投标接口"; 
 	
 		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求

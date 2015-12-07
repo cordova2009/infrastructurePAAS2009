@@ -43,7 +43,7 @@ public interface ProjectEvaluationBiddeeMapper {
     /**
      * 查询评价积分
      */
-    double countEvaluationScoreByBiddeeId(Integer biddeeId);
+    Double countEvaluationScoreByBiddeeId(Integer biddeeId);
     /**
      * 根据biddeeId查询评价列表
      */

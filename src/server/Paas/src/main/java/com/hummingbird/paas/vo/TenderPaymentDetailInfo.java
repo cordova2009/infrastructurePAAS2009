@@ -2,6 +2,10 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+
 /**
  * 工程付款 详细信息  
  * @author YJY  
@@ -28,6 +32,7 @@ public class TenderPaymentDetailInfo {
 	/**
 	 * @return the payDate
 	 */
+	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getPayDate() {
 		return payDate;
 	}

@@ -13,21 +13,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_project_payment_define
+    from t_ztgl_project_payment_define
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_project_payment_define
+    delete from t_ztgl_project_payment_define
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
-    insert into t_project_payment_define (id, object_id, pay_type, 
+    insert into t_ztgl_project_payment_define (id, object_id, pay_type, 
       pay_period)
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
       #{payPeriod,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
-    insert into t_project_payment_define
+    insert into t_ztgl_project_payment_define
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -58,7 +58,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
-    update t_project_payment_define
+    update t_ztgl_project_payment_define
     <set >
       <if test="objectId != null" >
         object_id = #{objectId,jdbcType=VARCHAR},
@@ -73,10 +73,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
-    update t_project_payment_define
+    update t_ztgl_project_payment_define
     set object_id = #{objectId,jdbcType=VARCHAR},
       pay_type = #{payType,jdbcType=VARCHAR},
       pay_period = #{payPeriod,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_project_payment_define
+    where object_id = #{objectId,jdbcType=VARCHAR}
+  </select>
 </mapper>

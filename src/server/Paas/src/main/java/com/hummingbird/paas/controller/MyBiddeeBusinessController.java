@@ -205,7 +205,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						ba.setStatus(ObjectUtils.toString(num));
 						ba.setCreditScore(num*10);//按照次数乘以10
 						tradeInfo.put("winNum", ba);
-						double amount = bidObjectDao.countAmountByBid(aa.getTendererId());
+						Long amount = bidObjectDao.countAmountByBid(aa.getTendererId());
 						ba.setStatus(ObjectUtils.toString(amount));
 						ba.setCreditScore(10);
 						tradeInfo.put("tradeAmount", ba);

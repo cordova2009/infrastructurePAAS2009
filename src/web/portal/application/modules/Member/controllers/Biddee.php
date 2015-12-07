@@ -238,13 +238,13 @@ class BiddeeController extends MemberController{
 		    $this->error('开户银行不能为空！');
 	    }
 	    $accountId= I('accountId');
-	    if(empty($bank)){
+	    if(empty($accountId)){
 		    $this->error('银行账号不能为空！');
 	    }
 	    $accountName= I('accountName');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'bankInfo'=>['bank'=>$bank,'accountId'=>$accountId,'accountName'=>$accountName]])->send('myBiddee/authInfo/saveBankInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'bankInfo'=>['bank'=>$bank,'accountId'=>$accountId,'accountName'=>$accountName]])->send('myBiddee/authInfo/saveBankInfo');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{
@@ -332,7 +332,7 @@ class BiddeeController extends MemberController{
 		    $t = I('tags',[]);
 		    $token = isset($this->user['token'])?$this->user['token']:'';
 		    $curl = new Curl($this->config->url->api->paas);
-		    $resp = $curl->setData(['token'=>$token,'evaluateScore'=>$s,'tags'=>$t,'evaluateContent'=>$c])->send('tender/evaluateBidder');
+		    $resp = $curl->setData(['token'=>$token,'evaluateScore'=>$s,'tags'=>$t,'evaluateContent'=>$c])->send('bid/evaluateBiddee');
 		    if(check_resp($resp)) {
 			    $this->success('保存成功！');
 		    }else{
@@ -341,11 +341,72 @@ class BiddeeController extends MemberController{
 	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('tender/queryTendererEvaluate');
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('bid/queryTendererEvaluate');
 	    if(check_resp($resp)) {
 		    $this->assign('evaluate',$resp['evaluateInfo']);
 	    }else{
 		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    }
+    }
+    public function incomeAction()
+    {
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token])->send('myPayment/getMyPaymentOverall');
+	    if(check_resp($resp)) {
+		    $this->assign('income',$resp['overall']);
+	    }
+	    $resp = $curl->setData(['token'=>$token])->send('myPayment/queryMyPaymentList');
+	    if(check_resp($resp)) {
+		    $this->assign('list',$resp['list']);
+		    $page = $this->getPagination($resp['total'], $this->pageSize);
+		    $this->assign('page', $page);
+		    $this->assign('pageIndex',I('pageIndex'));
+	    }
+    }
+    public function paymentAction()
+    {
+	    if(IS_POST)
+	    {
+		    $data['amount'] = I('amount');
+		    if(empty($data['amount'])){
+			    $this->error('付款金额不能为空！');
+		    }
+		    $data['transferTime'] = I('transferTime');
+		    if(empty($data['transferTime'])){
+			    $this->error('付款时间不能为空！');
+		    }
+		    $data['bankName'] = I('bankName');
+		    if(empty($data['bankName'])){
+			    $this->error('转账银行名称不能为空！');
+		    }
+		    $data['voucherNo'] = I('voucherNo');
+		    if(empty($data['voucherNo'])){
+			    $this->error('银行转账凭证编号不能为空！');
+		    }
+		    $data['voucherFileUrl'] = I('voucherFileUrl');
+		    if(empty($data['voucherFileUrl'])){
+			    $this->error('银行转账凭证扫描件不能为空！');
+		    }
+		    $token = $this->user['token'];
+		    $data['objectId'] = I('objectId');
+		    $data['token'] = $token;
+		    $curl = new Curl($this->config->url->api->paas);
+		    $resp = $curl->setData($data)->send('myPayment/myObjectPayment');
+		    if(check_resp($resp)) {
+			    $this->success('保存成功！');
+		    }else{
+			    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+		    }
+
+	    }
+	    $id = I('id');
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token])->send('capitalManage/getPlatformBankcard');
+	    if(check_resp($resp)) {
+		    $this->assign('bankInfo',$resp['bankInfo']);
+		    $this->assign('objectId',$id);
 	    }
     }
 }

@@ -13,7 +13,7 @@
             <div class="submenu">
                 <a href="<?=U('/member/biddee/authInfo')?>">认证信息</a>
                 <a href="<?=U('/member/biddee/probject')?>">项目管理</a>
-                <a href="#">付款管理</a>
+                <a href="<?=U('/member/biddee/income')?>">付款管理</a>
             </div>
         </li>
         <li>
@@ -21,7 +21,7 @@
             <div class="submenu">
                 <a href="<?=U('/member/bidder/authInfo')?>">认证信息</a>
                 <a href="<?=U('/member/bidder/probject')?>">项目管理</a>
-                <a href="#">收款管理</a>
+                <a href="<?=U('/member/bidder/income')?>">收款管理</a>
             </div>
         </li>
         <li>

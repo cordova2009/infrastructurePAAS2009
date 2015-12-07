@@ -6,6 +6,7 @@
  * @see http://www.php.net/manual/en/class.yaf-controller-abstract.php
 */
 class BidderController extends MemberController{
+	var $pageSize = 10;
 
     public function authInfoAction(){
 	    $token = isset($this->user['token'])?$this->user['token']:'';
@@ -285,7 +286,7 @@ class BidderController extends MemberController{
     {
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token])->send('bid/queryMyObjectSurvey');
+	    $resp = $curl->setData(['token'=>$token])->send('tender/queryMyBidSurvey');
 	    if(check_resp($resp)) {
 		    $this->assign('bidingNum',$resp['bidingNum']);
 		    $this->assign('doingNum',$resp['doingNum']);
@@ -302,10 +303,10 @@ class BidderController extends MemberController{
 	    {
 		    $type = 'biding';
 	    }
-	    $func = 'queryMyTenderObject';
+	    $func = 'queryMyBidObject';
 	    if($type=='biding')
 	    {
-		    $func = 'queryMyTenderObject';
+		    $func = 'queryMyBidObject';
 	    }
 	    if($type=='doing')
 	    {
@@ -316,12 +317,12 @@ class BidderController extends MemberController{
 		    $func = 'queryMyEndedObject';
 	    }
 	    $p = $this->pageSize;
-	    $i = $i==''?0:$i;
+	    $i = empty($i)?1:$i;
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('tender/'.$func);
-	    $page = $this->getPagination($resp['total'], $this->pageSize);
-	    $html = $this->render($type,['page'=>$page,$type=>$resp['list']]);
+	    $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('bid/'.$func);
+	    $page = $this->getPagination(isset($resp['total'])?$resp['total']:'0', $this->pageSize);
+	    $html = $this->render($type,['page'=>$page,$type=>isset($resp['list'])?$resp['list']:[]]);
 	    $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
     }
     public function surveyAction()
@@ -351,5 +352,68 @@ class BidderController extends MemberController{
 	    $this->assign('list',$resp['list']);
 	    $page = $this->getPagination($resp['total'], $this->pageSize);
 	    $this->assign('page', $page);
+    }
+
+    public function incomeAction()
+    {
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token])->send('myIncome/getMyIncomeOverall');
+	    if(check_resp($resp)) {
+		    $this->assign('income',$resp['overall']);
+	    }
+	    $resp = $curl->setData(['token'=>$token])->send('myIncome/queryMyIncomeList');
+	    if(check_resp($resp)) {
+		    $this->assign('list',$resp['list']);
+		    $page = $this->getPagination($resp['total'], $this->pageSize);
+		    $this->assign('page', $page);
+		    $this->assign('pageIndex',I('pageIndex'));
+	    }
+    }
+    public function receivedAction()
+    {
+	    $id = I('id');
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myIncome/queryWillReceiveAmountDetail');
+	    if(check_resp($resp)) {
+		    $this->assign('list',$resp['list']);
+	    }
+    }
+    public function willreceiveAction()
+    {
+	    $id = I('id');
+	    $token = $this->user['token'];
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myIncome/queryWillReceiveAmountDetail');
+	    if(check_resp($resp)) {
+		    $this->assign('list',$resp['list']);
+	    }
+    }
+    public function evaluateAction()
+    {
+	    $id=I('id');
+	    if(IS_POST)
+	    {
+		    $s = I('evaluateScore');
+		    $c = I('evaluateContent');
+		    $t = I('tags',[]);
+		    $token = isset($this->user['token'])?$this->user['token']:'';
+		    $curl = new Curl($this->config->url->api->paas);
+		    $resp = $curl->setData(['token'=>$token,'evaluateScore'=>$s,'tags'=>$t,'evaluateContent'=>$c])->send('bid/evaluateBiddee');
+		    if(check_resp($resp)) {
+			    $this->success('保存成功！');
+		    }else{
+			    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+		    }
+	    }
+	    $token = isset($this->user['token'])?$this->user['token']:'';
+	    $curl = new Curl($this->config->url->api->paas);
+	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('bid/queryTendererEvaluate');
+	    if(check_resp($resp)) {
+		    $this->assign('evaluate',$resp['evaluateInfo']);
+	    }else{
+		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    }
     }
 }

@@ -2744,7 +2744,7 @@ public class TenderController extends BaseController {
 				log.debug("检验通过，获取请求");
 			}
 			List<GetIndustryListBodyVOResult>  result = tenderService.getIndustryList(transorder.getApp().getAppId(),transorder.getBody());
-			rm.put("result",result);
+			rm.put("list",result);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

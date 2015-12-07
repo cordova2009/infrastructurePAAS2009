@@ -442,6 +442,7 @@ public class BidServiceImpl implements BidService {
 		if (pi != null) {
 			qodop.setEmployer(pi.getEmployer());
 			qodop.setEmployerPrincipal(pi.getEmployerPrincipal());
+			qodop.setEmployerTelephone(pi.getEmployerTelephone());
 			qodop.setProjectExpectInvestment(pi.getProjectExpectInvestment());
 			qodop.setProjectName(pi.getProjectName());
 			qodop.setProjectScale(pi.getProjectScale());

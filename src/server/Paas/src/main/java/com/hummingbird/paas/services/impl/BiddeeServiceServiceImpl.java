@@ -304,6 +304,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			qodop.setEmployerPrincipal(pi.getEmployerPrincipal());
 			qodop.setProjectExpectInvestment(pi.getProjectExpectInvestment());
 			qodop.setProjectName(pi.getProjectName());
+			qodop.setEmployerTelephone(pi.getEmployerTelephone());
 			qodop.setProjectScale(pi.getProjectScale());
 			qodop.setProjectSite(pi.getProjectSite());
 		}

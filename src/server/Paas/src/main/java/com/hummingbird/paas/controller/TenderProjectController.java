@@ -33,6 +33,8 @@ import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
+import com.hummingbird.paas.vo.MyObjectPaymentBodyVO;
+import com.hummingbird.paas.vo.MyObjectPaymentVO;
 import com.hummingbird.paas.vo.ObjectBodyVO;
 import com.hummingbird.paas.vo.ObjectVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
@@ -253,6 +255,50 @@ public class TenderProjectController extends BaseController{
 			}
 			rm.put("projectName", objproject.getProjectName());
 			rm.put("list", projectSer.queryPaidAmountDetail(body.getObjectId()));
+			tokenSrv.postponeToken(token);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "/myObjectPayment", method = RequestMethod.POST)
+	public @ResponseBody Object myObjectPayment(HttpServletRequest request) {
+		
+		MyObjectPaymentVO transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, MyObjectPaymentVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "项目付款";
+		rm.setBaseErrorCode(250500);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			
+			PropertiesUtil pu = new PropertiesUtil();
+			MyObjectPaymentBodyVO body=transorder.getBody();
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+			projectSer.paymentProject(body);
 			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

@@ -115,4 +115,10 @@
     from t_ztgl_project_payment_define_detail as a left join t_ztgl_project_payment_define as b on a.project_payment_define_id=b.id
     where object_id = #{objectId,jdbcType=INTEGER} and period &gt; #{period,jdbcType=INTEGER}
   </select>
+  <select id="selectNextPayByObjectId" resultMap="BaseResultMap" >
+    select 
+    a.id, a.project_payment_define_id, a.period, a.pay_end_time, a.pay_start_time, a.pay_sum
+    from t_ztgl_project_payment_define_detail as a left join t_ztgl_project_payment_define as b on a.project_payment_define_id=b.id
+    where object_id = #{objectId,jdbcType=INTEGER} and period = #{period,jdbcType=INTEGER}
+  </select>
 </mapper>

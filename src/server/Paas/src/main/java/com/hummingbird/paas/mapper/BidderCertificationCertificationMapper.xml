@@ -23,6 +23,7 @@
     <result column="applicable_region" property="applicableRegion" jdbcType="VARCHAR" />
     <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
     <result column="eqId" property="eqId" jdbcType="INTEGER" />
+    <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_apply_id, certification_id, certification_name, certification_content, expire_time, 
@@ -38,10 +39,10 @@
    select  i.industry_name projectTypeName,m.applicable_region,m.certification_no,m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content,m.expire_time as expiryDate
       from t_qyzz_bidder_certification_certification m INNER JOIN t_qyzz_bidder_certicate u on m.certification_id = u.id  LEFT JOIN t_base_certification_type t on m.id = t.id
       inner join t_base_industry i on i.id = m.industry_id
-        where u.id = #{bidder_id,jdbcType=INTEGER} and u.status = 'CRT'
+        where u.id = #{bidder_id,jdbcType=INTEGER} and and u.status != 'DIS'
   </select>
   <select id="selectEqInfoByUserId"  resultMap="BidderEqInfoResultMap"  parameterType="java.lang.Integer" >
-    select  i.industry_name projectTypeName,m.applicable_region,m.certification_no,m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content,m.expire_time as expiryDate
+    select  m.id eqId,m.certification_id,i.industry_name projectTypeName,m.applicable_region,m.certification_no,m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content,m.expire_time as expiryDate
       from t_qyzz_bidder_certification_certification m 
       INNER JOIN t_qyzz_bidder_certicate u ON m.bidder_apply_id = u.id
 	  LEFT JOIN t_base_certification_type t ON m.certification_id= t.id

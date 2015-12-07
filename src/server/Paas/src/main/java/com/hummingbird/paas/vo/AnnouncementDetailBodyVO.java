@@ -1,6 +1,5 @@
 package com.hummingbird.paas.vo;
 
-import java.util.Date;
 
 /**
  * 消息详细

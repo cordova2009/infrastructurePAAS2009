@@ -247,6 +247,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					biddee.setContactMobileNum(telephone);
 					biddee.setEmail(email);
 					biddee.setLogo(logo);
+					biddee.setStatus("CRT");
 					
 				}
 			

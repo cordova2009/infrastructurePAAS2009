@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.PainttextAble;
@@ -32,6 +33,7 @@ implements PainttextAble {
 	    	/**
 	     * @return 
 	     */
+	    @JsonIgnore
 	    public String getToken() {
 	        return token;
 	    }
@@ -73,6 +75,7 @@ implements PainttextAble {
 	 * 生成文本组装内容
 	 * @return
 	 */
+	    @JsonIgnore
 	public String getPaintText(){
 		String pt = ValidateUtil.sortbyValues(
 				   

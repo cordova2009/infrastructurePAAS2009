@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
@@ -258,5 +259,15 @@ public interface BidService {
 	 * @throws BusinessException 
 	 */
 	public void evaluateBiddee(String appId, EvaluateBiddeeBodyVO body, Bidder bidder) throws BusinessException;
+
+	/**
+	 * 查询未完成的投标信息(投标附件)
+	 * @param appId
+	 * @param body
+	 * @param id
+	 * @return
+	 * @throws DataInvalidException 
+	 */
+	public SubmitBidBodyVO queryBidSubmit(String appId, QueryBidBodyVO body, Integer bidderId) throws DataInvalidException;
 	
 }

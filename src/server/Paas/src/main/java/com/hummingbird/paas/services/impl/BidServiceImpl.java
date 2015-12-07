@@ -1257,7 +1257,7 @@ public class BidServiceImpl implements BidService {
 
 			QueryBidRequirementInfoBodyVOResult_3 result3 = new QueryBidRequirementInfoBodyVOResult_3();
 			result3.setBankGuaranteeAmount(
-					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount() / 100)));
+					bid.getBankGuaranteeAmount() == null ? "0" : (String.valueOf(bid.getBankGuaranteeAmount())));
 			result3.setBankGuaranteeNo(bid.getBankGuaranteeNo());
 			result3.setBankGuaranteeUrl(bid.getBankGuaranteeUrl());
 			// 查询投标资质
@@ -1368,6 +1368,41 @@ public class BidServiceImpl implements BidService {
 		if(log.isDebugEnabled()){
 				log.debug("投标方给招标方评价接口完成");
 		}
+	}
+	
+	
+	/**
+	 * 查询未完成的投标信息(投标附件)
+	 * @param appId
+	 * @param body
+	 * @param id
+	 * @return
+	 * @throws DataInvalidException 
+	 */
+	public SubmitBidBodyVO queryBidSubmit(String appId, QueryBidBodyVO body, Integer bidderId) throws DataInvalidException{
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标信息(投标附件)开始");
+		}
+		BidObject object = null;
+		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidderId, object);
+		//添加附件
+		SubmitBidBodyVO result = new SubmitBidBodyVO();
+		List<BidAttachment> selectBidFile = baDao.selectBidFile(body.getBidId());
+		if(CollectionUtils.isNotEmpty(selectBidFile))
+		{
+			for (Iterator iterator = selectBidFile.iterator(); iterator.hasNext();) {
+				BidAttachment bidAttachment = (BidAttachment) iterator.next();
+				result.setBidFile(bidAttachment.getAttachmentUrl());
+				break;
+			}
+		}
+		result.setBidId(body.getBidId());
+		result.setObjectId(body.getObjectId());
+
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成的投标信息(投标附件)完成");
+		}
+		return result;
 	}
 
 }

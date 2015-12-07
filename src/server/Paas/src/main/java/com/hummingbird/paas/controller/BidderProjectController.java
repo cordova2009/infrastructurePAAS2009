@@ -97,6 +97,7 @@ public class BidderProjectController extends BaseController{
 			}
 			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
 			rm.put("list", projectSer.queryMyIncomeList(bidder.getId()));
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -148,6 +149,7 @@ public class BidderProjectController extends BaseController{
 			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
 
 			rm.put("overall", projectSer.getMyIncomeOverall(bidder.getId()));
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -203,7 +205,7 @@ public class BidderProjectController extends BaseController{
 			}
 			rm.put("projectName", objproject.getProjectName());
 			rm.put("list", projectSer.queryWillReceiveAmountDetail(body.getObjectId()));
-			
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -259,6 +261,7 @@ public class BidderProjectController extends BaseController{
 			}
 			rm.put("projectName", objproject.getProjectName());
 			rm.put("list", projectSer.queryReceivedAmountDetail(body.getObjectId()));
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

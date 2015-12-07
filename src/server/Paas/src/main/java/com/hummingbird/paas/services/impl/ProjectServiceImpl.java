@@ -1,6 +1,7 @@
 package com.hummingbird.paas.services.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -11,6 +12,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.ProjectInfo;
+import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectPaymentPay;
 import com.hummingbird.paas.entity.ProjectPaymentReceive;
@@ -18,12 +20,14 @@ import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentReceiveMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentRecordMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.util.FundNameUtil;
 import com.hummingbird.paas.vo.MyIncomeOverallReturnVO;
+import com.hummingbird.paas.vo.MyObjectPaymentBodyVO;
 import com.hummingbird.paas.vo.MyPaymentOverallReturnVO;
 import com.hummingbird.paas.vo.PaidAmountDetailReturnVO;
 import com.hummingbird.paas.vo.QueryMyIncomeListReturnVO;
@@ -40,6 +44,8 @@ public class ProjectServiceImpl implements ProjectService{
 	ProjectPaymentRecordMapper proRecordDao;
 	@Autowired
 	BidObjectMapper objectDao;
+	@Autowired
+	ProjectPaymentDefineMapper payDefDao;
 	@Autowired
 	ProjectPaymentDefineDetailMapper payDefineDao;
 	@Autowired
@@ -316,4 +322,73 @@ public class ProjectServiceImpl implements ProjectService{
 		return list;
 	}
 
+	@Override
+	public void paymentProject(MyObjectPaymentBodyVO body)
+			throws MaAccountException {
+		//查询付款到哪一期了
+		String objectId=body.getObjectId();
+		BidObject object=objectDao.selectByPrimaryKey(objectId);
+		if(object==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据标的记录号[%s]查询不到标的",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",objectId));
+		
+		}
+		ProjectInfo projectInfo=projectDao.selectByObjectId(objectId).size()==0?null:(projectDao.selectByObjectId(objectId)).get(0);
+		if(projectInfo==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据标的Id[%s]查询不到工程",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的Id[%s]查询不到工程",objectId));
+		
+		}
+		ProjectPaymentPay lastPayInfo=payRecordDao.getLastRecord(objectId);
+		ProjectPaymentDefine define=payDefDao.selectByObjectId(objectId);
+		ProjectPaymentDefineDetail defines=payDefineDao.selectNextPayByObjectId(objectId, lastPayInfo==null?1:(lastPayInfo.getCurrentPeriod()+1));
+		if(define==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("项目【%s】查询付款定义失败",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("项目【%s】查询付款定义失败",objectId));
+		
+		}
+		if(defines==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("项目【%s】付款已结束",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("项目【%s】付款已结束",objectId));
+		
+		}
+		
+		//插入付款记录
+		ProjectPaymentPay record=new ProjectPaymentPay();
+		record.setAmount(body.getAmount());
+		record.setBank(body.getBankName());
+		record.setCurrentPeriod(defines.getPeriod());
+		Long leftAmount=0l;
+		if(lastPayInfo==null){
+			leftAmount=object.getWinBidAmount()==null?0:object.getWinBidAmount();
+		}else{
+			leftAmount=lastPayInfo.getLeftAmount()-body.getAmount();
+		}
+		record.setLeftAmount(leftAmount);
+		int leftPeriod=0;
+		if(lastPayInfo==null){
+			leftPeriod=define.getPayPeriod();
+		}else{
+			leftPeriod=lastPayInfo.getLeftPeriod()-1;
+		}
+		record.setLeftPeriod(leftPeriod);
+		record.setPayTime(new Date());
+		record.setProjectId(projectInfo.getProjectId());
+		record.setShouldPayTime(defines.getPayEndTime());
+		record.setStatus("CRT");
+		record.setTotalAmount(object.getWinBidAmount()==null?0:object.getWinBidAmount());
+		record.setTotalPeriod(define.getPayPeriod());
+		record.setTransferDate(body.getTransferTime());
+		record.setVoucher(body.getVoucherNo());
+		record.setVoucherPic(body.getVoucherFileUrl());
+		payRecordDao.insert(record);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+import com.hummingbird.common.util.convertor.JacksonDateTimeSerializer;
 
 /**
  * 投标人资质信息
@@ -35,7 +36,8 @@ public class BidderEqInfo {
 	private Integer eqId;
 	private String certificationContent;
 	private String applicableRegion;
-	private String certificationNo;
+	private String certificationNo;   
+	private Integer certificationId;   
 	
 	private Date expiryDate;
 
@@ -98,6 +100,7 @@ public class BidderEqInfo {
 	/**
 	 * @return the expiryDate
 	 */
+	@JsonSerialize(using = JacksonDateTimeSerializer.class)
 	public Date getExpiryDate() {
 		return expiryDate;
 	}
@@ -175,6 +178,22 @@ public class BidderEqInfo {
 				+ certificationContent + ", applicableRegion=" + applicableRegion + ", certificationNo="
 				+ certificationNo + ", expiryDate=" + expiryDate + "]";
 	}
+
+	/**
+	 * @return the certificationId
+	 */
+	public Integer getCertificationId() {
+		return certificationId;
+	}
+
+	/**
+	 * @param certificationId the certificationId to set
+	 */
+	public void setCertificationId(Integer certificationId) {
+		this.certificationId = certificationId;
+	}
+
+	
 
 	
 }

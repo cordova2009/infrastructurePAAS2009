@@ -9,7 +9,7 @@
     <result column="should_pay_time" property="shouldPayTime" jdbcType="TIMESTAMP" />
     <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="total_amount" property="totalAmount" jdbcType="INTEGER" />
+    <result column="total_amount" property="totalAmount" jdbcType="BIGINT" />
     <result column="left_period" property="leftPeriod" jdbcType="INTEGER" />
     <result column="left_amount" property="leftAmount" jdbcType="BIGINT" />
     <result column="total_period" property="totalPeriod" jdbcType="INTEGER" />
@@ -44,7 +44,7 @@
       order_id, bank_id)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=VARCHAR}, #{currentPeriod,jdbcType=INTEGER}, 
       #{amount,jdbcType=BIGINT}, #{shouldPayTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR}, #{totalAmount,jdbcType=INTEGER}, #{leftPeriod,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{totalAmount,jdbcType=BIGINT}, #{leftPeriod,jdbcType=INTEGER}, 
       #{leftAmount,jdbcType=BIGINT}, #{totalPeriod,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
       #{voucher,jdbcType=VARCHAR}, #{voucherPic,jdbcType=VARCHAR}, #{transferDate,jdbcType=DATE}, 
       #{orderId,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR})
@@ -127,7 +127,7 @@
         #{status,jdbcType=VARCHAR},
       </if>
       <if test="totalAmount != null" >
-        #{totalAmount,jdbcType=INTEGER},
+        #{totalAmount,jdbcType=BIGINT},
       </if>
       <if test="leftPeriod != null" >
         #{leftPeriod,jdbcType=INTEGER},
@@ -180,7 +180,7 @@
         status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="totalAmount != null" >
-        total_amount = #{totalAmount,jdbcType=INTEGER},
+        total_amount = #{totalAmount,jdbcType=BIGINT},
       </if>
       <if test="leftPeriod != null" >
         left_period = #{leftPeriod,jdbcType=INTEGER},
@@ -220,7 +220,7 @@
       should_pay_time = #{shouldPayTime,jdbcType=TIMESTAMP},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR},
-      total_amount = #{totalAmount,jdbcType=INTEGER},
+      total_amount = #{totalAmount,jdbcType=BIGINT},
       left_period = #{leftPeriod,jdbcType=INTEGER},
       left_amount = #{leftAmount,jdbcType=BIGINT},
       total_period = #{totalPeriod,jdbcType=INTEGER},

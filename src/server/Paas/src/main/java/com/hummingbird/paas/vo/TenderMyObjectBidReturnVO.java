@@ -3,6 +3,11 @@ package com.hummingbird.paas.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+import com.hummingbird.common.util.convertor.JacksonDateTimeSerializer;
+
 /**
  * 消息详细
  * @author YJY  
@@ -54,6 +59,7 @@ public class TenderMyObjectBidReturnVO {
 	/**
 	 * @return the bidTime
 	 */
+	@JsonSerialize(using = JacksonDateTimeSerializer.class)
 	public Date getBidTime() {
 		return bidTime;
 	}
@@ -66,6 +72,7 @@ public class TenderMyObjectBidReturnVO {
 	/**
 	 * @return the projectExpectStartDate
 	 */
+	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getProjectExpectStartDate() {
 		return projectExpectStartDate;
 	}

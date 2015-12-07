@@ -2,6 +2,11 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
+import com.hummingbird.common.util.convertor.JacksonDateTimeSerializer;
+
 public class QueryMyBidObjectListResultVO {
 //	"industryId":3,
 //    "objectId":"32456",
@@ -40,6 +45,7 @@ public class QueryMyBidObjectListResultVO {
 	/**
 	 * @return the bidOpenDate
 	 */
+	@JsonSerialize(using = JacksonDateTimeSerializer.class)
 	public Date getBidOpenDate() {
 		return bidOpenDate;
 	}

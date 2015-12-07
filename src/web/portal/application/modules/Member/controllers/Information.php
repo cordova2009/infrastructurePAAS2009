@@ -16,25 +16,19 @@ class InformationController extends MemberController {
         if(empty($this->user)){
             $this->redirect(U('/login'));
         }
+        $curl = new Curl($this->config->url->api->paas);
         if(IS_POST){
-            /* "body":{
-                 "token":"12345",
-                 "objectAmount":"3000万",
-                 "informationId":1,
-                 "district":"广州市",
-                 "objectName":"项目名称",
-                 "employer":"甲方xxxxxx",
-                 "phase":"招标阶段",
-                 "projectPeriod":"半年",
-                 "projectSituation":"本项目主要是xxxx",
-                 "address":"xx路666号"
-            }*/
+
             $data = ['token'=>$this->user['token']];
+            $data['informationId'] = I('informationId');
+            if(empty($data['objectAmount'])){
+                $data['informationId']=0;
+            }
             $data['objectAmount'] = I('objectAmount');
             if(empty($data['objectAmount'])){
                 $this->error('造价不能为空！');
             }
-            $data['objectAmount'] =$data['objectAmount'].'元';
+            $data['objectAmount'] =$data['objectAmount']*100;
             $data['objectName'] = I('objectName');
             if(empty($data['objectName'])){
                 $this->error('项目名称不能为空！');
@@ -46,6 +40,10 @@ class InformationController extends MemberController {
             $data['phase'] = I('phase');
             if(empty($data['phase'])){
                 $this->error('阶段不能为空！');
+            }
+            $data['objectType'] = I('objectType');
+            if(empty($data['objectType'])){
+                $this->error('工程类别不能为空！');
             }
             $data['employer'] = I('employer');
             if(empty($data['employer'])){
@@ -63,20 +61,26 @@ class InformationController extends MemberController {
             if(empty($data['address'])){
                 $this->error('地址不能为空！');
             }
-
-            $curl = new Curl($this->config->url->api->paas);
-
             $resp = $curl->setData($data)->send('userInformation/submitUserInformation');
 
             if(check_resp($resp)) {
 
-                $this->success('保存成功！',U('/member/information/index'));
+                $this->success('保存成功！',U('/member/information/unpublishList'));
             }else{
                 $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '提交失败，请重新再试！');
             }
 
             $this->error(var_export($data,true));
         }
+        $data2 = ['token'=>$this->user['token']];
+        $data2['informationId'] = I('informationId');
+        $resp2 = $curl->setData($data2)->send('userInformation/getUserInformationDetail');
+        $result=[];
+        if(check_resp($resp2)) {
+            $result = $resp2['result'];
+        }
+        $this->assign('result',$result);
+
         $this->meta_title = '发布信息';
 
     }
@@ -97,7 +101,7 @@ class InformationController extends MemberController {
         $resp2 = $curl1->setData([
             'token'=>$this->user['token'],
             'pageSize'=> $pageSize,
-            'pageIndex' => $pageIndex,
+            'pageIndex' => ($pageIndex==0?1:$pageIndex),
             'status'=> $status
         ])->send('userInformation/queryUserInformationPage');
 
@@ -128,10 +132,10 @@ class InformationController extends MemberController {
         $resp2 = $curl1->setData([
             'token'=>$this->user['token'],
             'pageSize'=> $pageSize,
-            'pageIndex' => $pageIndex,
+            'pageIndex' => ($pageIndex==0?1:$pageIndex),
             'status'=> $status
         ])->send('userInformation/queryUserInformationPage');
-
+        $list=[];
         if(check_resp($resp2)) {
             $list = $resp2['list'];
             $page = $this->getPagination($resp2['total'], $pageSize);
@@ -150,7 +154,7 @@ class InformationController extends MemberController {
             "informationId":1
         }*/
         $curl = new Curl($this->config->url->api->paas);
-        $informationId =1;// I('informationId');
+        $informationId = I('informationId');
         if(empty($informationId)){
             $this->error('发布信息编号获取失败！');
         }
@@ -159,9 +163,10 @@ class InformationController extends MemberController {
             'informationId'=>$informationId
         ])->send('userInformation/getUserInformationDetailWithComments');
 
-        if(check_resp($resp)) {
-            $result = $resp['result'];
+        if(!check_resp($resp)) {
+            $this->error('信息找不到了，请咨询管理员！');
         }
+        $result = $resp['result'];
         $this->assign('result',$result);
         $this->meta_title = '发布信息详情';
     }

@@ -12,7 +12,7 @@
             <a href="javascript:">我是招标人</a>
             <div class="submenu">
                 <a href="<?=U('/member/biddee/authInfo')?>">认证信息</a>
-                <a href="#">项目管理</a>
+                <a href="<?=U('/member/biddee/probject')?>">项目管理</a>
                 <a href="#">付款管理</a>
             </div>
         </li>
@@ -20,7 +20,7 @@
             <a href="javascript:">我是投标人</a>
             <div class="submenu">
                 <a href="<?=U('/member/bidder/authInfo')?>">认证信息</a>
-                <a href="#">项目管理</a>
+                <a href="<?=U('/member/bidder/probject')?>">项目管理</a>
                 <a href="#">收款管理</a>
             </div>
         </li>
@@ -39,7 +39,7 @@
             <div class="submenu">
                 <a href="<?=U('/member/information/index')?>">发布信息管理</a>
                 <a href="<?=U('/member/information/publishList')?>">已发布信息</a>
-                <a href="<?=U('/member/information/publishDetail')?>">待发布信息</a>
+                <a href="<?=U('/member/information/unpublishList')?>">待发布信息</a>
             </div>
         </li>
     </ul>

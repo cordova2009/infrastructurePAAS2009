@@ -8,7 +8,7 @@
 												</tr>
 <?php if (!empty($done)){ foreach($done as $v){?>
 												<tr class="">
-													<td class=""><span class="tag"><?=$v['industryId']?></span></td>
+													<td class=""><span class="tag"><?=isset($industry[$v['industryId']])?$industry[$v['industryId']]['industryIcon']:''?></span></td>
 													<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
 													<td class=""><?=$v['winBidAmount']?></td>
 													<td class=""><?=$v['winBidder']?></td>

@@ -65,10 +65,11 @@ import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
-import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
+import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
+import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -2721,6 +2722,74 @@ public class TenderController extends BaseController {
 		if(applog!=null){
 			applogDao.insert(new AppLog(applog));
 		}
+	}
+	
+	/**
+	 * 查询工程类别列表
+	 * @return
+	 */
+	@RequestMapping(value="/getIndustryList",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询工程类别列表",isJson=true,codebase=247700,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="java.util.Map",appLog=true)
+	public @ResponseBody ResultModel getIndustryList(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<Map> transorder = (BaseTransVO<Map>) super.getParameterObject();
+		String messagebase = "查询工程类别列表"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			List<GetIndustryListBodyVOResult>  result = tenderService.getIndustryList(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("result",result);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询工程类别详情
+	 * @return
+	 */
+	@RequestMapping(value="/getIndustryDetail",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询工程类别详情",isJson=true,codebase=247800,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetIndustryDetailBodyVO",appLog=true)
+	public @ResponseBody ResultModel getIndustryDetail(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<GetIndustryDetailBodyVO> transorder = (BaseTransVO<GetIndustryDetailBodyVO>) super.getParameterObject();
+		String messagebase = "查询工程类别详情"; 
+		
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			GetIndustryListBodyVOResult  result = tenderService.getIndustryDetail(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("result",result);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
 	}
 	
 }

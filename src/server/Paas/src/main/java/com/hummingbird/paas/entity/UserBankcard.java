@@ -50,6 +50,21 @@ public class UserBankcard {
     private String accountName;
 
     /**
+     * 税号
+     */
+    private String taxNo;
+
+    /**
+     * 公司地址
+     */
+    private String address;
+
+    /**
+     * 电话
+     */
+    private String telephone;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -184,6 +199,51 @@ public class UserBankcard {
         this.accountName = accountName == null ? null : accountName.trim();
     }
 
+    /**
+     * @return 税号
+     */
+    public String getTaxNo() {
+        return taxNo;
+    }
+
+    /**
+     * @param taxNo 
+	 *            税号
+     */
+    public void setTaxNo(String taxNo) {
+        this.taxNo = taxNo == null ? null : taxNo.trim();
+    }
+
+    /**
+     * @return 公司地址
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address 
+	 *            公司地址
+     */
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    /**
+     * @return 电话
+     */
+    public String getTelephone() {
+        return telephone;
+    }
+
+    /**
+     * @param telephone 
+	 *            电话
+     */
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -204,7 +264,10 @@ public class UserBankcard {
             && (this.getAccountNo() == null ? other.getAccountNo() == null : this.getAccountNo().equals(other.getAccountNo()))
             && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
-            && (this.getAccountName() == null ? other.getAccountName() == null : this.getAccountName().equals(other.getAccountName()));
+            && (this.getAccountName() == null ? other.getAccountName() == null : this.getAccountName().equals(other.getAccountName()))
+            && (this.getTaxNo() == null ? other.getTaxNo() == null : this.getTaxNo().equals(other.getTaxNo()))
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getTelephone() == null ? other.getTelephone() == null : this.getTelephone().equals(other.getTelephone()));
     }
 
     @Override
@@ -220,6 +283,9 @@ public class UserBankcard {
         result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getAccountName() == null) ? 0 : getAccountName().hashCode());
+        result = prime * result + ((getTaxNo() == null) ? 0 : getTaxNo().hashCode());
+        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+        result = prime * result + ((getTelephone() == null) ? 0 : getTelephone().hashCode());
         return result;
     }
 }

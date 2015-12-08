@@ -19,8 +19,8 @@
                 </a>
             </div>
             <div class="clear btnCont">
-                <button type="reset"  class="left cancle">取消</button>
-                <button type="submit"  class="right sure">确认</button>
+                <button  class="button left cancle">取消</button>
+                <button  class="button right sure">确认</button>
             </div>
         </div>
         </form>

@@ -130,12 +130,12 @@ public class CapitalManageController extends BaseController{
 			User user=userSer.queryUserByToken(body.getToken());
 			CapitalSurveyReturnVO survey=new CapitalSurveyReturnVO();
 			if(user!=null){
-				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
+				ProjectAccount proActInfo=(ProjectAccount)getAccount(user.getMobileNum());
 				if(proActInfo!=null){
-					survey.setBalance(MoneyUtil.getMoneyStringDecimal4yuan(proActInfo.getRemainingSum()));
-					survey.setFreezeAmount(MoneyUtil.getMoneyStringDecimal4yuan(proActInfo.getFrozenSum()));
-					survey.setIncome(MoneyUtil.getMoneyStringDecimal4yuan(capitalManageSer.getAccountIncome(proActInfo.getAccountId())));
-					survey.setOutlay(MoneyUtil.getMoneyStringDecimal4yuan(capitalManageSer.getAccountOutlay(proActInfo.getAccountId())));					
+					survey.setBalance(proActInfo.getRemainingSum().toString());
+					survey.setFreezeAmount(proActInfo.getFrozenSum().toString());
+					survey.setIncome(capitalManageSer.getAccountIncome(proActInfo.getAccountId()).toString());
+					survey.setOutlay(capitalManageSer.getAccountOutlay(proActInfo.getAccountId()).toString());					
 				}
 			}
 			
@@ -181,20 +181,21 @@ public class CapitalManageController extends BaseController{
 			User user=userSer.queryUserByToken(body.getToken());
 			List<TransactionRecordsReturnVO> list=new ArrayList<TransactionRecordsReturnVO>();
 			if(user!=null){
-				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
+				Account proActInfo=getAccount(user.getMobileNum());//capitalManageSer.queryAccountInfo(user.getId());
+				
 				if(proActInfo!=null){
 					List<ProjectAccountOrder> records=capitalManageSer.queryAccountRecordsByAccountId(proActInfo.getAccountId(),page);
 					for(ProjectAccountOrder order:records){
 						TransactionRecordsReturnVO record=new TransactionRecordsReturnVO();
-						record.setBalance(MoneyUtil.getMoneyStringDecimal4yuan(order.getBalance()));
+						record.setBalance(order.getBalance().toString());
 						record.setTime(DateUtil.formatCommonDateorNull(order.getInsertTime()));
 						record.setRemark(order.getRemark());
 						record.setType(order.getType());
 						if(StringUtils.equals(order.getFlowDirection(),"IN#")){
-							record.setIncome(MoneyUtil.getMoneyStringDecimal4yuan(order.getSum()));
+							record.setIncome(order.getSum().toString());
 							record.setOutlay("0");
 						}else if(StringUtils.equals(order.getFlowDirection(),"OUT")){
-							record.setOutlay(MoneyUtil.getMoneyStringDecimal4yuan(order.getSum()));
+							record.setOutlay(order.getSum().toString());
 							record.setIncome("0");
 						}
 						list.add(record);
@@ -204,6 +205,12 @@ public class CapitalManageController extends BaseController{
 					rm.put("pageSize", page.getPageSize());
 					rm.put("pageIndex", page.getCurrPage());
 					rm.put("total", page.getTotalCount());
+				}else{
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("根据用户id[%s]查找不到用户资金账户",user.getId()));
+					}
+					throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("根据用户id[%s]查找不到用户资金账户",user.getId()));
+					
 				}
 			}
 			
@@ -303,7 +310,7 @@ public class CapitalManageController extends BaseController{
 				unfreeze.setOrignalOrderId(body.getOrderId());
 				unfreeze.setRemark(body.getRemark());
 				unfreeze.setType("SBZ");
-				orderInfo=orderSer.unfreeze(unfreeze, user.getId(), requestURI);
+				orderInfo=orderSer.unfreeze(unfreeze, user, requestURI);
 			}
 			rm.put("order", orderInfo);
 		} catch (Exception e1) {
@@ -350,6 +357,7 @@ public class CapitalManageController extends BaseController{
 			
 			List<ApplyListReturnVO> list=new ArrayList<ApplyListReturnVO>();
 			if(user!=null){
+				ProjectAccount proActInfo=(ProjectAccount)getAccount(user.getMobileNum());
 				list=orderSer.queryRechargeApplyList(user);
 			}
 			rm.put("list", list);
@@ -521,6 +529,14 @@ public class CapitalManageController extends BaseController{
 			
 			}
 			//查询用户信息
+			User user=userSer.getUser(apply.getUserId());
+			if(user==null){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("用户Id【%s】查询不到用户",apply.getUserId()));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("用户Id【%s】查询不到用户",apply.getUserId()));		
+			
+			}
 			UnfreezeVO unfreezeBody=new UnfreezeVO();
 			unfreezeBody.setAppOrderId(body.getAppOrderId());
 			unfreezeBody.setOrignalOrderId(body.getOrderId());
@@ -528,7 +544,7 @@ public class CapitalManageController extends BaseController{
 			unfreezeBody.setRemark(body.getRemark());
 			unfreezeBody.setSum(apply.getWithdrawAmount());
 			unfreezeBody.setType("UFZ");
-			orderSer.unfreeze(unfreezeBody, apply.getUserId(), requestURI);
+			orderSer.unfreeze(unfreezeBody, user, requestURI);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -578,7 +594,8 @@ public class CapitalManageController extends BaseController{
 			unfreezeBody.setRemark(body.getRemark());
 			unfreezeBody.setSum(apply.getWithdrawAmount());
 			unfreezeBody.setType("TX#");
-			String orderId=orderSer.withdrawals(unfreezeBody, apply.getUserId(), requestURI);
+			User user=userSer.getUser(apply.getUserId());
+			String orderId=orderSer.withdrawals(unfreezeBody, user, requestURI);
 			rm.put("orderId", orderId);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -757,7 +774,8 @@ public class CapitalManageController extends BaseController{
 			unfreezeBody.setRemark(body.getRemark());
 			unfreezeBody.setSum(apply.getAmount());
 			unfreezeBody.setType("CZ#");
-			rm.put("orderId", orderSer.recharge(unfreezeBody, apply.getUserId(), requestURI));
+			User user=userSer.getUser(apply.getUserId());
+			rm.put("orderId", orderSer.recharge(unfreezeBody, user, requestURI));
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -801,8 +819,8 @@ public class CapitalManageController extends BaseController{
 			if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
-					account.setRemainingSum(proActInfo.getRemainingSum()/(Double.valueOf(100)));
-					account.setFrozenSum(proActInfo.getFrozenSum()/(Double.valueOf(100)));
+					account.setRemainingSum(Double.valueOf(proActInfo.getRemainingSum()));
+					account.setFrozenSum(Double.valueOf(proActInfo.getFrozenSum()));
 					account.setAccountId(proActInfo.getAccountId());
 					account.setStatus(proActInfo.getStatus());
 				}
@@ -1014,6 +1032,18 @@ public class CapitalManageController extends BaseController{
 		
 		return rm;
 	}
+	
+	/**
+	 * 根据手机号码获取本类指定的帐户信息
+	 * @param mobile
+	 * @return
+	 * @throws MaAccountException
+	 */
+	protected  Account getAccount(String mobile) throws MaAccountException {
+		Account acc=AccountFactory.getAccount(Account.ACCOUNT_PROJECT,mobile);
+		return acc;
+	}
+
 	/**
 	 * 写日志,需要由子类实现
 	 * @param applog

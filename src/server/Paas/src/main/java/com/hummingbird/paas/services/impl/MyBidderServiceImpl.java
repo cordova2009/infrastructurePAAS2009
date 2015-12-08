@@ -272,6 +272,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setContactMobileNum(telephone);
 					bidder.setEmail(email);
 					bidder.setLogo(logo);
+					bidder.setStatus("CRT");
 					
 				}
 				i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
@@ -484,9 +485,19 @@ public class MyBidderServiceImpl implements MyBidderService {
 			BidderCerticate bidder = bidderCerticateDao.selectByUserId(token.getUserId());
 //			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 			if(eqInfos!= null && eqInfos.size()>0){
-				
-				
-				
+//				1.筛选出修改的记录
+				List<Integer> updIds = new ArrayList<Integer>();
+				for(BidderEqInfo be :  eqInfos){
+					BidderCertificationCertification bcc=bidderCertificationCertificationDao.selectByPrimaryKey(be.getEqId());
+					
+					if(bcc!= null){
+						updIds.add(be.getEqId());
+					}
+					
+				}
+//				2.删除前端未传过来的记录
+				int re = bidderCertificationCertificationDao.deleteByBidderId(bidder.getId(), updIds);
+//				3.修改或者插入相应记录
 				for(BidderEqInfo be :  eqInfos){
 					BidderCertificationCertification b =new BidderCertificationCertification();
 //					ValidateUtil.assertNull(be.getEqId(), "eqId不能为空！");

@@ -2,6 +2,8 @@ package com.hummingbird.paas.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.vo.BidderEqInfo;
 
@@ -10,6 +12,10 @@ public interface BidderCertificationCertificationMapper {
      * 根据主键删除记录
      */
     int deleteByPrimaryKey(Integer id);
+    /**
+     * 根据资质删除记录
+     */
+    int deleteByBidderId(@Param("bidderId")Integer bidderId, @Param("updIds")List<Integer> updIds);
 
     /**
      * 保存记录,不管记录里面的属性是否为空

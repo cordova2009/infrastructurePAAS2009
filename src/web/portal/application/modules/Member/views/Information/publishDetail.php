@@ -68,11 +68,14 @@
                             </span>
                         </div>
                         <div class="left">
-                            <textarea name="" id=""  class="textarea"></textarea>
+                            <form action="<?=U('/member/Information/publishDetail')?>" method="post" class="ajax-form">
+                            <input type="hidden" name="informationId" value="<?=$result['informationId']?>">
+                            <textarea id="" name="replyContent" class="textarea"></textarea>
                             <br >
                             <span class="right">
-                                <a href="#" class="down" name="replyContent">发表评论</a>
+                                <button type="submit" class="down" >发表评论</button>
                             </span>
+                            </form>
                         </div>
                         <div class="right" style="width: 200px;">
                     </td>

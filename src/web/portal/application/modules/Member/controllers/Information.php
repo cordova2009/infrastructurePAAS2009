@@ -144,7 +144,10 @@ class InformationController extends MemberController {
         $this->meta_title = '待发布信息';
     }
 
+
+
     public function publishDetailAction(){
+
         if(empty($this->user)){
             $this->redirect(U('/login'));
         }
@@ -157,6 +160,26 @@ class InformationController extends MemberController {
         if(empty($informationId)){
             $this->error('发布信息编号获取失败！');
         }
+        if(IS_POST){
+
+            $data = ['token'=>$this->user['token']];
+            $data['replyContent'] = I('replyContent');
+            if(empty($data['replyContent'])){
+                $this->error('评论内容不能为空！');
+            }
+            $data['informationId'] = I('informationId');
+            $resp = $curl->setData($data)->send('/userInformation/replyUserInformation');
+
+            if(check_resp($resp)) {
+
+                $this->success('保存成功！',U('/member/nformation/publishDetail'));
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '评论失败，请重新再试！');
+            }
+
+            $this->error(var_export($data,true));
+        }
+
         $resp = $curl->setData([
             'token'=>$this->user['token'],
             'informationId'=>$informationId

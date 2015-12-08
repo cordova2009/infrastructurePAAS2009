@@ -732,7 +732,7 @@ public class TenderServiceImpl implements TenderService {
 				String certificateName = ObjectUtils.toString(map.get("certificateName"));
 				if(StringUtils.isBlank(certificateName)){
 					//根据id查询资质证书
-					CertificationType certificationType = ctDao.selectByPrimaryKey(biddeeId);
+					CertificationType certificationType = ctDao.selectByPrimaryKey(objectCertificationRequirement.getCertificationId());
 					certificateName = certificationType.getCertificationName();
 				}
 				objectCertificationRequirement.setCertificationName(certificateName);

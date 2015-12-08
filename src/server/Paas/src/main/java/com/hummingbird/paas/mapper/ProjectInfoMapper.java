@@ -47,14 +47,15 @@ public interface ProjectInfoMapper {
     /**
      * 查询发布的标的
      * @param biddeeId
+     * @param pagingnation 
      * @return
      */
-    List<ProjectInfo> queryBeeProject(Integer biddeeId);
+    List<ProjectInfo> queryBeeProject(@Param("biddeeId")Integer biddeeId,@Param("page") Pagingnation pagingnation);
     
     /**
      * 查询中标的标的
      */
-    List<ProjectInfo> queryBerProject(@Param("bidderId")Integer bidderId,@Param("pagingnation")Pagingnation pagingnation);
+    List<ProjectInfo> queryBerProject(@Param("bidderId")Integer bidderId,@Param("page")Pagingnation pagingnation);
 
 	/**
 	 * 查询中标的标的记录条数
@@ -62,4 +63,11 @@ public interface ProjectInfoMapper {
 	 * @return
 	 */
 	int selectBerProjectCount(Integer bidderId);
+
+	/**
+	 * 查询记录条件
+	 * @param biddeeId
+	 * @return
+	 */
+	int queryBeeProjectCount(Integer biddeeId);
 }

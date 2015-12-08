@@ -31,6 +31,7 @@ import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.face.AbstractAppLog;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
@@ -1402,9 +1403,10 @@ public class TenderController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			liq = tenderService.queryBidderList();
-	        rm.put("list",liq);
+			Pagingnation pagingnation = transorder.getBody().toPagingnation();
+			liq = tenderService.queryBidderList(transorder.getBody(),pagingnation);
+			mergeListOutput(rm, pagingnation, liq);
+//	        rm.put("list",liq);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

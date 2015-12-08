@@ -25,6 +25,7 @@ import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
@@ -495,11 +496,13 @@ public interface TenderService {
 
 	/**
 	 * 查询投标方列表接口
+	 * @param pagingnation 
+	 * @param queryCertificateListBodyVO 
 	 *
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException;
+	public List<QueryBidderListResultVO> queryBidderList(QueryCertificateListBodyVO queryCertificateListBodyVO, Pagingnation pagingnation) throws BusinessException;
 
 	/**
 	 * 查询首页投标人推荐列表接口

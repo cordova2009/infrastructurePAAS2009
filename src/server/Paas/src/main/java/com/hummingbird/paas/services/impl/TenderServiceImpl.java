@@ -61,6 +61,7 @@ import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
+import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
@@ -86,6 +87,7 @@ import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
+import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
 import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
@@ -129,15 +131,11 @@ public class TenderServiceImpl implements TenderService {
 	@Autowired
 	IndustryMapper indDao;
 	@Autowired
-	CertificationTypeMapper tmDao;
-	@Autowired
 	BidObjectMapper dao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired
 	ObjectProjectInfoMapper bpdao;
-	@Autowired
-	ObjectBaseinfoMapper obidao;
 	@Autowired
 	BidRecordMapper bidRecordDao;
 	@Autowired
@@ -164,11 +162,10 @@ public class TenderServiceImpl implements TenderService {
 	ProjectEvaluationBidderMapper evaluationBidderDao;
 	@Autowired
 	BiddeeMapper beDao;  //ProjectPaymentPayMapper
-
-	@Autowired
-	BidderMapper brDao;  //ProjectPaymentPayMapper
 	@Autowired
 	ProjectPaymentPayMapper pppDao;
+	@Autowired
+	UserMapper userDao;
 
 	/**
 	 * 我的招标评标概况接口
@@ -732,7 +729,13 @@ public class TenderServiceImpl implements TenderService {
 				ObjectCertificationRequirement objectCertificationRequirement = new ObjectCertificationRequirement();
 				objectCertificationRequirement
 						.setCertificationId(NumberUtils.toInt(ObjectUtils.toString(map.get("certificateId"))));
-				objectCertificationRequirement.setCertificationName(ObjectUtils.toString(map.get("certificateName")));
+				String certificateName = ObjectUtils.toString(map.get("certificateName"));
+				if(StringUtils.isBlank(certificateName)){
+					//根据id查询资质证书
+					CertificationType certificationType = ctDao.selectByPrimaryKey(biddeeId);
+					certificateName = certificationType.getCertificationName();
+				}
+				objectCertificationRequirement.setCertificationName(certificateName);
 				objectCertificationRequirement.setIndustryId(ObjectUtils.toString(map.get("industryId")));
 				objectCertificationRequirement.setObjectId(bo.getObjectId());
 				ocrDao.insert(objectCertificationRequirement);
@@ -989,14 +992,12 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	// @Override
 	// public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer
 	// userId, String objectId, Pagingnation page) {
-	// // TODO Auto-generated method stub
 	// org.apache.commons.logging.Log log =
 	// org.apache.commons.logging.LogFactory.getLog(this.getClass());
 	//
@@ -1408,14 +1409,27 @@ public class TenderServiceImpl implements TenderService {
 		return ans;
 	}
 
-	public List<QueryBidderListResultVO> queryBidderList() throws BusinessException {
-		List<Bidder> bers = berDao.selectAll();
+	/**
+	 * 查询投标人分页
+	 * @see com.hummingbird.paas.services.TenderService#queryBidderList()
+	 */
+	public List<QueryBidderListResultVO> queryBidderList(QueryCertificateListBodyVO queryCertificateListBodyVO, Pagingnation pagingnation) throws BusinessException {
+		if(pagingnation!=null&&pagingnation.isCountsize()){
+			int count = berDao.selectBidderCount(queryCertificateListBodyVO);
+			pagingnation.setTotalCount(count);
+			pagingnation.calculatePageCount();
+		}
+		List<Bidder> bers = berDao.selectBidder(queryCertificateListBodyVO,pagingnation);
 		List<QueryBidderListResultVO> qlr = new ArrayList<QueryBidderListResultVO>();
 		QueryBidderListResultVO qr = null;
 		for (Bidder ber : bers) {
 			qr = new QueryBidderListResultVO();
 			qr.setBidderId(ber.getId());
 			qr.setBidderName(ber.getCompanyName());
+			//查询用户信息
+			User user = userDao.selectByPrimaryKey(ber.getUserId());
+			if(user!=null)
+				qr.setUserName(user.getNickName());
 			qlr.add(qr);
 		}
 		return qlr;
@@ -1450,7 +1464,7 @@ public class TenderServiceImpl implements TenderService {
 			cvo = new QueryCertificateListResultVO();
 			cvo.setIndustryId(ind.getId());
 			cvo.setIndustryName(ind.getIndustryName());
-			List<CertificationType> cs = tmDao.selectAllTypes(ind.getId());
+			List<CertificationType> cs = ctDao.selectAllTypes(ind.getId());
 			qcrs = new ArrayList<QueryCertificateListResultBodyVO>();
 			for (CertificationType ct : cs) {
 				cert = new QueryCertificateListResultBodyVO();
@@ -1480,7 +1494,6 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
 			throws BusinessException {
-		// TODO Auto-generated method stub
 		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex, pageSize);
 		List<QueryIndexBidListResultVO> qlr = new ArrayList<QueryIndexBidListResultVO>();
 		QueryIndexBidListResultVO qr = null;
@@ -1531,7 +1544,6 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public CompanyInfo queryTenderCompanyInfo(String appId, QueryCompanyInfoBodyVO mm) throws BusinessException {
-		// TODO Auto-generated method stub
 		CompanyInfo cc = new CompanyInfo();
 		// 1.概况
 		CompanyBaseInfo cb = new CompanyBaseInfo();
@@ -1600,15 +1612,13 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public CompanyInfo queryBidderCompanyInfo(String appId, QueryCompanyInfoBodyVO mm) throws BusinessException {
-		// TODO Auto-generated method stub
-		
 		CompanyInfo cc = new CompanyInfo();
 //		1.概况
 		CompanyBaseInfo cb = new CompanyBaseInfo();
-		CompanySurvey cs = brDao.selectCompanySurveyById(mm.getCompanyId());
+		CompanySurvey cs = berDao.selectCompanySurveyById(mm.getCompanyId());
 		cc.setSurvey(cs);
 //		2.基本信息
-		Bidder bidder = brDao.selectByPrimaryKey(mm.getCompanyId());
+		Bidder bidder = berDao.selectByPrimaryKey(mm.getCompanyId());
 		ValidateUtil.assertNull(bidder,"招标信息不存在！");
 		cb.setAddress(bidder.getAddress());
 		cb.setBusinessScope(bidder.getBusinessScope());

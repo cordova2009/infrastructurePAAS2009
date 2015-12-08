@@ -999,6 +999,7 @@ public class BidServiceImpl implements BidService {
 			bid.setBidStatus(CommonStatusConst.STATUS_CREATE);
 			bid.setStatus(CommonStatusConst.STATUS_CREATE);
 			bid.setBidAmount(0l);
+			bid.setInsertTime(new Date());
 			isadd = true;
 		}
 		SaveBidRequirementInfoBodyVO_3 bankGuarantee = body.getBankGuarantee();

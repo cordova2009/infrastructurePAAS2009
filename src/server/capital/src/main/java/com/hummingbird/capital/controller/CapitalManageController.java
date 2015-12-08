@@ -275,7 +275,9 @@ public class CapitalManageController extends BaseController{
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			User user=userSer.getUser(token.getUserId());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
+			if(body.getIsVerityPassword()){
+				capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
+			}
 			FreezeBondReturnVO orderInfo=new FreezeBondReturnVO();
 			if(user!=null){
 				body.setType("JBZ");
@@ -869,8 +871,8 @@ public class CapitalManageController extends BaseController{
 			if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
-					account.setRemainingSum(Double.valueOf(proActInfo.getRemainingSum()));
-					account.setFrozenSum(Double.valueOf(proActInfo.getFrozenSum()));
+					account.setRemainingSum(proActInfo.getRemainingSum());
+					account.setFrozenSum(proActInfo.getFrozenSum());
 					account.setAccountId(proActInfo.getAccountId());
 					account.setStatus(proActInfo.getStatus());
 				}

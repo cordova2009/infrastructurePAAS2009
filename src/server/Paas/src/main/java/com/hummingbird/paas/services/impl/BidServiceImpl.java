@@ -23,8 +23,13 @@ import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.util.http.HttpRequester;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.commonbiz.util.TransOrderBuilder;
+import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.BidAttachment;
 import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidObject;
@@ -70,10 +75,13 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.util.MoneyUtil;
 import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
+import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
+import com.hummingbird.paas.vo.FreezeVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_1;
@@ -100,6 +108,8 @@ import com.hummingbird.paas.vo.QueryObjectDetailProjectInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailProjectRequirementInfo;
 import com.hummingbird.paas.vo.QueryObjectDetailResultVO;
 import com.hummingbird.paas.vo.QueryObjectListResultVO;
+import com.hummingbird.paas.vo.QueryProjectAccountReturnVO;
+import com.hummingbird.paas.vo.QueryProjectAccountVO;
 import com.hummingbird.paas.vo.QueryTechnicalStandardInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveBidRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidRequirementInfoBodyVO_1;
@@ -782,8 +792,31 @@ public class BidServiceImpl implements BidService {
 			}
 			result.setMakeMatchBidderBondAmount(ObjectUtils.toString(bondmoney));
 			// 检查投标人的可用余额,远程访问用户资金帐户
+			Map capbody = new HashMap();
+			capbody.put("token", body.getToken());
+			PropertiesUtil pu=new PropertiesUtil();
+			
+			BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), capbody, false, false);
+			String requestJson = JsonUtil.convert2Json(buildBaseTrans);
+			String paygatewayUrl = String.format("%s/capitalManage/queryProjectAccount",pu.getProperty("capital.url"));
+			String result2 = new HttpRequester().postRequest(paygatewayUrl,
+					requestJson);
+			if(result2==null){
+				throw ValidateException.ERROR_REQUEST_INVALID;
+			}
+			QueryProjectAccountVO proAccount=JsonUtil.convertJson2Obj(result2, QueryProjectAccountVO.class);
+			
+			QueryProjectAccountReturnVO returnBody=proAccount.getAccount();
+			boolean mapsuccess = "0".equals(ObjectUtils.toString(proAccount.getErrcode()));
+			if(!mapsuccess){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("查询用户资金账户失败"));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,proAccount.getErrmsg());
+				
+			}
 			// TODO 改为访问用户资金帐户
-			Integer remainingsum = 30000000;
+			Long remainingsum = returnBody.getRemainingSum();
 			if (remainingsum >= bondmoney) {
 				result.setSatisfy("ENH");
 			} else {
@@ -819,6 +852,45 @@ public class BidServiceImpl implements BidService {
 		BidObject object = null;
 		BidRecord bid = validateBid(body.getBidId(), body.getObjectId(), bidder.getId(), object);
 		object = bid.getBo();
+		// 计算撮合保证金金额
+		Long bondmoney = frDao.selectMoney(object.getEvaluationAmount(), "BZJ");
+		if (bondmoney == null) {
+			log.error(String.format("无法找到合适的撮合保证金,费率表没有对应的设置,金额为%s分", object.getEvaluationAmount()));
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "无法找到合适的撮合保证金");
+		}
+		//调用资金账户管理，查询用户余额是否足够
+		Map capbody = new HashMap();
+		capbody.put("token", body.getToken());
+		PropertiesUtil pu=new PropertiesUtil();
+		
+		BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), capbody, false, false);
+		String requestJson = JsonUtil.convert2Json(buildBaseTrans);
+		String paygatewayUrl = String.format("%s/capitalManage/queryProjectAccount",pu.getProperty("capital.url"));
+		String result = new HttpRequester().postRequest(paygatewayUrl,
+				requestJson);
+		if(result==null){
+			throw ValidateException.ERROR_REQUEST_INVALID;
+		}
+		QueryProjectAccountVO proAccount=JsonUtil.convertJson2Obj(result, QueryProjectAccountVO.class);
+		
+		QueryProjectAccountReturnVO returnBody=proAccount.getAccount();
+		boolean mapsuccess = "0".equals(ObjectUtils.toString(proAccount.getErrcode()));
+		if(!mapsuccess){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("查询用户资金账户失败"));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,proAccount.getErrmsg());
+			
+		}
+		//判断用户账户余额是否足够支付撮合保证金
+		if(returnBody.getRemainingSum()<bondmoney){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("冻结撮合保证金失败，用户可用余额不足"));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,String.format("冻结撮合保证金失败，用户可用余额不足"));
+			
+		}
+		//生成撮合保证金缴纳记录
 		MakeMatchBondRecord mmbond = mmbrDao.selectByBidId(body.getBidId());
 		if (mmbond == null) {
 			mmbond = new MakeMatchBondRecord();
@@ -832,7 +904,35 @@ public class BidServiceImpl implements BidService {
 			mmbond.setBondAmount(body.getMakeMatchBidderBondAmount());
 
 			mmbrDao.insert(mmbond);
-			// 调用用户资金接口,记录用户资金
+			// 调用用户资金接口,冻结FreezeBondBodyVO
+			FreezeBondBodyVO freebody = new FreezeBondBodyVO();
+			freebody.setAmount(bondmoney);
+			freebody.setObjectId(body.getObjectId());
+			freebody.setOriginalOrderId(mmbond.getOrderId());
+			freebody.setOriginalTable("t_ztgl_object_makematch_bond_record");
+			freebody.setRemark("冻结"+MoneyUtil.getMoneyStringDecimal4yuan(bondmoney)+"元撮合工保证金");
+			freebody.setToken(body.getToken());
+			//freebody.setTradePassword(tradePassword);
+			freebody.setIsVerityPassword(true);
+			BaseTransVO<FreezeBondBodyVO> buildBaseTrans2 = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), freebody, false, false);
+			String requestJson2 = JsonUtil.convert2Json(buildBaseTrans);
+			String paygatewayUrl2 = String.format("%s/capitalManage/freezeBond",pu.getProperty("capital.url"));
+			String result2 = new HttpRequester().postRequest(paygatewayUrl,
+					requestJson);
+			if(result==null){
+				throw ValidateException.ERROR_REQUEST_INVALID;
+			}
+			FreezeVO freeze=JsonUtil.convertJson2Obj(result2, FreezeVO.class);
+			
+			FreezeBondReturnVO order=freeze.getOrder();
+			boolean mapsuccess2 = "0".equals(ObjectUtils.toString(freeze.getErrcode()));
+			if(!mapsuccess){
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("冻结撮合保证金失败"));
+				}
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,proAccount.getErrmsg());
+				
+			}
 		}
 		// 不存在更新行为
 		// else{

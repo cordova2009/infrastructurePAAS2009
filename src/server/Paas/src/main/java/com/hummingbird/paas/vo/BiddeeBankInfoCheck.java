@@ -16,51 +16,45 @@ import java.util.Date;
 //}
 public class BiddeeBankInfoCheck {
 	
-	private AuditInfo  bank;
-	private AuditInfo  accountId;
-	private AuditInfo  accountName;
+	private AuditInfo  bank_name;
+	private AuditInfo  account_no;
+	private AuditInfo  account_name;
 	/**
-	 * @return the bank
+	 * @return the bank_name
 	 */
-	public AuditInfo getBank() {
-		return bank;
-	}
-	/**
-	 * @return the accountId
-	 */
-	public AuditInfo getAccountId() {
-		return accountId;
+	public AuditInfo getBank_name() {
+		return bank_name;
 	}
 	/**
-	 * @return the accountName
+	 * @return the account_no
 	 */
-	public AuditInfo getAccountName() {
-		return accountName;
+	public AuditInfo getAccount_no() {
+		return account_no;
 	}
 	/**
-	 * @param bank the bank to set
+	 * @return the account_name
 	 */
-	public void setBank(AuditInfo bank) {
-		this.bank = bank;
+	public AuditInfo getAccount_name() {
+		return account_name;
 	}
 	/**
-	 * @param accountId the accountId to set
+	 * @param bank_name the bank_name to set
 	 */
-	public void setAccountId(AuditInfo accountId) {
-		this.accountId = accountId;
+	public void setBank_name(AuditInfo bank_name) {
+		this.bank_name = bank_name;
 	}
 	/**
-	 * @param accountName the accountName to set
+	 * @param account_no the account_no to set
 	 */
-	public void setAccountName(AuditInfo accountName) {
-		this.accountName = accountName;
+	public void setAccount_no(AuditInfo account_no) {
+		this.account_no = account_no;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @param account_name the account_name to set
 	 */
-	@Override
-	public String toString() {
-		return "BiddeeBankInfoCheck [bank=" + bank + ", accountId=" + accountId + ", accountName=" + accountName + "]";
+	public void setAccount_name(AuditInfo account_name) {
+		this.account_name = account_name;
 	}
+	
 	
 }

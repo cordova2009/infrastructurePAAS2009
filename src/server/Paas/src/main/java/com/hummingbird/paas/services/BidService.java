@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
@@ -31,6 +32,7 @@ import com.hummingbird.paas.vo.SaveBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveBusinessStandardInfoBodyVO;
 import com.hummingbird.paas.vo.SaveMakeMatchBidderBondBodyVO;
 import com.hummingbird.paas.vo.SaveTechnicalStandardInfoBodyVO;
+import com.hummingbird.paas.vo.SubmitBidBodyVO;
 import com.hummingbird.paas.vo.UnfreezeBondVO;
 
 /**
@@ -195,12 +197,12 @@ public interface BidService {
 	 * 
 	 * @param appId
 	 *            应用id
-	 * @param body
+	 * @param submitBidBodyVO
 	 *            参数
 	 * @return
 	 * @throws BusinessException
 	 */
-	public void submitBid(String appId, QueryBidBodyVO body, Bidder bidder) throws BusinessException;
+	public void submitBid(String appId, SubmitBidBodyVO submitBidBodyVO, Bidder bidder) throws BusinessException;
 
 	/**
 		 * 查询用户是否具有投标的资质
@@ -257,5 +259,15 @@ public interface BidService {
 	 * @throws BusinessException 
 	 */
 	public void evaluateBiddee(String appId, EvaluateBiddeeBodyVO body, Bidder bidder) throws BusinessException;
+
+	/**
+	 * 查询未完成的投标信息(投标附件)
+	 * @param appId
+	 * @param body
+	 * @param id
+	 * @return
+	 * @throws DataInvalidException 
+	 */
+	public SubmitBidBodyVO queryBidSubmit(String appId, QueryBidBodyVO body, Integer bidderId) throws DataInvalidException;
 	
 }

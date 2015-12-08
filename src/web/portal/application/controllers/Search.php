@@ -8,7 +8,7 @@
 class SearchController extends MallController
 {
     
-    private $pageSize = 10;
+    private $pageSize = 2;
 
     /**
      * 投标人搜索
@@ -63,7 +63,7 @@ class SearchController extends MallController
             $page = $this->getPagination($resp['total'], $this->pageSize);
             $this->assign('page', $page);
         }
-        
+
         $this->assign('list', $list);
         $this->layout->meta_title = '招标项目搜索';
     }

@@ -126,9 +126,18 @@
     from t_gcgl_project
     where biddee_id = #{biddeeId,jdbcType=INTEGER}
   </select>
-  <select id="queryBerProject" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="queryBerProject" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
+    from t_gcgl_project
+    where bidder_id = #{bidderId,jdbcType=INTEGER}
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+    </if> 
+  </select>
+  <select id="selectBerProjectCount" resultType="int" parameterType="java.lang.Integer" >
+    select 
+   count(*)
     from t_gcgl_project
     where bidder_id = #{bidderId,jdbcType=INTEGER}
   </select>

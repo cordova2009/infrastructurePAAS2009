@@ -74,7 +74,7 @@ class BiddermanageController extends AdminController {
 	{
 		$data = $this->getData();
 		$api = new ApiService();
-		$resp = $api->setApiUrl(C('APIURI'))
+		$resp = $api->setApiUrl(C('APIURI.paas1'))
 		->setData($data)->send('myBidder/authInfo/checkApplication');
 		if($resp===false)
 		{

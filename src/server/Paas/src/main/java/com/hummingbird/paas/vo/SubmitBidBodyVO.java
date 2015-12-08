@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.commons.lang.ObjectUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.PainttextAble;
@@ -14,7 +13,7 @@ import com.hummingbird.common.vo.PainttextAble;
 /**
  * 查询投标类在body VO
  */
-public class QueryBidBodyVO 
+public class SubmitBidBodyVO 
 implements PainttextAble {
 
     	/**
@@ -29,6 +28,11 @@ implements PainttextAble {
 	     * 招标项目内部编号
 	     */
 	    protected String objectId;
+	    
+	    /**
+	     * 投标文件
+	     */
+	    protected String bidFile;
 	
 	    	/**
 	     * @return 
@@ -74,13 +78,13 @@ implements PainttextAble {
 	 * 生成文本组装内容
 	 * @return
 	 */
-	    @JsonIgnore
 	public String getPaintText(){
 		String pt = ValidateUtil.sortbyValues(
 				   
 							ObjectUtils.toString(token) ,
 							   
 							ObjectUtils.toString(bidId) ,
+							ObjectUtils.toString(bidFile) ,
 							   
 							ObjectUtils.toString(objectId) 
 							);
@@ -90,6 +94,20 @@ implements PainttextAble {
 
     public String toString() {
 		return org.apache.commons.lang.builder.ToStringBuilder.reflectionToString(this);
+	}
+
+	/**
+	 * 投标文件 
+	 */
+	public String getBidFile() {
+		return bidFile;
+	}
+
+	/**
+	 * 投标文件 
+	 */
+	public void setBidFile(String bidFile) {
+		this.bidFile = bidFile;
 	}
 
     

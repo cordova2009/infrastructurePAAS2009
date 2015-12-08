@@ -122,7 +122,7 @@ function I($name,$default='',$filter=null,$datas=null) {
 
             foreach($filters as $filter){
                 if(function_exists($filter)) {
-                    $data  = is_array($data)?array_map_recursive($filter,$data):$filter($data); // 参数过滤
+                    $data  = is_array($data) ? array_map_recursive($filter,$data) : $filter($data); // 参数过滤
                 }else{
                     $data = filter_var($data,is_int($filter)?$filter:filter_id($filter));
                     if(false === $data) {

@@ -1,5 +1,7 @@
 package com.hummingbird.paas.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +14,15 @@ import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.face.AbstractAppLog;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.paas.entity.AppLog;
-import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.entity.User;
-import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
@@ -33,7 +33,9 @@ import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.vo.ObjectBodyVO;
 import com.hummingbird.paas.vo.ObjectVO;
+import com.hummingbird.paas.vo.QueryMyIncomeListReturnVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
+import com.hummingbird.paas.vo.TokenPagingVO;
 import com.hummingbird.paas.vo.TokenVO;
 
 @Controller
@@ -64,12 +66,12 @@ public class BidderProjectController extends BaseController{
 	@AccessRequered(methodName = "查询我的中标项目收款情况",  appLog = true)
 	public @ResponseBody Object queryMyIncomeList(HttpServletRequest request) {
 		
-		TokenVO transorder;
+		TokenPagingVO transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenPagingVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -80,13 +82,6 @@ public class BidderProjectController extends BaseController{
 		rm.setBaseErrorCode(260100);
 		rm.setErrmsg(messagebase+"成功");
 		try {
-			//获取url以作为method的内容
-			String requestURI = request.getRequestURI();
-			requestURI=requestURI.replace(request.getContextPath(), "");
-			
-			PropertiesUtil pu = new PropertiesUtil();
-			TokenBodyVO body=transorder.getBody();
-			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
@@ -96,7 +91,9 @@ public class BidderProjectController extends BaseController{
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
-			rm.put("list", projectSer.queryMyIncomeList(bidder.getId()));
+			Pagingnation pagingnation = transorder.getBody().toPagingnation();
+			List<QueryMyIncomeListReturnVO> list = projectSer.queryMyIncomeList(bidder.getId(),pagingnation);
+			super.mergeListOutput(rm, pagingnation, list);
 			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

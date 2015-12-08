@@ -46,5 +46,5 @@ public interface BidAttachmentMapper {
 	 * @param objectId
 	 * @return
 	 */
-	List<BidAttachment> selectBidFile(String bidId);
+	List<BidAttachment> selectBidFile(int bidId);
 }

@@ -74,7 +74,7 @@ class BiddeemanageController extends AdminController {
 	{
 		$data = $this->getData();
 		$api = new ApiService();
-		$resp = $api->setApiUrl(C('APIURI'))
+		$resp = $api->setApiUrl(C('APIURI.paas1'))
 		->setData($data)->send('myBiddee/authInfo/checkApplication');
 		if($resp===false)
 		{

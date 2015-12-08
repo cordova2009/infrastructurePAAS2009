@@ -2,6 +2,9 @@ package com.hummingbird.paas.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.ProjectInfo;
 
 public interface ProjectInfoMapper {
@@ -51,5 +54,12 @@ public interface ProjectInfoMapper {
     /**
      * 查询中标的标的
      */
-    List<ProjectInfo> queryBerProject(Integer bidderId);
+    List<ProjectInfo> queryBerProject(@Param("bidderId")Integer bidderId,@Param("pagingnation")Pagingnation pagingnation);
+
+	/**
+	 * 查询中标的标的记录条数
+	 * @param bidderId
+	 * @return
+	 */
+	int selectBerProjectCount(Integer bidderId);
 }

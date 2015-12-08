@@ -14,7 +14,7 @@
                         <div class="txt2">标的估价</div>
                     </div>
                     <div class="cell gongqi">
-                        <div class="txt1"><?=isset($survey['projectExpectPeriod'])?$survey['projectExpectPeriod']:'0'?><span class="fz20">天</span></div>
+                        <div class="txt1"><?=isset($projectRequirementInfo['projectExpectPeriod'])?$projectRequirementInfo['projectExpectPeriod']:'0'?><span class="fz20">天</span></div>
                         <div class="txt2">工程工期</div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <div class="cell ">
                         <div class="clear">
                             <div class="lab">工程地址 </div>
-                            <div class="value"><?=isset($survey['projectSite'])?$survey['projectSite']:'未填写'?></div>
+                            <div class="value"><?=isset($projectInfo['projectSite'])?$projectInfo['projectSite']:'未填写'?></div>
                         </div>
                         <div class="clear">
                             <div class="lab">保证金 </div>
@@ -48,7 +48,7 @@
                     <div class="txt3 blue fz36"><?=isset($survey['bidderNum'])?$survey['bidderNum']:'未填写'?>
                         <?php if($info['status']=='PUB'){?>
                         <div class="text-center padt30 right">
-                            <a href="<?=U('/member/bid/requirement',['objectId'=>$v['objectId']])?>" class="btn-green4">我要投标</a>
+                            <a href="<?=U('/member/bid/requirement',['objectId'=>$info['objectId']])?>" class="btn-green4">我要投标</a>
                         </div>
                         <?php }?>
                     </div>
@@ -66,32 +66,49 @@
                 <li class="first active">
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?=isset($dateRequirementInfo['announcementBeginTime'])?$dateRequirementInfo['announcementBeginTime']:'未填写'?><br>招标发布</span>
+                    <span class="txt">
+                        <?=isset($dateRequirementInfo['announcementBeginTime'])?time_format(strtotime($dateRequirementInfo['announcementBeginTime']),'Y-m-d'):'未填写'?>
+                        <br>招标发布
+                    </span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?=isset($dateRequirementInfo['announcementEndTime'])?$dateRequirementInfo['announcementEndTime']:'未填写'?><br>公告截止</span>
+                    <span class="txt">
+                        <?=isset($dateRequirementInfo['announcementEndTime'])?time_format(strtotime($dateRequirementInfo['announcementEndTime']),'Y-m-d'):'未填写'?>
+                        <br>公告截止
+                    </span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?=isset($dateRequirementInfo['biddingEndTime'])?$dateRequirementInfo['biddingEndTime']:'未填写'?><br>投标截止</span>
+                    <span class="txt">
+                        <?=isset($dateRequirementInfo['biddingEndTime'])?time_format(strtotime($dateRequirementInfo['announcementBeginTime']),'Y-m-d'):'未填写'?>
+                        <br>投标截止
+                    </span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?=isset($dateRequirementInfo['bidOpenDate'])?$dateRequirementInfo['bidOpenDate']:'未填写'?><br>开标</span>
+                    <span class="txt">
+                        <?=isset($dateRequirementInfo['bidOpenDate'])?time_format(strtotime($dateRequirementInfo['bidOpenDate']),'Y-m-d'):'未填写'?>
+                        <br>开标
+                    </span>
                 </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt"><?=isset($projectRequirementInfo['projectExpectStartDate'])?$projectRequirementInfo['projectExpectStartDate']:'未填写'?><br>工程开始</span>
+                    <span class="txt">
+                        <?=isset($projectRequirementInfo['projectExpectStartDate'])?$projectRequirementInfo['projectExpectStartDate']:'未填写'?>
+                        <br>工程开始
+                    </span>
                 </li>
                 <li class="last">
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt">adsfadf<br>工程结束</span>
+                    <span class="txt">
+                        <br>工程结束
+                    </span>
                 </li>
             </ul>
         </div>
@@ -132,7 +149,10 @@
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">采用币种</td>
-                            <td class="value"><?=isset($baseInfo['currency'])?$baseInfo['currency']:'未填写'?></td>
+                            <td class="value">
+                                <?php $currency_list = ['CNY'=>'人民币','USD'=>'美元'];?>
+                                <?=$currency_list[$baseInfo['currency']]?>
+                            </td>
                         </tr>
                         <tr >
                             <td class="lab">标的估价</td>
@@ -229,11 +249,18 @@
                         <tr class="tr-bg1">
                             <td class="lab">答疑方式</td>
                             <td class="value">
-                                QQ答疑， <?=isset($answerQuestion['qq'])?'QQ群号：'.$answerQuestion['qq'].',群口令：'.$answerQuestion['qqtoken']:'未设置'?>
-                                <br >邮件答疑，<?=isset($answerQuestion['email'])?'邮箱地址：'.$answerQuestion['email']:'未设置'?>
-                                <br >现场答疑<?=isset($answerQuestion['address'])?'，答疑地址：'.$answerQuestion['address'].'答疑时间：'.$answerQuestion['answerTime']:'未设置'?>
-                                <br >电话答疑，<?=isset($answerQuestion['telephone'])?'联系电话：'.$answerQuestion['telephone']:'未设置'?>
-
+                                <?php if(!empty($answerQuestion['qq'])):?>
+                                <div>QQ答疑，QQ群号：<?=$answerQuestion['qq']?>，群口令：<?=$answerQuestion['qqtoken']?></div>
+                                <?php endif;?>
+                                <?php if(!empty($answerQuestion['email'])):?>
+                                <div>邮件答疑，邮箱地址：<?=$answerQuestion['email']?></div>
+                                <?php endif;?>
+                                <?php if(!empty($answerQuestion['address'])):?>
+                                <div>现场答疑，答疑地址：<?=$answerQuestion['address']?>，答疑时间：<?=$answerQuestion['answerTime']?></div>
+                                <?php endif;?>
+                                <?php if(!empty($answerQuestion['telephone'])):?>
+                                <div>电话答疑，联系电话：<?=$answerQuestion['telephone']?></div>
+                                <?php endif;?>
                             </td>
                         </tr>
                         <tr>
@@ -307,7 +334,7 @@
         </div>
     </div>
     <div class="text-right">
-        <a href="#" class="pad5 color8">举报</a>
+        <a href="javascript:" class="pad5 color8">举报</a>
     </div>
     <!--list-->
 

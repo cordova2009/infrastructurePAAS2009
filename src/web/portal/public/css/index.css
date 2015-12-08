@@ -96,7 +96,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 /*page*/
 .page{text-align: center;padding: 30px 0;}
 .page a.disabled{background: #e1e2e2;color: #fff;}
-.page a{display: inline-block;line-height: 22px;color: #808080;border: #eff0f0 1px solid;padding: 0 10px;}
+.page a{display: inline-block;line-height: 22px;color: #808080;border: #eff0f0 1px solid;padding: 0 10px; margin-right: 3px;}
 .page a.active,.page a:hover{color: #1b8fff;border: #53abff 1px solid;text-decoration: none;}
 .page a.disabled:hover{background:#e1e2e2;color: #fff;border: #eff0f0 1px solid }
 
@@ -527,7 +527,8 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zbxm_info .gongqi {font-size: 46px;padding-left: 20px;}
 
 
-.zbxm_info .rightBox{background: #fff3e8 url(../images/pinshen.png) no-repeat right bottom;padding: 30px;width: 210px;color: #808080;}
+.zbxm_info .rightBox{background: #fff3e8;padding: 30px;width: 210px;color: #808080;}
+.zbxm_info .pingbiao{background: #fff3e8 url(../images/pinshen.png) no-repeat right bottom;}
 .zbxm_info .rightBox .time{font-size: 24px;}
 .zbxm_info .rightBox .txt2{font-size: 14px;padding-top: 15px;}
 .zbxm_info .rightBox .txt3{padding-top: 30px;}
@@ -608,11 +609,11 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zhengshu2{padding: 30px 0;}
 .zhengshu2 li{margin-top: 25px;display: table;width: 100%;;}
 .zhengshu2 .lab{font-size: 16px;color: #222;width: 170px;padding-right: 20px;text-align: right;}
-.zhengshu2 .input1{line-height: 42px;width: 150px;}
+.zhengshu2 .input1{line-height: 42px; height: 42px; width: 150px;}
 .datepicker{background: url(../images/i-date.png) no-repeat right 0;}
 
 .zhengshu2  .yuan{line-height: 40px;}
-.zhengshu2  .yuanbox .input1{width:130px;}
+.zhengshu2  .yuanbox .input1{width:140px;}
 
 .zhizhao_info{width: 500px;margin:  0 auto;}
 
@@ -637,7 +638,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zhengming ul{border-bottom: #e6e6e6 1px solid;padding-bottom: 60px}
 .zhengming li{margin-top: 25px;display: table;width: 100%;;}
 .zhengming .lab{font-size: 16px;color: #222;width: 180px;text-align: right;}
-.zhengming .input1{line-height: 42px;width: 160px;}
+.zhengming .input1{line-height: 42px;width: 160px; height: 42px;}
 .zhengming .btn-file2{height: 44px;line-height: 44px;}
 
 .gcjbxx .item{margin-top: 25px;line-height: 43px}

@@ -102,6 +102,11 @@ $(function(){
         var $this = $(this);
         var wrap = $($this.children('a').attr('href'));
         if(wrap.length > 0){
+//            wrap.remove();
+//            var form = $('<form></form>');
+//            form.attr('next_step',$this.children('a').attr('href').replace('#',''));
+//            save_success({step:$this.index(),objectId:'ZB00201512051631124'},form);
+//            return false;
             $("#right-content .box").hide();
             $("#side_menu_ul li").removeClass('on');
             wrap.show();
@@ -130,7 +135,7 @@ $(function(){
  */
 function save_success(resp,form) {
     var next_step = form.attr('next_step');
-    var wrap = $("#"+next_step);
+    var wrap = $(next_step);
     //已经加载过的，不需要再次加载
     if(wrap.length > 0){
         $("#right-content .box").hide();

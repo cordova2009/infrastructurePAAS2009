@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.ProjectInfo;
@@ -188,9 +189,16 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public List<QueryMyIncomeListReturnVO> queryMyIncomeList(Integer bidderId)
+	public List<QueryMyIncomeListReturnVO> queryMyIncomeList(Integer bidderId, Pagingnation pagingnation)
 			throws MaAccountException {
-		List<ProjectInfo> projects=projectDao.queryBerProject(bidderId);
+		
+		if(pagingnation!=null&&pagingnation.isCountsize()){
+			int count = projectDao.selectBerProjectCount(bidderId);
+			pagingnation.setTotalCount(count);
+			pagingnation.calculatePageCount();
+		}
+		
+		List<ProjectInfo> projects=projectDao.queryBerProject(bidderId,pagingnation);
 		List<QueryMyIncomeListReturnVO> list=new ArrayList<QueryMyIncomeListReturnVO>();
 		for(ProjectInfo project:projects){
 			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
@@ -235,7 +243,7 @@ public class ProjectServiceImpl implements ProjectService{
 	public MyIncomeOverallReturnVO getMyIncomeOverall(Integer bidderId)
 			throws MaAccountException {
 		MyIncomeOverallReturnVO overall=new MyIncomeOverallReturnVO();
-		List<ProjectInfo> projects=projectDao.queryBerProject(bidderId);
+		List<ProjectInfo> projects=projectDao.queryBerProject(bidderId,null);
 		
 		Long allAmount=0l;
 		Long allPaidAmount=0l;

@@ -9,8 +9,7 @@ class ProjectController extends MallController
 {
     private $_curl = '';
     
-    public function init()
-    {
+    public function init(){
         parent::init();
         $this->_curl = new Curl();
     }
@@ -18,16 +17,14 @@ class ProjectController extends MallController
     /**
      * 更多招标项目
      */
-    public function listAction()
-    {
+    public function listAction(){
         
     }
 
         /**
      * 中标结果列表
      */
-    public function bidlistAction()
-    {
+    public function bidlistAction() {
         $pageSize = 10;
         $pageIndex = $this->getRequest()->getQuery('page', 0);
         
@@ -49,46 +46,44 @@ class ProjectController extends MallController
     /**
      * 招标详情
      */
-    public function detailAction()
-    {
+    public function detailAction(){
 
         if(empty($this->user)){
             $this->redirect(U('/login'));
         }
-        $objectId ='BH2015082135657';
-        //$objectId = I('$objectId');
-        /*$objectId = $this->getRequest()->get('object_id', 0);*/
-        
+        $objectId =I('objectId');
+
         $resp = $this->_curl->setData([
-            'token' => $this->user['token'],
-            'objectId'=> $objectId
-        ])->send('bid/queryObjectDetail');
+                                            'token' => $this->user['token'],
+                                            'objectId'=> $objectId
+                                        ])
+                            ->send('bid/queryObjectDetail');
 
 
         if(!check_resp($resp)) {
             $this->error('项目不存在！');
         }
-        $info = $resp['body'];
-        $survey=$resp['body']['survey'];
-        $baseInfo=$resp['body']['detail']['baseInfo'];
-        $projectInfo=$resp['body']['detail']['projectInfo'];
-        $constructionInfo=$resp['body']['detail']['constructionInfo'];
-        $projectRequirementInfo=$resp['body']['detail']['projectRequirementInfo'];
-        $bondInfo=$resp['body']['detail']['bondInfo'];
-        $bidderCertificationInfo=$resp['body']['detail']['bidderCertificationInfo'];
-        $bidFileTypeInfo=$resp['body']['detail']['bidFileTypeInfo'];
-        $objectMethodInfo=$resp['body']['detail']['objectMethodInfo'];
-        $answerQuestion=$resp['body']['detail']['answerQuestion'];
-        $dateRequirementInfo=$resp['body']['detail']['dateRequirementInfo'];
-        $bidEvaluationTypeInfo=$resp['body']['detail']['bidEvaluationTypeInfo'];
+        $info                   = $resp['body'];
+        $survey                 = $resp['body']['survey'];
+        $baseInfo               = $resp['body']['detail']['baseInfo'];
+        $projectInfo            = $resp['body']['detail']['projectInfo'];
+        $constructionInfo       = $resp['body']['detail']['constructionInfo'];
+        $projectRequirementInfo = $resp['body']['detail']['projectRequirementInfo'];
+        $bondInfo               = $resp['body']['detail']['bondInfo'];
+        $bidderCertificationInfo= $resp['body']['detail']['bidderCertificationInfo'];
+        $bidFileTypeInfo        = $resp['body']['detail']['bidFileTypeInfo'];
+        $objectMethodInfo       = $resp['body']['detail']['objectMethodInfo'];
+        $answerQuestion         = $resp['body']['detail']['answerQuestion'];
+        $dateRequirementInfo    = $resp['body']['detail']['dateRequirementInfo'];
+        $bidEvaluationTypeInfo  = $resp['body']['detail']['bidEvaluationTypeInfo'];
         //倒计时
-        $date1=strtotime($survey['biddingEndTime']);  //把日期转换成时间戳
-        $date2=time(); //取当前时间的时间戳
-        $days=floor(($date1-$date2)/3600/24)<0?0:floor(($date1-$date2)/3600/24);  //四舍五入
-        $hours=((floor(($date1-$date2)/3600))%24)<0?0:(floor(($date1-$date2)/3600))%24;
-        $mins=floor(($date1-$date2)/60)%60<0?0:floor(($date1-$date2)/60)%60;
+        $date1                  = strtotime($survey['biddingEndTime']);  //把日期转换成时间戳
+        $date2                  = time(); //取当前时间的时间戳
+        $days                   = floor(($date1-$date2)/3600/24)<0?0:floor(($date1-$date2)/3600/24);  //四舍五入
+        $hours                  = ((floor(($date1-$date2)/3600))%24)<0?0:(floor(($date1-$date2)/3600))%24;
+        $mins                   = floor(($date1-$date2)/60)%60<0?0:floor(($date1-$date2)/60)%60;
 
-        $daojishi=$days.'天'.$hours.'时'.$mins.'分';
+        $daojishi               = $days.'天'.$hours.'时'.$mins.'分';
         $this->assign('daojishi', $daojishi);
         $this->assign('survey', $survey);
         $this->assign('info', $info);

@@ -30,20 +30,24 @@
                         <td class="td2">招标人</td>
                         <td class="td3">招标人信用</td>
                         <td class="td4">评估金额</td>
-                        <td>工程期限</td>
+                        <td>开工日期</td>
+                        <td>标准工期</td>
+                        <td>详情</td>
                     </tr>
                     <?php foreach($list as $k => $v): ?>
                     <tr <?php if(!($k % 2 == 0)) echo 'class="bg1"' ?>>
                         <td class="td1"><span class="tag">土</span><?= $v['objectName'] ?></td>
                         <td class="td2"><?= $v['biddee'] ?></td>
                         <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>
-                        <td class="td4"><?= $v['evaluationAmount'] ?> <span class="fz12">元</span></td>
-                        <td><?= $v['projectExpectStartDate'] ?> 到 <?= $v['projectExpectEndDate'] ?></td>
+                        <td class="td4"><?=price_format($v['evaluationAmount'])?> <span class="fz12">元</span></td>
+                        <td><?= $v['projectExpectStartDate'] ?></td>
+                        <td>接口没返回</td>
+                        <td class="info"><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><i class="ico i-eye"></i></a></td>
                     </tr>
                     <?php endforeach; ?>
                 </table>
             </div>
         </div>
-        <?php include(dirname(dirname(__FILE__)).'/common/page.php'); ?>
+        <?php require_once APP_PATH.'views/common/page.php'?>
     </div>
 </div>

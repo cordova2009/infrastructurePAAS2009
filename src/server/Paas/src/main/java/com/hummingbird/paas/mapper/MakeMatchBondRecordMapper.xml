@@ -26,13 +26,13 @@
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_object_makematch_bond_record
-    where bid_id = #{bidId} and type="FOZ"
+    where bid_id = #{bidId} and status="FOZ"
   </select>
   <select id="selectReturnByBidId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_object_makematch_bond_record
-    where bid_id = #{bidId} and type="REV"
+    where bid_id = #{bidId} and status="REV"
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_ztgl_object_makematch_bond_record

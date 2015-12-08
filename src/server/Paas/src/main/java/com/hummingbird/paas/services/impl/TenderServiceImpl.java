@@ -294,8 +294,10 @@ public class TenderServiceImpl implements TenderService {
 			bo.setCurrency(body.getCurrency());
 			bo.setContractType(body.getContractType());
 			bo.setEvaluationAmount(body.getEvaluationAmount());
-			bo.setObjectAmount(0l);
-			bo.setBidBondAmount(0l);
+			if(bo.getObjectAmount()==null)
+				bo.setObjectAmount(0l);
+			if(bo.getBidBondAmount()==null)
+				bo.setBidBondAmount(0l);
 			bo.setObjectStatus(CommonStatusConst.STATUS_CREATE);
 			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(), "ENB"));
 			bo.setInsertTime(new Date());
@@ -313,8 +315,10 @@ public class TenderServiceImpl implements TenderService {
 			bo.setCurrency(body.getCurrency());
 			bo.setContractType(body.getContractType());
 			bo.setEvaluationAmount(body.getEvaluationAmount());
-			bo.setObjectAmount(0l);
-			bo.setBidBondAmount(0l);
+			if(bo.getObjectAmount()==null)
+				bo.setObjectAmount(0l);
+			if(bo.getBidBondAmount()==null)
+				bo.setBidBondAmount(0l);
 			bo.setEvaluationAmountVisiable(StringUtils.defaultIfEmpty(body.getEvaluationAmountVisiable(), "ENB"));
 			dao.updateByPrimaryKey(bo);
 		}
@@ -985,6 +989,7 @@ public class TenderServiceImpl implements TenderService {
 				bibDao.insert(bidInviteBidder);
 			}
 		}
+		dao.updateByPrimaryKey(bo);
 		if (log.isDebugEnabled()) {
 			log.debug("saveObjectMethodInfo完成");
 		}

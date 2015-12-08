@@ -8,19 +8,19 @@
                 <div class="charge_info">
                     <div class="table">
                         <div class="cell">
-                            <div class="txt1 orange fz36"><?=$myCapitalInfo['balance']?>	<span class="fz16">元</span></div>
+                            <div class="txt1 orange fz36"><?=price_format($myCapitalInfo['balance'])?>	<span class="fz16">元</span></div>
                             <div class="txt2">账户余额</div>
                         </div>
                         <div class="cell">
-                            <div class="txt1"><?=$myCapitalInfo['freezeAmount']?>	<span class="fz16">元</span></div>
+                            <div class="txt1"><?=price_format($myCapitalInfo['freezeAmount'])?>	<span class="fz16">元</span></div>
                             <div class="txt2 color8">冻结金额</div>
                         </div>
                         <div class="cell">
-                            <div class="txt1"><?=$myCapitalInfo['income']?>	 <span class="fz16">元</span></div>
+                            <div class="txt1"><?=price_format($myCapitalInfo['income'])?>	 <span class="fz16">元</span></div>
                             <div class="txt2 color8">收入</div>
                         </div>
                         <div class="cell">
-                            <div class="txt1"><?=$myCapitalInfo['outlay']?>	 <span class="fz16">元</span></div>
+                            <div class="txt1"><?=price_format($myCapitalInfo['outlay'])?>	 <span class="fz16">元</span></div>
                             <div class="txt2 color8">支出</div>
                         </div>
                     </div>
@@ -69,9 +69,9 @@
                         <tr  class="bg1">
                             <td><?= date('Y-m-d', strtotime($item['time']))?></td>
                             <td class="text-left"><?=$status?></td>
-                            <td class="text-right"><?=$item['income']?>元</td>
-                            <td class="text-right"><?=$item['outlay']?>元</td>
-                            <td class="text-right"><?=$item['balance']?>元</td>
+                            <td class="text-right"><?=price_format($item['income'])?>元</td>
+                            <td class="text-right"><?=price_format($item['outlay'])?>元</td>
+                            <td class="text-right"><?=price_format($item['balance'])?>元</td>
                             <td><?=$item['remark']?></td>
                         </tr>
                         <?php endforeach; ?>

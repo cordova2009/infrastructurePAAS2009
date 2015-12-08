@@ -26,7 +26,7 @@
                         ?>
                     <tr>
                         <td><?=$item['createTime']?></td>
-                        <td class="text-right"><?=$item['amount']?>元</td>
+                        <td class="text-right"><?=price_format($item['amount'])?>元</td>
                         <td class="text-left"><?=$status?></td>
                         <td class="text-left"><?= date('Y-m-d', strtotime($item['rechargeTime'])) ?></td>
                         <td><?=$item['voucherNo']?></td>

@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.vo.BidderEqInfo;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 
 public interface BidderCertificationCertificationMapper {
     /**

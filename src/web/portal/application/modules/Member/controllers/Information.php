@@ -80,7 +80,6 @@ class InformationController extends MemberController {
             $result = $resp2['result'];
         }
         $this->assign('result',$result);
-
         $this->meta_title = '发布信息';
 
     }
@@ -168,6 +167,7 @@ class InformationController extends MemberController {
         }
         $result = $resp['result'];
         $this->assign('result',$result);
+        $this->assign('user',$this->user);
         $this->meta_title = '发布信息详情';
     }
 

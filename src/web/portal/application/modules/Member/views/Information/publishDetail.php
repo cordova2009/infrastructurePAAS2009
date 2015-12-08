@@ -2,9 +2,7 @@
     <div class="miancont ">
         <div class="tit2 clear">
             <span class="left txt2">发布信息详情</span>
-            <span class="right">
-                <a href="#" class="down">发表评论</a>
-            </span>
+
         </div>
         <div class="fanganInfo padb30">
             <table>
@@ -59,6 +57,27 @@
                         </table>
                     </td>
                 </tr>
+                <tr>
+                    <td class="lab"></td>
+                    <td class="value">
+                        <div class="left clear">
+                            <?=$user['nickname']?>
+                            <br>
+                            <span >
+                            <?= date('Y-m-d',time()) ?>
+                            </span>
+                        </div>
+                        <div class="left">
+                            <textarea name="" id=""  class="textarea"></textarea>
+                            <br >
+                            <span class="right">
+                                <a href="#" class="down" name="replyContent">发表评论</a>
+                            </span>
+                        </div>
+                        <div class="right" style="width: 200px;">
+                    </td>
+                </tr>
+
             </table>
         </div>
     </div>

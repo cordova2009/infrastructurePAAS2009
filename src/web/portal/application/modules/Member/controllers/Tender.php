@@ -191,7 +191,17 @@ class TenderController extends MemberController{
         }
         //邀请招标
         if($data['objectMethod'] == 'INV'){
-
+            $bidderId = I('bidderId',[]);
+            $bidderName = I('bidderName',[]);
+            if(empty($bidderId) || empty($bidderName)){
+                $this->error('招标方式为邀请招标时，邀请投标方不能为空！');
+            }
+            if(sizeof($bidderId) != sizeof($bidderName)){
+                $this->error('保存失败，邀请方参数错误！');
+            }
+            foreach($bidderId as $key=>$one){
+                $data['inviteTender'][] = ['bidderId'=>$one,'bidderName'=>$bidderName[$key]];
+            }
         }
 
         $curl = new Curl();
@@ -407,11 +417,10 @@ class TenderController extends MemberController{
             if(empty($data['buildingConstructPermitEndDate'])){
                 $this->error('建设工程施工许可证有效期不能为空！');
             }
-            $tmp_array = I('buildingConstructPermitUrl');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
+            $data['buildingConstructPermitUrl'] = I('buildingConstructPermitUrl');
+            if(empty($data['buildingConstructPermitUrl'])){
                 $this->error('建设工程施工许可证附件不能为空！');
             }
-            $data['buildingConstructPermitUrl'] = $tmp_array[$constructionProveType];
             /*****************************************************************************/
         }
 
@@ -578,12 +587,28 @@ class TenderController extends MemberController{
             case 'projectInfo':
             case 'certificationInfo':
                 $resp = $curl->setData(new stdClass())->send('tender/queryCertificateList');
+
+                $industryList = [];
                 if(check_resp($resp)){
-                    $this->assign('certificateList',$resp['certificateList']);
-                }else{
-                    $this->assign('certificateList',[]);
+                    foreach($resp['certificateList'] as $industry){
+                        $industryList[$industry['industryId']] = $industry;
+                    }
                 }
+
+                $this->assign('industryList',$industryList);
             break;
+            case 'methodInfo':
+                $resp = $curl->setData(new stdClass())->send('tender/queryBidderList');
+
+                $bidderList = [];
+                if(check_resp($resp)){
+                    foreach($resp['list'] as $item){
+                        $bidderList[$item['bidderId']] = $item;
+                    }
+                }
+
+                $this->assign('bidderList',$bidderList);
+                break;
         }
 
         $html = $this->render($step);

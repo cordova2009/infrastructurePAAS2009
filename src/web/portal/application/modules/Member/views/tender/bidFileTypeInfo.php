@@ -12,13 +12,13 @@ if(check_resp($resp)){
             <div class="tit6"><span class="red">*</span>请上传招标文件</div>
             <div class="item mart0">
                 <div class="lab">招标文件</div>
-                <div class="value <?=(isset($info) ? 'hide' : '')?>" id="upload-tender-file">
+                <div class="value <?=(empty($info['tenderFile']) ? '' : 'hide')?>" id="upload-tender-file">
                     <label class="btn-file2 padm20" >
                         <input class="file-upload" type="file" name="file">上传附件
                         <input type="hidden" name="tenderFile" value="<?=isset($info)?$info['tenderFile']:''?>">
                     </label>
                 </div>
-                <div class="value <?=(isset($info) ? '' : 'hide')?>" id="uploaded">
+                <div class="value <?=(empty($info['tenderFile']) ? 'hide' : '')?>" id="uploaded">
                     <a id="download-tender-file" class="btn-file2 padm20" href="<?=isset($info)?get_qiniu_file_durl($info['tenderFile']):''?>" target="_blank">下载</a>
                     <a class="btn-file2 padm20 bg-grey" id="delete-tender-file">删除</a>
                 </div>

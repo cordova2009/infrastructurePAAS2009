@@ -28,7 +28,7 @@ td{width:50%;}
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司简介:</span>{$item.description}</td>
-			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl}"/></td>
+			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl|imageView2}"/></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -48,10 +48,10 @@ td{width:50%;}
 			<td><span style="color:#999;padding-right:8px;">身份证号:</span>{$item.legal_person_idcard}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">身份证扫描件:</span><img src="{$item.legal_person_idcard_front_url}"/><img src="{$item.legal_person_idcard_back_url}"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">身份证扫描件:</span><img src="{$item.legal_person_idcard_front_url|imageView2}"/><img src="{$item.legal_person_idcard_back_url|imageView2}"/></td>
 		</tr>
 		<tr>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">法人授权书:</span><img src="{$item.legal_person_authority_book}"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">法人授权书:</span><img src="{$item.legal_person_authority_book|imageView2}"/></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -72,20 +72,20 @@ td{width:50%;}
 		<td ><span style="color:#999;padding-right:8px;">统一社会信用代码:</span>{$item.unified_social_credit_code}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="{$item.unified_social_credit_code_url}"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="{$item.unified_social_credit_code_url|imageView2}"/></td>
 		</tr>
 <?php }else{?>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">营业执照:</span><?php echo $item['business_license'];?></td>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="<?php echo $item['business_license_url']?>"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="<?php echo imageView2($item['business_license_url'])?>"/></td>
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">税务登记证编号:</span><?php echo $item['tax_registration_certificate'];?></td>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo $item['tax_registration_certificate_url']?>"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo imageView2($item['tax_registration_certificate_url'])?>"/></td>
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">组织机构代码证编号:</span><?php echo $item['org_code_certificate'];?></td>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo $item['org_code_certificate_url']?>"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo imageView2($item['org_code_certificate_url'])?>"/></td>
 		</tr>
 <?php }?>
 	<tr>
@@ -116,7 +116,7 @@ td{width:50%;}
 			<td><span style="color:#999;padding-right:8px;">银行账号:</span>{$item.account_no}</td>
 		</tr>
 		<tr>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">开户名:</span><img src="{$item.account_name}"/></td>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">开户名:</span>{$item.account_name}</td>
 		</tr>
 	 </tbody>
 	</table>

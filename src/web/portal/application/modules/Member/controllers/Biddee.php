@@ -290,6 +290,8 @@ class BiddeeController extends MemberController{
 	    if($type=='biding')
 	    {
 		    $func = 'queryMyTenderObject';
+	//    $html = $this->render($type,['page'=>'',$type=>[['industryId'=>'3','objectName'=>'ass','evaluationAmount'=>100,'projectExpectStartDate'=>'2015-01-01','projectExpectPeriod'=>300,'biddingEndTime'=>'2015-02-01','objectId'=>'asdf']],'industry'=>'']);
+	  //  $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
 	    }
 	    if($type=='doing')
 	    {
@@ -314,15 +316,63 @@ class BiddeeController extends MemberController{
 	    $id=I('id');
 	    if(IS_AJAX)
 	    {
-		    $p = $this->pageSize;
-		    $i = $i==''?0:$i;
+		    $payType = I('payType');
+		    $payPeriod = I('payPeriod');
+		    $winBidId= I('winBidId');
+		    $objectId= I('objectId');
+		    $data = [];
+		    if($payType=='ONE')
+		    {
+			    $payDate=I('payDate_one');
+			    $paySum=I('paySum_one');
+			    $data[]= ['paySum'=>$paySum,'payDate'=>$payDate,'period'=>1];
+		    }
+		    if($payType=='PID')
+		    {
+			    $d = I('payDate_pid');
+			    $s = I('paySum_pid');
+			    $i = I('period_pid');
+			    foreach($d as $k=>$v)
+			    {
+				    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
+			    }
+		    }
+		    if($payType=='MON')
+		    {
+			    $d = I('payDate_mon');
+			    $s = I('paySum_mon');
+			    $i = I('period_mon');
+			    foreach($d as $k=>$v)
+			    {
+				    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
+			    }
+		    }
+		    if($payType=='CUM')
+		    {
+			    $d = I('payDate_cum');
+			    $s = I('paySum_cum');
+			    $i = I('period_cum');
+			    foreach($d as $k=>$v)
+			    {
+				    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
+			    }
+		    }
+
 		    $token = $this->user['token'];
 		    $curl = new Curl($this->config->url->api->paas);
-		    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
-		    $page = $this->getPagination($resp['total'], $this->pageSize);
-		    $resp['page'] = $page;
-		    $this->ajaxReturn($resp);
+		    $resp = $curl->setData(['token'=>$token,'objectId'=>$objectId,'winBidId'=>$winBidId,'paymentInfo'=>['payType'=>$payType,'payPeriod'=>$payPeriod,'payList'=>$data]])->send('tender/bidEvaluation');
+		    if(check_resp($resp)) {
+			    $this->success('保存成功！');
+		    }else{
+			    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+		    }
 	    }
+/*
+$this->assign('survery',['bidderNum'=>5,'objectName'=>'asdf','maxBidAmount'=>200,'minBidAmount'=>100]);
+$this->assign('list',[['bidId'=>1,'bidderCompanyName'=>'asf','bidderId'=>'123123','bidTime'=>'2015-05-03','bidAmount'=>200,'projectExpectStartDate'=>'2015-09-09','projectExpectPeriod'=>200,'fileUrl'=>'asf','certificationList'=>[['certificationId'=>2,'certificationName'=>'一级建造']]]]);
+$this->assign('page', '');
+return;
+*/
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('tender/queryMyObjectTenderSurvey');
@@ -331,6 +381,9 @@ class BiddeeController extends MemberController{
 	    }else{
 		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
 	    }
+	    $i = I('pageIndex');
+	    $p = $this->pageSize;
+	    $i = $i==''?0:$i;
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
 	    $this->assign('list',$resp['list']);

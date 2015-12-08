@@ -8,9 +8,16 @@ public class QueryProjectAccountReturnVO {
 	    "status":"OK#"
 	}*/
 	private String accountId;
-	private Double remainingSum;
-	private Double frozenSum;
+	private Long remainingSum;
+	private Long frozenSum;
 	private String status;
+	
+	@Override
+	public String toString() {
+		return "QueryProjectAccountReturnVO [accountId=" + accountId + ", remainingSum=" + remainingSum +
+				",frozenSum=" + frozenSum +",status="+status+"]";
+	}
+	
 	public String getAccountId() {
 		return accountId;
 	}
@@ -18,18 +25,23 @@ public class QueryProjectAccountReturnVO {
 		this.accountId = accountId;
 	}
 	
-	public Double getRemainingSum() {
+	
+	public Long getRemainingSum() {
 		return remainingSum;
 	}
-	public void setRemainingSum(Double remainingSum) {
+
+	public void setRemainingSum(Long remainingSum) {
 		this.remainingSum = remainingSum;
 	}
-	public Double getFrozenSum() {
+
+	public Long getFrozenSum() {
 		return frozenSum;
 	}
-	public void setFrozenSum(Double frozenSum) {
+
+	public void setFrozenSum(Long frozenSum) {
 		this.frozenSum = frozenSum;
 	}
+
 	public String getStatus() {
 		return status;
 	}

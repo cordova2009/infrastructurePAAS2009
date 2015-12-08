@@ -9,7 +9,7 @@ public class FreezeBondBodyVO {
 	private String objectId;
 	private String remark;
 	private String tradePassword;
-	
+	private Boolean isVerityPassword=true;
 	@Override
 	public String toString() {
 		return "FreezeBondBodyVO [token=" + token + ", type=" + type +
@@ -18,6 +18,14 @@ public class FreezeBondBodyVO {
 				",remark="+remark+",tradePassword="+tradePassword+"]";
 	}
 	
+	public Boolean getIsVerityPassword() {
+		return isVerityPassword;
+	}
+
+	public void setIsVerityPassword(Boolean isVerityPassword) {
+		this.isVerityPassword = isVerityPassword;
+	}
+
 	public String getType() {
 		return type;
 	}

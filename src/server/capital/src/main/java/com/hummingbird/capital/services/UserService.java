@@ -21,5 +21,13 @@ public interface UserService {
 	 */
 	public User queryUserByToken(String token)throws MaAccountException;
 	
+	/**
+	 * 根据用户ID查询用户信息
+	 * @param mobileNum
+	 * @return
+	 * @throws MaAccountException
+	 */
+	public User getUser(Integer userId)throws MaAccountException;
+	
 	
 }

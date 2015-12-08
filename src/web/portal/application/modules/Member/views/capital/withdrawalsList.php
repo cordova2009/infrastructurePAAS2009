@@ -27,8 +27,8 @@
                     ?>
                     <tr>
                         <td><?=$item['createTime']?></td>
-                        <td class="text-right"><?=$item['amount']?>元</td>
-                        <td class="text-right"><?=$item['handingCharge']?>元</td>
+                        <td class="text-right"><?=price_format($item['amount'])?>元</td>
+                        <td class="text-right"><?=price_format($item['handingCharge'])?>元</td>
                         <td class=""><?=$status?></td>
                         <td class="text-left"><?=$item['withdrawalsTime']?></td>
                         <td><?=$item['withdrawalsNo']?></td>

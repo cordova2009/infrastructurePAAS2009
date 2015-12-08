@@ -34,8 +34,8 @@
                         <th class="">账户</th>
                         <th class="">交易类型</th>
                         <th class="">流向</th>
-                        <th class="">交易金额</th>
-                        <th class="">结存</th>
+                        <th class="align-right">交易金额</th>
+                        <th class="align-right">结存</th>
                         <th class="">交易时间</th>
                         <th class="">备注</th>
 					</tr>
@@ -55,8 +55,8 @@
                         <td><?=$vo['account_id']?></td>
 						<td><?=$type_array[$vo['type']]?></td>
 						<td><?=$flow_array[$vo['flow_direction']]?></td>
-                        <td><?=price_format($vo['sum'])?></td>
-                        <td><?=price_format($vo['balance'])?></td>
+                        <td class="align-right"><?=price_format($vo['sum'])?></td>
+                        <td class="align-right"><?=price_format($vo['balance'])?></td>
                         <td><?=$vo['insert_time']?></td>
                         <td><?=$vo['remark']?></td>
                     </tr>

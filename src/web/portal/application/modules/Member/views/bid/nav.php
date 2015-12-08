@@ -1,6 +1,6 @@
 <div class="left side_menu">
     <div class="progressBox">
-        <div class="text-center">信息完整度<span id="progress-info"><?=$integrity?>%</span></div>
+        <div class="text-center">信息完整度<span id="progress-info">0%</span></div>
         <div class="progress">
             <span id="progress-bar" style="width:<?=$integrity?>%" class="on"></span>
         </div>
@@ -16,11 +16,10 @@
             <a href="#technicalStandard">技术标</a>
         </li>
         <li >
-            <a href="#bidderBond">施工保证金</a>
+            <a href="#makeMatchBidderBond">撮合保证金</a>
+        </li>
+        <li >
+            <a href="#bidderBond">投标文件</a>
         </li>
     </ul>
-    <div class="tijiao">
-        <a href="#" class="btn-tijiao">提交投标申请</a>
-    </div>
-
 </div>

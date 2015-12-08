@@ -41,7 +41,7 @@ td{width:50%;}
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="description"> 审核通过</span><input type="text" name="description_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl}"/></td>
+			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl|imageView2}"/></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="logourl"> 审核通过</span><input type="text" name="logourl_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
@@ -66,15 +66,15 @@ td{width:50%;}
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard"> 审核通过</span><input type="text" name="legal_person_idcard_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">身份证扫描件正面:</span><img src="{$item.legal_person_idcard_front_url}"/>
+			<td ><span style="color:#999;padding-right:8px;">身份证扫描件正面:</span><img src="{$item.legal_person_idcard_front_url|imageView2}"/>
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_front_url"> 审核通过</span><input type="text" name="legal_person_idcard_front_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">身份证扫描件反面:</span><img src="{$item.legal_person_idcard_back_url}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">身份证扫描件反面:</span><img src="{$item.legal_person_idcard_back_url|imageView2}"/></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_back_url"> 审核通过</span><input type="text" name="legal_person_idcard_back_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><img src="{$item.legal_person_authority_book}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><img src="{$item.legal_person_authority_book|imageView2}"/></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_authority_book"> 审核通过</span><input type="text" name="legal_person_authority_book_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
@@ -99,7 +99,7 @@ td{width:50%;}
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="unified_social_credit_code"> 审核通过</span><input type="text" name="unified_social_credit_code_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="{$item.unified_social_credit_code_url}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="{$item.unified_social_credit_code_url|imageView2}"/></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="unified_social_credit_code_url"> 审核通过</span><input type="text" name="unified_social_credit_code_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 <?php }else{?>
@@ -108,7 +108,7 @@ td{width:50%;}
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license"> 审核通过</span><input type="text" name="business_license_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="<?php echo $item['business_license_url']?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="<?php echo imageView2($item['business_license_url'])?>"/></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="business_license_url"> 审核通过</span><input type="text" name="business_license_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
@@ -116,7 +116,7 @@ td{width:50%;}
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="tax_registration_certificate"> 审核通过</span><input type="text" name="tax_registration_certificate_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
-			<td ><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo $item['tax_registration_certificate_url']?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo imageView2($item['tax_registration_certificate_url'])?>"/></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="tax_registration_certificate_url"> 审核通过</span><input type="text" name="tax_registration_certificate_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
@@ -124,7 +124,7 @@ td{width:50%;}
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="org_code_certificate"> 审核通过</span><input type="text" name="org_code_certificate_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
-			<td ><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo $item['org_code_certificate_url']?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo imageView2($item['org_code_certificate_url'])?>"/></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="org_code_certificate_url"> 审核通过</span><input type="text" name="org_code_certificate_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 <?php }?>
@@ -166,7 +166,7 @@ td{width:50%;}
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="account_no"> 审核通过</span><input type="text" name="account_no_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">开户名:</span><img src="{$item.account_name}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">开户名:</span>{$item.account_name}</td>
 		<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="account_name"> 审核通过</span><input type="text" name="account_name_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>

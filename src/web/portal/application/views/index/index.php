@@ -103,14 +103,14 @@
                     <td class="td1"><?=$item['objectName']?></td>
                     <td class="td2"><?=$item['companyShortName']?></td>
                     <td class="td3"><span class="tag2"><?=$item['creditRating']?></span></td>
-                    <td class="td4"><?=$item['evaluationAmount']?> <span class="fz12">元</span></td>
+                    <td class="td4"><?=price_format($item['evaluationAmount'])?> <span class="fz12">元</span></td>
                     <td class="td5"><?=$item['objectPredictStartTime']?></td>
                     <td class="td6"><?=$item['projectExpectPeriod']?>天</td>
-                    <td><a href="#<?=$item['objectId']?>" class="toubiao">投标</a></td>
+                    <td><a href="<?=U('/project/detail',['objectId'=>$item['objectId']])?>" class="toubiao">投标</a></td>
                 </tr>
                 <?php endforeach;?>
             </table>
-            <div class="list-more"><a href="/project/list.html">查看更多招标项目</a></div>
+            <div class="list-more"><a href="<?=U('/search/project')?>">查看更多招标项目</a></div>
         </div>
     </div>
 </div>

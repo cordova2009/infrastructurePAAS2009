@@ -211,13 +211,13 @@ public class TokenServiceImpl implements TokenService {
 	public void postponeToken(Token token){
 		Token to = getTokenOnRedis(token.getToken());
 		if(to!= null){//从redis取数据  
-			to.setExpireIn(getDefaultExpireIn());
+			to.setUpdateTime(new Date());
 			tokenmapper.updateByPrimaryKeySelective(to);
 			updateTokenOnRedis(to);
 		}else{
 			to = tokenmapper.selectByTokenStr(token.getToken());
 			if(to!=null){
-				to.setExpireIn(getDefaultExpireIn());
+				to.setUpdateTime(new Date());
 				tokenmapper.updateByPrimaryKeySelective(to);
 				saveTokenToRedis(to);
 			}

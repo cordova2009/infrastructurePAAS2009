@@ -88,6 +88,7 @@ public class MyMsgController extends BaseController {
 				}
 				rm.put("pageIndex", pageIndex);
 				rm.put("pageSize", pageSize);
+				tokenSrv.postponeToken(token);
 			} catch (Exception e1) {
 				log.error(String.format(messagebase + "失败"), e1);
 				rm.mergeException(e1);
@@ -136,6 +137,7 @@ public class MyMsgController extends BaseController {
 		    	return rm;
 		    }
 		    rm.put("unreadMsgNum", count);
+		    tokenSrv.postponeToken(token);
 		    if(log.isDebugEnabled()){
 				log.debug("取我的未读消息个数接口完成");
 			}
@@ -179,7 +181,7 @@ public class MyMsgController extends BaseController {
 			     }
 			     //TODO 未知sender要怎么弄
 	    		rm.put("result", gb);
-	    		
+	    		tokenSrv.postponeToken(token);
 	    	} catch (Exception e1) {
 	    		log.error(String.format(messagebase + "失败"), e1);
 	    		rm.mergeException(e1);

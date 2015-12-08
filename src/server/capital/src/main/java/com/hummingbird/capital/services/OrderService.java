@@ -32,7 +32,7 @@ public interface OrderService {
 	 * @param body
 	 * @return
 	 */
-	public FreezeBondReturnVO unfreeze(UnfreezeVO body,Integer userId,String method)throws MaAccountException;
+	public FreezeBondReturnVO unfreeze(UnfreezeVO body,User user,String method)throws MaAccountException;
 
 	/**
 	 * 提现
@@ -42,7 +42,7 @@ public interface OrderService {
 	 * @return
 	 * @throws MaAccountException
 	 */
-	public String withdrawals(UnfreezeVO body,Integer userId,String method)throws MaAccountException;
+	public String withdrawals(UnfreezeVO body,User user,String method)throws MaAccountException;
 	
 	/**
 	 * 充值
@@ -52,7 +52,7 @@ public interface OrderService {
 	 * @return
 	 * @throws MaAccountException
 	 */
-	public String recharge(UnfreezeVO body,Integer userId,String method)throws MaAccountException;
+	public String recharge(UnfreezeVO body,User user,String method)throws MaAccountException;
 	/**
 	 * 充值申请
 	 * @param body

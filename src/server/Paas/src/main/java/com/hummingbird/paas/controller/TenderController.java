@@ -198,7 +198,7 @@ public class TenderController extends BaseController {
 			MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey = tenderService
 					.queryMyObjectTenderSurvey(transorder.getApp().getAppId(), transorder.getBody(),biddee);
 			rm.put("survey", queryMyObjectTenderSurvey);
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -251,7 +251,7 @@ public class TenderController extends BaseController {
 					throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您还不是会员,最多只能发布一个招标信息");
 				}
 			}
-			
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -305,7 +305,7 @@ public class TenderController extends BaseController {
 				rm.put("baseInfo", queryObjectBaseInfo);
 //			}
 			// tokenSrv.renewToken(token);
-
+				tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -353,7 +353,7 @@ public class TenderController extends BaseController {
 			String objectId = tenderService.saveObjectBaseInfo(transorder.getApp().getAppId(), transorder.getBody(),
 					biddee.getId());
 			rm.put("objectId", objectId);
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -406,7 +406,7 @@ public class TenderController extends BaseController {
 
 				rm.put("projectInfo", queryObjectProjectInfo);
 //			}
-
+				tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -452,7 +452,7 @@ public class TenderController extends BaseController {
 				log.debug("检验通过，获取请求");
 			}
 			tenderService.saveObjectProjectInfo(transorder.getApp().getAppId(),token.getUserId(), transorder.getBody(),biddee.getId());
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1640,7 +1640,7 @@ public class TenderController extends BaseController {
 				}
 			});
 			mergeListOutput(rm, page, nos);
-			
+			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1756,7 +1756,7 @@ public class TenderController extends BaseController {
 				}		
 			
 			rm.put("evaluateInfo", ter);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -1829,7 +1829,7 @@ public class TenderController extends BaseController {
 				rm.put("bidingNum", biddingNum);
 				rm.put("doingNum", doingNum);
 				rm.put("doneNum", doneNum);
-			
+				tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1900,7 +1900,7 @@ public class TenderController extends BaseController {
 				rm.put("bidingNum", biddingNum);
 				rm.put("doingNum", doingNum);
 				rm.put("doneNum", doneNum);
-			
+				tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1988,6 +1988,7 @@ public class TenderController extends BaseController {
 					}
 				});
 				mergeListOutput(rm, page, nos);
+				tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -2076,6 +2077,7 @@ public class TenderController extends BaseController {
 					}
 				});
 				mergeListOutput(rm, page, nos);
+				tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -2162,6 +2164,7 @@ public class TenderController extends BaseController {
 					}
 				});
 				mergeListOutput(rm, page, nos);
+				tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

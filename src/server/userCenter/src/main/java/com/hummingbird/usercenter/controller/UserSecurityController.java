@@ -39,6 +39,7 @@ import com.hummingbird.usercenter.entity.UserPassword;
 import com.hummingbird.usercenter.exception.MaAccountException;
 import com.hummingbird.usercenter.mapper.AppLogMapper;
 import com.hummingbird.usercenter.services.GeneralService;
+import com.hummingbird.usercenter.services.TokenService;
 import com.hummingbird.usercenter.services.UserSecurityService;
 import com.hummingbird.usercenter.services.UserService;
 import com.hummingbird.usercenter.util.IDCardUtil;
@@ -71,7 +72,8 @@ public class UserSecurityController extends BaseController{
 	GeneralService genSer;
 	@Autowired
 	AppLogMapper applogDao;
-
+	@Autowired
+	TokenService tokenSrv;
 	@Autowired
 	IAuthenticationService authService;
 	@Autowired(required = true)
@@ -152,8 +154,12 @@ public class UserSecurityController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			UserAuth userAuth=new UserAuth();
 			userAuth=userSer.queryUserAuth(user.getId());
 			UserSecurityInfoVO userInfo=new UserSecurityInfoVO();
@@ -279,8 +285,12 @@ public class UserSecurityController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			boolean authCodeSuccess = genSer.validateSMSCode(transorder.getApp()
 					.getAppId(), user.getMobileNum(), body.getSmsCode(),true);
 			if (!authCodeSuccess) {
@@ -362,8 +372,12 @@ public class UserSecurityController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			boolean authCodeSuccess = genSer.validateSMSCode(transorder.getApp()
 					.getAppId(), user.getMobileNum(), body.getSmsCode(),true);
 			if (!authCodeSuccess) {
@@ -444,8 +458,12 @@ public class UserSecurityController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			boolean authOldCodeSuccess = genSer.validateSMSCode(transorder.getApp()
 					.getAppId(),body.getOldMobileNum(), body.getFirstSmsCode(),true);
 			if (!authOldCodeSuccess) {

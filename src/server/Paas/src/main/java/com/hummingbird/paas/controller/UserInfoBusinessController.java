@@ -83,7 +83,7 @@ public class UserInfoBusinessController extends BaseController {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
-
+				tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -132,7 +132,7 @@ public class UserInfoBusinessController extends BaseController {
 				rm.put("result", queryUserInformationDetail);
 			}
 			// tokenSrv.renewToken(token);
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -180,7 +180,7 @@ public class UserInfoBusinessController extends BaseController {
 				rm.put("result", quidwc);
 			}
 			// tokenSrv.renewToken(token);
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -228,6 +228,7 @@ public class UserInfoBusinessController extends BaseController {
 			rm.put("pageIndex", pageIndex);
 			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
+	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -272,7 +273,7 @@ public class UserInfoBusinessController extends BaseController {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
-
+				tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

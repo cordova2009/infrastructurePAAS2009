@@ -12,6 +12,15 @@ import com.hummingbird.usercenter.exception.MaAccountException;
 import com.hummingbird.usercenter.vo.RegisterBodyVO;
 
 public interface UserService {
+	
+	/**
+	 * 根据用户ID查询用户信息
+	 * @param mobileNum
+	 * @return
+	 * @throws MaAccountException
+	 */
+	public User getUser(Integer userId)throws MaAccountException;
+	
 	/**
 	 * 根据手机号查询用户信息
 	 * @param mobileNum

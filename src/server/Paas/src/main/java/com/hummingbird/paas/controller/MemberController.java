@@ -417,6 +417,7 @@ public class MemberController extends BaseController{
 					// ************************业务核心**********************************
 					tokenService.postponeToken(token);
 				}
+				tokenService.postponeToken(token);
 			} catch (Exception e)  {
 				rm.setErrcode(840001);
 				rm.setErrmsg(messagebase+"失败");
@@ -755,6 +756,7 @@ public class MemberController extends BaseController{
 //						}
 					}
 					}
+					tokenService.postponeToken(token);
 					}
 			
 			//---------------------会员验证-----------------------------------------------
@@ -1046,6 +1048,7 @@ public class MemberController extends BaseController{
 						}
 					}
 					}
+					tokenService.postponeToken(token);
 					}
 			
 			//---------------------会员验证-----------------------------------------------

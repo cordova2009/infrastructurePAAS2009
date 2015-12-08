@@ -32,99 +32,99 @@
         </div>
 
         <form id="reg-form" method="post" action="" class="reg-form ajax-form" before="before_reg" success="reg_success">
-        <!--step1-->
-        <div id="step1" class="stepbox step1 active">
-            <div class="text-right color8">
-                已有账号？<a class="blue" href="<?=U('login')?>">立即登录</a>
+            <!--step1-->
+            <div id="step1" class="stepbox step1 active">
+                <div class="text-right color8">
+                    已有账号？<a class="blue" href="<?=U('login')?>">立即登录</a>
+                </div>
+                <dl class="clear">
+                    <dt><span class="red">*</span>昵称</dt>
+                    <dd class="input-cont nickname">
+                        <input name="nickname" type="text" class="input" placeholder="输入昵称" tip="昵称">
+                    </dd>
+                    <dd class="tip"></dd>
+                </dl>
+                <dl class="clear">
+                    <dt><span class="red">*</span>手机号码</dt>
+                    <dd class="input-cont tel">
+                        <input id="mobile" name="mobile" type="text" class="input" placeholder="输入手机号码" tip="手机号码">
+                    </dd>
+                    <dd class="tip"></dd>
+                </dl>
+                <dl class="clear">
+                    <dt><span class="red">*</span>验证码</dt>
+                    <dd class="input-cont2">
+                        <input id="sms_code" name="sms_code" type="text" class="input" placeholder="输入验证码" tip="验证码">
+                    </dd>
+                    <dd class="">
+                        <input class="getBtn" id="get-sms-code" value="获取验证码" type="button">
+                    </dd>
+                    <dd class="tip"></dd>
+                </dl>
+                <dl class="clear">
+                    <dt><span class="red">*</span>登录密码</dt>
+                    <dd class="input-cont password">
+                        <input id="password" name="password" type="password" class="input" placeholder="输入密码" tip="登录密码">
+                    </dd>
+                    <dd class="tip"></dd>
+                </dl>
+                <dl class="clear">
+                    <dt><span class="red">*</span>确认登录密码</dt>
+                    <dd class="input-cont password">
+                        <input name="re_password" type="password" class="input" placeholder="再次输入密码" tip="确认密码">
+                    </dd>
+                    <dd class="tip"></dd>
+                </dl>
+                <div class="next">
+                    <a href="javascript:;" class="btn1">下一步</a>
+                </div>
             </div>
-            <dl class="clear">
-                <dt><span class="red">*</span>昵称</dt>
-                <dd class="input-cont nickname">
-                    <input name="nickname" type="text" class="input" placeholder="输入昵称" tip="昵称">
-                </dd>
-                <dd class="tip"></dd>
-            </dl>
-            <dl class="clear">
-                <dt><span class="red">*</span>手机号码</dt>
-                <dd class="input-cont tel">
-                    <input id="mobile" name="mobile" type="text" class="input" placeholder="输入手机号码" tip="手机号码">
-                </dd>
-                <dd class="tip"></dd>
-            </dl>
-            <dl class="clear">
-                <dt><span class="red">*</span>验证码</dt>
-                <dd class="input-cont2">
-                    <input id="sms_code" name="sms_code" type="text" class="input" placeholder="输入验证码" tip="验证码">
-                </dd>
-                <dd class="">
-                    <input class="getBtn" id="get-sms-code" value="获取验证码" type="button">
-                </dd>
-                <dd class="tip"></dd>
-            </dl>
-            <dl class="clear">
-                <dt><span class="red">*</span>登录密码</dt>
-                <dd class="input-cont password">
-                    <input id="password" name="password" type="password" class="input" placeholder="输入密码" tip="登录密码">
-                </dd>
-                <dd class="tip"></dd>
-            </dl>
-            <dl class="clear">
-                <dt><span class="red">*</span>确认登录密码</dt>
-                <dd class="input-cont password">
-                    <input name="re_password" type="password" class="input" placeholder="再次输入密码" tip="确认密码">
-                </dd>
-                <dd class="tip"></dd>
-            </dl>
-            <div class="next">
-                <a href="javascript:;" class="btn1">下一步</a>
-            </div>
-        </div>
-        <!--step2-->
+            <!--step2-->
 
-        <div id="step2" class="stepbox step2">
-            <dl class="clear">
-                <dt><span class="red">*</span>真实姓名</dt>
-                <dd class="input-cont nickname">
-                    <input name="real_name" type="text" class="input" placeholder="输入真实姓名" tip="真实姓名">
-                </dd>
-                <dd class="tip">
-                </dd>
-            </dl>
-            <dl class="clear">
-                <dt><span class="red">*</span>身份证号码</dt>
-                <dd class="input-cont idcard">
-                    <input name="id_num" type="text" class="input" placeholder="输入身份证号码" tip="身份证号码">
-                </dd>
-                <dd class="tip">
-                </dd>
-            </dl>
+            <div id="step2" class="stepbox step2">
+                <dl class="clear">
+                    <dt><span class="red">*</span>真实姓名</dt>
+                    <dd class="input-cont nickname">
+                        <input name="real_name" type="text" class="input" placeholder="输入真实姓名" tip="真实姓名">
+                    </dd>
+                    <dd class="tip">
+                    </dd>
+                </dl>
+                <dl class="clear">
+                    <dt><span class="red">*</span>身份证号码</dt>
+                    <dd class="input-cont idcard">
+                        <input name="id_num" type="text" class="input" placeholder="输入身份证号码" tip="身份证号码">
+                    </dd>
+                    <dd class="tip">
+                    </dd>
+                </dl>
 
-            <dl class="clear">
-                <dt><span class="red">*</span>交易密码</dt>
-                <dd class="input-cont password">
-                    <input id="trade_password" name="trade_password" type="password" class="input" placeholder="输入密码" tip="交易密码">
-                </dd>
-                <dd class="tip">
-                </dd>
-            </dl>
-            <dl class="clear">
-                <dt><span class="red">*</span>确认交易密码</dt>
-                <dd class="input-cont password">
-                    <input name="re_trade_password" type="password" class="input" placeholder="再次输入密码" tip="确认密码">
-                </dd>
-                <dd class="tip">
-                </dd>
-            </dl>
-            <div class="next">
-                <div class="rule"><label > <input id="i_agree" type="checkbox" checked="checked"> 我已阅读并同意</label><a href="#" class="blue">《XXXX网站服务协议》</a></div>
-                <button type="submit" class="btn1">下一步</button>
+                <dl class="clear">
+                    <dt><span class="red">*</span>交易密码</dt>
+                    <dd class="input-cont password">
+                        <input id="trade_password" name="trade_password" type="password" class="input" placeholder="输入密码" tip="交易密码">
+                    </dd>
+                    <dd class="tip">
+                    </dd>
+                </dl>
+                <dl class="clear">
+                    <dt><span class="red">*</span>确认交易密码</dt>
+                    <dd class="input-cont password">
+                        <input name="re_trade_password" type="password" class="input" placeholder="再次输入密码" tip="确认密码">
+                    </dd>
+                    <dd class="tip">
+                    </dd>
+                </dl>
+                <div class="next">
+                    <div class="rule"><label > <input id="i_agree" type="checkbox" checked="checked"> 我已阅读并同意</label><a href="#" class="blue">《XXXX网站服务协议》</a></div>
+                    <button type="submit" class="btn1">下一步</button>
+                </div>
             </div>
-        </div>
+            <!--step3-->
+            <div class="stepbox step3">
+                <div class="success"><i class="ico i-ok"></i> 恭喜你注册成功，登录点<a href="<?=U('login')?>" class="blue">这里</a></div>
+            </div>
         </form>
-        <!--step3-->
-        <div class="stepbox step3">
-            <div class="success"><i class="ico i-ok"></i> 恭喜你注册成功，登录点<a href="<?=U('login')?>" class="blue">这里</a></div>
-        </div>
     </div>
 </div>
 <block name="script">
@@ -252,8 +252,7 @@
 
     function reg_success(){
         $('.reg-step ul li').eq(2).addClass('active');
-        $(".stepbox").removeClass('active');
-        $(".stepbox").eq(2).addClass('active');
+        $(".stepbox").removeClass('active').eq(2).addClass('active');
     }
 
     /*

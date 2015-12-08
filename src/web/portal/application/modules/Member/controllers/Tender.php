@@ -47,7 +47,7 @@ class TenderController extends MemberController{
 
         if(check_resp($resp) && check_resp($curl->setData($data2)->send('tender/submitObject'))){
 //            $this->ajaxReturn(['msg'=>'标的发布成功','status'=>0,'objectId'=>$data['objectId'],'step'=>10]);
-            $this->success('标的发布成功',U('/member/info/index'));
+            $this->success('标的发布成功',U('/member/biddee/probject'));
         }else{
             $this->error('保存失败！');
         }

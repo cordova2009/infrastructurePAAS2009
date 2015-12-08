@@ -1,37 +1,51 @@
 <?php
-if(check_resp($resp)){
-    $info = $resp['makeMatchBidderBondAmount'];
-}
+//if(check_resp($resp)){
+//    $info = $resp['technicalStandardInfo'];
+//}
 ?>
-<div class="auto  box pad0">
-    <div class="h2">撮合交易保证金</div>
+<div class="auto  box pad0" id="bidderBond">
+    <div class="h2">投标文件</div>
     <div class="padm30">
-        <div class="text-center chongzhi">
-            <span class="orange "><?=isset($info)?$info['makeMatchBidderBondAmount']:''?>元</span>
-            <?php if($info['satisfy']=="YES"){ ?>
-                <a href="#" class="btn-chongzhi">充值</a>
-            <?php }else{ ?>
-                <a href="#" class="btn-chongzhi2">充值</a>
-            <?}?>
-			<span style="font-size:13px;">（账户余额：<?=isset($account)?$account['constructionStartDate']:''?>元）</span>
-        </div>
+        <form action="<?=U('/member/bid/submitBid')?>" method="post" class="ajax-form" success="save_success" next_step="last">
+            <input name="objectId" value="<?=$objectId?>" type="hidden" />
+            <input name="bidId" value="<?=$bidId?>" type="hidden" />
+            <div class="shangwubiao">
+                <div class="clear">
+                    <i class="ico i-info left marr10"></i>
+                    <div class="auto orange">
+                        技术标附件包括技术方案、产品技术资料、施工方案、施工计划、施工质量保证措施等等，具体请下载招标文件，严格按照招标文件要求完成技术标。
+                    </div>
+                </div>
 
-        <div class="text-center checklist fz16">
-            <i class="ico i-check"></i> 我已阅读并同意《xxxxx协议》
-        </div>
+                <div class="item">
+                    <div class="lab">投标文件</div>
+                    <div class="value">
+                        <a class="btn-file2 wid110" href="javascript:">
+                            <input type="file" class="file-upload" name="file"> 上传附件
+                            <input type="hidden" name="bidFile" value="">
+                        </a>
+                    </div>
+                </div>
 
-        <div class="charge_tips2">
-            <p><i class="ico i-tips"></i> 温馨提示</p>
-            <p>1.为了招投标的有效性，我们将收取中标金额的0.5%作为撮合交易手续费，最高人民币50万元封顶。</p>
-            <p>2.如果您未中标，我们将在24小时内将撮合交易担保金返还到您在我们平台上的资金账户。 </p>
-            <p>3.如果您中标，我们将收取中标金额的0.5%作为撮合交易手续费，最高人民币50万元封顶。</p>
-            <p>4.如果在招投标过程，有舞弊、虚假交易等行为，一经发现并确认，将扣除撮合交易保证金。</p>
-            <p>5、如果24小时内应返还的撮合交易担保金未到您资金账户，请联系客服：400-xxx-xxxx</p>
-        </div>
+            </div>
 
-        <div class="text-center padv30">
-            <a href="#" class="btn-green2 ">保存并继续</a>
-        </div>
-
+            <div class="text-center padv30">
+                <button type="submit" class="btn-green2">提交投标申请</button>
+            </div>
+        </form>
     </div>
 </div>
+<script>
+$(".file-upload").fileupload({
+    url:'<?=U('/member/upload/file')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+    done:function(e,data){
+        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+        //返回的数据在data.result中，假设我们服务器返回了一个json对象
+        if(data.result.status == '0'){
+            $(this).next().val(data.result.url);
+        }else{
+            layer.alert(data.result.msg,{icon:2});
+        }
+    }
+})
+</script>

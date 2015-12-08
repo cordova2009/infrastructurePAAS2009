@@ -141,7 +141,7 @@ $(function() {
         //$this.prop("disabled", true);
         //$this.addClass('disabled');
         var $this = $(this);
-        var flag = calculateFunctionValue($this.attr('before'),$this,'');
+        var flag = calculateFunctionValue($this.attr('before'),[$this],'');
         if(typeof flag == 'boolean' && !flag){
             return false;
         }
@@ -151,15 +151,21 @@ $(function() {
             if(resp.status == '0'){
 
                 if(resp.url != '' && resp.msg == ''){
+                    //返回url不为空并且消息为空
                     window.location = resp.url;
                 }else if(resp.msg != '' && resp.url != null && resp.url != '' ){
+                    //返回信息与url都不为空
                     layer.msg(resp.msg,{icon:1},function(){
                         window.location = resp.url;
                     });
                 }else if(resp.msg != ''){
+                    //返回消息为空
                     layer.msg(resp.msg,{icon:1},function(){
                         calculateFunctionValue($this.attr('success'),[resp,$this],'');
                     });
+                }else if(resp.msg == '' && resp.url == ''){
+                    //返回信息与url都为空
+                    calculateFunctionValue($this.attr('success'),[resp,$this],'');
                 }
             }
             else{

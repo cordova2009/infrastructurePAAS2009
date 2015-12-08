@@ -26,7 +26,7 @@ import java.util.Date;
 //}
 public class BiddeeRegisteredInfoCheck {
 	
-	private AuditInfo  business_license_num;
+	private AuditInfo  business_license;
 	private AuditInfo  business_license_url;
 	private AuditInfo  tax_registration_certificate;
 	private AuditInfo  tax_registration_certificate_url;
@@ -40,10 +40,10 @@ public class BiddeeRegisteredInfoCheck {
 	private AuditInfo  unified_social_credit_code;
 	private AuditInfo  unified_social_credit_code_url;
 	/**
-	 * @return the business_license_num
+	 * @return the business_license
 	 */
-	public AuditInfo getBusiness_license_num() {
-		return business_license_num;
+	public AuditInfo getBusiness_license() {
+		return business_license;
 	}
 	/**
 	 * @return the business_license_url
@@ -112,10 +112,10 @@ public class BiddeeRegisteredInfoCheck {
 		return unified_social_credit_code_url;
 	}
 	/**
-	 * @param business_license_num the business_license_num to set
+	 * @param business_license the business_license to set
 	 */
-	public void setBusiness_license_num(AuditInfo business_license_num) {
-		this.business_license_num = business_license_num;
+	public void setBusiness_license(AuditInfo business_license) {
+		this.business_license = business_license;
 	}
 	/**
 	 * @param business_license_url the business_license_url to set
@@ -188,7 +188,7 @@ public class BiddeeRegisteredInfoCheck {
 	 */
 	@Override
 	public String toString() {
-		return "BiddeeRegisteredInfoCheck [business_license_num=" + business_license_num + ", business_license_url="
+		return "BiddeeRegisteredInfoCheck [business_license=" + business_license + ", business_license_url="
 				+ business_license_url + ", tax_registration_certificate=" + tax_registration_certificate
 				+ ", tax_registration_certificate_url=" + tax_registration_certificate_url + ", org_code_certificate="
 				+ org_code_certificate + ", org_code_certificate_url=" + org_code_certificate_url + ", business_scope="
@@ -197,6 +197,6 @@ public class BiddeeRegisteredInfoCheck {
 				+ unified_social_credit_code + ", unified_social_credit_code_url=" + unified_social_credit_code_url
 				+ "]";
 	}
-
+	
 	
 }

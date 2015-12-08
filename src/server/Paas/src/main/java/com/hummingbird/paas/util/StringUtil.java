@@ -1,5 +1,7 @@
 package com.hummingbird.paas.util;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.hummingbird.common.exception.BusinessException;
 
 /**
@@ -23,11 +25,22 @@ public class StringUtil {
 		// TODO Auto-generated method stub
 		String ss = "";
         if(org.apache.commons.lang.StringUtils.isNotBlank(str)){
-        	if(str.length()>2){
-    			ss = str.substring(0, 1)+"*"+str.substring(str.length()-1);
-    		}else if(str.length()>1){
-    			ss = "*"+str.substring(str.length()-1);
-    		}
+        	if(StringUtils.isNumeric(str)){//银行卡或者身份证
+        		if(str.length()>15){
+        			ss = str.substring(0, 4)+"******"+str.substring(str.length()-4);
+        		}else if(str.length()>2){
+        			ss = str.substring(0, 1)+"*"+str.substring(str.length()-1);
+        		}else if(str.length()>1){
+        			ss = "*"+str.substring(str.length()-1);
+        		}
+        	}else{//其他  姓名
+        		if(str.length()>2){
+        			ss = str.substring(0, 1)+"*"+str.substring(str.length()-1);
+        		}else if(str.length()>1){
+        			ss = "*"+str.substring(str.length()-1);
+        		}
+        	}
+        	
         }
 		
 		

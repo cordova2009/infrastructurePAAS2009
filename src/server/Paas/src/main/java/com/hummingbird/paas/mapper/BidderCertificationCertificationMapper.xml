@@ -47,11 +47,20 @@
       INNER JOIN t_qyzz_bidder_certicate u ON m.bidder_apply_id = u.id
 	  LEFT JOIN t_base_certification_type t ON m.certification_id= t.id
 	  LEFT JOIN t_base_industry i ON i.id = m.industry_id
-      where u.user_id = #{userId,jdbcType=INTEGER}  and u.status = 'CRT'
+      where u.user_id = #{userId,jdbcType=INTEGER}  and u.status != 'DIS'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder_certification_certification
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+   <delete id="deleteByBidderId" >
+    delete from t_qyzz_bidder_certification_certification
+    where bidder_apply_id = #{bidderId,jdbcType=INTEGER} 
+    <if test="updIds != null">
+       <foreach collection="updIds" item="item" index="index"
+		   open="AND" separator="AND" close="">id != ${item}
+		  </foreach>
+       </if>     
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCertificationCertification" >
     insert into t_qyzz_bidder_certification_certification (id, bidder_apply_id, certification_id, 

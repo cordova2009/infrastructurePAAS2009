@@ -277,7 +277,7 @@ public class BidServiceImpl implements BidService {
 			if (proj != null && proj.getProjectExpectStartDate() != null)
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
+			qol.setObjectName(pj.getObjectName());
 			if (proj != null && proj.getProjectExpectPeriod() != null) qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();
@@ -290,7 +290,7 @@ public class BidServiceImpl implements BidService {
 				if (bc != null) {
 					Integer score = bc.getBaseinfoCreditScore();
 					if (score != null) {
-						String leve = slDao.getLevelName(score);
+						String leve = StringUtils.defaultIfEmpty(slDao.getLevelName(score), "A");//modify by   2015年12月9日21:08:34
 						if (StringUtils.isNotBlank(leve)) {
 							qol.setCreditRating(leve);
 						}

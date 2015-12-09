@@ -1409,11 +1409,11 @@ public class TenderServiceImpl implements TenderService {
 	 public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
 	 page) throws BusinessException {
 		if (page != null && page.isCountsize()) {
-			int totalcount = dao.selectTotalIndexObjectList();
+			int totalcount = dao.selectTotalTjIndexObjectList();
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page);
+		List<QueryIndexObjectListResult> ans = dao.selectTjIndexObjectList(page);
 
 		return ans;
 	}

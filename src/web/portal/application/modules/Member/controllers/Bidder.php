@@ -51,6 +51,10 @@ class BidderController extends MemberController{
 		    $certificateName[$v['industryId']] = $v['certificateList'];
 	    }
             $zizhi= $curl->setData(['token'=>$token])->send('myBidder/authInfo/getEnterpriseQualification');
+	    foreach($zizhi['eqInfo'] as $k=>$v)
+	    {
+		    $zhizhi['eqInfo'][$k]['cshow'] = imageView2($v['certificationContent']);
+	    }
 	    $this->assign('zizhi',isset($zizhi['eqInfo'])?$zizhi['eqInfo']:'');
 	    $this->assign('projectType',$projectType);
 	    $this->assign('certificateName',$certificateName);

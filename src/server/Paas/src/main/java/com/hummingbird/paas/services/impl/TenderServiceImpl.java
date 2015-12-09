@@ -989,28 +989,20 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
-		// TODO Auto-generated method stub
-		return null;
+		 org.apache.commons.logging.Log log =
+		 org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		 Biddee biddee = beDao.selectByUserId(userId);
+		 if(page!=null&&page.isCountsize()){
+			 int totalcount = bidRecordDao.selectTotalByObjectIdInValid(biddee.getId(), objectId);
+					 page.setTotalCount(totalcount);
+					 page.calculatePageCount();
+		 }
+		 List<TenderMyObjectBidReturnVO> nos =
+				 bidRecordDao.selectByObjectIdInValid(biddee.getId(), objectId, page);
+//		
+		 return nos;
 	}
 
-	// @Override
-	// public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer
-	// userId, String objectId, Pagingnation page) {
-	// // TODO Auto-generated method stub
-	// org.apache.commons.logging.Log log =
-	// org.apache.commons.logging.LogFactory.getLog(this.getClass());
-	//
-	// if(page!=null&&page.isCountsize()){
-	// int totalcount = notificationDao.selectTotalCountByTokenAndStatus(token,
-	// status);
-	// page.setTotalCount(totalcount);
-	// page.calculatePageCount();
-	// }
-	// List<InstationNotification> nos =
-	// notificationDao.selectByUserInValid(token, status, page);
-	//
-	// return nos;
-	// }
 
 	/**
 	 * 查询未完成招标答疑方式接口

@@ -12,9 +12,9 @@ public class BidderCertificationCertification {
     private Integer id;
 
     /**
-     * 承包商
+     * 投标人资质申请id
      */
-    private Integer bidderId;
+    private Integer bidderApplyId;
 
     /**
      * 资质类别
@@ -67,18 +67,18 @@ public class BidderCertificationCertification {
     }
 
     /**
-     * @return 承包商
+     * @return 投标人资质申请id
      */
-    public Integer getBidderId() {
-        return bidderId;
+    public Integer getBidderApplyId() {
+        return bidderApplyId;
     }
 
     /**
-     * @param bidderId 
-	 *            承包商
+     * @param bidderApplyId 
+	 *            投标人资质申请id
      */
-    public void setBidderId(Integer bidderId) {
-        this.bidderId = bidderId;
+    public void setBidderApplyId(Integer bidderApplyId) {
+        this.bidderApplyId = bidderApplyId;
     }
 
     /**

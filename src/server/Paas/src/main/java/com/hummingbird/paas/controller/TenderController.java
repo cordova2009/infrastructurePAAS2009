@@ -1627,8 +1627,8 @@ public class TenderController extends BaseController {
 					
 					try {
 						Map row= BeanUtils.describe(ori);
-						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
-						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+//						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
+//						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
 						
 						row.remove("class");
 						return row;

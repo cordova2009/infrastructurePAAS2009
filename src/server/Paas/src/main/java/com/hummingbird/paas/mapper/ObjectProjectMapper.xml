@@ -6,7 +6,7 @@
     <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-    <result column="object_amount" property="objectAmount" jdbcType="INTEGER" />
+    <result column="object_amount" property="objectAmount" jdbcType="BIGINT" />
     <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
     <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
     <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
@@ -20,7 +20,7 @@
     <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
-    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="INTEGER" />
+    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="BIGINT" />
     <result column="need_business_standard" property="needBusinessStandard" jdbcType="VARCHAR" />
     <result column="need_technical_standard" property="needTechnicalStandard" jdbcType="VARCHAR" />
     <result column="need_certification_checkup_file" property="needCertificationCheckupFile" jdbcType="VARCHAR" />
@@ -28,7 +28,7 @@
     <result column="need_constructor_certification" property="needConstructorCertification" jdbcType="VARCHAR" />
     <result column="need_safety_permit" property="needSafetyPermit" jdbcType="VARCHAR" />
     <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
-    <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -37,7 +37,7 @@
     <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
-    <result column="object_amount" property="objectAmount" jdbcType="INTEGER" />
+    <result column="object_amount" property="objectAmount" jdbcType="BIGINT" />
     <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
     <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
     <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
@@ -51,7 +51,7 @@
     <result column="bid_open_date" property="bidOpenDate" jdbcType="DATE" />
     <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
     <result column="currency" property="currency" jdbcType="VARCHAR" />
-    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="INTEGER" />
+    <result column="bid_bond_amount" property="bidBondAmount" jdbcType="BIGINT" />
     <result column="need_business_standard" property="needBusinessStandard" jdbcType="VARCHAR" />
     <result column="need_technical_standard" property="needTechnicalStandard" jdbcType="VARCHAR" />
     <result column="need_certification_checkup_file" property="needCertificationCheckupFile" jdbcType="VARCHAR" />
@@ -59,7 +59,7 @@
     <result column="need_constructor_certification" property="needConstructorCertification" jdbcType="VARCHAR" />
     <result column="need_safety_permit" property="needSafetyPermit" jdbcType="VARCHAR" />
     <result column="need_pm_safety_certification" property="needPmSafetyCertification" jdbcType="VARCHAR" />
-    <result column="evaluation_amount" property="evaluationAmount" jdbcType="INTEGER" />
+    <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>

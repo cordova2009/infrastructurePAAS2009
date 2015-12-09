@@ -455,7 +455,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
 			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
 	
-			biddee.setStatus("OK#");//修改状态为已认证
+			biddee.setStatus("APY");//修改状态为已申请中   
 			i = biddeeCerticateDao.updateByPrimaryKeySelective(biddee);
 		
 			}
@@ -515,9 +515,11 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					userBankcardDao.updateBiddeeBankInfo(bc.getUserId());
 				}
 				bca.setAuditStatus("OK#");
+				bc.setStatus("OK#");
 				
 			}else{//审核不通过
 				bca.setAuditStatus("FLS");
+				bc.setStatus("FLS");
 				
 			}
 //			4.插入审核信息
@@ -536,6 +538,10 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				
 				biddeeCertificateAduitDao.updateByPrimaryKey(bca);
 			}
+
+//			5.修改临时表数据状态
+		
+			biddeeCerticateDao.updateByPrimaryKeySelective(bc);
 
 			
 		

@@ -145,4 +145,17 @@
       industry_id = #{industryId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertSelectiveByCertificationIdSuccess" parameterType="java.lang.Integer" >
+    insert into t_qyzz_bidder_certification (id, bidder_id, certification_id, 
+      certification_name, certification_content, 
+      expire_time, applicable_region, certification_no,industry_id
+      )select * from t_qyzz_bidder_certification_certification a 
+      where a.bidder_apply_id = #{bidderId,jdbcType=INTEGER}
+  </insert>
+  <update id="updateByCertificationIdSuccess" parameterType="com.hummingbird.paas.entity.BidderCertification" >
+     update t_qyzz_bidder_certification a INNER JOIN t_qyzz_bidder_certification_certification b ON a.id = b.id  set  a.bidder_id = b.bidder_apply_id, a.certification_id = b.certification_id, 
+      a.certification_name = b.certification_name, a.certification_content = b.certification_content, 
+      a.expire_time = b.expire_time, a.applicable_region = b.applicable_region, a.certification_no = b.certification_no,a.industry_id = b.industry_id
+      where b.bidder_apply_id = #{bidderId,jdbcType=INTEGER}
+  </update>
 </mapper>

@@ -62,7 +62,7 @@ class BiddeemanageController extends AdminController {
 	public function verifyshow()
 	{
 		$id = I('id');
-		$item = $model = M('qyzz_biddee_certicate a')->where(['id'=>$id])->find();
+		$item =  M('qyzz_biddee_certicate a')->join('t_qyzz_biddee_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name')->find();
 		if(empty($item))
 		{
 			$this->error('招标人信息不存在');

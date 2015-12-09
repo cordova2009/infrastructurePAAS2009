@@ -110,7 +110,7 @@
                 </tr>
                 <?php endforeach;?>
             </table>
-            <div class="list-more"><a href="<?=U('/search/project')?>">查看更多招标项目</a></div>
+            <div class="list-more"><a href="<?=U('/project/tenderlist')?>">查看更多招标项目</a></div>
         </div>
     </div>
 </div>

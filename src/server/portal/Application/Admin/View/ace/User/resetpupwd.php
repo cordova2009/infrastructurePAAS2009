@@ -82,7 +82,10 @@
 
                     <div class="step-pane" id="step3">
                         <div class="center">
-                            <h3 class="blue lighter">This is step 3</h3>
+                            <div class="alert alert-warning">
+                                用户已经查到到，请点击确认重置完成操作，如需取消，请离开本页面即可！
+                                <br>
+                            </div>
                         </div>
                     </div>
 
@@ -108,22 +111,65 @@
 
 <block name="script">
 
-    <script src="__ACE__/js/fuelux/fuelux.wizard.min.js"></script>
+<script src="__ACE__/js/fuelux/fuelux.wizard.min.js"></script>
 
-    <script>
-
+<script>
+$(function(){
     window.ace.click_event=$.fn.tap?"tap":"click";
+    var user_exist = false;
     $('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
-console.info(info);
-//        if(info.step == 1) {
-//            return false;
-//        }else if(info.step == 2){
-//            return false;
-//        }
+        var wizard = $(this).data("wizard")
+        if(info.step == 2 && info.direction == 'next' && !user_exist) {
+
+            var mobile_num = $.trim($("#mobile_num").val());
+            if(mobile_num == ''){
+                layer.alert('手机号码不能为空',{icon:2});
+                return false;
+            }
+            var id_num = $.trim($("#id_num").val());
+            if(id_num == ''){
+                layer.alert('身份证号不能为空',{icon:2});
+                return false;
+            }
+            var real_name = $.trim($("#real_name").val());
+            if(real_name == ''){
+                layer.alert('真实姓名不能为空',{icon:2});
+                return false;
+            }
+
+            $.post(
+                '<?=U('')?>',
+                {mobile_num:mobile_num,id_num:id_num,real_name:real_name,method:'check_user'},
+                function(resp){
+                    if(resp.status == '1'){
+                        user_exist = true;
+                        wizard.next();
+                    }else{
+                        layer.alert(resp.info,{icon:2});
+                    }
+                },
+                'json'
+            );
+            return false;
+        }else if(info.step == 2 && info.direction == 'next' && user_exist){
+            user_exist = false;
+        }
     }).on('finished', function(e) {
+        $.post('<?=U('')?>',$("#sample-form").serializeArray(),function(resp){
+            if(resp.status == '1'){
+                layer.msg('重置成功',{icon:1},function(){
+                    window.location = window.location;
+                });
+            }else{
+                layer.alert(resp.info,{icon:2});
+            }
+        },'json');
 
     }).on('stepclick', function(e){
         //return false;//prevent clicking on steps
     });
+})
+
+
 </script>
 </block>

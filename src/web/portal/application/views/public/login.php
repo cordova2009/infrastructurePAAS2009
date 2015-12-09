@@ -41,11 +41,11 @@
 <script>
 function before_login(){
     if($.trim($("#username").val()) == ''){
-        layer.alert('请输入手机号码！');
+        layer.alert('请输入手机号码！',{icon:2});
         return false;
     }
     if($.trim($("#password").val()) == ''){
-        layer.alert('请输入密码！');
+        layer.alert('请输入密码！',{icon:2});
         return false;
     }
     return true;

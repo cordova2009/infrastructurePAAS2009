@@ -91,37 +91,37 @@
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee_certificate_aduit
-    where bidder_certicate_id = #{bcid,jdbcType=INTEGER} 
+    where biddee_certicate_id = #{bcid,jdbcType=INTEGER} 
   </select>
   <select id="selectPersonalInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee_certificate_aduit
-    where bidder_certicate_id = #{bcid,jdbcType=INTEGER}  and audit_status = 'OK#'
+    where biddee_certicate_id = #{bcid,jdbcType=INTEGER}  and audit_status = 'OK#'
   </select>
    <select id="selectBaseInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee_certificate_aduit
-    where bidder_certicate_id = #{bcid,jdbcType=INTEGER}  and company_name = 'OK#' and  short_name = 'OK#' description = 'OK#' 
-        and registered_capital = 'OK#' and contact_mobile_num = 'OK#' and email = 'OK#' logo = 'OK#'
+    where biddee_certicate_id = #{bcid,jdbcType=INTEGER}  and company_name = 'OK#' and  short_name = 'OK#' and description = 'OK#' 
+        and registered_capital = 'OK#' and contact_mobile_num = 'OK#' and email = 'OK#' and logo = 'OK#'
   </select>
    <select id="selectLegalPersonInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee_certificate_aduit
-    where bidder_certicate_id = #{bcid,jdbcType=INTEGER}  and legal_person = 'OK#' and legal_person_idcard = 'OK#' and legal_person_idcard_front_url = 'OK#' 
+    where biddee_certicate_id = #{bcid,jdbcType=INTEGER}  and legal_person = 'OK#' and legal_person_idcard = 'OK#' and legal_person_idcard_front_url = 'OK#' 
         and legal_person_idcard_back_url = 'OK#' and legal_person_authority_book = 'OK#'
      
   </select>
    <select id="selectCompanyRegisteredInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
-    from t_qyzz_biddee_certificate_aduit  a inner join  t_qyzz_biddee_certificate b on b.id = a.bidder_certicate_id
-    where bidder_certicate_id = #{bcid,jdbcType=INTEGER}  and business_scope = 'OK#' and business_license_expire_time = 'OK#' and reg_time = 'OK#' 
-        and address = 'OK#' and legal_person_authority_book = 'OK#' and ((b.business_license_type = 'NEW3' and unified_social_credit_code = 'OK#' and unified_social_credit_code_url = 'OK#') or (b.business_license_type = 'OLD3' 
-        and business_license = 'OK#' and business_license_url = 'OK#' and tax_registration_certificate = 'OK#' and tax_registration_certificate_url = 'OK#' and org_code_certificate = 'OK#' and org_code_certificate_url = 'OK#' )
-     
+    a.*
+    from t_qyzz_biddee_certificate_aduit  a inner join  t_qyzz_biddee_certicate b on b.id = a.biddee_certicate_id
+    where a.biddee_certicate_id = #{bcid,jdbcType=INTEGER}  and a.business_scope = 'OK#' and a.business_license_expire_time = 'OK#' and a.reg_time = 'OK#' 
+        and a.address = 'OK#' and a.legal_person_authority_book = 'OK#' and ((b.business_license_type = 'NEW3' and a.unified_social_credit_code = 'OK#' and a.unified_social_credit_code_url = 'OK#') or (b.business_license_type = 'OLD3' 
+        and a.business_license = 'OK#' and a.business_license_url = 'OK#' and a.tax_registration_certificate = 'OK#' and a.tax_registration_certificate_url = 'OK#' and a.org_code_certificate = 'OK#' and a.org_code_certificate_url = 'OK#' ))
+       
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee_certificate_aduit

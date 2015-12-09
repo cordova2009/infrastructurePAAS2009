@@ -5,6 +5,7 @@
 
 <style>
 td{width:50%;}
+img{max-width:400px;}
 </style>
 <div class="widget-box" style="opacity: 1; z-index: 0;margin-bottom:1em;">
 <div class="widget-header" style="color:#999;">

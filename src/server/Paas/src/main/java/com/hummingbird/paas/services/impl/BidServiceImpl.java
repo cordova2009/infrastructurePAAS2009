@@ -256,7 +256,7 @@ public class BidServiceImpl implements BidService {
 			log.debug("查询招标的项目列表");
 		}
 		List<QueryObjectListResultVO> qors = new ArrayList<QueryObjectListResultVO>();
-		QueryObjectListResultVO qol = null;
+		QueryObjectListResultVO qol = new QueryObjectListResultVO();
 		// if (pageIndex == null || pageIndex <= 0 || pageSize == null ||
 		// pageSize <= 0) {
 		// return null;
@@ -277,8 +277,8 @@ public class BidServiceImpl implements BidService {
 			if (proj != null && proj.getProjectExpectStartDate() != null)
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
-			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+			qol.setObjectName(pj.getObjectName());
+			if (proj != null && proj.getProjectExpectPeriod() != null) qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();
 				Biddee dee = beeDao.selectByPrimaryKey(biddeeId);
@@ -290,7 +290,7 @@ public class BidServiceImpl implements BidService {
 				if (bc != null) {
 					Integer score = bc.getBaseinfoCreditScore();
 					if (score != null) {
-						String leve = slDao.getLevelName(score);
+						String leve = StringUtils.defaultIfEmpty(slDao.getLevelName(score), "A");//modify by   2015年12月9日21:08:34
 						if (StringUtils.isNotBlank(leve)) {
 							qol.setCreditRating(leve);
 						}
@@ -799,6 +799,7 @@ public class BidServiceImpl implements BidService {
 			BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), capbody, false, false);
 			String requestJson = JsonUtil.convert2Json(buildBaseTrans);
 			String paygatewayUrl = String.format("%s/capitalManage/queryProjectAccount",pu.getProperty("capital.url"));
+			log.debug(String.format("开始调用资金账户冻结撮合保证金接口，地址是：%s", paygatewayUrl));
 			String result2 = new HttpRequester().postRequest(paygatewayUrl,
 					requestJson);
 			if(result2==null){
@@ -913,24 +914,24 @@ public class BidServiceImpl implements BidService {
 			freebody.setRemark("冻结"+MoneyUtil.getMoneyStringDecimal4yuan(bondmoney)+"元撮合工保证金");
 			freebody.setToken(body.getToken());
 			//freebody.setTradePassword(tradePassword);
-			freebody.setIsVerityPassword(true);
+			freebody.setIsVerityPassword(false);
 			BaseTransVO<FreezeBondBodyVO> buildBaseTrans2 = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), freebody, false, false);
-			String requestJson2 = JsonUtil.convert2Json(buildBaseTrans);
+			String requestJson2 = JsonUtil.convert2Json(buildBaseTrans2);
 			String paygatewayUrl2 = String.format("%s/capitalManage/freezeBond",pu.getProperty("capital.url"));
-			String result2 = new HttpRequester().postRequest(paygatewayUrl,
-					requestJson);
-			if(result==null){
+			String result2 = new HttpRequester().postRequest(paygatewayUrl2,
+					requestJson2);
+			if(result2==null){
 				throw ValidateException.ERROR_REQUEST_INVALID;
 			}
 			FreezeVO freeze=JsonUtil.convertJson2Obj(result2, FreezeVO.class);
 			
 			FreezeBondReturnVO order=freeze.getOrder();
 			boolean mapsuccess2 = "0".equals(ObjectUtils.toString(freeze.getErrcode()));
-			if(!mapsuccess){
+			if(!mapsuccess2){
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("冻结撮合保证金失败"));
 				}
-				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,proAccount.getErrmsg());
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,freeze.getErrmsg());
 				
 			}
 		}
@@ -983,7 +984,33 @@ public class BidServiceImpl implements BidService {
 		bondRecord.setBondAmount(objectBond);
 		bondRecord.setStatus("REV");
 		mmbrDao.insert(bondRecord);
-		// 调用用户资金接口,记录用户资金
+		// 调用用户资金接口,解除冻结
+		UnfreezeBondVO unfreebody = new UnfreezeBondVO();
+		unfreebody.setObjectId(body.getObjectId());
+		unfreebody.setOrderId(body.getOrderId());
+		unfreebody.setRemark("解除冻结"+MoneyUtil.getMoneyStringDecimal4yuan(oldActOrd.getBondAmount())+"元撮合工保证金");
+		unfreebody.setToken(body.getToken());
+		PropertiesUtil pu=new PropertiesUtil();
+		BaseTransVO<UnfreezeBondVO> buildBaseTrans2 = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), unfreebody, false, false);
+		String requestJson2 = JsonUtil.convert2Json(buildBaseTrans2);
+		String paygatewayUrl2 = String.format("%s/capitalManage/unfreezeBond",pu.getProperty("capital.url"));
+		
+		String result2 = new HttpRequester().postRequest(paygatewayUrl2,
+				requestJson2);
+		if(result2==null){
+			throw ValidateException.ERROR_REQUEST_INVALID;
+		}
+		FreezeVO freeze=JsonUtil.convertJson2Obj(result2, FreezeVO.class);
+		
+		FreezeBondReturnVO order=freeze.getOrder();
+		boolean mapsuccess2 = "0".equals(ObjectUtils.toString(freeze.getErrcode()));
+		if(!mapsuccess2){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("冻结撮合保证金失败"));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,freeze.getErrmsg());
+			
+		}
 		// 组装返回信息
 		FreezeBondReturnVO bond = new FreezeBondReturnVO();
 		/*

@@ -29,7 +29,7 @@ public class ObjectProject {
     /**
      * 标的金额
      */
-    private Integer objectAmount;
+    private Long objectAmount;
 
     /**
      * 标的公开类型,PUB公开招标,INV邀请招标
@@ -44,7 +44,7 @@ public class ObjectProject {
     /**
      * 中标金额
      */
-    private String winBidAmount;
+    private Long winBidAmount;
 
     /**
      * 中标的承包商id
@@ -87,11 +87,6 @@ public class ObjectProject {
     private Date bidOpenDate;
 
     /**
-     * 标准工期,单位是日历天
-     */
-    private Integer projectExpectPeriod;
-
-    /**
      * 承包方式
      */
     private String contractType;
@@ -104,7 +99,7 @@ public class ObjectProject {
     /**
      * 投标担保金额,单位为分
      */
-    private Integer bidBondAmount;
+    private Long bidBondAmount;
 
     /**
      * 商务标必须,YES是，NO#否
@@ -144,7 +139,7 @@ public class ObjectProject {
     /**
      * 工程标的估价
      */
-    private Integer evaluationAmount;
+    private Long evaluationAmount;
 
     /**
      * 招标项目范围
@@ -155,6 +150,31 @@ public class ObjectProject {
      * 中标时间
      */
     private Date winBidTime;
+
+    /**
+     * 插入时间
+     */
+    private Date insertTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
+     * 项目类型,DSG设计标的,BUL 施工标的
+     */
+    private String objectType;
+
+    /**
+     * 工程标的估价可见,ENB 可见, DIS 不可见
+     */
+    private String evaluationAmountVisiable;
+
+    /**
+     * 发布时间,当标的状态 从CRT到PUB后,此时间为发布时间 
+     */
+    private Date publishTime;
 
     /**
      * @return 招标编号(平台),ZB00时间戳随机数
@@ -219,7 +239,7 @@ public class ObjectProject {
     /**
      * @return 标的金额
      */
-    public Integer getObjectAmount() {
+    public Long getObjectAmount() {
         return objectAmount;
     }
 
@@ -227,7 +247,7 @@ public class ObjectProject {
      * @param objectAmount 
 	 *            标的金额
      */
-    public void setObjectAmount(Integer objectAmount) {
+    public void setObjectAmount(Long objectAmount) {
         this.objectAmount = objectAmount;
     }
 
@@ -264,7 +284,7 @@ public class ObjectProject {
     /**
      * @return 中标金额
      */
-    public String getWinBidAmount() {
+    public Long getWinBidAmount() {
         return winBidAmount;
     }
 
@@ -272,8 +292,8 @@ public class ObjectProject {
      * @param winBidAmount 
 	 *            中标金额
      */
-    public void setWinBidAmount(String winBidAmount) {
-        this.winBidAmount = winBidAmount == null ? null : winBidAmount.trim();
+    public void setWinBidAmount(Long winBidAmount) {
+        this.winBidAmount = winBidAmount;
     }
 
     /**
@@ -397,21 +417,6 @@ public class ObjectProject {
     }
 
     /**
-     * @return 标准工期,单位是日历天
-     */
-    public Integer getProjectExpectPeriod() {
-        return projectExpectPeriod;
-    }
-
-    /**
-     * @param projectExpectPeriod 
-	 *            标准工期,单位是日历天
-     */
-    public void setProjectExpectPeriod(Integer projectExpectPeriod) {
-        this.projectExpectPeriod = projectExpectPeriod;
-    }
-
-    /**
      * @return 承包方式
      */
     public String getContractType() {
@@ -444,7 +449,7 @@ public class ObjectProject {
     /**
      * @return 投标担保金额,单位为分
      */
-    public Integer getBidBondAmount() {
+    public Long getBidBondAmount() {
         return bidBondAmount;
     }
 
@@ -452,7 +457,7 @@ public class ObjectProject {
      * @param bidBondAmount 
 	 *            投标担保金额,单位为分
      */
-    public void setBidBondAmount(Integer bidBondAmount) {
+    public void setBidBondAmount(Long bidBondAmount) {
         this.bidBondAmount = bidBondAmount;
     }
 
@@ -564,7 +569,7 @@ public class ObjectProject {
     /**
      * @return 工程标的估价
      */
-    public Integer getEvaluationAmount() {
+    public Long getEvaluationAmount() {
         return evaluationAmount;
     }
 
@@ -572,7 +577,7 @@ public class ObjectProject {
      * @param evaluationAmount 
 	 *            工程标的估价
      */
-    public void setEvaluationAmount(Integer evaluationAmount) {
+    public void setEvaluationAmount(Long evaluationAmount) {
         this.evaluationAmount = evaluationAmount;
     }
 
@@ -604,5 +609,80 @@ public class ObjectProject {
      */
     public void setWinBidTime(Date winBidTime) {
         this.winBidTime = winBidTime;
+    }
+
+    /**
+     * @return 插入时间
+     */
+    public Date getInsertTime() {
+        return insertTime;
+    }
+
+    /**
+     * @param insertTime 
+	 *            插入时间
+     */
+    public void setInsertTime(Date insertTime) {
+        this.insertTime = insertTime;
+    }
+
+    /**
+     * @return 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * @param updateTime 
+	 *            更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
+     * @return 项目类型,DSG设计标的,BUL 施工标的
+     */
+    public String getObjectType() {
+        return objectType;
+    }
+
+    /**
+     * @param objectType 
+	 *            项目类型,DSG设计标的,BUL 施工标的
+     */
+    public void setObjectType(String objectType) {
+        this.objectType = objectType == null ? null : objectType.trim();
+    }
+
+    /**
+     * @return 工程标的估价可见,ENB 可见, DIS 不可见
+     */
+    public String getEvaluationAmountVisiable() {
+        return evaluationAmountVisiable;
+    }
+
+    /**
+     * @param evaluationAmountVisiable 
+	 *            工程标的估价可见,ENB 可见, DIS 不可见
+     */
+    public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
+        this.evaluationAmountVisiable = evaluationAmountVisiable == null ? null : evaluationAmountVisiable.trim();
+    }
+
+    /**
+     * @return 发布时间,当标的状态 从CRT到PUB后,此时间为发布时间 
+     */
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    /**
+     * @param publishTime 
+	 *            发布时间,当标的状态 从CRT到PUB后,此时间为发布时间 
+     */
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 }

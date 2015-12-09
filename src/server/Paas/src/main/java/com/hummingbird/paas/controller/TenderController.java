@@ -71,6 +71,7 @@ import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
+import com.hummingbird.paas.vo.BaseTenderObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
@@ -1639,8 +1640,8 @@ public class TenderController extends BaseController {
 					
 					try {
 						Map row= BeanUtils.describe(ori);
-						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
-						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+//						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
+//						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
 						
 						row.remove("class");
 						return row;
@@ -2285,6 +2286,88 @@ public class TenderController extends BaseController {
 	 * @author YJY
 	 * @since 2015年11月14日19:30:17
 	 * @return
+//	 */
+//	@RequestMapping(value="/queryIndexObjectList",method=RequestMethod.POST)
+//	@AccessRequered(methodName = " 查询首页招标项目列表")
+//	// 框架的日志处理
+//	public @ResponseBody ResultModel queryIndexObjectList(HttpServletRequest request,
+//			HttpServletResponse response) {
+//		String messagebase = " 查询首页招标项目列表";
+//		int basecode = 0;
+//		BaseTransVO<BaseBidObjectVO> transorder = null;
+//		ResultModel rm = new ResultModel();
+//		try {
+//			String jsonstr = RequestUtil.getRequestPostData(request);
+//			request.setAttribute("rawjson", jsonstr);
+//			transorder = (BaseTransVO<BaseBidObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseBidObjectVO.class);
+//		} catch (Exception e) {
+//			log.error(String.format("获取%s参数出错",messagebase),e);
+//			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
+//			return rm;
+//		}
+////		// 预设的一些信息
+//		
+////		rm.setBaseErrorCode(basecode);
+//		rm.setErrmsg(messagebase + "成功");
+//		RequestEvent qe=null ;
+//		
+//		
+//		AppLog rnr = new AppLog();
+//		rnr.setAppid(transorder.getApp().getAppId());
+//		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+//		rnr.setInserttime(new Date());
+//		rnr.setMethod("/tender/queryIndexObjectList");
+//		
+//		try {
+//			
+////				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+//				
+//				List<QueryIndexObjectListResult> list=new ArrayList<QueryIndexObjectListResult>();
+////				list = announcementService.selectAnnouncementInValid(user_id, page);
+////				list = tenderService.getIndexObjectList(page);
+//				list = tenderService.getIndexObjectList();
+//				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryIndexObjectListResult, Map>() {
+//
+//					@Override
+//					public Map convert(QueryIndexObjectListResult ori) {
+//						
+//						try {
+//							Map row= BeanUtils.describe(ori);
+////							row.put(key, value);
+//							row.remove("class");
+//							return row;
+//							
+//						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//							log.error(String.format("转换为map对象出错"),e);
+//							return null;
+//						}
+//					}
+//				});
+//				rm.put("list", nos);
+//		}catch (Exception e1) {
+//			log.error(String.format(messagebase + "失败"), e1);
+//			rm.mergeException(e1);
+//			if(qe!=null)
+//				qe.setSuccessed(false);
+//		} finally {
+//			try {
+//				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
+//				applogDao.insert(rnr);
+//			} catch (DataInvalidException e) {
+//				log.error(String.format("日志处理出错"),e);
+//			}
+//			
+//			if(qe!=null)
+//				EventListenerContainer.getInstance().fireEvent(qe);
+//		}
+//		return rm;
+//		
+//	}
+	/**
+	 * 查询首页招标项目列表接口
+	 * @author YJY
+	 * @since 2015年11月14日19:30:17
+	 * @return
 	 */
 	@RequestMapping(value="/queryIndexObjectList",method=RequestMethod.POST)
 	@AccessRequered(methodName = " 查询首页招标项目列表")
@@ -2293,12 +2376,12 @@ public class TenderController extends BaseController {
 			HttpServletResponse response) {
 		String messagebase = " 查询首页招标项目列表";
 		int basecode = 0;
-		BaseTransVO<BaseBidObjectVO> transorder = null;
+		BaseTransVO<BaseTenderObjectVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = (BaseTransVO<BaseBidObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseBidObjectVO.class);
+			transorder = (BaseTransVO<BaseTenderObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseTenderObjectVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取%s参数出错",messagebase),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
@@ -2319,12 +2402,11 @@ public class TenderController extends BaseController {
 		
 		try {
 			
-//				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
 				List<QueryIndexObjectListResult> list=new ArrayList<QueryIndexObjectListResult>();
-//				list = announcementService.selectAnnouncementInValid(user_id, page);
 //				list = tenderService.getIndexObjectList(page);
-				list = tenderService.getIndexObjectList();
+				list = tenderService.getIndexObjectList(page);
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryIndexObjectListResult, Map>() {
 
 					@Override
@@ -2333,6 +2415,7 @@ public class TenderController extends BaseController {
 						try {
 							Map row= BeanUtils.describe(ori);
 //							row.put(key, value);
+							
 							row.remove("class");
 							return row;
 							
@@ -2342,7 +2425,7 @@ public class TenderController extends BaseController {
 						}
 					}
 				});
-				rm.put("list", nos);
+				mergeListOutput(rm, page, nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

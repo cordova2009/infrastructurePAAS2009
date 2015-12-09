@@ -458,7 +458,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
 			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 	
-			bidder.setStatus("OK#");//修改状态为已认证
+			bidder.setStatus("APY");//修改状态为已认证
 			i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
 		
 			}
@@ -506,7 +506,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					if(bcc != null){
 						b.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());
-						b.setBidderId(bidder.getId());
+						b.setBidderApplyId(bidder.getId());
 						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别
@@ -521,9 +521,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 						
 					}else{
 						b.setExpireTime(be.getExpiryDate());
-						b.setBidderId(bidder.getId());
+						b.setBidderApplyId(bidder.getId());
 						b.setApplicableRegion(be.getApplicableRegion());
-						b.setBidderId(bidder.getId());
+//						b.setBidderId(bidder.getId());
 						b.setCertificationNo(be.getCertificationNo());
 						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
@@ -593,9 +593,11 @@ public class MyBidderServiceImpl implements MyBidderService {
 					userBankcardDao.updateBidderBankInfo(bc.getUserId());
 				}
 				bca.setAuditStatus("OK#");
+				bc.setStatus("OK#");
 				
 			}else{//审核不通过
 				bca.setAuditStatus("FLS");
+				bc.setStatus("FLS");
 				
 			}
 //			4.插入审核信息
@@ -614,6 +616,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 				bidderCertificateAduitDao.updateByPrimaryKey(bca);
 			}
 
+//			5.修改临时表数据状态
+			
+			bidderCerticateDao.updateByPrimaryKeySelective(bc);
 			
 		
 		

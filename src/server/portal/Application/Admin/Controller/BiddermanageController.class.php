@@ -51,7 +51,7 @@ class BiddermanageController extends AdminController {
 		{
 			$map['nick_name']= ['like','%'.I("nick_name").'%'];
 		}
-		$map['a.status'] = 'CRT';
+		$map['a.status'] = 'APY';
 		$prefix = C('DB_PREFIX');
 		$model = M('qyzz_bidder_certicate a')->join('t_user b on a.user_id=b.id');
 		$list   =   $this->lists($model, $map,'apply_time desc','a.*,b.nick_name');
@@ -62,7 +62,7 @@ class BiddermanageController extends AdminController {
 	public function verifyshow()
 	{
 		$id = I('id');
-		$item = $model = M('qyzz_bidder_certicate a')->join('t_qyzz_biddee_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name')->find();
+		$item =  M('qyzz_bidder_certicate a')->join('t_qyzz_bidder_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name')->find();
 		if(empty($item))
 		{
 			$this->error('投标人信息不存在');
@@ -98,6 +98,18 @@ class BiddermanageController extends AdminController {
 				$ret = I('post.'.$key)=='Y'?'OK#':'FLS';
 				$data[$k][$key] = ["result"=>$ret,"msg"=>I('post.'.$key.'_msg')];
 			}
+		}
+		if(I('post.business_license_type')=='New')
+		{
+			$data['registeredInfoCheck']['business_license'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['business_license_url'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['org_code_certificate'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['org_code_certificate_url'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['tax_registration_certificate'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['tax_registration_certificate_url'] = ['result'=>'OK#','msg'=>''];
+		}else{
+			$data['registeredInfoCheck']['unified_social_credit_code_url'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','msg'=>''];
 		}
 		$data['baseInfoCheck']['bidder_id']=I('post.id');
 		return $data;

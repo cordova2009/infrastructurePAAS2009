@@ -293,6 +293,11 @@ function save_success(resp,form) {
     var loading = layer.load();
     //开始加载下一个页面
     $.post('<?=U('/member/bid/step')?>', data, function (rs) {
+        if(rs.status != '0'){
+            layer.alert(rs.msg,{icon:2});
+            return false;
+        }
+
         $("#right-content .box").hide();
         $("#right-content").append(rs.html);
 

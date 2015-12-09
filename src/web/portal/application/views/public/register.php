@@ -31,7 +31,7 @@
             </ul>
         </div>
 
-        <form id="reg-form" method="post" action="" class="reg-form ajax-form" before="before_reg" success="reg_success">
+        <form id="reg-form" method="post" action="<?=U('register')?>" class="reg-form ajax-form" before="before_reg" success="reg_success">
             <!--step1-->
             <div id="step1" class="stepbox step1 active">
                 <div class="text-right color8">
@@ -153,7 +153,7 @@
                         $(".stepbox").removeClass('active');
                         $(".stepbox").eq(1).addClass('active');
                     }else{
-                        layer.alert(resp.msg);
+                        layer.alert(resp.msg,{icon:2});
                     }
                 },'json').always(function () {
                     layer.close(loading);
@@ -244,7 +244,7 @@
             }
         })
         if(valid && !$("#i_agree").prop('checked')){
-            layer.alert('请选择同意网站服务协议！');
+            layer.alert('请选择同意网站服务协议！',{icon:2});
             valid = false;
         }
         return valid;

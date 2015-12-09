@@ -137,6 +137,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				Map tradeInfo= new HashMap();//交易信息
 				Map myBiddeeInfo= new HashMap();//企业信息
 				BiddeeAuthInfo ba = new BiddeeAuthInfo();
+				BiddeeAuthInfo baa = new BiddeeAuthInfo();
 				
 				BiddeeCertificateAduit p = new BiddeeCertificateAduit();
 				BiddeeCertificateAduit bi = new BiddeeCertificateAduit();
@@ -205,7 +206,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						ba.setStatus(ObjectUtils.toString(num));
 						ba.setCreditScore(num*10);//按照次数乘以10
 						tradeInfo.put("winNum", ba);
-						Long amount = bidObjectDao.countAmountByBid(aa.getTendererId());
+						Long amount = bidObjectDao.countAmountByBid(aa.getTendererId(),null);
 						ba.setStatus(ObjectUtils.toString(amount));
 						ba.setCreditScore(10);
 						tradeInfo.put("tradeAmount", ba);
@@ -213,17 +214,50 @@ public class MyBiddeeBusinessController extends BaseController  {
 						detail.put("tradeInfo", tradeInfo);
 					
 				}else{
-					overall.put("creditScore", "");
+					overall.put("creditScore", 0);
 					
 				}
 				if(bb!= null){
 					overall.put("creditRating", bb.getLevelName());
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
-					overall.put("creditRating", "");
-					overall.put("creditRatingIcon", "");
+					overall.put("creditRating", null);
+					overall.put("creditRatingIcon", null);
 				}
 				
+				
+				rm.put("overall", overall);
+				rm.put("detail", detail);
+			}else{
+				//1.个人状态、积分信息
+				ba.setCreditScore(0);
+				
+				ba.setStatus("未认证");
+				
+				baseInof.put("personalInfo", ba);
+				detail.put("baseInof", baseInof);
+//				baseInof.clear();
+				
+				myBiddeeInfo.put("baseInfo", ba);
+				
+				myBiddeeInfo.put("legalPersonInfo", ba);
+				//4.公司注册状态、积分信息
+				
+				myBiddeeInfo.put("companyRegisteredInfo", ba);
+				
+				myBiddeeInfo.put("bankInfo", ba);
+//				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
+				baa.setStatus("0");
+				baa.setCreditScore(0);//按照次数乘以10
+				tradeInfo.put("biddeeNum", baa);
+				
+				tradeInfo.put("tradeAmount", baa);
+				detail.put("myBiddeeInfo", myBiddeeInfo);
+				detail.put("tradeInfo", tradeInfo);
+				
+				overall.put("creditScore", 0);
+				overall.put("creditRating", "");
+				overall.put("creditRatingIcon", "");
 				
 				rm.put("overall", overall);
 				rm.put("detail", detail);

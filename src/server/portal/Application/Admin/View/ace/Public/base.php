@@ -114,7 +114,7 @@
         <script>
         $(document).ready(function(){
             $("#logout").click(function(){
-                layer.confirm('您确定退出？',function(index){
+                layer.confirm('您确定退出？',{icon:3},function(index){
                     layer.close(index);
                     $.get('{:U('Public/logout')}',function(resp){
                         window.location = resp.url;

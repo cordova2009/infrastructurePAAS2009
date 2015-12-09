@@ -506,7 +506,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					if(bcc != null){
 						b.setExpireTime(be.getExpiryDate());
 //						bcc.setBidderId(be.getEqId());
-						b.setBidderId(bidder.getId());
+						b.setBidderApplyId(bidder.getId());
 						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());
 						b.setIndustryId(be.getProjectType());//工程 类别
@@ -521,9 +521,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 						
 					}else{
 						b.setExpireTime(be.getExpiryDate());
-						b.setBidderId(bidder.getId());
+						b.setBidderApplyId(bidder.getId());
 						b.setApplicableRegion(be.getApplicableRegion());
-						b.setBidderId(bidder.getId());
+//						b.setBidderId(bidder.getId());
 						b.setCertificationNo(be.getCertificationNo());
 						b.setCertificationContent(be.getCertificationContent());
 						b.setCertificationName(be.getEqName());

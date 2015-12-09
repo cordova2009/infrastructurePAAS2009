@@ -2405,6 +2405,7 @@ public class TenderController extends BaseController {
 						try {
 							Map row= BeanUtils.describe(ori);
 //							row.put(key, value);
+							
 							row.remove("class");
 							return row;
 							

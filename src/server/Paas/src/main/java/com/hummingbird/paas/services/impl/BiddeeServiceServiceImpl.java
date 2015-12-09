@@ -127,7 +127,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if(proj!=null&&proj.getProjectExpectStartDate()!=null)
 			qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
+			qol.setObjectName(pj.getObjectName());
 			qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();

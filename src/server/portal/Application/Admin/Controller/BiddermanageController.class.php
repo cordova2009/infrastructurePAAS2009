@@ -51,7 +51,7 @@ class BiddermanageController extends AdminController {
 		{
 			$map['nick_name']= ['like','%'.I("nick_name").'%'];
 		}
-		$map['a.status'] = 'CRT';
+		$map['a.status'] = 'APY';
 		$prefix = C('DB_PREFIX');
 		$model = M('qyzz_bidder_certicate a')->join('t_user b on a.user_id=b.id');
 		$list   =   $this->lists($model, $map,'apply_time desc','a.*,b.nick_name');

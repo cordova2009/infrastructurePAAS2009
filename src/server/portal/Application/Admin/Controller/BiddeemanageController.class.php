@@ -52,7 +52,7 @@ class BiddeemanageController extends AdminController {
 			$map['nick_name']= ['like','%'.I("nick_name").'%'];
 		}
 		$prefix = C('DB_PREFIX');
-		$map['a.status'] = 'CRT';
+		$map['a.status'] = 'APY';
 		$model = M('qyzz_biddee_certicate a')->join('t_user b on a.user_id=b.id');
 		$list   =   $this->lists($model, $map,'apply_time desc','a.*,b.nick_name');
 		$this->assign('_list', $list);

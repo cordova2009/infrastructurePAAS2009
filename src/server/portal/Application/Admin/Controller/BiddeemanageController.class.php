@@ -81,7 +81,7 @@ class BiddeemanageController extends AdminController {
 		{
 			$this->error('系统错误,请稍后再试');
 		}
-		$this->success('审核完成');
+		$this->success('审核完成',U("biddeemanage/verify"));
 
 	}
 	private function getData(){
@@ -96,9 +96,21 @@ class BiddeemanageController extends AdminController {
 		{
 			foreach($v as $key=>$val)
 			{
-				$ret = I('post.'.$val)=='Y'?'OK#':'FLS';
-				$data[$k][$key] = ["result"=>$ret,"msg"=>I('post.'.$val.'_msg')];
+				$ret = I('post.'.$key)=='Y'?'OK#':'FLS';
+				$data[$k][$key] = ["result"=>$ret,"msg"=>I('post.'.$key.'_msg')];
 			}
+		}
+		if(I('post.business_license_type')=='NEW')
+		{
+			$data['registeredInfoCheck']['business_license'] = ['result'=>'OK#','business_license_msg'=>''];
+			$data['registeredInfoCheck']['business_license_url'] = ['result'=>'OK#','business_license_url_msg'=>''];
+			$data['registeredInfoCheck']['org_code_certificate'] = ['result'=>'OK#','org_code_certificate_msg'=>''];
+			$data['registeredInfoCheck']['org_code_certificate_url'] = ['result'=>'OK#','org_code_certificate_url_msg'=>''];
+			$data['registeredInfoCheck']['tax_registration_certificate'] = ['result'=>'OK#','tax_registration_certificate_msg'=>''];
+			$data['registeredInfoCheck']['tax_registration_certificate_url'] = ['result'=>'OK#','tax_registration_certificate_url_msg'=>''];
+		}else{
+			$data['registeredInfoCheck']['unified_social_credit_code_url'] = ['result'=>'OK#','unified_social_credit_code_url_msg'=>''];
+			$data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','unified_social_credit_code_msg'=>''];
 		}
 		$data['baseInfoCheck']['biddee_id']=I('post.id');
 		return $data;

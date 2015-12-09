@@ -42,7 +42,7 @@ td{width:50%;}
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl|imageView2}"/></td>
-			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="logourl"> 审核通过</span><input type="text" name="logourl_msg" placeholder="输入审核未通过原因"></td>
+			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="logo"> 审核通过</span><input type="text" name="logo_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -176,6 +176,7 @@ td{width:50%;}
 </div>
 		<div class="clearfix form-actions">
             <div class="col-xs-12 center" style="margin-top:1em;">
+<input type="hidden" name="business_license_type" value="<?php echo $item['business_license_type']?>">
 <button id="sub-btn" class="btn btn-success ajax-post no-refresh" target-form="form-horizontal" type="submit">
                               <i class="icon-ok bigger-110"></i> 确认提交
                           </button>

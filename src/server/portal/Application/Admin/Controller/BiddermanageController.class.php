@@ -51,7 +51,7 @@ class BiddermanageController extends AdminController {
 		{
 			$map['nick_name']= ['like','%'.I("nick_name").'%'];
 		}
-		$map['a.status'] = 'CRT';
+		$map['a.status'] = 'APY';
 		$prefix = C('DB_PREFIX');
 		$model = M('qyzz_bidder_certicate a')->join('t_user b on a.user_id=b.id');
 		$list   =   $this->lists($model, $map,'apply_time desc','a.*,b.nick_name');
@@ -62,7 +62,7 @@ class BiddermanageController extends AdminController {
 	public function verifyshow()
 	{
 		$id = I('id');
-		$item = $model = M('qyzz_bidder_certicate a')->join('t_qyzz_biddee_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name')->find();
+		$item =  M('qyzz_bidder_certicate a')->join('t_qyzz_bidder_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name')->find();
 		if(empty($item))
 		{
 			$this->error('投标人信息不存在');

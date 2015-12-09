@@ -12,7 +12,7 @@ if(check_resp($resp)){
             <div class="text-center chongzhi">
                 <span class="orange "><?=isset($info)?price_format($info['makeMatchBidderBondAmount']):''?>元</span>
                 <?php if($account['remainingSum'] < $info['makeMatchBidderBondAmount']): ?>
-                    <a href="#" class="btn-chongzhi">充值</a>
+                    <a href="<?=U('/member/capital/rechargeApply')?>" class="btn-chongzhi bg-green2">充值</a>
                 <?php endif;?>
                 <span style="font-size:13px;">（账户余额：<?=price_format($account['remainingSum'])?>元）</span>
             </div>
@@ -33,7 +33,11 @@ if(check_resp($resp)){
             </div>
 
             <div class="text-center padv30">
+                <?php if($account['remainingSum'] < $info['makeMatchBidderBondAmount']): ?>
+                    <button type="button" class="btn-green2 bg-grey">余额不足，请先充值</button>
+                <?php else:?>
                 <button type="submit" class="btn-green2">保存并继续</button>
+                <?php endif;?>
             </div>
 
         </form>

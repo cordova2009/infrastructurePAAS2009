@@ -5,6 +5,7 @@
 
 <style>
 td{width:50%;}
+img{max-width:400px;}
 </style>
 <form action="{:U('check')}" method="POST" class="form-horizontal" id="form_submit" role="form">
 <input type="hidden" name="id"  value="{$item.id}">

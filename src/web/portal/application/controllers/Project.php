@@ -42,6 +42,29 @@ class ProjectController extends MallController
         $this->assign('list', $list);
         $this->layout->meta_title = "中标结果列表";
     }
+
+    /**
+     * 招标项目列表
+     */
+    public function tenderlistAction() {
+        $pageSize = 10;
+        $pageIndex = $this->getRequest()->getQuery('page', 0);
+
+        $resp = $this->_curl->setData([
+            'token'=>$this->user['token'],
+            'pageIndex' => $pageIndex==0?1:$pageIndex,
+            'pageSize'=>  $pageSize
+        ])->send('bid/queryObjectList');
+
+        $list = [];
+        if(check_resp($resp)){
+            $list = $resp['list'];
+            $page = $this->getPagination($resp['total'], $pageSize);
+            $this->assign('page', $page);
+        }
+        $this->assign('object_list', $list);
+        $this->layout->meta_title = "招标项目列表";
+    }
     
     /**
      * 招标详情

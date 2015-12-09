@@ -914,7 +914,7 @@ public class BidServiceImpl implements BidService {
 			freebody.setRemark("冻结"+MoneyUtil.getMoneyStringDecimal4yuan(bondmoney)+"元撮合工保证金");
 			freebody.setToken(body.getToken());
 			//freebody.setTradePassword(tradePassword);
-			freebody.setIsVerityPassword(true);
+			freebody.setIsVerityPassword(false);
 			BaseTransVO<FreezeBondBodyVO> buildBaseTrans2 = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), freebody, false, false);
 			String requestJson2 = JsonUtil.convert2Json(buildBaseTrans2);
 			String paygatewayUrl2 = String.format("%s/capitalManage/freezeBond",pu.getProperty("capital.url"));

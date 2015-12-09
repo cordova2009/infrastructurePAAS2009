@@ -9,7 +9,7 @@
     <result column="object_amount" property="objectAmount" jdbcType="BIGINT" />
     <result column="object_publish_type" property="objectPublishType" jdbcType="VARCHAR" />
     <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
-    <result column="win_bid_amount" property="winBidAmount" jdbcType="VARCHAR" />
+    <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
     <result column="win_bidder_id" property="winBidderId" jdbcType="INTEGER" />
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
     <result column="sector_id" property="sectorId" jdbcType="VARCHAR" />
@@ -31,8 +31,13 @@
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
     <result column="object_scope" property="objectScope" jdbcType="VARCHAR" />
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="object_type" property="objectType" jdbcType="VARCHAR" />
+    <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
   </resultMap>
-   <resultMap id="Base1ResultMap" type="com.hummingbird.paas.entity.ObjectProject" >
+  <resultMap id="Base1ResultMap" type="com.hummingbird.paas.entity.ObjectProject" >
     <id column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="object_no" property="objectNo" jdbcType="VARCHAR" />
@@ -73,15 +78,14 @@
    <resultMap id="MyLoseObjectResultMap" type="com.hummingbird.paas.vo.MyLoseObjectProject" extends="BaseResultMap" >
     <result column="company_name" property="biddee" jdbcType="VARCHAR" />
   </resultMap>
-  
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
-    biddee_company_principal, biddee_company_telephone, bid_open_date,  
-    contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
-    need_certification_checkup_file, need_pm_certification, need_constructor_certification, 
-    need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
-    win_bid_time
+    biddee_company_principal, biddee_company_telephone, bid_open_date, contract_type, 
+    currency, bid_bond_amount, need_business_standard, need_technical_standard, need_certification_checkup_file, 
+    need_pm_certification, need_constructor_certification, need_safety_permit, need_pm_safety_certification, 
+    evaluation_amount, object_scope, win_bid_time, insert_time, update_time, object_type, 
+    evaluation_amount_visiable, publish_time
   </sql>
   <sql id="Base1_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
@@ -125,7 +129,7 @@
     from t_ztgl_object
     where object_id = #{objectId,jdbcType=VARCHAR}
   </select>
-   <select id="getPages" resultMap="BaseResultMap">
+  <select id="getPages" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_object
@@ -217,25 +221,27 @@
       object_status, win_bid_amount, win_bidder_id, 
       industry_id, sector_id, province, 
       district, biddee_company_principal, biddee_company_telephone, 
-      bid_open_date,  contract_type, 
-      currency, bid_bond_amount, need_business_standard, 
-      need_technical_standard, need_certification_checkup_file, 
-      need_pm_certification, need_constructor_certification, 
-      need_safety_permit, need_pm_safety_certification, 
-      evaluation_amount, object_scope, win_bid_time
-      )
+      bid_open_date, contract_type, currency, 
+      bid_bond_amount, need_business_standard, need_technical_standard, 
+      need_certification_checkup_file, need_pm_certification, 
+      need_constructor_certification, need_safety_permit, 
+      need_pm_safety_certification, evaluation_amount, 
+      object_scope, win_bid_time, insert_time, 
+      update_time, object_type, evaluation_amount_visiable, 
+      publish_time)
     values (#{objectId,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{objectNo,jdbcType=VARCHAR}, 
-      #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=INTEGER}, #{objectPublishType,jdbcType=VARCHAR}, 
-      #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=VARCHAR}, #{winBidderId,jdbcType=INTEGER}, 
+      #{objectName,jdbcType=VARCHAR}, #{objectAmount,jdbcType=BIGINT}, #{objectPublishType,jdbcType=VARCHAR}, 
+      #{objectStatus,jdbcType=VARCHAR}, #{winBidAmount,jdbcType=BIGINT}, #{winBidderId,jdbcType=INTEGER}, 
       #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
       #{district,jdbcType=INTEGER}, #{biddeeCompanyPrincipal,jdbcType=VARCHAR}, #{biddeeCompanyTelephone,jdbcType=VARCHAR}, 
-      #{bidOpenDate,jdbcType=DATE},  #{contractType,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{bidBondAmount,jdbcType=INTEGER}, #{needBusinessStandard,jdbcType=VARCHAR}, 
-      #{needTechnicalStandard,jdbcType=VARCHAR}, #{needCertificationCheckupFile,jdbcType=VARCHAR}, 
-      #{needPmCertification,jdbcType=VARCHAR}, #{needConstructorCertification,jdbcType=VARCHAR}, 
-      #{needSafetyPermit,jdbcType=VARCHAR}, #{needPmSafetyCertification,jdbcType=VARCHAR}, 
-      #{evaluationAmount,jdbcType=INTEGER}, #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}
-      )
+      #{bidOpenDate,jdbcType=DATE}, #{contractType,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, 
+      #{bidBondAmount,jdbcType=BIGINT}, #{needBusinessStandard,jdbcType=VARCHAR}, #{needTechnicalStandard,jdbcType=VARCHAR}, 
+      #{needCertificationCheckupFile,jdbcType=VARCHAR}, #{needPmCertification,jdbcType=VARCHAR}, 
+      #{needConstructorCertification,jdbcType=VARCHAR}, #{needSafetyPermit,jdbcType=VARCHAR}, 
+      #{needPmSafetyCertification,jdbcType=VARCHAR}, #{evaluationAmount,jdbcType=BIGINT}, 
+      #{objectScope,jdbcType=VARCHAR}, #{winBidTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{objectType,jdbcType=VARCHAR}, #{evaluationAmountVisiable,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ObjectProject" >
     insert into t_ztgl_object
@@ -327,6 +333,21 @@
       <if test="winBidTime != null" >
         win_bid_time,
       </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="objectType != null" >
+        object_type,
+      </if>
+      <if test="evaluationAmountVisiable != null" >
+        evaluation_amount_visiable,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="objectId != null" >
@@ -342,7 +363,7 @@
         #{objectName,jdbcType=VARCHAR},
       </if>
       <if test="objectAmount != null" >
-        #{objectAmount,jdbcType=INTEGER},
+        #{objectAmount,jdbcType=BIGINT},
       </if>
       <if test="objectPublishType != null" >
         #{objectPublishType,jdbcType=VARCHAR},
@@ -351,7 +372,7 @@
         #{objectStatus,jdbcType=VARCHAR},
       </if>
       <if test="winBidAmount != null" >
-        #{winBidAmount,jdbcType=VARCHAR},
+        #{winBidAmount,jdbcType=BIGINT},
       </if>
       <if test="winBidderId != null" >
         #{winBidderId,jdbcType=INTEGER},
@@ -384,7 +405,7 @@
         #{currency,jdbcType=VARCHAR},
       </if>
       <if test="bidBondAmount != null" >
-        #{bidBondAmount,jdbcType=INTEGER},
+        #{bidBondAmount,jdbcType=BIGINT},
       </if>
       <if test="needBusinessStandard != null" >
         #{needBusinessStandard,jdbcType=VARCHAR},
@@ -408,13 +429,28 @@
         #{needPmSafetyCertification,jdbcType=VARCHAR},
       </if>
       <if test="evaluationAmount != null" >
-        #{evaluationAmount,jdbcType=INTEGER},
+        #{evaluationAmount,jdbcType=BIGINT},
       </if>
       <if test="objectScope != null" >
         #{objectScope,jdbcType=VARCHAR},
       </if>
       <if test="winBidTime != null" >
         #{winBidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationAmountVisiable != null" >
+        #{evaluationAmountVisiable,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -431,7 +467,7 @@
         object_name = #{objectName,jdbcType=VARCHAR},
       </if>
       <if test="objectAmount != null" >
-        object_amount = #{objectAmount,jdbcType=INTEGER},
+        object_amount = #{objectAmount,jdbcType=BIGINT},
       </if>
       <if test="objectPublishType != null" >
         object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
@@ -440,7 +476,7 @@
         object_status = #{objectStatus,jdbcType=VARCHAR},
       </if>
       <if test="winBidAmount != null" >
-        win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
+        win_bid_amount = #{winBidAmount,jdbcType=BIGINT},
       </if>
       <if test="winBidderId != null" >
         win_bidder_id = #{winBidderId,jdbcType=INTEGER},
@@ -473,7 +509,7 @@
         currency = #{currency,jdbcType=VARCHAR},
       </if>
       <if test="bidBondAmount != null" >
-        bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
+        bid_bond_amount = #{bidBondAmount,jdbcType=BIGINT},
       </if>
       <if test="needBusinessStandard != null" >
         need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
@@ -497,13 +533,28 @@
         need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
       </if>
       <if test="evaluationAmount != null" >
-        evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
+        evaluation_amount = #{evaluationAmount,jdbcType=BIGINT},
       </if>
       <if test="objectScope != null" >
         object_scope = #{objectScope,jdbcType=VARCHAR},
       </if>
       <if test="winBidTime != null" >
         win_bid_time = #{winBidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="objectType != null" >
+        object_type = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluationAmountVisiable != null" >
+        evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where object_id = #{objectId,jdbcType=VARCHAR}
@@ -513,10 +564,10 @@
     set biddee_id = #{biddeeId,jdbcType=INTEGER},
       object_no = #{objectNo,jdbcType=VARCHAR},
       object_name = #{objectName,jdbcType=VARCHAR},
-      object_amount = #{objectAmount,jdbcType=INTEGER},
+      object_amount = #{objectAmount,jdbcType=BIGINT},
       object_publish_type = #{objectPublishType,jdbcType=VARCHAR},
       object_status = #{objectStatus,jdbcType=VARCHAR},
-      win_bid_amount = #{winBidAmount,jdbcType=VARCHAR},
+      win_bid_amount = #{winBidAmount,jdbcType=BIGINT},
       win_bidder_id = #{winBidderId,jdbcType=INTEGER},
       industry_id = #{industryId,jdbcType=VARCHAR},
       sector_id = #{sectorId,jdbcType=VARCHAR},
@@ -527,7 +578,7 @@
       bid_open_date = #{bidOpenDate,jdbcType=DATE},
       contract_type = #{contractType,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
-      bid_bond_amount = #{bidBondAmount,jdbcType=INTEGER},
+      bid_bond_amount = #{bidBondAmount,jdbcType=BIGINT},
       need_business_standard = #{needBusinessStandard,jdbcType=VARCHAR},
       need_technical_standard = #{needTechnicalStandard,jdbcType=VARCHAR},
       need_certification_checkup_file = #{needCertificationCheckupFile,jdbcType=VARCHAR},
@@ -535,9 +586,14 @@
       need_constructor_certification = #{needConstructorCertification,jdbcType=VARCHAR},
       need_safety_permit = #{needSafetyPermit,jdbcType=VARCHAR},
       need_pm_safety_certification = #{needPmSafetyCertification,jdbcType=VARCHAR},
-      evaluation_amount = #{evaluationAmount,jdbcType=INTEGER},
+      evaluation_amount = #{evaluationAmount,jdbcType=BIGINT},
       object_scope = #{objectScope,jdbcType=VARCHAR},
-      win_bid_time = #{winBidTime,jdbcType=TIMESTAMP}
+      win_bid_time = #{winBidTime,jdbcType=TIMESTAMP},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      object_type = #{objectType,jdbcType=VARCHAR},
+      evaluation_amount_visiable = #{evaluationAmountVisiable,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
 </mapper>

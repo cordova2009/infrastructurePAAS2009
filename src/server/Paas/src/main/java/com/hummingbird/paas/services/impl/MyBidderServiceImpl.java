@@ -561,12 +561,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 		}
 //		baseInfoCheck.getCompany_name().getResult()
 		BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
-		BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByPrimaryKey(bidderId);
+		BidderCertificateAduit  bca = new BidderCertificateAduit();
 
 		ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
-		if(bca == null){
-			bca = new BidderCertificateAduit();
-		}
+//		if(bca == null){
+//			bca = new BidderCertificateAduit();
+//		}
 			//审核通过 
 			if(flag){
 //				1.插入投标人正式表
@@ -587,7 +587,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 				
 //				3.插入开户行正式表 信息
 				List<UserBankcard> ubcs = userBankcardDao.selectBidderBankInfoByUserId(bc.getUserId());
-				if(ubcs != null || ubcs.size()==0){
+				if(ubcs == null || ubcs.size()==0){
 					userBankcardDao.insertBidderBankInfo(bc.getUserId());
 				}else{
 					userBankcardDao.updateBidderBankInfo(bc.getUserId());
@@ -609,12 +609,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 				bca.setBidderCerticateId(bidderId);
 				bca.setAuditor(bc.getUserId());
 				bca.setAuditTime(new Date());
-			if(bca==null){
+//			if(bca==null){
 				bca.setInsertTime(new Date());//首次插入时间
 				bidderCertificateAduitDao.insert(bca);
-			}else{
-				bidderCertificateAduitDao.updateByPrimaryKey(bca);
-			}
+//			}else{
+//				bidderCertificateAduitDao.updateByPrimaryKey(bca);
+//			}
 
 //			5.修改临时表数据状态
 			

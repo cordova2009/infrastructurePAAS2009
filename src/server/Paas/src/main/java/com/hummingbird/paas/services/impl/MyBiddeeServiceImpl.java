@@ -483,12 +483,10 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		}
 //		baseInfoCheck.getCompany_name().getResult()
 		BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
-		BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByPrimaryKey(biddeeId);
+		BiddeeCertificateAduit  bca  = new BiddeeCertificateAduit();
 
 		ValidateUtil.assertNull(bc, "未找到招标人资质申请数据！");
-		if(bca == null){
-			bca = new BiddeeCertificateAduit();
-		}
+		
 			//审核通过 
 			if(flag){
 //				1.插入招标人正式表
@@ -509,7 +507,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				
 //				3.插入开户行正式表 信息
 				List<UserBankcard> ubcs = userBankcardDao.selectBiddeeBankInfoByUserId(bc.getUserId());
-				if(ubcs != null || ubcs.size()==0){
+				if(ubcs == null || ubcs.size()==0){
 					userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
 				}else{
 					userBankcardDao.updateBiddeeBankInfo(bc.getUserId());
@@ -530,14 +528,10 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 			bca.setBiddeeCerticateId(biddeeId);
 			bca.setAuditor(bc.getUserId());
 			bca.setAuditTime(new Date());
-			if(bca==null){
-				
-				bca.setInsertTime(new Date());//首次插入时间
-				biddeeCertificateAduitDao.insert(bca);
-			}else{
-				
-				biddeeCertificateAduitDao.updateByPrimaryKey(bca);
-			}
+	
+			bca.setInsertTime(new Date());//首次插入时间
+			biddeeCertificateAduitDao.insert(bca);
+			
 
 //			5.修改临时表数据状态
 		

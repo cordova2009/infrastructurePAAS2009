@@ -58,7 +58,7 @@
     where bidder_apply_id = #{bidderId,jdbcType=INTEGER} 
     <if test="updIds != null">
        <foreach collection="updIds" item="item" index="index"
-		   open="AND" separator="AND" close="">id != ${item}
+		   open="" separator=" " close=""> AND id != ${item}
 		  </foreach>
        </if>     
   </delete>

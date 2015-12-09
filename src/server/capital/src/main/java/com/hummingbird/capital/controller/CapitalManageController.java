@@ -891,12 +891,12 @@ public class CapitalManageController extends BaseController{
 	@RequestMapping(value = "/getPlatformBankcard", method = RequestMethod.POST)
 	public @ResponseBody Object getPlatformBankcard(HttpServletRequest request) {
 		
-		TokenVO transorder;
+		final BaseTransVO<TokenBodyVO> transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,TokenBodyVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));

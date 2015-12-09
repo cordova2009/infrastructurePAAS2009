@@ -101,15 +101,15 @@ class BiddermanageController extends AdminController {
 		}
 		if(I('post.business_license_type')=='New')
 		{
-			$data['registeredInfoCheck']['business_license'] = ['result'=>'OK#','business_license_msg'=>''];
-			$data['registeredInfoCheck']['business_license_url'] = ['result'=>'OK#','business_license_url_msg'=>''];
-			$data['registeredInfoCheck']['org_code_certificate'] = ['result'=>'OK#','org_code_certificate_msg'=>''];
-			$data['registeredInfoCheck']['org_code_certificate_url'] = ['result'=>'OK#','org_code_certificate_url_msg'=>''];
-			$data['registeredInfoCheck']['tax_registration_certificate'] = ['result'=>'OK#','tax_registration_certificate_msg'=>''];
-			$data['registeredInfoCheck']['tax_registration_certificate_url'] = ['result'=>'OK#','tax_registration_certificate_url_msg'=>''];
+			$data['registeredInfoCheck']['business_license'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['business_license_url'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['org_code_certificate'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['org_code_certificate_url'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['tax_registration_certificate'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['tax_registration_certificate_url'] = ['result'=>'OK#','msg'=>''];
 		}else{
-			$data['registeredInfoCheck']['unified_social_credit_code_url'] = ['result'=>'OK#','unified_social_credit_code_url_msg'=>''];
-			$data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','unified_social_credit_code_msg'=>''];
+			$data['registeredInfoCheck']['unified_social_credit_code_url'] = ['result'=>'OK#','msg'=>''];
+			$data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','msg'=>''];
 		}
 		$data['baseInfoCheck']['bidder_id']=I('post.id');
 		return $data;

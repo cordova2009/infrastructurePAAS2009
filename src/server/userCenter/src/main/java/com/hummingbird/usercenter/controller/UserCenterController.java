@@ -23,11 +23,13 @@ import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.service.ISmsCodeService;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.usercenter.entity.AppLog;
+import com.hummingbird.usercenter.entity.Token;
 import com.hummingbird.usercenter.entity.User;
 import com.hummingbird.usercenter.entity.UserAuth;
 import com.hummingbird.usercenter.entity.UserBankcard;
@@ -258,8 +260,12 @@ public class UserCenterController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			UserBaseInfoVO userInfo=new UserBaseInfoVO();
 			userInfo.setAddress(user.getAddress());
 			userInfo.setEmail(user.getEmail());
@@ -313,7 +319,12 @@ public class UserCenterController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			List<BankInfoReturnDetailVO> Beelist=new ArrayList<BankInfoReturnDetailVO>();
 			List<BankInfoReturnDetailVO> Berlist=new ArrayList<BankInfoReturnDetailVO>();
 			if(user!=null){
@@ -420,9 +431,12 @@ public class UserCenterController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			user.setHeadImage(body.getHeadImageUrl());
 			userSer.updateUser(user);
 			
@@ -465,8 +479,12 @@ public class UserCenterController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			
-
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			if(StringUtils.isNotBlank(body.getAddress())){
 				user.setAddress(body.getAddress());
 			}

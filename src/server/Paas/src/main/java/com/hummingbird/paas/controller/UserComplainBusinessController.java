@@ -87,7 +87,7 @@ public class UserComplainBusinessController extends BaseController {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
-
+				tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

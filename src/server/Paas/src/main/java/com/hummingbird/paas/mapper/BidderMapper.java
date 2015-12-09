@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.vo.CompanyCerticateInfo;
 import com.hummingbird.paas.vo.CompanySurvey;
 import com.hummingbird.paas.vo.MyLoseObjectProject;
+import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 
 public interface BidderMapper {
     /**
@@ -59,10 +61,6 @@ public interface BidderMapper {
      */
     Bidder selectByUserId(Integer userId);
     /**
-     * 根据userId查询记录
-     */
-    List<Bidder> selectAll();
-    /**
      * 查询首页投标人推荐列表接口
      */
     List<Bidder> getIndexBidListPages(@Param("begin") int begin ,@Param("limit") int limit);
@@ -85,5 +83,20 @@ public interface BidderMapper {
      * 根据id查询证书信息
      */
     List<CompanyCerticateInfo> selectCompanyCerticateInfoById(Integer id);
+
+	/**
+	 * 查询投标人列表 
+	 * @param queryCertificateListBodyVO
+	 * @param pagingnation
+	 * @return
+	 */
+	List<Bidder> selectBidder(@Param("queryCertificateListBodyVO")QueryCertificateListBodyVO queryCertificateListBodyVO,@Param("page") Pagingnation pagingnation);
+
+	/**
+	 * 查询投标人总记录数
+	 * @param queryCertificateListBodyVO
+	 * @return
+	 */
+	int selectBidderCount(QueryCertificateListBodyVO queryCertificateListBodyVO);
     
 }

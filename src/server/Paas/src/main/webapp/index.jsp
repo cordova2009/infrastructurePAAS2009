@@ -207,7 +207,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</tr>
 	<tr>
 		<td><input  value="查询招标资质接口"  onclick='setbinding("/tender/queryCertificateList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":      { }     }")'  type="button" ></td>
-		<td><input  value="查询投标方列表接口"  onclick='setbinding("/tender/queryBidderList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":      { }     }")'  type="button" ></td>
+		<td><input  value="查询投标方列表接口"  onclick='setbinding("/tender/queryBidderList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":      { \"bidderName\":\"1\",\"pageSize\":\"20\"}     }")'  type="button" ></td>
 		<td><input  value="招标方给投标方评价接口"  onclick='setbinding("/tender/evaluateBidder","{\"app\":{\"appId\":\"zjhtwallet\",\"timeStamp\":\"TIMESTAMP\",\"nonce\":\"NONCE\",\"signature\":\"SIGNATURE\"},\"body\":{\"token\":\"12345\",\"objectId\":\"BH2015082135656\",\"evaluateScore\":7,\"tags\":[\"速度够快\",\"质量很高\"],\"evaluateContent\":\"合作愉快，期待下次继续！\"}}")'  type="button" ></td>
 	
 	</tr>

@@ -16,7 +16,7 @@ if(check_resp($resp)){
                 <div class="value">
                     <div class="select">
                         <select name="industryId">
-                            <?php foreach($certificateList as $item):?>
+                            <?php foreach($industryList as $item):?>
                                 <option value="<?=$item['industryId']?>" <?php if(isset($info) && $info['industryId'] == $item['industryId']) echo 'selected'?>><?=$item['industryName']?></option>
                             <?php endforeach;?>
                         </select>

@@ -22,6 +22,7 @@ import com.hummingbird.capital.entity.PlatformBankcard;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.RechargeApply;
+import com.hummingbird.capital.entity.Token;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.WithdrawApply;
 import com.hummingbird.capital.exception.MaAccountException;
@@ -30,6 +31,7 @@ import com.hummingbird.capital.mapper.PlatformBankcardMapper;
 import com.hummingbird.capital.mapper.ProjectAccountMapper;
 import com.hummingbird.capital.services.CapitalManageService;
 import com.hummingbird.capital.services.OrderService;
+import com.hummingbird.capital.services.TokenService;
 import com.hummingbird.capital.services.UserService;
 import com.hummingbird.capital.util.MoneyUtil;
 import com.hummingbird.capital.vo.ApplyListReturnVO;
@@ -73,6 +75,7 @@ import com.hummingbird.common.util.StrUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.common.vo.ValidateResult;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.capital.face.Account;
@@ -92,7 +95,8 @@ public class CapitalManageController extends BaseController{
 	IAuthenticationService authService;
 	@Autowired
 	AppLogMapper applogDao;
-	
+	@Autowired
+	TokenService tokenSrv;
 	@Autowired
 	PlatformBankcardMapper platformBankcardDao;
 	@Autowired
@@ -126,8 +130,12 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			CapitalSurveyReturnVO survey=new CapitalSurveyReturnVO();
 			if(user!=null){
 				ProjectAccount proActInfo=(ProjectAccount)getAccount(user.getMobileNum());
@@ -140,6 +148,7 @@ public class CapitalManageController extends BaseController{
 			}
 			
 			rm.put("myCapitalInfo",survey);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -177,8 +186,12 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			List<TransactionRecordsReturnVO> list=new ArrayList<TransactionRecordsReturnVO>();
 			if(user!=null){
 				Account proActInfo=getAccount(user.getMobileNum());//capitalManageSer.queryAccountInfo(user.getId());
@@ -205,6 +218,7 @@ public class CapitalManageController extends BaseController{
 					rm.put("pageSize", page.getPageSize());
 					rm.put("pageIndex", page.getCurrPage());
 					rm.put("total", page.getTotalCount());
+					tokenSrv.postponeToken(token);
 				}else{
 					if (log.isDebugEnabled()) {
 						log.debug(String.format("根据用户id[%s]查找不到用户资金账户",user.getId()));
@@ -213,7 +227,8 @@ public class CapitalManageController extends BaseController{
 					
 				}
 			}
-			
+
+			tokenSrv.postponeToken(token);
 			
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -254,15 +269,22 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
+			if(body.getIsVerityPassword()){
+				capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
+			}
 			FreezeBondReturnVO orderInfo=new FreezeBondReturnVO();
 			if(user!=null){
 				body.setType("JBZ");
 				orderInfo=orderSer.freeze(body, user, requestURI);
 			}
 			rm.put("order", orderInfo);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -298,8 +320,12 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			
 			FreezeBondReturnVO orderInfo=new FreezeBondReturnVO();
 			if(user!=null){
@@ -313,6 +339,7 @@ public class CapitalManageController extends BaseController{
 				orderInfo=orderSer.unfreeze(unfreeze, user, requestURI);
 			}
 			rm.put("order", orderInfo);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -352,8 +379,12 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			
 			List<ApplyListReturnVO> list=new ArrayList<ApplyListReturnVO>();
 			if(user!=null){
@@ -361,6 +392,7 @@ public class CapitalManageController extends BaseController{
 				list=orderSer.queryRechargeApplyList(user);
 			}
 			rm.put("list", list);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -397,13 +429,19 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
 			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
 			if(user!=null){
 				order.setOrderId(orderSer.withdrawalsApply(body, user,requestURI));
 			}
 			rm.put("order", order);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -633,14 +671,19 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			
 			List<WithdrawalsApplyListReturnVO> list=new ArrayList<WithdrawalsApplyListReturnVO>();
 			if(user!=null){
 				list=orderSer.queryWithdrawalsApplyList(user);
 			}
 			rm.put("list", list);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -677,14 +720,19 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			
 			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
 			if(user!=null){
 				order.setOrderId(orderSer.rechargeApply(body, user));
 			}
 			rm.put("order", order);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -813,20 +861,25 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			QueryProjectAccountReturnVO account=new QueryProjectAccountReturnVO();
 			if(user!=null){
 				ProjectAccount proActInfo=capitalManageSer.queryAccountInfo(user.getId());
 				if(proActInfo!=null){
-					account.setRemainingSum(Double.valueOf(proActInfo.getRemainingSum()));
-					account.setFrozenSum(Double.valueOf(proActInfo.getFrozenSum()));
+					account.setRemainingSum(proActInfo.getRemainingSum());
+					account.setFrozenSum(proActInfo.getFrozenSum());
 					account.setAccountId(proActInfo.getAccountId());
 					account.setStatus(proActInfo.getStatus());
 				}
 			}
 			
 			rm.put("account",account);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -864,8 +917,12 @@ public class CapitalManageController extends BaseController{
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			
-			User user=userSer.queryUserByToken(body.getToken());
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
 			GetPlatformBankcardReturnVO bankInfo=new GetPlatformBankcardReturnVO();
 			if(user!=null){
 				PlatformBankcard proActInfo=platformBankcardDao.getPlatformBankcard()==null?null:platformBankcardDao.getPlatformBankcard().get(0);
@@ -877,6 +934,7 @@ public class CapitalManageController extends BaseController{
 			}
 			
 			rm.put("bankInfo",bankInfo);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

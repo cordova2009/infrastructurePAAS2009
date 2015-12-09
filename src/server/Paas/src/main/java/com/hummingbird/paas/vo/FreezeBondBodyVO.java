@@ -9,7 +9,14 @@ public class FreezeBondBodyVO {
 	private String objectId;
 	private String remark;
 	private String tradePassword;
+	private Boolean isVerityPassword=true;
 	
+	public Boolean getIsVerityPassword() {
+		return isVerityPassword;
+	}
+	public void setIsVerityPassword(Boolean isVerityPassword) {
+		this.isVerityPassword = isVerityPassword;
+	}
 	public String getType() {
 		return type;
 	}

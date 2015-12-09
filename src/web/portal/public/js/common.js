@@ -18,41 +18,56 @@ function isPlaceholder(){
 
 if (!isPlaceholder()) {//不支持placeholder 用jquery来完成
     $(document).ready(function() {
-        if(!isPlaceholder()){
-            //对password框的特殊处理1.创建一个text框 2获取焦点和失去焦点的时候切换
-            var inputField    = $("input[type=text],input[type=password]");
-            inputField.each(function(){
-                var $this 	= $(this);
-                var place	= $this.attr('placeholder');
-                if(place != null){
-                    var className = $this.attr('class') || '';
-                    $this.after('<input class="'+className+'" type="text" value="'+place+'" style="color:#ccc"/>');
-                    if($this.val() == ''){
-                        $this.hide().next().show();
-                    }else{
-                        $this.next().hide();
-                    }
-
-                    $this.next().focus(function(){
-                        $(this).hide().prev().show().focus()
-                    })
-
-                    $this.blur(function(){
-                        if($this.val() == '') {
-                            var o1 = $(this);
-                            var o = $(this).hide().next().show().addClass(className);
-                            setTimeout(function(){
-                                var className = o1.attr('class');
-                                o.addClass(className)
-                            },200);
-                        }
-                    });
+        //对password框的特殊处理1.创建一个text框 2获取焦点和失去焦点的时候切换
+        var inputField    = $("input[type=text],input[type=password]");
+        inputField.each(function(){
+            var $this 	= $(this);
+            var place	= $this.attr('placeholder');
+            if(place != null){
+                var className = $this.attr('class') || '';
+                $this.after('<input class="'+className+'" type="text" value="'+place+'" style="color:#ccc"/>');
+                if($this.val() == ''){
+                    $this.hide().next().show();
+                }else{
+                    $this.next().hide();
                 }
-            });
 
-        }
+                $this.next().focus(function(){
+                    $(this).hide().prev().show().focus()
+                })
+
+                $this.blur(function(){
+                    if($this.val() == '') {
+                        var o1 = $(this);
+                        var o = $(this).hide().next().show().addClass(className);
+                        setTimeout(function(){
+                            var className = o1.attr('class');
+                            o.addClass(className)
+                        },200);
+                    }
+                });
+            }
+        });
     });
+}
 
+function sprintf()
+{
+    var arg = arguments,
+        str = arg[0] || '',
+        i, n;
+    if(arg[1] != null && typeof(arg[1]) == 'object'){
+
+        $.each(arg[1],function(i,v){
+            str = str.replace(/%s/, v);
+        });
+
+        delete arg[1];
+    }
+    for (i = 1, n = arg.length; i < n; i++) {
+        str = str.replace(/%s/, arg[i]);
+    }
+    return str;
 }
 /**
  * 判断是不是正确的手机号码

@@ -1,7 +1,14 @@
 package com.hummingbird.paas.vo;
 
 public class QueryBidderListResultVO {
+	/**
+	 * 公司名
+	 */
 	private String bidderName;
+	/**
+	 * 用户名
+	 */
+	private String userName;
 	private Integer bidderId;
 
 	public String getBidderName() {
@@ -18,6 +25,29 @@ public class QueryBidderListResultVO {
 
 	public void setBidderId(Integer bidderId) {
 		this.bidderId = bidderId;
+	}
+
+	/**
+	 * 用户名 
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * 用户名 
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "QueryBidderListResultVO [bidderName=" + bidderName + ", userName=" + userName + ", bidderId=" + bidderId
+				+ "]";
 	}
 
 

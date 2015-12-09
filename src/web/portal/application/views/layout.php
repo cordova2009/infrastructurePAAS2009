@@ -39,7 +39,7 @@
                 <ul>
                     <li><a href="<?=U('/')?>">首页</a></li>
                     <li><a href="<?=U('/member/tender/baseinfo')?>">我要招标</a></li>
-                    <li><a href="<?=U('/search/project')?>">我要投标</a></li>
+                    <li><a href="<?=U('/project/tenderlist')?>">我要投标</a></li>
                     <li><a href="#">新手指引</a></li>
                     <li  class="submenu">
                         <span>会员服务 <i class="i-down"></i></span>

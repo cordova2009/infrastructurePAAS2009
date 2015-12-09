@@ -63,7 +63,7 @@ class BidController extends MemberController {
             $this->error('参数错误，投标ID不能为空！');
         }
 
-        $data['makeMatchBidderBondAmount'] = price_dispose(50000);
+        $data['makeMatchBidderBondAmount'] = 0;
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('bid/saveMakeMatchBidderBond');

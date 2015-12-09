@@ -128,7 +128,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
-			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+			qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();
 				Biddee dee = beeDao.selectByPrimaryKey(biddeeId);
@@ -341,7 +341,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if(pj != null){
 			 qol = new QueryMyBidObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());
-			qol.setBidAmount(pj.getWinBidAmount());
+			qol.setBidAmount(String.valueOf(pj.getWinBidAmount()));
 			qol.setBidOpenDate(pj.getBidOpenDate());
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
@@ -378,10 +378,10 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 				qol.setObjectId(pj.getObjectId());
 //				qol.set
 				qol.setObjetName(pj.getObjectName());
-				qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+				qol.setProjectExpectPeriod(0);
 //				qol.setProjectExpectStartDate(pj.getpro);
 				qol.setReceivedAmount(pj.getReceivedAmount());
-				qol.setWillReceiveAmount(pj.getWinBidAmount());
+				qol.setWillReceiveAmount(String.valueOf(pj.getWinBidAmount()));
 				if(log.isDebugEnabled()){
 					log.debug("查询招标的项目列表完成:"+qol);
 				}
@@ -413,7 +413,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if(pj != null){
 			 qol = new QueryMyEndedObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());
-			qol.setBidAmount(pj.getWinBidAmount());
+			qol.setBidAmount(String.valueOf(pj.getWinBidAmount()));
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
 			qol.setBiddee(pj.getBiddee());
@@ -447,7 +447,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if(pj != null){
 			 qol = new QueryMyLoseObjectListResultVO();
 			qol.setIndustryId(pj.getIndustryId());
-			qol.setWinBidAmount(pj.getWinBidAmount());
+			qol.setWinBidAmount(String.valueOf(pj.getWinBidAmount()));
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
 			qol.setBiddee(pj.getBiddee());

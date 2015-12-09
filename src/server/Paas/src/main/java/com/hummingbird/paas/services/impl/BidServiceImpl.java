@@ -278,7 +278,7 @@ public class BidServiceImpl implements BidService {
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
-			qol.setProjectExpectPeriod(pj.getProjectExpectPeriod());
+			qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();
 				Biddee dee = beeDao.selectByPrimaryKey(biddeeId);

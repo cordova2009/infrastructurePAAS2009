@@ -12,9 +12,9 @@ public class BiddeeCertificationCertification {
     private Integer id;
 
     /**
-     * 发包方id
+     * 招标人资质申请id
      */
-    private Integer biddeeId;
+    private Integer biddeeApplyId;
 
     /**
      * 资质类别
@@ -62,18 +62,18 @@ public class BiddeeCertificationCertification {
     }
 
     /**
-     * @return 发包方id
+     * @return 招标人资质申请id
      */
-    public Integer getBiddeeId() {
-        return biddeeId;
+    public Integer getBiddeeApplyId() {
+        return biddeeApplyId;
     }
 
     /**
-     * @param biddeeId 
-	 *            发包方id
+     * @param biddeeApplyId 
+	 *            招标人资质申请id
      */
-    public void setBiddeeId(Integer biddeeId) {
-        this.biddeeId = biddeeId;
+    public void setBiddeeApplyId(Integer biddeeApplyId) {
+        this.biddeeApplyId = biddeeApplyId;
     }
 
     /**
@@ -164,42 +164,5 @@ public class BiddeeCertificationCertification {
      */
     public void setCertificationNo(String certificationNo) {
         this.certificationNo = certificationNo == null ? null : certificationNo.trim();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        BiddeeCertificationCertification other = (BiddeeCertificationCertification) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
-            && (this.getCertificationId() == null ? other.getCertificationId() == null : this.getCertificationId().equals(other.getCertificationId()))
-            && (this.getCertificationName() == null ? other.getCertificationName() == null : this.getCertificationName().equals(other.getCertificationName()))
-            && (this.getCertificationContent() == null ? other.getCertificationContent() == null : this.getCertificationContent().equals(other.getCertificationContent()))
-            && (this.getExpireTime() == null ? other.getExpireTime() == null : this.getExpireTime().equals(other.getExpireTime()))
-            && (this.getApplicableRegion() == null ? other.getApplicableRegion() == null : this.getApplicableRegion().equals(other.getApplicableRegion()))
-            && (this.getCertificationNo() == null ? other.getCertificationNo() == null : this.getCertificationNo().equals(other.getCertificationNo()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
-        result = prime * result + ((getCertificationId() == null) ? 0 : getCertificationId().hashCode());
-        result = prime * result + ((getCertificationName() == null) ? 0 : getCertificationName().hashCode());
-        result = prime * result + ((getCertificationContent() == null) ? 0 : getCertificationContent().hashCode());
-        result = prime * result + ((getExpireTime() == null) ? 0 : getExpireTime().hashCode());
-        result = prime * result + ((getApplicableRegion() == null) ? 0 : getApplicableRegion().hashCode());
-        result = prime * result + ((getCertificationNo() == null) ? 0 : getCertificationNo().hashCode());
-        return result;
     }
 }

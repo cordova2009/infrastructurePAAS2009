@@ -35,9 +35,9 @@ public class TenderMyObjectBidReturnVO {
 	
 	private Integer bidAmount;
 	private Date  projectExpectStartDate;
+	private Date  projectExpectEndDate;
 	private Integer projectExpectPeriod;
 	private String fileUrl;
-	List<TenderCertificationReturnVO> certificationList;
 	/**
 	 * @return the bidId
 	 */
@@ -89,12 +89,6 @@ public class TenderMyObjectBidReturnVO {
 		return fileUrl;
 	}
 	/**
-	 * @return the certificationList
-	 */
-	public List<TenderCertificationReturnVO> getCertificationList() {
-		return certificationList;
-	}
-	/**
 	 * @param bidId the bidId to set
 	 */
 	public void setBidId(Integer bidId) {
@@ -142,12 +136,6 @@ public class TenderMyObjectBidReturnVO {
 	public void setFileUrl(String fileUrl) {
 		this.fileUrl = fileUrl;
 	}
-	/**
-	 * @param certificationList the certificationList to set
-	 */
-	public void setCertificationList(List<TenderCertificationReturnVO> certificationList) {
-		this.certificationList = certificationList;
-	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -156,7 +144,20 @@ public class TenderMyObjectBidReturnVO {
 		return "TenderMyObjectBidReturnVO [bidId=" + bidId + ", bidderCompanyName=" + bidderCompanyName + ", bidderId="
 				+ bidderId + ", bidTime=" + bidTime + ", bidAmount=" + bidAmount + ", projectExpectStartDate="
 				+ projectExpectStartDate + ", projectExpectPeriod=" + projectExpectPeriod + ", fileUrl=" + fileUrl
-				+ ", certificationList=" + certificationList + "]";
+				+ "]";
+	}
+	/**
+	 * @return the projectExpectEndDate
+	 */
+	@JsonSerialize(using = JacksonDateSerializer.class)
+	public Date getProjectExpectEndDate() {
+		return projectExpectEndDate;
+	}
+	/**
+	 * @param projectExpectEndDate the projectExpectEndDate to set
+	 */
+	public void setProjectExpectEndDate(Date projectExpectEndDate) {
+		this.projectExpectEndDate = projectExpectEndDate;
 	}
 	
 

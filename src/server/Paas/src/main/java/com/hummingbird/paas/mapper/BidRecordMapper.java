@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 public interface BidRecordMapper {
@@ -66,4 +68,18 @@ public interface BidRecordMapper {
 	 * @return
 	 */
 	List<BidRecord> selectUnfinishedBid(@Param("bidderId") Integer bidderId,@Param("objectId") String objectId);
+	/**
+	 * 我的招标项目投标列表做记录条数
+	 * @param bidId
+	 * @param objectId
+	 * @return
+	 */
+	int selectTotalByObjectIdInValid(@Param("biddeeId") Integer biddeeId,@Param("objectId") String objectId);
+	/**
+	 * 我的招标项目投标列表接口
+	 * @param bidId
+	 * @param objectId
+	 * @return
+	 */
+	List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(@Param("biddeeId") Integer biddeeId,@Param("objectId") String objectId,@Param("page") Pagingnation page);
 }

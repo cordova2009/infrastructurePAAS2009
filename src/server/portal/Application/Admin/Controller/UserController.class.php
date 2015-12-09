@@ -22,7 +22,6 @@ class UserController extends AdminController {
             $this->error('ID不能为空！');
         }
 
-
         $prefix = C('DB_PREFIX');
         $model = M()->table($prefix.'user u')
             ->join($prefix.'user_auth ua on ua.user_id = u.id','left');
@@ -31,11 +30,54 @@ class UserController extends AdminController {
         $this->meta_title = '查看用户详情';
         $this->display();
     }
+
     public function resetpupwd(){
 
+        if(IS_POST){
+            $data = [];
+            $where['mobile_num'] = I('mobile_num');
+            if(empty($where['mobile_num'])){
+                $this->error('手机号码不能为空！');
+            }
+            $where['real_name'] = I('real_name');
+            if(empty($where['real_name'])){
+                $this->error('真实姓名不能为空！');
+            }
+            $where['identity_no'] = I('id_num');
+            if(empty($where['identity_no'])){
+                $this->error('身份证号不能为空！');
+            }
+            if(I('method') == 'check_user'){
+
+                $prefix = C('DB_PREFIX');
+                $exist = M()->table($prefix.'user u')
+                            ->join($prefix.'user_auth ua on ua.user_id = u.id','inner')
+                            ->where($where)
+                            ->find();
+                if($exist){
+                    $this->success('用户存在!');
+                }else{
+                    $this->error('用户不存在!'.M()->_sql());
+                }
+            }
+            $data = [
+                'realName'=>$where['real_name'],
+                'cardID'=>$where['identity_no'],
+                'mobileNum'=>$where['mobile_num'],
+                'operator'=>is_login(),
+            ];
+            $api = new ApiService();
+            $resp = $api->setApiUrl(C('APIURI.paas2'))
+                    ->setData($data)->send('userSecurity/resetPassword');
+            if(!empty($resp) && $resp['errcode'] == '0'){
+                $this->success('重置成功');
+            }
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '重置失败，请重新再试或联系管理员！');
+        }
         $this->meta_title = '重置用户登录密码';
         $this->display();
     }
+
     /**
      * 用户管理首页
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -59,6 +101,10 @@ class UserController extends AdminController {
         $this->display();
     }
 
+    /**
+     * @param int $id
+     * @param string $status
+     */
     public function changePuStatus($id=0,$status='OK#'){
         if(empty($id)){
             $this->error('修改失败');

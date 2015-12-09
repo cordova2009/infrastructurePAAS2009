@@ -334,7 +334,7 @@ display:block;
 						</div>
 						<!--非统一社会信用代码-->
 						<input type="hidden" name="type" value="companyRegistered" >
-						<input type="hidden" name="businessLicenseType" value="<?=$registered['address']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
+						<input type="hidden" name="businessLicenseType" value="<?=$registered['businessLicenseType']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
 					</form>
 					</div>
 
@@ -471,7 +471,7 @@ display:block;
 						var i = $(this).index();
 						$('#companyRegistered .charge_form').addClass('hide');
 						$('#companyRegistered .charge_form').eq(i).removeClass('hide');
-						if(i ==1 )
+						if(i ==0 )
 						{
 							$('#businessLicenseType').val('NEW');
 						}else

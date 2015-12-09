@@ -256,7 +256,7 @@ public class BidServiceImpl implements BidService {
 			log.debug("查询招标的项目列表");
 		}
 		List<QueryObjectListResultVO> qors = new ArrayList<QueryObjectListResultVO>();
-		QueryObjectListResultVO qol = null;
+		QueryObjectListResultVO qol = new QueryObjectListResultVO();
 		// if (pageIndex == null || pageIndex <= 0 || pageSize == null ||
 		// pageSize <= 0) {
 		// return null;
@@ -278,7 +278,7 @@ public class BidServiceImpl implements BidService {
 				qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
 			qol.setObjetName(pj.getObjectName());
-			qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
+			if (proj != null && proj.getProjectExpectPeriod() != null) qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();
 				Biddee dee = beeDao.selectByPrimaryKey(biddeeId);

@@ -374,11 +374,15 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		for (MyBuildingObjectProject pj : pjs) {
 			if(pj != null){
 				qol = new QueryMyBuildingObjectListResultVO();
-				
+				ProjectInfos  proj = pIDao.selectByPrimaryKey(pj.getObjectId());
 				qol.setObjectId(pj.getObjectId());
 //				qol.set
 				qol.setObjetName(pj.getObjectName());
-				qol.setProjectExpectPeriod(0);
+				if(proj!=null){
+					qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
+				}else {
+					qol.setProjectExpectPeriod(0);
+				}
 //				qol.setProjectExpectStartDate(pj.getpro);
 				qol.setReceivedAmount(pj.getReceivedAmount());
 				qol.setWillReceiveAmount(String.valueOf(pj.getWinBidAmount()));

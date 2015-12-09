@@ -31,7 +31,7 @@
             </ul>
         </div>
 
-        <form id="reg-form" method="post" action="" class="reg-form ajax-form" before="before_reg" success="reg_success">
+        <form id="reg-form" method="post" action="<?=U('register')?>" class="reg-form ajax-form" before="before_reg" success="reg_success">
             <!--step1-->
             <div id="step1" class="stepbox step1 active">
                 <div class="text-right color8">

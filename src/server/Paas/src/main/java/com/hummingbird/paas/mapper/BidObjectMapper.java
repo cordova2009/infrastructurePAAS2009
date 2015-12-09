@@ -39,7 +39,7 @@ public interface BidObjectMapper {
     /**
      * 根据biddeeId查询记录
      */
-    Long countAmountByBid(Integer user_id);
+    Long countAmountByBid(@Param("biddeeId")Integer biddeeId , @Param("objectId")String objectId);
     /**
      * 根据user_id查询招标项目招标中的数量
      */
@@ -125,6 +125,19 @@ public interface BidObjectMapper {
 	 * @return
 	 */
 	List<QueryIndexObjectListResult> selectIndexObjectList(@Param("page")Pagingnation page);
+	/**
+	 * 计算首页推荐招标项目列表总数
+	 * @param id
+	 * @return
+	 */
+	int selectTotalTjIndexObjectList();
+	
+	/**
+	 * 查询首页推荐招标项目列表接口
+	 * @param id
+	 * @return
+	 */
+	List<QueryIndexObjectListResult> selectTjIndexObjectList(@Param("page")Pagingnation page);
 	
 	/**
 	 * 查询首页中标结果概况接口

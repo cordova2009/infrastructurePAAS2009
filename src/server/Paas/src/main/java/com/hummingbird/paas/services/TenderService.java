@@ -447,6 +447,19 @@ public interface TenderService {
 	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
 	// page) throws BusinessException;
 	public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException;
+	/**
+	 * 查询首页招标项目列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
+	// page) throws BusinessException;
+	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException;
 
 	/**
 	 * 查询首页中标结果概况接口

@@ -1405,6 +1405,18 @@ public class TenderServiceImpl implements TenderService {
 
 		return ans;
 	}
+	@Override
+	 public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
+	 page) throws BusinessException {
+		if (page != null && page.isCountsize()) {
+			int totalcount = dao.selectTotalIndexObjectList();
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page);
+
+		return ans;
+	}
 
 	@Override
 	public QueryBidIndexSurveyResult getBidIndexSurvey() throws BusinessException {

@@ -485,6 +485,7 @@ class TenderController extends MemberController{
         $curl = new Curl();
 
         $data = ['token'=>$this->user['token']];
+
         if(IS_POST){
 
             $objectId = I('objectId');
@@ -531,6 +532,11 @@ class TenderController extends MemberController{
             }else{
                 $this->error('保存失败！');
             }
+        }
+
+        $resp = $curl->setData($data)->send('tender/isInvitationOfTender');
+        if(!check_resp($resp)){
+            $this->error('对不起，您还没有招标人资格，请先进行认证！');
         }
 
         $resp = $curl->setData($data)->send('tender/queryObjectBaseInfo');

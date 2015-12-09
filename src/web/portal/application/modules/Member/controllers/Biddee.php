@@ -106,11 +106,11 @@ class BiddeeController extends MemberController{
 	    }
 	    $idCardfrontUrl = I('idCardfrontUrl');
 	    if(empty($idCardfrontUrl)){
-		//    $this->error('法人身份证照片不能为空！');
+		    $this->error('法人身份证照片不能为空！');
 	    }
 	    $idCardBackUrl= I('idCardBackUrl');
 	    if(empty($idCardBackUrl)){
-		  //  $this->error('法人身份证照片不能为空！');
+		    $this->error('法人身份证照片不能为空！');
 	    }
 	    $authorityBookUrl = I('authorityBookUrl');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
@@ -134,7 +134,7 @@ class BiddeeController extends MemberController{
 		    }
 		    $date['businessLicenseUrl']= I('businessLicenseUrl');
 		    if(empty($date['businessLicenseUrl'])){
-			    //$this->error('营业执照扫描件不能为空！');
+			    $this->error('营业执照扫描件不能为空！');
 		    }
 		    $date['taxRegistrationNum']= I('taxRegistrationNum');
 		    if(empty($date['taxRegistrationNum'])){
@@ -142,7 +142,7 @@ class BiddeeController extends MemberController{
 		    }
 		    $date['taxRegistrationUrl']= I('taxRegistrationUrl');
 		    if(empty($date['taxRegistrationUrl'])){
-			    //$this->error('税务登记证扫描件不能为空！');
+			    $this->error('税务登记证扫描件不能为空！');
 		    }
 		    $date['organizationCodeNum']= I('organizationCodeNum');
 		    if(empty($date['organizationCodeNum'])){
@@ -150,7 +150,7 @@ class BiddeeController extends MemberController{
 		    }
 		    $date['organizationCodeUrl']= I('organizationCodeUrl');
 		    if(empty($date['organizationCodeUrl'])){
-			    //$this->error('组织机构代码证扫描件不能为空！');
+			    $this->error('组织机构代码证扫描件不能为空！');
 		    }
 		    $date['newBusinessLicenseNum']='';
 		    $date['newBusinessLicenseUrl']= '';
@@ -161,7 +161,7 @@ class BiddeeController extends MemberController{
 		    }
 		    $date['newBusinessLicenseUrl']= I('newBusinessLicenseUrl');
 		    if(empty($date['newBusinessLicenseUrl'])){
-			    //$this->error('统一社会信用代码扫描件不能为空！');
+			    $this->error('统一社会信用代码扫描件不能为空！');
 		    }
 		    $date['businessLicenseNum']= '';
 		    $date['businessLicenseUrl']= '';
@@ -211,7 +211,7 @@ class BiddeeController extends MemberController{
 	    }
 	    $logoUrl = I('logoUrl');
 	    if(empty($logoUrl)){
-		    //$this->error('公司LOGO不能为空！');
+		    $this->error('公司LOGO不能为空！');
 	    }
 	    $registeredCapital = I('registeredCapital');
 	    $telephone = I('telephone');

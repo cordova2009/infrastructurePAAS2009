@@ -337,7 +337,7 @@ display:block;
 						</div>
 						<!--非统一社会信用代码-->
 						<input type="hidden" name="type" value="companyRegistered" >
-						<input type="hidden" name="businessLicenseType" value="<?=$registered['address']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
+						<input type="hidden" name="businessLicenseType" value="<?=$registered['businessLicenseType']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
 					</form>
 					</div>
 
@@ -611,6 +611,8 @@ $('#eqName').append('<option value="'+o[i].certificateName+'">'+o[i].certificate
 				{
 					$('#bank').hide();
 					$('#zizhi').show();
+					$(".side_menu li").removeClass('on');
+					$(".side_menu li:eq(4)").addClass('on');
 					$(".side_menu li:eq(3) a").html('银行开户信息 <i class="ico i-right"></i>');
 					$('#creditRating').html('80');
 					$(".progressBox .progress span").css({'width':'80%'});
@@ -686,7 +688,7 @@ $('#eqName').append('<option value="'+o[i].certificateName+'">'+o[i].certificate
 						var i = $(this).index();
 						$('#companyRegistered .charge_form').addClass('hide');
 						$('#companyRegistered .charge_form').eq(i).removeClass('hide');
-						if(i ==1 )
+						if(i ==0 )
 						{
 							$('#businessLicenseType').val('NEW');
 						}else

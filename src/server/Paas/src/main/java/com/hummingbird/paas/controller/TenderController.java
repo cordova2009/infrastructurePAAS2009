@@ -36,10 +36,13 @@ import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
+import com.hummingbird.commonbiz.vo.AppVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.entity.Appinfo;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Biddee;
@@ -52,6 +55,7 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
+import com.hummingbird.paas.mapper.AppinfoMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
@@ -160,6 +164,8 @@ public class TenderController extends BaseController {
 	BidderMapper  bidderDao;
 	@Autowired
 	ProjectStatusMapper  psDao;
+	@Autowired
+	AppinfoMapper  appDao;
 	
 	
 	@Autowired(required = true)
@@ -999,6 +1005,10 @@ public class TenderController extends BaseController {
 		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
 		
 		try {
+			AppVO app = transorder.getApp();
+			Appinfo appinfo = appDao.selectByPrimaryKey(app.getAppId());
+			ValidateUtil.assertNull(appinfo, "app");
+			app.setAppId(appinfo.getAppkey());
 			//业务数据必填等校验
 			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
 			if (token == null) {

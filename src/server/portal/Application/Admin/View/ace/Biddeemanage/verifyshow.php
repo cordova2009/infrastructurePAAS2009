@@ -42,7 +42,7 @@ img{max-width:400px;}
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="description"> 审核通过</span><input type="text" name="description_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl|imageView2}"/></td>
+			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logo|imageView2}"/></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="logo"> 审核通过</span><input type="text" name="logo_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>

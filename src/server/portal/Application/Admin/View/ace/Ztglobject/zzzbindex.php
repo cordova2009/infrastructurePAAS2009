@@ -13,7 +13,7 @@
                         <label>项目名称
                             <input type="text" class="search-input" name="object_name" value="{:I('object_name')}">
                         </label>
-                        <label>项目类别
+                        <label>工程类别
                             <?=form_dropdown('industry_id',[''=>'---全部---']+$industry,I('industry_id'))?>
                         </label>
                         <label>

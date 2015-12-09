@@ -129,6 +129,7 @@ class ZtglobjectController extends AdminController {
                     bid_open_date,
                     b.id as bid,
                     b.bidder_id,
+                    b.bid_amount,
                     b.insert_time as toubiao_time,
                     c.company_name
                     ';

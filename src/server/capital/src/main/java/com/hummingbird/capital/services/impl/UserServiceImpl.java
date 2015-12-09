@@ -83,6 +83,12 @@ org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
 		}
 	}
 
+	@Override
+	public User getUser(Integer userId) throws MaAccountException {
+		
+		return userDao.selectByPrimaryKey(userId);
+	}
+
 	
 	
 	

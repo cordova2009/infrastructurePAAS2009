@@ -246,7 +246,7 @@ public class BidController extends BaseController {
 			}
 			BidRecord bid = bidService.saveBidRequirementInfo(transorder.getApp().getAppId(), transorder.getBody(), bidder.getId());
 			rm.put("bidId", bid.getId());
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -600,6 +600,7 @@ public class BidController extends BaseController {
 //			}else{
 //				rm.setErrmsg("该用户具有投标的资质");
 //			}
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -644,6 +645,7 @@ public class BidController extends BaseController {
 			Pagingnation pagingnation = transorder.getBody().toPagingnation();
 			liq = bidService.queryObjectList(pagingnation,token.getUserId());
 	        super.mergeListOutput(rm, pagingnation, liq);
+	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -794,6 +796,7 @@ public class BidController extends BaseController {
 				tokenSrv.postponeToken(token);
 			}
 			rm.put("order", orderInfo);
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -1013,7 +1016,7 @@ public class BidController extends BaseController {
 			rm.put("pageIndex", pageIndex);
 			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
-			
+	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1062,6 +1065,7 @@ public class BidController extends BaseController {
 			rm.put("pageIndex", pageIndex);
 			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
+	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1109,6 +1113,7 @@ public class BidController extends BaseController {
 			rm.put("pageIndex", pageIndex);
 			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
+	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1155,6 +1160,7 @@ public class BidController extends BaseController {
 			rm.put("pageIndex", pageIndex);
 			rm.put("pageSize", pageSize);
 	        rm.put("list",liq);
+	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1237,7 +1243,7 @@ public class BidController extends BaseController {
 			
 		
 			rm.put("evaluateInfo", ter);
-
+			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

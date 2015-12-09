@@ -229,7 +229,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				rm.put("detail", detail);
 			}
 			
-			
+			tokenSrv.postponeToken(token);
 			
 			
 			
@@ -298,7 +298,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 			rm.put("baseInfo", baseInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -371,7 +371,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 //			rm.put("legalPerson", JsonUtil.convert2Json(legalPerson));
 	
 			rm.put("legalPerson", legalPerson);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -440,7 +440,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			
 			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);	
 			rm.put("registeredInfo", registeredInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -510,7 +510,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			bankInfo = myBiddeeService.getBankInfo_apply(token);
 			rm.put("bankInfo", bankInfo);
 			
-			
+			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -590,7 +590,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			rm.put("legalPerson", legalPerson);
 			rm.put("registeredInfo", registeredInfo);			
 			rm.put("bankInfo", bankInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -666,6 +666,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			}else{
 				rm.setErrmsg(messagebase + "成功");
 			}
+			tokenSrv.postponeToken(token);
 			//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -729,6 +730,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			}else{
 				rm.setErrmsg(messagebase + "成功");
 			}
+			tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -798,7 +800,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
-
+				tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -859,6 +861,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			}else{
 				rm.setErrmsg(messagebase + "成功");
 			}
+			tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -917,6 +920,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
+				tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

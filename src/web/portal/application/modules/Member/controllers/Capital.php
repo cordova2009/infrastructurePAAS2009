@@ -87,7 +87,10 @@ class CapitalController extends MemberController {
                 $this->error('转账金额不能为空！');
             }
             $data['amount']=$data['amount']*100;
-            $data['voucherFileUrl'] = 'voucherFileUrl';
+            $data['voucherFileUrl'] =I('voucherFileUrl');
+            if(empty($data['voucherFileUrl'])){
+                $this->error('请上传转账凭证扫描件！');
+            }
 
             $resp = $curl->setData($data)->send('capitalManage/rechargeApply');
 

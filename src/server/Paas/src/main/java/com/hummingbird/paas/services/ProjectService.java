@@ -15,11 +15,12 @@ import com.hummingbird.paas.vo.WillPayAmountDetailReturnVO;
 public interface ProjectService {
 	/**
 	 * 查询我的招标项目付款列表
+	 * @param pagingnation 
 	 * @param BeeId
 	 * @return
 	 * @throws MaAccountException
 	 */
-	public List<QueryMyPaymentListReturnVO> queryMyPaymentList(Integer biddeeId)throws MaAccountException;
+	public List<QueryMyPaymentListReturnVO> queryMyPaymentList(Integer biddeeId, Pagingnation pagingnation)throws MaAccountException;
 	
 	/**
 	 * 查询我的投标项目收款列表

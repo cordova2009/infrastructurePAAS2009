@@ -5,8 +5,11 @@
  */
 package com.hummingbird.capital.services.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.exception.MaAccountException;
 import com.hummingbird.capital.face.Account;
@@ -70,9 +73,10 @@ public class ProjectAccountServiceImpl extends DefaultAccountService implements 
 			ProjectAccount ca = new ProjectAccount();
 			ca.setUserId(userId);
 			accountId = accountIdSrv.prepareGetAccountId("9500");
-			//accountId = accountIdSrv.prepareGetAccountIdByaccountType(AccountConst.ACCOUNT_TYPE_CASH);
 			ca.setAccountId(accountId);
-//			ca.setAccountId(NoGenerationUtil.genNO("cash_"+userId+"_",6));
+			ca.setFrozenSum(0l);
+			ca.setInsertTime(new Date());
+			ca.setUpdateTime(new Date());
 			ca.setRemainingSum(0L);
 			ca.setStatus("OK#");
 			AccountValidateUtil.updateAccountSignature(ca);

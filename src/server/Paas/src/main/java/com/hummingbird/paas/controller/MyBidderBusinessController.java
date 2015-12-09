@@ -283,7 +283,7 @@ public class MyBidderBusinessController extends BaseController  {
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 			rm.put("baseInfo", baseInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -423,7 +423,7 @@ public class MyBidderBusinessController extends BaseController  {
 			
 			registeredInfo = myBidderService.getRegisteredInfo_apply(token);	
 			rm.put("registeredInfo", registeredInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -492,7 +492,7 @@ public class MyBidderBusinessController extends BaseController  {
 			
 			bankInfo = myBidderService.getBankInfo_apply(token);
 			rm.put("bankInfo", bankInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -562,7 +562,7 @@ public class MyBidderBusinessController extends BaseController  {
 			List<BidderEqInfo> aa = myBidderService.getEnterpriseQualification(token);
 
 			rm.put("eqInfo", aa);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -649,7 +649,7 @@ public class MyBidderBusinessController extends BaseController  {
 			rm.put("registeredInfo", registeredInfo);			
 			rm.put("bankInfo", bankInfo);
 			rm.put("eqInfo", eqInfo);
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -726,6 +726,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}else{
 			rm.setErrmsg(messagebase + "成功");
 		}
+		tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -792,6 +793,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}else{
 				rm.setErrmsg(messagebase + "成功");
 			}
+			tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -860,6 +862,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}else{
 				rm.setErrmsg(messagebase + "成功");
 			}
+			tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -919,6 +922,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}else{
 				rm.setErrmsg(messagebase + "成功");
 			}
+			tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -977,15 +981,16 @@ public class MyBidderBusinessController extends BaseController  {
 			}
 
 		
-		int i= 0;
-		
-		i = myBidderService.saveEnterpriseQualification(transorder.getApp().getAppId(), eqInfos, token);
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
+			int i= 0;
+			
+			i = myBidderService.saveEnterpriseQualification(transorder.getApp().getAppId(), eqInfos, token);
+			
+			if(i<= 0){
+				rm.setErrmsg("数据未修改！");
+			}else{
+				rm.setErrmsg(messagebase + "成功");
+			}
+			tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
@@ -993,6 +998,7 @@ public class MyBidderBusinessController extends BaseController  {
 			rm.setErrmsg(e1.getMessage());
 		}
 		return rm;
+		
 	}  
 	
 	/**
@@ -1043,6 +1049,7 @@ public class MyBidderBusinessController extends BaseController  {
 				}else{
 					rm.setErrmsg(messagebase + "成功");
 				}
+				tokenSrv.postponeToken(token);
 //		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

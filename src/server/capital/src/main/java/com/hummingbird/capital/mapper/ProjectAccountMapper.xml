@@ -22,6 +22,12 @@
     from t_project_account
     where account_id = #{accountId,jdbcType=VARCHAR}
   </select>
+  <select  resultMap="BaseResultMap" id="getAccountByMobile"  parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_account
+    where user_id in (select id from t_user where mobile_num= #{mobile,jdbcType=VARCHAR} )
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_project_account
     where account_id = #{accountId,jdbcType=VARCHAR}
@@ -153,17 +159,20 @@
   </select>
   <update id="updateAccount" parameterType="com.hummingbird.capital.entity.ProjectAccount" >
     update t_project_account
-    set accountId = #{accountId,jdbcType=VARCHAR},
+    set account_id = #{accountId,jdbcType=VARCHAR},
       remaining_sum = #{remainingSum,jdbcType=BIGINT},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=CHAR},
-      signature = #{signature,jdbcType=VARCHAR}
-    where userId = #{userId,jdbcType=INTEGER}
+      signature = #{signature,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
    <insert id="createAccount" parameterType="com.hummingbird.capital.entity.ProjectAccount" >
-    insert into t_project_account (userId, accountId, balance, 
-      remark, status,signature)
-    values (#{userId,jdbcType=INTEGER}, #{accountId,jdbcType=VARCHAR}, remaining_sum = #{remainingSum,jdbcType=BIGINT},
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, signature = #{signature,jdbcType=VARCHAR})
+    insert into t_project_account (user_id, account_id, 
+      remark, status,signature,remaining_sum,update_time ,insert_time)
+    values (#{userId,jdbcType=INTEGER}, #{accountId,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{signature,jdbcType=VARCHAR},  #{remainingSum,jdbcType=BIGINT},
+      #{updateTime,jdbcType=TIMESTAMP},#{insertTime,jdbcType=TIMESTAMP})
   </insert>
 </mapper>

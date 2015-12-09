@@ -36,7 +36,7 @@ class BidController extends MemberController {
         $curl = new Curl();
         $resp = $curl->setData($data)->send('bid/submitBid');
         if(check_resp($resp)){
-            $this->success('提交投标申请成功',U('/member/bidder/project'));
+            $this->success('提交投标申请成功',U('/member/bidder/probject'));
         }else{
             $this->error('交投标申请失败！');
         }

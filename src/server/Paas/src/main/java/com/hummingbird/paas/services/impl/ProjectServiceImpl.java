@@ -54,9 +54,14 @@ public class ProjectServiceImpl implements ProjectService{
 	ProjectPaymentReceiveMapper receiveRecordDao;
 	
 	@Override
-	public List<QueryMyPaymentListReturnVO> queryMyPaymentList(Integer biddeeId) throws MaAccountException{
-		// TODO Auto-generated method stub
-		List<ProjectInfo> projects=projectDao.queryBeeProject(biddeeId);
+	public List<QueryMyPaymentListReturnVO> queryMyPaymentList(Integer biddeeId,Pagingnation pagingnation) throws MaAccountException{
+		if(pagingnation!=null&&pagingnation.isCountsize())
+		{
+			int count=projectDao.queryBeeProjectCount(biddeeId);
+			pagingnation.setTotalCount(count);
+			pagingnation.calculatePageCount();
+		}
+		List<ProjectInfo> projects=projectDao.queryBeeProject(biddeeId,pagingnation);
 		List<QueryMyPaymentListReturnVO> list=new ArrayList<QueryMyPaymentListReturnVO>();
 		for(ProjectInfo project:projects){
 			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
@@ -109,7 +114,7 @@ public class ProjectServiceImpl implements ProjectService{
 	public MyPaymentOverallReturnVO getMyPaymentOverall(Integer biddeeId)
 			throws MaAccountException {
 		MyPaymentOverallReturnVO overall=new MyPaymentOverallReturnVO();
-		List<ProjectInfo> projects=projectDao.queryBeeProject(biddeeId);
+		List<ProjectInfo> projects=projectDao.queryBeeProject(biddeeId,null);
 		
 		Long allAmount=0l;
 		Long allPaidAmount=0l;

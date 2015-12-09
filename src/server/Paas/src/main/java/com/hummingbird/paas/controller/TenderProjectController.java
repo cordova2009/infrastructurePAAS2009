@@ -1,5 +1,7 @@
 package com.hummingbird.paas.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.hummingbird.common.controller.BaseController;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.face.AbstractAppLog;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.vo.ResultModel;
@@ -37,7 +40,9 @@ import com.hummingbird.paas.vo.MyObjectPaymentBodyVO;
 import com.hummingbird.paas.vo.MyObjectPaymentVO;
 import com.hummingbird.paas.vo.ObjectBodyVO;
 import com.hummingbird.paas.vo.ObjectVO;
+import com.hummingbird.paas.vo.QueryMyPaymentListReturnVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
+import com.hummingbird.paas.vo.TokenPagingVO;
 import com.hummingbird.paas.vo.TokenVO;
 
 @Controller
@@ -67,12 +72,12 @@ public class TenderProjectController extends BaseController{
 	@AccessRequered(methodName = "查询我的招标项目付款情况",  appLog = true)
 	public @ResponseBody Object queryMyPaymentList(HttpServletRequest request) {
 		
-		TokenVO transorder;
+		TokenPagingVO transorder;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenVO.class);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, TokenPagingVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取订单参数出错"),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
@@ -93,7 +98,9 @@ public class TenderProjectController extends BaseController{
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			Biddee biddee = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
-			rm.put("list", projectSer.queryMyPaymentList(biddee.getId()));
+			Pagingnation pagingnation = transorder.getBody().toPagingnation();
+			List<QueryMyPaymentListReturnVO> list = projectSer.queryMyPaymentList(biddee.getId(),pagingnation);
+			mergeListOutput(rm, pagingnation, list);
 			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);

@@ -25,30 +25,34 @@ if(check_resp($resp)){
                     <td class="wid150">工程类别</td>
                     <td>资质名称</td>
                 </tr>
+                <tbody id="cert-body">
                 <?php
-                foreach($certificateList as $industry):
-                    foreach($industry['certificateList'] as $item):
+                if(isset($info['bidderCertification']) && is_array($info['bidderCertification']))
+                foreach($info['bidderCertification'] as $item):
                 ?>
-
-                <tr>
+                <tr data="<?=$item['industryId'].$item['certificateId']?>">
                     <td>
-                        <div class="checklist hide">
+                        <div class="checklist">
                             <i class="ico i-check"></i>
-                            <input type="checkbox" name="industry[]" value="<?=$industry['industryId']?>" class="hide" >
-                            <input type="checkbox" name="certificate[]" value="<?=$item['certificateId']?>" class="hide">
                         </div>
                     </td>
-                    <td class=""><?=$industry['industryName']?></td>
-                    <td class=""><?=$item['certificateName']?></td>
+                    <td class="">
+                        <input type="hidden" name="industry[]" value="<?=$item['industryId']?>" >
+                        <?=$industryList[$item['industryId']]['industryName']?>
+                    </td>
+                    <td class="">
+                        <input type="hidden" name="certificate[]" value="<?=$item['certificateId']?>" >
+                        <?=$item['certificateName']?>
+                    </td>
                 </tr>
                 <?php
-                    endforeach;
                 endforeach;
                 ?>
+                </tbody>
             </table>
         </div>
 
-        <div class="text-center padv20 hide">
+        <div class="text-center padv20 hide" id="cert-ok-wrap">
             <a href="javascript:" class="btn" id="cert-ok-btn">确  定</a>
         </div>
 
@@ -91,3 +95,93 @@ if(check_resp($resp)){
 
     </div>
 </div>
+<script>
+$(function(){
+    //行业证书
+    var industryList = <?=json_encode($industryList)?>;
+    //生成动态添加的html代码
+    var _tr_html = '<tr>\
+                        <td>\
+                        <div class="checklist">\
+                            <i class="ico i-check"></i>\
+                        </div>\
+                        </td>\
+                        <td class="">%s</td>\
+                        <td class="">&nbsp;</td>\
+                    </tr>';
+    var _industry_select = '<select class="industry_select wid160" _name="industry">';
+    $.each(industryList, function (i,industry) {
+        _industry_select += '<option value="'+industry.industryId+'">'+industry.industryName+'</option>';
+    });
+    _industry_select += '</select>';
+    _tr_html = sprintf(_tr_html,_industry_select)
+
+    var cert_body = $("#cert-body");
+    //为添加按钮绑定事件
+    $("#add-cert").click(function(){
+        cert_body.append(_tr_html);
+        //手动触发下拉联动
+        $(".industry_select:last").change();
+    });
+
+    //二级联动触发事件
+    $(document).on('change','.industry_select',function(){
+
+        var _cert_select = '<select class="wid160" _name="certificate">';
+        $.each(industryList[this.value]['certificateList'],function(i,cert){
+            _cert_select += '<option value="'+cert.certificateId+'">'+cert.certificateName+'</option>';
+        });
+        _cert_select += '</select>';
+        $(this).parent().next().html(_cert_select);
+        $("#cert-ok-wrap").show();
+    });
+
+    //确定按钮事件
+    $("#cert-ok-btn").click(function(){
+
+        $("#cert-body select").each(function(){
+            var $this = $(this);
+            var _td_html = '<input type="hidden" name="'+$this.attr('_name')+'[]" value="'+$this.val()+'" >';
+            _td_html += $this.children(':selected').text();
+            $this.parent().html(_td_html);
+        });
+
+        //去除重复的行
+        var data_list = [];
+        $.each($("#cert-body tr"),function(){
+            var $this = $(this);
+            var data = $this.attr('data');
+            if(data != null){
+                data_list.push(data);
+            }else{
+                data = '';
+                $.each($this.find('input'),function(){
+                    data += this.value;
+                });
+                if($.inArray(data,data_list) > -1){
+                    $this.remove();
+                }else{
+                    $this.attr('data',data);
+                    data_list.push(data);
+                }
+            }
+        });
+        $("#cert-ok-wrap").hide();
+    })
+
+    //删除事件
+    $("#del-cert").click(function(){
+        var no_checked = true;
+        $("#cert-body .i-check").each(function(){
+            var $this = $(this);
+            if($this.hasClass('on')){
+                $this.closest('tr').remove();
+                no_checked = false;
+            }
+        });
+        if(no_checked){
+            layer.alert('请选择要删除的证书！',{icon:2});
+        }
+    })
+})
+</script>

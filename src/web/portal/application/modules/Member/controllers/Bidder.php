@@ -51,6 +51,10 @@ class BidderController extends MemberController{
 		    $certificateName[$v['industryId']] = $v['certificateList'];
 	    }
             $zizhi= $curl->setData(['token'=>$token])->send('myBidder/authInfo/getEnterpriseQualification');
+	    foreach($zizhi['eqInfo'] as $k=>$v)
+	    {
+		    $zhizhi['eqInfo'][$k]['cshow'] = imageView2($v['certificationContent']);
+	    }
 	    $this->assign('zizhi',isset($zizhi['eqInfo'])?$zizhi['eqInfo']:'');
 	    $this->assign('projectType',$projectType);
 	    $this->assign('certificateName',$certificateName);
@@ -242,7 +246,7 @@ class BidderController extends MemberController{
 	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInfo/saveBaseInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>$logoUrl,'companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInfo/saveBaseInfo_apply');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{

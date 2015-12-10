@@ -224,7 +224,7 @@ class BiddeeController extends MemberController{
 	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
-	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>'','companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBiddee/authInfo/saveBaseInfo_apply');
+	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>$logoUrl,'companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBiddee/authInfo/saveBaseInfo_apply');
 	    if(check_resp($resp)) {
 		    $this->success('保存成功！');
 	    }else{

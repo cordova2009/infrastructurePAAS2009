@@ -467,6 +467,8 @@ tmp.push('</div><div class="auto value hide" data-name="certificationContent">')
 tmp.push(obj.certificationContent);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value" data-name="eqName">');
 tmp.push(obj.eqName);
+tmp.push('</div><div class="auto value hide" data-name="certificationId">');
+tmp.push(obj.certificationId);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质编号</span> <div class="auto value" data-name="certificationNo">');
 tmp.push(obj.certificationNo);
 tmp.push('</div> </div> <div class="item"> <span class="lab">资质有效期</span> <div class="auto value" data-name="expiryDate">');
@@ -500,7 +502,8 @@ $('#certificationContent').val('');
 obj.projectTypeid= $('#projectType').val();
 obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
 $('#projectType').val('');
-obj.eqName= $('#eqName').val();
+obj.eqName= $('#eqName').find("option:selected").text();
+obj.certificationId = $('#eqName').val();
 $('#eqName').val('');
 obj.certificationNo= $('#certificationNo').val();
 $('#certificationNo').val('');
@@ -564,7 +567,7 @@ var o = eqName[val];
 $('#eqName').empty();
 for(var i=0;i<o.length;i++)
 {
-$('#eqName').append('<option value="'+o[i].certificateName+'">'+o[i].certificateName+'</option>');
+$('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateName+'</option>');
 }
 }
 				function base_sucess()

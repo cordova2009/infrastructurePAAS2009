@@ -14,7 +14,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	private String industryId;
 	private String objectId;
 	private String objectName;
-	private Integer evaluationAmount;
+	private Long evaluationAmount;
 	private String projectExpectStartDate;
 	private Integer projectExpectPeriod;
 	private String biddingEndTime;
@@ -39,7 +39,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @return the evaluationAmount
 	 */
-	public Integer getEvaluationAmount() {
+	public Long getEvaluationAmount() {
 		return evaluationAmount;
 	}
 	/**
@@ -81,7 +81,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @param evaluationAmount the evaluationAmount to set
 	 */
-	public void setEvaluationAmount(Integer evaluationAmount) {
+	public void setEvaluationAmount(Long evaluationAmount) {
 		this.evaluationAmount = evaluationAmount;
 	}
 	/**

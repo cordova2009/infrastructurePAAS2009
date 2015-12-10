@@ -29,7 +29,7 @@
 						</div>
 
 						<div class="padv40 charge_form">
-						<form action="" method="post" class="ajax-form" >
+						<form action="<?=U('paymnet')?>" method="post" class="ajax-form" >
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 付款金额</span>
 								<div class="auto value ">

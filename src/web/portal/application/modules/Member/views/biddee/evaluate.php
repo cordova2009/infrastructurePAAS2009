@@ -27,7 +27,7 @@
 				</div>
 			</div>
 
-			<form action="" method="post" id="form" class=" ajax-form" before="before_sub" success="after_sub">
+			<form action="<?=U('evaluate')?>" method="post" id="form" class=" ajax-form" before="before_sub" success="after_sub">
 			<div class="box mart30 pad0">
 				<div class="tab_tit2 clear">
 					<span>累计评价 <?=$evaluate['companyEvaluateNum']?></span>

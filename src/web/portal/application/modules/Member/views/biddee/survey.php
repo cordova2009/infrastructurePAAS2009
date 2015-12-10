@@ -63,7 +63,7 @@
 								<li data-type="CUM">自定义付款</li>
 							</ul>
 						</div>
-						<form action="" method="post" class="ajax-form" >
+						<form action="<?=U('survey')?>" method="post" class="ajax-form" >
 						<div class="bd pay_form ">
 							<div class="pay_way">
 									<ul class="clear">

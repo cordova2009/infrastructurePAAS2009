@@ -1,5 +1,5 @@
 <div class=" main">
-<form action="" method="post" class="ajax-form" >
+<form action="<?=U('submitapply')?>" method="post" class="ajax-form" before="subbefor" >
 			<!--list-->
 			<div class="result-list bgf">
 				<div class="tit1">请确定招标人申请信息后提交</div>
@@ -100,3 +100,18 @@
 			</div>
 </form>
 </div>
+<block name="script">
+<script>
+$(function(){
+function subbefor()
+{
+var obj = $(".ico.i-check").hasClass('on')
+if(!obj)
+{
+layer.alert('请先阅读并同意协议',{icon:2});
+return false;
+}
+}
+});
+</script>
+</block>

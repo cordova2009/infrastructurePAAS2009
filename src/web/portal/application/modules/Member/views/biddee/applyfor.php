@@ -97,7 +97,7 @@ display:block;
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 公司（单位）简称</span>
 								<div class="auto value ">
-									<input type="text" class="input1" name="shortName" value="<?=isset($base['shortName'])?$base['companyName']:''?>">
+									<input type="text" class="input1" name="shortName" value="<?=isset($base['shortName'])?$base['shortName']:''?>">
 								</div>
 							</div>
 							<div class="item">

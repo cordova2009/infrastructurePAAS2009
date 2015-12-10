@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
-import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
@@ -34,7 +33,6 @@ import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
-import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
@@ -79,7 +77,6 @@ import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
@@ -118,6 +115,7 @@ import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 /**
  * @author
@@ -177,23 +175,15 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
+	public TenderSurveyReturnVO queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
 			Biddee biddee) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("我的招标评标概况接口开始");
 		}
-		throw new BusinessException("未完成 ");
-		// Project project = dao.selectByPrimaryKey(body.getObjectId());
-		// ValidateUtil.assertNull(project, "标的");
-		// ObjectProjectInfo pi = bpdao.selectByPrimaryKey(body.getObjectId());
-		// MyObjectTenderSurveyBodyVOResult result =
-		// bidRecordDao.selectTenderSurveyByObjectId(body.getObjectId());
-		// result.setObjectName(project.getObjectName());
-
-		// if(log.isDebugEnabled()){
-		// log.debug("我的招标评标概况接口完成");
-		// }
-		// return result;
+		
+		TenderSurveyReturnVO selectTenderSurvey2selectByObjectId = bidRecordDao.selectTenderSurvey2selectByObjectId(body.getObjectId());
+		
+		return selectTenderSurvey2selectByObjectId;
 	}
 
 	/**
@@ -997,8 +987,6 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
-		 org.apache.commons.logging.Log log =
-				 org.apache.commons.logging.LogFactory.getLog(this.getClass());
 				 Biddee biddee = beDao.selectByUserId(userId);
 				 if(page!=null&&page.isCountsize()){
 					 int totalcount = bidRecordDao.selectTotalByObjectIdInValid(biddee.getId(), objectId);

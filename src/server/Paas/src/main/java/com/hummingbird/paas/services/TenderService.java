@@ -1,23 +1,16 @@
 package com.hummingbird.paas.services;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
 import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
@@ -31,7 +24,6 @@ import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
-import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
@@ -55,6 +47,7 @@ import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 /**
  * @author
@@ -74,7 +67,7 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
+	public TenderSurveyReturnVO queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
 			Biddee biddee) throws BusinessException;
 
 	/**

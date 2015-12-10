@@ -3,11 +3,11 @@ package com.hummingbird.paas.vo;
 import java.util.Date;
 
 /**
- * 消息详细
+ * 消息详细 (我的招标评标概况接口)
  * @author YJY  
  * @since 2015年11月11日22:12:08
  * */
-public class TenderSurveyReturnVO {
+public class TenderSurveyReturnVO  {
 //	"survey":{
 //    "bidderNum":6,
 //    "objectName":"标的名称",
@@ -16,8 +16,8 @@ public class TenderSurveyReturnVO {
 //}
 	private Integer bidderNum;
 	private String  objectName;
-	private Integer maxBidAmount;
-	private Integer minBidAmount;
+	private Long maxBidAmount;
+	private Long minBidAmount;
 	/**
 	 * @return the bidderNum
 	 */
@@ -33,13 +33,13 @@ public class TenderSurveyReturnVO {
 	/**
 	 * @return the maxBidAmount
 	 */
-	public Integer getMaxBidAmount() {
+	public Long getMaxBidAmount() {
 		return maxBidAmount;
 	}
 	/**
 	 * @return the minBidAmount
 	 */
-	public Integer getMinBidAmount() {
+	public Long getMinBidAmount() {
 		return minBidAmount;
 	}
 	/**
@@ -57,13 +57,13 @@ public class TenderSurveyReturnVO {
 	/**
 	 * @param maxBidAmount the maxBidAmount to set
 	 */
-	public void setMaxBidAmount(Integer maxBidAmount) {
+	public void setMaxBidAmount(Long maxBidAmount) {
 		this.maxBidAmount = maxBidAmount;
 	}
 	/**
 	 * @param minBidAmount the minBidAmount to set
 	 */
-	public void setMinBidAmount(Integer minBidAmount) {
+	public void setMinBidAmount(Long minBidAmount) {
 		this.minBidAmount = minBidAmount;
 	}
 	/* (non-Javadoc)

@@ -1041,7 +1041,7 @@ public class TenderServiceImpl implements TenderService {
 								}
 							}
 							tmb.setCertificationList(certificationList);
-							
+							tmob.add(tmb);
 						}
 						
 					}

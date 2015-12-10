@@ -45,6 +45,8 @@ import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 
 import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.entity.BiddeeCerticate;
+import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
@@ -56,10 +58,12 @@ import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
+import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BidderAuditInfoVO;
 import com.hummingbird.paas.vo.BidderBaseInfoCheck;
 import com.hummingbird.paas.vo.BidderAuditInfoVO;
@@ -87,6 +91,8 @@ public class MyBidderBusinessController extends BaseController  {
 	protected BidderBankAduitMapper bidderBankAduitDao;
 	@Autowired
 	protected ScoreLevelMapper scoreLevelDao;
+	@Autowired
+	protected BidderMapper bidderDao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
@@ -130,7 +136,14 @@ public class MyBidderBusinessController extends BaseController  {
 		rnr.setMethod("/myBidder/authInfo/getAuthInfo");
 		
 		try {
-			BidderCredit aa = bidderCreditDao.selectByToken(transorder.getBody().getToken());
+			// 业务数据必填等校验
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Bidder   bidder = bidderDao.selectByUserId(token.getUserId());
+			BidderCredit aa = new BidderCredit();
 			ScoreLevel bb = new ScoreLevel();
 			Map overall= new HashMap();//积分和信用等级信息
 			Map detail= new HashMap();//详细信息
@@ -138,79 +151,121 @@ public class MyBidderBusinessController extends BaseController  {
 			Map tradeInfo= new HashMap();//交易信息
 			Map myBidderInfo= new HashMap();//企业信息
 			BidderAuthInfo ba = new BidderAuthInfo();
+			BidderAuthInfo personalInfo = new BidderAuthInfo();
+			BidderAuthInfo baseInfo = new BidderAuthInfo();
+			BidderAuthInfo legalPersonInfo = new BidderAuthInfo();
+			BidderAuthInfo companyRegisteredInfo = new BidderAuthInfo();
+			BidderAuthInfo bankInfo = new BidderAuthInfo();
+			BidderAuthInfo winNum = new BidderAuthInfo();
+			BidderAuthInfo tradeAmount = new BidderAuthInfo();
+			BidderAuthInfo baa = new BidderAuthInfo();
 			BidderCertificateAduit p = new BidderCertificateAduit();
 			BidderCertificateAduit bi = new BidderCertificateAduit();
 			BidderCertificateAduit lp = new BidderCertificateAduit();
 			BidderCertificateAduit cr = new BidderCertificateAduit();
 			BidderBankAduit bba = new BidderBankAduit();
-			if(aa != null){
-				 bb = scoreLevelDao.countLevelByScore(aa.getCreditScore()!=null?aa.getCreditScore():0);
-				 p = bidderCertificateAduitDao.selectPersonalInfo(aa.getBidderId());
-				 bi = bidderCertificateAduitDao.selectBaseInfo(aa.getBidderId());
-				 lp = bidderCertificateAduitDao.selectLegalPersonInfo(aa.getBidderId());
-				 cr = bidderCertificateAduitDao.selectCompanyRegisteredInfo(aa.getBidderId());
-				 bba = bidderBankAduitDao.selectByBcId(aa.getBidderId());
-				 overall.put("creditScore", aa.getCreditScore());
-				//1.个人状态、积分信息
-				ba.setCreditScore(aa.getCreditScore());
-				if(p!=null){
-					ba.setStatus("已认证");
+			if(bidder != null){
+				aa = bidderCreditDao.selectByPrimaryKey(bidder.getId());
+
+					 bb = scoreLevelDao.countLevelByScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					 p = bidderCertificateAduitDao.selectPersonalInfo(bidder.getId());
+					 bi = bidderCertificateAduitDao.selectBaseInfo(bidder.getId());
+					 lp = bidderCertificateAduitDao.selectLegalPersonInfo(bidder.getId());
+					 cr = bidderCertificateAduitDao.selectCompanyRegisteredInfo(bidder.getId());
+					 bba = bidderBankAduitDao.selectByBcId(bidder.getId());
+					 overall.put("creditScore", aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					//1.个人状态、积分信息
+					 personalInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					if(p!=null){
+						personalInfo.setStatus("已认证");
+					}else{
+						personalInfo.setStatus("认证中");
+					}
+					baseInof.put("personalInfo", personalInfo);
+					detail.put("baseInof", baseInof);
+//					baseInof.clear();
+					baseInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					//2.基本状态、积分信息
+					if(bi!=null){
+						baseInfo.setStatus("已认证");
+					}else{
+						baseInfo.setStatus("认证中");
+					}
+					myBidderInfo.put("baseInfo", baseInfo);
+					//3.法人状态、积分信息
+					if(lp!=null){
+						legalPersonInfo.setStatus("已认证");
+					}else{
+						legalPersonInfo.setStatus("认证中");
+					}
+					legalPersonInfo.setCreditScore(aa==null?0:(aa.getLegalPersonInfo()!=null?aa.getLegalPersonInfo():0));
+					myBidderInfo.put("legalPersonInfo", legalPersonInfo);
+					//4.公司注册状态、积分信息
+					if(cr!=null){
+						companyRegisteredInfo.setStatus("已认证");
+					}else{
+						companyRegisteredInfo.setStatus("认证中");
+					}
+					companyRegisteredInfo.setCreditScore(aa==null?0:(aa.getCompanyRegisteredInfo()!=null?aa.getCompanyRegisteredInfo():0));
+					myBidderInfo.put("companyRegisteredInfo", companyRegisteredInfo);
+					//5.开户行 状态、积分信息
+					if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+						bankInfo.setStatus("已认证");
+					}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+						bankInfo.setStatus("认证失败");
+					}else{
+						bankInfo.setStatus("认证中");
+					}
+					bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
+					myBidderInfo.put("bankInfo", bankInfo);
+			
+				if(bb!= null){
+					overall.put("creditRating", bb.getLevelName());
+					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
-					ba.setStatus("待认证");
+					overall.put("creditRating", "A");
+					overall.put("creditRatingIcon", "");
 				}
+				
+				
+				
+				detail.put("myBidderInfo", myBidderInfo);
+				rm.put("overall", overall);
+			}else{
+				//1.个人状态、积分信息
+				ba.setCreditScore(0);
+				
+				ba.setStatus("未认证");
+				
 				baseInof.put("personalInfo", ba);
 				detail.put("baseInof", baseInof);
-				baseInof.clear();
-				ba.setCreditScore(aa.getCreditScore());
-				//2.基本状态、积分信息
-				if(bi!=null){
-					ba.setStatus("已认证");
-				}else{
-					ba.setStatus("待认证");
-				}
+//				baseInof.clear();
+				
 				myBidderInfo.put("baseInfo", ba);
-				//3.法人状态、积分信息
-				if(lp!=null){
-					ba.setStatus("已认证");
-				}else{
-					ba.setStatus("待认证");
-				}
-				ba.setCreditScore(aa.getLegalPersonInfo());
+				
 				myBidderInfo.put("legalPersonInfo", ba);
 				//4.公司注册状态、积分信息
-				if(cr!=null){
-					ba.setStatus("已认证");
-				}else{
-					ba.setStatus("待认证");
-				}
-				ba.setCreditScore(aa.getCompanyRegisteredInfo());
-				myBidderInfo.put("companyRegisteredInfo", ba);
-				//5.开户行 状态、积分信息
-				if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-					ba.setStatus("已认证");
-				}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-					ba.setStatus("认证失败");
-				}else{
-					ba.setStatus("待认证");
-				}
-				ba.setCreditScore(aa.getBankInfo());
-				myBidderInfo.put("bankInfo", ba);
-			}else{
-				overall.put("creditScore", "");
 				
-			}
-			if(bb!= null){
-				overall.put("creditRating", bb.getLevelName());
-				overall.put("creditRatingIcon", bb.getIcon());
-			}else{
-				overall.put("creditRating", "");
+				myBidderInfo.put("companyRegisteredInfo", ba);
+				
+				myBidderInfo.put("bankInfo", ba);
+//				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
+				baa.setStatus("0");
+				baa.setCreditScore(0);//按照次数乘以10
+				tradeInfo.put("winNum", baa);
+				
+				tradeInfo.put("tradeAmount", baa);
+				detail.put("myBiddeeInfo", myBidderInfo);
+				detail.put("tradeInfo", tradeInfo);
+				
+				overall.put("creditScore", 0);
+				overall.put("creditRating", "A");
 				overall.put("creditRatingIcon", "");
+				
+				rm.put("overall", overall);
+				rm.put("detail", detail);
 			}
 			
-			
-			
-			detail.put("myBidderInfo", myBidderInfo);
-			rm.put("overall", overall);
 			
 			
 			

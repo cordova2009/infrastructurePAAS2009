@@ -136,6 +136,13 @@ public class MyBiddeeBusinessController extends BaseController  {
 				Map baseInof= new HashMap();//基础信息
 				Map tradeInfo= new HashMap();//交易信息
 				Map myBiddeeInfo= new HashMap();//企业信息
+				BiddeeAuthInfo personalInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo baseInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo legalPersonInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo companyRegisteredInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo bankInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo biddeeNum = new BiddeeAuthInfo();
+				BiddeeAuthInfo tradeAmount = new BiddeeAuthInfo();
 				BiddeeAuthInfo ba = new BiddeeAuthInfo();
 				BiddeeAuthInfo baa = new BiddeeAuthInfo();
 				
@@ -150,78 +157,75 @@ public class MyBiddeeBusinessController extends BaseController  {
 				BiddeeCredit aa = biddeeCreditDao.selectByUserId(biddee.getId());
 //				 bb = scoreLevelDao.countLevelByScore(aa.getCreditScore()!=null?aa.getCreditScore():0);
 				
-				if(aa !=null ){
-					 bb = scoreLevelDao.countLevelByScore(aa.getCreditScore()!=null?aa.getCreditScore():0);
-					 p = biddeeCertificateAduitDao.selectPersonalInfo(aa.getTendererId());
-					 bi = biddeeCertificateAduitDao.selectBaseInfo(aa.getTendererId());
-					 lp = biddeeCertificateAduitDao.selectLegalPersonInfo(aa.getTendererId());
-					 cr = biddeeCertificateAduitDao.selectCompanyRegisteredInfo(aa.getTendererId());
-					 bba = biddeeBankAduitDao.selectByBcId(aa.getTendererId());
+					 bb = scoreLevelDao.countLevelByScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					 p = biddeeCertificateAduitDao.selectPersonalInfo(biddee.getId());
+					 bi = biddeeCertificateAduitDao.selectBaseInfo(biddee.getId());
+					 lp = biddeeCertificateAduitDao.selectLegalPersonInfo(biddee.getId());
+					 cr = biddeeCertificateAduitDao.selectCompanyRegisteredInfo(biddee.getId());
+					 bba = biddeeBankAduitDao.selectByBcId(biddee.getId());
 					 
 					//1.个人状态、积分信息
-						ba.setCreditScore(aa.getCreditScore());
+					 personalInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
 						if(p!=null){
-							ba.setStatus("已认证");
+							personalInfo.setStatus("已认证");
 						}else{
-							ba.setStatus("待认证");
+							personalInfo.setStatus("认证中");
 						}
-						baseInof.put("personalInfo", ba);
+						baseInof.put("personalInfo", personalInfo);
 						detail.put("baseInof", baseInof);
-						baseInof.clear();
-						ba.setCreditScore(aa.getBaseinfoCreditScore());
+//						baseInof.clear();
+						baseInfo.setCreditScore(aa==null?0:(aa.getBaseinfoCreditScore()!=null?aa.getBaseinfoCreditScore():0));
 						//2.基本状态、积分信息
 						if(bi!=null){
-							ba.setStatus("已认证");
+							baseInfo.setStatus("已认证");
 						}else{
-							ba.setStatus("待认证");
+							baseInfo.setStatus("认证中");
 						}
-						myBiddeeInfo.put("baseInfo", ba);
+						myBiddeeInfo.put("baseInfo", baseInfo);
 						//3.法人状态、积分信息
 						if(lp!=null){
-							ba.setStatus("已认证");
+							legalPersonInfo.setStatus("已认证");
 						}else{
-							ba.setStatus("待认证");
+							legalPersonInfo.setStatus("认证中");
 						}
-						ba.setCreditScore(aa.getLegalPersonInfo());
-						myBiddeeInfo.put("legalPersonInfo", ba);
+						legalPersonInfo.setCreditScore(aa==null?0:(aa.getLegalPersonInfo()!=null?aa.getLegalPersonInfo():0));
+						myBiddeeInfo.put("legalPersonInfo", legalPersonInfo);
 						//4.公司注册状态、积分信息
 						if(cr!=null){
-							ba.setStatus("已认证");
+							companyRegisteredInfo.setStatus("已认证");
 						}else{
-							ba.setStatus("待认证");
+							companyRegisteredInfo.setStatus("认证中");
 						}
-						ba.setCreditScore(aa.getCompanyRegisteredInfo());
-						myBiddeeInfo.put("companyRegisteredInfo", ba);
+						companyRegisteredInfo.setCreditScore(aa==null?0:(aa.getCompanyRegisteredInfo()!=null?aa.getCompanyRegisteredInfo():0));
+						myBiddeeInfo.put("companyRegisteredInfo", companyRegisteredInfo);
 						//5.开户行 状态、积分信息
 						if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-							ba.setStatus("已认证");
+							bankInfo.setStatus("已认证");
 						}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-							ba.setStatus("认证失败");
+							bankInfo.setStatus("认证失败");
 						}else{
-							ba.setStatus("待认证");
+							bankInfo.setStatus("认证中");
 						}
-						ba.setCreditScore(aa.getBankInfo());
-						myBiddeeInfo.put("bankInfo", ba);
-						int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-						ba.setStatus(ObjectUtils.toString(num));
-						ba.setCreditScore(num*10);//按照次数乘以10
-						tradeInfo.put("winNum", ba);
-						Long amount = bidObjectDao.countAmountByBid(aa.getTendererId(),null);
-						ba.setStatus(ObjectUtils.toString(amount));
-						ba.setCreditScore(10);
-						tradeInfo.put("tradeAmount", ba);
+						bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
+						myBiddeeInfo.put("bankInfo", bankInfo);
+						int num = biddeeBidCreditScoreDao.countNumByBid(biddee.getId());
+						biddeeNum.setStatus(ObjectUtils.toString(num));
+						biddeeNum.setCreditScore(num*10);//按照次数乘以10
+						tradeInfo.put("biddeeNum", biddeeNum);
+						Long amount = bidObjectDao.countAmountByBid(biddee.getId(),null);
+						tradeAmount.setStatus(ObjectUtils.toString(amount));
+						tradeAmount.setCreditScore(10);
+						tradeInfo.put("tradeAmount", tradeAmount);
 						detail.put("myBiddeeInfo", myBiddeeInfo);
 						detail.put("tradeInfo", tradeInfo);
 					
-				}else{
-					overall.put("creditScore", 0);
+					overall.put("creditScore", aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
 					
-				}
 				if(bb!= null){
 					overall.put("creditRating", bb.getLevelName());
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
-					overall.put("creditRating", null);
+					overall.put("creditRating", "A");
 					overall.put("creditRatingIcon", null);
 				}
 				
@@ -256,7 +260,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				detail.put("tradeInfo", tradeInfo);
 				
 				overall.put("creditScore", 0);
-				overall.put("creditRating", "");
+				overall.put("creditRating", "A");
 				overall.put("creditRatingIcon", "");
 				
 				rm.put("overall", overall);
@@ -915,7 +919,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel applay(HttpServletRequest request,HttpServletResponse response) {
 //		int basecode = 2341210;//待定
-		String messagebase = "提交投标人认证申请";
+		String messagebase = "提交招标人认证申请";
 		MyBiddeeAuthInfoApplyVO transorder = null;
 		ResultModel rm = new ResultModel();
 //		rm.setBaseErrorCode(basecode);

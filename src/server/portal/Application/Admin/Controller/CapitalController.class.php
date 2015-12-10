@@ -84,8 +84,8 @@ class CapitalController extends AdminController {
 		{
 			$map['nick_name']= ['like','%'.I("nick_name").'%'];
 		}
-		$model = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_bankcard c on c.id=a.bank_id');
-		$list   =   $this->lists($model, $map,'insert_time desc','a.*,b.nick_name,c.user,bank_name,account_no,account_name');
+		$model = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id');
+		$list   =   $this->lists($model, $map,'insert_time desc','a.*,b.nick_name');
 		$this->assign('_list', $list);
 		$this->meta_title = '充值申请列表';
 		$this->display();
@@ -99,7 +99,7 @@ class CapitalController extends AdminController {
 			$id =I('post.order_id');
 			$data = ['orderId'=>$id,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid];
 			$api = new ApiService();
-			$resp = $api->setApiUrl(C('APIURI'))
+			$resp = $api->setApiUrl(C('APIURI.paas1'))
 				->setData($data)->send('capitalManage/checkRechargeApply');
 			if($resp===false)
 			{
@@ -108,7 +108,7 @@ class CapitalController extends AdminController {
 			$this->success('审核完成');
 		}
 		$id = I('get.id');
-		$item = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_bankcard c on c.id=a.bank_id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name,c.user,bank_name,account_no,account_name')->find();
+		$item = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name')->find();
 		$this->assign('item', $item);
 		$this->meta_title = '充值申请审核';
 		$this->display();
@@ -123,7 +123,7 @@ class CapitalController extends AdminController {
 			$checkWithdrawalsNo =I('post.voucher');
 			$data = ['orderId'=>$id,'checkWithdrawalsNo'=>$checkWithdrawalsNo,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid];
 			$api = new ApiService();
-			$resp = $api->setApiUrl(C('APIURI'))
+			$resp = $api->setApiUrl(C('APIURI.paas1'))
 				->setData($data)->send('capitalManage/checkWithdrawalsApply');
 			if($resp===false)
 			{

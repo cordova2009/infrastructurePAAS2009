@@ -39,8 +39,8 @@
 								<tr>
 									<td><?=$v['objectName']?><br>（<?=$v['objectId']?>）</td>
 									<td><?=price_format($v['winBidAmount'])?>元</td>
-									<td class=""><a href="<?=U('received?id='.$v['objectId'])?>" ><span class="blue"><?=price_format($v['receivedAmount'])?>元</span></a></td>
-									<td ><a href="<?=U('willreceive?id='.$v['objectId'])?>" ><span class="blue"><?=price_format($v['willReceiveAmount'])?>元</span></a></td>
+									<td class=""><a href="<?=U('received',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['receivedAmount'])?>元</span></a></td>
+									<td ><a href="<?=U('willreceive',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['willReceiveAmount'])?>元</span></a></td>
 									<td><?=price_format($v['nextPeriodReceiveAmount'])?>元<br><?php echo empty($v['nextPeriodReceiveTime'])?'':'（付款时间'.$v['nextPeriodReceiveTime'].'）' ;?></td>
 								</tr>
 <?php } ?>

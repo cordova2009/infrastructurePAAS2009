@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<tr><td colspan="2">公司信息</td></tr>
 	<tr>
 	
-		<td><input  value="查询公司信息接口"  onclick='setbinding("/tender/queryCompanyInfo","{    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }    \"body\":{        \"companyId\":23,        \"type\":\"BEE\"    }}   ")'  type="button" ></td>
+		<td><input  value="查询公司信息接口"  onclick='setbinding("/tender/queryCompanyInfo","{    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"companyId\":23,        \"type\":\"BEE\"    }}   ")'  type="button" ></td>
 	</tr>
 	<tr><td colspan="2">会员管理</td></tr>
 	<tr>
@@ -145,7 +145,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input  value="查询我的已结束项目列表接口"  onclick='setbinding("/tender/queryMyEndedObject","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",        \"pageIndex\":0,        \"pageSize\":10    }}  ")'  type="button" ></td>
 		<td><input  value="查询招标项目接口"  onclick='setbinding("/tender/queryObjectList_homepage","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"keywords\":[{\"keyword\":\"投标\"},{\"keyword\":\"深圳\"}] ,       \"pageIndex\":0,        \"pageSize\":10    }} ")'  type="button" ></td>
 		<td><input  value="查询首页招标项目概况接口"  onclick='setbinding("/tender/queryObjectIndexSurvey","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }}  ")'  type="button" ></td>
-		<td><input  value="查询首页招标项目列表接口"  onclick='setbinding("/tender/queryIndexObjectList","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }} ")'  type="button" ></td>
+		<td><input  value="查询首页招标项目列表接口"  onclick='setbinding("/tender/queryIndexObjectList","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },\"body\":{\"pageIndex\":1, \"pageSize\":4}}  ")'  type="button" ></td>
 		<td><input  value="查询首页中标结果概况接口"  onclick='setbinding("/tender/queryBidIndexSurvey","{    \"app\":{        \"appId\":\"paas\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }} ")'  type="button" ></td>
 	</tr>
 	<tr>

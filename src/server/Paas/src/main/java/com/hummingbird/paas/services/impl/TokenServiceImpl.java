@@ -201,7 +201,7 @@ public class TokenServiceImpl implements TokenService {
 	
 	private int getDefaultExpireIn(){
 		//1小时有效
-		return new PropertiesUtil().getInt("usertoken.expirein", 3600);
+		return new PropertiesUtil().getInt("usertoken.expirein", 7*24*3600);//测试阶段暂时有效期改为一周     正式环境  再改回   2015年12月10日
 	}
 	
 	/**

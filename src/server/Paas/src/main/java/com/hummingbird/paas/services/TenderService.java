@@ -46,6 +46,7 @@ import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
@@ -236,7 +237,7 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
+	public List<TenderMyObjectBidReturnWithCertificationVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
 
 	/**
 	 * 查询未完成招标项目投标文件接口

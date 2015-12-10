@@ -26,8 +26,10 @@ import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCertification;
+import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
+import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeBankAduitMapper;
 import com.hummingbird.paas.mapper.BiddeeBankCardCerticateMapper;
@@ -299,7 +301,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					String idCardBackUrl = legalPerson.getIdCardBackUrl();
 					String authorityBookUrl = legalPerson.getAuthorityBookUrl();
 					
-					
+					biddee.setUserId(token.getUserId());
 					biddee.setLegalPerson(name);
 					biddee.setLegalPersonIdcard(idCard);
 					biddee.setLegalPersonIdcardFrontUrl(idCardfrontUrl);
@@ -346,6 +348,10 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		if(token.getUserId() != null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
 //			ValidateUtil.assertNull(biddee, "未找到招标人数据！请先填写完信息再提交!");
+			if(biddee == null){
+				biddee = new BiddeeCerticate();
+				biddee.setUserId(token.getUserId());
+			}
 			if(registeredInfo!= null){
 				
 				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();
@@ -397,7 +403,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				biddee.setRegTime(regTime);
 				biddee.setBusinessLicenseExpireTime(registeredInfo.getBusinessLicenseExpireTime());
 			}	
-			if(biddee==null && biddee.getId()==null){
+			if(biddee.getId()==null){
 				//biddee=new BiddeeCerticate();
 				i = biddeeCerticateDao.insertSelective(biddee);
 			}else{
@@ -468,74 +474,87 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	public  Boolean checkApplication(String appId, BiddeeAuditBodyInfo body, Integer biddeeId) throws BusinessException {
 		// TODO Auto-generated method stub
 		boolean flag = true;
-		BiddeeBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
-		BiddeeLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
-		BiddeeRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
-		BiddeeBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
-		
-		boolean baseInfoCheckflag = checkIsOk(baseInfoCheck);
-		boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck);
-		boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck);
-		boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck);
-//		所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
-		if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
-			flag = false;
-		}
-//		baseInfoCheck.getCompany_name().getResult()
-		BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
-		BiddeeCertificateAduit  bca  = new BiddeeCertificateAduit();
-
-		ValidateUtil.assertNull(bc, "未找到招标人资质申请数据！");
-		
-			//审核通过 
-			if(flag){
-//				1.插入招标人正式表
-				Biddee biddee = biddeeDao.selectByUserId(bc.getUserId());
-				if(biddee==null){
-					biddeeDao.insertSelectByBiddeeIdSuccess(biddeeId);
-				}else{
-					biddeeDao.updateByBiddeeIdSuccess(biddeeId);
-				}
-				
-//				2.插入资质证书正式表
-				List<BiddeeCertification> bcfs  = bcDao.selectByBiddeeId(biddeeId);
-				if(bcfs == null || bcfs.size()==0){
-					bcDao.insertSelectiveByCertificationIdSuccess(biddeeId);
-				}else{
-					bcDao.updateByCertificationIdSuccess(biddeeId);
-				}
-				
-//				3.插入开户行正式表 信息
-				List<UserBankcard> ubcs = userBankcardDao.selectBiddeeBankInfoByUserId(bc.getUserId());
-				if(ubcs == null || ubcs.size()==0){
-					userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
-				}else{
-					userBankcardDao.updateBiddeeBankInfo(bc.getUserId());
-				}
-				bca.setAuditStatus("OK#");
-				bc.setStatus("OK#");
-				
-			}else{//审核不通过
-				bca.setAuditStatus("FLS");
-				bc.setStatus("FLS");
-				
+		try{
+			BiddeeBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
+			BiddeeLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
+			BiddeeRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
+			BiddeeBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
+			
+			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck);
+			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck);
+			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck);
+			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck);
+//			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
+			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
+				flag = false;
 			}
-//			4.插入审核信息
-			
-			bca = this.getBiddeeCertificateAduitInfo(body.getBaseInfoCheck(), bca);
-			bca = getBiddeeCertificateAduitInfo(body.getLegalPersonCheck(), bca);
-			bca = getBiddeeCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
-			bca.setBiddeeCerticateId(biddeeId);
-			bca.setAuditor(bc.getUserId());
-			bca.setAuditTime(new Date());
-	
-			bca.setInsertTime(new Date());//首次插入时间
-			biddeeCertificateAduitDao.insert(bca);
+//			baseInfoCheck.getCompany_name().getResult()
+			BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
+			BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(biddeeId);
+
+			ValidateUtil.assertNull(bc, "未找到招标人资质申请数据！");
 			
 
-//			5.修改临时表数据状态
+			if(bca == null){
+				bca = new BiddeeCertificateAduit();
+			}
+				//审核通过 
+				if(flag){
+//					1.插入招标人正式表
+					Biddee biddee = biddeeDao.selectByUserId(bc.getUserId());
+					if(biddee==null){
+						biddeeDao.insertSelectByBiddeeIdSuccess(biddeeId);
+					}else{
+						biddeeDao.updateByBiddeeIdSuccess(biddeeId);
+					}
+					
+//					2.插入资质证书正式表
+					List<BiddeeCertification> bcfs  = bcDao.selectByBiddeeId(biddeeId);
+					if(bcfs == null || bcfs.size()==0){
+						bcDao.insertSelectiveByCertificationIdSuccess(biddeeId);
+					}else{
+						bcDao.updateByCertificationIdSuccess(biddeeId);
+					}
+					
+//					3.插入开户行正式表 信息
+					List<UserBankcard> ubcs = userBankcardDao.selectBiddeeBankInfoByUserId(bc.getUserId());
+					if(ubcs == null || ubcs.size()==0){
+						userBankcardDao.insertBiddeeBankInfo(bc.getUserId());
+					}else{
+						userBankcardDao.updateBiddeeBankInfo(bc.getUserId());
+					}
+					bca.setAuditStatus("OK#");
+					bc.setStatus("OK#");
+					
+				}else{//审核不通过
+					bca.setAuditStatus("FLS");
+					bc.setStatus("FLS");
+					
+				}
+//				4.插入审核信息
+				
+				bca = this.getBiddeeCertificateAduitInfo(body.getBaseInfoCheck(), bca);
+				bca = getBiddeeCertificateAduitInfo(body.getLegalPersonCheck(), bca);
+				bca = getBiddeeCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
+				bca.setBiddeeCerticateId(biddeeId);
+				bca.setAuditor(bc.getUserId());
+				bca.setAuditTime(new Date());
 		
-			biddeeCerticateDao.updateByPrimaryKeySelective(bc);
+				if(bca.getId()==null){
+					bca.setInsertTime(new Date());//首次插入时间
+					biddeeCertificateAduitDao.insert(bca);
+				}else{
+					biddeeCertificateAduitDao.updateByPrimaryKey(bca);
+				}
+
+//				5.修改临时表数据状态
+			
+				biddeeCerticateDao.updateByPrimaryKeySelective(bc);
+		}catch(Exception e){
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
+					String.format("招标人【%s】审核失败", biddeeId));
+		}
+		
 
 			
 		

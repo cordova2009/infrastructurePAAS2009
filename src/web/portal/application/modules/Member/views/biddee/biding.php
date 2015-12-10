@@ -16,7 +16,7 @@
 													<td class=""><?=$v['projectExpectStartDate']?></td>
 													<td class=""><?=$v['projectExpectPeriod']?>天</td>
 													<td class=""><?=$v['biddingEndTime']?></td>
-													<td class=""><a href="<?=U('survey?id='.$v['objectId'])?>" class="btn-green">评标</a></td>
+													<td class=""><a href="<?=U('survey',['id'=>$v['objectId']])?>" class="btn-green">评标</a></td>
 												</tr>
 <?php }}else{?>
 <tr><td colspan="7">暂无数据</td></tr>

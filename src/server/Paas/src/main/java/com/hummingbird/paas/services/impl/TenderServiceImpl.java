@@ -26,6 +26,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.Biddee;
@@ -44,6 +45,7 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.BidCertificationMapper;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -114,9 +116,11 @@ import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.TagInfo;
+import com.hummingbird.paas.vo.TenderCertificationReturnVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 
 /**
@@ -164,6 +168,8 @@ public class TenderServiceImpl implements TenderService {
 	BiddeeMapper beDao;  //ProjectPaymentPayMapper
 	@Autowired
 	ProjectPaymentPayMapper pppDao;
+	@Autowired
+	BidCertificationMapper bcDao;
 	@Autowired
 	UserMapper userDao;
 
@@ -996,19 +1002,57 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	@Override
-	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
+	public List<TenderMyObjectBidReturnWithCertificationVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
 		 org.apache.commons.logging.Log log =
 				 org.apache.commons.logging.LogFactory.getLog(this.getClass());
+		 List<TenderMyObjectBidReturnWithCertificationVO> tmob =new ArrayList<TenderMyObjectBidReturnWithCertificationVO>();
+		 
 				 Biddee biddee = beDao.selectByUserId(userId);
-				 if(page!=null&&page.isCountsize()){
-					 int totalcount = bidRecordDao.selectTotalByObjectIdInValid(biddee.getId(), objectId);
-							 page.setTotalCount(totalcount);
-							 page.calculatePageCount();
+				 if(biddee != null){
+					 if(page!=null&&page.isCountsize()){
+						 int totalcount = bidRecordDao.selectTotalByObjectIdInValid(biddee.getId(), objectId);
+								 page.setTotalCount(totalcount);
+								 page.calculatePageCount();
+					 }
+					 List<TenderMyObjectBidReturnVO> nos =
+							 bidRecordDao.selectByObjectIdInValid(biddee.getId(), objectId, page);
+					if(nos!= null && nos.size()>0){
+						List<TenderCertificationReturnVO> certificationList = new ArrayList<TenderCertificationReturnVO>();
+						for(TenderMyObjectBidReturnVO tm : nos){
+							TenderMyObjectBidReturnWithCertificationVO tmb = new TenderMyObjectBidReturnWithCertificationVO();
+							tmb.setBidAmount(tm.getBidAmount());
+							tmb.setBidderCompanyName(tm.getBidderCompanyName());
+							tmb.setBidderId(tm.getBidderId());
+							
+							tmb.setBidId(tm.getBidId());
+							tmb.setBidTime(tm.getBidTime());
+							tmb.setFileUrl(tm.getFileUrl());
+							tmb.setProjectExpectEndDate(tm.getProjectExpectEndDate());
+							tmb.setProjectExpectPeriod(tm.getProjectExpectPeriod());
+							tmb.setProjectExpectStartDate(tm.getProjectExpectStartDate());
+							List<BidCertification>  ds = bcDao.selectByBidId(tm.getBidId());
+							if(ds != null && ds.size()>0){
+								for(BidCertification dd : ds){
+									TenderCertificationReturnVO mm = new TenderCertificationReturnVO();
+									mm.setCertificationId(Integer.valueOf(mm.getCertificationId()));
+									mm.setCertificationName(dd.getCertificationName());
+									
+									certificationList.add(mm);
+								}
+							}
+							tmb.setCertificationList(certificationList);
+							tmob.add(tmb);
+						}
+						
+					}
+				 }else{
+					 if(page!=null&&page.isCountsize()){
+								 page.setTotalCount(0);
+								 page.calculatePageCount();
+					 }
 				 }
-				 List<TenderMyObjectBidReturnVO> nos =
-						 bidRecordDao.selectByObjectIdInValid(biddee.getId(), objectId, page);
-//				
-				 return nos;
+				 
+				 return tmob;
 	}
 
 	// @Override
@@ -1579,7 +1623,7 @@ public class TenderServiceImpl implements TenderService {
 		cc.setSurvey(cs);
 		// 2.基本信息
 		Biddee biddee = beDao.selectByPrimaryKey(mm.getCompanyId());
-		ValidateUtil.assertNull(biddee, "招标信息不存在！");
+		ValidateUtil.assertNull(biddee, "公司信息不存在！");
 		cb.setAddress(biddee.getAddress());
 		cb.setBusinessScope(biddee.getBusinessScope());
 		cb.setCompanyName(biddee.getCompanyName());
@@ -1647,7 +1691,7 @@ public class TenderServiceImpl implements TenderService {
 		cc.setSurvey(cs);
 //		2.基本信息
 		Bidder bidder = berDao.selectByPrimaryKey(mm.getCompanyId());
-		ValidateUtil.assertNull(bidder,"招标信息不存在！");
+		ValidateUtil.assertNull(bidder,"公司信息不存在！");
 		cb.setAddress(bidder.getAddress());
 		cb.setBusinessScope(bidder.getBusinessScope());
 		cb.setCompanyName(bidder.getCompanyName());
@@ -1698,6 +1742,7 @@ public class TenderServiceImpl implements TenderService {
 				
 			}
 		}catch(JsonSyntaxException e){
+			//转换失败  可能是没数据  期间   所得标签都是为空     
 			log.error(e.getMessage());
 		}
 		

@@ -108,7 +108,7 @@ class CapitalController extends AdminController {
 			$this->success('审核完成');
 		}
 		$id = I('get.id');
-		$item = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_bankcard c on c.id=a.bank_id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name,c.user,bank_name,account_no,account_name')->find();
+		$item = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name')->find();
 		$this->assign('item', $item);
 		$this->meta_title = '充值申请审核';
 		$this->display();

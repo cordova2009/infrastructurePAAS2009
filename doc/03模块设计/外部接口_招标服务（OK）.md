@@ -167,7 +167,7 @@ objectId|是|招标项目内部编号
 正常时的返回JSON数据包示例：
  
     {
-        "errcode":0,"errmsg":"查询我的招标投标列表接口成功！",
+        "errcode":0,"errmsg":"查询我的招标投标列表接口成功！","pageSize":10,"pageIndex":0,"total":100,
         "list":[{
             "bidId":"4535264477",
             "bidderCompanyName":"蜂鸟娱乐",

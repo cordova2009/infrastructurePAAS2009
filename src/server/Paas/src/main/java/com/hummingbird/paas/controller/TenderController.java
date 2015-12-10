@@ -79,7 +79,6 @@ import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
@@ -118,12 +117,14 @@ import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderMyObjectSurveyBodyVO;
 import com.hummingbird.paas.vo.TenderObjectBodyVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
 
 /**
@@ -203,7 +204,7 @@ public class TenderController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey = tenderService
+			TenderSurveyReturnVO queryMyObjectTenderSurvey = tenderService
 					.queryMyObjectTenderSurvey(transorder.getApp().getAppId(), transorder.getBody(),biddee);
 			rm.put("survey", queryMyObjectTenderSurvey);
 			tokenSrv.postponeToken(token);
@@ -1622,7 +1623,7 @@ public class TenderController extends BaseController {
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/tender/queryMyObjectBidList");
 		
-		List<TenderMyObjectBidReturnVO> list=new ArrayList<TenderMyObjectBidReturnVO>();
+		List<TenderMyObjectBidReturnWithCertificationVO> list=new ArrayList<TenderMyObjectBidReturnWithCertificationVO>();
 		try {
 			// 业务数据必填等校验
 			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
@@ -1633,15 +1634,16 @@ public class TenderController extends BaseController {
 			com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 			
 			list = tenderService.selectByObjectIdInValid(token.getUserId(),transorder.getBody().getObjectId(),page);
-			List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderMyObjectBidReturnVO, Map>() {
+			List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderMyObjectBidReturnWithCertificationVO, Map>() {
 
 				@Override
-				public Map convert(TenderMyObjectBidReturnVO ori) {
+				public Map convert(TenderMyObjectBidReturnWithCertificationVO ori) {
 					
 					try {
 						Map row= BeanUtils.describe(ori);
-//						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
-//						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+						row.put("bidTime", DateUtil.formatShortDateorNull(ori.getBidTime()));
+						row.put("projectExpectStartDate", DateUtil.formatShortDateorNull(ori.getProjectExpectStartDate()));
+						row.put("projectExpectEndDate", DateUtil.formatShortDateorNull(ori.getProjectExpectEndDate()));
 						
 						row.remove("class");
 						return row;
@@ -2749,9 +2751,9 @@ public class TenderController extends BaseController {
 
 		try {
 			CompanyInfo cc = new CompanyInfo();
-			if("BEE".equals(transorder.getBody().getType())){//招标
+			if("BEE".equalsIgnoreCase(transorder.getBody().getType())){//招标
 				 cc = tenderService.queryTenderCompanyInfo(transorder.getApp().getAppId(), transorder.getBody());
-			}else if("BER".equals(transorder.getBody().getType())){//投标 
+			}else if("BER".equalsIgnoreCase(transorder.getBody().getType())){//投标 
 				 cc = tenderService.queryBidderCompanyInfo(transorder.getApp().getAppId(), transorder.getBody());
 			}
 			

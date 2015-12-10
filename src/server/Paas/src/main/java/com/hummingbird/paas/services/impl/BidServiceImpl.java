@@ -295,6 +295,8 @@ public class BidServiceImpl implements BidService {
 							qol.setCreditRating(leve);
 						}
 					}
+				}else{
+					qol.setCreditRating("A");
 				}
 			}
 			if (log.isDebugEnabled()) {

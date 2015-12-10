@@ -94,6 +94,7 @@ $(function(){
 
     $("input[type=file]").fileupload({
         url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+        dataType: 'json',
         formData:{},//如果需要额外添加参数可以在这里添加
         done:function(e,data){
             //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api

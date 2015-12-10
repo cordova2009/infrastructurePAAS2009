@@ -61,7 +61,7 @@
                         <td>{$item.insert_time}</td>
                         <td>{$item.account_no}</td>
                         <td>{$item.voucher}</td>
-                        <td>{$item.bank_name}</td>
+                        <td>{$item.bank}</td>
                         <td>{$item.nick_name}</td>
                         <td><?php echo $status[$item['status']];?></td>
                         <td>

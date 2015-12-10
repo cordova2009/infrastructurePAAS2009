@@ -8,15 +8,15 @@
 						<div class="xm_info">
 							<div class="table">
 								<div class="cell">
-									<div class="txt1  "><?=$bidingNum?>	<span class="fz16">个</span></div>
+									<div class="txt1  "><?=$doneNum?>	<span class="fz16">个</span></div>
 									<div class="txt2">已结束的工程</div>
 								</div>
 								<div class="cell">
-									<div class="txt1"><?=$doingNum?> <span class="fz16">个</span></div>
+									<div class="txt1"><?=$bidingNum?> <span class="fz16">个</span></div>
 									<div class="txt2 color8">在招标的工程</div>
 								</div>
 								<div class="cell">
-									<div class="txt1"><span class="orange"><?=$doneNum?> </span><span class="fz16">个</span></div>
+									<div class="txt1"><span class="orange"><?=$doingNum?> </span><span class="fz16">个</span></div>
 									<div class="txt2 color8">实施中的工程</div>
 								</div>
 							</div>

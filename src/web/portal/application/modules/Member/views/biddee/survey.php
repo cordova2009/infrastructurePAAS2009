@@ -4,12 +4,12 @@
 				<div class="tit3">标的信息</div>
 				<div class="clear padt10">
 					<div class="left txtcont">
-						<div class="txt1"><?=$survery['objectName']?></div>
-						<div class="txt2">已有 <span class="orange fz64"><?=$survery['bidderNum']?></span>家公司参与投标</div>
+						<div class="txt1"><?=$survey['objectName']?></div>
+						<div class="txt2">已有 <span class="orange fz64"><?=$survey['bidderNum']?></span>家公司参与投标</div>
 					</div>
 					<div class="left txtcont">
-						<div class="txt3">最高投标价格 <span class="padl30"><?=price_format($survery['maxBidAmount'])?>元</span></div>
-						<div class="txt3">最低投标价格 <span class="padl30"><?=price_format($survery['minBidAmount'])?>元</span></div>
+						<div class="txt3">最高投标价格 <span class="padl30"><?=price_format($survey['maxBidAmount'])?>元</span></div>
+						<div class="txt3">最低投标价格 <span class="padl30"><?=price_format($survey['minBidAmount'])?>元</span></div>
 					</div>
 					<span class="right">
 						<img src="/images/pingbiao.png" alt="">
@@ -63,7 +63,7 @@
 								<li data-type="CUM">自定义付款</li>
 							</ul>
 						</div>
-						<form action="" method="post" class="ajax-form" >
+						<form action="<?=U('survey')?>" method="post" class="ajax-form" >
 						<div class="bd pay_form ">
 							<div class="pay_way">
 									<ul class="clear">

@@ -49,6 +49,7 @@ import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
+import com.hummingbird.paas.mapper.BidderRecommendMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.IndustryMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
@@ -156,6 +157,8 @@ public class TenderServiceImpl implements TenderService {
 	CertificationTypeMapper ctDao;
 	@Autowired
 	BidderMapper berDao;
+	@Autowired
+	BidderRecommendMapper bidderRecDao;
 	@Autowired
 	ProjectInfoMapper projectInfoDao;
 	@Autowired
@@ -1554,7 +1557,7 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
 			throws BusinessException {
-		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex, pageSize);
+		List<Bidder> bers = berDao.getIndexBidListPages((pageIndex-1)*pageSize, pageSize);
 		List<QueryIndexBidListResultVO> qlr = new ArrayList<QueryIndexBidListResultVO>();
 		QueryIndexBidListResultVO qr = null;
 		for (Bidder ber : bers) {

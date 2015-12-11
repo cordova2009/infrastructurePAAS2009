@@ -1900,7 +1900,7 @@ public class TenderServiceImpl implements TenderService {
 		if (log.isDebugEnabled()) {
 			log.debug("定标开始");
 		}
-		ValidateUtil.assertNullnoappend(objectId, "招标编号");
+		ValidateUtil.assertNullnoappend(objectId, "招标编号不存在");
 		ValidateUtil.assertNullnoappend(winbidderId, "中标人不存在");
 		BidObject bo = dao.selectByPrimaryKey(objectId);
 		ValidateUtil.assertNullnoappend(bo, "招标项目不存在");

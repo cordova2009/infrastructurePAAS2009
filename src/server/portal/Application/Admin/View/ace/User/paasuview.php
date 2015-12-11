@@ -5,7 +5,7 @@
     <div class="col-xs-12 col-sm-3 center">
         <div>
             <span class="profile-picture">
-                <img width="180" src="<?=(empty($item['head_image'])?'/Public/Ace/avatars/avator.jpg':$item['head_image'])?>" alt="<?=$item['nick_name']?>" class="editable img-responsive editable-click editable-empty" id="avatar" />
+                <img width="180" src="<?=(empty($item['head_image'])?'/Public/Ace/avatars/avator.jpg':imageView2($item['head_image']))?>" class="editable img-responsive editable-click editable-empty" id="avatar" />
             </span>
             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                 <div class="inline position-relative">
@@ -20,6 +20,7 @@
 
         <div class="space-6"></div>
 
+        <!--
         <div class="profile-contact-info">
             <div class="profile-contact-links align-left">
 
@@ -30,6 +31,7 @@
             </div>
 
         </div>
+        -->
 
         <div class="hr hr12 dotted"></div>
     </div>
@@ -41,7 +43,7 @@
                 <div class="profile-info-name"> 手机号码 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable"><?=$item['mobile_num']?></span>
+                    <span class="editable"><?=$item['mobile_num']?>&nbsp;</span>
                 </div>
             </div>
 
@@ -49,7 +51,7 @@
                 <div class="profile-info-name"> 真实姓名 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable"><?=$item['real_name']?></span>
+                    <span class="editable"><?=$item['real_name']?>&nbsp;</span>
                 </div>
             </div>
 
@@ -57,7 +59,7 @@
                 <div class="profile-info-name"> 身份证号 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable"><?=$item['identity_no']?></span>
+                    <span class="editable"><?=$item['identity_no']?>&nbsp;</span>
                 </div>
             </div>
 
@@ -66,7 +68,7 @@
 
                 <div class="profile-info-value">
                     <i class="icon-email light-orange bigger-110"></i>
-                    <?=$item['email']?>
+                    <?=$item['email']?>&nbsp;
                 </div>
             </div>
 
@@ -76,7 +78,7 @@
                 <div class="profile-info-value">
                     <i class="icon-map-marker light-orange bigger-110"></i>
                     <span class="editable"><?=$item['city']?></span>
-                    <span class="editable"><?=$item['address']?></span>
+                    <span class="editable"><?=$item['address']?></span>&nbsp;
                 </div>
             </div>
 
@@ -84,7 +86,7 @@
                 <div class="profile-info-name"> 注册时间 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable"><?=$item['insert_time']?></span>
+                    <span class="editable"><?=$item['insert_time']?>&nbsp;</span>
                 </div>
             </div>
 
@@ -92,7 +94,7 @@
                 <div class="profile-info-name"> 修改时间 </div>
 
                 <div class="profile-info-value">
-                    <span class="editable"><?=$item['update_time']?></span>
+                    <span class="editable"><?=$item['update_time']?>&nbsp;</span>
                 </div>
             </div>
 

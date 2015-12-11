@@ -16,10 +16,10 @@ public class QueryMyBuildingObjectListResultVO {
 //    "projectExpectPeriod":300
 	private String objectId;
 	private String objetName;
-	private String winBidAmount;
-	private String receivedAmount;
-	private String willReceiveAmount;
-	private Date projectExpectStartDate;
+	private Long winBidAmount;
+	private Long receivedAmount;
+	private Long willReceiveAmount;
+	private String projectExpectStartDate;
 	private Integer projectExpectPeriod;
 	/**
 	 * @return the objectId
@@ -36,26 +36,25 @@ public class QueryMyBuildingObjectListResultVO {
 	/**
 	 * @return the winBidAmount
 	 */
-	public String getWinBidAmount() {
+	public Long getWinBidAmount() {
 		return winBidAmount;
 	}
 	/**
 	 * @return the receivedAmount
 	 */
-	public String getReceivedAmount() {
+	public Long getReceivedAmount() {
 		return receivedAmount;
 	}
 	/**
 	 * @return the willReceiveAmount
 	 */
-	public String getWillReceiveAmount() {
+	public Long getWillReceiveAmount() {
 		return willReceiveAmount;
 	}
 	/**
 	 * @return the projectExpectStartDate
 	 */
-	@JsonSerialize(using = JacksonDateSerializer.class)
-	public Date getProjectExpectStartDate() {
+	public String getProjectExpectStartDate() {
 		return projectExpectStartDate;
 	}
 	/**
@@ -79,25 +78,25 @@ public class QueryMyBuildingObjectListResultVO {
 	/**
 	 * @param winBidAmount the winBidAmount to set
 	 */
-	public void setWinBidAmount(String winBidAmount) {
+	public void setWinBidAmount(Long winBidAmount) {
 		this.winBidAmount = winBidAmount;
 	}
 	/**
 	 * @param receivedAmount the receivedAmount to set
 	 */
-	public void setReceivedAmount(String receivedAmount) {
+	public void setReceivedAmount(Long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
 	/**
 	 * @param willReceiveAmount the willReceiveAmount to set
 	 */
-	public void setWillReceiveAmount(String willReceiveAmount) {
+	public void setWillReceiveAmount(Long willReceiveAmount) {
 		this.willReceiveAmount = willReceiveAmount;
 	}
 	/**
 	 * @param projectExpectStartDate the projectExpectStartDate to set
 	 */
-	public void setProjectExpectStartDate(Date projectExpectStartDate) {
+	public void setProjectExpectStartDate(String projectExpectStartDate) {
 		this.projectExpectStartDate = projectExpectStartDate;
 	}
 	/**
@@ -106,16 +105,8 @@ public class QueryMyBuildingObjectListResultVO {
 	public void setProjectExpectPeriod(Integer projectExpectPeriod) {
 		this.projectExpectPeriod = projectExpectPeriod;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "QueryMyBuildingObjectListResultVO [objectId=" + objectId + ", objetName=" + objetName
-				+ ", winBidAmount=" + winBidAmount + ", receivedAmount=" + receivedAmount + ", willReceiveAmount="
-				+ willReceiveAmount + ", projectExpectStartDate=" + projectExpectStartDate + ", projectExpectPeriod="
-				+ projectExpectPeriod + "]";
-	}
+	
 	
 
+	
 }

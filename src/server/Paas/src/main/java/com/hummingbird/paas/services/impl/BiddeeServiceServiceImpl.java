@@ -372,7 +372,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		
 		QueryMyBuildingObjectListResultVO qol = null;
 		for (MyBuildingObjectProject pj : pjs) {
-			if(pj != null){
+			if(pj.getObjectId() != null){
 				qol = new QueryMyBuildingObjectListResultVO();
 				ProjectInfos  proj = pIDao.selectByPrimaryKey(pj.getObjectId());
 				qol.setObjectId(pj.getObjectId());
@@ -380,12 +380,13 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 				qol.setObjetName(pj.getObjectName());
 				if(proj!=null){
 					qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
+					qol.setProjectExpectStartDate(proj.getProjectExpectStartDate());
 				}else {
 					qol.setProjectExpectPeriod(0);
 				}
 //				qol.setProjectExpectStartDate(pj.getpro);
 				qol.setReceivedAmount(pj.getReceivedAmount());
-				qol.setWillReceiveAmount(String.valueOf(pj.getWinBidAmount()));
+				qol.setWillReceiveAmount(pj.getWinBidAmount());
 				if(log.isDebugEnabled()){
 					log.debug("查询招标的项目列表完成:"+qol);
 				}

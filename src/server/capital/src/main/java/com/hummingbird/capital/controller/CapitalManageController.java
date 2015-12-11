@@ -46,6 +46,7 @@ import com.hummingbird.capital.vo.FreezeWithdrawalsBodyVO;
 import com.hummingbird.capital.vo.FreezeWithdrawalsVO;
 import com.hummingbird.capital.vo.GetPlatformBankcardReturnVO;
 import com.hummingbird.capital.vo.MobileBodyVO;
+import com.hummingbird.capital.vo.PayMatchHandingChargeVO;
 import com.hummingbird.capital.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
 import com.hummingbird.capital.vo.RechargeApplyReturnVO;
@@ -124,8 +125,6 @@ public class CapitalManageController extends BaseController{
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
-			
-			TokenBodyVO body=transorder.getBody();
 			
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
@@ -315,7 +314,7 @@ public class CapitalManageController extends BaseController{
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
 			requestURI=requestURI.replace(request.getContextPath(), "");
-			PropertiesUtil pu = new PropertiesUtil();
+			
 			UnfreezeBondVO body=transorder.getBody();
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
@@ -330,16 +329,52 @@ public class CapitalManageController extends BaseController{
 			FreezeBondReturnVO orderInfo=new FreezeBondReturnVO();
 			if(user!=null){
 				UnfreezeVO unfreeze=new UnfreezeVO();
-				unfreeze.setAppOrderId(body.getOrderId());
+				unfreeze.setAppOrderId(body.getAppOrderId());
 				unfreeze.setObjectId(body.getObjectId());
-				unfreeze.setOrignalTable("t_project_account_order");
-				unfreeze.setOrignalOrderId(body.getOrderId());
+				unfreeze.setOrignalOrderId(body.getOrignalOrderId());
 				unfreeze.setRemark(body.getRemark());
 				unfreeze.setType("SBZ");
-				orderInfo=orderSer.unfreeze(unfreeze, user, requestURI);
+				orderInfo=orderSer.unfreeze(unfreeze, requestURI);
 			}
 			rm.put("order", orderInfo);
 			tokenSrv.postponeToken(token);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "/payMatchHandingCharge", method = RequestMethod.POST)
+	public @ResponseBody Object payMatchHandingCharge(HttpServletRequest request) {
+		
+		final BaseTransVO<PayMatchHandingChargeVO> transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, UnfreezeBondVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "支付撮合手续费";
+		rm.setBaseErrorCode(251800);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			PayMatchHandingChargeVO body=transorder.getBody();
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+			
+			rm.put("result", orderSer.payMatchHandingCharge(body,requestURI));
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -388,7 +423,7 @@ public class CapitalManageController extends BaseController{
 			
 			List<ApplyListReturnVO> list=new ArrayList<ApplyListReturnVO>();
 			if(user!=null){
-				ProjectAccount proActInfo=(ProjectAccount)getAccount(user.getMobileNum());
+				
 				list=orderSer.queryRechargeApplyList(user);
 			}
 			rm.put("list", list);
@@ -450,52 +485,7 @@ public class CapitalManageController extends BaseController{
 		return rm;
 	}
 	
-	@RequestMapping(value = "/freezeWithdrawals", method = RequestMethod.POST)
-	public @ResponseBody Object freezeWithdrawals(HttpServletRequest request) {
-		
-		FreezeWithdrawalsVO transorder;
-		ResultModel rm = new ResultModel();
-		try {
-			String jsonstr = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,FreezeWithdrawalsVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取订单参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-			return rm;
-		}
-		
-		String messagebase = "冻结提现";
-		rm.setBaseErrorCode(251700);
-		rm.setErrmsg(messagebase+"成功");
-		try {
-			//获取url以作为method的内容
-			String requestURI = request.getRequestURI();
-			requestURI=requestURI.replace(request.getContextPath(), "");
-			Map validateAuth = (Map) authService.validateAuth(transorder);
-			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
-			FreezeWithdrawalsBodyVO body=transorder.getBody();
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			//查询用户信息
-			User user=userSer.queryUserByMobile(body.getMobileNum());
-			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
-			FreezeBondBodyVO freezeBody=new FreezeBondBodyVO();
-			freezeBody.setOriginalOrderId(body.getOrderId());
-			freezeBody.setRemark(body.getRemark());
-			freezeBody.setAmount(body.getAmount());
-			freezeBody.setType("FRZ");
-			FreezeBondReturnVO order=orderSer.freeze(freezeBody,user,requestURI);
-			
-			rm.put("orderId", order.getOrderId());
-		} catch (Exception e1) {
-			log.error(String.format(messagebase+"失败"),e1);
-			rm.mergeException(e1);
-			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
-		}
-		return rm;
-	}
+	
 	
 	@RequestMapping(value = "/checkWithdrawalsApply", method = RequestMethod.POST)
 	public @ResponseBody Object checkWithdrawalsApply(HttpServletRequest request) {
@@ -532,116 +522,7 @@ public class CapitalManageController extends BaseController{
 		}
 		return rm;
 	}
-	@RequestMapping(value = "/failWithdrawals", method = RequestMethod.POST)
-	public @ResponseBody Object failWithdrawals(HttpServletRequest request) {
-		
-		final BaseTransVO<FailWithdrawalsBodyVO> transorder;
-		ResultModel rm = new ResultModel();
-		try {
-			String jsonstr = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, FailWithdrawalsBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取订单参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-			return rm;
-		}
-		
-		String messagebase = "提现失败接口";
-		rm.setBaseErrorCode(251900);
-		rm.setErrmsg(messagebase+"成功");
-		try {
-			//获取url以作为method的内容
-			String requestURI = request.getRequestURI();
-			requestURI=requestURI.replace(request.getContextPath(), "");
-			FailWithdrawalsBodyVO body=transorder.getBody();
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			WithdrawApply apply=orderSer.queryWithdrawalByOrderId(body.getOrderId());
-			if(apply==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));		
-			
-			}
-			//查询用户信息
-			User user=userSer.getUser(apply.getUserId());
-			if(user==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("用户Id【%s】查询不到用户",apply.getUserId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("用户Id【%s】查询不到用户",apply.getUserId()));		
-			
-			}
-			UnfreezeVO unfreezeBody=new UnfreezeVO();
-			unfreezeBody.setAppOrderId(body.getAppOrderId());
-			unfreezeBody.setOrignalOrderId(body.getOrderId());
-			unfreezeBody.setOrignalTable("t_ddgl_withdraw_apply");
-			unfreezeBody.setRemark(body.getRemark());
-			unfreezeBody.setSum(apply.getWithdrawAmount());
-			unfreezeBody.setType("UFZ");
-			orderSer.unfreeze(unfreezeBody, user, requestURI);
-		} catch (Exception e1) {
-			log.error(String.format(messagebase+"失败"),e1);
-			rm.mergeException(e1);
-			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
-		}
-		return rm;
-	}
-	@RequestMapping(value = "/successWithdrawals", method = RequestMethod.POST)
-	public @ResponseBody Object successWithdrawals(HttpServletRequest request) {
-		
-		final BaseTransVO<SuccessWithdrawalsBodyVO> transorder;
-		ResultModel rm = new ResultModel();
-		try {
-			String jsonstr = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, SuccessWithdrawalsBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取订单参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-			return rm;
-		}
-		
-		String messagebase = "提现成功接口";
-		rm.setBaseErrorCode(252000);
-		rm.setErrmsg(messagebase+"成功");
-		try {
-			//获取url以作为method的内容
-			String requestURI = request.getRequestURI();
-			requestURI=requestURI.replace(request.getContextPath(), "");
-			SuccessWithdrawalsBodyVO body=transorder.getBody();
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			WithdrawApply apply=orderSer.queryWithdrawalByOrderId(body.getOrderId());
-			if(apply==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到提现申请记录",body.getOrderId()));		
-			
-			}
-			//查询用户信息
-			UnfreezeVO unfreezeBody=new UnfreezeVO();
-			unfreezeBody.setAppOrderId(body.getAppOrderId());
-			unfreezeBody.setOrignalOrderId(body.getOrderId());
-			unfreezeBody.setOrignalTable("t_ddgl_withdraw_apply");
-			unfreezeBody.setRemark(body.getRemark());
-			unfreezeBody.setSum(apply.getWithdrawAmount());
-			unfreezeBody.setType("TX#");
-			User user=userSer.getUser(apply.getUserId());
-			String orderId=orderSer.withdrawals(unfreezeBody, user, requestURI);
-			rm.put("orderId", orderId);
-		} catch (Exception e1) {
-			log.error(String.format(messagebase+"失败"),e1);
-			rm.mergeException(e1);
-			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
-		}
-		return rm;
-	}
+	
 	@RequestMapping(value = "/queryWithdrawalsApplyList", method = RequestMethod.POST)
 	public @ResponseBody Object queryWithdrawalsApplyList(HttpServletRequest request) {
 		
@@ -778,59 +659,7 @@ public class CapitalManageController extends BaseController{
 		}
 		return rm;
 	}
-	@RequestMapping(value = "/successRecharge", method = RequestMethod.POST)
-	public @ResponseBody Object successRecharge(HttpServletRequest request) {
-		
-		final BaseTransVO<SuccessRechargeBodyVO> transorder;
-		ResultModel rm = new ResultModel();
-		try {
-			String jsonstr = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, SuccessRechargeBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取订单参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
-			return rm;
-		}
-		
-		String messagebase = "充值成功接口";
-		rm.setBaseErrorCode(252400);
-		rm.setErrmsg(messagebase+"成功");
-		try {
-			//获取url以作为method的内容
-			String requestURI = request.getRequestURI();
-			requestURI=requestURI.replace(request.getContextPath(), "");
-			PropertiesUtil pu = new PropertiesUtil();
-			SuccessRechargeBodyVO body=transorder.getBody();
-			
-			
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			RechargeApply apply=orderSer.queryRechargeByOrderId(body.getOrderId());
-			if(apply==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("账户订单号【%s】查询不到充值申请记录",body.getOrderId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("账户订单号【%s】查询不到充值申请记录",body.getOrderId()));		
-			
-			}
-			UnfreezeVO unfreezeBody=new UnfreezeVO();
-			unfreezeBody.setAppOrderId(body.getAppOrderId());
-			unfreezeBody.setOrignalOrderId(body.getOrderId());
-			unfreezeBody.setOrignalTable("t_ddgl_recharge_apply");
-			unfreezeBody.setRemark(body.getRemark());
-			unfreezeBody.setSum(apply.getAmount());
-			unfreezeBody.setType("CZ#");
-			User user=userSer.getUser(apply.getUserId());
-			rm.put("orderId", orderSer.recharge(unfreezeBody, user, requestURI));
-		} catch (Exception e1) {
-			log.error(String.format(messagebase+"失败"),e1);
-			rm.mergeException(e1);
-			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
-		}
-		return rm;
-	}
+	
 	
 	@RequestMapping(value = "/queryProjectAccount", method = RequestMethod.POST)
 	public @ResponseBody Object queryProjectAccount(HttpServletRequest request) {

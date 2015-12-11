@@ -5,7 +5,6 @@ public class UnfreezeVO {
 	private String type;
 	private String appOrderId;
 	private String orignalOrderId;
-	private String orignalTable;
 	private Long sum;
 	private String remark;
 	
@@ -13,8 +12,7 @@ public class UnfreezeVO {
 	public String toString() {
 		return "UnfreezeVO [objectId=" + objectId + ", type=" + type +
 				",appOrderId=" + appOrderId +",orignalOrderId="+orignalOrderId+ 
-				",orignalTable="+orignalTable+",sum+"+sum+
-				",remark="+remark+"]";
+				",sum+"+sum+",remark="+remark+"]";
 	}
 	
 	public String getRemark() {
@@ -46,12 +44,6 @@ public class UnfreezeVO {
 	}
 	public void setOrignalOrderId(String orignalOrderId) {
 		this.orignalOrderId = orignalOrderId;
-	}
-	public String getOrignalTable() {
-		return orignalTable;
-	}
-	public void setOrignalTable(String orignalTable) {
-		this.orignalTable = orignalTable;
 	}
 	public Long getSum() {
 		return sum;

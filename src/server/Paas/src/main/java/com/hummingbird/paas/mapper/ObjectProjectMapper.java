@@ -75,4 +75,12 @@ public interface ObjectProjectMapper {
 	 */
 	List<ObjectProject> queryObjectByPage(@Param("page") Pagingnation pagingnation,@Param("param") Map param);
     
+	/**
+	 * 分页查询正在投标记录
+	 * @param pagingnation
+	 * @param param
+	 * @return
+	 */
+	List<QueryMyBidObjectListResultVO> queryBidByAccountId(@Param("page") Pagingnation pagingnation,@Param("user_id") Integer userId);
+    
     }

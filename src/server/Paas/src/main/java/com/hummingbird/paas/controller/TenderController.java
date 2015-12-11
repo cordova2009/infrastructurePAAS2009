@@ -2417,7 +2417,7 @@ public class TenderController extends BaseController {
 						try {
 							Map row= BeanUtils.describe(ori);
 //							row.put(key, value);
-							
+							row.put("creditRating", StringUtils.defaultIfEmpty(ori.getCreditRating(), "A"));
 							row.remove("class");
 							return row;
 							

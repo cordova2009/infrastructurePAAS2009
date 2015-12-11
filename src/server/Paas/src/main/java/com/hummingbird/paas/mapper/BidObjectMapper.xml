@@ -78,7 +78,7 @@
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
    
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="VARCHAR" />
-    <result column="company_short_name" property="companyShortName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyShortName" jdbcType="VARCHAR" />
     <result column="level_name" property="creditRating" jdbcType="VARCHAR" />
     <result column="project_expect_start_date" property="objectPredictStartTime" jdbcType="VARCHAR" />
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />

@@ -72,4 +72,8 @@ public interface ProjectAccountOrderMapper extends AccountOrderDao{
 	 * @return
 	 */
 	ProjectAccountOrder queryUnfreezeRecord(String orignalOrderId);
+	/**
+     * 根据主键查询记录
+     */
+    ProjectAccountOrder selectByAppOrderId(String appOrderId);
 }

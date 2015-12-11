@@ -27,6 +27,12 @@ public abstract class AccountValidateUtil {
 	
 	
  	public static void validateAccount(Account account) throws MaAccountException{
+ 		if(account==null){
+ 			if (log.isDebugEnabled()) {
+				log.debug(String.format("账户不存在"));
+			}
+			throw new MaAccountException("账户不存在");
+ 		}
 		String balanceValidateString = account.getBalanceValidateString();
 		String md5value = Md5Util.Encrypt(balanceValidateString);
 		if(log.isTraceEnabled()){

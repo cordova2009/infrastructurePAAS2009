@@ -911,8 +911,7 @@ public class BidServiceImpl implements BidService {
 			FreezeBondBodyVO freebody = new FreezeBondBodyVO();
 			freebody.setAmount(bondmoney);
 			freebody.setObjectId(body.getObjectId());
-			freebody.setOriginalOrderId(mmbond.getOrderId());
-			freebody.setOriginalTable("t_ztgl_object_makematch_bond_record");
+			freebody.setAppOrderId(mmbond.getOrderId());
 			freebody.setRemark("冻结"+MoneyUtil.getMoneyStringDecimal4yuan(bondmoney)+"元撮合工保证金");
 			freebody.setToken(body.getToken());
 			//freebody.setTradePassword(tradePassword);

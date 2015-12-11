@@ -44,24 +44,34 @@ class CapitalController extends AdminController {
 	}
 	public function withdraw()
 	{
-		if(!empty(I('status')))
+		$where_str = [];
+		if(!empty(I('mobilenum')))
 		{
-			$map['a.status']= I("status");
+			$map['mobile_num']= ['like','%'.I("mobilenum").'%'];
 		}
-		if(!empty(I('account_no')))
+		if(!empty(I('real_name')))
 		{
-			$map['account_no']= I("account_no");
-		}
-		if(!empty(I('account_name')))
-		{
-			$map['account_name']= ['like','%'.I("account_name").'%'];
+			$map['real_name']= ['like','%'.I("real_name").'%'];
 		}
 		if(!empty(I('nick_name')))
 		{
 			$map['nick_name']= ['like','%'.I("nick_name").'%'];
 		}
-		$model = M('ddgl_withdraw_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_bankcard c on c.id=a.user_bankcard_id');
-		$list   =   $this->lists($model, $map,'insert_time desc','a.*,b.nick_name,c.user,bank_name,account_no,account_name');
+		if(!empty(I('sdate')))
+		{
+			$where_str[] = " a.insert_time >='".I("sdate")."'";
+		}
+		if(!empty(I('edate')))
+		{
+			$where_str[] = " a.insert_time <='".I("edate")."'";
+		}
+		$str = join($where_str,'and') ;
+		if(!empty($str))
+		{
+			$map['_string'] = $str;
+		}
+		$model = M('ddgl_withdraw_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_auth d on d.user_id=a.user_id');
+		$list   =   $this->lists($model, $map,'a.insert_time desc','*');
 		$this->assign('_list', $list);
 		$this->meta_title = '提现申请列表';
 		$this->display();

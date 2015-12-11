@@ -8,23 +8,21 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form class="search-form">
-                        <label>银行账户名称
-                            <input type="text" class="search-input" name="account_name" value="{:I('account_name')}" placeholder="请输入银行账户名称">
+                        <label>手机号码
+                            <input type="text" class="search-input " name="mobilenum" value="{:I('mobilenum')}" placeholder="请输入手机号码">
                         </label>
-                        <label>银行账户号
-                            <input type="text" class="search-input" name="account_no" value="{:I('account_no')}" placeholder="请输入银行账户号">
+                        <label>用户昵称
+                            <input type="text" class="search-input " name="nick_name" value="{:I('nick_name')}" placeholder="请输入用户昵称">
                         </label>
-                        <label>用户名
-                            <input type="text" class="search-input" name="nick_name" value="{:I('nick_name')}" placeholder="请输入用户名">
+                        <label>姓名
+                            <input type="text" class="search-input" name="real_name" value="{:I('real_name')}" placeholder="请输入姓名">
 
                         </label>
-                        <label>状态
-			<select name="">
-			<option >请选择</option>
-			<?php print_r($status); foreach($status as $k=>$v){ ?>
-				<option value="<?php echo $k?>"><?php echo $v?></option>
-			<?php }?>
-			</select>
+                        <label>申请时间段
+                            <input type="text" class="search-input day-input" name="sdate" value="{:I('edate')}" placeholder="选择开始时间">
+                        </label>-
+                        <label>
+                            <input type="text" class="search-input day-input" name="edate" value="{:I('edate')}" placeholder="选择结束时间">
                         <label>
                             <button class="btn btn-sm btn-primary" type="button" id="search" url="{:U('withdraw')}">
                                <i class="icon-search"></i>搜索
@@ -39,11 +37,11 @@
             <table class="table table-striped table-bordered table-hover dataTable">
                 <thead>
                     <tr>
-                        <th>提现金额</th>
+                        <th>用户姓名</th>
+                        <th>申请现金额</th>
                         <th>手续费</th>
                         <th>申请时间</th>
-                        <th>银行账号</th>
-                        <th>用户名</th>
+                        <th>账户可用余额</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -52,13 +50,13 @@
 				<notempty name="_list">
                 <volist name="_list" id="item">
                     <tr>
+                        <td>{$item.real_name}({$item.mobilenum:nick_name})</td>
                         <td>
                             {$item.withdraw_amount|price_format}
                         </td>
                         <td>{$item.commission_fees|price_format}</td>
                         <td>{$item.insert_time}</td>
-                        <td>{$item.account_no}</td>
-                        <td>{$item.nick_name}</td>
+                        <td>{$item.commission_fees|price_format}</td>
                         <td><?php echo $status[$item['status']];?></td>
                         <td>
 			<?php if ($item['status']== 'CRT'){?>
@@ -79,6 +77,7 @@
 </block>
 
 <block name="script">
+<script src="__ACE__/js/date-time/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
         $(function() {
             //搜索功能
@@ -101,6 +100,9 @@
                     return false;
                 }
             });
+	    $('input.day-input').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			    $(this).prev().focus();
+			    });
         });
     </script>
 </block>

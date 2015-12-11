@@ -4,19 +4,26 @@ public class FreezeBondBodyVO {
 	private String token;
 	private String type;
 	private Long amount;
-	private String originalOrderId;
-	private String originalTable;
+	private String appOrderId;
 	private String objectId;
 	private String remark;
 	private String tradePassword;
 	private Boolean isVerityPassword=true;
+	@Override
+	public String toString() {
+		return "FreezeBondBodyVO [token=" + token + ", type=" + type +
+				",amount=" + amount +",objectId+"+objectId+
+				",remark="+remark+",tradePassword="+tradePassword+"]";
+	}
 	
 	public Boolean getIsVerityPassword() {
 		return isVerityPassword;
 	}
+
 	public void setIsVerityPassword(Boolean isVerityPassword) {
 		this.isVerityPassword = isVerityPassword;
 	}
+
 	public String getType() {
 		return type;
 	}
@@ -29,18 +36,7 @@ public class FreezeBondBodyVO {
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
 	}
-	public String getOriginalOrderId() {
-		return originalOrderId;
-	}
-	public void setOriginalOrderId(String originalOrderId) {
-		this.originalOrderId = originalOrderId;
-	}
-	public String getOriginalTable() {
-		return originalTable;
-	}
-	public void setOriginalTable(String originalTable) {
-		this.originalTable = originalTable;
-	}
+	
 	public String getToken() {
 		return token;
 	}
@@ -65,6 +61,14 @@ public class FreezeBondBodyVO {
 	}
 	public void setTradePassword(String tradePassword) {
 		this.tradePassword = tradePassword;
+	}
+
+	public String getAppOrderId() {
+		return appOrderId;
+	}
+
+	public void setAppOrderId(String appOrderId) {
+		this.appOrderId = appOrderId;
 	}
 	
 }

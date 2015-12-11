@@ -11,6 +11,7 @@ import com.hummingbird.capital.vo.CheckRechargeApplyBodyVO;
 import com.hummingbird.capital.vo.CheckWithdrawalBodyVO;
 import com.hummingbird.capital.vo.FreezeBondBodyVO;
 import com.hummingbird.capital.vo.FreezeBondReturnVO;
+import com.hummingbird.capital.vo.PayMatchHandingChargeVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
 import com.hummingbird.capital.vo.UnfreezeBondVO;
 import com.hummingbird.capital.vo.UnfreezeVO;
@@ -32,8 +33,14 @@ public interface OrderService {
 	 * @param body
 	 * @return
 	 */
-	public FreezeBondReturnVO unfreeze(UnfreezeVO body,User user,String method)throws MaAccountException;
-
+	public FreezeBondReturnVO unfreeze(UnfreezeVO body,String method)throws MaAccountException;
+	/**
+	 * 扣除撮合保证金
+	 * @param body
+	 * @return
+	 */
+	public PayMatchHandingChargeVO payMatchHandingCharge(PayMatchHandingChargeVO body,String method)throws MaAccountException;
+	
 	/**
 	 * 提现
 	 * @param body

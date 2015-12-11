@@ -45,4 +45,10 @@ public interface MakeMatchBondRecordMapper {
 	 * @param bidId
 	 */
 	List<MakeMatchBondRecord> selectReturnByBidId(Integer bidId);
+
+	/**
+	 * 查询某个投标的保证金订单
+	 * @param objectId
+	 */
+	List<MakeMatchBondRecord>  selectByObjectId(String objectId);
 }

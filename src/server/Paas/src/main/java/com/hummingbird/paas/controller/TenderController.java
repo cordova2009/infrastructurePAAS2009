@@ -53,6 +53,7 @@ import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.event.BidSelectedEvent;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.AppinfoMapper;
@@ -1533,57 +1534,26 @@ public class TenderController extends BaseController {
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/tender/bidEvaluation");
 		
-		
 		try {
-		String token =  transorder.getBody().getToken();
-		String objectId =  transorder.getBody().getObjectId();
-		Integer bidder_id = transorder.getBody().getWinBidId();
-
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BidObject  bid =bidObjectDao.selectByPrimaryKey(objectId);
 			
-			BidRecord bidr = bidRecordDao.selectByObjectIdAndBidderId(objectId, bidder_id);
-			ProjectPaymentDefine ppd = new ProjectPaymentDefine();
-			ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
-			TenderPaymentInfo tp = transorder.getBody().getPaymentInfo();
-			List<TenderPaymentDetailInfo> tpds= tp.getPayList();
-			if(bid==null){
-				rm.setErrmsg("未找到相应招标记录!");
-				return rm;
-				}else{
-					//1.保存到招标表
-					bid.setObjectStatus("SEL");;//修改状态为定标
-					bid.setWinBidderId(transorder.getBody().getWinBidId());
-					bid.setWinBidAmount(bidr.getBidAmount());
-					i = bidObjectDao.updateByPrimaryKeySelective(bid);
-					//2.保存到工程付款表
-					UUID uid = UUID.randomUUID();
-					Integer pid = uid.hashCode();
-					ppd.setId(pid);
-					ppd.setObjectId(objectId);
-					ppd.setPayPeriod(tp.getPayPeriod());
-					ppd.setPayType(tp.getPayType());
-					projectPaymentDefineDao.insert(ppd); 
-					for(TenderPaymentDetailInfo mm : tpds){
-						ppf.setPaySum(mm.getPaySum());
-						//ppf.setPayTime(mm.getPayDate());
-						ppf.setPeriod(mm.getPeriod());
-						ppf.setProjectPaymentDefineId(pid);
-						projectPaymentDefineDetailDao.insert(ppf);
-					}
-					
-					
-				}
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
-//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
+			Biddee biddee = biddeeDao.selectByUserId(token.getUserId());
+			if(biddee==null)
+			{
+				log.error(String.format("用户%s查找不到招标方信息,可能未进行资格认证", token.getUserId()));
+				throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您没有招标方资质认证,请先进行认证");
+			}
+			
+			String objectId =  transorder.getBody().getObjectId();
+			Integer bidder_id = transorder.getBody().getWinBidId();
+			
+			tenderService.selectBid2win(objectId,biddee,bidder_id,transorder.getBody().getPaymentInfo(),transorder.getBody().getToken());
+			BidSelectedEvent bide = new BidSelectedEvent(objectId,bidder_id);
+			EventListenerContainer.getInstance().fireEvent(qe);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

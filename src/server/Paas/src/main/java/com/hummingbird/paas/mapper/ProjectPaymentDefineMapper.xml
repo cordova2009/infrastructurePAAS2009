@@ -20,7 +20,7 @@
     delete from t_ztgl_project_payment_define
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" >
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectPaymentDefine" useGeneratedKeys="true" keyProperty="id">
     insert into t_ztgl_project_payment_define (id, object_id, pay_type, 
       pay_period)
     values (#{id,jdbcType=INTEGER}, #{objectId,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 

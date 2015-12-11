@@ -33,6 +33,10 @@ public interface BidRecordMapper {
      * 根据object_id,bidderid查询记录
      */
     BidRecord selectByObjectIdAndBidderId(@Param("object_id") String object_id,@Param("bidder_id") Integer bidder_id);
+    /**
+     * 根据object_id查询记录
+     */
+    List<BidRecord> selectByObjectId(@Param("object_id") String object_id);
     
     /**
      * 定标页面,查询标的信息的概括
@@ -81,4 +85,11 @@ public interface BidRecordMapper {
 	 * @return
 	 */
 	List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(@Param("biddeeId") Integer biddeeId,@Param("objectId") String objectId,@Param("page") Pagingnation page);
+
+	/**
+	 * 更新其它投标为失败
+	 * @param objectId
+	 * @param winbidderId
+	 */
+	void update2fail(@Param("objectId")String objectId,@Param("bidderId") Integer winbidderId);
 }

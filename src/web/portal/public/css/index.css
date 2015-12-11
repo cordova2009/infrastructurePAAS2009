@@ -397,7 +397,6 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .modal-header .close,.modal-header .right{font-size: 26px;font-weight: bold;color: #999}
 .upload_cont .input2{border: #bebbbb 1px solid;height: 35px;line-height: 35px;padding: 0 5px;width: 430px;}
 .btn-file{background: #00a8e8;height: 37px;display: block;text-align: center;line-height: 37px;font-size: 16px;;border: none;cursor: pointer;color: #fff;}
-.btn-file input{display: none;}
 
 .modal-cont{padding: 20px 30px;}
 .upload_cont{padding: 20px 40px; padding-bottom: 0;}
@@ -726,20 +725,22 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .item .lab span.red{margin-right: 3px;vertical-align: middle;}
 
 
-.btn-file2{background: #8ab46e;height: 40px;border-radius: 2px;display:inline-block;text-align: center;line-height: 40px;font-size: 15px;;border: none;cursor: pointer;color: #fff; position: relative;}
-.btn-file2 input {
+.btn-file2{background: #8ab46e;height: 40px;border-radius: 2px;display:inline-block;text-align: center;line-height: 40px;font-size: 15px;;border: none;cursor: pointer;color: #fff; }
+.btn-file3{background: #bebebe;height: 40px;border-radius: 2px;display:inline-block;text-align: center;line-height: 40px;font-size: 15px;;border: none;cursor: pointer;color: #fff;padding: 0 25px;}
+.btn-file,.btn-file2,.btn-file3{position: relative;}
+.btn-file input,.btn-file2 input,.btn-file3 input {
     cursor: pointer;
     direction: ltr;
     margin: 0;
     opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
     position: absolute;
     right: 0;
     top: 0;
     width: 92px;
     height: 44px;
 }
-.btn-file3{background: #bebebe;height: 40px;border-radius: 2px;display:inline-block;text-align: center;line-height: 40px;font-size: 15px;;border: none;cursor: pointer;color: #fff;padding: 0 25px;}
-.btn-file3 input{display: none;}
+.btn-file2 input { width: 92px;height: 44px;}
 .btn-add{padding: 0 20px;;border:none;cursor: pointer;;line-height: 32px;font-size: 14px;color: #8f8f8f;background: #e6e6e6;display: inline-block;}
 .btn2{width: 100%;border: none;background: #1b8fff;height: 40px;border-radius: 2px;display: block;text-align: center;line-height: 40px;font-size: 15px;;cursor: pointer;color: #fff;}
 .bordb{border-bottom: #d3d3d3 1px solid;}

@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>基建PAAS<?=isset($meta_title) ? '|'.$meta_title : ''?></title>
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
     <meta name="Author" Content="" />
     <meta name="Copyright" Content="深圳麦圈互动技术有限公司。All Rights Reserved" />
 

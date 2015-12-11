@@ -79,7 +79,6 @@ import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
@@ -125,6 +124,7 @@ import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
 
 /**
@@ -204,7 +204,7 @@ public class TenderController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey = tenderService
+			TenderSurveyReturnVO queryMyObjectTenderSurvey = tenderService
 					.queryMyObjectTenderSurvey(transorder.getApp().getAppId(), transorder.getBody(),biddee);
 			rm.put("survey", queryMyObjectTenderSurvey);
 			tokenSrv.postponeToken(token);
@@ -1641,8 +1641,9 @@ public class TenderController extends BaseController {
 					
 					try {
 						Map row= BeanUtils.describe(ori);
-//						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
-//						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+						row.put("bidTime", DateUtil.formatShortDateorNull(ori.getBidTime()));
+						row.put("projectExpectStartDate", DateUtil.formatShortDateorNull(ori.getProjectExpectStartDate()));
+						row.put("projectExpectEndDate", DateUtil.formatShortDateorNull(ori.getProjectExpectEndDate()));
 						
 						row.remove("class");
 						return row;

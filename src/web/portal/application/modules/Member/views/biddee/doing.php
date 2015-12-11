@@ -15,8 +15,8 @@
 			<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
 			<td class=""><?=$v['winBidAmount']?></td>
 			<td class=""><?=$v['winBidder']?></td>
-			<td class=""><?=$v['receivedAmount']?></td>
-			<td class=""><?=$v['willReceiveAmount']?></td>
+			<td class=""><?=price_format($v['receivedAmount'])?></td>
+			<td class=""><?=price_format($v['willReceiveAmount'])?></td>
 			<td class=""><?=$v['projectExpectStartDate']?></td>
 			<td class=""><?=$v['projectExpectPeriod']?>天</td>
 			<td class=""><a href="" class="blue">投诉</a></td>

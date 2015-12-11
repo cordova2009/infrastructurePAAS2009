@@ -10,7 +10,7 @@
 												<tr class="">
 													<td class=""><span class="tag"><?=isset($industry[$v['industryId']])?$industry[$v['industryId']]['industryIcon']:''?></span></td>
 													<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
-													<td class=""><?=$v['winBidAmount']?></td>
+													<td class=""><?=price_format($v['winBidAmount'])?></td>
 													<td class=""><?=$v['winBidder']?></td>
 													<td class=""><a href="#" class="btn-blue">评价</a></td>
 												</tr>

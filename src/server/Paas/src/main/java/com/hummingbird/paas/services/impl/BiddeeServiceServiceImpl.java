@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeCredit;
@@ -20,6 +21,7 @@ import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
@@ -81,6 +83,8 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	CertificationRequirementMapper crDao;
 	@Autowired
 	ObjectProjectMapper obDao;
+	@Autowired
+	BidObjectMapper bidobjDao;
 	@Autowired
 	BiddeeCreditMapper bcDao;
 	@Autowired
@@ -323,36 +327,21 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	}
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer user_id, Integer pageIndex, Integer pageSize)
+	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer userId, Pagingnation page)
 			throws BusinessException {
 		// TODO Auto-generated method stub
 		if(log.isDebugEnabled()){
 			log.debug("查询我的投标中项目列表");
 		}
-		List<QueryMyBidObjectListResultVO> qors = new ArrayList<QueryMyBidObjectListResultVO>();
-		QueryObjectListResultVO qmb = null;
-		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
-			return null;
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = bidobjDao.countBidingNum(userId);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
 		}
-
-		List<ObjectProject> pjs = obDao.getMyObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
-		QueryMyBidObjectListResultVO qol = null;
-		for (ObjectProject pj : pjs) {
-			if(pj != null){
-			 qol = new QueryMyBidObjectListResultVO();
-			qol.setIndustryId(pj.getIndustryId());
-			qol.setBidAmount(String.valueOf(pj.getWinBidAmount()));
-			qol.setBidOpenDate(pj.getBidOpenDate());
-			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
-			if(log.isDebugEnabled()){
-				log.debug("查询招标的项目列表完成:"+qol);
-			}
-			qors.add(qol);
-			}
-		}
-			
-		return qors;
+		List<QueryMyBidObjectListResultVO> objects=obDao.queryBidByAccountId(page,userId);
+		
+		return objects;
 	}
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")

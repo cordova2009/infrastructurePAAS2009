@@ -12,7 +12,7 @@
 												<tr class="">
 													<td class=""><span class="tag"><?=isset($industry[$v['industryId']])?$industry[$v['industryId']]['industryIcon']:''?></span></td>
 													<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
-													<td class=""><?=$v['evaluationAmount']?></td>
+													<td class=""><?=price_format($v['evaluationAmount'])?></td>
 													<td class=""><?=$v['projectExpectStartDate']?></td>
 													<td class=""><?=$v['projectExpectPeriod']?>天</td>
 													<td class=""><?=$v['biddingEndTime']?></td>

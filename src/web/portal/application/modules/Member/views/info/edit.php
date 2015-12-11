@@ -73,7 +73,7 @@
                 <div class="upload_cont">
                     <div class="table">
                         <div class="cell"><input id="pic_name" type="text" class="input2"></div>
-                        <div class="cell wid110"><label class="btn-file">选择文件 <input name="file" type="file" value="选择文件" class=""></label></div>
+                        <div class="cell wid110"><label class="btn-file">选择文件 <input name="file" type="file" value="选择文件" class="wid110"></label></div>
                     </div>
                     <div class="upload_tips">你可以上传JPG、GIF或PNG文件上传图片最大4M</div>
                     <div class="text-right modal-footer">
@@ -113,6 +113,7 @@ $(function(){
     $("#file-upload").fileupload({
         url:this.action,//文件上传地址，当然也可以直接写在input的data-url属性内
         formData:{},//如果需要额外添加参数可以在这里添加
+        dataType: 'json',
 //        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         add: function (e, data) {
             if (e.isDefaultPrevented()) {
@@ -127,6 +128,7 @@ $(function(){
             //返回的数据在data.result中，假设我们服务器返回了一个json对象
             if(data.result.status == '0'){
                 $.post('<?=U('/member/info/updateAvatar')?>',{headImageUrl:data.result.url},function(resp){
+                    alert(resp.status);
                     if(resp.status == '0'){
                         $("#avatar").attr('src',data.result.src);
                         $("#uploadBox").fadeOut();
@@ -135,7 +137,7 @@ $(function(){
                     }else{
                         layer.alert(data.result.msg,{icon:2});
                     }
-                })
+                },'json')
             }else{
                 layer.alert(data.result.msg,{icon:2});
             }

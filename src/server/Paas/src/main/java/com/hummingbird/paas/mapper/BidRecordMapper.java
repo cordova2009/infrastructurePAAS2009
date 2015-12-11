@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.BidRecord;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
@@ -36,9 +35,9 @@ public interface BidRecordMapper {
     BidRecord selectByObjectIdAndBidderId(@Param("object_id") String object_id,@Param("bidder_id") Integer bidder_id);
     
     /**
-     * 根据object_id查询记录
+     * 定标页面,查询标的信息的概括
      */
-    TenderSurveyReturnVO selectByObjectId(String object_id);
+    TenderSurveyReturnVO selectTenderSurvey2selectByObjectId(String object_id);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -59,7 +58,7 @@ public interface BidRecordMapper {
      * @param objectId
      * @return
      */
-    MyObjectTenderSurveyBodyVOResult selectTenderSurveyByObjectId(String objectId);
+    TenderSurveyReturnVO selectTenderSurveyByObjectId(String objectId);
 
 	/**
 	 * 查询未完成的投标

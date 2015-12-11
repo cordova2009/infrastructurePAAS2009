@@ -128,7 +128,16 @@ class MallController extends Yaf\Controller_Abstract {
         switch (strtoupper($type)){
         	case 'JSON' :
         	    // 返回JSON数据格式到客户端 包含状态信息
-        	    header('Content-Type:application/json; charset=utf-8');
+                header('Cache-Control: no-store, no-cache, must-revalidate');
+                header('Content-Disposition: inline; filename="resp.json"');
+                // Prevent Internet Explorer from MIME-sniffing the content-type:
+                header('X-Content-Type-Options: nosniff');
+                if (strpos(@$_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
+                    header('Content-Type:application/json; charset=utf-8');
+                } else {
+                    header('Content-type: text/plain; charset=utf-8');
+                }
+
         	    exit(json_encode($data,$json_option));
         	case 'XML'  :
         	    // 返回xml格式数据

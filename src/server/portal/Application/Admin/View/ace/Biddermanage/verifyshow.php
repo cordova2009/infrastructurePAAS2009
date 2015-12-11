@@ -177,6 +177,7 @@ img{max-width:400px;}
 </div>
 		<div class="clearfix form-actions">
             <div class="col-xs-12 center" style="margin-top:1em;">
+	    <input type="hidden" name="business_license_type" value="<?=$item['business_license_type']?>" >
 <button id="sub-btn" class="btn btn-success ajax-post no-refresh" target-form="form-horizontal" type="submit">
                               <i class="icon-ok bigger-110"></i> 确认提交
                           </button>

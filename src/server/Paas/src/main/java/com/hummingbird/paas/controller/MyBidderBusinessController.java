@@ -56,6 +56,7 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
+import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
@@ -92,7 +93,7 @@ public class MyBidderBusinessController extends BaseController  {
 	@Autowired
 	protected ScoreLevelMapper scoreLevelDao;
 	@Autowired
-	protected BidderMapper bidderDao;
+	protected BidderCerticateMapper bcDao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
@@ -142,7 +143,7 @@ public class MyBidderBusinessController extends BaseController  {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-			Bidder   bidder = bidderDao.selectByUserId(token.getUserId());
+			BidderCerticate   bidder = bcDao.selectByUserId(token.getUserId());
 			BidderCredit aa = new BidderCredit();
 			ScoreLevel bb = new ScoreLevel();
 			Map overall= new HashMap();//积分和信用等级信息
@@ -216,6 +217,7 @@ public class MyBidderBusinessController extends BaseController  {
 					}else{
 						bankInfo.setStatus("认证中");
 					}
+
 					bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
 					myBidderInfo.put("bankInfo", bankInfo);
 			
@@ -255,7 +257,7 @@ public class MyBidderBusinessController extends BaseController  {
 				tradeInfo.put("winNum", baa);
 				
 				tradeInfo.put("tradeAmount", baa);
-				detail.put("myBiddeeInfo", myBidderInfo);
+				detail.put("myBidderInfo", myBidderInfo);
 				detail.put("tradeInfo", tradeInfo);
 				
 				overall.put("creditScore", 0);

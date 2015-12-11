@@ -24,7 +24,7 @@ class BiddeemanageController extends AdminController {
 		}
 		$prefix = C('DB_PREFIX');
 		$model = M('qyzz_biddee a')->join('t_user b on a.user_id=b.id');
-		$list   =   $this->lists($model, $map,'certificate_time desc','a.*,b.nick_name');
+		$list   =   $this->lists($model, $map,'certificate_time desc','a.*,b.nick_name,mobile_num');
 		$this->assign('_list', $list);
 		$this->meta_title = '招标人列表';
 		$this->display();

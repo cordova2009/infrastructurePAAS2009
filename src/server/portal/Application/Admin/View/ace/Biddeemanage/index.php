@@ -27,26 +27,18 @@
             <table class="table table-striped table-bordered table-hover dataTable">
                 <thead>
                     <tr>
-                        <th>招标人ID</th>
                         <th>公司全称</th>
                         <th>公司简称</th>
-                        <th>帐户昵称</th>
-                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
 				<notempty name="_list">
                 <volist name="_list" id="item">
                     <tr>
-                        <td>{$item.id}</td>
                         <td>
-                            <a href="{:U('show?id='.$item['id'])}">{$item.company_name}</a>
+                            <a href="{:U('show?id='.$item['id'])}">{$item.company_name}【{$item.mobile_num}:{$item.nick_name}】</a>
                         </td>
                         <td>{$item.short_name}</td>
-                        <td>{$item.nick_name}</td>
-                        <td>
-                            <a title="查看" href="{:U('show?id='.$item['id'])}">查看</a>
-                        </td>
                     </tr>
                 </volist>
 				<else/>

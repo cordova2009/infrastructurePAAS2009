@@ -15,10 +15,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
-import com.hummingbird.paas.entity.BiddeeCerticate;
+import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
@@ -26,16 +28,21 @@ import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.BidderCertification;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificationCertification;
+import com.hummingbird.paas.entity.BidderCredit;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidObjectMapper;
+import com.hummingbird.paas.mapper.BiddeeBidCreditScoreMapper;
+import com.hummingbird.paas.mapper.BiddeeCertificationCreditScoreMapper;
+import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BidderCertificationCertificationMapper;
+import com.hummingbird.paas.mapper.BidderCertificationCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCertificationMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
@@ -46,7 +53,6 @@ import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.util.CamelUtil;
 import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
-import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderBankInfoCheck;
 import com.hummingbird.paas.vo.BidderBaseInfoCheck;
@@ -71,8 +77,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Autowired
 	protected UserBankcardMapper userBankcardDao;
 	@Autowired
-	protected BidderCreditMapper bidderCreditDao;
-	@Autowired
 	protected BidderBidCreditScoreMapper bidderBidCreditScoreDao;
 	@Autowired
 	protected BidderBankAduitMapper bidderBankAduitDao;
@@ -86,6 +90,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 	protected BidderMapper bidderDao;
 	@Autowired
 	protected BidderCertificationMapper bcDao;
+	@Autowired
+	protected BidderCreditMapper bidderCreditDao;
+	@Autowired
+	protected BidderCertificationCreditScoreMapper bccsDao;
+	@Autowired
+	protected BidderBidCreditScoreMapper bbcsDao;
 
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
@@ -622,9 +632,36 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidderCertificateAduitDao.updateByPrimaryKey(bca);
 				}
 
-//				5.修改临时表数据状态
+//				5.插入积分信息
+//				protected BiddeeCreditMapper biddeeCreditDao;
+//				protected BiddeeCertificationCreditScoreMapper bccsDao;
+//				protected BiddeeBidCreditScoreMapper bbcsDao;
+				BidderCredit bcr  = bidderCreditDao.selectByPrimaryKey(bidderId);
+				if(bcr == null){
+					bcr = new BidderCredit();
+				}
+//				这里积分规则未定出     暂时全部存入 0 
+				bcr.setBankInfo(0);
+				bcr.setBaseinfoCreditScore(0);
+				bcr.setCompanyRegisteredInfo(0);
+				bcr.setCreditScore(0);
+				bcr.setLegalPersonInfo(0);
+				
+				if(bcr.getBidderId() != null){
+					bidderCreditDao.updateByPrimaryKeySelective(bcr);
+				}else{
+					bcr.setBidderId(bidderId);
+					bidderCreditDao.insert(bcr);
+				}
+				
+//				6.修改临时表数据状态
 				
 				bidderCerticateDao.updateByPrimaryKeySelective(bc);
+		}catch(ValidateException ve){
+			
+			//throw new DataInvalidException(errcode, msg );
+			throw new DataInvalidException(10103, ve.getMessage());
+		
 		}catch(Exception e){
 			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
 					String.format("投标人【%s】审核失败", bidderId));

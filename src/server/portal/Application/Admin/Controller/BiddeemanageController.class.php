@@ -43,18 +43,18 @@ class BiddeemanageController extends AdminController {
 	}
 	public function verify()
 	{
-		if(!empty(I('short_name')))
+		if(!empty(I('company_name')))
 		{
-			$map['short_name']= ['like','%'.I("short_name").'%'];
+			$map['company_name']= ['like','%'.I("company_name").'%'];
 		}
-		if(!empty(I('nick_name')))
+		if(!empty(I('real_name')))
 		{
-			$map['nick_name']= ['like','%'.I("nick_name").'%'];
+			$map['real_name']= ['like','%'.I("real_name").'%'];
 		}
 		$prefix = C('DB_PREFIX');
 		$map['a.status'] = 'APY';
-		$model = M('qyzz_biddee_certicate a')->join('t_user b on a.user_id=b.id');
-		$list   =   $this->lists($model, $map,'apply_time desc','a.*,b.nick_name');
+		$model = M('qyzz_biddee_certicate a')->join('t_user_auth b on a.user_id=b.user_id');
+		$list   =   $this->lists($model, $map,'apply_time desc','a.*,b.real_name');
 		$this->assign('_list', $list);
 		$this->meta_title = '招标人待审核列表';
 		$this->display();

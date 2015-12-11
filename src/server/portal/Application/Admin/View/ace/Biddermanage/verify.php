@@ -40,7 +40,7 @@
                     <tr>
                         <td>{$item.id}</td>
                         <td>
-                            <a href="{:U('verifyshow?id='.$item['id'])}">{$item.company_name}</a>
+                            {$item.company_name}
                         </td>
                         <td>{$item.short_name}</td>
                         <td>{$item.nick_name}</td>

@@ -3,6 +3,7 @@ package com.hummingbird.paas.services;
 import java.util.List;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
 import com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO;
@@ -38,7 +39,7 @@ public interface BiddeeServiceService {
 	* @return 
 	* @throws BusinessException 
 	*/
-	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer user_id,Integer pageIndex,Integer pageSize) throws BusinessException; 
+	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer user_id,Pagingnation page) throws BusinessException; 
 
 	/**
 	* 查询我的投标中项目列表接口【页面是项目竣工日期？】

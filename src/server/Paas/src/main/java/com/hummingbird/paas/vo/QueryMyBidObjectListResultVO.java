@@ -14,7 +14,7 @@ public class QueryMyBidObjectListResultVO {
 //    "bidAmount":"430000",
 //    "bidOpenDate":"2015-05-14"
 	private String objectId;
-	private String objetName;
+	private String objectName;
 	private String industryId;
 	private String bidAmount;
 	private Date bidOpenDate;
@@ -24,12 +24,7 @@ public class QueryMyBidObjectListResultVO {
 	public String getObjectId() {
 		return objectId;
 	}
-	/**
-	 * @return the objetName
-	 */
-	public String getObjetName() {
-		return objetName;
-	}
+	
 	/**
 	 * @return the industryId
 	 */
@@ -55,12 +50,7 @@ public class QueryMyBidObjectListResultVO {
 	public void setObjectId(String objectId) {
 		this.objectId = objectId;
 	}
-	/**
-	 * @param objetName the objetName to set
-	 */
-	public void setObjetName(String objetName) {
-		this.objetName = objetName;
-	}
+	
 	/**
 	 * @param industryId the industryId to set
 	 */
@@ -84,8 +74,16 @@ public class QueryMyBidObjectListResultVO {
 	 */
 	@Override
 	public String toString() {
-		return "QueryMyBidObjectListResultVO [objectId=" + objectId + ", objetName=" + objetName + ", industryId="
+		return "QueryMyBidObjectListResultVO [objectId=" + objectId + ", objetName=" + objectName + ", industryId="
 				+ industryId + ", bidAmount=" + bidAmount + ", bidOpenDate=" + bidOpenDate + "]";
+	}
+
+	public String getObjectName() {
+		return objectName;
+	}
+
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
 	}
 
 

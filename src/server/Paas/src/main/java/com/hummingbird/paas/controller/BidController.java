@@ -1003,18 +1003,14 @@ public class BidController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			Integer pageIndex =transorder.getBody().getPageIndex();
-			Integer pageSize =transorder.getBody().getPageSize();
-			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
-				log.error(String.format(messagebase + "失败"));
-				rm.setErrmsg("参数错误");
-				return rm;
-			}
-			liq = beeServiceSer.queryMyBidObjectList(token.getUserId(), pageIndex, pageSize);
-			int total = obDao.getMyObjectProjectCount(token.getUserId());
-			rm.put("total", total);
-			rm.put("pageIndex", pageIndex);
-			rm.put("pageSize", pageSize);
+			
+			Pagingnation page=transorder.getBody().toPagingnation();
+			
+			liq = beeServiceSer.queryMyBidObjectList(token.getUserId(), page);
+			
+			rm.put("pageSize", page.getPageSize());
+			rm.put("pageIndex", page.getCurrPage());
+			rm.put("total", page.getTotalCount());
 	        rm.put("list",liq);
 	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {

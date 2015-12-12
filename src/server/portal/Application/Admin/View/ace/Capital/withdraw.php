@@ -16,7 +16,6 @@
                         </label>
                         <label>姓名
                             <input type="text" class="search-input" name="real_name" value="{:I('real_name')}" placeholder="请输入姓名">
-
                         </label>
                         <label>申请时间段
                             <input type="text" class="search-input day-input" name="sdate" value="{:I('edate')}" placeholder="选择开始时间">
@@ -50,13 +49,13 @@
 				<notempty name="_list">
                 <volist name="_list" id="item">
                     <tr>
-                        <td>{$item.real_name}({$item.mobilenum:nick_name})</td>
+                        <td>{$item.real_name}({$item.nick_name}:{$item.mobile_num})</td>
                         <td>
                             {$item.withdraw_amount|price_format}
                         </td>
                         <td>{$item.commission_fees|price_format}</td>
                         <td>{$item.insert_time}</td>
-                        <td>{$item.commission_fees|price_format}</td>
+                        <td>{$item.remaining_sum|price_format}</td>
                         <td><?php echo $status[$item['status']];?></td>
                         <td>
 			<?php if ($item['status']== 'CRT'){?>

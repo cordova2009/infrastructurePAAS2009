@@ -13,6 +13,9 @@
  */
 require_once(APP_PATH . '/Admin/Common/ace.php');
 
+function bfb($num=0){
+    return intval($num)>0 ? $num.' %' : $num;
+}
 /**
  * 裁剪正中部分，等比缩小生成缩略图
  * @param $url

@@ -33,6 +33,28 @@ class ConfigController extends AdminController {
      */
     public function addbanword(){
 
+        if(IS_POST){
+            $word_list = trim(I('post.word'));
+            if(empty($word_list)){
+                $this->error('请输入关键词！');
+            }
+            $word_list = str_replace(array(' '), ',', $word_list);
+            $word_list = explode(',',$word_list);
+            $exist = M('base_ban_word')->where(['word'=>['in',implode(',',$word_list)]])->getField('id,word');
+            if(!empty($exist)){
+                $this->error(implode('、',$exist).'已经存在！');
+            }
+            $datas = [];
+            foreach($word_list as $word){
+                $datas[] = ['word'=>$word];
+            }
+            if(M('base_ban_word')->addAll($datas)){
+                $this->success('添加成功！',U('config/banwordlist'));
+            }else{
+
+                $this->error('添加失败，请重新再试或联系管理员！');
+            }
+        }
         $this->assign('active_menu','config/banwordlist');
         $this->assign('form_action','config/addbanword');
 
@@ -45,6 +67,18 @@ class ConfigController extends AdminController {
      * @param int $id
      */
     public function editbanword($id=0){
+
+        if(IS_POST){
+            $word = trim(I('post.word'));
+            if(empty($word)){
+                $this->error('请输入敏感词语！');
+            }
+
+            $exist = M('base_ban_word')->where(['word'=>$word])->find();
+            if(!empty($exist) && $exist['id'] != $id){
+                $this->error(implode('、',$exist).'已经存在！');
+            }
+        }
 
         $this->assign('active_menu','config/banwordlist');
         $this->assign('form_action','config/editbanword');
@@ -107,7 +141,7 @@ class ConfigController extends AdminController {
         $this->display();
     }
     /**
-     * 行业修改
+     * 工程类型修改
      * @param string $id
      */
     public function industry($id = ''){
@@ -122,15 +156,44 @@ class ConfigController extends AdminController {
         $control = new ThinkController();
         $control->edit(26,$id,'config/hangye');
     }
-    //行业管理
+    //工程类型管理
     public function hangye($p=0){
 
         $control = new ThinkController();
         $control->lists('base_industry',$p);
     }
 
+    //工程类型管理
+    public function addhangye(){
+        if(IS_POST){
+            $data = [];
+            $data['id'] = I('id');
+            if(empty($data['id'])){
+                $this->error('工程类型内部标识不能为空！');
+            }
+            if(M('base_industry')->find($data['id'])){
+                $this->error('工程类型内部标识不能重复！');
+            }
+            $data['industry_name'] = I('industry_name');
+            if(empty($data['id'])){
+                $this->error('工程类型不能为空！');
+            }
+            $data['industry_icon'] = I('industry_icon');
+            if(empty($data['id'])){
+                $this->error('工程类型图标不能为空！');
+            }
+            if(M('base_industry')->add($data)){
+                $this->success('添加成功',U('config/hangye'));
+            }else{
+                $this->error('保存失败，请重新再试或联系管理员');
+            }
+        }
+        $this->meta_title = '添加工程类型';
+        $this->display();
+    }
+
     /**
-     * 行业资质证书管理
+     * 工程类型资质证书管理
      * @param string $id
      */
     public function hyzs($id = ''){
@@ -168,6 +231,8 @@ class ConfigController extends AdminController {
 
         $selected = [];
 
+        $industry_name = M('base_industry')->where(['id'=>$id])->getField('industry_name');
+
         foreach(M('base_industry_certification')
                     ->where(['industry_id'=>$id])
                     ->getField('id,certification_id')
@@ -178,8 +243,9 @@ class ConfigController extends AdminController {
             }
         }
 
-        $this->meta_title = '行业资质管理';
+        $this->meta_title = '工程类型资质管理';
 
+        $this->assign('industry_name',$industry_name);
         $this->assign('plist',$pList);
         $this->assign('selected',$selected);
         $this->display();
@@ -187,15 +253,15 @@ class ConfigController extends AdminController {
 
 
     /**
-     * 资质证书删除
+     * 资质证书作废
      * @param int $id
      */
     public function delcerttype($id=0){
 
-        if(M('base_certification_type')->where(['id'=>intval($id)])->delete()){
-            $this->success('删除成功！');
+        if(M('base_certification_type')->where(['id'=>intval($id)])->save(['status'=>'OFF'])){
+            $this->success('作废成功！');
         }else{
-            $this->error('删除失败，请重新再试！');
+            $this->error('作废失败，请重新再试！');
         }
     }
     /**
@@ -208,7 +274,7 @@ class ConfigController extends AdminController {
         $this->assign('add_url','config/addcerttype');
 
         $control = new ThinkController();
-        $control->lists('base_certification_type',$p);
+        $control->lists('base_certification_type',$p,['status'=>'OK#']);
     }
 
     /**
@@ -241,12 +307,14 @@ class ConfigController extends AdminController {
      * @param int $p
      */
     public function feerate($p=0){
-
-        $this->assign('active_menu','config/feerate');
-        $this->assign('add_url','config/addfeerate');
-
-        $control = new ThinkController();
-        $control->lists('yhzj_fee_rate',$p);
+        $list = [];
+        foreach(M('yhzj_fee_rate')->order('type,min_amount')->select() as $item){
+            $list[$item['type']][] = $item;
+        }
+        $this->assign('list',$list);
+        $this->assign('type_list',C('FEE_TYPE_LIST'));
+        $this->meta_title = '手续费管理';
+        $this->display();
     }
 
     /**
@@ -254,11 +322,25 @@ class ConfigController extends AdminController {
      */
     public function addfeerate(){
 
+        if(IS_POST){
+            $_POST['min_amount'] = price_dispose($_POST['min_amount']);
+            $_POST['max_amount'] = price_dispose($_POST['max_amount']);
+            $_POST['max_fee'] = price_dispose($_POST['max_fee']);
+        }
         $this->assign('active_menu','config/feerate');
         $this->assign('form_action','config/addfeerate');
 
         $control = new ThinkController();
-        $control->add(23,'config/feerate');
+        list($model,$fields) = $control->padd(23,'config/feerate');
+
+        foreach($fields[1] as &$item){
+            if($item['name'] == 'type'){
+                $item['value'] = I('type');
+                break;
+            }
+        }
+        $this->assign('fields', $fields);
+        $this->display($model['template_add']?$model['template_add']:'');
     }
 
     /**
@@ -271,7 +353,14 @@ class ConfigController extends AdminController {
         $this->assign('form_action','config/editfeerate');
 
         $control = new ThinkController();
-        $control->edit(23,$id,'config/feerate');
+        list($model,$data) = $control->pedit(23,$id,'config/feerate');
+        $data['min_amount'] = ($data['min_amount'])/100;
+        $data['max_amount'] = ($data['max_amount'])/100;
+        $data['max_fee'] = ($data['max_fee'])/100;
+
+        $this->assign('data', $data);
+
+        $this->display($model['template_edit']?$model['template_edit']:'');
     }
 
     public function delfeerate($id=0){

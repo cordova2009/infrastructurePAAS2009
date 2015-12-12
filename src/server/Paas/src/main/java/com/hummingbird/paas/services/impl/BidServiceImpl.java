@@ -904,9 +904,9 @@ public class BidServiceImpl implements BidService {
 			mmbond.setUpdateTime(new Date());
 			mmbond.setCreator(String.valueOf(bidder.getUserId()));
 			mmbond.setStatus("FOZ");
-			mmbond.setBondAmount(body.getMakeMatchBidderBondAmount());
+			mmbond.setBondAmount(bondmoney);
 
-			mmbrDao.insert(mmbond);
+			
 			// 调用用户资金接口,冻结FreezeBondBodyVO
 			FreezeBondBodyVO freebody = new FreezeBondBodyVO();
 			freebody.setAmount(bondmoney);
@@ -935,6 +935,8 @@ public class BidServiceImpl implements BidService {
 				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,freeze.getErrmsg());
 				
 			}
+			mmbond.setCapitalOrderId(order.getOrderId());
+			mmbrDao.insert(mmbond);
 		}
 		// 不存在更新行为
 		// else{

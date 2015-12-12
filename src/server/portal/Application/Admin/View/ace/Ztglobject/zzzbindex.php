@@ -7,6 +7,11 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form action="<?=U('ztglobject/zzzbindex')?>" method="POST" class="search-form">
+
+                        <a title="推荐管理" href="<?=U('ztglobject/zbsort')?>" class="btn btn-sm btn-info">
+                            <span class="icon-exchange"></span>
+                            推荐
+                        </a>
                         <label>项目编号
                             <input type="text" class="search-input" name="object_no" value="{:I('object_no')}">
                         </label>
@@ -30,13 +35,14 @@
 			    <thead>
 			        <tr>
                         <th class="">操作</th>
-                        <th class="">项目编号/名称</th>
-                        <th class="">标的估价</th>
+                        <th class="">项目编号</th>
+                        <th class="">名称</th>
+                        <th class="">投标人数</th>
+                        <th class="text-right">标的估价</th>
                         <th class="">工程类别</th>
                         <th class="">创建时间</th>
                         <th class="">开标日期</th>
                         <th class="">投标截止日期</th>
-                        <th class="">投标人数</th>
 					</tr>
 			    </thead>
 			    <tbody>
@@ -46,37 +52,25 @@
                         <td>
                             <a title="查看详情" href="{:U('viewzb?object_id='.$vo['object_id'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
                         </td>
-						<td><a href="{:U('viewzb',array('object_id'=>$vo['object_id']))}">{$vo.object_no}/<?=$vo['object_name']?></a></td>
-                        <td><?=price_format($vo['evaluation_amount'])?></td>
+						<td><a href="{:U('viewzb',array('object_id'=>$vo['object_id']))}">{$vo.object_no}</a></td>
+						<td><?=$vo['object_name']?></td>
+                        <td>
+                            <?=$tb_counts[$vo['object_id']]?>
+                        </td>
+                        <td class="text-right"><?=price_format($vo['evaluation_amount'])?></td>
                         <td><?=$industry[$vo['industry_id']]?></td>
 						<td><?=$vo['insert_time']?></td>
 						<td>{$vo.bid_open_date}</td>
-						<td>{$vo.bidding_end_time}</td>
-						<td>
-                            <?=$tb_counts[$vo['object_id']]?>
-                        </td>
+						<td><?=date('Y-m-d',strtotime($vo['bidding_end_time']))?></td>
 					</tr>
 					</volist>
 					<else/>
-					<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+					<td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
 					</notempty>
 				</tbody>
             </table>
-            <div class="row">
-                <div class="col-sm-4">
-                    <a title="推荐管理" href="<?=U('ztglobject/zbsort')?>" class="btn btn-sm btn-info">
-                        <span class="icon-exchange"></span>
-                        推荐
-                    </a>
-                </div>
-                <div class="col-sm-8">
-                    <div class="dataTables_paginate paging_bootstrap">
-                        <ul class="pagination">
-                            {$_page}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+
+            <include file="Public/page"/>
         </div>
     </div>
 </block>

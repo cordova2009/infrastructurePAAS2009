@@ -96,7 +96,7 @@
 <script src="/js/upload/jquery.fileupload.js"></script>
 <script>
 $(function(){
-    $("#left-menu .submenu:eq(2),#left-menu .submenu:eq(2) a:eq(2)").addClass('active');
+    $("#left-menu .submenu:eq(1),#left-menu .submenu:eq(1) a:eq(2)").addClass('active');
     $(".tblistTbale tr:odd").addClass('bg1');
 
     $("input[type=file]").fileupload({

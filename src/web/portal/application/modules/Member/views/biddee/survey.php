@@ -70,18 +70,18 @@
 										<li>
 											<div class="cell">
 												<span class="left lab">首款</span>
-												<input type="text" name="paySum_pid[1]" class="input1 left">
+												<input type="text" name="paySum_pid[]" class="input1 left">
 												<span class="left">元</span>
 											</div>
 											<div class="cell">
 												<span class="left lab">付款时间</span>
-												<input type="text" name="payDate_pid[1]" class="input1 left datepicker">
-<input type="hidden" name="period_pid[1]" value="1">
+												<input type="text" name="payDate_pid[]" class="input1 left datepicker">
+<input type="hidden" name="period_pid[]" value="1">
 											</div>
 										</li>
 									</ul>
 									<div class="box_add">
-										<a href="javascript:;" class="btnAdd" data-num="1" data-show="1">添加期数 <i class="ico i-add"  ></i></a>
+										<a href="javascript:;" class="btnAdd" data-num="1" data-show="1" data-type="pid" >添加期数 <i class="ico i-add"  ></i></a>
 									</div>
 									<div class="box_totle">
 										共 <span class="fz36 qi">1</span> 期             <span class="blue fz36 marl100 rmb">0</span>元
@@ -146,15 +146,16 @@
 						</div>
 							<div class="text-center " style="margin-top:8px;">
 							<input type="hidden" name="winBidId" id="winBidId" value="">
-							<input type="hidden" name="objectId" id="objectId" value="<?=$surver['objectName']?>">
+							<input type="hidden" name="objectId" id="objectId" value="<?=$objectId?>">
 							<input type="hidden" value="" name="paySum_one" id="paySum">
-							<input type="hidden" value="" name="payPeriod_cum" id="payPeriod_3">
-							<input type="hidden" value="" name="payPeriod_pid" id="payPeriod_1">
-							<input type="hidden" value="" name="payPeriod_mon" id="payPeriod_2">
-							<input type="hidden" value="" name="payType" id="payType">
+							<input type="hidden" value="" name="payPeriod_cum" id="payPeriod_cum">
+							<input type="hidden" value="" name="payPeriod_pid" id="payPeriod_pid">
+							<input type="hidden" value="" name="payPeriod_mon" id="payPeriod_mon">
+							<input type="hidden" value="PID" name="payType" id="payType">
 							<input type="submit" value="提&nbsp;&nbsp;交" class="btn-green">
 							</div>
 					</div>
+</form>
 				</div>
 			</div>
 
@@ -287,12 +288,17 @@ $("#payType").val($(this).data('type'));
 			$(this).attr("data-num",num)
 			$(this).attr("data-show",i)
 			var ind = $(this).parents(".pay_way").index();
+			var type= $(this).data("type");
 			$(".temp-li"+ind).find(".num").html(num)
 			$(".temp-li"+ind).find('input').each(function (index,e){
-				e.name= e.id+'['+i+']';
+				e.name= e.id+'[]';
+				if(e.id=='period_cum'||e.id=='period_pid'||e.id=='period_mon')
+				{
+				e.value=i;
+				}
 			});
 			var html = $(".temp-li"+ind).find("ul").html();
-			$("#payPeriod_"+ind).val(i);
+			$("#payPeriod_"+type).val(i);
 			$(this).parents(".pay_way").find('ul').append(html);
 			$(this).parents(".pay_way").find('span.qi').html(i);
 		});

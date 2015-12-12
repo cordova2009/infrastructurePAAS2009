@@ -317,7 +317,6 @@ class BiddeeController extends MemberController{
 	    if(IS_AJAX)
 	    {
 		    $payType = I('payType');
-		    $payPeriod = I('payPeriod');
 		    $winBidId= I('winBidId');
 		    $objectId= I('objectId');
 		    $data = [];
@@ -326,12 +325,14 @@ class BiddeeController extends MemberController{
 			    $payDate=I('payDate_one');
 			    $paySum=I('paySum_one');
 			    $data[]= ['paySum'=>$paySum,'payDate'=>$payDate,'period'=>1];
+			    $payPeriod = 1;
 		    }
 		    if($payType=='PID')
 		    {
 			    $d = I('payDate_pid');
 			    $s = I('paySum_pid');
 			    $i = I('period_pid');
+			    $payPeriod = I('payPeriod_pid');
 			    foreach($d as $k=>$v)
 			    {
 				    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
@@ -342,6 +343,7 @@ class BiddeeController extends MemberController{
 			    $d = I('payDate_mon');
 			    $s = I('paySum_mon');
 			    $i = I('period_mon');
+			    $payPeriod = I('payPeriod_mon');
 			    foreach($d as $k=>$v)
 			    {
 				    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
@@ -352,6 +354,7 @@ class BiddeeController extends MemberController{
 			    $d = I('payDate_cum');
 			    $s = I('paySum_cum');
 			    $i = I('period_cum');
+			    $payPeriod = I('payPeriod_cum');
 			    foreach($d as $k=>$v)
 			    {
 				    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
@@ -387,6 +390,7 @@ return;
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
 	    $this->assign('list',$resp['list']);
+	    $this->assign('objectId',$id);
 	    $page = $this->getPagination($resp['total'], $this->pageSize);
 	    $this->assign('page', $page);
     }

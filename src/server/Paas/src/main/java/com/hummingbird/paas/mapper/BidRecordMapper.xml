@@ -74,11 +74,11 @@
     from t_ztgl_bid_record
     where object_id = #{objectId,jdbcType=VARCHAR}  and bidder_id = #{bidderId,jdbcType=INTEGER} and status='CRT'
   </select>
-   <select id="selectByObjectIdAndBidderId" resultMap="BaseResultMap" >
+   <select id="selectByObjectIdAndBidId" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from t_ztgl_bid_record
-    where object_id = #{object_id,jdbcType=VARCHAR}  and bidder_id = #{bidder_id,jdbcType=INTEGER}
+    where object_id = #{object_id,jdbcType=VARCHAR}  and id = #{bidId,jdbcType=INTEGER}
   </select>
    <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select 
@@ -482,7 +482,7 @@
     update t_ztgl_bid_record
     set bid_status ='LOS'
     where object_id = #{objectId,jdbcType=VARCHAR} and 
-      bidder_id != #{bidderId,jdbcType=INTEGER}
+      id != #{bidId,jdbcType=INTEGER}
   </update>
   <select id="selectTotalByObjectIdInValid" resultType="int"  >
     select count(*) from t_ztgl_object  a  INNER JOIN t_ztgl_bid_record b on a.object_id = b.object_id and b.status = 'OK#' 

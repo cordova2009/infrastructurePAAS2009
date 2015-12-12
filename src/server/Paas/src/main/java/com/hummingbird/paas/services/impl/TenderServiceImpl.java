@@ -1121,26 +1121,30 @@ public class TenderServiceImpl implements TenderService {
 		if (objs != null && !objs.isEmpty()) {
 			bo = objs.get(0);
 		}
-		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNullnoappend(bo, "招标项目不存在");
 		Qanda qanda = qaDao.selectByObjectId(body.getObjectId());
-		QueryAnswerMethodInfoBodyVOResult result = new QueryAnswerMethodInfoBodyVOResult();
-		if ("YES".equals(qanda.getIsEmailAnswer())) {
-			result.setEmail(qanda.getEmail());
+		QueryAnswerMethodInfoBodyVOResult result=null;
+		if(qanda!=null){
+			 
+			result = new QueryAnswerMethodInfoBodyVOResult();
+			if ("YES".equals(qanda.getIsEmailAnswer())) {
+				result.setEmail(qanda.getEmail());
+			}
+			if ("YES".equals(qanda.getIsMeetngAnswer())) {
+				result.setAddress(qanda.getAddress());
+				result.setAddressAnswerDate(qanda.getAnswerDate());
+				result.setAddressAnswerTime(qanda.getAnswerTime());
+			}
+			if ("YES".equals(qanda.getIsQqAnswer())) {
+				result.setQQ(qanda.getQqNo());
+				result.setQQtoken(qanda.getQqPassword());
+			}
+			if ("YES".equals(qanda.getIsTelAnswer())) {
+				result.setTelephone(qanda.getTelephone());
+			}
+			result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
+			result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 		}
-		if ("YES".equals(qanda.getIsMeetngAnswer())) {
-			result.setAddress(qanda.getAddress());
-			result.setAddressAnswerDate(qanda.getAnswerDate());
-			result.setAddressAnswerTime(qanda.getAnswerTime());
-		}
-		if ("YES".equals(qanda.getIsQqAnswer())) {
-			result.setQQ(qanda.getQqNo());
-			result.setQQtoken(qanda.getQqPassword());
-		}
-		if ("YES".equals(qanda.getIsTelAnswer())) {
-			result.setTelephone(qanda.getTelephone());
-		}
-		result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
-		result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标答疑方式接口完成");
@@ -1897,31 +1901,33 @@ public class TenderServiceImpl implements TenderService {
 	 * @param tenderPaymentInfo 分期付款设定
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public void selectBid2win(String objectId, Biddee biddee, Integer winbidderId, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException{
+	public void selectBid2win(String objectId, Biddee biddee, Integer winbidId, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException{
 		if (log.isDebugEnabled()) {
 			log.debug("定标开始");
 		}
 		ValidateUtil.assertNullnoappend(objectId, "招标编号不存在");
-		ValidateUtil.assertNullnoappend(winbidderId, "中标人不存在");
+		ValidateUtil.assertNullnoappend(winbidId, "投标记录不存在");
 		BidObject bo = dao.selectByPrimaryKey(objectId);
 		ValidateUtil.assertNullnoappend(bo, "招标项目不存在");
 		ValidateUtil.assertNotEqual(bo.getBiddeeId(), biddee.getId(), "此项目并不是您的标的,不能进行操作");
 //		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "REV", "项目还没有开标,不能进行操作");
 		
-		BidRecord bid = bidRecordDao.selectByObjectIdAndBidderId(objectId, winbidderId);
+		BidRecord bid = bidRecordDao.selectByPrimaryKey(winbidId);
 		ValidateUtil.assertNullnoappend(bid, "招标记录不存在");
+		ValidateUtil.assertNotEqual(bid.getObjectId(),objectId, "招标与投标不匹配");
+		Integer winBidderId = bid.getBidderId();
 		ProjectPaymentDefine ppd = new ProjectPaymentDefine();
 		ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
 		TenderPaymentInfo tp = tenderPaymentInfo;
 		List<TenderPaymentDetailInfo> tpds= tp.getPayList();
 		//1.保存到招标表
 		bo.setObjectStatus("SEL");//修改状态为定标
-		bo.setWinBidderId(winbidderId);
+		bo.setWinBidderId(winBidderId);
 		bo.setWinBidAmount(bid.getBidAmount());
 		dao.updateByPrimaryKey(bo);
 		//更新投标表
 		//更新其它投标为失败
-		bidRecordDao.update2fail(objectId, winbidderId);
+		bidRecordDao.update2fail(objectId, winbidId);
 		bid.setBidStatus("WIN");
 		bidRecordDao.updateByPrimaryKey(bid);
 		
@@ -1994,7 +2000,7 @@ public class TenderServiceImpl implements TenderService {
 		ProjectInfo project = new ProjectInfo();
 		project.setObjectId(objectId);
 		project.setBiddeeId(bo.getBiddeeId());
-		project.setBidderId(winbidderId);
+		project.setBidderId(winbidId);
 		project.setProjectId(objectId);//使用标的id
 		project.setStatus("OK#");
 		try {

@@ -1944,7 +1944,7 @@ public class TenderServiceImpl implements TenderService {
 				
 				ppf.setPayStartTime(DateUtils.addDays(mm.getPayDate(), -30));
 			}
-			ppf.setProjectPaymentDefineId(pid);
+			ppf.setProjectPaymentDefineId(ppd.getId());
 			projectPaymentDefineDetailDao.insert(ppf);
 		}
 		//更新投标评标表	

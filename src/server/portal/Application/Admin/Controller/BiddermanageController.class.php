@@ -99,7 +99,7 @@ class BiddermanageController extends AdminController {
 				$data[$k][$key] = ["result"=>$ret,"msg"=>I('post.'.$key.'_msg')];
 			}
 		}
-		if(I('post.business_license_type')=='New')
+		if(I('post.business_license_type')=='NEW')
 		{
 			$data['registeredInfoCheck']['business_license'] = ['result'=>'OK#','msg'=>''];
 			$data['registeredInfoCheck']['business_license_url'] = ['result'=>'OK#','msg'=>''];

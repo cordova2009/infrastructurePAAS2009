@@ -22,10 +22,10 @@
                         <?php if(!empty($model['search_key'])):?>
 				        <!-- 高级搜索 -->
 				        <label> 
-                            <input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I('title')}" placeholder="请输入关键字">
+                            <input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I(empty($model['search_key'])?'title':$model['search_key'])}" placeholder="请输入关键字">
                         </label>
                         <label>
-                            <button class="btn btn-sm btn-primary" type="button" id="search-btn" id="search" url="{:U('Think/lists','model='.$model['name'],false)}">
+                            <button class="btn btn-sm btn-primary" type="button" id="search-btn" id="search" url="{:U('','model='.$model['name'],false)}">
                                <i class="icon-search"></i>搜索
                             </button>
                         </label>

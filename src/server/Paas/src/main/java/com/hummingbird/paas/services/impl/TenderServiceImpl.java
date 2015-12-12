@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -20,30 +21,46 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.RequestException;
+import com.hummingbird.common.exception.SignatureException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.MapMaker;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.util.http.HttpRequester;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.commonbiz.util.TransOrderBuilder;
+import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
+import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
+import com.hummingbird.paas.entity.MakeMatchBondRecord;
 import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
+import com.hummingbird.paas.entity.Project;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
 import com.hummingbird.paas.entity.ProjectInfo;
+import com.hummingbird.paas.entity.ProjectInfos;
+import com.hummingbird.paas.entity.ProjectPaymentDefine;
+import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
+import com.hummingbird.paas.mapper.BidEvaluationMapper;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
@@ -52,6 +69,7 @@ import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.BidderRecommendMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.IndustryMapper;
+import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
@@ -60,12 +78,15 @@ import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.CapitalOrderReturnVO;
 import com.hummingbird.paas.vo.CompanyBaseInfo;
 import com.hummingbird.paas.vo.CompanyBidInfo;
 import com.hummingbird.paas.vo.CompanyCerticateInfo;
@@ -103,6 +124,7 @@ import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
 import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
@@ -113,6 +135,8 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.SelectBidWinMakeMatchBondRewardReturnBodyVO;
+import com.hummingbird.paas.vo.SelectBidWinMakeMatchBondRewardReturnVO;
 import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.TenderCertificationReturnVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
@@ -120,6 +144,8 @@ import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
+import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 /**
@@ -173,6 +199,14 @@ public class TenderServiceImpl implements TenderService {
 	BidCertificationMapper bcDao;
 	@Autowired
 	UserMapper userDao;
+	@Autowired
+	protected ProjectPaymentDefineMapper projectPaymentDefineDao;
+	@Autowired
+	protected ProjectPaymentDefineDetailMapper projectPaymentDefineDetailDao;
+	@Autowired
+	protected BidEvaluationMapper bidevaDao;
+	@Autowired
+	protected MakeMatchBondRecordMapper mmbondDao;
 
 	/**
 	 * 我的招标评标概况接口
@@ -1852,6 +1886,176 @@ public class TenderServiceImpl implements TenderService {
 		item.setIndustryName(industry.getIndustryName());
 		return item;
 
+	}
+	
+	/**
+	 * 定标
+	 * @param objectId
+	 * @param biddee
+	 * @param bidder_id
+	 * @param tenderPaymentInfo 分期付款设定
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void selectBid2win(String objectId, Biddee biddee, Integer winbidderId, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException{
+		if (log.isDebugEnabled()) {
+			log.debug("定标开始");
+		}
+		ValidateUtil.assertNullnoappend(objectId, "招标编号不存在");
+		ValidateUtil.assertNullnoappend(winbidderId, "中标人不存在");
+		BidObject bo = dao.selectByPrimaryKey(objectId);
+		ValidateUtil.assertNullnoappend(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getBiddeeId(), biddee.getId(), "此项目并不是您的标的,不能进行操作");
+//		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "REV", "项目还没有开标,不能进行操作");
+		
+		BidRecord bid = bidRecordDao.selectByObjectIdAndBidderId(objectId, winbidderId);
+		ValidateUtil.assertNullnoappend(bid, "招标记录不存在");
+		ProjectPaymentDefine ppd = new ProjectPaymentDefine();
+		ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
+		TenderPaymentInfo tp = tenderPaymentInfo;
+		List<TenderPaymentDetailInfo> tpds= tp.getPayList();
+		//1.保存到招标表
+		bo.setObjectStatus("SEL");//修改状态为定标
+		bo.setWinBidderId(winbidderId);
+		bo.setWinBidAmount(bid.getBidAmount());
+		dao.updateByPrimaryKey(bo);
+		//更新投标表
+		//更新其它投标为失败
+		bidRecordDao.update2fail(objectId, winbidderId);
+		bid.setBidStatus("WIN");
+		bidRecordDao.updateByPrimaryKey(bid);
+		
+		//2.保存到工程付款表
+		ppd.setObjectId(objectId);
+		ppd.setPayPeriod(tp.getPayPeriod());
+		ppd.setPayType(tp.getPayType());
+		int pid = projectPaymentDefineDao.insert(ppd); 
+		for(TenderPaymentDetailInfo mm : tpds){
+			ppf.setPaySum(mm.getPaySum());
+			ppf.setPeriod(mm.getPeriod());
+			ppf.setProjectPaymentDefineId(pid);
+			projectPaymentDefineDetailDao.insert(ppf);
+		}
+		//更新投标评标表	
+		//XXX 先暂时不处理,好像不需要使用
+//		BidEvaluation be = new BidEvaluation();
+//		bidevaDao.insertBidEvaluation(objectId, winbidderId);
+		
+		PropertiesUtil pu = new PropertiesUtil();
+		String url=pu.getProperty("capital.url");
+		String appkey = pu.getProperty("appkey");
+		String appId = pu.getProperty("appId");
+		ValidateUtil.assertNullnoappend(url, "资金服务访问地址为空");
+		//解冻保证金
+		//收取中标者的保证金,这2个放到最后处理
+		List<MakeMatchBondRecord> mmbonds = mmbondDao.selectByObjectId(objectId);
+		String wincaporder = null;
+		List<Map<String,String>> losecaporders = new ArrayList<>();
+		String appOrderId = NoGenerationUtil.genNO("MM00", 6);
+		MakeMatchBondRecord winMakeMatchBondRecord = null;
+		List<MakeMatchBondRecord> loseMakeMatchBondRecords = new ArrayList<>();
+		for (Iterator iterator = mmbonds.iterator(); iterator.hasNext();) {
+			MakeMatchBondRecord makeMatchBondRecord = (MakeMatchBondRecord) iterator.next();
+			if(bid.getId()==makeMatchBondRecord.getBidId()){
+				wincaporder = makeMatchBondRecord.getCapitalOrderId();
+				winMakeMatchBondRecord =  new MakeMatchBondRecord();
+				winMakeMatchBondRecord.setBidId(makeMatchBondRecord.getBidId());
+				winMakeMatchBondRecord.setObjectId(makeMatchBondRecord.getObjectId());
+				winMakeMatchBondRecord.setOrderId(appOrderId);
+				winMakeMatchBondRecord.setBondAmount(makeMatchBondRecord.getBondAmount());
+				winMakeMatchBondRecord.setStatus("PAY");
+				winMakeMatchBondRecord.setInsertTime(new Date());
+				winMakeMatchBondRecord.setCreator(String.valueOf(biddee.getUserId()));
+				
+			}
+			else{
+				MakeMatchBondRecord loseMakeMatchBondRecord =  new MakeMatchBondRecord();
+				loseMakeMatchBondRecord.setBidId(makeMatchBondRecord.getBidId());
+				loseMakeMatchBondRecord.setOrderId(NoGenerationUtil.genNO("MM00", 6));
+				loseMakeMatchBondRecord.setObjectId(makeMatchBondRecord.getObjectId());
+				loseMakeMatchBondRecord.setBondAmount(makeMatchBondRecord.getBondAmount());
+				loseMakeMatchBondRecord.setStatus("REV");
+				loseMakeMatchBondRecord.setInsertTime(new Date());
+				loseMakeMatchBondRecord.setCreator(String.valueOf(biddee.getUserId()));
+				loseMakeMatchBondRecords.add(loseMakeMatchBondRecord);
+				Map<String,String> lose = new HashMap<>();
+				lose.put("appOrderId", loseMakeMatchBondRecord.getOrderId());
+				lose.put("orderId", makeMatchBondRecord.getCapitalOrderId());
+				losecaporders.add(lose);
+			}
+			
+		}
+		//生成工程信息
+		ProjectInfo project = new ProjectInfo();
+		project.setObjectId(objectId);
+		project.setBiddeeId(bo.getBiddeeId());
+		project.setBidderId(winbidderId);
+		project.setProjectId(objectId);//使用标的id
+		project.setStatus("OK#");
+		project.setStartTime(bid.getProjectStartTime());
+		project.setEndTime(bid.getProjectEndTime());
+		projectInfoDao.insert(project);
+		//收取中标者的保证金,解冻保证金
+		Map param = MapMaker.buildFromKeyValue(new DefaultKeyValue("token",token),new DefaultKeyValue("orderId",wincaporder),new DefaultKeyValue("lose",losecaporders),new DefaultKeyValue("appOrderId",appOrderId));
+		SelectBidWinMakeMatchBondRewardReturnBodyVO makeMatchBondRewardReturnVO = callTransBond2platform(param,url,appId,appkey);
+		String winorderId = makeMatchBondRewardReturnVO.getOrderId();
+		winMakeMatchBondRecord.setCapitalOrderId(winorderId);
+		mmbondDao.insert(winMakeMatchBondRecord);
+		List<CapitalOrderReturnVO> unfreezOrders = makeMatchBondRewardReturnVO.getLose();
+		for (Iterator iterator = unfreezOrders.iterator(); iterator.hasNext();) {
+			CapitalOrderReturnVO capitalOrderReturnVO = (CapitalOrderReturnVO) iterator.next();
+			String unfreezeorderId = capitalOrderReturnVO.getOrderId();
+			String apporderid = capitalOrderReturnVO.getAppOrderId();
+			for (Iterator iterator2 = loseMakeMatchBondRecords.iterator(); iterator2.hasNext();) {
+				MakeMatchBondRecord makeMatchBondRecord = (MakeMatchBondRecord) iterator2.next();
+				if(makeMatchBondRecord.getOrderId().equals(apporderid)){
+					makeMatchBondRecord.setCapitalOrderId(unfreezeorderId);
+					mmbondDao.insert(makeMatchBondRecord);
+					break;
+				}
+			}
+		}
+		
+		
+
+		if (log.isDebugEnabled()) {
+			log.debug("定标完成");
+		}
+		
+		
+		
+	}
+
+	/**
+	 * 调用资金帐户把钱移到平台帐户 中
+	 * @param orderId
+	 * @param appkey 
+	 * @param appId 
+	 * @param url 
+	 * @return 
+	 * @throws PaasException 
+	 * @throws SignatureException 
+	 * @throws DataInvalidException 
+	 * @throws RequestException 
+	 */
+	private SelectBidWinMakeMatchBondRewardReturnBodyVO callTransBond2platform(Map param, String url, String appId, String appkey) throws PaasException, DataInvalidException, SignatureException, RequestException {
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("请求资金服务,中标投标人撮合保证转移到平台,非中标投标人撮合保证金解冻"));
+		}
+		BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans(appId,appkey,param, false, false);
+		String poststr = JsonUtil.convert2Json(buildBaseTrans);
+		String result = new HttpRequester().postRequest(url+"/capitalManage/payMatchHandingCharge", poststr);
+		SelectBidWinMakeMatchBondRewardReturnVO mmcapReturn = JsonUtil.convertJson2Obj(result, SelectBidWinMakeMatchBondRewardReturnVO.class);
+		
+		if(mmcapReturn.getErrcode()!=0){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("请求资金服务,中标投标人撮合保证转移到平台,非中标投标人撮合保证金解冻,出错,信息为%s",mmcapReturn));
+			}
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"定标撮合保证金处理出错");
+		}
+		else{
+			return mmcapReturn.getResult();
+		}
+		
 	}
 
 }

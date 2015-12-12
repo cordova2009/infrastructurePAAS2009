@@ -17,7 +17,7 @@
     </div>
     <!--list-->
     <div class="result-list bgf">
-        <div class="tit1">更多中标结果</div>
+        <div class="tit1">招标项目列表</div>
         <div class="table">
             <table>
                 <tr class="bg1 thead">

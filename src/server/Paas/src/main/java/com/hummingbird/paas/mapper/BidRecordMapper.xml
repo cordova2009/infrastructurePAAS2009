@@ -80,6 +80,12 @@
     from t_ztgl_bid_record
     where object_id = #{object_id,jdbcType=VARCHAR}  and bidder_id = #{bidder_id,jdbcType=INTEGER}
   </select>
+   <select id="selectByObjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_bid_record
+    where object_id = #{object_id,jdbcType=VARCHAR} 
+  </select>
   <select id="selectTenderSurvey2selectByObjectId" resultMap="TenderSurveyResultMap"  parameterType="java.lang.String">
     select b.object_name objectName,count(a.id) bidderNum,max(a.bid_amount) maxBidAmount,min(a.bid_amount) minBidAmount  from t_ztgl_bid_record a inner JOIN t_ztgl_object b on a.object_id = b.object_id  
          where b.object_id = #{object_id,jdbcType=VARCHAR}
@@ -471,6 +477,12 @@
       construction_start_date = #{constructionStartDate,jdbcType=VARCHAR},
       technical_standard_url = #{technicalStandardUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update2fail" >
+    update t_ztgl_bid_record
+    set bid_status ='LOS'
+    where object_id = #{objectId,jdbcType=VARCHAR} and 
+      bidder_id != #{bidderId,jdbcType=INTEGER}
   </update>
   <select id="selectTotalByObjectIdInValid" resultType="int"  >
     select count(*) from t_ztgl_object  a  INNER JOIN t_ztgl_bid_record b on a.object_id = b.object_id and b.status = 'OK#' 

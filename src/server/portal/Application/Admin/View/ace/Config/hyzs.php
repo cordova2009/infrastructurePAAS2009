@@ -10,6 +10,7 @@
     <?php
         echo ace_form_open('','',array('industry_id'=>$industry_id));
     ?>
+    <h3 class="header smaller lighter green"><?=$industry_name?></h3>
     <div class="form-group rule-wrap">
         <div class="col-sm-5">
             <div class="controls">

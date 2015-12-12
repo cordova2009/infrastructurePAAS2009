@@ -142,7 +142,7 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			Long paidAmount= proRecordDao.getPaidAmountByObjectId(project.getObjectId());
 			allPaidAmount+=paidAmount;
-			allAmount+=objcet.getObjectAmount();
+			allAmount+=objcet.getWinBidAmount();
 			allWillPayAmount+=lastPayInfo==null?payDefine.getPaySum():lastPayInfo.getLeftAmount();
 			Long nextPeriodPayAmount=0l;
 			if(payDefine!=null){

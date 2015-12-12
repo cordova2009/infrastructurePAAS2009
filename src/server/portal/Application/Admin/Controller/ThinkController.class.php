@@ -100,7 +100,7 @@ class ThinkController extends AdminController {
                 // 查询条件
                 ->where($map)
                 /* 默认通过id逆序排列 */
-                ->order("{$fix}{$parent}.id DESC")
+                ->order("{$fix}{$parent}.id ASC")
                 /* 数据分页 */
                 ->page($page, $row)
                 /* 执行查询 */
@@ -117,7 +117,7 @@ class ThinkController extends AdminController {
                 // 查询条件
                 ->where($map)
                 /* 默认通过id逆序排列 */
-                ->order($model['need_pk']?'id DESC':'')
+                ->order($model['need_pk']?'id ASC':'')
                 /* 数据分页 */
                 ->page($page, $row)
                 /* 执行查询 */
@@ -167,8 +167,14 @@ class ThinkController extends AdminController {
     public function setStatus($model='Document'){
         return parent::setStatus($model);
     }
-    
-    public function edit($model = null, $id = 0, $jumpurl=''){
+
+    /**
+     * @param null $model
+     * @param int $id
+     * @param string $jumpurl
+     * @return mixed
+     */
+    public function pedit($model = null, $id = 0, $jumpurl=''){
         //获取模型信息
         $model = M('Model')->find($model);
         $model || $this->error('模型不存在！');
@@ -177,28 +183,34 @@ class ThinkController extends AdminController {
             $Model  =   D(parse_name(get_table_name($model['id']),1));
             // 获取模型的字段信息
             $Model  =   $this->checkAttr($Model,$model['id']);
-            if($Model->create() && $Model->save()){
+            if($Model->create() && is_numeric($Model->save())){
                 $jumpurl = empty($jumpurl) ? U('lists?model='.$model['name']) : U($jumpurl);
                 $this->success('保存'.$model['title'].'成功！', $jumpurl);
             } else {
                 $this->error($Model->getError()?$Model->getError():'修改失败！');
             }
-        } else {
-            $fields     = get_model_attribute($model['id']);
-
-            //获取数据
-            $data       = M(get_table_name($model['id']))->find($id);
-            $data || $this->error('数据不存在！');
-
-            $this->assign('model', $model);
-            $this->assign('fields', $fields);
-            $this->assign('data', $data);
-            $this->meta_title = '编辑'.$model['title'];
-            $this->display($model['template_edit']?$model['template_edit']:'');
         }
+
+        $fields     = get_model_attribute($model['id']);
+
+        //获取数据
+        $data       = M(get_table_name($model['id']))->find($id);
+        $data || $this->error('数据不存在！');
+
+        $this->assign('model', $model);
+        $this->assign('fields', $fields);
+        $this->meta_title = '编辑'.$model['title'];
+        return [$model,$data];
     }
 
-    public function add($model = null,$jumpurl=''){
+    public function edit($model = null, $id = 0, $jumpurl=''){
+        list($model,$data) = $this->pedit($model,$id,$jumpurl);
+
+        $this->assign('data', $data);
+        $this->display($model['template_edit']?$model['template_edit']:'');
+    }
+
+    public function padd($model = null,$jumpurl=''){
         //获取模型信息
         $model = M('Model')->where(array('status' => 1))->find($model);
         $model || $this->error('模型不存在！');
@@ -213,15 +225,21 @@ class ThinkController extends AdminController {
             } else {
                 $this->error($Model->getError());
             }
-        } else {
-
-            $fields = get_model_attribute($model['id']);
-
-            $this->assign('model', $model);
-            $this->assign('fields', $fields);
-            $this->meta_title = '新增'.$model['title'];
-            $this->display($model['template_add']?$model['template_add']:'');
         }
+
+        $fields = get_model_attribute($model['id']);
+
+        $this->meta_title = '新增'.$model['title'];
+        $this->assign('model', $model);
+        return [$model,$fields];
+    }
+
+    public function add($model = null,$jumpurl=''){
+
+        list($model,$fields) = $this->padd($model,$jumpurl);
+
+        $this->assign('fields', $fields);
+        $this->display($model['template_add']?$model['template_add']:'');
     }
 
     protected function checkAttr($Model,$model_id){

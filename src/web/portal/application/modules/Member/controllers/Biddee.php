@@ -472,7 +472,7 @@ return;
 	    }
 	    $id = I('id');
 	    $token = $this->user['token'];
-	    $curl = new Curl($this->config->url->api->paas);
+	    $curl = new Curl($this->config->url->api->capital);
 	    $resp = $curl->setData(['token'=>$token])->send('capitalManage/getPlatformBankcard');
 	    if(check_resp($resp)) {
 		    $this->assign('bankInfo',$resp['bankInfo']);

@@ -18,17 +18,21 @@ class UploadController extends MemberController {
         $config = array_merge($config,$config['picture']);
         $Upload = new Upload($this->config->upload->pic->toArray(), $driver, $config);
         $info   = $Upload->uploadOne($file);
+        $width = I('width');
+        $height = I('height');
+
         if(is_array($info) && isset($info['url'])){
             $this->ajaxReturn(
                                 [
                                     'status'=>0,
                                     'msg'=>'上传成功',
                                     'url'=>$info['url'],
-                                    'src'=>imageView2($info['url'])
+                                    'src'=>imageView2($info['url'],$width,$height)
                                 ]
                             );
         }else{
-            $this->error('上传失败，请重新再试！');
+            $msg = $Upload->getError();
+            $this->error(empty($msg) ? '上传失败，请重新再试！' : $msg);
         }
     }
 

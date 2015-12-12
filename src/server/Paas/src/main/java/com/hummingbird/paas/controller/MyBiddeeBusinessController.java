@@ -222,7 +222,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 					overall.put("creditScore", aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
 					
 				if(bb!= null){
-					overall.put("creditRating", bb.getLevelName());
+					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
 					overall.put("creditRating", "A");

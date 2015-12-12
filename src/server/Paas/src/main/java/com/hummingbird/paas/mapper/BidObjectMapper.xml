@@ -180,7 +180,7 @@
      inner join t_ztgl_object_baseinfo d on d.object_id = a.object_id
      inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
      inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
-        where c.user_id =#{user_id,jdbcType=INTEGER} 
+      where c.user_id =#{user_id,jdbcType=INTEGER}  and (a.object_status = 'PUB' OR a.object_status = 'REV')
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 

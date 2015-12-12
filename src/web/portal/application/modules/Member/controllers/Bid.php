@@ -165,13 +165,22 @@ class BidController extends MemberController {
      */
     public function requirementAction(){
 
-        $curl = new Curl();
-        $objectId = I('objectId');
-        $data = ['token'=>$this->user['token']];
-        $data['objectId'] = $objectId;
+        $curl               = new Curl();
+        $objectId           = I('objectId');
+        $data               = ['token'=>$this->user['token']];
+        $data['objectId']   = $objectId;
+
+        //查询投标人营业执照
+        $resp               = $curl->setData($data)
+                                    ->send('bid/queryBidderCompanyInfo');
+        if(!check_resp($resp)) {
+            $this->error('您还没有投标人资格，请先认证！');
+        }
+        $this->assign('bidderInfo',$resp['bidderInfo']);
+
         //查询投标人在投标时已有和缺少的资质证书信息
-        $resp = $curl->setData($data)
-            ->send('bid/queryBidderCertificationInfo');
+        $resp       = $curl->setData($data)
+                    ->send('bid/queryBidderCertificationInfo');
         //
         $this->assign('certificationInfo',$resp['certificationInfo']);
 
@@ -231,14 +240,6 @@ class BidController extends MemberController {
                 $this->error('保存失败！');
             }
         }
-
-        //查询投标人营业执照
-        $resp = $curl->setData($data)
-            ->send('bid/queryBidderCompanyInfo');
-        if(!check_resp($resp)) {
-            $this->error('您还没有投标人资格，请先认证！');
-        }
-        $this->assign('bidderInfo',$resp['bidderInfo']);
 
         //查询未完成的投标资格审查信息
         $resp = $curl->setData($data)

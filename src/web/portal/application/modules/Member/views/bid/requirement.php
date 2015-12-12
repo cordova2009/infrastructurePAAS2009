@@ -269,7 +269,7 @@ $(function(){
 })
 
 
-function save_success(resp,form) {
+function save_success(form,resp) {
     var next_step = form.attr('next_step');
     var wrap = $("#"+next_step);
     //已经加载过的，不需要再次加载

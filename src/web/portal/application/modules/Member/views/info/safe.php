@@ -221,7 +221,7 @@ function update_mobile_success(){
         window.location = '<?=U('/logout')?>';
     },5000)
 }
-function update_pwd_success(resp,obj){
+function update_pwd_success(obj){
     obj.find('input').val('');
 }
 </script>

@@ -113,7 +113,30 @@ class PublicController extends MallController {
      * 忘记密码
      */
     public function forgetAction(){
+        if(IS_POST){
+            $new_pwd = I('new_pwd');
+            if(empty($new_pwd)){
+                $this->error('新密码不能为空！');
+            }
+            if(I('r_new_pwd') != $new_pwd){
+                $this->error('两次密码输入不一致！');
+            }
+            $data['loginPassword']  = encrypt(md5($new_pwd),$this->config->api->app->appKey);
+            $data['smsCode']        = I('sms_code');
+            $data['mobileNum']      = I('mobile');
 
+            $curl                   = new Curl($this->config->url->api->user);
+
+            $resp = $curl->setData($data)->send('userSecurity/forgetPassword');
+
+            if(check_resp($resp)){
+                $this->success('');
+            }else{
+                $this->ajaxReturn(['status'=>999,'msg'=>isset($resp['errmsg']) ? $resp['errmsg'] : '重置密码失败，请重新再试，或联系管理员！']);
+            }
+
+
+        }
     }
 
     /**
@@ -124,6 +147,26 @@ class PublicController extends MallController {
         $code->entry(1) ;
     }
 
+    public function checkVerifyAction(){
+        $code = I('post.verify_code');
+        $verify = new Verify();
+        if(!$verify->check($code,1)){
+            $this->error('验证码不正确！');
+        }
+
+        $mobileNum = I('post.mobile');
+        if(empty($mobileNum)){
+
+            $this->error('手机号码不能为空！');
+        }
+
+        if(send_sms($mobileNum)){
+            //将短信验证码、手机、创建时间保存至会话中
+            $this->success('');
+        }else{
+            $this->error('验证码发送失败，请重新再试！');
+        }
+    }
     /**
      * 发送短信验证码接口
      */

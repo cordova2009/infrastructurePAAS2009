@@ -176,15 +176,18 @@ $(function() {
                 }else if(resp.msg != ''){
                     //返回消息为空
                     layer.msg(resp.msg,{icon:1},function(){
-                        calculateFunctionValue($this.attr('success'),[resp,$this],'');
+                        calculateFunctionValue($this.attr('success'),[$this,resp],'');
                     });
                 }else if(resp.msg == '' && resp.url == ''){
                     //返回信息与url都为空
-                    calculateFunctionValue($this.attr('success'),[resp,$this],'');
+                    calculateFunctionValue($this.attr('success'),[$this,resp],'');
                 }
             }
             else{
-                layer.alert(resp.msg,{icon:2});
+                layer.alert(resp.msg,{icon:2},function(index){
+                    calculateFunctionValue($this.attr('fail'),[$this,resp],'');
+                    layer.close(index);
+                });
             }
         },'json').always(function () {
             layer.close(loading);

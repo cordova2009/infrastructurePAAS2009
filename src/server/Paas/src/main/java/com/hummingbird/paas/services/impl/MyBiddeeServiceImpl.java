@@ -2,10 +2,13 @@ package com.hummingbird.paas.services.impl;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -482,24 +485,25 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 		// TODO Auto-generated method stub
 		boolean flag = true;
 		try{
+			BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
+			BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(biddeeId);
+			ValidateUtil.assertNull(bc, "未找到招标人资质申请数据！");
+			
 			BiddeeBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 			BiddeeLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
 			BiddeeRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
 			BiddeeBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
 			
-			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck);
-			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck);
-			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck);
-			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck);
+			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck,null);
+			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck,null);
+			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck,bc.getBusinessLicenseType());
+			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck,null);
 //			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
 			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
 				flag = false;
 			}
 //			baseInfoCheck.getCompany_name().getResult()
-			BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
-			BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(biddeeId);
-
-			ValidateUtil.assertNull(bc, "未找到招标人资质申请数据！");
+			
 			
 
 			if(bca == null){
@@ -673,12 +677,27 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	 * @return flag
 	 * @throws BusinessException
 	 */
-	public  <T> Boolean checkIsOk(T obj) throws BusinessException {
+	public  <T> Boolean checkIsOk(T obj,String type) throws BusinessException {
 		// TODO Auto-generated method stub
 		boolean flag = true;
 //		BiddeeBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 		Class clazz = obj.getClass();
 	    Field[] fields = obj.getClass().getDeclaredFields();//获得属性
+	    List<String> strs = new ArrayList<String>();
+	    if(type != null){
+	    	if("OLD".equalsIgnoreCase(type)){
+				String[] str = {"unified_social_credit_code_url","unified_social_credit_code"};
+			    strs = Arrays.asList(str);
+				
+			}else if("NEW".equalsIgnoreCase(type)){
+				String[] str = {"business_license","business_license_url","tax_registration_certificate","tax_registration_certificate_url","org_code_certificate","org_code_certificate_url"};
+				strs = Arrays.asList(str);
+//				str.toString().contains("1212");
+			}else{
+				ValidateUtil.assertNull(null, "没有该类型的营业执照请核对后在审核！");
+			}
+	    }
+	    
 	    for (Field field : fields) {
 	    PropertyDescriptor pd;
 		   try {
@@ -689,9 +708,22 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					if(o!= null && o.getClass()!=null){
 						if("AuditInfo".equals(o.getClass().getSimpleName())){
 							AuditInfo mm =(AuditInfo)o;
-							if(!"OK#".equalsIgnoreCase(mm.getResult())){
-								return false;
+							if(type ==null){//非公司注册的校验
+								if(!"OK#".equalsIgnoreCase(mm.getResult())){
+									return false;
+								}
+							}else{//公司注册的校验 
+//								List<String> strs = new ArrayList<String>(); 
+								
+									if(strs.contains(field.getName())){
+										continue;
+									}
+									if(!"OK#".equalsIgnoreCase(mm.getResult())){
+										return false;
+									}
+								
 							}
+							
 							System.out.println(o.getClass().getName());
 						}
 //						System.out.println(o.getClass().getName());

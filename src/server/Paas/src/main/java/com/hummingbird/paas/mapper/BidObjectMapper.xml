@@ -155,11 +155,11 @@
      where  c.user_id = #{user_id,jdbcType=INTEGER} AND (a.object_status = 'PUB' or a.object_status = 'REV')
   </select>
    <select id="countDoingNum" resultType="int" parameterType="java.lang.Integer" >
-   select count(b.object_id) from t_ztgl_bid_record b INNER JOIN  t_ztgl_object a on a.object_id = b.object_id INNER JOIN t_qyzz_bidder c on b.bidder_id = c.id 
+   select count(b.object_id) from t_ztgl_bid_record b INNER JOIN t_ztgl_object a ON a.object_id = b.object_id and a.win_bidder_id = b.bidder_id INNER JOIN t_qyzz_bidder c on b.bidder_id = c.id 
      where  c.user_id = #{user_id,jdbcType=INTEGER} AND a.object_status = 'SEL' 
     </select>
    <select id="countDoneNum" resultType="int" parameterType="java.lang.Integer" >
-   select count(b.object_id) from t_ztgl_bid_record b INNER JOIN  t_ztgl_object a on a.object_id = b.object_id INNER JOIN t_qyzz_bidder c on b.bidder_id = c.id 
+   select count(b.object_id) from t_ztgl_bid_record b INNER JOIN t_ztgl_object a ON a.object_id = b.object_id and a.win_bidder_id = b.bidder_id  INNER JOIN t_qyzz_bidder c on b.bidder_id = c.id 
      where  c.user_id = #{user_id,jdbcType=INTEGER} AND a.object_status = 'END' 
   </select>
   <select id="selectTotalCountTenderObject" resultType="int" parameterType="java.lang.Integer" >

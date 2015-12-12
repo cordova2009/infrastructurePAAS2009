@@ -1940,7 +1940,7 @@ public class TenderServiceImpl implements TenderService {
 			ppf.setPaySum(mm.getPaySum());
 			ppf.setPeriod(mm.getPeriod());
 			ppf.setPayEndTime(mm.getPayDate());
-			if(mm.getPayDate()==null){
+			if(mm.getPayDate()!=null){
 				
 				ppf.setPayStartTime(DateUtils.addDays(mm.getPayDate(), -30));
 			}

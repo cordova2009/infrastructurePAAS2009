@@ -12,6 +12,7 @@ import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -1932,6 +1933,11 @@ public class TenderServiceImpl implements TenderService {
 		for(TenderPaymentDetailInfo mm : tpds){
 			ppf.setPaySum(mm.getPaySum());
 			ppf.setPeriod(mm.getPeriod());
+			ppf.setPayEndTime(mm.getPayDate());
+			if(mm.getPayDate()==null){
+				
+				ppf.setPayStartTime(DateUtils.addDays(mm.getPayDate(), -30));
+			}
 			ppf.setProjectPaymentDefineId(pid);
 			projectPaymentDefineDetailDao.insert(ppf);
 		}
@@ -1991,8 +1997,13 @@ public class TenderServiceImpl implements TenderService {
 		project.setBidderId(winbidderId);
 		project.setProjectId(objectId);//使用标的id
 		project.setStatus("OK#");
-		project.setStartTime(bid.getProjectStartTime());
-		project.setEndTime(bid.getProjectEndTime());
+		try {
+			project.setStartTime(getDateFromStringOrNull(bid.getConstructionStartDate()));
+			project.setEndTime(getDateFromStringOrNull(bid.getConstructionEndDate()));
+		} catch (ParseException e) {
+//			log.error(String.format("施工开始时间 或 结束时间 有误 "),e);
+			throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "施工开始时间 或 结束时间 有误 ");
+		}
 		projectInfoDao.insert(project);
 		//收取中标者的保证金,解冻保证金
 		Map param = MapMaker.buildFromKeyValue(new DefaultKeyValue("token",token),new DefaultKeyValue("orderId",wincaporder),new DefaultKeyValue("lose",losecaporders),new DefaultKeyValue("appOrderId",appOrderId));

@@ -33,6 +33,7 @@ import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
 import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
@@ -48,6 +49,7 @@ import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 /**
@@ -567,5 +569,15 @@ public interface TenderService {
 	 */
 	public GetIndustryListBodyVOResult getIndustryDetail(String appId, GetIndustryDetailBodyVO body)
 			throws BusinessException;
+
+	/**
+	 * 定标
+	 * @param objectId
+	 * @param biddee
+	 * @param bidder_id
+	 * @param tenderPaymentInfo 分期付款设定
+	 * @return 
+	 */
+	public void selectBid2win(String objectId, Biddee biddee, Integer bidder_id, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException;
 
 }

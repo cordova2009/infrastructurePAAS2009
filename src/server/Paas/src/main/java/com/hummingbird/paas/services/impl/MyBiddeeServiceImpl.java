@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
@@ -26,6 +27,7 @@ import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCertification;
+import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
@@ -37,6 +39,7 @@ import com.hummingbird.paas.mapper.BiddeeBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificationCertificationMapper;
+import com.hummingbird.paas.mapper.BiddeeCertificationCreditScoreMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificationMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
@@ -71,8 +74,6 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Autowired
 	protected UserBankcardMapper userBankcardDao;
 	@Autowired
-	protected BiddeeCreditMapper biddeeCreditDao;
-	@Autowired
 	protected BiddeeBidCreditScoreMapper biddeeBidCreditScoreDao;
 	@Autowired
 	protected BiddeeBankAduitMapper biddeeBankAduitDao;
@@ -82,7 +83,13 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	protected ScoreLevelMapper scoreLevelDao;
 	@Autowired
 	protected BiddeeMapper biddeeDao;
-
+	@Autowired
+	protected BiddeeCreditMapper biddeeCreditDao;
+	@Autowired
+	protected BiddeeCertificationCreditScoreMapper bccsDao;
+	@Autowired
+	protected BiddeeBidCreditScoreMapper bbcsDao;
+	
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
 		// TODO Auto-generated method stub
@@ -547,12 +554,41 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					biddeeCertificateAduitDao.updateByPrimaryKey(bca);
 				}
 
-//				5.修改临时表数据状态
-			
+//				5.插入积分信息
+//				 BiddeeCreditMapper biddeeCreditDao;
+//				 BiddeeCertificationCreditScoreMapper bccsDao;
+//				 BiddeeBidCreditScoreMapper bbcsDao;
+				BiddeeCredit bcr  = biddeeCreditDao.selectByPrimaryKey(biddeeId);
+				if(bcr == null){
+					bcr = new BiddeeCredit();
+				}
+//				这里积分规则未定出     暂时全部存入 0 
+				bcr.setBankInfo(0);
+				bcr.setBaseinfoCreditScore(0);
+				bcr.setCompanyRegisteredInfo(0);
+				bcr.setCreditScore(0);
+				bcr.setLegalPersonInfo(0);
+				
+				if(bcr.getTendererId() != null){
+					biddeeCreditDao.updateByPrimaryKeySelective(bcr);
+				}else{
+					bcr.setTendererId(biddeeId);
+					biddeeCreditDao.insert(bcr);
+				}
+				
+				
+//				6.修改临时表数据状态
 				biddeeCerticateDao.updateByPrimaryKeySelective(bc);
+		}catch(ValidateException ve){
+				int errcode=ValidateException.ERRCODE_NULLVALUE;
+				
+				//throw new DataInvalidException(errcode, msg );
+				throw new DataInvalidException(10103, ve.getMessage());
+			
 		}catch(Exception e){
-			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
-					String.format("招标人【%s】审核失败", biddeeId));
+				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
+						String.format("招标人【%s】审核失败", biddeeId));
+			
 		}
 		
 

@@ -1031,11 +1031,11 @@ public class BidController extends BaseController {
 	 * @return  queryMyBuildingObject
 	 */
 	@RequestMapping(value="/queryMyBuildingObject",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询我的投标中项目列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	@AccessRequered(methodName = "查询施工中项目列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryMyBuildingObject(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
-		String messagebase = "查询我的投标中项目列表"; 
+		String messagebase = "查询施工中项目列表"; 
 		RequestEvent qe=null ; 
 		List<QueryMyBuildingObjectListResultVO> liq = null;
 		try {

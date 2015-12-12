@@ -212,12 +212,14 @@ public class TokenServiceImpl implements TokenService {
 		Token to = getTokenOnRedis(token.getToken());
 		if(to!= null){//从redis取数据  
 			to.setUpdateTime(new Date());
+			to.setExpireIn(this.getDefaultExpireIn());//延长有效期
 			tokenmapper.updateByPrimaryKeySelective(to);
 			updateTokenOnRedis(to);
 		}else{
 			to = tokenmapper.selectByTokenStr(token.getToken());
 			if(to!=null){
 				to.setUpdateTime(new Date());
+				to.setExpireIn(getDefaultExpireIn());
 				tokenmapper.updateByPrimaryKeySelective(to);
 				saveTokenToRedis(to);
 			}

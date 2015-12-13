@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,6 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
-import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
@@ -33,9 +33,6 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidObjectMapper;
-import com.hummingbird.paas.mapper.BiddeeBidCreditScoreMapper;
-import com.hummingbird.paas.mapper.BiddeeCertificationCreditScoreMapper;
-import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
@@ -562,24 +559,26 @@ public class MyBidderServiceImpl implements MyBidderService {
 	public  Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer bidderId) throws BusinessException {
 		boolean flag = true;
 		try{
+			BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
+			BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(bidderId);
+
+			ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
+			
 			BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 			BidderLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
 			BidderRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
 			BidderBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
 			
-			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck);
-			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck);
-			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck);
-			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck);
+			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck, null);
+			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck, null);
+			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck, bc.getBusinessLicenseType());
+			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck, null);
 //			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
 			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
 				flag = false;
 			}
 //			baseInfoCheck.getCompany_name().getResult()
-			BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
-			BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(bidderId);
-
-			ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
+			
 			if(bca == null){
 				bca = new BidderCertificateAduit();
 			}
@@ -748,12 +747,27 @@ public class MyBidderServiceImpl implements MyBidderService {
 	 * @return flag
 	 * @throws BusinessException
 	 */
-	public  <T> Boolean checkIsOk(T obj) throws BusinessException {
+	public  <T> Boolean checkIsOk(T obj,String type) throws BusinessException {
 		// TODO Auto-generated method stub
 		boolean flag = true;
 //		BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 		Class clazz = obj.getClass();
 	    Field[] fields = obj.getClass().getDeclaredFields();//获得属性
+	    List<String> strs = new ArrayList<String>();
+	    if(type != null){
+	    	if("OLD".equalsIgnoreCase(type)){
+				String[] str = {"unified_social_credit_code_url","unified_social_credit_code"};
+			    strs = Arrays.asList(str);
+				
+			}else if("NEW".equalsIgnoreCase(type)){
+				String[] str = {"business_license","business_license_url","tax_registration_certificate","tax_registration_certificate_url","org_code_certificate","org_code_certificate_url"};
+				strs = Arrays.asList(str);
+//				str.toString().contains("1212");
+			}else{
+				ValidateUtil.assertNull(null, "没有该类型的营业执照请核对后在审核！");
+			}
+	    }
+	    
 	    for (Field field : fields) {
 	    PropertyDescriptor pd;
 		   try {
@@ -764,8 +778,20 @@ public class MyBidderServiceImpl implements MyBidderService {
 					if(o!= null && o.getClass()!=null){
 						if("AuditInfo".equals(o.getClass().getSimpleName())){
 							AuditInfo mm =(AuditInfo)o;
-							if(!"OK#".equalsIgnoreCase(mm.getResult())){
-								return false;
+							if(type ==null){//非公司注册的校验
+								if(!"OK#".equalsIgnoreCase(mm.getResult())){
+									return false;
+								}
+							}else{//公司注册的校验 
+//								List<String> strs = new ArrayList<String>(); 
+								
+									if(strs.contains(field.getName())){
+										continue;
+									}
+									if(!"OK#".equalsIgnoreCase(mm.getResult())){
+										return false;
+									}
+								
 							}
 							System.out.println(o.getClass().getName());
 						}

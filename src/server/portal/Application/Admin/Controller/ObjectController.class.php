@@ -65,6 +65,14 @@ class ObjectController extends AdminController {
 		$this->meta_title = '工程付款';
 		$this->display();
 	}
+	public function receive()
+	{
+		$id = I('id');
+		$item = M('gcgl_project_payment_receive a')->join('t_ztgl_object b on a.project_id =b.object_id')->where(['id'=>$id])->find();
+		$this->assign('item', $item);
+		$this->meta_title = '付款明细';
+		$this->display();
+	}
 	public function paymentshow()
 	{
 		$id = I('id');

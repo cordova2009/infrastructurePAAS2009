@@ -63,7 +63,11 @@ foreach ($status as $k=>$v){
                         <td>{$item.should_receive_time}</td>
                         <td>{$item.receive_time}</td>
                         <td><?php echo $status[$item['status']];?></td>
-                        <td><a href="{:U('collectionsshow?id='.$item['id'])}">查看</a></td>
+                        <td><a href="{:U('collectionsshow?id='.$item['id'])}">查看</a>
+<?php if($item['status']=='CRT') {?>
+                        <a href="<?php echo U('receive?id='.$item['id']);?>">收款</a></td>
+<?php }?>
+</td>
                     </tr>
                 </volist>
 				<else/>

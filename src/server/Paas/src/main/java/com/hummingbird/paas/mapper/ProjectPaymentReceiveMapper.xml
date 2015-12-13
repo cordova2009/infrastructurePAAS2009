@@ -25,6 +25,12 @@
     from t_gcgl_project_payment_receive
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gcgl_project_payment_receive
+    where order_id = #{orderId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_gcgl_project_payment_receive
     where id = #{id,jdbcType=INTEGER}

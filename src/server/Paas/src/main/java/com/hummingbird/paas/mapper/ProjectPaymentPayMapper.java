@@ -26,6 +26,11 @@ public interface ProjectPaymentPayMapper {
      * 根据主键查询记录
      */
     ProjectPaymentPay selectByPrimaryKey(Integer id);
+    
+    /**
+     * 根据支付订单查询记录
+     */
+    ProjectPaymentPay selectByOrderId(String payOrderId);
 
     /**
      * 根据主键更新属性不为空的记录

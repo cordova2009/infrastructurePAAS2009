@@ -273,6 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<tr>
 		<td><input  value="查询工程类别列表"  onclick='setbinding("/tender/getIndustryList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {          }    }")'  type="button" ></td>
 		<td><input  value="查询工程类别详情"  onclick='setbinding("/tender/getIndustryDetail","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {    \"industryId\":\"TSF\"      }    }")'  type="button" ></td>
+		<td><input  value="确认工程付款"  onclick='setbinding("/projectPayment/confirmPayment","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },        \"body\":{\"orderId\":\"yt73432\",\"confirmStatus\":\"OK#\",\"remark\":\"付款1期300元\",\"operator\":\"1\"        }    } ")'  type="button" ></td>
 	</tr>
 </table>
   </body>

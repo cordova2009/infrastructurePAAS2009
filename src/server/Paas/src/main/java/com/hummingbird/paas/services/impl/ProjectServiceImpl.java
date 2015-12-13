@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
@@ -394,6 +395,7 @@ public class ProjectServiceImpl implements ProjectService{
 		record.setTransferDate(body.getTransferTime());
 		record.setVoucher(body.getVoucherNo());
 		record.setVoucherPic(body.getVoucherFileUrl());
+		record.setOrderId(NoGenerationUtil.genNO("PP",6));
 		payRecordDao.insert(record);
 	}
 }

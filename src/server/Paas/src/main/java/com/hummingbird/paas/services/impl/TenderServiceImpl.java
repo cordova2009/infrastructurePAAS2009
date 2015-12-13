@@ -2000,7 +2000,7 @@ public class TenderServiceImpl implements TenderService {
 		ProjectInfo project = new ProjectInfo();
 		project.setObjectId(objectId);
 		project.setBiddeeId(bo.getBiddeeId());
-		project.setBidderId(winbidId);
+		project.setBidderId(winBidderId);
 		project.setProjectId(objectId);//使用标的id
 		project.setStatus("OK#");
 		try {

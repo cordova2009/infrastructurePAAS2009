@@ -65,5 +65,13 @@ public interface CapitalManageService {
 	 * @see com.hummingbird.maaccount.service.impl.DefaultAccountService#createAccount(java.lang.Integer)
 	 */
 	public Account createAccount(Integer userId) throws MaAccountException;
+
+	/**
+	 * 收入
+	 * @param platformuserId
+	 * @param amount
+	 * @param appOrderId
+	 */
+	public void income(Integer userId, Long amount, String appOrderId);
 	
 }

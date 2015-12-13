@@ -62,6 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input type="button"  value="提现成功"  onclick='setbinding("/capitalManage/successWithdrawals","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"orderId\":\"ORDER_ID\",\"appOrderId\":\"审核id\",\"remark\":\"完成提现申请审核，转账10000元\"}}")'></td>
 		<td><input type="button"  value="提现失败"  onclick='setbinding("/capitalManage/failWithdrawals","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"orderId\":\"ORDER_ID\",\"appOrderId\":\"审核id\",\"remark\":\"完成提现申请审核，转账10000元\"}}")'></td>
 		<td><input type="button"  value="获取平台方银行账户"  onclick='setbinding("/capitalManage/getPlatformBankcard","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\"}}")'></td>
+		<td><input type="button"  value="内部 用户收入"  onclick='setbinding("/capitalManage/UserAccountIncome","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"amount\":1000,\"userId\":\"1\",\"appOrderId\":\"tr64734\"}}")'></td>
 	</tr>
 	
 </table>

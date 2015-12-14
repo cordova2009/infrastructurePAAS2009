@@ -65,14 +65,11 @@ foreach ($status as $k=>$v){
                         <td>{$item.pay_time}</td>
                         <td>{$item.voucher}</td>
                         <td><?php echo $status[$item['status']];?></td>
-                        <td><a href="{:U('paymentshow?id='.$item['id'])}">查看</a>
-<?php if($item['status']=='CRT') {?>
-                        <a href="<?php echo U('receive?id='.$item['id']);?>">收款</a></td>
-<?php }?>
+                        <td><a href="{:U('paymentshow?id='.$item['id'])}">查看</a></td>
                     </tr>
                 </volist>
 				<else/>
-				<td colspan="11" class="text-center"> aOh! 暂时还没有内容! </td>
+				<td colspan="12" class="text-center"> aOh! 暂时还没有内容! </td>
 				</notempty>
                 </tbody>
             </table>

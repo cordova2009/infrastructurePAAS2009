@@ -32,7 +32,7 @@ public interface BidRecordMapper {
     /**
      * 根据object_id,bidderid查询记录
      */
-    BidRecord selectByObjectIdAndBidderId(@Param("object_id") String object_id,@Param("bidder_id") Integer bidder_id);
+    BidRecord selectByObjectIdAndBidId(@Param("object_id") String object_id,@Param("bidId") Integer bidId);
     /**
      * 根据object_id查询记录
      */
@@ -91,5 +91,5 @@ public interface BidRecordMapper {
 	 * @param objectId
 	 * @param winbidderId
 	 */
-	void update2fail(@Param("objectId")String objectId,@Param("bidderId") Integer winbidderId);
+	void update2fail(@Param("objectId")String objectId,@Param("bidId") Integer winbidId);
 }

@@ -47,4 +47,11 @@ public interface ProjectPaymentReceiveMapper {
      * @return
      */
     List<ProjectPaymentReceive> queryReceivedRecord(String objectId);
+
+	/**
+	 * 根据订单查询收款记录
+	 * @param orderId
+	 * @return
+	 */
+	ProjectPaymentReceive selectByOrderId(String orderId);
 }

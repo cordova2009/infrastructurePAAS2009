@@ -71,7 +71,7 @@ class CapitalController extends AdminController {
 			$map['_string'] = $str;
 		}
 		$model = M('ddgl_withdraw_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_auth d on d.user_id=a.user_id')->join('t_project_account c on c.user_id=a.user_id');
-		$list   =   $this->lists($model, $map,'a.insert_time desc','*');
+		$list   =   $this->lists($model, $map,'a.insert_time desc','*,a.status');
 		$this->assign('_list', $list);
 		$this->meta_title = '提现申请列表';
 		$this->display();
@@ -105,7 +105,7 @@ class CapitalController extends AdminController {
 			$map['_string'] = $str;
 		}
 		$model = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_auth d on d.user_id=a.user_id')->join('t_project_account c on c.user_id=a.user_id');
-		$list   =   $this->lists($model, $map,'a.insert_time desc','*');
+		$list   =   $this->lists($model, $map,'a.insert_time desc','*,a.status');
 		$this->assign('_list', $list);
 		$this->meta_title = '充值申请列表';
 		$this->display();

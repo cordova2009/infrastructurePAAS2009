@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
@@ -93,7 +94,7 @@ public class ProjectServiceImpl implements ProjectService{
 				willPayAmount=lastPayInfo.getLeftAmount();
 			}else if(payDefine!=null){
 				
-				willPayAmount=objcet.getWinBidAmount()-payDefine.getPaySum();
+				willPayAmount=objcet.getWinBidAmount();//-payDefine.getPaySum();
 			}
 			query.setWillPayAmount(ObjectUtils.toString(willPayAmount));
 			query.setWinBidAmount(ObjectUtils.toString(objcet.getWinBidAmount()));
@@ -373,7 +374,7 @@ public class ProjectServiceImpl implements ProjectService{
 		record.setCurrentPeriod(defines.getPeriod());
 		Long leftAmount=0l;
 		if(lastPayInfo==null){
-			leftAmount=object.getWinBidAmount()==null?0:object.getWinBidAmount();
+			leftAmount=object.getWinBidAmount()==null?0:(object.getWinBidAmount()-body.getAmount());
 		}else{
 			leftAmount=lastPayInfo.getLeftAmount()-body.getAmount();
 		}
@@ -394,6 +395,7 @@ public class ProjectServiceImpl implements ProjectService{
 		record.setTransferDate(body.getTransferTime());
 		record.setVoucher(body.getVoucherNo());
 		record.setVoucherPic(body.getVoucherFileUrl());
+		record.setOrderId(NoGenerationUtil.genNO("PP",6));
 		payRecordDao.insert(record);
 	}
 }

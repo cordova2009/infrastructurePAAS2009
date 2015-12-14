@@ -189,12 +189,13 @@ public class OrderServiceImpl implements OrderService {
 			}
 			ResultModel rm = JsonUtil.convertJson2Obj(postRequest, ResultModel.class);
 			if(rm.isSuccessed()){
-				pr.setPayStatus(ObjectUtils.toString(rm.get("payResult")));
-				String paytime = ObjectUtils.toString(rm.get("payTime"));
+				Map result = (Map) rm.get("result");
+				pr.setPayStatus(ObjectUtils.toString(result.get("payResult")));
+				String paytime = ObjectUtils.toString(result.get("payTime"));
 				if(StringUtils.isNotBlank(paytime)){
 					pr.setPayTime(DateUtil.parse2date(paytime, "yyyy-MM-dd HH:mm:ss"));
 				}
-				pr.setTradeId(ObjectUtils.toString(rm.get("tradeId")));
+				pr.setTradeId(ObjectUtils.toString(result.get("tradeId")));
 			}
 			else
 				throw new BusinessException(BusinessException.ERRCODE_REQUEST,"查询支付宝订单状态出错,结果错误");

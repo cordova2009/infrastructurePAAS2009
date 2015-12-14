@@ -19,6 +19,7 @@ public class dom4j {
 		
 		SAXReader reader = new SAXReader();
 		Document doc = reader.read(new URL(filepath).openStream());
+		System.out.println(doc.asXML());
 		//解析request列表下的信息
 		List<Node> nodeList = doc.selectNodes("//request/*");
 		StringBuffer buf = new StringBuffer();

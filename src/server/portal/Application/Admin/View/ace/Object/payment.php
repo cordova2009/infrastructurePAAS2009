@@ -69,7 +69,7 @@ foreach ($status as $k=>$v){
                     </tr>
                 </volist>
 				<else/>
-				<td colspan="11" class="text-center"> aOh! 暂时还没有内容! </td>
+				<td colspan="12" class="text-center"> aOh! 暂时还没有内容! </td>
 				</notempty>
                 </tbody>
             </table>

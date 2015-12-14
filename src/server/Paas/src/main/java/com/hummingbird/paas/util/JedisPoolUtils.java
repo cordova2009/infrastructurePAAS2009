@@ -7,8 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.PropertiesUtil;
-import com.hummingbird.commonbiz.vo.BaseUserToken;
-import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.Token;
 
 import net.sf.json.util.JSONUtils;
@@ -131,9 +129,101 @@ public class JedisPoolUtils {
 		jedisPool.returnResource(jedis);
 	}
 
+	/**
+	 * 从redis读取数据
+	 * @author YJY 
+	 * @param key
+	 * @param record
+	 * @return 
+	 * @since 2015-11-25 17:22:50
+	 */
+	public static  <T> T getDataOnRedis(String key,Class<T> type) throws Exception {
+		Jedis jedis = JedisPoolUtils.getJedisIfNessary();
+//		jedis.flushDB();
+		if(jedis != null && jedis.exists(key)){
+			String json = jedis.get(key);
+				T to;
+				try {
+					to = (T) JsonUtil.convertJson2Obj(json, type);
+//					System.out.println(to.getToken());
+					if(to!=null)
+					{
+						if (log.isDebugEnabled()) {
+							log.debug(String.format("从redis读取数据成功！"));
+						}
+						return to;
+					}
+				} catch (DataInvalidException e) {
+					log.error("转换失败",e);
+				}
+			
 
+			//System.out.println(json);
+		}
+		return null;
+	}
+	
+	/**
+	 * 将token保存到redis(更新或者新增)
+	 * @author YJY 
+	 * @param key
+	 * @param record
+	 * @since 2015-11-25 17:22:50
+	 */
+	public static  <T> T saveDataToRedis(String key,T record) {
+		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
+		
+		try {
+			if(jpu!=null&&record!=null){
+				String result = jpu.set(key, JsonUtil.convert2Json(record));
+				jpu.expire(key, getDefaultExpireIn());
+//				jpu.expire(key, 7*24*3600);
+				if (log.isDebugEnabled()) {
+					if("OK".equalsIgnoreCase(result)){
+						log.debug(String.format("保存数据到redis成功！"));
+					}
+					
+				}
+			}
+			
+		} catch (DataInvalidException e) {
+			log.error("转换失败",e);
+		}
+		return record;
+	}
+	
+	
+	/**
+	 * 将数据从redis移除
+	 * @author YJY 
+	 * @param key
+	 * @since 2015-11-25 17:22:50
+	 */
+	public static  Long removeDataOnRedis(String key) {
+		
+		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
+		Long i = 0L;
+		if(jpu!=null){
+		 i= jpu.del(key);
+		 if(log.isDebugEnabled()){
+			 if(i>0){
+					log.debug(String.format("数据从redis移除成功！"));
+				}
+		 }
+		 
+		}
+		
+		return i;
+	}
+
+	private static  int getDefaultExpireIn(){
+		//1小时有效
+		return new PropertiesUtil().getInt("usertoken.expirein", 3600);
+	}
+	
 	public static void main(String[] args) {
-		Jedis jpu = JedisPoolUtils.getJedis();		 		
+		Jedis jpu = JedisPoolUtils.getJedis();	
+//		jpu.flushDB();
 		Token record=new Token();		
 		record.setAppId("paas");		
 		record.setUserId(46);		
@@ -150,8 +240,10 @@ public class JedisPoolUtils {
 			e.printStackTrace();
 		}	 		
 		
- 		System.out.println(jpu);
-		
+//		Long i = removeDataOnRedis("11111");
+//		 mm  = getDataOnRedis("11111", record.getClass());
+		System.out.println(jpu);
+
 		}
 	}
 

@@ -1,12 +1,11 @@
 package com.hummingbird.capital.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -21,11 +20,10 @@ import com.hummingbird.capital.entity.AppLog;
 import com.hummingbird.capital.entity.PlatformBankcard;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
-import com.hummingbird.capital.entity.RechargeApply;
 import com.hummingbird.capital.entity.Token;
 import com.hummingbird.capital.entity.User;
-import com.hummingbird.capital.entity.WithdrawApply;
 import com.hummingbird.capital.exception.MaAccountException;
+import com.hummingbird.capital.face.Account;
 import com.hummingbird.capital.mapper.AppLogMapper;
 import com.hummingbird.capital.mapper.PlatformBankcardMapper;
 import com.hummingbird.capital.mapper.ProjectAccountMapper;
@@ -33,25 +31,21 @@ import com.hummingbird.capital.services.CapitalManageService;
 import com.hummingbird.capital.services.OrderService;
 import com.hummingbird.capital.services.TokenService;
 import com.hummingbird.capital.services.UserService;
-import com.hummingbird.capital.util.MoneyUtil;
+import com.hummingbird.capital.util.AccountFactory;
 import com.hummingbird.capital.vo.ApplyListReturnVO;
 import com.hummingbird.capital.vo.CapitalSurveyReturnVO;
 import com.hummingbird.capital.vo.CheckRechargeApplyBodyVO;
 import com.hummingbird.capital.vo.CheckWithdrawalBodyVO;
-import com.hummingbird.capital.vo.FailWithdrawalsBodyVO;
 import com.hummingbird.capital.vo.FreezeBondBodyVO;
 import com.hummingbird.capital.vo.FreezeBondReturnVO;
 import com.hummingbird.capital.vo.FreezeBondVO;
-import com.hummingbird.capital.vo.FreezeWithdrawalsBodyVO;
-import com.hummingbird.capital.vo.FreezeWithdrawalsVO;
 import com.hummingbird.capital.vo.GetPlatformBankcardReturnVO;
 import com.hummingbird.capital.vo.MobileBodyVO;
 import com.hummingbird.capital.vo.PayMatchHandingChargeVO;
+import com.hummingbird.capital.vo.PlatformPaymentBodyVO;
 import com.hummingbird.capital.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
 import com.hummingbird.capital.vo.RechargeApplyReturnVO;
-import com.hummingbird.capital.vo.SuccessRechargeBodyVO;
-import com.hummingbird.capital.vo.SuccessWithdrawalsBodyVO;
 import com.hummingbird.capital.vo.TokenBodyVO;
 import com.hummingbird.capital.vo.TokenQueryVO;
 import com.hummingbird.capital.vo.TokenVO;
@@ -63,24 +57,20 @@ import com.hummingbird.capital.vo.WithdrawalsApplyBodyVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyListReturnVO;
 import com.hummingbird.capital.vo.WithdrawalsApplyVO;
 import com.hummingbird.common.controller.BaseController;
+import com.hummingbird.common.event.EventListenerContainer;
+import com.hummingbird.common.event.RequestEvent;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.face.Pagingnation;
-import com.hummingbird.common.util.DESUtil;
 import com.hummingbird.common.util.DateUtil;
-import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
-import com.hummingbird.common.util.StrUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
-import com.hummingbird.common.vo.ValidateResult;
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.service.IAuthenticationService;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
-import com.hummingbird.capital.face.Account;
-import com.hummingbird.capital.util.AccountFactory;
 
 @Controller
 
@@ -939,5 +929,115 @@ public class CapitalManageController extends BaseController{
 		if(applog!=null){
 			applogDao.insert(new AppLog(applog));
 		}
+	}
+	
+	/**
+	 * 平台方支出接口
+	 * @return
+	 */
+	@RequestMapping(value="/platformPay",method=RequestMethod.POST)
+	@AccessRequered(methodName = "平台方支出",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
+	public @ResponseBody ResultModel platformPay(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
+		String messagebase = "平台方支出"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer platformuserId = 0;
+			ProjectAccount pa = capitalManageSer.queryAccountInfo(platformuserId);
+			if(pa.getRemainingSum()>transorder.getBody().getAmount()){
+				throw new MaAccountException("平台方余额不足以扣款");
+			}
+			pa.setRemainingSum(pa.getRemainingSum()-transorder.getBody().getAmount());
+			proActDao.updateByPrimaryKey(pa);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 平台方收入接口
+	 * @return
+	 */
+	@RequestMapping(value="/platformIncome",method=RequestMethod.POST)
+	@AccessRequered(methodName = "平台方收入",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
+	public @ResponseBody ResultModel platformIncome(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
+		String messagebase = "平台方收入"; 
+		
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer platformuserId = 0;
+			ProjectAccount pa = capitalManageSer.queryAccountInfo(platformuserId);
+			pa.setRemainingSum(pa.getRemainingSum()+transorder.getBody().getAmount());
+			proActDao.updateByPrimaryKey(pa);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 用户收入接口
+	 * @return
+	 */
+	@RequestMapping(value="/UserAccountIncome",method=RequestMethod.POST)
+	@AccessRequered(methodName = "用户收入",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
+	public @ResponseBody ResultModel UserAccountIncome(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
+		String messagebase = "用户收入"; 
+		
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Integer platformuserId =NumberUtils.toInt( transorder.getBody().getUserId());
+			capitalManageSer.income(platformuserId,transorder.getBody().getAmount(),transorder.getBody().getAppOrderId());
+			
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
 	}
 }

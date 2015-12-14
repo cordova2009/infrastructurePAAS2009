@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<ul id="menu">
 <li><input type="button" onclick='setbinding("/alipay/alipay_payment_notify?discount=0.00&payment_type=1&subject= 测 试&trade_no=2013082244524842&buyer_email=dlwdgl@gmail.com&gmt_create=2013-08-22 14:45:23&notify_type=trade_status_sync&quantity=1&out_trade_no=082215222612710&seller_id=2088501624816263&notify_time=2013-08-22 14:45:24&body=测试测 试&trade_status=TRADE_SUCCESS&is_total_fee_adjust=N&total_fee=1.00&gmt_payment=2013-08-22 14:45:24&seller_email=xxx@alipay.com&price=1.00&buyer_id=2088602315385429&notify_id=64ce1b6ab92d00ede0ee56ade98fdf2f4c&use_coupon=N&sign_type=RSA&sign=1glihU9DPWee+UJ82u3+mw3Bdnr9u01at0M/xJnPsGuHh+JA5bk3zbWaoWhU6GmLab3dIM4JNdktTcEUI9/FBGhgfLO39BKX/eBCFQ3bXAmIZn4l26fiwoO613BptT44GTEtnPiQ6+tnLsGlVSrFZaLB9FVhrGfipH2SWJcnwYs=","",null,"formdata")' value="支付宝支付通知" ></li> 
-<li><input type="button" onclick='setbinding("/alipay/queryPayResult","",null,"formdata")' value="支付宝查询订单" ></li> 
+<li><input type="button" onclick='setbinding("/alipay/queryPayResult","{        \"app\":{            \"appId\":\"paas\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":      { \"orderId\":\"SD001511119897575658\"}     }")' value="支付宝查询订单" ></li> 
 </ul> 
   </body>
     <script>

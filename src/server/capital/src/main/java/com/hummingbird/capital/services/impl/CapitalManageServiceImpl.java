@@ -13,6 +13,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DESUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ValidateResult;
+import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
 import com.hummingbird.capital.entity.User;
@@ -133,4 +134,34 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		
 		return acc;
 	}
+	
+
+	/**
+	 * 收入
+	 * @param platformuserId
+	 * @param amount
+	 * @param appOrderId
+	 */
+	public void income(Integer userId, Long amount, String appOrderId)
+	{
+		ProjectAccount pa = this.queryAccountInfo(userId);
+		pa.setRemainingSum(pa.getRemainingSum()+amount);
+		proActDao.updateByPrimaryKey(pa);
+		ProjectAccountOrder order = new ProjectAccountOrder();
+		order.setAccountId(pa.getAccountId());
+		order.setSum(amount);
+		order.setBalance(pa.getRemainingSum());
+		order.setAppOrderId(appOrderId);
+		order.setFlowDirection("IN#");
+		order.setFrozenSumSnapshot(pa.getFrozenSum());
+		order.setInsertTime(new Date());
+		order.setMethod("/capitalManage/UserAccountIncome");
+		order.setOrderId(NoGenerationUtil.genNO("PA",6));
+		order.setRemark("用户收入"+amount+"分");
+		order.setStatus("OK#");
+		order.setType("CZ#");
+		proActOrdDo.insert(order);
+		
+	}
+	
 }

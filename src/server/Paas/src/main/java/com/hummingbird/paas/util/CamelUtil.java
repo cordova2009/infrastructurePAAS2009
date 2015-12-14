@@ -5,18 +5,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 金额工具类,用于paas项目
- * @author john huang
+ * 下划线驼峰  转换类,用于paas项目
+ * @author YJY
  * 2015年11月14日 上午11:43:07
  * 本类主要做为
  */
 public class CamelUtil{
 	
-	/**
-	 * 下划线驼峰  转换类
-	 * @param 
-	 * @return
-	 */
     public static final char UNDERLINE='_';
     public static String camelToUnderline(String param){
         if (param==null||"".equals(param.trim())){

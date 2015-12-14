@@ -49,7 +49,13 @@ public class TokenServiceImpl implements TokenService {
 		if(StringUtils.isBlank(token)){
 			return null;
 		}
-		Token to  = this.getTokenOnRedis(token);
+		Token to = null;
+		try {
+			to = this.getTokenOnRedis(token);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
+		}
 		if(to == null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("redis没有获取token数据,开始从数据库表查询!"));
@@ -96,7 +102,13 @@ public class TokenServiceImpl implements TokenService {
 		if(StringUtils.isBlank(token)){
 			return null;
 		}
-		Token to  = this.getTokenOnRedis(token);
+		Token to = null;
+		try {
+			to = this.getTokenOnRedis(token);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
+		}
 		if(to == null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("redis没有获取token数据,开始从数据库表查询!"));
@@ -209,7 +221,13 @@ public class TokenServiceImpl implements TokenService {
 	 * @param token
 	 */
 	public void postponeToken(Token token){
-		Token to = getTokenOnRedis(token.getToken());
+		Token to = null;
+		try {
+			to = this.getTokenOnRedis(token.getToken());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
+		}
 		if(to!= null){//从redis取数据  
 			to.setUpdateTime(new Date());
 			to.setExpireIn(this.getDefaultExpireIn());//延长有效期
@@ -268,7 +286,7 @@ public class TokenServiceImpl implements TokenService {
 			if(jpu!=null&&record!=null){
 				if(!jpu.exists(record.getToken())){
 					jpu.set(record.getToken(), JsonUtil.convert2Json(record));
-					jpu.expire(record.getToken(), getDefaultExpireIn());//设置有效期
+					jpu.expire(record.getToken(), 3600);//设置有效期
 				}	 
 			}
 			
@@ -292,7 +310,7 @@ public class TokenServiceImpl implements TokenService {
 			try {
 				json = JsonUtil.convert2Json(token);
 				jedis.set(token.getToken(), json);
-				jedis.expire(token.getToken(), token.getExpireIn());
+				jedis.expire(token.getToken(), 3600);
 			} catch (DataInvalidException e) {
 				log.error("转换失败",e);
 			}

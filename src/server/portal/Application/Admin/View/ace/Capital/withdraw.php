@@ -59,7 +59,7 @@
                         <td><?php echo $status[$item['status']];?></td>
                         <td>
 			<?php if ($item['status']== 'CRT'){?>
-				<a title="审核" href="<?php echo U('withdrawcheck?id='.$item['order_id'])?>">审核</a>
+				<a title="转账" href="<?php echo U('withdrawcheck?id='.$item['order_id'])?>">转账</a>
 			<?php }?>
                         </td>
                     </tr>

@@ -200,8 +200,7 @@
                                 <span class="color8 text-center hide">上传中…</span>
 
                                 <i class="ico tip-qus2 verm marl20"></i>
-									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，<br>
-										需要上传法人授权书</span>
+									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                             </div>
                         </div>
 
@@ -537,5 +536,11 @@
                 }
             })
         })
+$(".tip-qus2").mouseover(function (){
+$(this).next().show();
+});
+$(".tip-qus2").mouseout(function (){
+$(this).next().hide();
+});
     </script>
 </block>

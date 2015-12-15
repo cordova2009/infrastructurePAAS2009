@@ -259,6 +259,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					biddee.setContactMobileNum(telephone);
 					biddee.setEmail(email);
 					biddee.setLogo(logo);
+					biddee.setApplyTime(new Date());
 					biddee.setStatus("CRT");
 					
 				}
@@ -567,11 +568,11 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					bcr = new BiddeeCredit();
 				}
 //				这里积分规则未定出     暂时全部存入 0 
-				bcr.setBankInfo(0);
-				bcr.setBaseinfoCreditScore(0);
-				bcr.setCompanyRegisteredInfo(0);
-				bcr.setCreditScore(0);
-				bcr.setLegalPersonInfo(0);
+				bcr.setBankInfo(20);
+				bcr.setBaseinfoCreditScore(40);
+				bcr.setCompanyRegisteredInfo(40);
+				bcr.setCreditScore(40);
+				bcr.setLegalPersonInfo(40);
 				
 				if(bcr.getTendererId() != null){
 					biddeeCreditDao.updateByPrimaryKeySelective(bcr);

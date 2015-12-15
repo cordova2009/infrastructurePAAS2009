@@ -260,6 +260,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setEmail(email);
 					bidder.setLogo(logo);
 					bidder.setStatus("CRT");
+					bidder.setApplyTime(new Date());
 				}
 			
 				
@@ -640,11 +641,11 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bcr = new BidderCredit();
 				}
 //				这里积分规则未定出     暂时全部存入 0 
-				bcr.setBankInfo(0);
-				bcr.setBaseinfoCreditScore(0);
-				bcr.setCompanyRegisteredInfo(0);
-				bcr.setCreditScore(0);
-				bcr.setLegalPersonInfo(0);
+				bcr.setBankInfo(20);
+				bcr.setBaseinfoCreditScore(40);
+				bcr.setCompanyRegisteredInfo(40);
+				bcr.setCreditScore(40);
+				bcr.setLegalPersonInfo(40);
 				
 				if(bcr.getBidderId() != null){
 					bidderCreditDao.updateByPrimaryKeySelective(bcr);

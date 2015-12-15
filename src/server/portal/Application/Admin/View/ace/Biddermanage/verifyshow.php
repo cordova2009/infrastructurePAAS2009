@@ -95,7 +95,7 @@ img{max-width:400px;}
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_idcard_back_url"> 审核通过</span><input type="text" name="legal_person_idcard_back_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><img src="{$item.legal_person_authority_book|imageView2}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><?php if(!empty($item['legal_person_authority_book'])){?> <img src="<?=imageView2($item['legal_person_authority_book'])?>" /><?php }?></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="checkbox" value="Y" name="legal_person_authority_book"> 审核通过</span><input type="text" name="legal_person_authority_book_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>

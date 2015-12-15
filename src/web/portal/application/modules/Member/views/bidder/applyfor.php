@@ -107,7 +107,7 @@ display:block;
 								<span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
 								<div class="auto value ">
 									<div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
- 上传公司LOGO</div>
+ 上传图片</div>
 																	</div>
 							</div>
 							<div class="item">
@@ -618,7 +618,7 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 					$(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
 					$('#creditRating').html('100');
 					$(".progressBox .progress span").css({'width':'100%'});
-					$('#tijiao').attr('href','<?=U('submitapply')?>');
+					$('#tijiao').attr('href','<?=U('submitapply')?>').addClass('bg-green2');
 				}
 				function change()
 				{

@@ -110,7 +110,6 @@
 </div>
 <block name="script">
 <script>
-$(function(){
 function subbefor()
 {
 var obj = $(".ico.i-check").hasClass('on')
@@ -120,6 +119,5 @@ layer.alert('请先阅读并同意协议',{icon:2});
 return false;
 }
 }
-});
 </script>
 </block>

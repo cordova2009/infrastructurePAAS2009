@@ -55,6 +55,7 @@ import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
@@ -77,6 +78,8 @@ import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
 import com.hummingbird.paas.vo.MyBidderAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBidderAuthInfoBodyVO;
+import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 @Controller
 @RequestMapping(value="/myBidder/authInfo"
 		 ,method=RequestMethod.POST)
@@ -94,6 +97,8 @@ public class MyBidderBusinessController extends BaseController  {
 	protected ScoreLevelMapper scoreLevelDao;
 	@Autowired
 	protected BidderCerticateMapper bcDao;
+	@Autowired
+	protected BidObjectMapper bidObjectDao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
@@ -261,7 +266,22 @@ public class MyBidderBusinessController extends BaseController  {
 
 					bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
 					myBidderInfo.put("bankInfo", bankInfo);
-					detail.put("myBiddeeInfo", myBidderInfo);
+					
+					QueryBidIndexSurveyResult bis = bidObjectDao.selectBidIndexSurvey();
+					if(bis != null){
+						winNum.setStatus(ObjectUtils.toString(bis.getBidNum()));
+						winNum.setCreditScore(bis.getBidNum()*10);//按照次数乘以10
+						tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+						tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+					}else{
+						winNum.setStatus("0");
+						winNum.setCreditScore(0);//按照次数乘以10
+						tradeAmount.setStatus("0");
+						tradeAmount.setCreditScore(0);
+					}
+					tradeInfo.put("winNum", winNum);
+					tradeInfo.put("tradeAmount", tradeAmount);
+					detail.put("myBidderInfo", myBidderInfo);
 					detail.put("tradeInfo", tradeInfo);
 				
 				if(bb!= null){
@@ -293,11 +313,21 @@ public class MyBidderBusinessController extends BaseController  {
 				
 				myBidderInfo.put("bankInfo", ba);
 //				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-				baa.setStatus("0");
-				baa.setCreditScore(0);//按照次数乘以10
-				tradeInfo.put("winNum", baa);
+				QueryBidIndexSurveyResult bis = bidObjectDao.selectBidIndexSurvey();
+				if(bis != null){
+					winNum.setStatus(ObjectUtils.toString(bis.getBidNum()));
+					winNum.setCreditScore(bis.getBidNum()*10);//按照次数乘以10
+					tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+					tradeAmount.setCreditScore(20);
+				}else{
+					winNum.setStatus("0");
+					winNum.setCreditScore(0);//按照次数乘以10
+					tradeAmount.setStatus("0");
+					tradeAmount.setCreditScore(0);
+				}
+				tradeInfo.put("winNum", winNum);
+				tradeInfo.put("tradeAmount", tradeAmount);
 				
-				tradeInfo.put("tradeAmount", baa);
 				detail.put("myBidderInfo", myBidderInfo);
 				detail.put("tradeInfo", tradeInfo);
 				
@@ -310,7 +340,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}
 			
 			
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

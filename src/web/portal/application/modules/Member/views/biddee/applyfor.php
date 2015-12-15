@@ -104,7 +104,7 @@
                             <span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
                             <div class="auto value ">
                                 <div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=isset($base['logoUrl'])?$base['logoUrl']:''?>">
-                                    上传公司LOGO</div>
+                                    上传图片</div>
                             </div>
                         </div>
                         <div class="item">

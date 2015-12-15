@@ -50,7 +50,7 @@ display:block;
 						<li class="last">
 							<span class="num"></span>
 							<div class="line"></div>
-							<span class="txt">4.提交发包方注册申请</span>
+							<span class="txt">4.提交投标人注册申请</span>
 						</li>
 					</ul>
 				</div>
@@ -146,7 +146,7 @@ display:block;
 				</div>
 				<div class="auto  box pad0 hide" id="legal">
 					<div class="h2">法人信息</div>
-					<div class="padm30 chargeBox">
+					<div class="padm30 chargeBox jibenxx">
 						<form action="<?=U('doapply')?>" method="post" class="ajax-form" success="legal_sucess">
 						<div class=" charge_form padv40">
 							<div class="item">
@@ -339,7 +339,7 @@ display:block;
 
 				<div class="auto  box pad0 hide" id="bank">
 					<div class="h2">银行开户信息</div>
-					<div class="padm30 chargeBox">
+					<div class="padm30 chargeBox jibenxx">
 						<form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
 						<div class=" charge_form padv40">
 							<div class="item">
@@ -611,6 +611,8 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 				{
 					$('#bank').hide();
 					$('#zizhi').show();
+					$(".stepbox2 .clear li").removeClass('active');
+					$(".stepbox2 .clear li:eq(3)").addClass('active');
 					$(".side_menu li").removeClass('on');
 					$(".side_menu li:eq(4)").addClass('on');
 					$(".side_menu li:eq(3) a").html('银行开户信息 <i class="ico i-right"></i>');
@@ -620,7 +622,7 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 				function zizhi_sucess()
 				{
 					$(".stepbox2 .clear li").removeClass('active');
-					$(".stepbox2 .clear li:eq(4)").addClass('active');
+					$(".stepbox2 .clear li:eq(3)").addClass('active');
 					$(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
 					$('#creditRating').html('100');
 					$(".progressBox .progress span").css({'width':'100%'});

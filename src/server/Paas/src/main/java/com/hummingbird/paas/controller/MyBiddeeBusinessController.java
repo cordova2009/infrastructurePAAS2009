@@ -64,6 +64,7 @@ import com.hummingbird.paas.vo.BiddeeLegalPerson;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 @Controller
 @RequestMapping(value="/myBiddee/authInfo"
 		 ,method=RequestMethod.POST)
@@ -249,13 +250,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 						
 						bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
 						myBiddeeInfo.put("bankInfo", bankInfo);
-						int num = biddeeBidCreditScoreDao.countNumByBid(biddee.getId());
-						biddeeNum.setStatus(ObjectUtils.toString(num));
-						biddeeNum.setCreditScore(num*10);//按照次数乘以10
+						QueryObjectIndexSurveyResult bis = bidObjectDao.selectObjectIndexSurvey();
+						if(bis != null){
+							biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
+							biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
+							tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+							tradeAmount.setCreditScore(20);
+						}else{
+							biddeeNum.setStatus("0");
+							biddeeNum.setCreditScore(0);//按照次数乘以10
+							tradeAmount.setStatus("0");
+							tradeAmount.setCreditScore(0);
+						}
+						
 						tradeInfo.put("biddeeNum", biddeeNum);
-						Long amount = bidObjectDao.countAmountByBid(biddee.getId(),null);
-						tradeAmount.setStatus(ObjectUtils.toString(amount));
-						tradeAmount.setCreditScore(10);
+//						Long amount = bidObjectDao.countAmountByBid(biddee.getId(),null);
+						
 						tradeInfo.put("tradeAmount", tradeAmount);
 						detail.put("myBiddeeInfo", myBiddeeInfo);
 						detail.put("tradeInfo", tradeInfo);
@@ -292,11 +302,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 				
 				myBiddeeInfo.put("bankInfo", ba);
 //				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-				baa.setStatus("0");
-				baa.setCreditScore(0);//按照次数乘以10
-				tradeInfo.put("biddeeNum", baa);
+				QueryObjectIndexSurveyResult bis = bidObjectDao.selectObjectIndexSurvey();
+				if(bis != null){
+					biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
+					biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
+					tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+					tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+				}else{
+					biddeeNum.setStatus("0");
+					biddeeNum.setCreditScore(0);//按照次数乘以10
+					tradeAmount.setStatus("0");
+					tradeAmount.setCreditScore(0);
+				}
 				
-				tradeInfo.put("tradeAmount", baa);
+				tradeInfo.put("biddeeNum", biddeeNum);
+				
+				tradeInfo.put("tradeAmount", tradeAmount);
 				detail.put("myBiddeeInfo", myBiddeeInfo);
 				detail.put("tradeInfo", tradeInfo);
 				

@@ -21,7 +21,7 @@
     select 
     <include refid="Base_Column_List" />
     from t_xyjf_score_level
-    where min_score &gt; #{score,jdbcType=INTEGER}  and  max_score &gt; #{score,jdbcType=INTEGER}
+    where min_score &lt; #{score,jdbcType=INTEGER}  and  max_score &gt; #{score,jdbcType=INTEGER}
   </select>
   <select id="getLevelName" resultType="java.lang.String"  >
     select level_name

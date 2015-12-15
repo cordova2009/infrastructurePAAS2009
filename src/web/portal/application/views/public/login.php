@@ -2,7 +2,7 @@
 <header class="header ">
     <div class="head-cont ">
         <div class="cent  clear">
-            <div class="logo blue  left">大力99</div>
+            <div class="logo left"><a href="/" class="blue">大力99</a></div>
             <div class="right login-txt">
                 登录
             </div>
@@ -27,7 +27,7 @@
                 </li>
             </ul>
             <div class="clear form-txt">
-                <div class="left"><label><input type="checkbox">记住用户名</label></div>
+                <div class="left"><label><input type="checkbox" id="remember">记住用户名</label></div>
                 <div class="right"><a href="<?=U('forget')?>" class="blue">忘记密码</a></div>
             </div>
             <div class="loginBtnCont">
@@ -38,17 +38,32 @@
     </div>
 </div>
 <block name="script">
+<script src="/js/jquery.cookie-1.4.1.min.js"></script>
 <script>
 function before_login(){
-    if($.trim($("#username").val()) == ''){
+    var username = $.trim($("#username").val());
+    if(username == ''){
         layer.alert('请输入手机号码！',{icon:2});
         return false;
     }
-    if($.trim($("#password").val()) == ''){
+    var password = $.trim($("#password").val());
+    if(password == ''){
         layer.alert('请输入密码！',{icon:2});
         return false;
     }
+
+    if($("#remember").prop('checked')){
+        $.cookie("username", username, { expires: 7 });
+        $.cookie("password", password, { expires: 7 });
+    }else{
+
+        $.cookie("username", '', { expires: -1 });
+        $.cookie("password", '', { expires: -1 });
+    }
     return true;
 }
+
+$("#username").val($.cookie("username"));
+$("#password").val($.cookie("password"));
 </script>
 </block>

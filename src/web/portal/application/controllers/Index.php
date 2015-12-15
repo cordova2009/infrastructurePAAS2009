@@ -30,18 +30,6 @@ class IndexController extends MallController {
     */
     public function indexAction(){
 
-        /**
-        //读取缓存
-        $cache_name = ROOT_PATH.'/runtime/cache/'.md5($this->getMCA()).'.php';
-        if(!$this->config->application->debug && file_exists($cache_name)){
-            $this->getResponse()->setBody(file_get_contents($cache_name));
-            return false;
-        }
-
-        //生成缓存文件
-        file_put_contents($cache_name,$this->render($this->getAction()));
-         */
-        
         //招标项目公告
         $this->assign('object_info',$this->_object_info());
         //招标项目列表

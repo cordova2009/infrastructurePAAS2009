@@ -37,20 +37,20 @@
                     <div class="line"></div>
                     <span class="txt">1.填写基本信息</span>
                 </li>
-                <li >
-                    <span class="num"></span>
-                    <div class="line"></div>
-                    <span class="txt">2.填写公司注册信息</span>
-                </li>
                 <li>
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt">3.填写行业资质</span>
+                    <span class="txt">2.填写法人资质</span>
+                </li>
+                <li >
+                    <span class="num"></span>
+                    <div class="line"></div>
+                    <span class="txt">3.填写公司注册信息</span>
                 </li>
                 <li class="last">
                     <span class="num"></span>
                     <div class="line"></div>
-                    <span class="txt">4.提交发包方注册申请</span>
+                    <span class="txt">4.提交招标人注册申请</span>
                 </li>
             </ul>
         </div>
@@ -144,7 +144,7 @@
         <div class="auto  box pad0 hide" id="legal">
             <div class="h2">法人信息</div>
             <div class="padm30 chargeBox">
-                <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="legal_sucess">
+                <form action="<?=U('doapply jibenxx')?>" method="post" class="ajax-form" success="legal_sucess">
                     <div class=" charge_form padv40">
                         <div class="item">
                             <span class="lab">法人姓名</span>
@@ -200,8 +200,7 @@
                                 <span class="color8 text-center hide">上传中…</span>
 
                                 <i class="ico tip-qus2 verm marl20"></i>
-									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，<br>
-										需要上传法人授权书</span>
+									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                             </div>
                         </div>
 
@@ -342,7 +341,7 @@
 
         <div class="auto  box pad0 hide" id="bank">
             <div class="h2">银行开户信息</div>
-            <div class="padm30 chargeBox">
+            <div class="padm30 chargeBox jibenxx">
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
                     <div class=" charge_form padv40">
                         <div class="item">
@@ -537,5 +536,11 @@
                 }
             })
         })
+$(".tip-qus2").mouseover(function (){
+$(this).next().show();
+});
+$(".tip-qus2").mouseout(function (){
+$(this).next().hide();
+});
     </script>
 </block>

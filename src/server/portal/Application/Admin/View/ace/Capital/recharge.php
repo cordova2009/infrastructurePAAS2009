@@ -58,7 +58,7 @@
                         <td><?php echo $status[$item['status']];?></td>
                         <td>
 			<?php if ($item['status']== 'CRT'){?>
-				<a title="审核" href="<?php echo U('rechargecheck?id='.$item['order_id'])?>">审核</a>
+				<a title="核准" href="<?php echo U('rechargecheck?id='.$item['order_id'])?>">核准</a>
 			<?php }?>
                         </td>
                     </tr>

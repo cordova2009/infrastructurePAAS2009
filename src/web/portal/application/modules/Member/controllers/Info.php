@@ -89,6 +89,10 @@ class InfoController extends MemberController {
             $data['newMobileNum'] = $new_mobile;
 
             $curl = new Curl($this->config->url->api->user);
+            $return = test_mobile_sms($data['newMobileNum'],$data['secondSmsCode']);
+            if(!is_bool($return)){
+                $this->error($return);
+            }
 
             $resp = $curl->setData($data)
                 ->send('userSecurity/updateMobileNum');
@@ -96,7 +100,7 @@ class InfoController extends MemberController {
             if(check_resp($resp)) {
                 $this->success('修改成功！');
             }else{
-                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '修改手机号码失败，请重新再试！');
+                $this->ajaxReturn(['status'=>999,'msg'=>isset($resp['errmsg']) ? $resp['errmsg'] : '修改手机号码失败，请重新再试！']);
             }
         }
         $this->error('提交方式不正确！');
@@ -218,9 +222,9 @@ class InfoController extends MemberController {
                 $this->error('昵称不能为空！');
             }
             $data['email'] = I('email');
-//            if(empty($data['email'])){
-//                $this->error('邮箱不能为空！');
-//            }
+            if(!empty($data['email']) && !regex($data['email'],'email')){
+                $this->error('邮箱不能为空！');
+            }
             $data['address'] = I('address');
 //            if(empty($data['address'])){
 //                $this->error('联系地址不能为空！');

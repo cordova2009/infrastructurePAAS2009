@@ -50,7 +50,7 @@ display:block;
 						<li class="last">
 							<span class="num"></span>
 							<div class="line"></div>
-							<span class="txt">4.提交发包方注册申请</span>
+							<span class="txt">4.提交投标人注册申请</span>
 						</li>
 					</ul>
 				</div>
@@ -146,7 +146,7 @@ display:block;
 				</div>
 				<div class="auto  box pad0 hide" id="legal">
 					<div class="h2">法人信息</div>
-					<div class="padm30 chargeBox">
+					<div class="padm30 chargeBox jibenxx">
 						<form action="<?=U('doapply')?>" method="post" class="ajax-form" success="legal_sucess">
 						<div class=" charge_form padv40">
 							<div class="item">
@@ -194,9 +194,8 @@ display:block;
                                     <span class="on"></span>
                                 </div>
                                 <span class="color8 text-center hide">上传中…</span>
-									<i class="ico tip-qus2 verm marl20"></i>
-									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，<br>
-										需要上传法人授权书</span>
+									<i class="ico tip-qus2 verm marl20 "></i>
+									<span class="red tips_txt hide">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
 									</div>
 								</div>
 
@@ -208,6 +207,8 @@ display:block;
 
 							</div>
 						</form>
+						</div>
+						</div>
 						</div>
 					</div>
 				
@@ -338,7 +339,7 @@ display:block;
 
 				<div class="auto  box pad0 hide" id="bank">
 					<div class="h2">银行开户信息</div>
-					<div class="padm30 chargeBox">
+					<div class="padm30 chargeBox jibenxx">
 						<form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
 						<div class=" charge_form padv40">
 							<div class="item">
@@ -527,6 +528,11 @@ tmp[id]= $(o).html();
 obj.push(tmp);
 });
 	
+if(obj.length==0)
+{
+	layer.alert("请先添加资质证书");
+	return false; 
+}
 	var loading = layer.load();
         $.post('<?=U('doapply')?>',{type:'zizhi',data:obj},function(resp){
             if(resp.status == '0'){
@@ -605,6 +611,8 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 				{
 					$('#bank').hide();
 					$('#zizhi').show();
+					$(".stepbox2 .clear li").removeClass('active');
+					$(".stepbox2 .clear li:eq(3)").addClass('active');
 					$(".side_menu li").removeClass('on');
 					$(".side_menu li:eq(4)").addClass('on');
 					$(".side_menu li:eq(3) a").html('银行开户信息 <i class="ico i-right"></i>');
@@ -614,7 +622,7 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 				function zizhi_sucess()
 				{
 					$(".stepbox2 .clear li").removeClass('active');
-					$(".stepbox2 .clear li:eq(4)").addClass('active');
+					$(".stepbox2 .clear li:eq(3)").addClass('active');
 					$(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
 					$('#creditRating').html('100');
 					$(".progressBox .progress span").css({'width':'100%'});
@@ -750,5 +758,11 @@ $(function(){
                 }
     })
 })
+$(".tip-qus2").mouseover(function (){
+$(this).next().show();
+});
+$(".tip-qus2").mouseout(function (){
+$(this).next().hide();
+});
 			</script>
 			</block>

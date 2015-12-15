@@ -36,7 +36,7 @@
     </div>
     <div class="head-cont ">
         <div class="cent  clear">
-            <div class="logo blue  left">大力99</div>
+            <div class="logo left"><a class="blue" href="/">大力99</a></div>
             <div class="right menu">
                 <ul>
                     <li><a href="<?=U('/')?>">首页</a></li>
@@ -72,15 +72,8 @@
                     <a href="#">媒体报道</a>
                     <a href="#">社会责任</a>
                     <a href="#">招贤纳士</a>
-                    <a href="#">网站地图</a>
                     <a href="#">帮助中心</a>
                     <a href="#">联系我们</a>
-                </div>
-                <div class="footer-link">
-                    <a href="#">客户服务</a>
-                    <a href="#"><i class="footico fwb"></i> 新浪微博</a>
-                    <a href="#" class="fz24"><i class="footico wx"></i> 微信</a>
-                    <a href="#" class="fz24"><i class="footico kefu"></i> 在线客服</a>
                 </div>
             </div>
             <div class="right foot-right">

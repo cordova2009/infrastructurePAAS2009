@@ -11,8 +11,6 @@ class MallController extends Yaf\Controller_Abstract {
     protected $layout;
     protected $user;
 
-    protected $waitSecond = 3;
-
     public function init(){
         $this->config = Yaf\Registry::get('config');
 
@@ -72,8 +70,8 @@ class MallController extends Yaf\Controller_Abstract {
      * @access private
      * @return void
      */
-    private function dispatchJump($message,$status=1,$jumpUrl='/',$ajax=false) {
-        if(true === $ajax || IS_AJAX) {// AJAX提交
+    private function dispatchJump($message,$status=1,$jumpUrl='',$ajax=false) {
+        if(IS_AJAX || true === $ajax) {// AJAX提交
             $data           =   is_array($ajax)?$ajax:array();
             $data['msg']    =   $message;
             $data['status'] =   $status;
@@ -81,24 +79,22 @@ class MallController extends Yaf\Controller_Abstract {
             $this->ajaxReturn($data);
         }
         
-        //模板没有
-//        exit($message);
-        $this->getView()->assign('jumpUrl',$jumpUrl);
+        $this->assign('jumpUrl',$jumpUrl);
         //如果设置了关闭窗口，则提示完毕后自动关闭窗口
-        $this->getView()->assign('status',$status);   // 状态
-        $this->getView()->assign('message',$message);// 提示信息
+        $this->assign('status',$status);   // 状态
+        $this->assign('message',$message);// 提示信息
 
-        $content = '';
-        //保证输出不受静态缓存影响
         if($status) { //发送成功信息
             //发生错误时候默认停留3秒
-            $this->getView()->assign('waitSecond',$this->waitSecond);
-            $this->getResponse()->setBody($this->getView()->render('error.php'));
+            $this->assign('waitSecond',3);
+            $body = $this->getView()->render(APP_PATH.'views/error.php');
         }else{
             //默认停留1秒
-            $this->getView()->assign('waitSecond',$this->waitSecond-2);
-            $this->getResponse()->setBody($this->getView()->render('success.php'));
+            $this->assign('waitSecond',1);
+            $body = $this->getView()->render(APP_PATH.'views/success.php');
         }
+
+        $this->getResponse()->setBody($body);
         $this->layout->postDispatch($this->getRequest(),$this->getResponse());
         $this->getResponse()->response();
         // 中止执行  避免出错后继续执行
@@ -124,11 +120,11 @@ class MallController extends Yaf\Controller_Abstract {
      * @return void
      */
     protected function ajaxReturn($data,$type='',$json_option=0) {
+        header('Cache-Control: no-store, no-cache, must-revalidate');
         if(empty($type)) $type  =   $this->config->ajax->return;
         switch (strtoupper($type)){
         	case 'JSON' :
         	    // 返回JSON数据格式到客户端 包含状态信息
-                header('Cache-Control: no-store, no-cache, must-revalidate');
                 header('Content-Disposition: inline; filename="resp.json"');
                 // Prevent Internet Explorer from MIME-sniffing the content-type:
                 header('X-Content-Type-Options: nosniff');

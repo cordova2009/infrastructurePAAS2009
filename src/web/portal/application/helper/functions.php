@@ -11,6 +11,30 @@
  * 系统函数库
  */
 
+/**
+ * 使用正则验证数据
+ * @access public
+ * @param string $value  要验证的数据
+ * @param string $rule 验证规则
+ * @return boolean
+ */
+function regex($value,$rule) {
+    $validate = array(
+        'require'   =>  '/\S+/',
+        'email'     =>  '/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/',
+        'url'       =>  '/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(:\d+)?(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/',
+        'currency'  =>  '/^\d+(\.\d+)?$/',
+        'number'    =>  '/^\d+$/',
+        'zip'       =>  '/^\d{6}$/',
+        'integer'   =>  '/^[-\+]?\d+$/',
+        'double'    =>  '/^[-\+]?\d+(\.\d+)?$/',
+        'english'   =>  '/^[A-Za-z]+$/',
+    );
+    // 检查是否有内置的正则表达式
+    if(isset($validate[strtolower($rule)]))
+        $rule       =   $validate[strtolower($rule)];
+    return preg_match($rule,$value)===1;
+}
 
 function encrypt($data,$key=''){
     $size       = mcrypt_get_block_size(MCRYPT_DES, MCRYPT_MODE_CBC);
@@ -262,7 +286,7 @@ function test_mobile_sms($mobile,$sms_code){
     if(!empty($resp) && $resp['errcode'] == 0){
         $return = true;
     }else{
-        $return = isset($resp['errmsg']) ? $resp['errmsg'] : '验证码不匹配！';
+        $return = isset($resp['errmsg']) ? $resp['errmsg'] : '验证码与手机号码不匹配！';
     }
 
     return $return;

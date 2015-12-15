@@ -188,7 +188,7 @@
         <div class="in-tit1">优质投标人</div>
         <ul class="clear">
             <?php foreach($bidder_list as $item):?>
-            <li><a href="#"><img src="images/tb14.jpg"></a></li>
+            <li><a href="#"><img src="<?=imageView2($item['companyLogo'],87,50)?>"></a></li>
             <?php endforeach;?>
         </ul>
         <div class="list-more"><a href="/bidder/list.html">查看更多投标人</a></div>

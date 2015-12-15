@@ -67,7 +67,9 @@ class BiddeemanageController extends AdminController {
 		{
 			$this->error('招标人信息不存在');
 		}
+		$user = M("user a")->join('t_user_auth b on a.id=b.user_id')->where(['id'=>$item['user_id']])->find();
 		$this->assign('item', $item);
+		$this->assign('user', $user);
 		$this->meta_title = '招标人详情';
 		$this->display();
 	}

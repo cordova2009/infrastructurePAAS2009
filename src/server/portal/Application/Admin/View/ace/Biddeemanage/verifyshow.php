@@ -11,6 +11,26 @@ img{max-width:400px;}
 <input type="hidden" name="id"  value="{$item.id}">
 <div class="widget-box" style="opacity: 1; z-index: 0;margin-bottom:1em;">
 <div class="widget-header" style="color:#999;">
+          <h5 class="bigger lighter">账号基本信息</h5>        
+</div>
+<div class="widget-body">
+<div class=""> 
+       <table class="table  table-bordered " style="margin-bottom:0px;">
+	<tbody>
+		<tr>
+			<td><span style="color:#999;padding-right:8px;">昵称:</span>{$user.nick_name}</td>
+			<td><span style="color:#999;padding-right:8px;">电话:</span>{$user.mobile_num}</td>
+		</tr>
+		<tr>
+			<td colspan="2"><span style="color:#999;padding-right:8px;">姓名:</span>{$user.real_name}</td>
+		</tr>
+	 </tbody>
+	</table>
+</div>
+</div>
+</div>
+<div class="widget-box" style="opacity: 1; z-index: 0;margin-bottom:1em;">
+<div class="widget-header" style="color:#999;">
           <h5 class="bigger lighter">招标人基本信息</h5>        
 </div>
 <div class="widget-body">

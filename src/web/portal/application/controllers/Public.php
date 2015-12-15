@@ -84,6 +84,42 @@ class PublicController extends MallController {
     }
 
     /**
+     *
+     */
+    public function beforeRegAction(){
+        $mobileNum = $this->getRequest()->getPost('mobile');
+
+        $curl      = new Curl($this->config->url->api->user);
+
+        $resp = $curl->setData(['mobileNum'=>$mobileNum])->send('userCenter/getUserStatus');
+
+        if(check_resp($resp) && $resp['status'] == 'FLS'){
+            //只针对未注册用户发送短信
+            $this->sendSmsCodeAction();
+        }else{
+            $this->error('该手机号码已存在！');
+        }
+    }
+
+    /**
+     * 检查用户是否存在
+     */
+    public function checkMobileAction(){
+
+        $mobileNum = $this->getRequest()->getPost('mobile');
+
+        $curl      = new Curl($this->config->url->api->user);
+
+        $resp = $curl->setData(['mobileNum'=>$mobileNum])->send('userCenter/getUserStatus');
+
+        if(check_resp($resp) && $resp['status'] == 'FLS'){
+            $this->success('');
+        }else{
+            $this->error('该手机号码已存在！');
+        }
+    }
+
+    /**
      * 检验短信验证码
      */
     public function checkMobileSmsAction(){
@@ -158,6 +194,14 @@ class PublicController extends MallController {
         if(empty($mobileNum)){
 
             $this->error('手机号码不能为空！');
+        }
+
+        $curl                   = new Curl($this->config->url->api->user);
+
+        $resp = $curl->setData(['mobileNum'=>$mobileNum])->send('userCenter/getUserStatus');
+
+        if(!check_resp($resp) || $resp['status'] != 'OK#'){
+            $this->error('手机号码不存在或状态异常！');
         }
 
         if(send_sms($mobileNum)){

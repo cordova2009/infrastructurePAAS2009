@@ -119,7 +119,7 @@ class CapitalController extends AdminController {
 			$id =I('post.order_id');
 			$data = ['orderId'=>$id,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid];
 			$api = new ApiService();
-			$resp = $api->setApiUrl(C('APIURI.paas1'))
+			$resp = $api->setApiUrl(C('APIURI.paas3'))
 				->setData($data)->send('capitalManage/checkRechargeApply');
 			if($resp===false)
 			{
@@ -143,7 +143,7 @@ class CapitalController extends AdminController {
 			$checkWithdrawalsNo =I('post.voucher');
 			$data = ['orderId'=>$id,'checkWithdrawalsNo'=>$checkWithdrawalsNo,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid];
 			$api = new ApiService();
-			$resp = $api->setApiUrl(C('APIURI.paas1'))
+			$resp = $api->setApiUrl(C('APIURI.paas3'))
 				->setData($data)->send('capitalManage/checkWithdrawalsApply');
 			if($resp===false)
 			{

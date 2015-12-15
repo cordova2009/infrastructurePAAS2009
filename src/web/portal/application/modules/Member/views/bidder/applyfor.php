@@ -107,7 +107,7 @@ display:block;
 								<span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
 								<div class="auto value ">
 									<div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
- 上传公司LOGO</div>
+ 上传图片</div>
 																	</div>
 							</div>
 							<div class="item">
@@ -169,34 +169,31 @@ display:block;
 										<div class="left wid110">
 											<label class="btn-file3  "> 上传附件<input type="file" name="file" >
 <input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" ></label>
-<!--
-											<div class="progress mart20">
-												<span style="width:50%" class="on"></span>
-											</div>
-											<p class="color8 text-center">上传中…</p>
--->
-										</div>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                        <p class="color8 text-center hide">上传中…</p>
+					</div>
 									</div>
 									<div class="marb20 clear">
 										<img src="/uploads/pic.jpg" alt="" class="left marr10">
 										<div class="left wid110">
 											<label class="btn-file3  "> 上传附件<input type="file" name="file">
 <input type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" ></label>
-
-<!--
-											<div class="progress mart20">
-												<span style="width:50%" class="on"></span>
-											</div>
-											<p class="color8 text-center">上传中…</p>
--->
-										</div>
-									</div>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                        <p class="color8 text-center hide">上传中…</p>
 								</div>
 							</div>
 							<div class="item">
 								<span class="lab">法人授权书扫描件</span>
 								<div class="auto value ">
 									<div class="btn-file3 ">上传文件 <input type="file" name="file"><input type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" ></div>
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
 									<i class="ico tip-qus2 verm marl20"></i>
 									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，<br>
 										需要上传法人授权书</span>
@@ -236,12 +233,10 @@ display:block;
 								<span class="lab"><span class="red">*</span> 统一社会信用代码扫描件</span>
 								<div class="auto value ">
 									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>"></div>
-<!--
-									<div class="progress wid100 dib">
-										<span style="width:50%" class="on"></span>
-									</div>
-									<span class="color8 text-center">上传中…</span>
--->
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
 								</div>
 							</div>
 </div>
@@ -257,12 +252,10 @@ display:block;
 								<span class="lab"><span class="red">*</span> 营业执照扫描件</span>
 								<div class="auto value ">
 									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>"></div>
-<!--
-									<div class="progress wid100 dib">
-										<span style="width:50%" class="on"></span>
-									</div>
-									<span class="color8 text-center">上传中…</span>
--->
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
 								</div>
 							</div>
 
@@ -277,12 +270,10 @@ display:block;
 								<span class="lab"><span class="red">*</span> 组织机构代码证扫描件</span>
 								<div class="auto value ">
 									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>"></div>
-<!--
-									<div class="progress wid100 dib hide">
-										<span style="width:50%" class="on"></span>
-									</div>
-									<span class="color8 text-center hide">上传中…</span>
--->
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
 								</div>
 							</div>
 
@@ -297,6 +288,10 @@ display:block;
 								<span class="lab"><span class="red">*</span> 税务登记证扫描件</span>
 								<div class="auto value " id=""> 
 									<div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>"></div>
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
 
 								</div>
 							</div>
@@ -418,14 +413,10 @@ display:block;
 								<span class="lab"><span class="red">*</span> 附件上传</span>
 								<div class="auto value ">
 									<div class="btn-file3">上传文件 <input type="file" name="file" > <input type="hidden" name="certificationContent" value="" id="certificationContent"><input type="hidden" name="cshow" value="" id="cshow"></div>
-<!--
-									<div class="wid100 dib vert marl10">
-										<p class="color8 text-center lineh20">上传中…</p>
-										<div class="progress mart5">
-											<span style="width:50%" class="on"></span>
-										</div>
-									</div>
--->
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
 								</div>
 							</div>
 <!--
@@ -627,7 +618,7 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 					$(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
 					$('#creditRating').html('100');
 					$(".progressBox .progress span").css({'width':'100%'});
-					$('#tijiao').attr('href','<?=U('submitapply')?>');
+					$('#tijiao').attr('href','<?=U('submitapply')?>').addClass('bg-green2');
 				}
 				function change()
 				{
@@ -714,21 +705,49 @@ $(function(){
         url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
         formData:{},//如果需要额外添加参数可以在这里添加
         dataType: 'json',
+        add: function (e, data) {
+                    if (e.isDefaultPrevented()) {
+                        return false;
+                    }
+                    var obj = $(this).data('data',data)
+                        .parent();
+                        obj.css('background','#bebebe').nextAll().show()
+                        .children('span')
+                        .css('width','0%');
+                    obj.nextAll('.text-center').text('上传中...');
+
+                    data.submit();
+                },
+        progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $(this).parent()
+                            .next('.progress')
+                            .children('span')
+                            .css('width',progress + '%');
+                },
         done:function(e,data){
             //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
             //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
             //返回的数据在result.result中，假设我们服务器返回了一个json对象
             if(data.result.status == '0'){
-	    	$(this).next().val(data.result.url);
-		if($(this).next().next().attr('name')=='cshow')
-		{
-		$(this).next().next().val(data.result.src);
-		}
-                layer.msg('上传成功',{icon:1});
+                        var img_el = $(this).next().val(data.result.url)
+                            .parent().css('background','#8ab46e')
+                            .nextAll('.text-center').text('上传成功').parent().prev('img');
+                        if(img_el.length > 0){
+                            img_el.attr('src',data.result.src);
+                        }
+                        if($(this).next().next().attr('name')=='cshow')
+                        {
+                            $(this).next().next().val(data.result.src);
+                        }
             }else{
                 layer.alert(data.result.msg,{icon:2});
             }
-        }
+        },
+        fail: function () {
+                    $(this).parent().css('background','#8ab46e');
+                    layer.alert('上传失败，请重新再试',{icon:2});
+                }
     })
 })
 			</script>

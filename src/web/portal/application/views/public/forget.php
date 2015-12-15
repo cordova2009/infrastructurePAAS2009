@@ -84,6 +84,10 @@
                 layer.alert('请输入手机号码！',{icon:2});
                 return false;
             }
+            if(is_mobile(mobile_num)){
+                layer.alert('手机号码格式不正确！',{icon:2});
+                return false;
+            }
             return true;
         }
         function check_verify_fail(){

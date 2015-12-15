@@ -27,9 +27,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="landUseCertificateUrl[ZCB]" value="<?=isset($info)?$info['letterOfAcceptanceUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="landUseCertificateUrl[ZCB]" value="<?=isset($info)?$info['landUseCertificateUrl']:''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['landUseCertificateUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['landUseCertificateUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
             <li>
@@ -42,9 +51,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="constructionLandUsePermitUrl[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="constructionLandUsePermitUrl[ZCB]" value="<?=isset($info)?$info['constructionLandUsePermitUrl']:''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['constructionLandUsePermitUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['constructionLandUsePermitUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
             <li>
@@ -57,9 +75,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="buildingPermitUrl[ZCB]" value="<?=isset($info)?$info['buildingPermitUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="buildingPermitUrl[ZCB]" value="<?=isset($info)?imageView2($info['buildingPermitUrl']):''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['buildingPermitUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['buildingPermitUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
             <li>
@@ -73,12 +100,18 @@ if(check_resp($resp)){
                     <span class="red">*</span> 中标通知书
                 </div>
                 <div class="cell ">
-                    <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="letterOfAcceptanceUrl" value="<?=isset($info)?$info['letterOfAcceptanceUrl']:''?>">
+                    <a href="javascript:" class="btn-file2 <?php if(isset($info) && !empty($info['buildingPermitUrl'])) echo 'hide'?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="letterOfAcceptanceUrl" value="<?=isset($info)?$info['letterOfAcceptanceUrl']:''?>">
                     </a>
+
+                    <div class="uploaded <?php if(!isset($info) || empty($info['buildingPermitUrl'])) echo 'hide'?>">
+                        <a target="_blank" href="<?=isset($info)?imageView2($info['buildingPermitUrl']):''?>" class="btn-file2 view">查看</a>
+                        <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                    </div>
                 </div>
-                <div class="cell ">
+                <div class="cell wid280">
                     <p class="red">
                         如果国有土地使用证中使用单位与招标人不一致，<br>
                         请务必提交中标通知书，保证招标可信度。<br>
@@ -106,9 +139,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="landUseCertificateUrl[KFS]" value="<?=isset($info)?$info['landUseCertificateUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="landUseCertificateUrl[KFS]" value="<?=isset($info)?$info['landUseCertificateUrl']:''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['landUseCertificateUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['landUseCertificateUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
             <li>
@@ -121,9 +163,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="constructionLandUsePermitUrl[KFS]" value="<?=isset($info)?$info['constructionLandUsePermitUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="constructionLandUsePermitUrl[KFS]" value="<?=isset($info)?$info['constructionLandUsePermitUrl']:''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['constructionLandUsePermitUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['constructionLandUsePermitUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
             <li>
@@ -136,9 +187,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="buildingPermitUrl[KFS]" value="<?=isset($info)?$info['buildingPermitUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="buildingPermitUrl[KFS]" value="<?=isset($info)?$info['buildingPermitUrl']:''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['buildingPermitUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['buildingPermitUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
             <li>
@@ -167,9 +227,18 @@ if(check_resp($resp)){
                 </div>
                 <div class="cell padr40">
                     <a href="javascript:" class="btn-file2">
-                        <input type="file" name="file" class="file-upload"> 上传附件
-                        <input type="hidden" name="buildingConstructPermitUrl" value="<?=isset($info)?$info['buildingConstructPermitUrl']:''?>">
+                        <span class="upload-text">上传附件</span>
+                        <input type="file" name="file" class="file-upload">
+                        <input class="hidden-url" type="hidden" name="buildingConstructPermitUrl" value="<?=isset($info)?$info['buildingConstructPermitUrl']:''?>">
                     </a>
+                </div>
+            </li>
+            <li class="uploaded mart10 <?php if(!isset($info) || empty($info['buildingConstructPermitUrl'])) echo 'hide2'?>">
+                <div class="cell lab">
+                </div>
+                <div class="value padl20">
+                    <a target="_blank" href="<?=isset($info)?imageView2($info['buildingConstructPermitUrl']):''?>" class="btn-file2 view">查看</a>
+                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                 </div>
             </li>
 
@@ -186,14 +255,56 @@ if(check_resp($resp)){
 $(".file-upload").fileupload({
     url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
     dataType: 'json',
+    add: function (e, data) {
+        if (e.isDefaultPrevented()) {
+            return false;
+        }
+        $(this)
+            .data('data',data)
+            .prev()
+            .text('上传中')
+            .parent()
+            .css('background','#bebebe');
+        data.submit();
+    },
     done:function(e,data){
         //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
         //返回的数据在data.result中，假设我们服务器返回了一个json对象
         if(data.result.status == '0'){
-            $(this).next().val(data.result.url);
+            var obj = $(this).prev()
+                .text('上传附件')
+                .parent()
+                .css('background','#8ab46e')
+                .next('.uploaded');
+            if(obj.length > 0){
+                $(this).parent().hide();
+                obj.removeClass('hide').show()
+                    .find('.view')
+                    .attr('href',data.result.src);
+            }
+
+            $(this).next().val(data.result.url)
+                .closest('li')
+                .next()
+                .removeClass('hide2').show()
+                .find('.view')
+                .attr('href',data.result.src);
         }else{
             layer.alert(data.result.msg,{icon:2});
         }
+    },
+    fail: function () {
+        $(this).parent().css('background','#8ab46e');
+        layer.alert('上传失败，请重新再试',{icon:2});
     }
+})
+
+$(".delete-pic-btn").click(function () {
+    $(this).closest('.uploaded')
+        .hide()
+        .prev()
+        .removeClass('hide').show()
+        .find('.hidden-url')
+        .val('');
 })
 </script>

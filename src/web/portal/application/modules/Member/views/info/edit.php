@@ -128,7 +128,6 @@ $(function(){
             //返回的数据在data.result中，假设我们服务器返回了一个json对象
             if(data.result.status == '0'){
                 $.post('<?=U('/member/info/updateAvatar')?>',{headImageUrl:data.result.url},function(resp){
-                    alert(resp.status);
                     if(resp.status == '0'){
                         $("#avatar").attr('src',data.result.src);
                         $("#uploadBox").fadeOut();

@@ -1010,7 +1010,7 @@ public class TenderController extends BaseController {
 			AppVO app = transorder.getApp();
 			Appinfo appinfo = appDao.selectByPrimaryKey(app.getAppId());
 			ValidateUtil.assertNull(appinfo, "app");
-			app.setAppId(appinfo.getAppkey());
+			app.setAppKey(appinfo.getAppkey());
 			//业务数据必填等校验
 			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
 			if (token == null) {

@@ -147,7 +147,25 @@ $(document).ready(function(){
             return false;
         }
     });
+var calculateFunctionValue = function (func, args, defaultValue) {
+    if (typeof func === 'string') {
+        // support obj.func1.func2
+        var fs = func.split('.');
 
+        if (fs.length > 1) {
+            func = window;
+            $.each(fs, function (i, f) {
+                func = func[f];
+            });
+        } else {
+            func = window[func];
+        }
+    }
+    if (typeof func === 'function') {
+        return func.apply(null, args);
+    }
+    return defaultValue;
+};
     //ajax post submit请求
     $('.ajax-post').click(function(){
         var target,query,form;
@@ -209,7 +227,13 @@ $(document).ready(function(){
             }
             
             function do_post(){
+
                 $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+        var flag = calculateFunctionValue($(that).attr('before'),[that],'');
+        if(typeof flag == 'boolean' && !flag){
+		$(that).removeClass('disabled').prop('disabled',false);
+            return false;
+        }
                 var loading = layer.load();
                 $.post(target,query).success(function(data){
                     if (data.status==1) {

@@ -15,73 +15,75 @@
     <?php if(isset($block['style'])) echo $block['style']; ?>
 </head>
 <body>
-<!--fly-html-->
-<!--header-->
-<block name="header">
-<header class="header ">
-    <div class="top-txt clear">
-        <div class="cent">
-            <p class="left">您好，欢迎访问大力99！</p>
-            <div class="right">
-                <?php if(empty($user)):?>
-                <a href="<?=U('/public/register')?>" class="blue">快速注册</a>
-                <a href="<?=U('/public/login')?>"  class="blue">立即登录</a>
-                <?php else:?>
-                <a href="<?=U('/member/info/index')?>"  class="blue"><?=$user['nickname']?></a>你好
-                [<a href="<?=U('/public/logout')?>"  class="blue">退出</a>]
-                <?php endif;?>
-                <a href="#" class="colorf">帮助</a>
-            </div>
-        </div>
-    </div>
-    <div class="head-cont ">
-        <div class="cent  clear">
-            <div class="logo left"><a class="blue" href="/">大力99</a></div>
-            <div class="right menu">
-                <ul>
-                    <li><a href="<?=U('/')?>">首页</a></li>
-                    <li><a href="<?=U('/member/tender/baseinfo')?>">我要招标</a></li>
-                    <li><a href="<?=U('/project/tenderlist')?>">我要投标</a></li>
-                    <li><a href="#">新手指引</a></li>
-                    <li  class="submenu">
-                        <span>会员服务 <i class="i-down"></i></span>
-                        <dl>
-                            <dd><a href="/member/vip/tenderIndex">招标人会员</a></dd>
-                            <dd><a href="/member/vip/bidIndex">投标人会员</a></dd>
-                        </dl>
-                    </li>
-                    <li><a href="#">关于我们</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
-</block>
-<!--wrap-->
-<section class="wrap">
-    <?php echo $content?>
-</section>
-
-<footer class="footer">
-    <div class="cent">
-        <div class="clear foot-cont">
-            <div class="left">
-                <div class="footnav">
-                    <a href="#">公司介绍</a>
-                    <a href="#">安全保障</a>
-                    <a href="#">媒体报道</a>
-                    <a href="#">社会责任</a>
-                    <a href="#">招贤纳士</a>
-                    <a href="#">帮助中心</a>
-                    <a href="#">联系我们</a>
+<div class="pg-container">
+    <!--fly-html-->
+    <!--header-->
+    <block name="header">
+    <header class="header ">
+        <div class="top-txt clear">
+            <div class="cent">
+                <p class="left">您好，欢迎访问大力99！</p>
+                <div class="right">
+                    <?php if(empty($user)):?>
+                    <a href="<?=U('/public/register')?>" class="blue">快速注册</a>
+                    <a href="<?=U('/public/login')?>"  class="blue2 marl20">立即登录</a>
+                    <?php else:?>
+                    <a href="<?=U('/member/info/index')?>"  class="blue"><?=$user['nickname']?></a>你好
+                    <a href="<?=U('/public/logout')?>"  class="blue2 marl20">[退出]</a>
+                    <?php endif;?>
+                    <a href="#" class="colorf marl20">帮助</a>
                 </div>
             </div>
-            <div class="right foot-right">
-                客服电话<br><span class="tel">400-555-8888 </span><br>9:00 - 21:00
+        </div>
+        <div class="head-cont ">
+            <div class="cent  clear">
+                <div class="logo left"><a class="blue" href="/">大力99</a></div>
+                <div class="right menu">
+                    <ul>
+                        <li><a href="<?=U('/')?>">首页</a></li>
+                        <li><a href="<?=U('/member/tender/baseinfo')?>">我要招标</a></li>
+                        <li><a href="<?=U('/project/tenderlist')?>">我要投标</a></li>
+                        <li><a href="#">新手指引</a></li>
+                        <li  class="submenu">
+                            <span>会员服务 <i class="i-down"></i></span>
+                            <dl>
+                                <dd><a href="/member/vip/tenderIndex">招标人会员</a></dd>
+                                <dd><a href="/member/vip/bidIndex">投标人会员</a></dd>
+                            </dl>
+                        </li>
+                        <li><a href="#">关于我们</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </header>
+    </block>
+    <!--wrap-->
+    <section class="wrap">
+        <?php echo $content?>
+    </section>
+
+    <footer class="footer">
+        <div class="cent">
+            <div class="clear foot-cont">
+                <div class="left">
+                    <div class="footnav">
+                        <a href="#">公司介绍</a>
+                        <a href="#">安全保障</a>
+                        <a href="#">媒体报道</a>
+                        <a href="#">社会责任</a>
+                        <a href="#">招贤纳士</a>
+                        <a href="#">帮助中心</a>
+                        <a href="#">联系我们</a>
+                    </div>
+                </div>
+                <div class="right foot-right">
+                    客服电话<br><span class="tel">400-555-8888 </span><br>9:00 - 21:00
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 <script src="/js/jquery-1.9.1.min.js"></script>
 <script src="/js/jquery.SuperSlide.2.1.1.js"></script>
 <script src="/js/common.js?<?=md5_file('js/common.js')?>"></script>

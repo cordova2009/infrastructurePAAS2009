@@ -74,7 +74,7 @@ function sprintf()
  * @param mobile
  * @returns {boolean}
  */
-function  is_mobile(mobile){
+function is_mobile(mobile){
 
     return !/^(1[0-9])\d{9}$/i.test(mobile);
 }
@@ -135,16 +135,17 @@ function toThousands() {
 }
 
 $(function() {
+
+    $("input.mobile,input.only-num").keyup(function(){
+        var $this = $(this);
+        $this.val($this.val().replace(/\D/g,''));
+    });
+
     $(".price_format").each(function () {
         toThousands.call(this);
     });
 
     $(document).on('blur','.price_format',toThousands);
-
-    $(document).on("click",".checkBtn a",function(){
-        $(this).siblings('a').removeClass('active')
-        $(this).addClass('active');
-    });
 
     $(document).on("click",".checkBtn2 a",function(){
         $(this).siblings('a').removeClass('active')

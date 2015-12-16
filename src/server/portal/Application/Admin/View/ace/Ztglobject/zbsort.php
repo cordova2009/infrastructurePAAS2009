@@ -63,10 +63,10 @@
                     </div>
                     <div class="hr hr16 hr-dotted"></div>
                     <div class="sort_btn">
-                        <button class="top btn btn-primary" type="button"> <i class="icon-double-angle-left"> </i>第 一</button>
-                        <button class="up btn btn-info" type="button"> <i class="icon-angle-left"></i> 上 移</button>
-                        <button class="down btn btn-success" type="button">下 移 <i class="icon-angle-right"></i></button>
-                        <button class="bottom btn btn-purple" type="button">最 后 <i class="icon-double-angle-right"></i></button>
+                        <button class="top btn btn-white" type="button"> <i class="icon-double-angle-left"> </i>第 一</button>
+                        <button class="up btn btn-white" type="button"> <i class="icon-angle-left"></i> 上 移</button>
+                        <button class="down btn btn-white" type="button">下 移 <i class="icon-angle-right"></i></button>
+                        <button class="bottom btn btn-white" type="button">最 后 <i class="icon-double-angle-right"></i></button>
                     </div>
                     <div class="hr hr16 hr-dotted"></div>
                 </form>

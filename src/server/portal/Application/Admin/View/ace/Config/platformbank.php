@@ -12,22 +12,19 @@
 
             <div class="widget-toolbar no-border">
                 <label>
-                    <button type="button" style="display: none" id="save_btn" class="btn btn-xs btn-success pull-right">
-                        <i class="icon-ok"></i>
+                    <button type="button" style="display: none" id="save_btn" class="btn btn-xs btn-success no-border pull-right">
                         <span class="bigger-110">保存</span>
                     </button>
                 </label>
                 <label>
-                    <button type="button" style="display: none" id="cancel_btn" class="btn btn-xs btn-warning pull-right">
-                        <i class="icon-undo"></i>
+                    <a style="display: none" id="cancel_btn" class="btn btn-sm btn-white pull-right">
                         <span class="bigger-110">取消</span>
-                    </button>
+                    </a>
                 </label>
                 <label>
-                    <button type="button" id="edit_btn" class="btn btn-xs btn-info pull-right">
-                        <i class="icon-pencil"></i>
+                    <a href="javascript:" id="edit_btn" class="pull-right white">
                         <span class="bigger-110">修改</span>
-                    </button>
+                    </a>
                 </label>
             </div>
         </div>

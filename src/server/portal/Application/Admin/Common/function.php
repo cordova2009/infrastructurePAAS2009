@@ -35,6 +35,19 @@ function imageView2($url,$w=null,$h=null){
     return $url.'&token='.$config['accessKey'].':'.urlsafe_base64_encode($sign);
 }
 
+/**
+ * 获取7牛下载链接
+ * @param $url
+ * @return string
+ */
+function get_qiniu_file_durl($url){
+    $url = $url.'?attname=&e='.(time()+3600);
+
+    $config = C('UPLOAD_QINIU_CONFIG');
+    $sign = hash_hmac('sha1', $url, $config['secrectKey'], true);
+    return $url.'&token='.$config['accessKey'].':'.urlsafe_base64_encode($sign);
+}
+
 function urlsafe_base64_encode($str) // URLSafeBase64Encode
 {
     $find = array("+","/");

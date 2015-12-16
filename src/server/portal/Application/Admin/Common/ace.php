@@ -152,18 +152,18 @@ if ( ! function_exists('ace_label')){
 if ( ! function_exists('ace_srbtn')){
     function ace_srbtn($sb_content='确认保存',$reset_content='重置'){
         $html = '<div class="clearfix form-actions">
-                      <div class="col-xs-12 center">
-                          <button id="sub-btn" class="btn btn-success ajax-post no-refresh" target-form="form-horizontal" type="submit">
-                              <i class="icon-ok bigger-110"></i> '.$sb_content.'
+                      <div class="col-xs-12">
+                          <button id="sub-btn" class="btn btn-sm btn-success no-border ajax-post no-refresh" target-form="form-horizontal" type="submit">
+                              '.$sb_content.'
                           </button> ';
-        if($reset_content){
-            $html .=    '<button id="reset-btn" class="btn" type="reset">
-                              <i class="icon-undo bigger-110"></i> '.$reset_content.'
-                          </button>';
-        }
+//        if($reset_content){
+//            $html .=    '<button id="reset-btn" class="btn" type="reset">
+//                              <i class="icon-undo bigger-110"></i> '.$reset_content.'
+//                          </button>';
+//        }
 
-        $html .='	  <a href="javascript:;" class="btn btn-info" onClick="history.go(-1)">
-                         <i class="icon-reply"></i>返回上一页
+        $html .='	  <a href="javascript:;" class="btn btn-white" onClick="history.go(-1)">
+                         返回
                       </a>';
 
         $html .= '	</div>

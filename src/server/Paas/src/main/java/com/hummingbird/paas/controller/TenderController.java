@@ -1964,6 +1964,10 @@ public class TenderController extends BaseController {
 							Map row= BeanUtils.describe(ori);
 							
 							row.remove("class");
+							if(!ori.getEvaluationAmountVisiable().equals("ENB")){
+								row.remove("evaluationAmount");//不公开可见估价
+							}
+							row.remove("evaluationAmountVisiable");//不公开可见估价
 							return row;
 							
 						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -2224,6 +2228,10 @@ public class TenderController extends BaseController {
 						try {
 							Map row= BeanUtils.describe(ori);
 							row.remove("class");
+							if(!ori.getEvaluationAmountVisiable().equals("ENB")){
+								row.remove("evaluationAmount");//不公开可见估价
+							}
+							row.remove("evaluationAmountVisiable");//不公开可见估价
 							return row;
 							
 						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

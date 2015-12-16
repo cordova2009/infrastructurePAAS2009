@@ -31,6 +31,7 @@ import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCertification;
 import com.hummingbird.paas.entity.BiddeeCredit;
+import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
@@ -225,9 +226,13 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //		}
 		BiddeeBankInfo bankInfo = new BiddeeBankInfo();
 		if(aa!=null&&aa.size()>0){
-			bankInfo.setBank(aa.get(0).getBankName());
-			bankInfo.setAccountId(aa.get(0).getAccountNo());
-			bankInfo.setAccountName(aa.get(0).getAccountName());
+			BiddeeBankCardCerticate bc = aa.get(0);
+			bankInfo.setBank(bc.getBankName());
+			bankInfo.setAccountId(bc.getAccountNo());
+			bankInfo.setAccountName(bc.getAccountName());
+			bankInfo.setAddress(bc.getAddress());
+			bankInfo.setTaxNo(bc.getTaxNo());
+			bankInfo.setTelephone(bc.getTelephone());
 		}
 		return bankInfo;
 	}
@@ -430,37 +435,38 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBankInfo(String appId, BiddeeBankInfo bankInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
-		
-		int i= 0;
-		if(token.getUserId() != null){
+		ValidateUtil.assertNullnoappend(bankInfo, "银行信息内容为空");
+
+		int i = 0;
+		if (token.getUserId() != null) {
 			List<BiddeeBankCardCerticate> banks = bbccDao.selectBiddeeBankInfoByToken(token.getToken());
-			BiddeeBankCardCerticate b =new BiddeeBankCardCerticate();
-			
-			if(banks!= null && banks.size()>0){
-				 b = banks.get(0);
-				 if(bankInfo !=null){
-					
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
-				
+			BiddeeBankCardCerticate b = new BiddeeBankCardCerticate();
+
+			if (banks != null && banks.size() > 0) {
+				b = banks.get(0);
+
+				b.setBankName(bankInfo.getBank());
+				b.setAccountNo(bankInfo.getAccountId());
+				b.setAccountName(bankInfo.getAccountName());
+				b.setAddress(bankInfo.getAddress());
+				b.setTaxNo(bankInfo.getTaxNo());
+				b.setTelephone(bankInfo.getTelephone());
 				i = bbccDao.updateByPrimaryKeySelective(b);
 
-			}else{
-				 if(bankInfo !=null){
-					 b.setUserId(token.getUserId());
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
+			} else {
+				b.setUserId(token.getUserId());
+				b.setBankName(bankInfo.getBank());
+				b.setAccountNo(bankInfo.getAccountId());
+				b.setAccountName(bankInfo.getAccountName());
+				b.setAddress(bankInfo.getAddress());
+				b.setTaxNo(bankInfo.getTaxNo());
+				b.setTelephone(bankInfo.getTelephone());
 				i = bbccDao.insertSelective(b);
 			}
 		}
 		return i;
-		
-		}
+
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")

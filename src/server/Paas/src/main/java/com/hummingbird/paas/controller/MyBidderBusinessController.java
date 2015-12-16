@@ -55,6 +55,7 @@ import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
@@ -77,6 +78,8 @@ import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
 import com.hummingbird.paas.vo.MyBidderAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBidderAuthInfoBodyVO;
+import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 @Controller
 @RequestMapping(value="/myBidder/authInfo"
 		 ,method=RequestMethod.POST)
@@ -95,6 +98,8 @@ public class MyBidderBusinessController extends BaseController  {
 	@Autowired
 	protected BidderCerticateMapper bcDao;
 	@Autowired
+	protected BidObjectMapper bidObjectDao;
+	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
@@ -111,7 +116,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getAuthInfo(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询我的投标人认证信息";
-		int basecode = 0;
+		int basecode = 233100;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -125,7 +130,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -261,7 +266,22 @@ public class MyBidderBusinessController extends BaseController  {
 
 					bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
 					myBidderInfo.put("bankInfo", bankInfo);
-					detail.put("myBiddeeInfo", myBidderInfo);
+					
+					QueryBidIndexSurveyResult bis = bidObjectDao.selectBidIndexSurvey();
+					if(bis != null){
+						winNum.setStatus(ObjectUtils.toString(bis.getBidNum()));
+						winNum.setCreditScore(bis.getBidNum()*10);//按照次数乘以10
+						tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+						tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+					}else{
+						winNum.setStatus("0");
+						winNum.setCreditScore(0);//按照次数乘以10
+						tradeAmount.setStatus("0");
+						tradeAmount.setCreditScore(0);
+					}
+					tradeInfo.put("winNum", winNum);
+					tradeInfo.put("tradeAmount", tradeAmount);
+					detail.put("myBidderInfo", myBidderInfo);
 					detail.put("tradeInfo", tradeInfo);
 				
 				if(bb!= null){
@@ -293,11 +313,21 @@ public class MyBidderBusinessController extends BaseController  {
 				
 				myBidderInfo.put("bankInfo", ba);
 //				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-				baa.setStatus("0");
-				baa.setCreditScore(0);//按照次数乘以10
-				tradeInfo.put("winNum", baa);
+				QueryBidIndexSurveyResult bis = bidObjectDao.selectBidIndexSurvey();
+				if(bis != null){
+					winNum.setStatus(ObjectUtils.toString(bis.getBidNum()));
+					winNum.setCreditScore(bis.getBidNum()*10);//按照次数乘以10
+					tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+					tradeAmount.setCreditScore(20);
+				}else{
+					winNum.setStatus("0");
+					winNum.setCreditScore(0);//按照次数乘以10
+					tradeAmount.setStatus("0");
+					tradeAmount.setCreditScore(0);
+				}
+				tradeInfo.put("winNum", winNum);
+				tradeInfo.put("tradeAmount", tradeAmount);
 				
-				tradeInfo.put("tradeAmount", baa);
 				detail.put("myBidderInfo", myBidderInfo);
 				detail.put("tradeInfo", tradeInfo);
 				
@@ -310,7 +340,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}
 			
 			
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
@@ -344,7 +374,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getBaseInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的投标人基本信息";
-		int basecode = 0;
+		int basecode = 233200;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -358,7 +388,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -415,7 +445,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getLegalPersonInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的投标人法人信息";
-		int basecode = 0;
+		int basecode = 233300;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -429,7 +459,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -487,7 +517,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getRegisteredInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的投标人公司注册信息";
-		int basecode = 0;
+		int basecode = 233400;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -501,7 +531,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -555,7 +585,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getBankInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的投标人开户行信息";
-		int basecode = 0;
+		int basecode = 233500;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -569,7 +599,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -624,7 +654,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getEnterpriseQualification(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的投标人企业资质";
-		int basecode = 0;
+		int basecode = 233600;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -638,7 +668,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -694,7 +724,7 @@ public class MyBidderBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getApplication(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询投标人认证申请详情";
-		int basecode = 0;
+		int basecode = 233700;
 		BaseTransVO<MyBidderAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -708,7 +738,7 @@ public class MyBidderBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -777,11 +807,11 @@ public class MyBidderBusinessController extends BaseController  {
 	@RequestMapping(value="/saveBaseInfo_apply",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveBaseInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 233800;
 		String messagebase = "保存投标人基本信息";
 		BidderCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -843,11 +873,11 @@ public class MyBidderBusinessController extends BaseController  {
 	@RequestMapping(value="/saveLegalPersonInfo_apply",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveLegalPersonInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 233900;
 		String messagebase = "保存投标人法人信息";
 		BidderCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -909,11 +939,11 @@ public class MyBidderBusinessController extends BaseController  {
 	@RequestMapping(value="/saveRegisteredInfo_apply",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveRegisteredInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 234000;
 		String messagebase = "保存投标人公司注册信息";
 		BidderCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -979,11 +1009,11 @@ public class MyBidderBusinessController extends BaseController  {
 	@RequestMapping(value="/saveBankInfo",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveBankInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 234100;
 		String messagebase = "保存投标人开户行信息";
 		BidderCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -1038,11 +1068,11 @@ public class MyBidderBusinessController extends BaseController  {
 	 */
 	@RequestMapping(value="/saveEnterpriseQualification",method=RequestMethod.POST)
 	public @ResponseBody ResultModel saveEnterpriseQualification(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 234200;
 		String messagebase = "保存投标人企业资质";
 		BidderCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -1108,11 +1138,11 @@ public class MyBidderBusinessController extends BaseController  {
 	@RequestMapping(value="/applay",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel applay(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 234300;
 		String messagebase = "提交投标人认证申请";
 		MyBidderAuthInfoApplyVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -1166,11 +1196,11 @@ public class MyBidderBusinessController extends BaseController  {
 	@RequestMapping(value="/checkApplication",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 234400;
 		String messagebase = "提交投标人认证审核结果";
 		BidderAuditInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);

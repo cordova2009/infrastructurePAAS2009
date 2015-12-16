@@ -225,9 +225,13 @@ public class MyBidderServiceImpl implements MyBidderService {
 //		}
 		BidderBankInfo bankInfo = new BidderBankInfo();
 		if(aa!=null&&aa.size()>0){
-			bankInfo.setBank(aa.get(0).getBankName());
-			bankInfo.setAccountId(aa.get(0).getAccountNo());
-			bankInfo.setAccountName(aa.get(0).getAccountName());
+			BidderBankCardCerticate bc = aa.get(0);
+			bankInfo.setBank(bc.getBankName());
+			bankInfo.setAccountId(bc.getAccountNo());
+			bankInfo.setAccountName(bc.getAccountName());
+			bankInfo.setAddress(bc.getAddress());
+			bankInfo.setTaxNo(bc.getTaxNo());
+			bankInfo.setTelephone(bc.getTelephone());
 		}
 		return bankInfo;
 	}
@@ -430,7 +434,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBankInfo(String appId, BidderBankInfo bankInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		ValidateUtil.assertNullnoappend(bankInfo, "银行信息内容为空");
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -439,32 +443,32 @@ public class MyBidderServiceImpl implements MyBidderService {
 			
 			if(banks!= null && banks.size()>0){
 				 b = banks.get(0);
-				 if(bankInfo !=null){
-						
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
 				
+				 b.setBankName(bankInfo.getBank());
+				 b.setAccountNo(bankInfo.getAccountId());
+				 b.setAccountName(bankInfo.getAccountName());
+				b.setAddress(bankInfo.getAddress());
+				b.setTaxNo(bankInfo.getTaxNo());
+				b.setTelephone(bankInfo.getTelephone());
 				i = bbccDao.updateByPrimaryKeySelective(b);
 
 			}else{
-				 if(bankInfo !=null){
-					 b.setUserId(token.getUserId());
-					 b.setBankName(bankInfo.getBank());
-					 b.setAccountNo(bankInfo.getAccountId());
-					 b.setAccountName(bankInfo.getAccountName());
-				 }
+				 b.setUserId(token.getUserId());
+				 b.setBankName(bankInfo.getBank());
+				 b.setAccountNo(bankInfo.getAccountId());
+				 b.setAccountName(bankInfo.getAccountName());
+				 b.setAddress(bankInfo.getAddress());
+				b.setTaxNo(bankInfo.getTaxNo());
+				b.setTelephone(bankInfo.getTelephone());
 				i = bbccDao.insertSelective(b);
 			}
 		}
 		return i;
 		
-		}
+	}
 
 	@Override
 	public int applay(String appId, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
 		
 		int i= 0;
 		if(token.getUserId() != null){

@@ -219,8 +219,13 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		qodb.setBiddingNo(ob.getObjectNo());
 		qodb.setContractType(ob.getContractType());
 		qodb.setCurrency(ob.getCurrency());
-		if (ob.getEvaluationAmount() != null)
-			qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+		if (ob.getEvaluationAmount() != null){
+			if(StringUtils.equals(ob.getEvaluationAmountVisiable(),"ENB")){
+				//如果是公开估价,才会显示
+				qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+			}
+		}
+//			qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
 		qodb.setIndustryId(ob.getIndustryId());
 		qodb.setObjectName(ob.getObjectName());
 		qodb.setObjectScope(ob.getObjectScope());

@@ -41,6 +41,7 @@
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
     <result column="object_name" property="objectName" jdbcType="VARCHAR" />
     <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="evaluation_amount" property="evaluationAmount" jdbcType="BIGINT" />
     <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
@@ -72,6 +73,7 @@
     <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
     <result column="project_expect_end_date" property="projectExpectEndDate" jdbcType="VARCHAR" />
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="VARCHAR" />
+    <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="IndexObjectListResultMap" type="com.hummingbird.paas.vo.QueryIndexObjectListResult" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
@@ -175,7 +177,7 @@
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
   </select>
   <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap"  >
-     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,b.project_expect_period,b.project_expect_start_date,d.bidding_end_time project_expect_end_date 
+     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,b.project_expect_period,b.project_expect_start_date,d.bidding_end_time project_expect_end_date ,evaluation_amount_visiable
      from t_ztgl_object a 
      inner join t_ztgl_object_baseinfo d on d.object_id = a.object_id
      inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
@@ -220,7 +222,7 @@
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
-    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date,evaluation_amount_visiable  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where 1=1 
        <if test="keywords != null">

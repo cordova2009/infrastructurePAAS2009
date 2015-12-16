@@ -371,8 +371,12 @@ public class BidServiceImpl implements BidService {
 		qodb.setBiddingNo(ob.getObjectNo());
 		qodb.setContractType(ob.getContractType());
 		qodb.setCurrency(ob.getCurrency());
-		if (ob.getEvaluationAmount() != null)
-			qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+		if (ob.getEvaluationAmount() != null){
+			if(StringUtils.equals(ob.getEvaluationAmountVisiable(),"ENB")){
+				//如果是公开估价,才会显示
+				qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+			}
+		}
 		qodb.setIndustryId(ob.getIndustryId());
 		qodb.setObjectName(ob.getObjectName());
 		qodb.setObjectScope(ob.getObjectScope());
@@ -1086,21 +1090,19 @@ public class BidServiceImpl implements BidService {
 			log.debug("保存投标资格审查信息接口开始");
 		}
 		BidRecord bid = null;
+		//检查招标是否已投标
+		
 		if (null == body.getBidId()) {
 			// 查询有没有未完成的
-			List<BidRecord> selectUnfinishObject = dao.selectUnfinishedBid(bidderId, body.getObjectId());
+			List<BidRecord> selectUnfinishObject = dao.selectBids(bidderId, body.getObjectId(),null);
 			if (selectUnfinishObject != null && !selectUnfinishObject.isEmpty()) {
 				bid = selectUnfinishObject.get(0);
 			}
 		} else {
-
 			bid = dao.selectByPrimaryKey((body.getBidId()));
-			if (bid != null) {
-				// 检查编号是否存在
-				ValidateUtil.assertNotEqual(bid.getBidStatus(), "CRT", "项目非编制中,不能进行操作");
-			}
 		}
 		if (bid != null) {
+			ValidateUtil.assertNotEqual(bid.getStatus(), "CRT", "您已投标,不能重复投标");
 
 			String objectId = body.getObjectId();
 			if (log.isDebugEnabled()) {
@@ -1119,7 +1121,14 @@ public class BidServiceImpl implements BidService {
 			if (bidderId != null) {
 				ValidateUtil.assertNotEqual(bid.getBidderId(), bidderId, "当前投标并非您的标");
 			}
-			ValidateUtil.assertNotEqual(bid.getStatus(), CommonStatusConst.STATUS_CREATE, "当前投标状态不正确");
+			if(StringUtils.equals(bidObject.getObjectPublishType(),"INV")){
+				//检查是不是你的标
+				int hadInvited = ibDao.hadInvited(objectId, bidderId);
+				if(hadInvited==0){
+					throw new PaasException(PaasException.ERR_BID_INFO_EXCEPTION,"本招标为邀请招标,您并未被邀请");
+				}
+			}
+//			ValidateUtil.assertNotEqual(bid.getStatus(), CommonStatusConst.STATUS_CREATE, "当前投标状态不正确");
 		}
 		boolean isadd = false;
 		if (bid == null) {
@@ -1358,11 +1367,15 @@ public class BidServiceImpl implements BidService {
 			throw ValidateException.ERROR_PARAM_NOTEXIST.clone(null, "标的状态不正确,目前并非发布中");
 		}
 		// 查询投标信息
-		List<BidRecord> bids = dao.selectUnfinishedBid(bidderId, body.getObjectId());
+		List<BidRecord> bids = dao.selectBids(bidderId, body.getObjectId(),null);
 
 		BidRecord bid = null;
 		if (bids != null && !bids.isEmpty()) {
 			bid = bids.get(0);
+		}
+		//检查投标的情况
+		if(!bid.getStatus().equals("CRT")){
+			ValidateUtil.assertNotEqual(bid.getStatus(), "CRT", "您已投标,不能重复投标");
 		}
 		QueryBidRequirementInfoBodyVOResult result = new QueryBidRequirementInfoBodyVOResult();
 		if (bid == null) {

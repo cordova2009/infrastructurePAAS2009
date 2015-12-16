@@ -74,6 +74,17 @@
     from t_ztgl_bid_record
     where object_id = #{objectId,jdbcType=VARCHAR}  and bidder_id = #{bidderId,jdbcType=INTEGER} and status='CRT'
   </select>
+  <select id="selectBids" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ztgl_bid_record
+    where 
+    object_id = #{objectId,jdbcType=VARCHAR}  
+    and bidder_id = #{bidderId,jdbcType=INTEGER} 
+    <if test="status != null" >
+        bid_status = #{status}
+    </if>
+  </select>
    <select id="selectByObjectIdAndBidId" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

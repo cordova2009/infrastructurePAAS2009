@@ -147,19 +147,19 @@
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="legal_sucess">
                     <div class=" charge_form padv40 jibenxx">
                         <div class="item">
-                            <span class="lab">法人姓名</span>
+                            <span class="lab"><span class="red">*</span> 法人姓名</span>
                             <div class="auto value ">
                                 <input type="text" class="input1 wid350" name="name" value="<?=$legal['name']?>" >
                             </div>
                         </div>
                         <div class="item">
-                            <span class="lab">法人身份证号</span>
+                            <span class="lab"><span class="red">*</span> 法人身份证号</span>
                             <div class="auto value ">
                                 <input type="text" class="input1 wid350" name="idCard" value="<?=$legal['idCard']?>" >
                             </div>
                         </div>
                         <div class="item">
-                            <span class="lab">法人身份证扫描件</span>
+                            <span class="lab"><span class="red">*</span> 法人身份证扫描件</span>
                             <div class="value auto">
                                 <div class="marb20 clear">
                                     <img src="<?=empty($legal['idCardfrontUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardfrontUrl'],178,112)?>" alt="" class="left marr10">
@@ -316,8 +316,12 @@
                         <div class="auto value ">
                             <div class="select">
                                 <select name="businessLicenseExpireTime" id="">
+                                    <option value="0" <?=$registered['businessLicenseExpireTime']=='0'?'selected':''?> >长期</option>
                                     <option value="1" <?=$registered['businessLicenseExpireTime']=='1'?'selected':''?> >一年</option>
                                     <option value="2" <?=$registered['businessLicenseExpireTime']=='2'?'selected':''?> >两年</option>
+                                    <option value="3" <?=$registered['businessLicenseExpireTime']=='3'?'selected':''?> >三年</option>
+                                    <option value="5" <?=$registered['businessLicenseExpireTime']=='5'?'selected':''?> >五年</option>
+                                    <option value="10" <?=$registered['businessLicenseExpireTime']=='10'?'selected':''?> >十年</option>
                                 </select>
                             </div>
                         </div>

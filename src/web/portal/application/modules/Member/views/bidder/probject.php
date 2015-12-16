@@ -83,7 +83,7 @@ $(".bd .tblist").hide().eq($(this).index()).show()
 }
 //loadings() ;
 $('.tab_box2 li').click(loadings);
-$('.tab_box li.on').trigger("click");
+$('.tab_box2 li.on').trigger("click");
 })
 </script>
 </block>

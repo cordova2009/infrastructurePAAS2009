@@ -49,7 +49,7 @@ class TenderController extends MemberController{
 //            $this->ajaxReturn(['msg'=>'标的发布成功','status'=>0,'objectId'=>$data['objectId'],'step'=>10]);
             $this->success('标的发布成功',U('/member/biddee/probject'));
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -91,7 +91,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>10]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -133,7 +133,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>9]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -166,7 +166,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>8]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -209,7 +209,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>7]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -238,7 +238,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>6]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -283,7 +283,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>5]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -318,7 +318,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>4]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
     /**
@@ -337,69 +337,61 @@ class TenderController extends MemberController{
             $this->error('参数错误，标的ID不能为空！');
         }
 
-        $constructionProveType = I('constructionProveType');
-        if(empty($constructionProveType)){
+        $type = I('constructionProveType');
+        if(empty($type)){
             $this->error('请至少选择一种施工证明类型！');
         }
-        $data['constructionProveType'] = $constructionProveType;
+        $data['constructionProveType'] = $type;
 
-        if($constructionProveType == 'ZCB' || $constructionProveType == 'KFS'){
+        if($type == 'ZCB' || $type == 'KFS'){
+
             /******************************国有土地使用证**********************************/
             $tmp_array = I('landUseCertificateNo');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
+            if(!array_key_exists($type,$tmp_array) || empty($tmp_array[$type])){
                 $this->error('国有土地使用证编号不能为空！');
             }
-            $data['landUseCertificateNo'] = $tmp_array[$constructionProveType];
+            $data['landUseCertificateNo'] = $tmp_array[$type];
             $tmp_array = I('landUseCertificateEndDate');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
+            if(!array_key_exists($type,$tmp_array) || empty($tmp_array[$type])){
                 $this->error('国有土地使用证有效期不能为空！');
             }
-            $data['landUseCertificateEndDate'] = $tmp_array[$constructionProveType];
+            $data['landUseCertificateEndDate'] = $tmp_array[$type];
             $tmp_array = I('landUseCertificateUrl');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
+            if(!array_key_exists($type,$tmp_array) || empty($tmp_array[$type])){
                 $this->error('国有土地使用证附件不能为空！');
             }
-            $data['landUseCertificateUrl'] = $tmp_array[$constructionProveType];
+            $data['landUseCertificateUrl'] = $tmp_array[$type];
             /*****************************************************************************/
 
-            /******************************建设用地规划许可证********************************/
-            $tmp_array = I('constructionLandUsePermitNo');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
-                $this->error('建设用地规划许可证编号不能为空！');
-            }
-            $data['constructionLandUsePermitNo'] = $tmp_array[$constructionProveType];
-            $tmp_array = I('constructionLandUsePermitEndDate');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
-                $this->error('建设用地规划许可证有效期不能为空！');
-            }
-            $data['constructionLandUsePermitEndDate'] = $tmp_array[$constructionProveType];
-            $tmp_array = I('constructionLandUsePermitUrl');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
-                $this->error('建设用地规划许可证附件不能为空！');
-            }
-            $data['constructionLandUsePermitUrl'] = $tmp_array[$constructionProveType];
-            /*****************************************************************************/
+            /**************建设用地规划许可证**************建设工程规划许可证******************/
 
-            /**********************************建设工程规划许可证***************************/
-            $tmp_array = I('buildingPermitNo');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
-                $this->error('建设工程规划许可证编号不能为空！');
+            $no_array1 = I('constructionLandUsePermitNo');
+            $no_array2 = I('buildingPermitNo');
+
+            $date_array1 = I('constructionLandUsePermitEndDate');
+            $date_array2 = I('buildingPermitEndDate');
+
+            $fj_array1 = I('constructionLandUsePermitUrl');
+            $fj_array2 = I('buildingPermitUrl');
+
+            if(
+                !(!empty($no_array1[$type]) && !empty($date_array1[$type]) && !empty($fj_array1[$type]))
+                &&
+                !(!empty($no_array2[$type]) && !empty($date_array2[$type]) && !empty($fj_array2[$type]))
+            ){
+                $this->error('建设用地规划许可证和建设工程规划许可证必须填写一项！');
             }
-            $data['buildingPermitNo'] = $tmp_array[$constructionProveType];
-            $tmp_array = I('buildingPermitEndDate');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
-                $this->error('建设工程规划许可证有效期不能为空！');
-            }
-            $data['buildingPermitEndDate'] = $tmp_array[$constructionProveType];
-            $tmp_array = I('buildingPermitUrl');
-            if(!array_key_exists($constructionProveType,$tmp_array) || empty($tmp_array[$constructionProveType])){
-                $this->error('建设工程规划许可证附件不能为空！');
-            }
-            $data['buildingPermitUrl'] = $tmp_array[$constructionProveType];
-            /*****************************************************************************/
+
+            $data['constructionLandUsePermitNo'] = $no_array1[$type];
+            $data['constructionLandUsePermitEndDate'] = $date_array1[$type];
+            $data['constructionLandUsePermitUrl'] = $fj_array1[$type];
+
+            $data['buildingPermitNo'] = $no_array2[$type];
+            $data['buildingPermitEndDate'] = $date_array2[$type];
+            $data['buildingPermitUrl'] = $fj_array2[$type];
 
             /******************************中标通知书***************************************/
-            if($constructionProveType == 'ZCB'){
+            if($type == 'ZCB'){
                 $data['letterOfAcceptanceUrl'] = I('letterOfAcceptanceUrl');
                 if(empty($data['letterOfAcceptanceUrl'])){
                     $this->error('中标通知书附件不能为空！');
@@ -407,7 +399,7 @@ class TenderController extends MemberController{
             }
             /*****************************************************************************/
 
-        }elseif($constructionProveType == 'BCP'){
+        }elseif($type == 'BCP'){
             /***************************建设工程施工许可证***********************************/
             $data['buildingConstructPermitNo'] = I('buildingConstructPermitNo');
             if(empty($data['buildingConstructPermitNo'])){
@@ -429,7 +421,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>3]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
     /**
@@ -473,7 +465,7 @@ class TenderController extends MemberController{
         if(check_resp($resp)){
             $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$data['objectId'],'step'=>2]);
         }else{
-            $this->error('保存失败！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
         }
     }
 
@@ -485,6 +477,11 @@ class TenderController extends MemberController{
         $curl = new Curl();
 
         $data = ['token'=>$this->user['token']];
+
+        $resp = $curl->setData($data)->send('tender/isInvitationOfTender');
+        if(!check_resp($resp)){
+            $this->error('您还没有招标人资格，请先进行认证！',U('/member/biddee/authInfo'));
+        }
 
         if(IS_POST){
 
@@ -530,13 +527,8 @@ class TenderController extends MemberController{
             if(check_resp($resp)){
                 $this->ajaxReturn(['msg'=>'保存成功','status'=>0,'objectId'=>$resp['objectId'],'step'=>1]);
             }else{
-                $this->error('保存失败！');
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'保存失败！');
             }
-        }
-
-        $resp = $curl->setData($data)->send('tender/isInvitationOfTender');
-        if(!check_resp($resp)){
-            $this->error('对不起，您还没有招标人资格，请先进行认证！');
         }
 
         $resp = $curl->setData($data)->send('tender/queryObjectBaseInfo');

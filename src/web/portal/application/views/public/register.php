@@ -2,7 +2,7 @@
 <header class="header ">
     <div class="head-cont ">
         <div class="cent  clear">
-            <div class="logo blue left">大力99</div>
+            <div class="logo left"><a href="/" class="blue">大力99</a></div>
             <div class="right login-txt">
                 注册
             </div>
@@ -57,7 +57,7 @@
                         <input id="sms_code" name="sms_code" type="text" class="input" placeholder="输入验证码" tip="验证码">
                     </dd>
                     <dd class="">
-                        <input class="getBtn" id="get-sms-code" value="获取验证码" type="button">
+                        <input class="getBtn" id="get-sms-code" url="<?=U('/public/beforeReg')?>" value="获取验证码" type="button">
                     </dd>
                     <dd class="tip"></dd>
                 </dl>
@@ -191,6 +191,12 @@
                 if(is_mobile(val)){
                     show_errmsg($this,'请输入正确的手机号码！');
                     valid = false;
+                }else if(val != ''){
+                    $.post('<?=U('/public/checkMobile')?>',{mobile:val},function(resp){
+                        if(resp.status != '0'){
+                            show_errmsg($this,resp.msg);
+                        }
+                    },'json');
                 }
                 break;
             case 'password':

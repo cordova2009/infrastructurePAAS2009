@@ -68,7 +68,7 @@ class BidderController extends MemberController{
 		    $curl = new Curl($this->config->url->api->paas);
 		    $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/applay');
 		    if(check_resp($resp)) {
-			    $this->success('保存成功！',U('member/bidder/authInfo'));
+			    $this->success('保存成功！',U('/member/bidder/authInfo'));
 		    }else{
 			    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
 		    }

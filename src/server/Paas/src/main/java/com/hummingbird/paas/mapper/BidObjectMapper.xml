@@ -126,7 +126,7 @@
   </select>
   <select id="countAmountByBid" resultType="long" >
     select IFNULL(sum(win_bid_amount),0) from t_ztgl_object
-    where biddee_id = #{biddeeId} 
+    where biddee_id = #{biddeeId}  and object_status != 'CRT'
     <if test="objectId != null">
     and object_id = #{objectId}
     </if>
@@ -214,19 +214,20 @@
   <select id="selectTotalTenderObjectList" resultType="int" parameterType="java.lang.String" >
     select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
-       where 1=1 
+       	where  a.object_status != 'CRT' 
        <if test="keywords != null">
+        and 
        <foreach collection="keywords" item="item" index="index"
-		   open="AND" separator="OR" close="">a.object_name like CONCAT('%','${item}','%' )  
+		   open="" separator="OR" close="">a.object_name like CONCAT('%','${item}','%' )  
 		  </foreach>
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
-    select a.object_id,a.object_name,a.evaluation_amount,e.level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date,evaluation_amount_visiable  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+    select a.object_id,a.object_name,a.evaluation_amount,IFNULL(e.level_name,'A')level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
        inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
-       where 1=1 
+       where  a.object_status != 'CRT' 
        <if test="keywords != null">
-           and 
+            and 
            <foreach collection="keywords" item="item" index="index"
 		   open="" separator="OR" close="">a.object_name like CONCAT('%','${item}','%' )  
 		  </foreach>
@@ -254,7 +255,7 @@
         where a.object_status = 'SEL' 
     </select>
     <select id="selectObjectIndexSurvey" resultMap="QueryObjectIndexSurveyResultMap">
-     select count(a.object_id) objectNum,IFNULL(sum(a.object_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id
+     select count(a.object_id) objectNum,IFNULL(sum(a.object_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id and a.object_status != 'CRT'
     </select>
      <select id="selectTotalBidIndexList" resultType="int">
    	 select count(a.object_id) from t_ztgl_object a 

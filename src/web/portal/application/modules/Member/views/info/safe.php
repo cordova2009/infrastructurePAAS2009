@@ -74,7 +74,7 @@
                                     <dd class="s3">成功</dd>
                                 </dl>
                             </div>
-                            <form class="ajax-form" method="post" action="<?=U('/member/info/updateMobile')?>" success="update_mobile_success">
+                            <form class="ajax-form" method="post" action="<?=U('/member/info/updateMobile')?>" success="update_mobile_success" autocomplete="off" fail="update_mobile_fail">
                                 <div class="phone_form form1 active">
                                     <div class="form_item">
                                         <div class="lab2">原手机号码</div>
@@ -103,7 +103,7 @@
                                     <div class="form_item">
                                         <div class="lab2">手机验证码</div>
                                         <div class="value2">
-                                            <input id="second_sms_code" name="second_sms_code" type="text" class="input1 wid120" >
+                                            <input id="second_sms_code" name="second_sms_code" type="text" class="input1 wid120" autocomplete="off">
                                             <input class="getBtn get-code" value="获取验证码" type="button">
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@
                                 </div>
                                 <div class="phone_form form3">
                                     <span class=" ico i-ok2"></span>
-                                    <div class="auto">绑定手机修改完成<br>5秒后将退出，请重新登录</div>
+                                    <div class="auto">绑定手机修改完成<br><span id="second">5</span>秒后将退出，请重新登录</div>
                                 </div>
                             </form>
                         </div>
@@ -142,12 +142,12 @@
                             <span class="value"></span>
                             <span class="right"><a href="javascript:;" class="blue showBtn">修改</a></span>
                         </div>
-                        <form class="password hide ajax-form" method="post" action="<?=U('/member/info/updateTradePwd')?>" success="update_pwd_success">
+                        <form class="password hide ajax-form" method="post" action="<?=U('/member/info/updateTradePwd')?>" success="update_pwd_success" autocomplete="off" >
                             <p class="tips">为了您的账户安全，请定期更换交易密码，并确保交易密码设置与登录密码不同。</p>
                             <div class="form_items">
                                 <div class="form_item">
                                     <label class="lab2">原密码</label>
-                                    <input name="old_password" type="password" class="input1">
+                                    <input name="old_password" type="password" class="input1"value="">
                                 </div>
                                 <div class="form_item">
                                     <label class="lab2">手机验证码</label>
@@ -178,6 +178,7 @@
 <block name="script">
 <script>
 $(function(){
+    $("input[type=text],input[type=password]").val('');
     $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(1)").addClass('active');
 
     $(".showBtn").click(function(event) {
@@ -216,13 +217,28 @@ function step(i){
 function update_mobile_success(){
     step(2);
     $.getJSON('<?=U('/logout')?>');
-
+    var second = 5;
+    setInterval(function(){
+        second--;
+        if(second == 0){
+            window.location = '<?=U('/logout')?>';
+        }
+        $("#second").text(second);
+    },1000);
     setTimeout(function () {
         window.location = '<?=U('/logout')?>';
     },5000)
 }
+
+function update_mobile_fail(form,resp){
+    if(resp.status == 999){
+        step(0);
+    }
+}
+
 function update_pwd_success(obj){
     obj.find('input').val('');
+    obj.parent().find('.showBtn').click();
 }
 </script>
 </block>

@@ -74,7 +74,7 @@ function sprintf()
  * @param mobile
  * @returns {boolean}
  */
-function is_mobile(mobile){
+function  is_mobile(mobile){
 
     return !/^(1[0-9])\d{9}$/i.test(mobile);
 }

@@ -55,6 +55,7 @@ import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
@@ -77,6 +78,8 @@ import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
 import com.hummingbird.paas.vo.MyBidderAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBidderAuthInfoBodyVO;
+import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 @Controller
 @RequestMapping(value="/myBidder/authInfo"
 		 ,method=RequestMethod.POST)
@@ -94,6 +97,8 @@ public class MyBidderBusinessController extends BaseController  {
 	protected ScoreLevelMapper scoreLevelDao;
 	@Autowired
 	protected BidderCerticateMapper bcDao;
+	@Autowired
+	protected BidObjectMapper bidObjectDao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
@@ -177,50 +182,108 @@ public class MyBidderBusinessController extends BaseController  {
 					 overall.put("creditScore", aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
 					//1.个人状态、积分信息
 					 personalInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
-					if(p!=null){
-						personalInfo.setStatus("已认证");
-					}else{
-						personalInfo.setStatus("认证中");
-					}
+					 if("APY".equalsIgnoreCase(bidder.getStatus())){
+						 personalInfo.setStatus("待审核");
+					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
+								personalInfo.setStatus("已认证");
+					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 if(p!=null){
+								personalInfo.setStatus("已认证");
+							}else{
+								personalInfo.setStatus("认证不通过");
+							}
+					 }
+					
 					baseInof.put("personalInfo", personalInfo);
 					detail.put("baseInof", baseInof);
 //					baseInof.clear();
 					baseInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
 					//2.基本状态、积分信息
-					if(bi!=null){
-						baseInfo.setStatus("已认证");
-					}else{
-						baseInfo.setStatus("认证中");
-					}
+					if("APY".equalsIgnoreCase(bidder.getStatus())){
+						baseInfo.setStatus("待审核");
+					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
+								baseInfo.setStatus("已认证");
+					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 if(bi!=null){
+							 	baseInfo.setStatus("已认证");
+							}else{
+								baseInfo.setStatus("认证不通过");
+							}
+					 }
+					
 					myBidderInfo.put("baseInfo", baseInfo);
 					//3.法人状态、积分信息
-					if(lp!=null){
-						legalPersonInfo.setStatus("已认证");
-					}else{
-						legalPersonInfo.setStatus("认证中");
-					}
+					if("APY".equalsIgnoreCase(bidder.getStatus())){
+						legalPersonInfo.setStatus("待审核");
+					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
+								legalPersonInfo.setStatus("已认证");
+					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 if(lp!=null){
+							 legalPersonInfo.setStatus("已认证");
+							}else{
+								legalPersonInfo.setStatus("认证不通过");
+							}
+					 }
+					
 					legalPersonInfo.setCreditScore(aa==null?0:(aa.getLegalPersonInfo()!=null?aa.getLegalPersonInfo():0));
 					myBidderInfo.put("legalPersonInfo", legalPersonInfo);
 					//4.公司注册状态、积分信息
-					if(cr!=null){
-						companyRegisteredInfo.setStatus("已认证");
-					}else{
-						companyRegisteredInfo.setStatus("认证中");
-					}
+					if("APY".equalsIgnoreCase(bidder.getStatus())){
+						companyRegisteredInfo.setStatus("待审核");
+					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
+								companyRegisteredInfo.setStatus("已认证");
+					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 if(cr!=null){
+							 companyRegisteredInfo.setStatus("已认证");
+							}else{
+								companyRegisteredInfo.setStatus("认证不通过");
+							}
+					 }
+					
 					companyRegisteredInfo.setCreditScore(aa==null?0:(aa.getCompanyRegisteredInfo()!=null?aa.getCompanyRegisteredInfo():0));
 					myBidderInfo.put("companyRegisteredInfo", companyRegisteredInfo);
 					//5.开户行 状态、积分信息
-					if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-						bankInfo.setStatus("已认证");
-					}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-						bankInfo.setStatus("认证失败");
-					}else{
-						bankInfo.setStatus("认证中");
-					}
+					if("APY".equalsIgnoreCase(bidder.getStatus())){
+						bankInfo.setStatus("待审核");
+					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
+						 if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+								bankInfo.setStatus("已认证");
+							}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+								bankInfo.setStatus("认证不通过");
+							}else{
+								bankInfo.setStatus("认证中");
+							}
+					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+								bankInfo.setStatus("已认证");
+							}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+								bankInfo.setStatus("认证不通过");
+							}else{
+								bankInfo.setStatus("认证中");
+							}
+					 }
+					
 
 					bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
 					myBidderInfo.put("bankInfo", bankInfo);
-			
+					
+					QueryBidIndexSurveyResult bis = bidObjectDao.selectBidIndexSurvey();
+					if(bis != null){
+						winNum.setStatus(ObjectUtils.toString(bis.getBidNum()));
+						winNum.setCreditScore(bis.getBidNum()*10);//按照次数乘以10
+						tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+						tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+					}else{
+						winNum.setStatus("0");
+						winNum.setCreditScore(0);//按照次数乘以10
+						tradeAmount.setStatus("0");
+						tradeAmount.setCreditScore(0);
+					}
+					tradeInfo.put("winNum", winNum);
+					tradeInfo.put("tradeAmount", tradeAmount);
+					detail.put("myBidderInfo", myBidderInfo);
+					detail.put("tradeInfo", tradeInfo);
+				
 				if(bb!= null){
 					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
 					overall.put("creditRatingIcon", bb.getIcon());
@@ -229,10 +292,8 @@ public class MyBidderBusinessController extends BaseController  {
 					overall.put("creditRatingIcon", "");
 				}
 				
-				
-				
-				detail.put("myBidderInfo", myBidderInfo);
 				rm.put("overall", overall);
+				rm.put("detail", detail);
 			}else{
 				//1.个人状态、积分信息
 				ba.setCreditScore(0);
@@ -252,11 +313,21 @@ public class MyBidderBusinessController extends BaseController  {
 				
 				myBidderInfo.put("bankInfo", ba);
 //				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-				baa.setStatus("0");
-				baa.setCreditScore(0);//按照次数乘以10
-				tradeInfo.put("winNum", baa);
+				QueryBidIndexSurveyResult bis = bidObjectDao.selectBidIndexSurvey();
+				if(bis != null){
+					winNum.setStatus(ObjectUtils.toString(bis.getBidNum()));
+					winNum.setCreditScore(bis.getBidNum()*10);//按照次数乘以10
+					tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+					tradeAmount.setCreditScore(20);
+				}else{
+					winNum.setStatus("0");
+					winNum.setCreditScore(0);//按照次数乘以10
+					tradeAmount.setStatus("0");
+					tradeAmount.setCreditScore(0);
+				}
+				tradeInfo.put("winNum", winNum);
+				tradeInfo.put("tradeAmount", tradeAmount);
 				
-				tradeInfo.put("tradeAmount", baa);
 				detail.put("myBidderInfo", myBidderInfo);
 				detail.put("tradeInfo", tradeInfo);
 				
@@ -269,7 +340,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}
 			
 			
-			
+			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

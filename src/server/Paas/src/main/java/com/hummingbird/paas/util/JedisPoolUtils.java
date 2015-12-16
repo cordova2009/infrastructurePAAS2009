@@ -164,7 +164,7 @@ public class JedisPoolUtils {
 	}
 	
 	/**
-	 * 将token保存到redis(更新或者新增)
+	 * 将数据保存到redis(更新或者新增)
 	 * @author YJY 
 	 * @param key
 	 * @param record
@@ -239,7 +239,13 @@ public class JedisPoolUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	 		
-		
+		try {
+			Token mm=getDataOnRedis("11111", Token.class);
+			System.out.println(mm.getToken()+"<<<"+mm.getUserId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		Long i = removeDataOnRedis("11111");
 //		 mm  = getDataOnRedis("11111", record.getClass());
 		System.out.println(jpu);

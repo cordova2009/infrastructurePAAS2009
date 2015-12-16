@@ -32,10 +32,10 @@
 								<tr class="bordb">
 									<td>企业信息</td>
 									<td colspan="2">
-										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['baseInfo']['status'])?$datail['myBiddeeInfo']['baseInfo']['status']:'';?></span>基本信息</p>
-										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['legalPersonInfo']['status'])?$datail['myBiddeeInfo']['legalPersonInfo']['status']:'';?></span>法人信息</p>
-										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['companyRegisteredInfo']['status'])?$datail['myBiddeeInfo']['companyRegisteredInfo']['status']:'';?></span>公司注册信息</p>
-										<p><span class="right wid90"><?=isset($datail['myBiddeeInfo']['bankInfo']['status'])?$datail['myBiddeeInfo']['bankInfo']['status']:'';?></span>银行开户信息</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['baseInfo']['status'])?$datail['myBiddeeInfo']['baseInfo']['status']:'未认证';?></span>基本信息</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['legalPersonInfo']['status'])?$datail['myBiddeeInfo']['legalPersonInfo']['status']:'未认证';?></span>法人信息</p>
+										<p class="bordb"><span class="right wid90"><?=isset($datail['myBiddeeInfo']['companyRegisteredInfo']['status'])?$datail['myBiddeeInfo']['companyRegisteredInfo']['status']:'未认证';?></span>公司注册信息</p>
+										<p><span class="right wid90"><?=isset($datail['myBiddeeInfo']['bankInfo']['status'])?$datail['myBiddeeInfo']['bankInfo']['status']:'未认证';?></span>银行开户信息</p>
 									</td>
 									<td></td>
 								</tr>
@@ -59,8 +59,8 @@
 										<p><span class="right wid90"><?=isset($datail['tradeInfo']['tradeAmount']['status'])?$datail['tradeInfo']['tradeAmount']['status']:'';?></span>交易金额</p>
 									</td>
 									<td class="padl20">
-										<p><?=isset($datail['tradeInfo']['tradeInfo']['creditScore'])?$datail['tradeInfo']['tradeInfo']['creditScore']:'0';?><i class="ico i-info"></i></p>
-										<p><?=isset($datail['tradeInfo']['tradeAmount']['creditScore'])?$datail['tradeInfo']['tradeAmount']['creditScore']:'0';?></p>
+										<p><?=isset($datail['tradeInfo']['tradeInfo']['creditScore'])?$datail['tradeInfo']['tradeInfo']['creditScore']:'0';?>分 <i class="ico i-info"></i></p>
+										<p><?=isset($datail['tradeInfo']['tradeAmount']['creditScore'])?price_format($datail['tradeInfo']['tradeAmount']['creditScore']):'0';?>元</p>
 									</td>
 								</tr>
 							</tbody></table>

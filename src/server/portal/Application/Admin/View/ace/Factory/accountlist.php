@@ -8,24 +8,7 @@
 	        <div class="row">
 	            <div class="col-sm-12 col-xs-12">
 	                <form method="get" action="__SELF__" class="search-form">
-	                   <div class="col-sm-2 ">
-                           <div class="btn-group">
-		                        <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-		                            修改状态
-		                            <i class="icon-angle-down icon-on-right"></i>
-		                        </button>
-		
-		                        <ul class="dropdown-menu">
-		                          <volist name="statusCcList" id="vo">
-		                            <li>
-		                                <a href="{:U('changeStatus',array('method'=>$key))}" class="ajax-post" target-form="ids">{$vo}</a>
-		                            </li>
-		                          </volist>
-		                        </ul>
-                           </div>
-                       </div>
-                       <div class="col-sm-10">
-                        <label>账&nbsp; &nbsp; &nbsp; &nbsp; 号
+                        <label>账号
                             <input type="text" class="search-input" name="accountId" value="{:I('accountId')}">
                         </label>
 	                    <label>类型
@@ -43,8 +26,7 @@
 	                           <i class="icon-search"></i>搜索
 	                        </button>
 	                    </label>
-	                   </div>
-	                </form>  
+	                </form>
 	            </div>
 	        </div>
 	        <table class="table table-striped table-bordered table-hover dataTable">
@@ -83,8 +65,28 @@
 				    </notempty>
 	            </tbody>
 	        </table>
-	        
-            <include file="Public/page"/>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="btn-group">
+                        <button class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown">
+                            修改状态
+                            <i class="icon-angle-down icon-on-right"></i>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <volist name="statusCcList" id="vo">
+                                <li>
+                                    <a href="{:U('changeStatus',array('method'=>$key))}" class="ajax-post" target-form="ids">{$vo}</a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
 	    </div>
 	</div>
 </block>

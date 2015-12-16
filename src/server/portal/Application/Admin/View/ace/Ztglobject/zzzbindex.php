@@ -7,11 +7,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form action="<?=U('ztglobject/zzzbindex')?>" method="POST" class="search-form">
-
-                        <a title="推荐管理" href="<?=U('ztglobject/zbsort')?>" class="btn btn-sm btn-info">
-                            <span class="icon-exchange"></span>
-                            推荐
-                        </a>
                         <label>项目编号
                             <input type="text" class="search-input" name="object_no" value="{:I('object_no')}">
                         </label>
@@ -34,7 +29,6 @@
             <table class="table table-striped table-bordered table-hover dataTable">
 			    <thead>
 			        <tr>
-                        <th class="">操作</th>
                         <th class="">项目编号</th>
                         <th class="">名称</th>
                         <th class="">投标人数</th>
@@ -49,9 +43,6 @@
 					<notempty name="list">
 					<volist name="list" id="vo">
 					<tr>
-                        <td>
-                            <a title="查看详情" href="{:U('viewzb?object_id='.$vo['object_id'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
-                        </td>
 						<td><a href="{:U('viewzb',array('object_id'=>$vo['object_id']))}">{$vo.object_no}</a></td>
 						<td><?=$vo['object_name']?></td>
                         <td>
@@ -70,7 +61,13 @@
 				</tbody>
             </table>
 
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

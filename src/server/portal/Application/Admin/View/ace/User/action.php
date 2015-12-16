@@ -7,24 +7,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="search-form">
-                        <label>
-                            <a class="btn btn-sm btn-primary" href="{:U('addaction')}"><i class="icon-plus"></i>新增</a>
-                        </label>
-                        <label>
-                            <button type="button" class="btn btn-sm btn-success ajax-post" target-form="ids" url="{:U('setstatus?Model=Action&status=1')}">
-                                <i class="icon-ok"></i>启 用
-                            </button>
-                        </label>
-                        <label>
-                            <button type="button" class="btn btn-sm btn-inverse ajax-post" target-form="ids" url="{:U('setstatus?Model=Action&status=0')}">
-                                <i class="icon-ban-circle"></i>暂停
-                            </button>
-                        </label>
-                        <label>
-                            <button type="button" class="btn btn-sm btn-danger ajax-post confirm" target-form="ids" url="{:U('setStatus?Model=Action&status=-1')}">
-                                <i class="icon-trash"></i>删除
-                            </button>
-                        </label>
+
                     </div>  
                 </div>
             </div>
@@ -63,15 +46,41 @@
 						<td><span>{:get_action_type($vo['type'])}</span></td>
 						<td>{$vo.remark}</td>
 						<td>{$vo.status_text}</td>
-						<td><a href="{:U('User/editAction?id='.$vo['id'])}">编辑</a>
+						<td>
 							<a href="{:U('User/setStatus?Model=action&ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
 							<a href="{:U('User/setStatus?Model=action&status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
-			                </td>
+                        </td>
 					</tr>
 					</volist>
 				</tbody>
             </table>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>
+                        <a class="btn btn-white" href="{:U('addaction')}">
+                            新增
+                        </a>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post" target-form="ids" url="{:U('setstatus?Model=Action&status=1')}">
+                            启 用
+                        </button>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post" target-form="ids" url="{:U('setstatus?Model=Action&status=0')}">
+                            暂停
+                        </button>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post confirm" target-form="ids" url="{:U('setStatus?Model=Action&status=-1')}">
+                            删除
+                        </button>
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

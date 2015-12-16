@@ -7,25 +7,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="search-form">
-	                    <label>
-	                        <a class="btn btn-sm btn-primary" href="{:U('add')}"><i class="icon-plus"></i>新增</a>
-	                    </label>
-	                    <label>
-	                        <button type="button" class="btn btn-sm btn-success ajax-post" target-form="ids" url="{:U('changeStatus?method=resumeUser')}">
-	                            <i class="icon-ok"></i>启 用
-	                        </button>
-	                    </label>
-	                    <label>
-	                        <button type="button" class="btn btn-sm btn-inverse ajax-post" target-form="ids" url="{:U('changeStatus?method=forbidUser')}">
-	                            <i class="icon-ban-circle"></i>暂停
-	                        </button>
-	                    </label>
-                        <label>
-                            <button type="button" class="btn btn-sm btn-danger ajax-post" target-form="ids" url="{:U('changeStatus?method=deleteUser')}">
-                                <i class="icon-trash"></i>删除
-                            </button>
-                        </label>
-                        <label>用户昵称或者ID 
+                        <label>用户昵称或者ID
                             <input type="text" class="search-input" name="nickname" value="{:I('nickname')}" placeholder="请输入用户昵称或者ID">
                         </label>
                         <label>
@@ -33,7 +15,7 @@
                                <i class="icon-search"></i>搜索
                             </button>
                         </label>
-                    </div>  
+                    </div>
                 </div>
             </div>
             
@@ -47,7 +29,6 @@
                                <span class="lbl"></span>
                            </label>
                         </th>
-                        <th class="">操作</th>
                         <th class="">UID</th>
                         <th class="">用户名</th>
                         <th class="">昵称</th>
@@ -55,6 +36,7 @@
                         <th class="">最后登录时间</th>
                         <th class="">最后登录IP</th>
                         <th class="">状态</th>
+                        <th class="">操作</th>
 					</tr>
 			    </thead>
 			    <tbody>
@@ -67,14 +49,6 @@
                                 <input class="ace ids" type="checkbox" name="id[]" value="{$vo.id}" />
                                 <span class="lbl"></span>
                             </label>
-                        </td>
-                        <td>
-                            <a title="授权" href="{:U('AuthManager/group?uid='.$vo['id'])}" class="ui-pg-div ui-inline">
-                                <span class="ui-icon icon-check blue"></span>
-                            </a>
-                            <a title="删除" href="{:U('User/changeStatus?method=deleteUser&id='.$vo['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
-                                <span class="ui-icon icon-trash red"></span>
-                            </a>
                         </td>
 						<td>{$vo.id} </td>
 						<td><a href="{:U('uedit',array('id'=>$vo['id']))}">{$vo.username}</a></td>
@@ -95,6 +69,14 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
+                        <td>
+                            <a title="授权" href="{:U('AuthManager/group?uid='.$vo['id'])}" class="">
+                                授权
+                            </a>
+                            <a title="删除" href="{:U('User/changeStatus?method=deleteUser&id='.$vo['id'])}" class="confirm ajax-get">
+                                删除
+                            </a>
+                        </td>
 					</tr>
 					</volist>
 					<else/>
@@ -102,7 +84,34 @@
 					</notempty>
 				</tbody>
             </table>
-            <include file="Public/page"/>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>
+                        <a class="btn btn-white" href="{:U('add')}">
+                            新增
+                        </a>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post" target-form="ids" url="{:U('changeStatus?method=resumeUser')}">
+                            启 用
+                        </button>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post" target-form="ids" url="{:U('changeStatus?method=forbidUser')}">
+                            暂停
+                        </button>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post" target-form="ids" url="{:U('changeStatus?method=deleteUser')}">
+                            删除
+                        </button>
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

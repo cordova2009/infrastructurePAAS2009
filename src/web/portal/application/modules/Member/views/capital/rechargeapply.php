@@ -68,7 +68,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item padt20">
                         <span class="lab"></span>
                         <div class="auto value">
                             <input type="submit" value="提交充值" class="btn2 wid110">

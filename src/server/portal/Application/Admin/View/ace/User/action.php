@@ -22,7 +22,7 @@
                            <span class="lbl"></span>
                        </label>
                     </th>
-					<th class="">编号</th>
+					<th class="">序号</th>
 					<th class="">标识</th>
 					<th class="">名称</th>
 					<th class="">类型</th>
@@ -40,7 +40,7 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
-						<td>{$vo.id} </td>
+						<td>{$key+1} </td>
 						<td>{$vo.name}</td>
 						<td><a href="{:U('editAction?id='.$vo['id'])}">{$vo.title}</a></td>
 						<td><span>{:get_action_type($vo['type'])}</span></td>

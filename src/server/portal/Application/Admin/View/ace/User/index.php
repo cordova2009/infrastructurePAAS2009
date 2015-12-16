@@ -29,7 +29,6 @@
                                <span class="lbl"></span>
                            </label>
                         </th>
-                        <th class="">UID</th>
                         <th class="">用户名</th>
                         <th class="">昵称</th>
                         <th class="">登录次数</th>
@@ -50,7 +49,6 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
-						<td>{$vo.id} </td>
 						<td><a href="{:U('uedit',array('id'=>$vo['id']))}">{$vo.username}</a></td>
 						<td>{$vo.nickname}</td>
 						<td>{$vo.login}</td>

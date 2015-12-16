@@ -9,9 +9,10 @@
 <!-- 标题 -->
 <div class="page-header">
 	<h1>
-	文档列表({$_total}) 
+
 	<small>
-	[
+    文档列表({$_total})
+    [
 	<notempty name="rightNav">
 	<volist name="rightNav" id="nav">
 	<a href="{:U('index','cate_id='.$nav['id'])}">{$nav.title}</a>

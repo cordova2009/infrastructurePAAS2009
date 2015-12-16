@@ -14,7 +14,7 @@ if(check_resp($resp)){
             </div>
             <div class="right">
                 <a href="javascript:" class="btn" id="add-cert">添加</a>
-                <a href="javascript:" class="btn-grey marl10" id="del-cert">删除</a>
+                <a href="javascript:" class="btn-grey2 marl10" id="del-cert">删除</a>
             </div>
         </div>
 

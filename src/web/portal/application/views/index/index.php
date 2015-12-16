@@ -90,7 +90,7 @@
         <div class="table2 table-bord">
             <table>
                 <tr class="thead">
-                    <td class="td1 text-center">项目标题</td>
+                    <td class="td1">项目标题</td>
                     <td class="td2">招标人</td>
                     <td class="td3">招标人信用</td>
                     <td class="td4">评估金额</td>
@@ -110,6 +110,9 @@
                 </tr>
                 <?php endforeach;?>
             </table>
+            <?php if(empty($object_list)):?>
+            <div class="list-more">暂无数据</div>
+            <?php endif;?>
             <div class="list-more"><a href="<?=U('/project/tenderlist')?>">查看更多招标项目</a></div>
         </div>
     </div>
@@ -150,13 +153,16 @@
                 <?php foreach($bid_list as $item):?>
                 <tr>
                     <td  class="name"><span class="tag">土</span><?= $item['objectName'] ?></td>
-                    <td class="tenderee" class="tenderee"><?= $item['bidderName'] ?></td>
+                    <td class="tende$bid_listree" class="tenderee"><?= $item['bidderName'] ?></td>
                     <td class="tenderee"><?= $item['biddeeName'] ?></td>
                     <td class="price"><?= $item['winBidAmount']>0 ? $item['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
                     <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach;?>
             </table>
+            <?php if(empty($bid_list)):?>
+            <div class="list-more">暂无数据</div>
+            <?php endif;?>
             <div class="list-more"><a href="/project/bidlist.html">查看更多中标结果</a></div>
         </div>
     </div>

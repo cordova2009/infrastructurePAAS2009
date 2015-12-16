@@ -60,8 +60,8 @@
                     </form>
                 </div>
             </div>
-
         </div>
+    </div>
 </block>
 
 <block name="script">

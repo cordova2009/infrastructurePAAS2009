@@ -7,7 +7,7 @@
         <div class="widget-header header-color-blue">
             <h5 class="bigger lighter">
                 <i class="icon-credit-card "></i>
-                平台银行账户
+                平台开户行信息
             </h5>
 
             <div class="widget-toolbar no-border">
@@ -34,7 +34,7 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tbody>
                     <tr>
-                        <th width="40%" class="">银行名称</th>
+                        <th width="40%" class=""><span class="red" style="display: none">*</span>银行名称</th>
 
                         <td width="60%" class="bank_value" cloum_name="bank_name">
                             <?=$item['bank_name']?>
@@ -42,7 +42,7 @@
                     </tr>
 
                     <tr>
-                        <th class="">支行名称</th>
+                        <th class=""><span class="red" style="display: none">*</span>支行名称</th>
 
                         <td class="bank_value" cloum_name="bank_branch_name">
                             <?=$item['bank_branch_name']?>
@@ -50,7 +50,7 @@
                     </tr>
 
                     <tr>
-                        <th class="">银行账号</th>
+                        <th class=""><span class="red" style="display: none">*</span>银行账号</th>
 
                         <td class="bank_value" cloum_name="account_no">
                             <?=$item['account_no']?>
@@ -58,7 +58,7 @@
                     </tr>
 
                     <tr>
-                        <th class="">省份</th>
+                        <th class=""><span class="red" style="display: none">*</span>省份</th>
 
                         <td class="bank_value" cloum_name="province">
                             <?=$item['province']?>
@@ -66,7 +66,7 @@
                     </tr>
 
                     <tr>
-                        <th class="">城市</th>
+                        <th class=""><span class="red" style="display: none">*</span>城市</th>
 
                         <td class="bank_value" cloum_name="city">
                             <?=$item['city']?>
@@ -74,7 +74,7 @@
                     </tr>
 
                     <tr>
-                        <th class="">开户人名称</th>
+                        <th class=""><span class="red" style="display: none">*</span>开户人名称</th>
 
                         <td class="bank_value" cloum_name="account_name">
                             <?=$item['account_name']?>
@@ -97,7 +97,7 @@
             var $this = $(this);
             $this.html(sprintf(input_html,$this.attr('cloum_name'), $.trim($this.text())));
         })
-        $("#save_btn,#cancel_btn").show();
+        $("#save_btn,#cancel_btn,span.red").show();
         $(this).hide();
     })
     $("#cancel_btn").click(function(){
@@ -105,7 +105,7 @@
             var $this = $(this);
             $this.text((item[$this.attr('cloum_name')] == null) ? '' : item[$this.attr('cloum_name')]);
         })
-        $("#save_btn,#cancel_btn").hide();
+        $("#save_btn,#cancel_btn,span.red").hide();
         $("#edit_btn").show();
     })
     $("#save_btn").click(function(){

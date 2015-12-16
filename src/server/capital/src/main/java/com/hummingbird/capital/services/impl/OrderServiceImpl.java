@@ -591,6 +591,12 @@ public class OrderServiceImpl implements OrderService{
 		return applyDao.selectByPrimaryKey(OrderId);
 	}
 
+	@Override
+	public Long queryWithdrawalsFee(Long amount) {
+		// TODO Auto-generated method stub
+		return feeRateDao.selectMoney(amount, "TX#")==null?0:feeRateDao.selectMoney(amount, "TX#");
+	}
+
 	
 
 	

@@ -44,6 +44,7 @@ import com.hummingbird.capital.vo.MobileBodyVO;
 import com.hummingbird.capital.vo.PayMatchHandingChargeVO;
 import com.hummingbird.capital.vo.PlatformPaymentBodyVO;
 import com.hummingbird.capital.vo.QueryProjectAccountReturnVO;
+import com.hummingbird.capital.vo.QueryWithdrawalsFeeVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
 import com.hummingbird.capital.vo.RechargeApplyReturnVO;
 import com.hummingbird.capital.vo.TokenBodyVO;
@@ -505,6 +506,42 @@ public class CapitalManageController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			orderSer.checkWithdrawalApply(body,requestURI);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "/queryWithdrawalsFee", method = RequestMethod.POST)
+	public @ResponseBody Object queryWithdrawalsFee(HttpServletRequest request) {
+		
+		final BaseTransVO<QueryWithdrawalsFeeVO> transorder;
+		ResultModel rm = new ResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, QueryWithdrawalsFeeVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "提现提现手续费";
+		rm.setBaseErrorCode(252700);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			PropertiesUtil pu = new PropertiesUtil();
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			QueryWithdrawalsFeeVO body=transorder.getBody();
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			rm.put("feeAmount", orderSer.queryWithdrawalsFee(body.getAmount()));
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

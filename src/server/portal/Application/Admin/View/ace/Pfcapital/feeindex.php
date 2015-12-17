@@ -51,11 +51,17 @@
                     </tr>
 					</volist>
 					<else/>
-					<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+					    <tr><td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td></tr>
 					</notempty>
 				</tbody>
             </table>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

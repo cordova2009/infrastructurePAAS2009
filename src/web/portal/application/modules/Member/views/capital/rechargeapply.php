@@ -35,7 +35,7 @@
                         <div class="auto value " >
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input type="text" class="input1 " id="amount" name="amount">
+                                <input type="text" class="input1 only-num" id="amount" name="amount" >
                             </span>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item padt20">
                         <span class="lab"></span>
                         <div class="auto value">
                             <input type="submit" value="提交充值" class="btn2 wid110">

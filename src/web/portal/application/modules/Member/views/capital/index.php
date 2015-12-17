@@ -49,6 +49,8 @@
                         if($item['type']=='SBZ'){
                             $status="退还撮合担保金";
                         }else if($item['type']=='JBZ'){
+                            $status="冻结撮合担保金";
+                        }else if($item['type']=='PBJ'){
                             $status="交纳撮合担保金";
                         }else if($item['type']=='CHZ'){
                             $status="冲正";

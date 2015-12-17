@@ -30,6 +30,9 @@
                     <td><a href="/bidder/detail/id/<?= $v['bidderId'] ?>.html" class="blue">查看</a></td>
                 </tr>
                 <?php endforeach; ?>
+                <?php if(empty($list)):?>
+                <tr><td colspan="4" class="text-center">没有内容</td></tr>
+                <?php endif;?>
             </table>
         </div>
         <?php include(dirname(dirname(__FILE__)).'/common/page.php'); ?>

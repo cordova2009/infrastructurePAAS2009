@@ -260,9 +260,8 @@ $(".file-upload").fileupload({
             return false;
         }
         $(this)
-            .data('data',data)
             .prev()
-            .text('上传中')
+            .text('上传中..')
             .parent()
             .css('background','#bebebe');
         data.submit();
@@ -270,12 +269,12 @@ $(".file-upload").fileupload({
     done:function(e,data){
         //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
         //返回的数据在data.result中，假设我们服务器返回了一个json对象
+        var obj = $(this).prev()
+            .text('上传附件')
+            .parent()
+            .css('background','#8ab46e')
+            .next('.uploaded');
         if(data.result.status == '0'){
-            var obj = $(this).prev()
-                .text('上传附件')
-                .parent()
-                .css('background','#8ab46e')
-                .next('.uploaded');
             if(obj.length > 0){
                 $(this).parent().hide();
                 obj.removeClass('hide').show()
@@ -294,7 +293,11 @@ $(".file-upload").fileupload({
         }
     },
     fail: function () {
-        $(this).parent().css('background','#8ab46e');
+        $(this)
+            .prev()
+            .text('上传附件')
+            .parent()
+            .css('background','#8ab46e');
         layer.alert('上传失败，请重新再试',{icon:2});
     }
 })

@@ -8,9 +8,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form method="get" action="__SELF__" class="search-form">
-                        <label>
-                            <a class="btn btn-sm btn-primary" href="{:U('addTask')}"><i class="icon-plus"></i>新增</a>
-                        </label>
                         <label>状态:
                             <?php
                                echo form_dropdown('status',array_values($status_list),I('status'));
@@ -57,7 +54,18 @@
                 </tbody>
             </table>
 
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>
+                        <a class="btn btn-white" href="{:U('addTask')}">
+                            新增
+                        </a>
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

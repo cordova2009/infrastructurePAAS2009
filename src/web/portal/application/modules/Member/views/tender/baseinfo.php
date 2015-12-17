@@ -45,7 +45,6 @@
                             <div class="select">
                                 <select name="currency" id="">
                                     <option value="CNY" <?php if(isset($info) && $info['currency'] == 'CNY') echo 'selected'?>>人民币</option>
-                                    <option value="USD" <?php if(isset($info) && $info['currency'] == 'USD') echo 'selected'?>>美元</option>
                                 </select>
                             </div>
                         </div>
@@ -64,9 +63,13 @@
                         <div class="lab">估价是否公开</div>
                         <div class="value">
                             <label class="marl60">
-                                <input type="radio" name="evaluationAmountVisiable" value="ENB" class="verm amount-visiable" checked="checked"> 公开</label>
+                                <input type="radio" name="evaluationAmountVisiable" value="ENB" class="verm amount-visiable" checked="checked">
+                                <span class="verm">公开</span>
+                            </label>
                             <label class="marl60">
-                                <input type="radio" name="evaluationAmountVisiable" value="DIS" class="verm amount-visiable"> 不公开</label>
+                                <input type="radio" name="evaluationAmountVisiable" value="DIS" class="verm amount-visiable">
+                                <span class="verm">不公开</span>
+                            </label>
                         </div>
                     </div>
 

@@ -25,7 +25,7 @@
 					</div>
 					<div class="content mart20">
 						<div class="box pad0">
-							<div class="tab_box">
+							<div class="tab_box2">
 								<div class="hd tab_tit ul3 clear">
 									<ul>
 										<li class="" data-type="biding" data-index="<?=isset($bidingi)?$bidingi:0?>">招标中的项目</li>
@@ -62,6 +62,9 @@ function loadings()
 {
    var type =$(this).data('type');
    var index =$(this).data('index');
+   $(this).parent().find('li').removeClass('on');
+   $(this).addClass('on');
+$(".bd .tblist").hide().eq($(this).index()).show()
     var wrap = $("#"+type);
     if(wrap.html() !=''){
         wrap.parent().show();
@@ -79,8 +82,8 @@ function loadings()
     });
 }
 //loadings() ;
-$('.tab_box li').mouseover(loadings);
-$('.tab_box li.on').trigger("mouseover");
+$('.tab_box2 li').click(loadings);
+$('.tab_box li.on').trigger("click");
 })
 </script>
 </block>

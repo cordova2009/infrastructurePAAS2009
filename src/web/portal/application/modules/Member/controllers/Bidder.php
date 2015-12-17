@@ -244,6 +244,9 @@ class BidderController extends MemberController{
 	    if(empty($email)){
 		    $this->error('电子邮箱不能为空！');
 	    }
+	    if(!regex($email,'email')){
+		    $this->error('电子邮箱格式错误！');
+	    }
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'baseInfo'=>['logoUrl'=>$logoUrl,'companyName'=>$companyName,'shortName'=>$shortName,'description'=>$description,'registeredCapital'=>$registeredCapital,'telephone'=>$telephone,'email'=>$email]])->send('myBidder/authInfo/saveBaseInfo_apply');

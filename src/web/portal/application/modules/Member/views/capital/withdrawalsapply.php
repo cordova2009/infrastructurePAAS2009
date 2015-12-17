@@ -21,7 +21,7 @@
                     <div class="item">
                         <span class="lab">可用余额</span>
                         <div class="auto value " >
-                            <span class="orange"><?=$account['remainingSum']?></span>元
+                            <span class="orange"><?=price_format($account['remainingSum'])?></span>元
                         </div>
                     </div>
                     <div class="item">
@@ -29,7 +29,7 @@
                         <div class="auto value " >
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input type="text" class="input1 " id="amount" name="amount">
+                                <input type="text" class="input1" id="amount" name="amount" tip="提现金额">
                             </span>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="item">
                         <span class="lab"><span class="red">*</span> 交易密码</span>
                         <div class="auto value">
-                            <input type="password" class="input1 " placeholder="" id="tradePassword" name="tradePassword"> <a href="#" class="blue fz14">忘记密码</a>
+                            <input type="password" class="input1 " placeholder="" id="tradePassword" name="tradePassword"> <a href="<?=U('/member/info/safe')?>" class="blue fz14">忘记密码</a>
                         </div>
                     </div>
                     <div class="item">
@@ -92,5 +92,7 @@ $(function(){
     });
     $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(3)").addClass('active');
 })
+
+
 </script>
 </block>

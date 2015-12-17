@@ -74,6 +74,12 @@ public interface OrderService {
 	 */
 	public List<ApplyListReturnVO> queryRechargeApplyList(User user);
 	/**
+	 * 查询提现手续费
+	 * @param body
+	 * @return
+	 */
+	public Long queryWithdrawalsFee(Long amount);
+	/**
 	 * 提现申请审核
 	 * @param body
 	 */

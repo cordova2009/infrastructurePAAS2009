@@ -7,19 +7,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form class="search-form">
-                        <label>
-                            <a class="btn btn-sm btn-primary" href="{:U('add',array('pid'=>I('get.pid',0)))}"><i class="icon-plus"></i>新增</a>
-                        </label>
-                        <label>
-                            <button type="button" class="btn btn-sm btn-inverse list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">
-                                <i class="icon-exchange"></i>排序
-                            </button>
-                        </label>
-                        <label>
-                            <button type="button" class="btn btn-sm btn-danger ajax-post confirm" target-form="ids" url="{:U('del')}">
-                                <i class="icon-trash"></i>删除
-                            </button>
-                        </label>
                         <label>菜单名称
                             <input type="text" class="search-input" name="title" value="{:I('title')}" placeholder="请输入菜单名称">
                         </label>
@@ -43,7 +30,6 @@
 	                           <span class="lbl"></span>
 	                       </label>
 	                    </th>
-                        <th>操作</th>
                         <th>ID</th>
                         <th>名称</th>
                         <th>上级菜单</th>
@@ -52,6 +38,7 @@
                         <th>排序</th>
                         <th>仅开发者模式显示</th>
                         <th>隐藏</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,14 +50,6 @@
                                 <input class="ace ids" type="checkbox" name="id[]" value="{$menu.id}" />
                                 <span class="lbl"></span>
                             </label>
-                        </td>
-                        <td>
-                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}" class="ui-pg-div ui-inline">
-                                <span class="ui-icon icon-pencil blue"></span>
-                            </a>
-                            <a title="删除" href="{:U('del?id='.$menu['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
-                                <span class="ui-icon icon-trash red"></span>
-                            </a>
                         </td>
                         <td>{$menu.id}</td>
                         <td>
@@ -92,6 +71,14 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
+                        <td>
+                            <a title="编辑" href="{:U('edit?id='.$menu['id'])}" class="ui-pg-div ui-inline">
+                                编辑
+                            </a>
+                            <a title="删除" href="{:U('del?id='.$menu['id'])}" class="ui-pg-div ui-inline confirm ajax-get">
+                                删除
+                            </a>
+                        </td>
                     </tr>
                 </volist>
 				<else/>
@@ -100,7 +87,25 @@
                 </tbody>
             </table>
             </form>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>
+                        <a class="btn btn-white" href="{:U('add',array('pid'=>I('get.pid',0)))}">
+                            新增
+                        </a>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">
+                            排序
+                        </button>
+                    </label>
+                    <label>
+                        <button type="button" class="btn btn-white ajax-post confirm" target-form="ids" url="{:U('del')}">
+                            删除
+                        </button>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 </block>

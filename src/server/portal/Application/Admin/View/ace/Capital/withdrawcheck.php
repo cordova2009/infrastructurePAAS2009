@@ -20,7 +20,7 @@ td{width:50%;}
 			<td><span style="color:#999;padding-right:8px;">提现时间:</span>{$item.transport_time}</td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">提现金额:</span>{$item.amount|price_format}</td>
+			<td><span style="color:#999;padding-right:8px;">提现金额:</span>{$item.withdraw_amount|price_format}</td>
 			<td><span style="color:#999;padding-right:8px;">申请时间:</span>{$item.insert_time}</td>
 		</tr>
 		<tr>

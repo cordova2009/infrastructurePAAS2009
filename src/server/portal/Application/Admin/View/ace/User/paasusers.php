@@ -26,8 +26,6 @@
             <table class="table table-striped table-bordered table-hover dataTable">
 			    <thead>
 			        <tr>
-                        <th class="">操作</th>
-                        <th class="">用户ID</th>
                         <th class="">手机号码</th>
                         <th class="">昵称</th>
                         <th class="">用户姓名</th>
@@ -40,10 +38,6 @@
 					<notempty name="_list">
 					<volist name="_list" id="vo">
 					<tr>
-                        <td>
-                            <a title="查看详情" href="{:U('paasuview?id='.$vo['id'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
-                        </td>
-						<td>{$vo.id} </td>
 						<td><a href="{:U('paasuview',array('id'=>$vo['id']))}">{$vo.mobile_num}</a></td>
 						<td>{$vo.nick_name}</td>
 						<td>{$vo.real_name}</td>
@@ -62,7 +56,13 @@
 					</notempty>
 				</tbody>
             </table>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

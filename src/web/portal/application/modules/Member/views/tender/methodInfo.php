@@ -35,7 +35,7 @@ if(check_resp($resp)){
                     </div>
                     <div class="right">
                         <a href="javascript:" class="btn" id="add-bidder">添加</a>
-                        <a href="javascript:" class="btn-grey marl10" id="del-bidder">删除</a>
+                        <a href="javascript:" class="btn-grey2 marl10" id="del-bidder">删除</a>
                     </div>
                 </div>
                 <p class="color5 marb40">（补充添加和删除说明............................ ）</p>

@@ -59,7 +59,7 @@ public class BiddeeBankAduit {
     /**
      * 税号认证备注
      */
-    private String texNoCertificateMsg;
+    private String taxNoCertificateMsg;
 
     /**
      * 公司地址认证备注
@@ -74,7 +74,7 @@ public class BiddeeBankAduit {
     /**
      * 税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
      */
-    private String texNoCertificateResult;
+    private String taxNoCertificateResult;
 
     /**
      * 公司地址认证结果,CRT待认证,OK#已认证,FLS认证不通过
@@ -239,16 +239,16 @@ public class BiddeeBankAduit {
     /**
      * @return 税号认证备注
      */
-    public String getTexNoCertificateMsg() {
-        return texNoCertificateMsg;
+    public String getTaxNoCertificateMsg() {
+        return taxNoCertificateMsg;
     }
 
     /**
-     * @param texNoCertificateMsg 
+     * @param taxNoCertificateMsg 
 	 *            税号认证备注
      */
-    public void setTexNoCertificateMsg(String texNoCertificateMsg) {
-        this.texNoCertificateMsg = texNoCertificateMsg == null ? null : texNoCertificateMsg.trim();
+    public void setTaxNoCertificateMsg(String taxNoCertificateMsg) {
+        this.taxNoCertificateMsg = taxNoCertificateMsg == null ? null : taxNoCertificateMsg.trim();
     }
 
     /**
@@ -284,16 +284,16 @@ public class BiddeeBankAduit {
     /**
      * @return 税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
      */
-    public String getTexNoCertificateResult() {
-        return texNoCertificateResult;
+    public String getTaxNoCertificateResult() {
+        return taxNoCertificateResult;
     }
 
     /**
-     * @param texNoCertificateResult 
+     * @param taxNoCertificateResult 
 	 *            税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
      */
-    public void setTexNoCertificateResult(String texNoCertificateResult) {
-        this.texNoCertificateResult = texNoCertificateResult == null ? null : texNoCertificateResult.trim();
+    public void setTaxNoCertificateResult(String taxNoCertificateResult) {
+        this.taxNoCertificateResult = taxNoCertificateResult == null ? null : taxNoCertificateResult.trim();
     }
 
     /**

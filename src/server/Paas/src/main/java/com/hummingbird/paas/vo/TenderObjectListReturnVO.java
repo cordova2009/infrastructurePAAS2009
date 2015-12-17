@@ -28,7 +28,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	private Long evaluationAmount;
 	private String projectExpectStartDate;
 	private String projectExpectEndDate;
-	private String projectExpectPeriod;
+	private Integer projectExpectPeriod;
 	/**
 	 * @return the objectId
 	 */
@@ -74,7 +74,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	/**
 	 * @return the projectExpectPeriod
 	 */
-	public String getProjectExpectPeriod() {
+	public Integer getProjectExpectPeriod() {
 		return projectExpectPeriod;
 	}
 	/**
@@ -122,7 +122,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	/**
 	 * @param projectExpectPeriod the projectExpectPeriod to set
 	 */
-	public void setProjectExpectPeriod(String projectExpectPeriod) {
+	public void setProjectExpectPeriod(Integer projectExpectPeriod) {
 		this.projectExpectPeriod = projectExpectPeriod;
 	}
 	/* (non-Javadoc)

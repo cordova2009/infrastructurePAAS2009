@@ -2216,23 +2216,23 @@ public class TenderController extends BaseController {
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
 				String[] keywords = transorder.getBody().getKeywords();
 				list = tenderService.getTenderObjectList(transorder.getBody().getKeywords(), page);
-				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
-
-					@Override
-					public Map convert(TenderObjectListReturnVO ori) {
-						
-						try {
-							Map row= BeanUtils.describe(ori);
-							row.remove("class");
-							return row;
-							
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-							log.error(String.format("转换为map对象出错"),e);
-							return null;
-						}
-					}
-				});
-				mergeListOutput(rm, page, nos);
+//				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
+//
+//					@Override
+//					public Map convert(TenderObjectListReturnVO ori) {
+//						
+//						try {
+//							Map row= BeanUtils.describe(ori);
+//							row.remove("class");
+//							return row;
+//							
+//						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//							log.error(String.format("转换为map对象出错"),e);
+//							return null;
+//						}
+//					}
+//				});
+				mergeListOutput(rm, page, list);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

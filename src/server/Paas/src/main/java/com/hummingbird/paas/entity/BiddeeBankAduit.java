@@ -57,6 +57,36 @@ public class BiddeeBankAduit {
     private Date auditTime;
 
     /**
+     * 税号认证备注
+     */
+    private String texNoCertificateMsg;
+
+    /**
+     * 公司地址认证备注
+     */
+    private String addressCertificateMsg;
+
+    /**
+     * 电话认证备注
+     */
+    private String telephoneCertificateMsg;
+
+    /**
+     * 税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    private String texNoCertificateResult;
+
+    /**
+     * 公司地址认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    private String addressCertificateResult;
+
+    /**
+     * 电话认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    private String telephoneCertificateResult;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -206,44 +236,93 @@ public class BiddeeBankAduit {
         this.auditTime = auditTime;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        BiddeeBankAduit other = (BiddeeBankAduit) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBiddeeCerticateId() == null ? other.getBiddeeCerticateId() == null : this.getBiddeeCerticateId().equals(other.getBiddeeCerticateId()))
-            && (this.getBankcardCertificateMsg() == null ? other.getBankcardCertificateMsg() == null : this.getBankcardCertificateMsg().equals(other.getBankcardCertificateMsg()))
-            && (this.getBankCertificateMsg() == null ? other.getBankCertificateMsg() == null : this.getBankCertificateMsg().equals(other.getBankCertificateMsg()))
-            && (this.getAcccountNameCertificateMsg() == null ? other.getAcccountNameCertificateMsg() == null : this.getAcccountNameCertificateMsg().equals(other.getAcccountNameCertificateMsg()))
-            && (this.getBankcardCertificateResult() == null ? other.getBankcardCertificateResult() == null : this.getBankcardCertificateResult().equals(other.getBankcardCertificateResult()))
-            && (this.getBankCertificateResult() == null ? other.getBankCertificateResult() == null : this.getBankCertificateResult().equals(other.getBankCertificateResult()))
-            && (this.getAcccountNameCertificateResult() == null ? other.getAcccountNameCertificateResult() == null : this.getAcccountNameCertificateResult().equals(other.getAcccountNameCertificateResult()))
-            && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()))
-            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()));
+    /**
+     * @return 税号认证备注
+     */
+    public String getTexNoCertificateMsg() {
+        return texNoCertificateMsg;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getBiddeeCerticateId() == null) ? 0 : getBiddeeCerticateId().hashCode());
-        result = prime * result + ((getBankcardCertificateMsg() == null) ? 0 : getBankcardCertificateMsg().hashCode());
-        result = prime * result + ((getBankCertificateMsg() == null) ? 0 : getBankCertificateMsg().hashCode());
-        result = prime * result + ((getAcccountNameCertificateMsg() == null) ? 0 : getAcccountNameCertificateMsg().hashCode());
-        result = prime * result + ((getBankcardCertificateResult() == null) ? 0 : getBankcardCertificateResult().hashCode());
-        result = prime * result + ((getBankCertificateResult() == null) ? 0 : getBankCertificateResult().hashCode());
-        result = prime * result + ((getAcccountNameCertificateResult() == null) ? 0 : getAcccountNameCertificateResult().hashCode());
-        result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
-        result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
-        return result;
+    /**
+     * @param texNoCertificateMsg 
+	 *            税号认证备注
+     */
+    public void setTexNoCertificateMsg(String texNoCertificateMsg) {
+        this.texNoCertificateMsg = texNoCertificateMsg == null ? null : texNoCertificateMsg.trim();
+    }
+
+    /**
+     * @return 公司地址认证备注
+     */
+    public String getAddressCertificateMsg() {
+        return addressCertificateMsg;
+    }
+
+    /**
+     * @param addressCertificateMsg 
+	 *            公司地址认证备注
+     */
+    public void setAddressCertificateMsg(String addressCertificateMsg) {
+        this.addressCertificateMsg = addressCertificateMsg == null ? null : addressCertificateMsg.trim();
+    }
+
+    /**
+     * @return 电话认证备注
+     */
+    public String getTelephoneCertificateMsg() {
+        return telephoneCertificateMsg;
+    }
+
+    /**
+     * @param telephoneCertificateMsg 
+	 *            电话认证备注
+     */
+    public void setTelephoneCertificateMsg(String telephoneCertificateMsg) {
+        this.telephoneCertificateMsg = telephoneCertificateMsg == null ? null : telephoneCertificateMsg.trim();
+    }
+
+    /**
+     * @return 税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    public String getTexNoCertificateResult() {
+        return texNoCertificateResult;
+    }
+
+    /**
+     * @param texNoCertificateResult 
+	 *            税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    public void setTexNoCertificateResult(String texNoCertificateResult) {
+        this.texNoCertificateResult = texNoCertificateResult == null ? null : texNoCertificateResult.trim();
+    }
+
+    /**
+     * @return 公司地址认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    public String getAddressCertificateResult() {
+        return addressCertificateResult;
+    }
+
+    /**
+     * @param addressCertificateResult 
+	 *            公司地址认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    public void setAddressCertificateResult(String addressCertificateResult) {
+        this.addressCertificateResult = addressCertificateResult == null ? null : addressCertificateResult.trim();
+    }
+
+    /**
+     * @return 电话认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    public String getTelephoneCertificateResult() {
+        return telephoneCertificateResult;
+    }
+
+    /**
+     * @param telephoneCertificateResult 
+	 *            电话认证结果,CRT待认证,OK#已认证,FLS认证不通过
+     */
+    public void setTelephoneCertificateResult(String telephoneCertificateResult) {
+        this.telephoneCertificateResult = telephoneCertificateResult == null ? null : telephoneCertificateResult.trim();
     }
 }

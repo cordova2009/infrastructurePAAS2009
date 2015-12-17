@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,6 +49,7 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.util.CamelUtil;
+import com.hummingbird.paas.util.PhoneAndEmailUtil;
 import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
 import com.hummingbird.paas.vo.BidderAuditBodyInfo;
@@ -138,8 +140,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 		StringUtil util = new StringUtil();
 		if(aa !=null){
 			
-			legalPerson.setName(util.getShowString(aa.getLegalPerson()));
-			legalPerson.setIdCard(util.getShowString(aa.getLegalPersonIdcard()));
+			legalPerson.setName(aa.getLegalPerson());
+			legalPerson.setIdCard(aa.getLegalPersonIdcard());
 			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
 			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
 			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
@@ -154,37 +156,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 		// TODO Auto-generated method stub
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
 		
-//		 "registeredInfo":{
-//	         "businessLicenseNum":"BUSINESS_LICENSE_NUM",
-//	         "":"BUSINESS_LICENSE_URL",
-//	         "taxRegistrationNum":"TAX_REGISTRATION_NUM",
-//	         "taxRegistrationUrl":"TAX_REGISTRATION_URL",
-//	         "organizationCodeNum":"ORGANIZATION_CODE_NUM",
-//	         "organizationCodeUrl":"ORGANIZATION_CODE_URL"
-//	         "businessScope":"经营范围",
-//	         "regTime":"2014-04-05",
-//	         "businessLicenseExpireTime":"10年",
-//	         "address":"",
-//	         "businessLicenseType":"OLD",
-//	         "newBusinessLicenseNum":"",
-//	         "newBusinessLicenseUrl":"",
-//	    }registeredInfo
-		
-//		Map registeredInfo= new HashMap();
-//		registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-//		registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-//		registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-//		registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-//		registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-//		registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-//		registeredInfo.put("businessScope", aa.getBusinessScope());
-//		registeredInfo.put("regTime", aa.getRegTime());
-//		registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-//		
-//		registeredInfo.put("address", aa.getAddress());
-//		registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-//		registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-//		registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
 		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
 		if(aa != null){
 			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
@@ -196,6 +167,38 @@ public class MyBidderServiceImpl implements MyBidderService {
 			registeredInfo.setBusinessScope(aa.getBusinessScope());
 			registeredInfo.setRegTime(aa.getRegTime());
 			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+				
+			registeredInfo.setAddress(aa.getAddress());
+			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
+			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+			
+		}
+		
+		
+		return registeredInfo;
+	}
+	@Override
+	public BidderRegisteredInfo getRegisteredInfo(Token token) throws BusinessException {
+		// TODO Auto-generated method stub
+		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
+		
+		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
+		if(aa != null){
+			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+			registeredInfo.setBusinessScope(aa.getBusinessScope());
+			registeredInfo.setRegTime(aa.getRegTime());
+			if("0".equals(aa.getBusinessLicenseExpireTime())){
+				registeredInfo.setBusinessLicenseExpireTime("长期");
+			}else{
+				registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+				
+			}
 			registeredInfo.setAddress(aa.getAddress());
 			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
 			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
@@ -228,6 +231,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 			bankInfo.setBank(aa.get(0).getBankName());
 			bankInfo.setAccountId(aa.get(0).getAccountNo());
 			bankInfo.setAccountName(aa.get(0).getAccountName());
+			bankInfo.setTaxNo(aa.get(0).getTaxNo());
+			bankInfo.setTelephone(aa.get(0).getTelephone());
+			bankInfo.setAddress(aa.get(0).getAddress());
 		}
 		return bankInfo;
 	}
@@ -241,6 +247,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 		if(token.getUserId() != null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
 //			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+			PhoneAndEmailUtil pn = new PhoneAndEmailUtil();
 			if(bidder==null){
 				bidder=new BidderCerticate();
 				if(baseInfo!= null){
@@ -251,6 +258,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 					String telephone = baseInfo.getTelephone();
 					String email = baseInfo.getEmail();
 					String logo = baseInfo.getLogoUrl();
+//					if(!pn.isPhoneNumber(telephone)){
+//						throw new BusinessException(10220, "电话号码格式不正确");
+//					}
+//					if(!pn.isEmail(email)){
+//						throw new BusinessException(10221, "邮箱格式不正确");
+//					}
 					bidder.setUserId(token.getUserId());
 					bidder.setCompanyName(company_name);
 					bidder.setShortName(short_name);
@@ -386,8 +399,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setUnifiedSocialCreditCode(newBusinessLicenseNum);
 					bidder.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
 					bidder.setNewBusinessLicense(newBusinessLicenseNum);
-					ValidateUtil.assertNull(newBusinessLicenseNum, "社会统一信用代码");
-					ValidateUtil.assertNull(newBusinessLicenseUrl, "三合一执照url");
+					ValidateUtil.assertEmpty(newBusinessLicenseNum, "社会统一信用代码");
+					ValidateUtil.assertEmpty(newBusinessLicenseUrl, "三合一执照url");
 					/*bidder.setBusinessLicense(newBusinessLicenseNum);
 					bidder.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
 				}else if("OLD".equalsIgnoreCase(businessLicenseType)){
@@ -397,12 +410,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setTaxRegistrationCertificateUrl(taxRegistrationUrl);
 					bidder.setOrgCodeCertificate(organizationCodeNum);
 					bidder.setOrgCodeCertificateUrl(organizationCodeUrl);
-					ValidateUtil.assertNull(businessLicenseNum, "营业执照");
-					ValidateUtil.assertNull(businessLicenseUrl, "营业执照url");
-					ValidateUtil.assertNull(taxRegistrationNum, "税务证书编号");
-					ValidateUtil.assertNull(taxRegistrationUrl, "税务证书url");
-					ValidateUtil.assertNull(organizationCodeNum, "组织机构代码");
-					ValidateUtil.assertNull(organizationCodeUrl, "组织机构url");
+					ValidateUtil.assertEmpty(businessLicenseNum, "营业执照");
+					ValidateUtil.assertEmpty(businessLicenseUrl, "营业执照url");
+					ValidateUtil.assertEmpty(taxRegistrationNum, "税务证书编号");
+					ValidateUtil.assertEmpty(taxRegistrationUrl, "税务证书url");
+					ValidateUtil.assertEmpty(organizationCodeNum, "组织机构代码");
+					ValidateUtil.assertEmpty(organizationCodeUrl, "组织机构url");
 				}else{
 						throw new BusinessException("营业执照类型不对");
 					
@@ -444,6 +457,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 					 b.setBankName(bankInfo.getBank());
 					 b.setAccountNo(bankInfo.getAccountId());
 					 b.setAccountName(bankInfo.getAccountName());
+					 b.setTaxNo(bankInfo.getTaxNo());
+					 b.setTelephone(bankInfo.getTelephone());
+					 b.setAddress(bankInfo.getAddress());
 				 }
 				
 				i = bbccDao.updateByPrimaryKeySelective(b);

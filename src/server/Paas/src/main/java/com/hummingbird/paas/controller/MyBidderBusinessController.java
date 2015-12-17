@@ -765,7 +765,7 @@ public class MyBidderBusinessController extends BaseController  {
 			legalPerson = myBidderService.getLegalPersonInfo_apply(token);
 			//公司注册信息
 			BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
-			registeredInfo = myBidderService.getRegisteredInfo_apply(token);
+			registeredInfo = myBidderService.getRegisteredInfo(token);
 			//开户行信息
 			BidderBankInfo bankInfo = new BidderBankInfo();
 			bankInfo = myBidderService.getBankInfo_apply(token);

@@ -10,9 +10,13 @@
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="tax_no" property="taxNo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, bank_name, bank_branch_name, account_no, province, city, account_name
+    id, user_id, bank_name, bank_branch_name, account_no, province, city, account_name, 
+    tax_no, address, telephone
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,10 +31,12 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BiddeeBankCardCerticate" >
     insert into t_qyzz_biddee_bankcard_certicate (id, user_id, bank_name, 
       bank_branch_name, account_no, province, 
-      city, account_name)
+      city, account_name, tax_no, 
+      address, telephone)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, 
       #{bankBranchName,jdbcType=VARCHAR}, #{accountNo,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR})
+      #{city,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{taxNo,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BiddeeBankCardCerticate" >
     insert into t_qyzz_biddee_bankcard_certicate
@@ -59,6 +65,15 @@
       <if test="accountName != null" >
         account_name,
       </if>
+      <if test="taxNo != null" >
+        tax_no,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -84,6 +99,15 @@
       </if>
       <if test="accountName != null" >
         #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNo != null" >
+        #{taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,6 +135,15 @@
       <if test="accountName != null" >
         account_name = #{accountName,jdbcType=VARCHAR},
       </if>
+      <if test="taxNo != null" >
+        tax_no = #{taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -122,10 +155,13 @@
       account_no = #{accountNo,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
-      account_name = #{accountName,jdbcType=VARCHAR}
+      account_name = #{accountName,jdbcType=VARCHAR},
+      tax_no = #{taxNo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectBiddeeBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   <select id="selectBiddeeBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_biddee_bankcard_certicate a inner join t_user_token b on a.user_id = b.userId

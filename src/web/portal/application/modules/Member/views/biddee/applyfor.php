@@ -349,6 +349,12 @@
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
                     <div class=" charge_form padv40">
                         <div class="item">
+                            <span class="lab"><span class="red">*</span> 开户人名称</span>
+                            <div class="auto value ">
+                                <input type="text" class="input1 wid350" name="accountName" value="<?=$bankInfo['accountName']?>">
+                            </div>
+                        </div>
+                        <div class="item">
                             <span class="lab"><span class="red">*</span> 开户银行</span>
                             <div class="auto value ">
                                 <input type="text" name="bank" class="input1 wid350" value="<?=$bankInfo['bank'];?>">
@@ -362,7 +368,6 @@
                         </div>
                         <div class="text-center padv30">
                             <input type="hidden" name="type" value="bankInfo" >
-                            <input type="hidden" name="accountName" value="<?=$bankInfo['accountName']?>" id="accountName">
                             <input type="submit" class="btn-green2" value="保存">
                         </div>
                     </div>
@@ -393,7 +398,7 @@
             $(".side_menu li:eq(0) a").html('基本信息 <i class="ico i-right"></i>');
             $('#creditRating').html('25');
             $(".progressBox .progress span").css({'width':'25%'});
-            $('#accountName').val($('#companyName').val());
+            //$('#accountName').val($('#companyName').val());
         }
         function legal_sucess()
         {

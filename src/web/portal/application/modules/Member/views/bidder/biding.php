@@ -8,7 +8,7 @@
 <?php  if(!empty($biding)){ foreach($biding as $v){?>
 												<tr class="">
 													<td class=""><span class="tag"><?=$v['industryId']?></span></td>
-													<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
+													<td class="blue  "><a class="blue" href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><?=$v['objectName']?><br>(<?=$v['objectId']?>)</a></td>
 													<td class=""><?=price_format($v['bidAmount'])?>元</td>
 													<td class=""><?=$v['bidOpenDate']?>天</td>
 												</tr>

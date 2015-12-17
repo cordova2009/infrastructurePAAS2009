@@ -535,37 +535,111 @@ function M($name = '')
 
 
 
-    function IdentityCodeValid($code) {
-        $city=[11=>"北京",12=>"天津",13=>"河北",14=>"山西",15=>"内蒙古",21=>"辽宁",22=>"吉林",23=>"黑龙江 ",31=>"上海",32=>"江苏",33=>"浙江",34=>"安徽",35=>"福建",36=>"江西",37=>"山东",41=>"河南",42=>"湖北 ",43=>"湖南",44=>"广东",45=>"广西",46=>"海南",50=>"重庆",51=>"四川",52=>"贵州",53=>"云南",54=>"西藏 ",61=>"陕西",62=>"甘肃",63=>"青海",64=>"宁夏",65=>"新疆",71=>"台湾",81=>"香港",82=>"澳门",91=>"国外 "];
-        $pass= true;
+function IdentityCodeValid($code) 
+{
+	$city=[11=>"北京",12=>"天津",13=>"河北",14=>"山西",15=>"内蒙古",21=>"辽宁",22=>"吉林",23=>"黑龙江 ",31=>"上海",32=>"江苏",33=>"浙江",34=>"安徽",35=>"福建",36=>"江西",37=>"山东",41=>"河南",42=>"湖北 ",43=>"湖南",44=>"广东",45=>"广西",46=>"海南",50=>"重庆",51=>"四川",52=>"贵州",53=>"云南",54=>"西藏 ",61=>"陕西",62=>"甘肃",63=>"青海",64=>"宁夏",65=>"新疆",71=>"台湾",81=>"香港",82=>"澳门",91=>"国外 "];
+	$pass= true;
 	$reg = "/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[012]\d|3[01])\d{3}(\d|X)$/i";
-        if(!$code || preg_match($reg,$code)!==1){
-            $pass = false;
-        }
-        elseif(empty($city[substr($code,0,2)])){
-            $pass = false;
-        }
-        else{
-            //18位身份证需要验证最后一位校验位
-            if(sizeof($code) == 18){
-                //∑(ai×Wi)(mod 11)
-                //加权因子
-                $factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
-                //校验位
-                $parity = [ 0=>1,1=> 0, 2=>'X', 3=>9, 4=>8, 5=>7, 6=>6, 7=>5, 8=>4, 9=>3, 10=>2 ];
-                $sum = 0;
-                $ai = 0;
-                $wi = 0;
-                for ($i = 0; $i < 17; $i++)
-                {
-                    $ai = $code[$i];
-                    $wi = $factor[$i];
-                    $sum += $ai * $wi;
-                }
-                if($parity[$sum % 11] != strtoupper($code[17])){
-                    $pass =false;
-                }
-            }
-        }
-        return $pass;
+	if(!$code || preg_match($reg,$code)!==1){
+		$pass = false;
+	}
+	elseif(empty($city[substr($code,0,2)])){
+		$pass = false;
+	}
+	else{
+		//18位身份证需要验证最后一位校验位
+		if(sizeof($code) == 18){
+			//∑(ai×Wi)(mod 11)
+			//加权因子
+			$factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+			//校验位
+			$parity = [ 0=>1,1=> 0, 2=>'X', 3=>9, 4=>8, 5=>7, 6=>6, 7=>5, 8=>4, 9=>3, 10=>2 ];
+			$sum = 0;
+			$ai = 0;
+			$wi = 0;
+			for ($i = 0; $i < 17; $i++)
+			{
+				$ai = $code[$i];
+				$wi = $factor[$i];
+				$sum += $ai * $wi;
+			}
+			if($parity[$sum % 11] != strtoupper($code[17])){
+				$pass =false;
+			}
+		}
+	}
+	return $pass;
+}
+
+function newBusinessLicenseNumValid($code)
+{
+	if(sizeof($code)!= 18){
+		return false;
+	}
+	$reg = "/^([0-9ABCDEFGHJKLMNPQRTUWXY]{2})([0-9]{6})([0-9ABCDEFGHJKLMNPQRTUWXY]{9})([0-9Y])$/";
+	if(!$code || preg_match($reg,$code)!==1){
+		$pass = false;
+	}
+	$str = '0123456789ABCDEFGHJKLMNPQRTUWXY';
+	$ws =[1,3,9,27,19,26,16,17,20,29,25,13,8,24,10,30,28];
+	$codes  = [];
+	$codes[0] = substr($code),0,17);
+	$codes[1] = substr($code,17);	
+	
+	$sum = 0;
+	for($i=0;$i<17;$i++){
+		$sum += $str[$codes[0]][$i] * $ws[$i];
+	}	
+	
+	$c18 = 31 - ($sum % 31);
+	if($c18 == 31){
+		$c18 = 'Y';
+	}else if($c18 == 30){
+		$c18 = '0';
+	}
+	
+	if($c18 != $codes[1]){
+		return false;
+	}
+	return true;
+}
+
+function OrgCode($orgCode){
+	if(""==$orgCode || sizeof($orgCode)!==10)
+	{
+		return false;
+	}
+	$ret=false;
+	$codeVal = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+	$intVal =    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35];
+	$crcs =[3,7,9,10,5,8,4,2];
+	if(!(""==$orgCode) && sizeof($orgCode)==10){
+		$sum=0;
+		for($i=0;$i<8;$i++){
+			$codeI=substr($orgCode,$i,1);
+			$valI=-1;
+			for($j=0;$j<sizeof($codeVal);$j++){
+				if($codeI==$codeVal[$j]){
+					$valI=$intVal[$j];
+					break;
+				}
+			}
+			$sum+=$valI*$crcs[$i];
+		}
+		$crc=11- ($sum %  11);
+		switch ($crc){
+			case 10:
+				$crc="X";
+				break;
+			case 11:
+				$crc="0";
+				break;
+			default:
+				break;
+		}
+		if($crc==substr($orgCode,0,-1)){
+			$ret=true;
+		}
+	}
+	return $ret;
 }

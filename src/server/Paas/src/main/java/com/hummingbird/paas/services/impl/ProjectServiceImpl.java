@@ -169,9 +169,9 @@ public class ProjectServiceImpl implements ProjectService{
 		for(ProjectPaymentDefineDetail define:defines){
 			WillPayAmountDetailReturnVO query=new WillPayAmountDetailReturnVO();
 			query.setAmount(ObjectUtils.toString(define.getPaySum()));
-			query.setEndDate(DateUtil.formatCommonDateorNull(define.getPayEndTime()));
+			query.setEndDate(DateUtil.formatShortDateorNull(define.getPayEndTime()));
 			query.setFundName("第"+FundNameUtil.outCh(define.getPeriod())+"期");
-			query.setStartDate(DateUtil.formatCommonDateorNull(define.getPayStartTime()));
+			query.setStartDate(DateUtil.formatShortDateorNull(define.getPayStartTime()));
 			list.add(query);
 		}
 		return list;
@@ -238,7 +238,7 @@ public class ProjectServiceImpl implements ProjectService{
 				query.setNextPeriodReceiveTime(null);
 			}else{
 				query.setNextPeriodReceiveAmount(ObjectUtils.toString(payDefine.getPaySum()));
-				query.setNextPeriodReceiveTime(DateUtil.formatCommonDateorNull(payDefine.getPayStartTime()));
+				query.setNextPeriodReceiveTime(DateUtil.formatShortDateorNull(payDefine.getPayStartTime()));
 			}
 			list.add(query);
 		}
@@ -295,9 +295,9 @@ public class ProjectServiceImpl implements ProjectService{
 		for(ProjectPaymentDefineDetail define:defines){
 			WillPayAmountDetailReturnVO query=new WillPayAmountDetailReturnVO();
 			query.setAmount(ObjectUtils.toString(define.getPaySum()));
-			query.setEndDate(DateUtil.formatCommonDateorNull(define.getPayEndTime()));
+			query.setEndDate(DateUtil.formatShortDateorNull(define.getPayEndTime()));
 			query.setFundName("第"+FundNameUtil.outCh(define.getPeriod())+"期");
-			query.setStartDate(DateUtil.formatCommonDateorNull(define.getPayStartTime()));
+			query.setStartDate(DateUtil.formatShortDateorNull(define.getPayStartTime()));
 			list.add(query);
 		}
 		return list;

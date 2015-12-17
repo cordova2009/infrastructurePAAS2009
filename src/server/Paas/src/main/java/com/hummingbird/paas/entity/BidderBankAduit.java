@@ -59,7 +59,7 @@ public class BidderBankAduit {
     /**
      * 税号认证备注
      */
-    private String texNoCertificateMsg;
+    private String taxNoCertificateMsg;
 
     /**
      * 公司地址认证备注
@@ -74,7 +74,7 @@ public class BidderBankAduit {
     /**
      * 税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
      */
-    private String texNoCertificateResult;
+    private String taxNoCertificateResult;
 
     /**
      * 公司地址认证结果,CRT待认证,OK#已认证,FLS认证不通过
@@ -239,16 +239,16 @@ public class BidderBankAduit {
     /**
      * @return 税号认证备注
      */
-    public String getTexNoCertificateMsg() {
-        return texNoCertificateMsg;
+    public String getTaxNoCertificateMsg() {
+        return taxNoCertificateMsg;
     }
 
     /**
-     * @param texNoCertificateMsg 
+     * @param taxNoCertificateMsg 
 	 *            税号认证备注
      */
-    public void setTexNoCertificateMsg(String texNoCertificateMsg) {
-        this.texNoCertificateMsg = texNoCertificateMsg == null ? null : texNoCertificateMsg.trim();
+    public void setTaxNoCertificateMsg(String taxNoCertificateMsg) {
+        this.taxNoCertificateMsg = taxNoCertificateMsg == null ? null : taxNoCertificateMsg.trim();
     }
 
     /**
@@ -284,16 +284,16 @@ public class BidderBankAduit {
     /**
      * @return 税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
      */
-    public String getTexNoCertificateResult() {
-        return texNoCertificateResult;
+    public String getTaxNoCertificateResult() {
+        return taxNoCertificateResult;
     }
 
     /**
-     * @param texNoCertificateResult 
+     * @param taxNoCertificateResult 
 	 *            税号认证结果,CRT待认证,OK#已认证,FLS认证不通过
      */
-    public void setTexNoCertificateResult(String texNoCertificateResult) {
-        this.texNoCertificateResult = texNoCertificateResult == null ? null : texNoCertificateResult.trim();
+    public void setTaxNoCertificateResult(String taxNoCertificateResult) {
+        this.taxNoCertificateResult = taxNoCertificateResult == null ? null : taxNoCertificateResult.trim();
     }
 
     /**
@@ -348,10 +348,10 @@ public class BidderBankAduit {
             && (this.getAcccountNameCertificateResult() == null ? other.getAcccountNameCertificateResult() == null : this.getAcccountNameCertificateResult().equals(other.getAcccountNameCertificateResult()))
             && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()))
             && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
-            && (this.getTexNoCertificateMsg() == null ? other.getTexNoCertificateMsg() == null : this.getTexNoCertificateMsg().equals(other.getTexNoCertificateMsg()))
+            && (this.getTaxNoCertificateMsg() == null ? other.getTaxNoCertificateMsg() == null : this.getTaxNoCertificateMsg().equals(other.getTaxNoCertificateMsg()))
             && (this.getAddressCertificateMsg() == null ? other.getAddressCertificateMsg() == null : this.getAddressCertificateMsg().equals(other.getAddressCertificateMsg()))
             && (this.getTelephoneCertificateMsg() == null ? other.getTelephoneCertificateMsg() == null : this.getTelephoneCertificateMsg().equals(other.getTelephoneCertificateMsg()))
-            && (this.getTexNoCertificateResult() == null ? other.getTexNoCertificateResult() == null : this.getTexNoCertificateResult().equals(other.getTexNoCertificateResult()))
+            && (this.getTaxNoCertificateResult() == null ? other.getTaxNoCertificateResult() == null : this.getTaxNoCertificateResult().equals(other.getTaxNoCertificateResult()))
             && (this.getAddressCertificateResult() == null ? other.getAddressCertificateResult() == null : this.getAddressCertificateResult().equals(other.getAddressCertificateResult()))
             && (this.getTelephoneCertificateResult() == null ? other.getTelephoneCertificateResult() == null : this.getTelephoneCertificateResult().equals(other.getTelephoneCertificateResult()));
     }
@@ -370,10 +370,10 @@ public class BidderBankAduit {
         result = prime * result + ((getAcccountNameCertificateResult() == null) ? 0 : getAcccountNameCertificateResult().hashCode());
         result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
         result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
-        result = prime * result + ((getTexNoCertificateMsg() == null) ? 0 : getTexNoCertificateMsg().hashCode());
+        result = prime * result + ((getTaxNoCertificateMsg() == null) ? 0 : getTaxNoCertificateMsg().hashCode());
         result = prime * result + ((getAddressCertificateMsg() == null) ? 0 : getAddressCertificateMsg().hashCode());
         result = prime * result + ((getTelephoneCertificateMsg() == null) ? 0 : getTelephoneCertificateMsg().hashCode());
-        result = prime * result + ((getTexNoCertificateResult() == null) ? 0 : getTexNoCertificateResult().hashCode());
+        result = prime * result + ((getTaxNoCertificateResult() == null) ? 0 : getTaxNoCertificateResult().hashCode());
         result = prime * result + ((getAddressCertificateResult() == null) ? 0 : getAddressCertificateResult().hashCode());
         result = prime * result + ((getTelephoneCertificateResult() == null) ? 0 : getTelephoneCertificateResult().hashCode());
         return result;

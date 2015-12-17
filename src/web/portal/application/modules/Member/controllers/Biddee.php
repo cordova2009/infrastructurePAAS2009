@@ -104,13 +104,16 @@ class BiddeeController extends MemberController{
 	    if(empty($idCard)){
 		    $this->error('法人身份证号不能为空！');
 	    }
+	    if(!IdentityCodeValid($idCard)){
+		    $this->error('法人身份证号不合法！');
+	    }
 	    $idCardfrontUrl = I('idCardfrontUrl');
 	    if(empty($idCardfrontUrl)){
-		    $this->error('法人身份证照片不能为空！');
+		    $this->error('法人身份证正面照片不能为空！');
 	    }
 	    $idCardBackUrl= I('idCardBackUrl');
 	    if(empty($idCardBackUrl)){
-		    $this->error('法人身份证照片不能为空！');
+		    $this->error('法人身份证照反面片不能为空！');
 	    }
 	    $authorityBookUrl = I('authorityBookUrl');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
@@ -218,6 +221,9 @@ class BiddeeController extends MemberController{
 	    if(empty($telephone)){
 		    $this->error('办公电话不能为空！');
 	    }
+	    if(!regex($telephone,"mobile")&&!regex($telephone,"telephone")){
+		    $this->error('办公电话格式不正确！');
+	    }
 	    $email = I('email');
 	    if(empty($email)){
 		    $this->error('电子邮箱不能为空！');
@@ -243,6 +249,9 @@ class BiddeeController extends MemberController{
 	    $accountId= I('accountId');
 	    if(empty($accountId)){
 		    $this->error('银行账号不能为空！');
+	    }
+	    if(!regex($accountId,'number')){
+		    $this->error('银行账号只能为数字！');
 	    }
 	    $accountName= I('accountName');
 	    $token = isset($this->user['token'])?$this->user['token']:'';
@@ -505,5 +514,9 @@ return;
 	    if(check_resp($resp)) {
 		    $this->assign('list',$resp['list']);
 	    }
+    }
+    public function showAction()
+    {
+
     }
 }

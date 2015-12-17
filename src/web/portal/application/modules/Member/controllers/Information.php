@@ -21,7 +21,7 @@ class InformationController extends MemberController {
 
             $data = ['token'=>$this->user['token']];
             $data['informationId'] = I('informationId');
-            if(empty($data['objectAmount'])){
+            if(empty($data['informationId'])){
                 $data['informationId']=0;
             }
             $data['objectAmount'] = I('objectAmount');

@@ -8,17 +8,19 @@ if(check_resp($resp)){
     <div class="padm30">
         <form action="<?=U('/member/tender/saveBidFileTypeInfo')?>" method="post" class="ajax-form" success="save_success" next_step="answerMethodInfo">
         <input name="objectId" value="<?=$objectId?>" type="hidden" />
-        <div class="shangwubiao">
+        <div class="shangwubiao font-16">
             <div class="tit6"><span class="red">*</span>请上传招标文件</div>
-            <div class="item mart0">
-                <div class="lab">招标文件</div>
-                <div class="value <?=(empty($info['tenderFile']) ? '' : 'hide')?>" id="upload-tender-file">
+            <div class="item mart0 text-center">
+                <div class=" <?=(empty($info['tenderFile']) ? '' : 'hide')?>" id="upload-tender-file">
+                    <span>招标文件</span>
                     <label class="btn-file2 padm20" >
-                        <input class="file-upload" type="file" name="file">上传附件
+                        <span>上传附件</span>
+                        <input class="file-upload" type="file" name="file">
                         <input type="hidden" name="tenderFile" value="<?=isset($info)?$info['tenderFile']:''?>">
                     </label>
                 </div>
-                <div class="value <?=(empty($info['tenderFile']) ? 'hide' : '')?>" id="uploaded">
+                <div class="<?=(empty($info['tenderFile']) ? 'hide' : '')?>" id="uploaded">
+                    <input type="text" value="<?=isset($info)?$info['tenderFile']:''?>" class="input1 wid220">
                     <a id="download-tender-file" class="btn-file2 padm20" href="<?=isset($info)?get_qiniu_file_durl($info['tenderFile']):''?>" target="_blank">下载</a>
                     <a class="btn-file2 padm20 bg-grey" id="delete-tender-file">删除</a>
                 </div>
@@ -59,16 +61,35 @@ if(check_resp($resp)){
     $(".file-upload").fileupload({
         url:'<?=U('/member/upload/file')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
         dataType: 'json',
+        add: function (e, data) {
+            if (e.isDefaultPrevented()) {
+                return false;
+            }
+            $(this)
+                .prev()
+                .text('上传中..')
+                .parent()
+                .css('background','#bebebe');
+            data.submit();
+        },
         done:function(e,data){
             //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
             //返回的数据在data.result中，假设我们服务器返回了一个json对象
+            $(this).prev()
+                .text('上传附件')
+                .parent()
+                .css('background','#8ab46e');
             if(data.result.status == '0'){
                 $(this).next().val(data.result.url);
                 $("#uploaded").removeClass('hide').prev().addClass('hide');
-                $("#download-tender-file").attr('href',data.result.src);
+                $("#download-tender-file").attr('href',data.result.src).prev().val(data.result.url);
             }else{
                 layer.alert(data.result.msg,{icon:2});
             }
+        },
+        fail: function () {
+            $(this).parent().css('background','#8ab46e');
+            layer.alert('上传失败，请重新再试',{icon:2});
         }
     })
     $("#delete-tender-file").click(function () {

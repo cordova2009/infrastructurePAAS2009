@@ -687,6 +687,9 @@ $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateNa
 				}
 				$(function(){
 					$(".jibenxx .checkBtn a").click(function() {
+
+                        $(this).addClass('active').siblings('a').removeClass('active')
+
 						var i = $(this).index();
 						$('#companyRegistered .charge_form').addClass('hide');
 						$('#companyRegistered .charge_form').eq(i).removeClass('hide');

@@ -1,9 +1,9 @@
 <extend name="Public/base"/>
 
 <block name="body">
-     <div class="table-responsive">
-        <div class="dataTables_wrapper">  
-            
+    <div class="table-responsive">
+        <div class="dataTables_wrapper">
+
             <div class="row">
                 <div class="col-sm-12">
                     <form class="search-form">
@@ -14,73 +14,50 @@
                             <input type="text" class="search-input" name="real_name" value="{:I('real_name')}" placeholder="请输入账户昵称">
                         </label>
                         <label>
-                            <button class="btn btn-sm btn-primary" type="button" id="search" url="{:U('verify')}">
-                               <i class="icon-search"></i>搜索
+                            <button class="btn btn-sm btn-primary" type="button" id="search-btn" url="{:U('verify')}">
+                                <i class="icon-search"></i>搜索
                             </button>
                         </label>
-                    </form>  
+                    </form>
                 </div>
             </div>
-            
-            <form class="ids">
+
             <!-- 数据列表 -->
             <table class="table table-striped table-bordered table-hover dataTable">
                 <thead>
-                    <tr>
-                        <th>公司全称</th>
-                        <th>公司简称</th>
-                        <th>帐户昵称</th>
-                        <th>操作</th>
-                    </tr>
+                <tr>
+                    <th>公司全称</th>
+                    <th>公司简称</th>
+                    <th>帐户昵称</th>
+                    <th>操作</th>
+                </tr>
                 </thead>
                 <tbody>
-				<notempty name="_list">
-                <volist name="_list" id="item">
-                    <tr>
-                        <td>
-                            {$item.company_name}
-                        </td>
-                        <td>{$item.short_name}</td>
-                        <td>{$item.real_name}</td>
-                        <td>
-                            <a title="审核" href="{:U('verifyshow?id='.$item['id'])}">审核</a>
-                        </td>
-                    </tr>
-                </volist>
-				<else/>
-				<td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
-				</notempty>
+                <notempty name="_list">
+                    <volist name="_list" id="item">
+                        <tr>
+                            <td>
+                                {$item.company_name}
+                            </td>
+                            <td>{$item.short_name}</td>
+                            <td>{$item.real_name}</td>
+                            <td>
+                                <a title="审核" href="{:U('verifyshow?id='.$item['id'])}">审核</a>
+                            </td>
+                        </tr>
+                    </volist>
+                    <else/>
+                    <td colspan="10" class="text-center"> aOh! 暂时还没有内容! </td>
+                </notempty>
                 </tbody>
             </table>
-            </form>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
-</block>
-
-<block name="script">
-    <script type="text/javascript">
-        $(function() {
-            //搜索功能
-            $("#search").click(function() {
-                var url = $(this).attr('url');
-                var query = $('.search-form').serialize();
-                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
-                query = query.replace(/^&/g, '');
-                if (url.indexOf('?') > 0) {
-                    url += '&' + query;
-                } else {
-                    url += '?' + query;
-                }
-                window.location.href = url;
-            });
-            //回车搜索
-            $(".search-input").keyup(function(e) {
-                if (e.keyCode === 13) {
-                    $("#search").click();
-                    return false;
-                }
-            });
-        });
-    </script>
 </block>

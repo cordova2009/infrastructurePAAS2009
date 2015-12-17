@@ -463,6 +463,9 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					 b.setBankName(bankInfo.getBank());
 					 b.setAccountNo(bankInfo.getAccountId());
 					 b.setAccountName(bankInfo.getAccountName());
+					 b.setTaxNo(bankInfo.getTaxNo());
+					 b.setTelephone(bankInfo.getTelephone());
+					 b.setAddress(bankInfo.getAddress());
 				 }
 				i = bbccDao.insertSelective(b);
 			}

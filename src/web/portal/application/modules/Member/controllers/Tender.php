@@ -7,6 +7,26 @@
 */
 class TenderController extends MemberController{
 
+    public function submitObjectAction(){
+        if(!IS_POST){
+            $this->error('提交方式不正确！');
+        }
+
+        $data = ['token'=>$this->user['token']];
+
+        $data['objectId'] = I('objectId');
+        if(empty($data['objectId'])){
+            $this->error('参数错误，标的ID不能为空！');
+        }
+
+        $curl = new Curl();
+        if(check_resp($curl->setData($data)->send('tender/submitObject'))){
+            $this->success('标的发布成功',U('/member/biddee/probject'));
+        }else{
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] :'提交招标申请失败！');
+        }
+    }
+
     /**
      * 保存招标时间要求
      */

@@ -29,7 +29,6 @@
             <table class="table table-striped table-bordered table-hover dataTable">
 			    <thead>
 			        <tr>
-                        <th class="">操作</th>
                         <th class="">项目编号</th>
                         <th class="">项目名称</th>
                         <th class="">中标公司</th>
@@ -45,9 +44,6 @@
 					<notempty name="list">
 					<volist name="list" id="vo">
 					<tr>
-                        <td>
-                            <a data-rel="tooltip" data-placement="bottom" title="查看中标详情" href="{:U('viewzhongbiao?id='.$vo['bid'])}" class="ui-pg-div"><span class="ui-icon icon-zoom-in blue"></span></a>
-                        </td>
 						<td><a data-rel="tooltip" data-placement="bottom" title="查看标的详情" href="{:U('viewzb',['object_id'=>$vo['object_id'],'active'=>'b'])}">{$vo.object_no}</a></td>
                         <td><?=$vo['object_name']?></td>
                         <td>
@@ -68,7 +64,13 @@
 					</notempty>
 				</tbody>
             </table>
-            <include file="Public/page"/>
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8">
+                    <include file="Public/page"/>
+                </div>
+            </div>
         </div>
     </div>
 </block>

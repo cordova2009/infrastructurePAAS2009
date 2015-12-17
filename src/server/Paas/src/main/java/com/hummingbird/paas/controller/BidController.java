@@ -907,12 +907,12 @@ public class BidController extends BaseController {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
+//			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
 			//业务数据逻辑校验
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			QueryObjectDetailResultVO  result = bidService.queryObjectDetail(transorder.getApp().getAppId(),transorder.getBody(),bidder.getId());
+			QueryObjectDetailResultVO  result = bidService.queryObjectDetail(transorder.getApp().getAppId(),transorder.getBody(),null);
 			rm.put("body",result);
 			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {

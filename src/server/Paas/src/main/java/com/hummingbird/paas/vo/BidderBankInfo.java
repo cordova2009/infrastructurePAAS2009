@@ -18,10 +18,25 @@ public class BidderBankInfo {
 	
 	private String  bank;
 	private String  accountId;
-	private String  accountName;
-	private String  telephone;
-	private String  taxNo;
-	private String  address;
+	/**
+     * 开户人名称
+     */
+    private String accountName;
+
+    /**
+     * 税号
+     */
+    private String taxNo;
+
+    /**
+     * 公司地址
+     */
+    private String address;
+
+    /**
+     * 电话
+     */
+    private String telephone;
 
 
 	/**
@@ -83,22 +98,14 @@ public class BidderBankInfo {
 	 */
 	@Override
 	public String toString() {
-		return "BiddeeBankInfo [bank=" + bank + ", accountId=" + accountId + ", accountName=" + accountName + "]";
+		return "BidderBankInfo [bank=" + bank + ", accountId=" + accountId + ", accountName=" + accountName + ", taxNo="
+				+ taxNo + ", address=" + address + ", telephone=" + telephone + "]";
 	}
 
 
 
 	/**
-	 * @return the telephone
-	 */
-	public String getTelephone() {
-		return telephone;
-	}
-
-
-
-	/**
-	 * @return the taxNo
+	 * 税号 
 	 */
 	public String getTaxNo() {
 		return taxNo;
@@ -107,25 +114,7 @@ public class BidderBankInfo {
 
 
 	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
-	}
-
-
-
-	/**
-	 * @param telephone the telephone to set
-	 */
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-
-
-	/**
-	 * @param taxNo the taxNo to set
+	 * 税号 
 	 */
 	public void setTaxNo(String taxNo) {
 		this.taxNo = taxNo;
@@ -134,10 +123,37 @@ public class BidderBankInfo {
 
 
 	/**
-	 * @param address the address to set
+	 * 公司地址 
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	/**
+	 * 公司地址 
 	 */
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+
+
+	/**
+	 * 电话 
+	 */
+	public String getTelephone() {
+		return telephone;
+	}
+
+
+
+	/**
+	 * 电话 
+	 */
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 }

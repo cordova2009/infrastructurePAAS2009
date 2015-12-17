@@ -5215,7 +5215,7 @@ button.btn:active {
 
 .form-actions {
 	display: block;
-	background-color: #f5f5f5;
+	/*background-color: #f5f5f5;*/
 	border-top: 1px solid #e5e5e5;
 	margin-bottom: 20px;
 	margin-top: 20px;

@@ -223,4 +223,47 @@ public class BidderBankCardCerticate {
     public void setTelephone(String telephone) {
         this.telephone = telephone == null ? null : telephone.trim();
     }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        BidderBankCardCerticate other = (BidderBankCardCerticate) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getBankName() == null ? other.getBankName() == null : this.getBankName().equals(other.getBankName()))
+            && (this.getBankBranchName() == null ? other.getBankBranchName() == null : this.getBankBranchName().equals(other.getBankBranchName()))
+            && (this.getAccountNo() == null ? other.getAccountNo() == null : this.getAccountNo().equals(other.getAccountNo()))
+            && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
+            && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
+            && (this.getAccountName() == null ? other.getAccountName() == null : this.getAccountName().equals(other.getAccountName()))
+            && (this.getTaxNo() == null ? other.getTaxNo() == null : this.getTaxNo().equals(other.getTaxNo()))
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getTelephone() == null ? other.getTelephone() == null : this.getTelephone().equals(other.getTelephone()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getBankName() == null) ? 0 : getBankName().hashCode());
+        result = prime * result + ((getBankBranchName() == null) ? 0 : getBankBranchName().hashCode());
+        result = prime * result + ((getAccountNo() == null) ? 0 : getAccountNo().hashCode());
+        result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
+        result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
+        result = prime * result + ((getAccountName() == null) ? 0 : getAccountName().hashCode());
+        result = prime * result + ((getTaxNo() == null) ? 0 : getTaxNo().hashCode());
+        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+        result = prime * result + ((getTelephone() == null) ? 0 : getTelephone().hashCode());
+        return result;
+    }
 }

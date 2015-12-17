@@ -144,8 +144,8 @@
         <div class="auto  box pad0 hide" id="legal">
             <div class="h2">法人信息</div>
             <div class="padm30 chargeBox">
-                <form action="<?=U('doapply jibenxx')?>" method="post" class="ajax-form" success="legal_sucess">
-                    <div class=" charge_form padv40">
+                <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="legal_sucess">
+                    <div class=" charge_form padv40 jibenxx">
                         <div class="item">
                             <span class="lab">法人姓名</span>
                             <div class="auto value ">
@@ -469,6 +469,9 @@
         }
         $(function(){
             $(".jibenxx .checkBtn a").click(function() {
+
+                $(this).addClass('active').siblings('a').removeClass('active')
+
                 var i = $(this).index();
                 $('#companyRegistered .charge_form').addClass('hide');
                 $('#companyRegistered .charge_form').eq(i).removeClass('hide');

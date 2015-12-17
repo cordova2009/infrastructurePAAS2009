@@ -36,9 +36,9 @@
         <?php endforeach;?>
     </div>
     <div class="clearfix form-actions">
-        <div class="col-xs-12 center">
-            <a onclick="history.go(-1)" class="btn btn-info" href="javascript:;">
-                <i class="icon-reply"></i>返回上一页
+        <div class="col-xs-12">
+            <a onclick="history.go(-1)" class="btn btn-white" href="javascript:;">
+                返回
             </a>
         </div>
     </div>

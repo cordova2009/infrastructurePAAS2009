@@ -30,16 +30,49 @@ if(is_array($bidRequirementInfo)){
                             <p>营业执照公司名称
                                 <span class="padl40"><?=$bidderInfo['companyName']?></span>
                             </p>
-                            <p>营业执照编号
+                            <?php if($bidderInfo['businessLicenseType'] == 'NEW'):?>
+                            <p>统一社会信用代码
                                 <span class="padl40">
                                     <?=$bidderInfo['newBusinessLicenseNum'];?>
                                 </span>
                             </p>
-                            <p>营业执照扫描件
+                            <p>统一社会信用代码扫描件
                                 <span class="padl40">
-                                    <a href="<?=$bidderInfo['newBusinessLicenseUrl'];?>" class="blue">查看</a>
+                                    <a href="<?=imageView2($bidderInfo['newBusinessLicenseUrl'])?>" class="blue" target="_blank">查看</a>
                                 </span>
                             </p>
+                            <?php else:?>
+                            <p>营业执照编号
+                                <span class="padl40">
+                                    <?=$bidderInfo['businessLicenseNum'];?>
+                                </span>
+                            </p>
+                            <p>营业执照扫描件
+                                <span class="padl40">
+                                    <a href="<?=imageView2($bidderInfo['businessLicenseUrl'])?>" class="blue" target="_blank">查看</a>
+                                </span>
+                            </p>
+                            <!--<p>组织机构代码证编号
+                                <span class="padl40">
+                                    <?/*=$bidderInfo['organizationCodeNum'];*/?>
+                                </span>
+                            </p>
+                            <p>组织机构代码证扫描件
+                                <span class="padl40">
+                                    <a href="<?/*=imageView2($bidderInfo['organizationCodeUrl'])*/?>" class="blue" target="_blank">查看</a>
+                                </span>
+                            </p>
+                            <p>税务登记证编号
+                                <span class="padl40">
+                                    <?/*=$bidderInfo['taxRegistrationNum'];*/?>
+                                </span>
+                            </p>
+                            <p>税务登记证扫描件
+                                <span class="padl40">
+                                    <a href="<?/*=imageView2($bidderInfo['taxRegistrationUrl'])*/?>" class="blue" target="_blank">查看</a>
+                                </span>
+                            </p>-->
+                            <?php endif;?>
                         </div>
                     </div>
 

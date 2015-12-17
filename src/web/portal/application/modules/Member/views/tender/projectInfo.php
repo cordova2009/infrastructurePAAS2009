@@ -26,7 +26,7 @@ if(check_resp($resp)){
             <div class="item ">
                 <div class="lab"><span class="red">*</span>工程名称</div>
                 <div class="value">
-                    <input type="text" class="input1 wid220" placeholder="" name="projectName" value="<?=isset($info)?$info['projectName']:''?>">
+                    <input type="text" class="input1" placeholder="" name="projectName" value="<?=isset($info)?$info['projectName']:''?>">
                     <i class="ico tip-qus"></i>
                 </div>
             </div>

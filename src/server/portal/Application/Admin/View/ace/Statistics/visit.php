@@ -12,7 +12,7 @@
                 请点击下面的按钮进入CNZZ统计网站，输入密码 <span class="red"></span> ，
                 点击查看数据
             </div>
-            <button id="show-btn" class="btn btn-primary btn-block">请点我</button>
+            <button id="show-btn" class="btn btn-white btn-block">请点我</button>
         </div>
     </div>
 </block>

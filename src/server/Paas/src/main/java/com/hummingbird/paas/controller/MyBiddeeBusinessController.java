@@ -98,7 +98,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getAuthInfo(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询我的招标人认证信息";
-		int basecode = 0;
+		int basecode = 230100;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -112,7 +112,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -360,7 +360,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getBaseInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人基本信息";
-		int basecode = 0;
+		int basecode = 230200;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -374,7 +374,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -432,7 +432,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getLegalPersonInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人法人信息";
-		int basecode = 0;
+		int basecode = 230300;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -446,7 +446,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -505,7 +505,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getRegisteredInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人公司注册信息";
-		int basecode = 0;
+		int basecode = 230400;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -519,7 +519,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -574,7 +574,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getBankInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人开户行信息";
-		int basecode = 0;
+		int basecode = 230500;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -588,7 +588,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -643,7 +643,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getApplication(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询招标人认证申请详情";
-		int basecode = 0;
+		int basecode = 230600;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -657,7 +657,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -720,11 +720,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@RequestMapping(value="/saveBaseInfo_apply",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveBaseInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 230700;
 		String messagebase = "保存招标人基本信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -785,11 +785,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@RequestMapping(value="/saveLegalPersonInfo_apply",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveLegalPersonInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 230800;
 		String messagebase = "保存招标人法人信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -848,11 +848,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@RequestMapping(value="/saveRegisteredInfo_apply",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel saveRegisteredInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 230900;
 		String messagebase = "保存招标人公司注册信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -918,11 +918,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 */
 	@RequestMapping(value="/saveBankInfo",method=RequestMethod.POST)
 	public @ResponseBody ResultModel saveBankInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 231000;
 		String messagebase = "保存招标人开户行信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -980,11 +980,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@RequestMapping(value="/applay",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel applay(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 231100;
 		String messagebase = "提交招标人认证申请";
 		MyBiddeeAuthInfoApplyVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -1039,11 +1039,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	@RequestMapping(value="/checkApplication",method=RequestMethod.POST)
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 231200;
 		String messagebase = "提交招标人认证审核结果";
 		BiddeeAuditInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);

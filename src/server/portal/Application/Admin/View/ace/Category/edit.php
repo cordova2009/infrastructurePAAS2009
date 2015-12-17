@@ -230,19 +230,9 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="clearfix form-actions">
-            <div class="col-xs-12 center">
-    			<input type="hidden" name="id" value="{$info.id|default=''}">
-    			<input type="hidden" name="pid" value="{:isset($category['id'])?$category['id']:$info['pid']}">
-                <button id="sub-btn" class="btn btn-success ajax-post" target-form="form-horizontal" type="submit">
-                    <i class="icon-ok bigger-110"></i> 确认保存
-                </button> 
-                <a href="javascript:history.back(-1);" class="btn btn-info">
-                   <i class="icon-reply"></i>返回上一页
-                </a>  
-            </div>
-        </div>
+        <input type="hidden" name="id" value="{$info.id|default=''}">
+        <input type="hidden" name="pid" value="{:isset($category['id'])?$category['id']:$info['pid']}">
+        <?=ace_srbtn()?>
 	</div>
     </form>
 </div>	

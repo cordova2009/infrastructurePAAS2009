@@ -155,16 +155,28 @@
   </select>
    <select id="queryObjectByPage" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from t_ztgl_object
-    where object_status='PUB'
+    o.object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
+    biddee_company_principal, biddee_company_telephone, bid_open_date, contract_type, 
+    currency, bid_bond_amount, need_business_standard, need_technical_standard, need_certification_checkup_file, 
+    need_pm_certification, need_constructor_certification, need_safety_permit, need_pm_safety_certification, 
+    if(evaluation_amount_visiable='ENB',evaluation_amount,null) evaluation_amount, object_scope, win_bid_time, insert_time, update_time, object_type, 
+    evaluation_amount_visiable, publish_time
+    from t_ztgl_object o,t_ztgl_object_baseinfo b
+    where o.object_id = b.object_id
+    and o.object_status='PUB'
+    and CURRENT_DATE() >= b.announcement_begin_time 
+    and CURRENT_DATE() &lt; b.announcement_end_time
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
   </select>
    <select id="queryObjectCount" resultType="int">
     select 
     count(*)
-    from t_ztgl_object
-    where object_status='PUB'
+    from t_ztgl_object o,t_ztgl_object_baseinfo b
+    where o.object_id = b.object_id
+    and o.object_status='PUB'
+    and CURRENT_DATE() >= b.announcement_begin_time 
+    and CURRENT_DATE() &lt; b.announcement_end_time
   </select>
   <select id="getMyObjectProjectPages" resultMap="BaseResultMap" >
     select 

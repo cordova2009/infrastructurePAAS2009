@@ -92,4 +92,11 @@ public interface BidRecordMapper {
 	 * @param winbidderId
 	 */
 	void update2fail(@Param("objectId")String objectId,@Param("bidId") Integer winbidId);
+
+	/**
+	 * @param bidderId
+	 * @param objectId
+	 * @return
+	 */
+	List<BidRecord> selectBids(@Param("bidderId") Integer bidderId,@Param("objectId") String objectId,@Param("status") String status);
 }

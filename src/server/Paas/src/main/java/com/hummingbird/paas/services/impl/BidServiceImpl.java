@@ -1373,14 +1373,14 @@ public class BidServiceImpl implements BidService {
 		if (bids != null && !bids.isEmpty()) {
 			bid = bids.get(0);
 		}
-		//检查投标的情况
-		if(!bid.getStatus().equals("CRT")){
-			ValidateUtil.assertNotEqual(bid.getStatus(), "CRT", "您已投标,不能重复投标");
-		}
 		QueryBidRequirementInfoBodyVOResult result = new QueryBidRequirementInfoBodyVOResult();
 		if (bid == null) {
 			result = null;
 		} else {
+			//检查投标的情况
+			if(!bid.getStatus().equals("CRT")){
+				ValidateUtil.assertNotEqual(bid.getStatus(), "CRT", "您已投标,不能重复投标");
+			}
 
 			QueryBidRequirementInfoBodyVOResult_1 result1 = new QueryBidRequirementInfoBodyVOResult_1();
 			result1.setSafetyPermitNo(bid.getSafetyPermitNo());

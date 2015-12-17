@@ -161,7 +161,7 @@
       telephone = #{telephone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectBidderBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    <select id="selectBidderBankInfoByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_qyzz_bidder_bankcard_certicate a inner join t_user_token b on a.user_id = b.userId

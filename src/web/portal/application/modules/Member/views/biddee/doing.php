@@ -12,7 +12,7 @@
 <?php if(!empty($doing)){
 	foreach($doing as $v){?>
 		<tr class="">
-			<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
+			<td class=""><a class="blue" href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><?=$v['objectName']?><br>(<?=$v['objectId']?>)</a></td>
 			<td class=""><?=$v['winBidAmount']?></td>
 			<td class=""><?=$v['winBidder']?></td>
 			<td class=""><?=price_format($v['receivedAmount'])?></td>

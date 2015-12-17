@@ -11,7 +11,7 @@
 <?php  if(!empty($biding)){ foreach($biding as $v){?>
 												<tr class="">
 													<td class=""><span class="tag"><?=isset($industry[$v['industryId']])?$industry[$v['industryId']]['industryIcon']:''?></span></td>
-													<td class="blue  "><?=$v['objectName']?><br>(<?=$v['objectId']?>)</td>
+													<td class="blue  "><a class="blue" href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><?=$v['objectName']?><br>(<?=$v['objectId']?>)</a></td>
 													<td class=""><?=price_format($v['evaluationAmount'])?></td>
 													<td class=""><?=$v['projectExpectStartDate']?></td>
 													<td class=""><?=$v['projectExpectPeriod']?>天</td>

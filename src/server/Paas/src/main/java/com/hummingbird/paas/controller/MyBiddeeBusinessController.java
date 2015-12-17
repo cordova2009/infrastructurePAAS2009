@@ -682,7 +682,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			
 			baseInfo = myBiddeeService.getBaseInfo_apply(token);
 			legalPerson = myBiddeeService.getLegalPersonInfo_apply(token);
-			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);
+			registeredInfo = myBiddeeService.getRegisteredInfo(token);
 			bankInfo = myBiddeeService.getBankInfo_apply(token);
 
 			

@@ -28,7 +28,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	private Long evaluationAmount;
 	private String projectExpectStartDate;
 	private String projectExpectEndDate;
-	private String projectExpectPeriod;
+	private Integer projectExpectPeriod;
 	/**
 	 * 工程标的估价可见,ENB 可见, DIS 不可见
 	 */
@@ -78,7 +78,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	/**
 	 * @return the projectExpectPeriod
 	 */
-	public String getProjectExpectPeriod() {
+	public Integer getProjectExpectPeriod() {
 		return projectExpectPeriod;
 	}
 	/**
@@ -126,7 +126,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	/**
 	 * @param projectExpectPeriod the projectExpectPeriod to set
 	 */
-	public void setProjectExpectPeriod(String projectExpectPeriod) {
+	public void setProjectExpectPeriod(Integer projectExpectPeriod) {
 		this.projectExpectPeriod = projectExpectPeriod;
 	}
 	/* (non-Javadoc)

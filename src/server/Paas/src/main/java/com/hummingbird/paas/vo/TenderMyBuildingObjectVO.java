@@ -22,13 +22,13 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 //	    }]
 	private String objectId;
 	private String objectName;
-	private String winBidAmount;
+	private Long winBidAmount;
 	private String winBidder;
-	private String receivedAmount;
-	private String willReceiveAmount;
+	private Long receivedAmount;
+	private Long willReceiveAmount;
 	
 	private String projectExpectStartDate;
-	private String projectExpectPeriod;
+	private Integer projectExpectPeriod;
 	/**
 	 * @return the objectId
 	 */
@@ -44,7 +44,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @return the winBidAmount
 	 */
-	public String getWinBidAmount() {
+	public Long getWinBidAmount() {
 		return winBidAmount;
 	}
 	/**
@@ -56,13 +56,13 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @return the receivedAmount
 	 */
-	public String getReceivedAmount() {
+	public Long getReceivedAmount() {
 		return receivedAmount;
 	}
 	/**
 	 * @return the willReceiveAmount
 	 */
-	public String getWillReceiveAmount() {
+	public Long getWillReceiveAmount() {
 		return willReceiveAmount;
 	}
 	/**
@@ -74,7 +74,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @return the projectExpectPeriod
 	 */
-	public String getProjectExpectPeriod() {
+	public Integer getProjectExpectPeriod() {
 		return projectExpectPeriod;
 	}
 	/**
@@ -92,7 +92,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @param winBidAmount the winBidAmount to set
 	 */
-	public void setWinBidAmount(String winBidAmount) {
+	public void setWinBidAmount(Long winBidAmount) {
 		this.winBidAmount = winBidAmount;
 	}
 	/**
@@ -104,13 +104,13 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @param receivedAmount the receivedAmount to set
 	 */
-	public void setReceivedAmount(String receivedAmount) {
+	public void setReceivedAmount(Long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
 	/**
 	 * @param willReceiveAmount the willReceiveAmount to set
 	 */
-	public void setWillReceiveAmount(String willReceiveAmount) {
+	public void setWillReceiveAmount(Long willReceiveAmount) {
 		this.willReceiveAmount = willReceiveAmount;
 	}
 	/**
@@ -122,7 +122,7 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 	/**
 	 * @param projectExpectPeriod the projectExpectPeriod to set
 	 */
-	public void setProjectExpectPeriod(String projectExpectPeriod) {
+	public void setProjectExpectPeriod(Integer projectExpectPeriod) {
 		this.projectExpectPeriod = projectExpectPeriod;
 	}
 	/* (non-Javadoc)
@@ -135,6 +135,8 @@ public class TenderMyBuildingObjectVO extends PagingnationVO {
 				+ ", willReceiveAmount=" + willReceiveAmount + ", projectExpectStartDate=" + projectExpectStartDate
 				+ ", projectExpectPeriod=" + projectExpectPeriod + "]";
 	}
+	
+	
 	
 
 }

@@ -68,6 +68,12 @@ public interface MyBidderService {
 	*/
 	public BidderRegisteredInfo getRegisteredInfo_apply(Token token) throws BusinessException; 
 	/**
+	* 查询保存的招标人公司注册信息接口
+	* @return 
+	* @throws BusinessException 
+	*/
+	public BidderRegisteredInfo getRegisteredInfo(Token token) throws BusinessException; 
+	/**
 	 * 保存招标人公司注册信息接口
 	 * 
 	 * @param appId

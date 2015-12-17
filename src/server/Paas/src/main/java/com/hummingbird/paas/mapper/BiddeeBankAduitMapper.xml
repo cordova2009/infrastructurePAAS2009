@@ -31,12 +31,6 @@
     from t_qyzz_biddee_bank_aduit
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByBcId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_qyzz_biddee_bank_aduit
-    where biddee_certicate_id = #{bcid,jdbcType=INTEGER} 
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee_bank_aduit
     where id = #{id,jdbcType=INTEGER}
@@ -232,4 +226,10 @@
       telephone_certificate_result = #{telephoneCertificateResult,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+   <select id="selectByBcId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_biddee_bank_aduit
+    where biddee_certicate_id = #{bcid,jdbcType=INTEGER} 
+  </select>
 </mapper>

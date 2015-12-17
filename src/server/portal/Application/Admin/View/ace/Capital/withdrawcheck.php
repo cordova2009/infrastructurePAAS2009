@@ -63,10 +63,10 @@ td{width:50%;}
 		    var data = $.parseJSON(data);
 		    var src = '';
 		    if(data.status){
-			    src = data.url || '' + data.path;
+			    src = data.url || '' + data.src;
 			    $("#file_id").val(src);
 			    $("#file_id").parent().find('.upload-img-box').html(
-					    '<div class="upload-pre-item"><img width="120" src="' + src + '"/></div>'
+					    '<div class="upload-pre-item"><img width="120" src="' + data.src+ '"/></div>'
 					    );
 		    } else {
 			    updateAlert(data.info);

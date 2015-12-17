@@ -604,7 +604,7 @@ function newBusinessLicenseNumValid($code)
 	return true;
 }
 
-function OrgCode($orgCode){
+function orgCodeValid($orgCode){
 	if(""==$orgCode || sizeof($orgCode)!==10)
 	{
 		return false;
@@ -640,6 +640,34 @@ function OrgCode($orgCode){
 		if($crc==substr($orgCode,0,-1)){
 			$ret=true;
 		}
+	}
+	return $ret;
+}
+
+function busCodeValid($busCode){
+	$ret=false;
+	if(empty($busCode)||sizeof($$busCode)!=15)
+	{
+		return false;
+	}
+	$sum=0;
+	$s=[];
+	$p=[];
+	$a=[];
+	$m=10;
+	$p[0]=10;
+	for($i=0;$i<sizeof($busCode);$i++)
+	{
+		$a[$i]=(int)substr($busCode,$i,1);
+		$s[$i]=($p[$i]%11)+$a[$i];
+		if(0==$s[$i]%11){
+			$p[$i+1]=20;
+		}else{
+			$p[$i+1]=($s[$i]%10)*2;
+		}    
+	}                                       
+	if(1==($s[14]%10)){
+		$ret=true;
 	}
 	return $ret;
 }

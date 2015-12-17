@@ -1,10 +1,10 @@
 <?php
 extract($certificationInfo);
 $cert_name_list = [
-    'needPmCertification'=>'安全生产许可证明',
-    'needConstructorCertification'=>'项目经理安全生产考核合格证明',
-    'needSafetyPermit'=>'项目经理证明',
-    'needPmSafetyCertification'=>'建造师证明',
+    'needPmCertification'=>'项目经理证明',
+    'needConstructorCertification'=>'建造师证明',
+    'needSafetyPermit'=>'安全生产许可证明',
+    'needPmSafetyCertification'=>'项目经理安全生产考核合格证明',
 ];
 if(is_array($bidRequirementInfo)){
     extract($bidRequirementInfo);
@@ -81,13 +81,13 @@ if(is_array($bidRequirementInfo)){
                         <div class="txt1"><i class="ico i-paper"></i> 招标要求</div>
                         <?php
                             $item = current($requirementList);
+                            $i = 0;
                             while($item):
-                                $next = next($requirementList);
                         ?>
-                            <div class="clear txt2 <?=(empty($next)) ? '' : 'bordb2'?>">
+                            <div class="clear txt2 <?=($i%2 == 0) ? '' : 'bordb2'?>">
                                 <div class="li"><?=$item['certificationName']?></div>
                             <?php
-                                $item = $next;
+                                $item = next($requirementList);
                                 if(!empty($item)):
                             ?>
                                 <div class="li"><?=$item['certificationName']?></div>
@@ -97,6 +97,7 @@ if(is_array($bidRequirementInfo)){
                             ?>
                             </div>
                         <?php
+                            $i++;
                             endwhile;
                         ?>
                     </div>
@@ -106,7 +107,7 @@ if(is_array($bidRequirementInfo)){
                             <?php foreach($bidderList as $item):?>
                             <li>
                                 <i class="ico i-check"></i>
-                                <input type="hidden" name="bidderCertList[]" value="<?=$item['certificateId']?>"/>
+                                <input class="hide" type="checkbox" name="bidderCertList[]" value="<?=$item['certificateId']?>"/>
                                 <?=$item['certificationName']?>
                             </li>
                             <?php endforeach;?>
@@ -120,7 +121,6 @@ if(is_array($bidRequirementInfo)){
                         </p>
                         <?php endif;?>
                     </div>
-
                     <?php if(!empty($safetyInfo)):?>
                     <div class="tit6">投标人安全生产证明</div>
                     <div class="yaoqiu">
@@ -135,6 +135,7 @@ if(is_array($bidRequirementInfo)){
                     </div>
                     <p class="tips2">请根据招标要求填写或选择相应资质</p>
                     <ul class="clear">
+                        <?php if($safetyInfo['needSafetyPermit'] == 'YES'):?>
                         <li>
                             <div class="cell lab">
                                 安全生产许可证明
@@ -150,6 +151,8 @@ if(is_array($bidRequirementInfo)){
                                 </a>
                             </div>
                         </li>
+                        <?php endif;?>
+                        <?php if($safetyInfo['needPmSafetyCertification'] == 'YES'):?>
                         <li>
                             <div class="cell lab">
                                 项目经理安全生产<br>考核合格证明
@@ -165,7 +168,7 @@ if(is_array($bidRequirementInfo)){
                                 </a>
                             </div>
                         </li>
-
+                        <?php endif;?>
                     </ul>
                     <?php endif;?>
 
@@ -251,8 +254,17 @@ if(is_array($bidRequirementInfo)){
                         </ul>
                     </div>
 
+                    <?php if(!empty($missingList)):?>
+                    <p class="tips2">
+                        对不起，您当前证书不满足投标要求，缺少证书：
+                        <?php foreach($missingList as $item):?>
+                            《<?=$item['certificationName']?>》
+                        <?php endforeach;?>
+                    </p>
+                    <?php endif;?>
+
                     <div class="text-center padv30">
-                        <button type="submit" class="btn-green2">保存并继续</button>
+                        <button <?php if(empty($missingList)):?> type="submit" class="btn-green2" <?php else :?> type="button" class="btn-green2 bg-grey" <?php endif;?>>保存并继续</button>
                     </div>
 
                 </form>

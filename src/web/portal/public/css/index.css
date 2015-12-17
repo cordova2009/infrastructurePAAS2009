@@ -422,6 +422,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .charge_info {background: #fff0da;color: #555;padding: 40px 0;}
 .charge_info .cell{width: 180px;padding-left: 20px;}
 .charge_info .txt1{font-size: 24px;}
+.charge_info .txt1 span{ line-height: 36px; display: inline-block;}
 .charge_info .fz36{font-size: 36px;}
 .charge_info .txt2{padding-top: 20px;font-size: 16px;}
 .charge_info .btn{padding: 0 50px;line-height: 34px;margin: 0 10px;}
@@ -1001,9 +1002,6 @@ a.blue:hover{color: #73e2ff}
 .marb80{margin-bottom: 80px;}
 .marb90{margin-bottom: 90px;}
 .marb100{margin-bottom: 100px;}
-
-.font-16{font-size: 16px;}
-
 
 
 

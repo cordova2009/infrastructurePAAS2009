@@ -232,4 +232,21 @@ class CapitalController extends MemberController {
         $this->assign('list',$list);
         $this->meta_title = '提现记录';
     }
+
+    /**
+     * 检查用户是否存在
+     */
+    public function queryFeeAmountAction(){
+
+        $amount = $this->getRequest()->getPost('amount');
+
+        $curl      = new Curl($this->config->url->api->capital);
+
+        $resp = $curl->setData(['amount'=>$amount])->send('capitalManage/queryWithdrawalsFee');
+
+        if(check_resp($resp) ){
+            $feeAmount = $resp['feeAmount'];
+        }
+        $this->assign('feeAmount',$feeAmount);
+    }
 }

@@ -7,7 +7,7 @@
             <div class="h2">发布信息</div>
             <div class="padm30">
                 <form action="<?=U('/member/Information/index')?>" method="post" class="ajax-form" success="save_success" next_step="projectInfo">
-                    <input name="objectId" value="<?=isset($info)?$info['objectId']:''?>" type="hidden" />
+                    <input name="informationId" value="<?=isset($result)?$result['informationId']:''?>" type="hidden" />
                     <div class="shangwubiao zbxmxx">
                         <div class="item ">
                             <div class="lab"><span class="red">*</span>  地区</div>

@@ -3,7 +3,6 @@
 <block name="body">
     <div class="page-header">
         <h1>
-            配置管理
             <small>
                 <i class="icon-double-angle-right"></i>
                 <present name="Think.get.group">

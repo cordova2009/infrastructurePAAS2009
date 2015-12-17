@@ -8,18 +8,18 @@ if(check_resp($resp)){
     <div class="padm30">
         <form action="<?=U('/member/tender/saveBidFileTypeInfo')?>" method="post" class="ajax-form" success="save_success" next_step="answerMethodInfo">
         <input name="objectId" value="<?=$objectId?>" type="hidden" />
-        <div class="shangwubiao">
+        <div class="shangwubiao font-16">
             <div class="tit6"><span class="red">*</span>请上传招标文件</div>
-            <div class="item mart0">
-                <div class="lab">招标文件</div>
-                <div class="value <?=(empty($info['tenderFile']) ? '' : 'hide')?>" id="upload-tender-file">
+            <div class="item mart0 text-center">
+                <div class=" <?=(empty($info['tenderFile']) ? '' : 'hide')?>" id="upload-tender-file">
+                    <span>招标文件</span>
                     <label class="btn-file2 padm20" >
                         <span>上传附件</span>
                         <input class="file-upload" type="file" name="file">
                         <input type="hidden" name="tenderFile" value="<?=isset($info)?$info['tenderFile']:''?>">
                     </label>
                 </div>
-                <div class="value <?=(empty($info['tenderFile']) ? 'hide' : '')?>" id="uploaded">
+                <div class="<?=(empty($info['tenderFile']) ? 'hide' : '')?>" id="uploaded">
                     <input type="text" value="<?=isset($info)?$info['tenderFile']:''?>" class="input1 wid220">
                     <a id="download-tender-file" class="btn-file2 padm20" href="<?=isset($info)?get_qiniu_file_durl($info['tenderFile']):''?>" target="_blank">下载</a>
                     <a class="btn-file2 padm20 bg-grey" id="delete-tender-file">删除</a>

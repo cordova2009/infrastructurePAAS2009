@@ -111,7 +111,7 @@
             </tr>
             <tr>
                 <th>项目经理证附件</th>
-                <td><a href="<?=$item['pm_certification_url']?>">查看</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['pm_certification_url'])?>">查看</a></td>
             </tr>
             <tr>
                 <th>注册建造师证编号</th>
@@ -166,7 +166,7 @@
             </tr>
             <tr>
                 <th>项目报价表</th>
-                <td><a href="<?=$item['project_quotation_url']?>">下载</a></td>
+                <td><a href="<?=get_qiniu_file_durl($item['project_quotation_url'])?>">下载</a></td>
             </tr>
             <tr>
                 <th>施工承诺函</th>

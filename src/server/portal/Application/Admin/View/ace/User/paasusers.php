@@ -26,7 +26,6 @@
             <table class="table table-striped table-bordered table-hover dataTable">
 			    <thead>
 			        <tr>
-                        <th class="">用户ID</th>
                         <th class="">手机号码</th>
                         <th class="">昵称</th>
                         <th class="">用户姓名</th>
@@ -39,7 +38,6 @@
 					<notempty name="_list">
 					<volist name="_list" id="vo">
 					<tr>
-						<td>{$vo.id} </td>
 						<td><a href="{:U('paasuview',array('id'=>$vo['id']))}">{$vo.mobile_num}</a></td>
 						<td>{$vo.nick_name}</td>
 						<td>{$vo.real_name}</td>

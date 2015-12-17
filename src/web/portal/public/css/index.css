@@ -96,7 +96,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .table td{line-height: 20px;padding-top: 14px;padding-bottom: 14px;text-align: center;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .table td.name{padding-left: 50px;text-align: left;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .table td.tenderee{width: 150px;text-align: center;}
-.table td.price{width: 150px;padding-left: 30px;font-size: 18px;}
+.table td.price{width: 150px;padding-left: 30px;font-size: 18px; text-align: right;}
 .table td.info{width: 158px;text-align: center;}
 /*page*/
 .page{text-align: center;padding: 30px 0;}
@@ -224,7 +224,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .table2 .td1{ width: 160px;text-align: left;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .table2 .td2{ width: 90px;}
 .table2 .td3{ width: 90px;}
-.table2 .td4{ width: 160px;font-size: 18px;}
+.table2 .td4{ width: 160px;font-size: 18px; text-align: right;}
 .table2 .td5{ width: 160px;}
 .table2 .td6{ width: 100px;}
 .tag2{ width: 32px;height: 32px;border-radius: 50%;display: inline-block;text-align: center;line-height: 32px;background: #0dffa9;color: #fff;font-size: 20px;}
@@ -390,7 +390,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .base_info{padding: 30px;}
 .base_info .avtar{float: left;border-radius: 2px;border:#32c5f9 1px solid;width: 97px;height: 97px;margin-right: 50px;}
 .item{line-height: 40px;}
-.item .lab{width: 160px;text-align: right;font-size: 16px;padding-right: 40px;float: left;color: #222;min-height: 20px;}
+.item .lab{width: 160px;text-align: right;font-size: 16px;padding-right: 25px;float: left;color: #222;min-height: 20px;}
 .item .value{color: #222;}
 .item .value .input1{font-size: 16px;margin: 0}
 .i-ok3{width: 17px;height: 17px;background-position: -42px -224px;vertical-align: middle;}
@@ -653,7 +653,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .gqyq .input1{width: 355px;}
 .gqyq .width330{width: 334px;background: #fff;}
 
-.checkBtn2 a{color: #fff;padding: 0 15px;text-align: center;line-height: 42px;display: inline-block;background: #bababa;margin-right: 13px;}
+.checkBtn2 a{color: #fff;padding: 0 15px;text-align: center;line-height: 42px;display: inline-block;background: #909090;margin-right: 13px;}
 .checkBtn2 a.active{background: #8ab46e;position: relative;}
 .checkBtn2 a.active:after{width: 16px;height: 11px;background: url(../images/ico1.png);background-position: -24px -277px;content: "";position: absolute;right: 5px;bottom: 5px;}
 
@@ -1002,6 +1002,7 @@ a.blue:hover{color: #73e2ff}
 .marb90{margin-bottom: 90px;}
 .marb100{margin-bottom: 100px;}
 
+.font-16{font-size: 16px;}
 
 
 

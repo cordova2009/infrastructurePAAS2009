@@ -29,7 +29,7 @@ img{max-width:400px;}
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司简介:</span>{$item.description}</td>
-			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl|imageView2}"/></td>
+			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logo|imageView2}"/></td>
 		</tr>
 	 </tbody>
 	</table>

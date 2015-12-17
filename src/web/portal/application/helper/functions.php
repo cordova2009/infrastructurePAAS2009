@@ -583,7 +583,7 @@ function newBusinessLicenseNumValid($code)
 	$str = '0123456789ABCDEFGHJKLMNPQRTUWXY';
 	$ws =[1,3,9,27,19,26,16,17,20,29,25,13,8,24,10,30,28];
 	$codes  = [];
-	$codes[0] = substr($code),0,17);
+	$codes[0] = substr($code,0,17);
 	$codes[1] = substr($code,17);	
 	
 	$sum = 0;

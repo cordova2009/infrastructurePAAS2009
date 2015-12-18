@@ -62,7 +62,7 @@ class BiddeemanageController extends AdminController {
 	public function verifyshow()
 	{
 		$id = I('id');
-		$item =  M('qyzz_biddee_certicate a')->join('t_qyzz_biddee_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name')->find();
+		$item =  M('qyzz_biddee_certicate a')->join('t_qyzz_biddee_bankcard_certicate b on a.user_id=b.user_id','left')->where(['a.id'=>$id])->field('a.*,bank_name,account_no,account_name,b.tax_no,b.address as address2 ,b.telephone')->find();
 		if(empty($item))
 		{
 			$this->error('招标人信息不存在');
@@ -89,17 +89,17 @@ class BiddeemanageController extends AdminController {
 	private function getData(){
 		$data = [];
 		$get = [
-			'baseInfoCheck'=>['company_name'=>'companyName','short_name'=>'shortName','contact_mobile_num'=>'telephone','email'=>'email','description'=>'description','logo'=>'logoUrl','registered_capital'=>'registeredCapital'],
-			'legalPersonCheck'=>['legal_person'=>'name','legal_person_idcard'=>'idCard','legal_person_idcard_front_url'=>'idCardfrontUrl','legal_person_idcard_back_url'=>'idCardBackUrl','legal_person_authority_book'=>'authorityBookUrl'],
-			'registeredInfoCheck'=>['unified_social_credit_code_url'=>'newBusinessLicenseUrl','unified_social_credit_code'=>'newBusinessLicenseNum','business_license'=>'businessLicenseNum','business_license_url'=>'businessLicenseUrl','tax_registration_certificate'=>'taxRegistrationNum','tax_registration_certificate_url'=>'taxRegistrationUrl','org_code_certificate'=>'organizationCodeNum','org_code_certificate_url'=>'organizationCodeUrl','business_license_expire_time'=>'businessLicenseExpireTime','reg_time'=>'regTime','business_scope'=>'businessScope','address'=>'address'],
-			'bankInfoCheck'=>['bank_name'=>'bank','account_no'=>'accountId','account_name'=>'accountName']
+			'baseInfoCheck'=>['company_name'=>'company_name','short_name'=>'short_name','contact_mobile_num'=>'contact_mobile_num','email'=>'email','description'=>'description','logo'=>'logo','registered_capital'=>'registered_capital'],
+			'legalPersonCheck'=>['legal_person'=>'legal_person','legal_person_idcard'=>'legal_person_idcard','legal_person_idcard_front_url'=>'legal_person_idcard_front_url','legal_person_idcard_back_url'=>'legal_person_idcard_back_url','legal_person_authority_book'=>'legal_person_authority_book'],
+			'registeredInfoCheck'=>['unified_social_credit_code_url'=>'newBusinessLicenseUrl','unified_social_credit_code'=>'newBusinessLicenseNum','business_license'=>'businessLicenseNum','business_license_url'=>'businessLicenseUrl','tax_registration_certificate'=>'tax_registration_certificate','tax_registration_certificate_url'=>'tax_registration_certificate_url','org_code_certificate'=>'org_code_certificate','org_code_certificate_url'=>'org_code_certificate_url','business_license_expire_time'=>'business_license_expire_time','reg_time'=>'reg_time','business_scope'=>'business_scope','address'=>'address'],
+			'bankInfoCheck'=>['bank_name'=>'bank','account_no'=>'account_no','account_name'=>'account_name','telephone'=>'telephone','tax_no'=>'tax_no','address'=>'address2']
 				];
 		foreach($get as $k=>$v)
 		{
 			foreach($v as $key=>$val)
 			{
-				$ret = I('post.'.$key)=='Y'?'OK#':'FLS';
-				$data[$k][$key] = ["result"=>$ret,"msg"=>I('post.'.$key.'_msg')];
+				$ret = I('post.'.$val)=='Y'?'OK#':'FLS';
+				$data[$k][$key] = ["result"=>$ret,"msg"=>I('post.'.$val.'_msg')];
 			}
 		}
 		if(I('post.business_license_type')=='NEW')

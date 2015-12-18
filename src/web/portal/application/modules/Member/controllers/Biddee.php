@@ -104,6 +104,9 @@ class BiddeeController extends MemberController{
 	    if(empty($idCard)){
 		    $this->error('法人身份证号不能为空！');
 	    }
+	    if(!IdentityCodeValid($idCard)){
+		    $this->error('法人身份证号不合法！');
+	    }
 	    $idCardfrontUrl = I('idCardfrontUrl');
 	    if(empty($idCardfrontUrl)){
 		    $this->error('法人身份证照片不能为空！');

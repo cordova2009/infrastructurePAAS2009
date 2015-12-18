@@ -190,6 +190,18 @@ img{max-width:400px;}
 			<td ><span style="color:#999;padding-right:8px;">开户名:</span>{$item.account_name}</td>
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="account_name"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="account_name"> 审核不通过</span><input type="text" name="account_name_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
+		<tr>
+			<td ><span style="color:#999;padding-right:8px;">税务登记证号:</span>{$item.tax_no}</td>
+		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="tax_no"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="tax_no"> 审核不通过</span><input type="text" name="tax_no_msg" placeholder="输入审核未通过原因"></td>
+		</tr>
+		<tr>
+			<td ><span style="color:#999;padding-right:8px;">公司地址:</span>{$item.address2}</td>
+		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="address2"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="address2"> 审核不通过</span><input type="text" name="address2_msg" placeholder="输入审核未通过原因"></td>
+		</tr>
+		<tr>
+			<td ><span style="color:#999;padding-right:8px;">电话:</span>{$item.telephone}</td>
+		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="telephone"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="telephone"> 审核不通过</span><input type="text" name="telephone_msg" placeholder="输入审核未通过原因"></td>
+		</tr>
 	 </tbody>
 	</table>
 </div>

@@ -535,7 +535,6 @@ function M($name = '')
         $_model[$guid] = new $class($name);
     }
     return $_model[$guid];
-<<<<<<< HEAD
 }
 
 

@@ -51,7 +51,7 @@
                 <notempty name="_list">
                     <volist name="_list" id="item">
                         <tr>
-                            <td><a href="{:U('show?id='.$item['id'])}">{$item.project_id}</a></td>
+                            <td><a href="{:U('ztglobject/viewzb?object_id='.$item['project_id'])}">{$item.project_id}</a></td>
                             <td>{$item.object_name}</td>
                             <td><a href="{:U('object/baseshow?id='.$item['bidder_id'].'&type=bidder')}">{$item.bidder_name}</a></td>
                             <td><a href="{:U('object/baseshow?id='.$item['biddee_id'].'&type=biddee')}">{$item.biddee_name}</a></td>

@@ -12,7 +12,7 @@
     <div class="bd">
         <ul>
             <li><img src="uploads/ban1.jpg"></li>
-            <li><img src="uploads/ban2.jpg"></li>
+            <li><img src="uploads/ban1.jpg"></li>
         </ul>
     </div>
     <div class="hd">
@@ -28,21 +28,21 @@
                     <a href="#">
                         <div class="pic"><img src="images/in-p2.jpg" ></div>
                         <div class="txt1">安全保障</div>
-                        <p class="txt2">人人贷理财华丽升级，全面开启WE理财时代（www.we.com），新品牌为您打造始终如一的专业理财服务。</p>
+                        <p class="txt2">大力99理财华丽升级，全面开启，新品牌为您打造始终如一的专业理财服务。</p>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <div class="pic"><img src="images/in-p1.jpg" ></div>
                         <div class="txt1">中间担保交易</div>
-                        <p class="txt2">人人贷理财华丽升级，全面开启WE理财时代（www.we.com），新品牌为您打造始终如一的专业理财服务。</p>
+                        <p class="txt2">大力99理财华丽升级，全面开启，新品牌为您打造始终如一的专业理财服务。</p>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <div class="pic"><img src="images/in-p3.jpg" ></div>
                         <div class="txt1">严格资质审核</div>
-                        <p class="txt2">人人贷理财华丽升级，全面开启WE理财时代（www.we.com），新品牌为您打造始终如一的专业理财服务。</p>
+                        <p class="txt2">大力99理财华丽升级，全面开启，新品牌为您打造始终如一的专业理财服务。</p>
                     </a>
                 </li>
             </ul>

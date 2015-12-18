@@ -91,6 +91,7 @@ $(function(){
         $(".selectBank").find(".color9").eq(ind).removeClass('hide');
     });
     $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(3)").addClass('active');
+    $("input[type=text]").val('');
 })
 
 

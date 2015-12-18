@@ -29,8 +29,6 @@ function regex($value,$rule) {
         'integer'   =>  '/^[-\+]?\d+$/',
         'double'    =>  '/^[-\+]?\d+(\.\d+)?$/',
         'english'   =>  '/^[A-Za-z]+$/',
-        'mobile'   =>  '/^(1[0-9])\d{9}$/',
-        'telephone'   =>  '/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/',
     );
     // 检查是否有内置的正则表达式
     if(isset($validate[strtolower($rule)]))
@@ -429,8 +427,14 @@ function price_dispose($price,$dividend=100){
  * @return string
  */
 function price_format($price,$num=100){
-    return number_format(price_convert($price,$num),0);
-    return $price;
+    $price = price_convert($price,$num);
+    $surfix = '';
+    //
+    if($price > 999999){
+        $price = $price / 10000;
+        $surfix = '万';
+    }
+    return number_format($price,0).$surfix;
 }
 /**
  * 金额转换方法
@@ -531,6 +535,7 @@ function M($name = '')
         $_model[$guid] = new $class($name);
     }
     return $_model[$guid];
+<<<<<<< HEAD
 }
 
 

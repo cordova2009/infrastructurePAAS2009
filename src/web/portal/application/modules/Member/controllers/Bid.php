@@ -192,25 +192,24 @@ class BidController extends MemberController {
             $bidderCertList = I('bidderCertList',[]);
 
             //这个判断只能判断数量是不是一致
-//            if(sizeof($bidderCertList) != sizeof($resp['certificationInfo']['requirementList'])){
-//                $this->error('投标失败，您的资质证书与要求不符！');
-//            }
-
-            $certificationList = [];
-            foreach($bidderCertList as $item){
-                if(in_array($item,$resp['certificationInfo']['requirementList'])){
-
-                    $certificationList[] = [
-                        'objReqId'=>$item,
-                        'bidderCertificationId'=>$item,
-                    ];
-                }
+            if(sizeof($bidderCertList) != sizeof($resp['certificationInfo']['requirementList'])){
+                $this->error('投标失败，您提交的资质证书与要求不符！');
             }
 
-            //这个判断才是真正判断要求的证书和提交的是否一致
-//            if(sizeof($resp['certificationInfo']['requirementList']) != sizeof($certificationList)){
-//                $this->error('投标失败，您的资质证书与要求不符！');
-//            }
+            $certificationList = [];
+            foreach($resp['certificationInfo']['requirementList'] as $item){
+
+                //这个判断才是真正判断要求的证书和提交的是否一致
+                if(!in_array($item['certificateId'],$bidderCertList)){
+
+                    $this->error('投标失败，缺少'.$item['certificationName']);
+                }
+
+                $certificationList[] = [
+                    'objReqId'=>$item['certificateId'],
+                    'bidderCertificationId'=>$item['certificateId'],
+                ];
+            }
 
             $data['bidId'] = I('bidId');
             $data['certificationList'] = $certificationList;
@@ -230,8 +229,17 @@ class BidController extends MemberController {
             $data['bidPeopleRequirement']['needConstructorCertificationUrl'] = I('constructorCertificationUrl');
 
             $data['bankGuarantee']['bankGuaranteeAmount'] = price_dispose(I('bankGuaranteeAmount'));
+            if(empty($data['bankGuarantee']['bankGuaranteeAmount'])){
+                $this->error('投标保函金额不能为空！');
+            }
             $data['bankGuarantee']['bankGuaranteeUrl'] = I('bankGuaranteeUrl');
+            if(empty($data['bankGuarantee']['bankGuaranteeUrl'])){
+                $this->error('请上传保函凭证扫描件！');
+            }
             $data['bankGuarantee']['bankGuaranteeNo'] = I('bankGuaranteeNo');
+            if(empty($data['bankGuarantee']['bankGuaranteeNo'])){
+                $this->error('保函凭证编号不能为空！');
+            }
 
             $resp = $curl->setData($data)->send('bid/saveBidRequirementInfo');
             if(check_resp($resp)){
@@ -256,8 +264,19 @@ class BidController extends MemberController {
         $safetyInfo=[];
         $peopleRequirement=[];
         if(check_resp($resp)) {
-            $safetyInfo = $resp['bidSafetyInfo'];
-            $peopleRequirement = $resp['bidPeopleRequirement'];
+            foreach($resp['bidSafetyInfo'] as $val){
+                if($val == 'YES'){
+                    $safetyInfo = $resp['bidSafetyInfo'];
+                    break;
+                }
+            }
+
+            foreach($resp['bidPeopleRequirement'] as $val){
+                if($val == 'YES'){
+                    $peopleRequirement = $resp['bidPeopleRequirement'];
+                    break;
+                }
+            }
         }
         $this->assign('safetyInfo',$safetyInfo);
         $this->assign('peopleRequirement',$peopleRequirement);

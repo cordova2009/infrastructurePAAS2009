@@ -8,19 +8,19 @@
                 <div class="charge_info">
                     <div class="table">
                         <div class="cell">
-                            <div class="txt1 orange fz36"><?=price_format($myCapitalInfo['balance'])?>	<span class="fz16">元</span></div>
+                            <div class="txt1 orange"><span class="fz36"><?=price_format($myCapitalInfo['balance'])?></span> <span class="fz16">元</span></div>
                             <div class="txt2">账户余额</div>
                         </div>
                         <div class="cell">
-                            <div class="txt1"><?=price_format($myCapitalInfo['freezeAmount'])?>	<span class="fz16">元</span></div>
+                            <div class="txt1"><span><?=price_format($myCapitalInfo['freezeAmount'])?></span> <span class="fz16">元</span></div>
                             <div class="txt2 color8">冻结金额</div>
                         </div>
                         <div class="cell">
-                            <div class="txt1"><?=price_format($myCapitalInfo['income'])?>	 <span class="fz16">元</span></div>
+                            <div class="txt1"><span><?=price_format($myCapitalInfo['income'])?></span> <span class="fz16">元</span></div>
                             <div class="txt2 color8">收入</div>
                         </div>
                         <div class="cell">
-                            <div class="txt1"><?=price_format($myCapitalInfo['outlay'])?>	 <span class="fz16">元</span></div>
+                            <div class="txt1"><span><?=price_format($myCapitalInfo['outlay'])?></span> <span class="fz16">元</span></div>
                             <div class="txt2 color8">支出</div>
                         </div>
                     </div>
@@ -41,42 +41,33 @@
                             <td class="wid90 text-right">结余（元）</td>
                             <td>备注</td>
                         </tr>
-                        <?php foreach($list as $item):
-                           /* SBZ收 "退还保证金"(解冻)，
-                            JBZ交纳保证金(冻结)，
-                            CHZ冲正,
-                            TX#提现,CZ#充值,FRZ 冻结,UFZ 解冻,SXF 交手续费,TSX 退手续费',*/
-                        if($item['type']=='SBZ'){
-                            $status="退还撮合担保金";
-                        }else if($item['type']=='JBZ'){
-                            $status="冻结撮合担保金";
-                        }else if($item['type']=='PBJ'){
-                            $status="交纳撮合担保金";
-                        }else if($item['type']=='CHZ'){
-                            $status="冲正";
-                        }else if($item['type']=='TX#'){
-                            $status="提现";
-                        }else if($item['type']=='CZ#'){
-                            $status="充值";
-                        }else if($item['type']=='FRZ'){
-                            $status="冻结";
-                        }else if($item['type']=='UFZ'){
-                            $status="解冻";
-                        }else if($item['type']=='SXF'){
-                            $status="交手续费";
-                        }else if($item['type']=='TSX'){
-                            $status="退手续费";
-                        }
+                        <?php
+                        $status_list = [
+                            'SBZ'=>'退还撮合担保金',
+                            'JBZ'=>'冻结撮合担保金',
+                            'PBJ'=>'交纳撮合担保金',
+                            'CHZ'=>'冲正',
+                            'TX#'=>'提现',
+                            'CZ#'=>'充值',
+                            'FRZ'=>'冻结',
+                            'UFZ'=>'解冻',
+                            'SXF'=>'交手续费',
+                            'TSX'=>'退手续费',
+                        ];
                         ?>
+                        <?php foreach($list as $item):?>
                         <tr  class="bg1">
                             <td><?= date('Y-m-d', strtotime($item['time']))?></td>
-                            <td class="text-left"><?=$status?></td>
+                            <td class="text-left"><?=(isset($status_list[$item['type']])? $status_list[$item['type']] :'')?></td>
                             <td class="text-right"><?=price_format($item['income'])?>元</td>
                             <td class="text-right"><?=price_format($item['outlay'])?>元</td>
                             <td class="text-right"><?=price_format($item['balance'])?>元</td>
                             <td><?=$item['remark']?></td>
                         </tr>
                         <?php endforeach; ?>
+                        <?php if(empty($list)):?>
+                        <tr><td colspan="6">暂无数据</td></tr>
+                        <?php endif;?>
                     </table>
                 </div>
                 <?php include(APP_PATH . 'views/common/page.php'); ?>

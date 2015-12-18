@@ -185,10 +185,16 @@ $(function() {
                 }
             }
             else{
-                layer.alert(resp.msg,{icon:2},function(index){
-                    calculateFunctionValue($this.attr('fail'),[$this,resp],'');
-                    layer.close(index);
-                });
+                if(resp.url == ''){
+                    layer.alert(resp.msg,{icon:2},function(index){
+                        calculateFunctionValue($this.attr('fail'),[$this,resp],'');
+                        layer.close(index);
+                    });
+                }else{
+                    layer.msg(resp.msg,{icon:2,time: 3000},function(){
+                        window.location = resp.url;
+                    });
+                }
             }
         },'json').always(function () {
             layer.close(loading);

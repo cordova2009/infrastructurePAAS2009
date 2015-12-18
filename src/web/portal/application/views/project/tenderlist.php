@@ -27,7 +27,7 @@
                     <td class="td4">评估金额</td>
                     <td class="td5">工程计划开始时间</td>
                     <td class="td6">工期要求</td>
-                    <td></td>
+                    <td>详情</td>
                 </tr>
                 <?php foreach($object_list as $item):?>
                     <tr>
@@ -37,7 +37,7 @@
                         <td class="td4"><?=price_format($item['evaluationAmount'])?> <span class="fz12">元</span></td>
                         <td class="td5"><?=$item['objectPredictStartTime']?></td>
                         <td class="td6"><?=$item['projectExpectPeriod']?>天</td>
-                        <td><a href="<?=U('/project/detail',['objectId'=>$item['objectId']])?>" class="toubiao">投标</a></td>
+                        <td class="info"><a href="<?=U('/project/detail',['objectId'=>$item['objectId']])?>"><i class="ico i-eye"></i></a></td>
                     </tr>
                 <?php endforeach;?>
             </table>

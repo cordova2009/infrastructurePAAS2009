@@ -24,6 +24,7 @@ public class BidEvalutionEventListener extends AbstractBusinessEventListener {
 		if (event instanceof BidSelectedEvent) {
 			BidSelectedEvent bse = (BidSelectedEvent) event;
 			System.out.println("中标事件处理");
+			
 		}
 		
 	}

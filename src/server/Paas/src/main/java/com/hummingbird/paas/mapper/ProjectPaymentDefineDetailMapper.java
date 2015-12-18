@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
+import com.hummingbird.paas.entity.ProjectPaymentDefineDetailAndPay;
 
 public interface ProjectPaymentDefineDetailMapper {
     /**
@@ -51,5 +52,11 @@ public interface ProjectPaymentDefineDetailMapper {
      * 根据招标Id查询项目下期未付款的定义
      */
     ProjectPaymentDefineDetail selectNextPayByObjectId(@Param("objectId")String objectId,@Param("period")Integer payPeriod);
+
+	/**
+	 * 查询支付定义及支付情况记录
+	 * @param objectId
+	 */
+	List<ProjectPaymentDefineDetailAndPay> selectPayDefineByObjectId(String objectId);
 
 }

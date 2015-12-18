@@ -9,32 +9,32 @@ public class ProjectPaymentDefineDetail {
     /**
      * id
      */
-    private Integer id;
+    protected Integer id;
 
     /**
      * 付款定义id
      */
-    private Integer projectPaymentDefineId;
+    protected Integer projectPaymentDefineId;
 
     /**
      * 期数，从第1期开始
      */
-    private Integer period;
+    protected Integer period;
 
     /**
      * 支付结束日期
      */
-    private Date payEndTime;
+    protected Date payEndTime;
 
     /**
      * 支付开始日期
      */
-    private Date payStartTime;
+    protected Date payStartTime;
 
     /**
      * 支付金额，单位为分
      */
-    private Long paySum;
+    protected Long paySum;
 
     /**
      * @return id

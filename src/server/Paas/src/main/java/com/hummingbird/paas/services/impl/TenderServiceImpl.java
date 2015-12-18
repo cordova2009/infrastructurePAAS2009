@@ -1918,6 +1918,7 @@ public class TenderServiceImpl implements TenderService {
 		BidRecord bid = bidRecordDao.selectByPrimaryKey(winbidId);
 		ValidateUtil.assertNullnoappend(bid, "招标记录不存在");
 		ValidateUtil.assertNotEqual(bid.getObjectId(),objectId, "招标与投标不匹配");
+		ObjectProjectInfo objproj = bpdao.selectByPrimaryKey(objectId);
 		Integer winBidderId = bid.getBidderId();
 		ProjectPaymentDefine ppd = new ProjectPaymentDefine();
 		ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
@@ -2006,6 +2007,7 @@ public class TenderServiceImpl implements TenderService {
 		project.setBidderId(winBidderId);
 		project.setProjectId(objectId);//使用标的id
 		project.setStatus("OK#");
+		project.setProjectName(objproj.getProjectName());
 		try {
 			project.setStartTime(getDateFromStringOrNull(bid.getConstructionStartDate()));
 			project.setEndTime(getDateFromStringOrNull(bid.getConstructionEndDate()));

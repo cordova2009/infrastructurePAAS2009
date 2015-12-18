@@ -65,6 +65,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input type="button"  value="查询提现手续费"  onclick='setbinding("/capitalManage/queryWithdrawalsFee","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"amount\":1000000}}")'></td>
 		<td><input type="button"  value="内部 用户收入"  onclick='setbinding("/capitalManage/UserAccountIncome","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"amount\":1000,\"userId\":\"1\",\"appOrderId\":\"tr64734\"}}")'></td>
 	</tr>
+	<tr>	
+		<td><input type="button"  value="通过手机号创建帐户"  onclick='setbinding("/capitalManage/openByMobileNum","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"mobileNum\":\"18922260815\"}}")'></td>
+		<td><input type="button"  value="创建帐户"  onclick='setbinding("/capitalManage/open","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"mobileNum\":\"18922260815\",\"userId\":\"1\"}}")'></td>
+	</tr>
 	
 </table>
   </body>

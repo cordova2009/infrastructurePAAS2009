@@ -50,4 +50,16 @@ public interface BidderCertificationMapper {
      */
     List<BidderCertification> selectByBidderId(Integer bidderId);
 
+	/**
+	 * 删除所有正式的证书
+	 * @param bidderId
+	 */
+	int removeAllByBidderId(Integer bidderId);
+
+	/**
+	 * 把申请的证书复制到正式表中
+	 * @param certificationApplyId
+	 */
+	int insertByApplyId(Integer certificationApplyId);
+
 }

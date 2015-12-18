@@ -25,6 +25,10 @@
     delete from t_qyzz_biddee_certification
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="removeAllByBiddeeId" parameterType="java.lang.Integer" >
+    delete from t_qyzz_biddee_certification
+    where biddee_id = #{biddeed,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
     insert into t_qyzz_biddee_certification (id, tenderer_id, certification_id, 
       certification_name, certification_content, 
@@ -34,6 +38,14 @@
       #{certificationName,jdbcType=VARCHAR}, #{certificationContent,jdbcType=VARCHAR}, 
       #{expireTime,jdbcType=DATE}, #{applicableRegion,jdbcType=VARCHAR}, #{certificationNo,jdbcType=VARCHAR}
       )
+  </insert>
+  <insert id="insertByApplyId" parameterType="java.lang.Integer" >
+    insert into t_qyzz_biddee_certification (id, biddee_id, certification_id, 
+      certification_name, certification_content, 
+      expire_time, applicable_region, certification_no,industry_id
+      )
+      select * from t_qyzz_biddee_certification_certification a 
+      where a.id = #{certificationApplyId,jdbcType=INTEGER}
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
     insert into t_qyzz_biddee_certification

@@ -486,6 +486,55 @@ public class CapitalManageController extends BaseController{
 		return rm;
 	}
 	
+	@RequestMapping(value = "/projectPaymentWithdrawalsApply", method = RequestMethod.POST)
+	@AccessRequered(methodName = "工程款提现申请",isJson=false,codebase=252800,appLog=true,convert2javabean=false)
+	public @ResponseBody Object projectPaymentWithdrawalsApply(HttpServletRequest request) {
+		
+		WithdrawalsApplyVO transorder;
+		ResultModel rm = super.getResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,WithdrawalsApplyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "提现申请";
+		rm.setBaseErrorCode(252800);
+		rm.setErrmsg(messagebase+"成功");
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			Map validateAuth = (Map) authService.validateAuth(transorder);
+			String appkey = ObjectUtils.toString(validateAuth.get("appKey"));
+			WithdrawalsApplyBodyVO body=transorder.getBody();
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			User user=userSer.getUser(token.getUserId());
+			ValidateUtil.assertNullnoappend(user, "用户不存在");
+			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
+			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
+			order.setOrderId(orderSer.withdrawalsApply(body, user,requestURI));
+			rm.put("order", order);
+			tokenSrv.postponeToken(token);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
 	
 	
 	@RequestMapping(value = "/checkWithdrawalsApply", method = RequestMethod.POST)
@@ -861,8 +910,8 @@ public class CapitalManageController extends BaseController{
 			ValidateUtil.validateMobile(body.getMobileNum());
 			User user= userSer.queryUserByMobile(body.getMobileNum());
 			
-			ProjectAccount projectAccount=new ProjectAccount();
-			String mobileNum = body.getMobileNum();
+//			ProjectAccount projectAccount=new ProjectAccount();
+//			String mobileNum = body.getMobileNum();
 			if(user==null){
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("手机号码%s没有注册",body.getMobileNum()));
@@ -872,22 +921,26 @@ public class CapitalManageController extends BaseController{
 			}
 			else{
 
-				projectAccount=proActDao.queryAccountInfo(user.getId());
-				//现金账户不存在，就创建，并重新获取账户信息
-				if(projectAccount==null){
-					capitalManageSer.createAccount(user.getId());
-					projectAccount=(ProjectAccount) AccountFactory.getAccount(Account.ACCOUNT_PROJECT,body.getMobileNum());
-					if(log.isDebugEnabled()){
-						log.debug("现金账户不存在，创建现金账户");
-					}
-				}
-				
+
+				//				projectAccount=proActDao.queryAccountInfo(user.getId());
+//				//现金账户不存在，就创建，并重新获取账户信息
+//				if(projectAccount==null){
+//					capitalManageSer.createAccount(user.getId());
+//					projectAccount=(ProjectAccount) AccountFactory.getAccount(Account.ACCOUNT_PROJECT,body.getMobileNum());
+//					if(log.isDebugEnabled()){
+//						log.debug("现金账户不存在，创建现金账户");
+//					}
+//				}
+				Integer userId = user.getId();
+				Account pa = capitalManageSer.createAccount(userId);
+				Account ppa = capitalManageSer.createAccount(userId);
+				rm.put("accountId", pa.getAccountId());
+				rm.put("projectPaymentAccountId", ppa.getAccountId());
 				
 			}
 			
 			
 			
-			rm.put("accountId", projectAccount.getAccountId());
 			
 		}
 		catch (Exception e1) {
@@ -951,8 +1004,8 @@ public class CapitalManageController extends BaseController{
 //					log.debug("现金账户不存在，创建现金账户");
 //				}
 //			}
-			capitalManageSer.createAccount(body.getUserId());
 			capitalManageSer.createAccount(userId);
+			capitalManageSer.createProjectPaymentAccount(userId);
 		
 			
 		}

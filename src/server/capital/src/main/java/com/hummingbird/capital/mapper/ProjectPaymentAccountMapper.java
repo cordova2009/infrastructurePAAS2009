@@ -2,7 +2,7 @@ package com.hummingbird.capital.mapper;
 
 import com.hummingbird.capital.entity.ProjectPaymentAccount;
 
-public interface ProjectPaymentAccountMapper {
+public interface ProjectPaymentAccountMapper extends DefaultAccountDao {
     /**
      * 根据主键删除记录
      */

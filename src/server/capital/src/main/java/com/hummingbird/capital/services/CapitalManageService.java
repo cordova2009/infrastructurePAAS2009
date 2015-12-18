@@ -67,11 +67,19 @@ public interface CapitalManageService {
 	public Account createAccount(Integer userId) throws MaAccountException;
 
 	/**
-	 * 收入
+	 * 工程款收入
 	 * @param platformuserId
 	 * @param amount
 	 * @param appOrderId
 	 */
-	public void income(Integer userId, Long amount, String appOrderId);
+	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark);
+
+	/**
+	 * 创建工程款帐户
+	 * @param userId
+	 * @return
+	 * @throws MaAccountException
+	 */
+	Account createProjectPaymentAccount(Integer userId) throws MaAccountException;
 	
 }

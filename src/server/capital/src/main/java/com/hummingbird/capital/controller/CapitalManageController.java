@@ -27,6 +27,7 @@ import com.hummingbird.capital.face.Account;
 import com.hummingbird.capital.mapper.AppLogMapper;
 import com.hummingbird.capital.mapper.PlatformBankcardMapper;
 import com.hummingbird.capital.mapper.ProjectAccountMapper;
+import com.hummingbird.capital.mapper.ProjectPaymentAccountMapper;
 import com.hummingbird.capital.services.CapitalManageService;
 import com.hummingbird.capital.services.OrderService;
 import com.hummingbird.capital.services.TokenService;
@@ -42,7 +43,7 @@ import com.hummingbird.capital.vo.FreezeBondVO;
 import com.hummingbird.capital.vo.GetPlatformBankcardReturnVO;
 import com.hummingbird.capital.vo.MobileBodyVO;
 import com.hummingbird.capital.vo.PayMatchHandingChargeVO;
-import com.hummingbird.capital.vo.PlatformPaymentBodyVO;
+import com.hummingbird.capital.vo.ProjectPaymentBodyVO;
 import com.hummingbird.capital.vo.QueryProjectAccountReturnVO;
 import com.hummingbird.capital.vo.QueryWithdrawalsFeeVO;
 import com.hummingbird.capital.vo.RechargeApplyBodyVO;
@@ -93,12 +94,15 @@ public class CapitalManageController extends BaseController{
 	PlatformBankcardMapper platformBankcardDao;
 	@Autowired
 	private ProjectAccountMapper proActDao;
+	@Autowired
+	private ProjectPaymentAccountMapper proPaymentActDao;
 	
 	@RequestMapping(value = "/queryMyCapitalSurvey", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的资金账户概况",isJson=false,codebase=251100,appLog=true,convert2javabean=false)
 	public @ResponseBody Object queryMyCapitalSurvey(HttpServletRequest request) {
 		
 		TokenVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -148,10 +152,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/queryTransactionRecords", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的资金账户流水",isJson=false,codebase=251200,appLog=true,convert2javabean=false)
 	public @ResponseBody Object queryTransactionRecords(HttpServletRequest request) {
 		
 		final BaseTransVO<TokenQueryVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -228,10 +233,11 @@ public class CapitalManageController extends BaseController{
 		return rm;
 	}
 	@RequestMapping(value = "/freezeBond", method = RequestMethod.POST)
+	@AccessRequered(methodName = "冻结撮合担保金",isJson=false,codebase=251300,appLog=true,convert2javabean=false)
 	public @ResponseBody Object freezeBond(HttpServletRequest request) {
 		
 		FreezeBondVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -284,10 +290,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/unfreezeBond", method = RequestMethod.POST)
+	@AccessRequered(methodName = "解冻撮合担保金",isJson=false,codebase=251400,appLog=true,convert2javabean=false)
 	public @ResponseBody Object unfreezeBond(HttpServletRequest request) {
 		
 		final BaseTransVO<UnfreezeBondVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -338,10 +345,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/payMatchHandingCharge", method = RequestMethod.POST)
+	@AccessRequered(methodName = "支付撮合手续费",isJson=false,codebase=251800,appLog=true,convert2javabean=false)
 	public @ResponseBody Object payMatchHandingCharge(HttpServletRequest request) {
 		
 		final BaseTransVO<PayMatchHandingChargeVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -377,10 +385,11 @@ public class CapitalManageController extends BaseController{
 	
 	
 	@RequestMapping(value = "/queryRechargeApplyList", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询充值申请记录",isJson=false,codebase=251500,appLog=true,convert2javabean=false)
 	public @ResponseBody Object queryRechargeApplyList(HttpServletRequest request) {
 		
 		final BaseTransVO<TokenBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -428,10 +437,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/withdrawalsApply", method = RequestMethod.POST)
+	@AccessRequered(methodName = "提现申请",isJson=false,codebase=251600,appLog=true,convert2javabean=false)
 	public @ResponseBody Object withdrawalsApply(HttpServletRequest request) {
 		
 		WithdrawalsApplyVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -479,10 +489,11 @@ public class CapitalManageController extends BaseController{
 	
 	
 	@RequestMapping(value = "/checkWithdrawalsApply", method = RequestMethod.POST)
+	@AccessRequered(methodName = "提现申请审核",isJson=false,codebase=251700,appLog=true,convert2javabean=false)
 	public @ResponseBody Object checkWithdrawalsApply(HttpServletRequest request) {
 		
 		final BaseTransVO<CheckWithdrawalBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -494,7 +505,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "提现申请审核";
-		rm.setBaseErrorCode(251800);
+		rm.setBaseErrorCode(251700);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -515,10 +526,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/queryWithdrawalsFee", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询提现手续费",isJson=false,codebase=251900,appLog=true,convert2javabean=false)
 	public @ResponseBody Object queryWithdrawalsFee(HttpServletRequest request) {
 		
 		final BaseTransVO<QueryWithdrawalsFeeVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -529,8 +541,8 @@ public class CapitalManageController extends BaseController{
 			return rm;
 		}
 		
-		String messagebase = "提现提现手续费";
-		rm.setBaseErrorCode(252700);
+		String messagebase = "查询提现手续费";
+		rm.setBaseErrorCode(251900);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -551,10 +563,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/queryWithdrawalsApplyList", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询申请提现记录",isJson=false,codebase=252100,appLog=true,convert2javabean=false)
 	public @ResponseBody Object queryWithdrawalsApplyList(HttpServletRequest request) {
 		
 		final BaseTransVO<TokenBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -600,10 +613,11 @@ public class CapitalManageController extends BaseController{
 		return rm;
 	}
 	@RequestMapping(value = "/rechargeApply", method = RequestMethod.POST)
+	@AccessRequered(methodName = "充值申请",isJson=false,codebase=252200,appLog=true,convert2javabean=false)
 	public @ResponseBody Object rechargeApply(HttpServletRequest request) {
 		
 		final BaseTransVO<RechargeApplyBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -649,10 +663,11 @@ public class CapitalManageController extends BaseController{
 		return rm;
 	}
 	@RequestMapping(value = "/checkRechargeApply", method = RequestMethod.POST)
+	@AccessRequered(methodName = "充值申请审核",isJson=false,codebase=252300,appLog=true,convert2javabean=false)
 	public @ResponseBody Object checkRechargeApply(HttpServletRequest request) {
 		
 		final BaseTransVO<CheckRechargeApplyBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -689,10 +704,11 @@ public class CapitalManageController extends BaseController{
 	
 	
 	@RequestMapping(value = "/queryProjectAccount", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询用户帐户详情",isJson=false,codebase=252500,appLog=true,convert2javabean=false)
 	public @ResponseBody Object queryProjectAccount(HttpServletRequest request) {
 		
 		TokenVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -745,10 +761,11 @@ public class CapitalManageController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/getPlatformBankcard", method = RequestMethod.POST)
+	@AccessRequered(methodName = "获取平台方银行账户",isJson=false,codebase=252000,appLog=true,convert2javabean=false)
 	public @ResponseBody Object getPlatformBankcard(HttpServletRequest request) {
 		
 		final BaseTransVO<TokenBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -760,7 +777,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "获取平台方银行账户";
-		rm.setBaseErrorCode(252500);
+		rm.setBaseErrorCode(252000);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -807,7 +824,7 @@ public class CapitalManageController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/openByMobileNum")
-	@AccessRequered(methodName="现金账户开通")
+	@AccessRequered(methodName = "资金账户开通",isJson=false,codebase=252400,appLog=true,convert2javabean=false)
 	public @ResponseBody Object openCashAccountByMobile(HttpServletRequest request) {
 		/*{
 		    "app":{
@@ -819,7 +836,7 @@ public class CapitalManageController extends BaseController{
 		}  */ 
 		final BaseTransVO<MobileBodyVO> transorder;
 		
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -831,7 +848,7 @@ public class CapitalManageController extends BaseController{
 		}
 		
 		String messagebase = "资金账户开通";
-		rm.setBaseErrorCode(27000);
+		rm.setBaseErrorCode(252400);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -888,7 +905,7 @@ public class CapitalManageController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/open")
-	@AccessRequered(methodName="现金账户开通")
+	@AccessRequered(methodName = "用户相关账户开通",isJson=false,codebase=252600,appLog=true,convert2javabean=false)
 	public @ResponseBody Object openCashAccount(HttpServletRequest request) {
 		/*{
 		    "app":{
@@ -900,7 +917,7 @@ public class CapitalManageController extends BaseController{
 		}  */ 
 		final BaseTransVO<UserBodyVO> transorder;
 		
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -911,8 +928,8 @@ public class CapitalManageController extends BaseController{
 			return rm;
 		}
 		
-		String messagebase = "资金账户开通";
-		rm.setBaseErrorCode(27000);
+		String messagebase = "用户相关账户开通";
+		rm.setBaseErrorCode(252600);
 		rm.setErrmsg(messagebase+"成功");
 		try {
 			//获取url以作为method的内容
@@ -925,16 +942,17 @@ public class CapitalManageController extends BaseController{
 			ValidateUtil.validateMobile(body.getMobileNum());
 			ProjectAccount projectAccount=new ProjectAccount();
 			
-
-			projectAccount=proActDao.queryAccountInfo(body.getUserId());
-			//现金账户不存在，就创建，并重新获取账户信息
-			if(projectAccount==null){
-				capitalManageSer.createAccount(body.getUserId());
-				if(log.isDebugEnabled()){
-					log.debug("现金账户不存在，创建现金账户");
-				}
-			}
-			
+			Integer userId = body.getUserId();
+			ValidateUtil.assertNullnoappend(userId, "用户标识不存在");
+//			projectAccount=proActDao.queryAccountInfo(userId);
+//			//现金账户不存在，就创建，并重新获取账户信息
+//			if(projectAccount==null){
+//				if(log.isDebugEnabled()){
+//					log.debug("现金账户不存在，创建现金账户");
+//				}
+//			}
+			capitalManageSer.createAccount(body.getUserId());
+			capitalManageSer.createAccount(userId);
 		
 			
 		}
@@ -968,91 +986,91 @@ public class CapitalManageController extends BaseController{
 		}
 	}
 	
+//	/**
+//	 * 平台方支出接口
+//	 * @return
+//	 */
+//	@RequestMapping(value="/platformPay",method=RequestMethod.POST)
+//	@AccessRequered(methodName = "平台方支出",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
+//	public @ResponseBody ResultModel platformPay(HttpServletRequest request,HttpServletResponse response) {
+//		ResultModel rm = super.getResultModel();
+//		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
+//		String messagebase = "平台方支出"; 
+//	
+//		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+//		
+//		try {
+//			//业务数据必填等校验
+//			//业务数据逻辑校验
+//			if(log.isDebugEnabled()){
+//				log.debug("检验通过，获取请求");
+//			}
+//			Integer platformuserId = 0;
+//			ProjectAccount pa = capitalManageSer.queryAccountInfo(platformuserId);
+//			if(pa.getRemainingSum()>transorder.getBody().getAmount()){
+//				throw new MaAccountException("平台方余额不足以扣款");
+//			}
+//			pa.setRemainingSum(pa.getRemainingSum()-transorder.getBody().getAmount());
+//			proActDao.updateByPrimaryKey(pa);
+//		}catch (Exception e1) {
+//			log.error(String.format(messagebase + "失败"), e1);
+//			rm.mergeException(e1);
+//			if(qe!=null)
+//				qe.setSuccessed(false);
+//		} finally {
+//			if(qe!=null)
+//				EventListenerContainer.getInstance().fireEvent(qe);
+//		}
+//		return rm;
+//		
+//	}
+	
+//	/**
+//	 * 平台方收入接口
+//	 * @return
+//	 */
+//	@RequestMapping(value="/platformIncome",method=RequestMethod.POST)
+//	@AccessRequered(methodName = "平台方收入",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
+//	public @ResponseBody ResultModel platformIncome(HttpServletRequest request,HttpServletResponse response) {
+//		ResultModel rm = super.getResultModel();
+//		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
+//		String messagebase = "平台方收入"; 
+//		
+//		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+//		
+//		try {
+//			//业务数据必填等校验
+//			//业务数据逻辑校验
+//			if(log.isDebugEnabled()){
+//				log.debug("检验通过，获取请求");
+//			}
+//			Integer platformuserId = 0;
+//			ProjectAccount pa = capitalManageSer.queryAccountInfo(platformuserId);
+//			pa.setRemainingSum(pa.getRemainingSum()+transorder.getBody().getAmount());
+//			proActDao.updateByPrimaryKey(pa);
+//		}catch (Exception e1) {
+//			log.error(String.format(messagebase + "失败"), e1);
+//			rm.mergeException(e1);
+//			if(qe!=null)
+//				qe.setSuccessed(false);
+//		} finally {
+//			if(qe!=null)
+//				EventListenerContainer.getInstance().fireEvent(qe);
+//		}
+//		return rm;
+//		
+//	}
+	
 	/**
-	 * 平台方支出接口
+	 * 用户工程款帐户资金收入接口
 	 * @return
 	 */
-	@RequestMapping(value="/platformPay",method=RequestMethod.POST)
-	@AccessRequered(methodName = "平台方支出",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
-	public @ResponseBody ResultModel platformPay(HttpServletRequest request,HttpServletResponse response) {
-		ResultModel rm = super.getResultModel();
-		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
-		String messagebase = "平台方支出"; 
-	
-		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
-		
-		try {
-			//业务数据必填等校验
-			//业务数据逻辑校验
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			Integer platformuserId = 0;
-			ProjectAccount pa = capitalManageSer.queryAccountInfo(platformuserId);
-			if(pa.getRemainingSum()>transorder.getBody().getAmount()){
-				throw new MaAccountException("平台方余额不足以扣款");
-			}
-			pa.setRemainingSum(pa.getRemainingSum()-transorder.getBody().getAmount());
-			proActDao.updateByPrimaryKey(pa);
-		}catch (Exception e1) {
-			log.error(String.format(messagebase + "失败"), e1);
-			rm.mergeException(e1);
-			if(qe!=null)
-				qe.setSuccessed(false);
-		} finally {
-			if(qe!=null)
-				EventListenerContainer.getInstance().fireEvent(qe);
-		}
-		return rm;
-		
-	}
-	
-	/**
-	 * 平台方收入接口
-	 * @return
-	 */
-	@RequestMapping(value="/platformIncome",method=RequestMethod.POST)
-	@AccessRequered(methodName = "平台方收入",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
-	public @ResponseBody ResultModel platformIncome(HttpServletRequest request,HttpServletResponse response) {
-		ResultModel rm = super.getResultModel();
-		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
-		String messagebase = "平台方收入"; 
-		
-		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
-		
-		try {
-			//业务数据必填等校验
-			//业务数据逻辑校验
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			Integer platformuserId = 0;
-			ProjectAccount pa = capitalManageSer.queryAccountInfo(platformuserId);
-			pa.setRemainingSum(pa.getRemainingSum()+transorder.getBody().getAmount());
-			proActDao.updateByPrimaryKey(pa);
-		}catch (Exception e1) {
-			log.error(String.format(messagebase + "失败"), e1);
-			rm.mergeException(e1);
-			if(qe!=null)
-				qe.setSuccessed(false);
-		} finally {
-			if(qe!=null)
-				EventListenerContainer.getInstance().fireEvent(qe);
-		}
-		return rm;
-		
-	}
-	
-	/**
-	 * 用户收入接口
-	 * @return
-	 */
-	@RequestMapping(value="/UserAccountIncome",method=RequestMethod.POST)
-	@AccessRequered(methodName = "用户收入",isJson=true,codebase=249000,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.PlatformPaymentBodyVO",appLog=true)
+	@RequestMapping(value="/userProjectPaymentAccountIncome",method=RequestMethod.POST)
+	@AccessRequered(methodName = "用户工程款帐户资金收入",isJson=true,codebase=252700,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.capital.vo.ProjectPaymentBodyVO",appLog=true)
 	public @ResponseBody ResultModel UserAccountIncome(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
-		BaseTransVO<PlatformPaymentBodyVO> transorder = (BaseTransVO<PlatformPaymentBodyVO>) super.getParameterObject();
-		String messagebase = "用户收入"; 
+		BaseTransVO<ProjectPaymentBodyVO> transorder = (BaseTransVO<ProjectPaymentBodyVO>) super.getParameterObject();
+		String messagebase = "用户工程款帐户资金收入接口"; 
 		
 		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
 		
@@ -1063,7 +1081,7 @@ public class CapitalManageController extends BaseController{
 				log.debug("检验通过，获取请求");
 			}
 			Integer platformuserId =NumberUtils.toInt( transorder.getBody().getUserId());
-			capitalManageSer.income(platformuserId,transorder.getBody().getAmount(),transorder.getBody().getAppOrderId());
+			capitalManageSer.incomeProjectPayment(platformuserId,transorder.getBody().getAmount(),transorder.getBody().getAppOrderId(),transorder.getBody().getRemark());
 			
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

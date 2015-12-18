@@ -78,7 +78,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		//转帐到投标人
 		transPayment2Bidder(pp);
 		//资金帐户收款
-		receivenPayment2platform(pp);
+//		receivenPayment2platform(pp);
 		
 		
 		if(log.isDebugEnabled()){
@@ -93,7 +93,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 	 * @throws DataInvalidException 
 	 * @throws RequestException 
 	 */
-	private void receivenPayment2platform(ProjectPaymentPay pp) throws MaAccountException, DataInvalidException, SignatureException, RequestException {
+	private void receivenPayment2bidder(ProjectPaymentReceive pp) throws MaAccountException, DataInvalidException, SignatureException, RequestException {
 		PropertiesUtil pu=new PropertiesUtil();
 		Map capbody = new HashMap();
 		capbody.put("amount", pp.getAmount());
@@ -108,7 +108,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), capbody, false, false);
 		String requestJson = JsonUtil.convert2Json(buildBaseTrans);
 		String paygatewayUrl = String.format("%s/capitalManage/UserAccountIncome",pu.getProperty("capital.url"));
-		log.debug(String.format("开始调用资金账户用户收入接口，地址是：%s", paygatewayUrl));
+		log.debug(String.format("开始调用资金账户用户工程款收入接口，地址是：%s", paygatewayUrl));
 		String result2 = new HttpRequester().postRequest(paygatewayUrl,
 				requestJson);
 		if(result2==null){
@@ -131,9 +131,12 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 	/**
 	 * @param pp
 	 * @throws DataInvalidException 
+	 * @throws RequestException 
+	 * @throws MaAccountException 
+	 * @throws SignatureException 
 	 */
 	 @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	private void transPayment2Bidder(ProjectPaymentPay pp) throws DataInvalidException {
+	private void transPayment2Bidder(ProjectPaymentPay pp) throws DataInvalidException, SignatureException, MaAccountException, RequestException {
 		String orderId = pp.getOrderId();
 		ValidateUtil.assertNullnoappend(orderId, "工程收款订单号不存在");
 		ProjectPaymentReceive ppr = receivedao.selectByOrderId(orderId);
@@ -159,7 +162,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 			receivedao.insert(ppr);
 		}
 		//招标人资金帐户收款
-		
+		receivenPayment2bidder(ppr);
 		//平台方资金帐户付款
 	}
 		

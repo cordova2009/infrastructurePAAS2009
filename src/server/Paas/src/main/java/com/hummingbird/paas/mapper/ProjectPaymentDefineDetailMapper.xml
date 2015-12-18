@@ -9,6 +9,16 @@
     <result column="pay_start_time" property="payStartTime" jdbcType="TIMESTAMP" />
     <result column="pay_sum" property="paySum" jdbcType="BIGINT" />
   </resultMap>
+  <resultMap id="DefinedResultMap" type="com.hummingbird.paas.entity.ProjectPaymentDefineDetailAndPay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_payment_define_id" property="projectPaymentDefineId" jdbcType="INTEGER" />
+    <result column="period" property="period" jdbcType="INTEGER" />
+    <result column="pay_end_time" property="payEndTime" jdbcType="TIMESTAMP" />
+    <result column="pay_start_time" property="payStartTime" jdbcType="TIMESTAMP" />
+    <result column="pay_sum" property="paySum" jdbcType="BIGINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, project_payment_define_id, period, pay_end_time, pay_start_time, pay_sum
   </sql>
@@ -17,6 +27,16 @@
     <include refid="Base_Column_List" />
     from t_ztgl_project_payment_define_detail
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectPayDefineByObjectId" resultMap="DefinedResultMap" parameterType="java.lang.String" >
+    select 
+     d.* ,p.pay_time,p.status
+    from t_ztgl_project_payment_define_detail d  
+    inner join t_ztgl_project_payment_define f on f.id = d.project_payment_define_id
+    inner join t_gcgl_project j on j.object_id = f.object_id 
+    left join t_gcgl_project_payment_pay p on p.project_id = j.project_id and p.current_period = d.period
+    where f.object_id = #{objectId}
+    order by d.period desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_ztgl_project_payment_define_detail

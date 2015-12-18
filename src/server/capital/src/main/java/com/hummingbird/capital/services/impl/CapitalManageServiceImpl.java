@@ -7,15 +7,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hummingbird.common.exception.DataInvalidException;
-import com.hummingbird.common.exception.ValidateException;
-import com.hummingbird.common.face.Pagingnation;
-import com.hummingbird.common.util.DESUtil;
-import com.hummingbird.common.util.ValidateUtil;
-import com.hummingbird.common.vo.ValidateResult;
-import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
+import com.hummingbird.capital.entity.ProjectPaymentAccount;
+import com.hummingbird.capital.entity.ProjectPaymentAccountOrder;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.UserBankcard;
 import com.hummingbird.capital.entity.UserPassword;
@@ -23,12 +19,19 @@ import com.hummingbird.capital.exception.MaAccountException;
 import com.hummingbird.capital.face.Account;
 import com.hummingbird.capital.mapper.ProjectAccountMapper;
 import com.hummingbird.capital.mapper.ProjectAccountOrderMapper;
+import com.hummingbird.capital.mapper.ProjectPaymentAccountMapper;
+import com.hummingbird.capital.mapper.ProjectPaymentAccountOrderMapper;
 import com.hummingbird.capital.mapper.UserBankcardMapper;
 import com.hummingbird.capital.mapper.UserPasswordMapper;
 import com.hummingbird.capital.services.CapitalManageService;
-import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.util.AccountValidateUtil;
-import com.hummingbird.capital.services.impl.AccountIdServiceImpl;
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.common.util.DESUtil;
+import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.vo.ValidateResult;
+import com.hummingbird.commonbiz.util.NoGenerationUtil;
 
 @Service
 public class CapitalManageServiceImpl implements CapitalManageService{
@@ -39,6 +42,10 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	@Autowired
 	private ProjectAccountMapper proActDao;
 	@Autowired
+	private ProjectPaymentAccountMapper proPaymentActDao;
+	@Autowired
+	private ProjectPaymentAccountOrderMapper proPaymentActOrderDao;
+	@Autowired
 	ProjectAccountOrderMapper proActOrdDo;
 	@Autowired
 	UserPasswordMapper passwordDao;
@@ -46,7 +53,6 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	AccountIdServiceImpl accountIdSrv;
 	@Override
 	public List<UserBankcard> queryBankListByUserId(Integer userId) {
-		// TODO Auto-generated method stub
 		return bankcardDao.queryBankListByUserId(userId);
 	}
 	@Override
@@ -98,6 +104,44 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		vr.setValidateMsg("支付验证码验证成功");
 		return vr;
 	}
+	
+	@Override
+	public Account createProjectPaymentAccount(Integer userId) throws MaAccountException {
+		Account acc = proPaymentActDao.getAccountByUserId(userId);
+		String accountId=null;
+		if(acc==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("为用户%s创建工程款帐户",userId));
+			}
+			ProjectPaymentAccount ca = new ProjectPaymentAccount();
+			ca.setUserId(userId);
+			accountId = accountIdSrv.prepareGetAccountId("9800");
+			ca.setAccountId(accountId);
+			ca.setFrozenSum(0l);
+			ca.setInsertTime(new Date());
+			ca.setRemainingSum(0l);
+			ca.setStatus("OK#");
+			AccountValidateUtil.updateAccountSignature(ca);
+			try {
+				proPaymentActDao.insert(ca);
+			} catch (Exception e) {
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("创建工程款帐户出错"),e);
+				}
+				//还原帐户
+//				accountIdSrv.returnAccountId(accountId);
+				throw new MaAccountException(MaAccountException.ERR_ACCOUNT_EXCEPTION,"帐户创建失败");
+			}
+			acc = (Account) ca;
+		}else{
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("用户%s工程款帐户已创建",userId));
+			}
+		}
+		
+		return acc;
+	}
+	
 	@Override
 	public Account createAccount(Integer userId) throws MaAccountException {
 		Account acc = proActDao.getAccountByUserId(userId);
@@ -137,17 +181,18 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	
 
 	/**
-	 * 收入
+	 * 工程款收入
 	 * @param platformuserId
 	 * @param amount
 	 * @param appOrderId
 	 */
-	public void income(Integer userId, Long amount, String appOrderId)
+	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark)
 	{
-		ProjectAccount pa = this.queryAccountInfo(userId);
+		ProjectPaymentAccount pa = this.getProjectPaymentAccount(userId);
+//		ProjectAccount pa = this.queryAccountInfo(userId);
 		pa.setRemainingSum(pa.getRemainingSum()+amount);
-		proActDao.updateByPrimaryKey(pa);
-		ProjectAccountOrder order = new ProjectAccountOrder();
+		proPaymentActDao.updateByPrimaryKey(pa);
+		ProjectPaymentAccountOrder order = new ProjectPaymentAccountOrder();
 		order.setAccountId(pa.getAccountId());
 		order.setSum(amount);
 		order.setBalance(pa.getRemainingSum());
@@ -157,11 +202,19 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		order.setInsertTime(new Date());
 		order.setMethod("/capitalManage/UserAccountIncome");
 		order.setOrderId(NoGenerationUtil.genNO("PA",6));
-		order.setRemark("用户收入"+amount+"分");
+		order.setRemark(remark);
 		order.setStatus("OK#");
 		order.setType("CZ#");
-		proActOrdDo.insert(order);
+		proPaymentActOrderDao.insert(order);
 		
+	}
+	/**
+	 * 获取用户的工程款帐号
+	 * @param userId
+	 * @return
+	 */
+	private ProjectPaymentAccount getProjectPaymentAccount(Integer userId) {
+		return (ProjectPaymentAccount) proPaymentActDao.getAccountByUserId(userId);
 	}
 	
 }

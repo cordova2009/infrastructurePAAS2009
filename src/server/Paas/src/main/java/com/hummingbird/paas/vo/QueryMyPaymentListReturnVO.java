@@ -17,6 +17,10 @@ public class QueryMyPaymentListReturnVO {
 	private String willPayAmount;
 	private String nextPeriodPayAmount;
 	private String nextPeriodPayTime;
+	/**
+     * 状态,CRT待支付,OK#已支付,FLS支付失败,CFM 待确认
+     */
+    private String status;
 	public String getObjectId() {
 		return objectId;
 	}
@@ -58,6 +62,28 @@ public class QueryMyPaymentListReturnVO {
 	}
 	public void setNextPeriodPayTime(String nextPeriodPayTime) {
 		this.nextPeriodPayTime = nextPeriodPayTime;
+	}
+	/**
+	 * 状态CRT待支付OK#已支付FLS支付失败 ,CFM 待确认
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * 状态CRT待支付OK#已支付FLS支付失败 ,CFM 待确认
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "QueryMyPaymentListReturnVO [objectId=" + objectId + ", objectName=" + objectName + ", winBidAmount="
+				+ winBidAmount + ", paidAmount=" + paidAmount + ", willPayAmount=" + willPayAmount
+				+ ", nextPeriodPayAmount=" + nextPeriodPayAmount + ", nextPeriodPayTime=" + nextPeriodPayTime
+				+ ", status=" + status + "]";
 	}
 	
 }

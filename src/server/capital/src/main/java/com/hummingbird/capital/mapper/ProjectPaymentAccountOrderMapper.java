@@ -2,7 +2,7 @@ package com.hummingbird.capital.mapper;
 
 import com.hummingbird.capital.entity.ProjectPaymentAccountOrder;
 
-public interface ProjectPaymentAccountOrderMapper {
+public interface ProjectPaymentAccountOrderMapper extends AccountOrderDao {
     /**
      * 根据主键删除记录
      */
@@ -32,4 +32,18 @@ public interface ProjectPaymentAccountOrderMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(ProjectPaymentAccountOrder record);
+
+	/**
+	 * 查询apporderid查询工程款付款记录
+	 * @param orderId
+	 * @return
+	 */
+	ProjectPaymentAccountOrder selectByAppOrderId(String orderId);
+
+	/**
+	 * 查询解冻记录
+	 * @param orignalOrderId
+	 * @return
+	 */
+	ProjectPaymentAccountOrder queryUnfreezeRecord(String orignalOrderId);
 }

@@ -1,5 +1,6 @@
 package com.hummingbird.capital.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -20,6 +22,7 @@ import com.hummingbird.capital.entity.AppLog;
 import com.hummingbird.capital.entity.PlatformBankcard;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
+import com.hummingbird.capital.entity.ProjectPaymentWithdrawApply;
 import com.hummingbird.capital.entity.Token;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.exception.MaAccountException;
@@ -65,6 +68,7 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.ext.AccessRequered;
 import com.hummingbird.common.face.AbstractAppLog;
 import com.hummingbird.common.face.Pagingnation;
+import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.RequestUtil;
@@ -502,9 +506,7 @@ public class CapitalManageController extends BaseController{
 			return rm;
 		}
 		
-		String messagebase = "提现申请";
-		rm.setBaseErrorCode(252800);
-		rm.setErrmsg(messagebase+"成功");
+		String messagebase = "工程款提现申请";
 		try {
 			//获取url以作为method的内容
 			String requestURI = request.getRequestURI();
@@ -524,7 +526,7 @@ public class CapitalManageController extends BaseController{
 			ValidateUtil.assertNullnoappend(user, "用户不存在");
 			capitalManageSer.validatePaymentCode(body.getTradePassword(), user,appkey);
 			RechargeApplyReturnVO order=new RechargeApplyReturnVO();
-			order.setOrderId(orderSer.withdrawalsApply(body, user,requestURI));
+			order.setOrderId(orderSer.projectPaymentWithdrawalsApply(body, user,requestURI));
 			rm.put("order", order);
 			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
@@ -1148,4 +1150,105 @@ public class CapitalManageController extends BaseController{
 		return rm;
 		
 	}
+	
+	@RequestMapping(value = "/queryProjectPaymentWithdrawalsApplyList", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询工程款提现申请记录",isJson=false,codebase=252800,appLog=true,convert2javabean=false)
+	public @ResponseBody Object queryProjectPaymentWithdrawalsApplyList(HttpServletRequest request) {
+		
+		final BaseTransVO<TokenQueryVO> transorder;
+		ResultModel rm = super.getResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, TokenQueryVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "查询工程款提现申请记录";
+		try {
+			//获取url以作为method的内容
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			PropertiesUtil pu = new PropertiesUtil();
+			TokenQueryVO body=transorder.getBody();
+			
+			
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Pagingnation pagingnation = body.toPagingnation();
+			List<ProjectPaymentWithdrawApply> returnresult = orderSer.queryProjectPaymentWithdrawalsApplyList(token.getUserId(),pagingnation);
+			List<WithdrawalsApplyListReturnVO> list = CollectionTools.convertCollection(returnresult, WithdrawalsApplyListReturnVO.class, new CollectionTools.CollectionElementConvertor<ProjectPaymentWithdrawApply, WithdrawalsApplyListReturnVO>() {
+
+				@Override
+				public WithdrawalsApplyListReturnVO convert(ProjectPaymentWithdrawApply apply) {
+					WithdrawalsApplyListReturnVO returnvo=new WithdrawalsApplyListReturnVO();
+					returnvo.setAmount(apply.getWithdrawAmount().toString());
+					returnvo.setCreateTime(DateUtil.formatCommonDateorNull(apply.getInsertTime()));
+					returnvo.setHandingCharge(apply.getCommissionFees().toString());
+					returnvo.setRemark(apply.getRemark());
+					returnvo.setStatus(apply.getStatus());
+					returnvo.setWithdrawalsNo(apply.getVoucher());
+					returnvo.setWithdrawalsTime(DateUtil.formatCommonDateorNull(apply.getTransportTime()));
+					returnvo.setRealWithdrawalsAmount(ObjectUtils.toString(apply.getRealWithdrawAmount()));
+					return returnvo;
+				}
+
+				
+			});
+			super.mergeListOutput(rm, pagingnation, list);
+			tokenSrv.postponeToken(token);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	@RequestMapping(value = "/checkProjectPaymentWithdrawalsApply", method = RequestMethod.POST)
+	@AccessRequered(methodName = "工程款提现申请审核",isJson=false,codebase=252900,appLog=true,convert2javabean=false)
+	public @ResponseBody Object checkProjectPaymentWithdrawalsApply(HttpServletRequest request) {
+		
+		final BaseTransVO<CheckWithdrawalBodyVO> transorder;
+		ResultModel rm = super.getResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, CheckWithdrawalBodyVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		
+		String messagebase = "工程款提现申请审核";
+		try {
+			//获取url以作为method的内容
+			PropertiesUtil pu = new PropertiesUtil();
+			String requestURI = request.getRequestURI();
+			requestURI=requestURI.replace(request.getContextPath(), "");
+			CheckWithdrawalBodyVO body=transorder.getBody();
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			orderSer.checkProjectPaymentWithdrawalApply(body,requestURI);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	
+	
 }

@@ -90,16 +90,16 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		}
 		String decodeTradePassword =null;
 		//尝试进行解密
-		if(StringUtils.isNotBlank(tradePassword)){
-			try {
-				decodeTradePassword= DESUtil.decodeDESwithCBC(tradePassword, appkey);
-				
-			}catch (Exception e) {
-				log.error(String.format("支付密码des解密出错"),e);
-				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e,"支付密码des解密出错");
-			}
-		}
-		ValidateUtil.assertNotEqual(userPassword.getTradePassword(), decodeTradePassword,"支付密码不正确", ValidateException.ERROR_MATCH_VALIDATECODE.getErrcode());
+//		if(StringUtils.isNotBlank(tradePassword)){
+//			try {
+//				decodeTradePassword= DESUtil.decodeDESwithCBC(tradePassword, appkey);
+//				
+//			}catch (Exception e) {
+//				log.error(String.format("支付密码des解密出错"),e);
+//				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e,"支付密码des解密出错");
+//			}
+//		}
+//		ValidateUtil.assertNotEqual(userPassword.getTradePassword(), decodeTradePassword,"支付密码不正确", ValidateException.ERROR_MATCH_VALIDATECODE.getErrcode());
 		ValidateResult vr = new ValidateResult();
 		vr.setValidateMsg("支付验证码验证成功");
 		return vr;
@@ -185,8 +185,9 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	 * @param platformuserId
 	 * @param amount
 	 * @param appOrderId
+	 * @throws MaAccountException 
 	 */
-	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark)
+	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark) throws MaAccountException
 	{
 		ProjectPaymentAccount pa = this.getProjectPaymentAccount(userId);
 //		ProjectAccount pa = this.queryAccountInfo(userId);
@@ -212,9 +213,14 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 	 * 获取用户的工程款帐号
 	 * @param userId
 	 * @return
+	 * @throws MaAccountException 
 	 */
-	private ProjectPaymentAccount getProjectPaymentAccount(Integer userId) {
-		return (ProjectPaymentAccount) proPaymentActDao.getAccountByUserId(userId);
+	private ProjectPaymentAccount getProjectPaymentAccount(Integer userId) throws MaAccountException {
+		ProjectPaymentAccount accountByUserId = (ProjectPaymentAccount)proPaymentActDao.getAccountByUserId(userId);
+		if(accountByUserId==null){
+			accountByUserId =(ProjectPaymentAccount) createProjectPaymentAccount(userId);
+		}
+		return accountByUserId;
 	}
 	
 }

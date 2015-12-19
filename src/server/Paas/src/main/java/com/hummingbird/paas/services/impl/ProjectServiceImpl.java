@@ -9,6 +9,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.face.Pagingnation;
@@ -342,7 +344,12 @@ public class ProjectServiceImpl implements ProjectService{
 		return list;
 	}
 
+	/**
+	 * 招标人付款
+	 * @see com.hummingbird.paas.services.ProjectService#paymentProject(com.hummingbird.paas.vo.MyObjectPaymentBodyVO)
+	 */
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public void paymentProject(MyObjectPaymentBodyVO body)
 			throws MaAccountException {
 		//查询付款到哪一期了
@@ -355,7 +362,15 @@ public class ProjectServiceImpl implements ProjectService{
 			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",objectId));
 		
 		}
-		ProjectInfo projectInfo=projectDao.selectByObjectId(objectId).size()==0?null:(projectDao.selectByObjectId(objectId)).get(0);
+		List<ProjectInfo> selectByObjectId = projectDao.selectByObjectId(objectId);
+		if(selectByObjectId==null||selectByObjectId.isEmpty()){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据标的Id[%s]查询不到工程",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的Id[%s]查询不到工程",objectId));
+			
+		}
+		ProjectInfo projectInfo=selectByObjectId.get(0);
 		if(projectInfo==null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("根据标的Id[%s]查询不到工程",objectId));
@@ -365,7 +380,8 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 		ProjectPaymentPay lastPayInfo=payRecordDao.getLastRecord(objectId);
 		ProjectPaymentDefine define=payDefDao.selectByObjectId(objectId);
-		ProjectPaymentDefineDetail defines=payDefineDao.selectNextPayByObjectId(objectId, lastPayInfo==null?1:(lastPayInfo.getCurrentPeriod()+1));
+		int currentperiod =  lastPayInfo==null?1:(StringUtils.equals(lastPayInfo.getStatus(),CommonStatusConst.STATUS_FAIL)?lastPayInfo.getCurrentPeriod():(lastPayInfo.getCurrentPeriod()+1));
+		ProjectPaymentDefineDetail defines=payDefineDao.selectNextPayByObjectId(objectId,currentperiod);
 		if(define==null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("项目【%s】查询付款定义失败",objectId));
@@ -390,15 +406,22 @@ public class ProjectServiceImpl implements ProjectService{
 		if(lastPayInfo==null){
 			leftAmount=object.getWinBidAmount()==null?0:(object.getWinBidAmount()-body.getAmount());
 		}else{
-			leftAmount=lastPayInfo.getLeftAmount()-body.getAmount();
+			//如果付款失败,则按原来的期数再次发起付款
+			if(StringUtils.equals(lastPayInfo.getStatus(),CommonStatusConst.STATUS_FAIL)){
+				leftAmount = lastPayInfo.getLeftAmount();
+			}
+			else{
+				
+				leftAmount=lastPayInfo.getLeftAmount()-body.getAmount();
+			}
 		}
 		record.setLeftAmount(leftAmount);
-		int leftPeriod=0;
-		if(lastPayInfo==null){
-			leftPeriod=define.getPayPeriod();
-		}else{
-			leftPeriod=lastPayInfo.getLeftPeriod()-1;
-		}
+		int leftPeriod=define.getPayPeriod()-currentperiod;
+//		if(lastPayInfo==null){
+//			leftPeriod=define.getPayPeriod()-1;
+//		}else{
+//			leftPeriod=lastPayInfo.getLeftPeriod()-1;
+//		}
 		record.setLeftPeriod(leftPeriod);
 		record.setPayTime(new Date());
 		record.setProjectId(projectInfo.getProjectId());

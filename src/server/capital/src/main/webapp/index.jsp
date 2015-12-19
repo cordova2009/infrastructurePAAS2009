@@ -69,6 +69,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<td><input type="button"  value="通过手机号创建帐户"  onclick='setbinding("/capitalManage/openByMobileNum","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"mobileNum\":\"18922260815\"}}")'></td>
 		<td><input type="button"  value="创建帐户"  onclick='setbinding("/capitalManage/open","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"},\"body\":{\"mobileNum\":\"18922260815\",\"userId\":\"1\"}}")'></td>
 	</tr>
+	<tr>	
+		<td><input type="button"  value="工程款提现申请"  onclick='setbinding("/capitalManage/projectPaymentWithdrawalsApply","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"}, \"body\":{\"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\",\"amount\":100000,\"bankId\":23,\"tradePassword\":\"br99T8ulqDxiZ09g77KnmEd3sgNcwIZPWR87EKrFvcf+uVm31GQvyw==\"}}")'></td>
+		<td><input type="button"  value="工程款查询申请提现记录"  onclick='setbinding("/capitalManage/queryProjectPaymentWithdrawalsApplyList","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"}, \"body\":{\"token\":\"96c5f0e5e3c52fa0fc632aaa30d4fb85\"}}")'></td>
+		<td><input type="button"  value="工程款提现申请审核"  onclick='setbinding("/capitalManage/checkProjectPaymentWithdrawalsApply","{\"app\":{\"appId\":\"paas\",\"timeStamp\":\"TIMESTAMP\",  \"nonce\":\"NONCE\", \"signature\":\"21aa0011472249b4292e81504f3917bd\"}, \"body\":{\"orderId\":\"TX002015112217342500000799351694\",\"transferTime\":\"2015-10-21\",\"voucherNo\":\"20142312\",\"voucherFileUrl\":\"URL\",\"checkResult\":\"OK#\",\"remark\":\"提现成功\",\"operator\":1}}")'></td>
+	</tr>
 	
 </table>
   </body>

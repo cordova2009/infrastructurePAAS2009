@@ -75,7 +75,7 @@ public class UserCenterController extends BaseController{
 	public @ResponseBody Object register(HttpServletRequest request) {
 		
 		RegisterVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -144,10 +144,11 @@ public class UserCenterController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@AccessRequered(methodName = "用户登录",isJson=false,codebase=210400,appLog=true,convert2javabean=false)
 	public @ResponseBody Object login(HttpServletRequest request) {
 		
 		LoginVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -231,10 +232,11 @@ public class UserCenterController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/getUserBaseInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查看帐户基础信息",isJson=false,codebase=210600,appLog=true,convert2javabean=false)
 	public @ResponseBody Object getUserBaseInfo(HttpServletRequest request) {
 		
 		TokenVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -289,10 +291,11 @@ public class UserCenterController extends BaseController{
 		return rm;
 	}
 	@RequestMapping(value = "/getBankInfoList", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的银行账号信息",isJson=false,codebase=211100,appLog=true,convert2javabean=false)
 	public @ResponseBody Object getMyBankInfo(HttpServletRequest request) {
 		
 		TokenVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -354,10 +357,11 @@ public class UserCenterController extends BaseController{
 		return rm;
 	}
 	@RequestMapping(value = "/getUserStatus", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询用户状态",isJson=false,codebase=210500,appLog=true,convert2javabean=false)
 	public @ResponseBody Object getUserStatus(HttpServletRequest request) {
 		
 		final BaseTransVO<MobileVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -402,10 +406,11 @@ public class UserCenterController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/updateHeadImage", method = RequestMethod.POST)
+	@AccessRequered(methodName = "修改用户头像",isJson=false,codebase=211200,appLog=true,convert2javabean=false)
 	public @ResponseBody Object updateHeadImage(HttpServletRequest request) {
 		
 		final BaseTransVO<UpdateHeadImageBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -449,10 +454,11 @@ public class UserCenterController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
+	@AccessRequered(methodName = "修改帐户基础信息",isJson=false,codebase=211300,appLog=true,convert2javabean=false)
 	public @ResponseBody Object updateUserInfo(HttpServletRequest request) {
 		
 		final BaseTransVO<UpdateUserInfoBodyVO> transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);

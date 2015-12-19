@@ -1,8 +1,6 @@
 <div class="main">
     <div class="clear">
-        <?php
-        require_once APP_PATH.'modules/Member/views/common/nav.php';
-        ?>
+        <?php require_once __DIR__.'/../common/nav.php';?>
         <div class="content auto">
             <div class="tit3">充值</div>
             <div class="padm30 chargeBox">
@@ -61,11 +59,16 @@
                     <div class="item">
                         <span class="lab"><span class="red">*</span> 银行转账凭证扫描件</span>
                         <div class="auto value">
-                            <label class="btn-file2 wid110 ">
-                                上传文件
+                            <label class="btn-file2 wid110">
+                                <span>上传文件</span>
                                 <input type="file" class="file-upload" name="file">
-                                <input type="hidden" name="voucherFileUrl"  >
+                                <input type="hidden" class="hidden-url" name="voucherFileUrl"  >
                             </label>
+
+                            <div class="uploaded hide">
+                                <a target="_blank" href="" class="btn-file2 view">查看</a>
+                                <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                            </div>
                         </div>
                     </div>
                     <div class="item padt20">
@@ -94,30 +97,55 @@
     <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
 </block>
 <block name="script">
-    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="/js/upload/jquery.iframe-transport.js"></script>
-    <!-- The basic File Upload plugin -->
-    <script src="/js/upload/jquery.fileupload.js"></script>
+<script src="/js/jquery.datetimepicker.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/js/upload/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/js/upload/jquery.fileupload.js"></script>
 <script>
 $(function(){
     $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(1)").addClass('active');
-})
-
-$(".file-upload").fileupload({
-    url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-    dataType: 'json',
-    done:function(e,data){
-        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-        //返回的数据在data.result中，假设我们服务器返回了一个json对象
-        if(data.result.status == '0'){
-            $(this).next().val(data.result.url);
-        }else{
-            layer.alert(data.result.msg,{icon:2});
+    $(".file-upload").fileupload({
+        url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+        dataType: 'json',
+        add: function (e, data) {
+            if (e.isDefaultPrevented()) {
+                return false;
+            }
+            $(this)
+                .prev()
+                .text('上传中..')
+                .parent()
+                .css('background','#bebebe');
+            data.submit();
+        },
+        done:function(e,data){
+            //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+            //返回的数据在data.result中，假设我们服务器返回了一个json对象
+            $(this).prev()
+                .text('上传附件')
+                .parent()
+                .css('background','#8ab46e');
+            if(data.result.status == '0'){
+                $(this).next().val(data.result.url)
+                    .parent().hide().next('.uploaded ').show()
+                    .find('.view').attr('href',data.result.src);
+            }else{
+                layer.alert(data.result.msg,{icon:2});
+            }
         }
-    }
-})
+    });
+
+    $(".delete-pic-btn").click(function () {
+        $(this).closest('.uploaded')
+            .hide()
+            .prev()
+            .show()
+            .find('.hidden-url')
+            .val('');
+    });
+});
 </script>
-<script src="/js/jquery.datetimepicker.js"></script>
 </block>

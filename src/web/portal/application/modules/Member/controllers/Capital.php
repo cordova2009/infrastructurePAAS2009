@@ -13,9 +13,6 @@ class CapitalController extends MemberController {
      * 对于如下的例子, 当访问http://yourhost/y/index/index/index/name/yantze 的时候, 你就会发现不同
      */
     public function indexAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
         $pageSize = 5;
         $curl2 = new Curl($this->config->url->api->capital);
         $pageIndex = $this->getRequest()->getQuery('page', 0);
@@ -48,9 +45,7 @@ class CapitalController extends MemberController {
     }
 
     public function rechargeApplyAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
+
         $curl = new Curl($this->config->url->api->capital);
         $resp2 = $curl->setData(['token'=>$this->user['token']])
             ->send('capitalManage/getPlatformBankcard');
@@ -108,9 +103,6 @@ class CapitalController extends MemberController {
     }
 
     public function rechargeListAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])
@@ -124,13 +116,11 @@ class CapitalController extends MemberController {
     }
 
     public function withdrawalsApplyAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
+
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])
-            ->send('capitalManage/queryProjectAccount');
+                        ->send('capitalManage/queryProjectAccount');
 
         if(check_resp($resp2)) {
             $account = $resp2['account'];
@@ -218,9 +208,7 @@ class CapitalController extends MemberController {
 
 
     public function withdrawalsListAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
+
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])

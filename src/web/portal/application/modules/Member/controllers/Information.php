@@ -13,9 +13,6 @@ class InformationController extends MemberController {
      * 对于如下的例子, 当访问http://yourhost/y/index/index/index/name/yantze 的时候, 你就会发现不同
      */
     public function indexAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
         $curl = new Curl($this->config->url->api->paas);
         if(IS_POST){
 
@@ -84,9 +81,6 @@ class InformationController extends MemberController {
 
     }
     public function publishListAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
         /*"body":{
             "token":"12345",
             "pageIndex":1,
@@ -115,9 +109,6 @@ class InformationController extends MemberController {
 
 
     public function unpublishListAction(){
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
         /*"body":{
             "token":"12345",
             "pageIndex":1,
@@ -148,9 +139,6 @@ class InformationController extends MemberController {
 
     public function publishDetailAction(){
 
-        if(empty($this->user)){
-            $this->redirect(U('/login'));
-        }
         /*"body":{
             "token":"12345",
             "informationId":1

@@ -221,11 +221,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
  * @return bool
  */
 function check_resp($resp){
-    $return = false;
-    if(!empty($resp) && $resp['errcode'] == '0'){
-        $return = true;
-    }
-    return $return;
+    return !empty($resp) && $resp['errcode'] == '0';
 }
 /**
  * @param $mobile

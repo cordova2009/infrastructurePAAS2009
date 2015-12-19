@@ -1,62 +1,60 @@
 <div class="main">
     <div class="clear">
-        <?php
-        require_once APP_PATH.'modules/Member/views/common/nav.php';
-        ?>
+        <?php require_once __DIR__.'/../common/nav.php';?>
         <div class="content auto">
             <div class="tit3">提现</div>
             <div class="padm30 chargeBox">
                 <div class="padv40 charge_form">
                     <form action="<?=U('/member/capital/withdrawalsApply')?>" method="post" class="ajax-form">
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 提现到</span>
-                        <div class="auto value radio selectBank" >
-                            <a href="#" class="active"> 投标人开户行</a>
-                            <a href="#">招标人开户行</a>
-                            <div class="color9 " ><?=$BerbankInfo?></div>
-                            <div class="color9 hide"><?=$BeebankInfo?></div>
-                            <input type="hidden" name="bankId" id="bankId" value="<?= $BerbankId ?>" />
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 提现到</span>
+                            <div class="auto value radio selectBank" >
+                                <a href="#" class="active"> 投标人开户行</a>
+                                <a href="#">招标人开户行</a>
+                                <div class="color9 " ><?=$BerbankInfo?></div>
+                                <div class="color9 hide"><?=$BeebankInfo?></div>
+                                <input type="hidden" name="bankId" id="bankId" value="<?= $BerbankId ?>" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab">可用余额</span>
-                        <div class="auto value " >
-                            <span class="orange"><?=price_format($account['remainingSum'])?></span>元
+                        <div class="item">
+                            <span class="lab">可用余额</span>
+                            <div class="auto value " >
+                                <span class="orange"><?=price_format($account['remainingSum'])?></span>元
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 提现金额</span>
-                        <div class="auto value " >
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 提现金额</span>
+                            <div class="auto value " >
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
                                 <input type="text" class="input1" id="amount" name="amount" tip="提现金额">
                             </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 提现费用</span>
-                        <div class="auto value " >
-                            <span class="orange">0.00</span>元 <a href="#" class="blue padl30 fz14">提现费用说明</a>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 提现费用</span>
+                            <div class="auto value " >
+                                <span class="orange">0.00</span>元 <a href="#" class="blue padl30 fz14">提现费用说明</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab">预计到账日期</span>
-                        <div class="auto value " >
-                            <span class="color9 fz14"><?=$withdrewalsTime?> <span class="padl40"> 1~2个工作日（双休日和法定节假日除外）之内到账</span></span>
+                        <div class="item">
+                            <span class="lab">预计到账日期</span>
+                            <div class="auto value " >
+                                <span class="color9 fz14"><?=$withdrewalsTime?> <span class="padl40"> 1~2个工作日（双休日和法定节假日除外）之内到账</span></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 交易密码</span>
-                        <div class="auto value">
-                            <input type="password" class="input1 " placeholder="" id="tradePassword" name="tradePassword"> <a href="<?=U('/member/info/safe')?>" class="blue fz14">忘记密码</a>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 交易密码</span>
+                            <div class="auto value">
+                                <input type="password" class="input1 " placeholder="" id="tradePassword" name="tradePassword"> <a href="<?=U('/member/info/safe')?>" class="blue fz14">忘记密码</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"></span>
-                        <div class="auto value">
-                            <input type="submit" value="申请提现" class="btn2 wid110">
+                        <div class="item">
+                            <span class="lab"></span>
+                            <div class="auto value">
+                                <input type="submit" value="申请提现" class="btn2 wid110">
+                            </div>
                         </div>
-                    </div>
                     </form>
                 </div>
 
@@ -74,26 +72,24 @@
     </div>
 </div>
 <block name="script">
-<script>
-    var BerbankId= "<?= $BerbankId ?>";
-    var BeebankId= "<?= $BeebankId ?>";
-$(function(){
-    $(".radio a").click(function() {
-        var ind = $(this).index();
-        if(ind){
-            $("#bankId").val(BeebankId);
-        }else{
-            $("#bankId").val(BerbankId);
-        }
-        $(".selectBank").find(".color9").addClass('hide');
-        $(".radio a").removeClass('active');
-        $(this).addClass('active');
-        $(".selectBank").find(".color9").eq(ind).removeClass('hide');
-    });
-    $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(3)").addClass('active');
-    $("input[type=text]").val('');
-})
-
-
-</script>
+    <script>
+        var BerbankId= "<?= $BerbankId ?>";
+        var BeebankId= "<?= $BeebankId ?>";
+        $(function(){
+            $(".radio a").click(function() {
+                var ind = $(this).index();
+                if(ind){
+                    $("#bankId").val(BeebankId);
+                }else{
+                    $("#bankId").val(BerbankId);
+                }
+                $(".selectBank").find(".color9").addClass('hide');
+                $(".radio a").removeClass('active');
+                $(this).addClass('active');
+                $(".selectBank").find(".color9").eq(ind).removeClass('hide');
+            });
+            $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(3)").addClass('active');
+            $("input[type=text]").val('');
+        })
+    </script>
 </block>

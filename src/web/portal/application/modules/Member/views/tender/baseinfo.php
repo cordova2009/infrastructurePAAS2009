@@ -190,17 +190,12 @@ function save_success(form,resp) {
  * @param step
  */
 function step_toggle(step){
-    if(step >= 1 && step < 4){
-        $("#step-box li:eq(0)").addClass('active');
-        $("#step-box li:gt(0)").removeClass('active');
-    }else if(step >= 4 && step < 7){
-        $("#step-box li:eq(1)").addClass('active');
-        $("#step-box li:gt(1)").removeClass('active');
-    }else if(step >= 7 && step < 10){
-        $("#step-box li:eq(2)").addClass('active');
-        $("#step-box li:gt(2)").removeClass('active');
-    }else if(step == 10){
-        $("#step-box li:eq(3)").addClass('active');
+    var index = new Array(1,4,7,10);
+    for(var i in index){
+        if(step == index[i]){
+            $("#step-box li").removeClass('active').eq(i).addClass('active');
+            break;
+        }
     }
 }
 </script>

@@ -58,13 +58,6 @@ abstract class AbstractPayment
      */
     abstract protected function _doCustomerAfterPay($isNotify=false);
 
-
-    public static function getEncodeMerKey($merId,$merKey)
-    {
-    	$salt = $merId.self::MERKEY_SALT_POSTFIX;
-    	return md5(md5($merKey).$salt);
-    }
-
 	/**
 	 * 
 	 * @param array $order
@@ -104,11 +97,6 @@ abstract class AbstractPayment
 
             \SeasLog::debug(($isNotify ? 'notify2: ' : 'return: ').var_export($_REQUEST,true));
         }
-
-        if(!$this->checkAccount()){
-		    \SeasLog::debug('非法收款账号！');
-		    return $success;
-    	}
 
 		$verify_result = $this->_doCustomerAfterPay($isNotify);
 		$model = M('t_orders');
@@ -185,11 +173,5 @@ abstract class AbstractPayment
         $data['userid']     = is_login();
         $model = new \Model('t_order_logs');
         return $model->insert($data);
-    }
-    
-    protected function checkAccount()
-    {
-//     	echo self::getEncodeMerKey($this->account['mer_id'], $this->account['mer_key']);die;
-        return self::getEncodeMerKey($this->account['mer_id'], $this->account['mer_key']) == $this->account['mer_key_encode'];
     }
 }

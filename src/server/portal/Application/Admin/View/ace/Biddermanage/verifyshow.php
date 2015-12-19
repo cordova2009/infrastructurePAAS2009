@@ -62,7 +62,7 @@ img{max-width:400px;}
 			<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="description"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="description"> 审核不通过</span><input type="text" name="description_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logo|imageView2}"/></td>
+			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><a href="{$item.logo|imageView2}" class="ace-thumbnails" ><img  src="{$item.logo|imageView2}"/> </a></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="logo"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="logo"> 审核不通过</span><input type="text" name="logo_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
@@ -87,15 +87,15 @@ img{max-width:400px;}
 			<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="legal_person_idcard"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="legal_person_idcard"> 审核不通过</span><input type="text" name="legal_person_idcard_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">身份证扫描件正面:</span><img src="{$item.legal_person_idcard_front_url|imageView2}"/>
+			<td ><span style="color:#999;padding-right:8px;">身份证扫描件正面:</span><a href="{$item.legal_person_idcard_front_url|imageView2}" class="ace-thumbnails" ><img src="{$item.legal_person_idcard_front_url|imageView2}"/></a>
 			<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="legal_person_idcard_front_url"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="legal_person_idcard_front_url"> 审核不通过</span><input type="text" name="legal_person_idcard_front_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">身份证扫描件反面:</span><img src="{$item.legal_person_idcard_back_url|imageView2}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">身份证扫描件反面:</span><a href="{$item.legal_person_idcard_back_url|imageView2}" class="ace-thumbnails" ><img src="{$item.legal_person_idcard_back_url|imageView2}"/></a></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="legal_person_idcard_back_url"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="legal_person_idcard_back_url"> 审核不通过</span><input type="text" name="legal_person_idcard_back_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><?php if(!empty($item['legal_person_authority_book'])){?> <img src="<?=imageView2($item['legal_person_authority_book'])?>" /><?php }?></td>
+			<td ><span style="color:#999;padding-right:8px;">法人授权书:</span><?php if(!empty($item['legal_person_authority_book'])){?><a href="<?=imageView2($item['legal_person_authority_book'])?>" class="ace-thumbnails" > <img src="<?=imageView2($item['legal_person_authority_book'])?>" /></a><?php }?></td>
 			<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="legal_person_authority_book"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="legal_person_authority_book"> 审核不通过</span><input type="text" name="legal_person_authority_book_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	 </tbody>
@@ -120,7 +120,7 @@ img{max-width:400px;}
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="unified_social_credit_code"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="unified_social_credit_code"> 审核不通过</span><input type="text" name="unified_social_credit_code_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="{$item.unified_social_credit_code_url|imageView2}"/></td>
+			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><a href="{$item.unified_social_credit_code_url|imageView2}" class="ace-thumbnails" > <img src="{$item.unified_social_credit_code_url|imageView2}"/></a></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="unified_social_credit_code_url"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="unified_social_credit_code_url"> 审核不通过</span><input type="text" name="unified_social_credit_code_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 <?php }else{?>
@@ -129,7 +129,7 @@ img{max-width:400px;}
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="business_license"> 审核通过</span><input type="text" name="business_license_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 		<tr>
-			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><img src="<?php echo imageView2($item['business_license_url'])?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><a href="<?=imageView2($item['business_license_url'])?>" class="ace-thumbnails" ><img src="<?php echo imageView2($item['business_license_url'])?>"/></a></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="business_license_url"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="business_license_url"> 审核不通过</span><input type="text" name="business_license_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
@@ -137,7 +137,7 @@ img{max-width:400px;}
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="tax_registration_certificate"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="tax_registration_certificate"> 审核不通过</span><input type="text" name="tax_registration_certificate_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
-			<td ><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo imageView2($item['tax_registration_certificate_url'])?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><a href="<?php echo imageView2($item['tax_registration_certificate_url'])?>" class="ace-thumbnails" ><img src="<?php echo imageView2($item['tax_registration_certificate_url'])?>"/></a></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="tax_registration_certificate_url"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="tax_registration_certificate_url"> 审核不通过</span><input type="text" name="tax_registration_certificate_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
@@ -145,7 +145,7 @@ img{max-width:400px;}
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="org_code_certificate"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="org_code_certificate"> 审核不通过</span><input type="text" name="org_code_certificate_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 	<tr>
-			<td ><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo imageView2($item['org_code_certificate_url'])?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><a href="<?php echo imageView2($item['org_code_certificate_url'])?>" class="ace-thumbnails" ><img src="<?php echo imageView2($item['org_code_certificate_url'])?>"/></a></td>
 		<td><span style="color:#999;padding-right:8px;"><input type="radio" value="Y" name="org_code_certificate_url"> 审核通过</span><span style="color:#999;padding-right:8px;"><input type="radio" value="N" name="org_code_certificate_url"> 审核不通过</span><input type="text" name="org_code_certificate_url_msg" placeholder="输入审核未通过原因"></td>
 		</tr>
 <?php }?>
@@ -207,6 +207,7 @@ img{max-width:400px;}
 </block>
 
 <block name="script">
+<include file="Public/colorbox"/>
 <script type="text/javascript" charset="utf-8">
 	Think.setValue('type',{$type|default=1});
 function subbef(){

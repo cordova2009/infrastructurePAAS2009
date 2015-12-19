@@ -40,6 +40,19 @@
     from t_project_payment_account_order
     where order_id = #{orderId,jdbcType=VARCHAR}
   </select>
+  <select id="queryUnfreezeRecord" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_payment_account_order
+    where original_order_id = #{orignalOrderId,jdbcType=VARCHAR} and status="OK#" and type="SBZ"
+    ORDER BY insert_time desc limit 1
+  </select>
+  <select id="selectByAppOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_payment_account_order
+    where app_order_id = #{appOrderId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_project_payment_account_order
     where order_id = #{orderId,jdbcType=VARCHAR}

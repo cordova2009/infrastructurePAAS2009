@@ -71,8 +71,9 @@ public interface CapitalManageService {
 	 * @param platformuserId
 	 * @param amount
 	 * @param appOrderId
+	 * @throws MaAccountException 
 	 */
-	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark);
+	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark) throws MaAccountException;
 
 	/**
 	 * 创建工程款帐户

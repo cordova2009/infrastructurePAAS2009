@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,15 +69,27 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		if(log.isDebugEnabled()){
 			log.debug("确认工程付款开始");
 		}
+		
 		ValidateUtil.assertNullnoappend(body.getOrderId(), "工程付款订单号不存在");
 		ProjectPaymentPay pp = paydao.selectByOrderId(body.getOrderId());
 		ValidateUtil.assertNullnoappend(pp, "工程付款记录不存在");
 		ValidateUtil.assertNotEqual(pp.getStatus(), "CRT", "工程付款已处理,无法再处理");
-		pp.setStatus(CommonStatusConst.STATUS_OK);
-		pp.setPayTime(new Date());
-		paydao.updateByPrimaryKey(pp);
-		//转帐到投标人
-		transPayment2Bidder(pp);
+		
+		String confirmStatus = body.getConfirmStatus();
+		if(StringUtils.equals(CommonStatusConst.STATUS_OK, confirmStatus)){
+			//成功
+			pp.setStatus(CommonStatusConst.STATUS_OK);
+			pp.setPayTime(new Date());
+			paydao.updateByPrimaryKey(pp);
+			//转帐到投标人
+			transPayment2Bidder(pp);
+		}
+		else{
+			//失败
+			pp.setStatus(CommonStatusConst.STATUS_FAIL);
+			pp.setPayTime(new Date());
+			paydao.updateByPrimaryKey(pp);
+		}
 		//资金帐户收款
 //		receivenPayment2platform(pp);
 		
@@ -107,7 +120,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		
 		BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), capbody, false, false);
 		String requestJson = JsonUtil.convert2Json(buildBaseTrans);
-		String paygatewayUrl = String.format("%s/capitalManage/UserAccountIncome",pu.getProperty("capital.url"));
+		String paygatewayUrl = String.format("%s/capitalManage/userProjectPaymentAccountIncome",pu.getProperty("capital.url"));
 		log.debug(String.format("开始调用资金账户用户工程款收入接口，地址是：%s", paygatewayUrl));
 		String result2 = new HttpRequester().postRequest(paygatewayUrl,
 				requestJson);

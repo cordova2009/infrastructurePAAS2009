@@ -28,6 +28,12 @@
     from t_project_payment_account
     where user_id = #{userId,jdbcType=INTEGER} 
   </select>
+  <select  resultMap="BaseResultMap" id="getAccountByMobile"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_payment_account
+    where user_id in (select id from t_user where mobile_num= #{mobile,jdbcType=VARCHAR} )
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_project_payment_account
     where account_id = #{accountId,jdbcType=VARCHAR}

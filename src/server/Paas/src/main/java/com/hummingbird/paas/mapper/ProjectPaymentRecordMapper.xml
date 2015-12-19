@@ -141,15 +141,15 @@
   <select id="getPaidAmountByObjectId" resultType="long" parameterType="java.lang.String" >
     select 
     IFNULL(sum(abs(`amount`)),0) paidAmount
-    from t_gcgl_project_payment_record a,t_gcgl_project p
+    from t_gcgl_project_payment_pay a,t_gcgl_project p
     where a.project_id = p.project_id
-    and p.object_id = #{objectId,jdbcType=VARCHAR} and type='PAY'
+    and p.object_id = #{objectId,jdbcType=VARCHAR} and a.status='OK#'
   </select>
   <select id="getReceivedAmountByObjectId" resultType="long" parameterType="java.lang.String" >
     select 
     IFNULL(sum(abs(`amount`)),0) receivedAmount
-    from t_gcgl_project_payment_record a,t_gcgl_project p
+    from t_gcgl_project_payment_Receive a,t_gcgl_project p
     where a.project_id = p.project_id
-    and p. object_id = #{objectId,jdbcType=VARCHAR} and type='REV'
+    and p. object_id = #{objectId,jdbcType=VARCHAR} and a.status='OK#'
   </select>
 </mapper>

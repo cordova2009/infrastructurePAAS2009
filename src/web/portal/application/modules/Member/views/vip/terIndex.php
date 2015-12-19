@@ -9,7 +9,7 @@
                     4.……………………………………………………………………………………………………………………………………
                 </p>
             </div>
-            <div class="btnCont"><a href="<?=U('/member/vip/tenderVip')?>" class="btn">购买招标人会员服务</a></div>
+            <div class="btnCont"><a href="<?=U('/member/vip/buy/type/ter')?>" class="btn">购买招标人会员服务</a></div>
         </div>
     </div>
 </div>

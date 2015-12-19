@@ -48,8 +48,6 @@ public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	ProjectInfoMapper projectDao;
 	@Autowired
-	ProjectPaymentRecordMapper proRecordDao;
-	@Autowired
 	BidObjectMapper objectDao;
 	@Autowired
 	ProjectPaymentDefineMapper payDefDao;
@@ -148,18 +146,18 @@ public class ProjectServiceImpl implements ProjectService{
 			ProjectPaymentPay lastPayInfo=payRecordDao.getLastRecord(project.getObjectId());
 			
 			ProjectPaymentDefineDetail payDefine=payDefineDao.selectByObjectId(project.getObjectId(),(lastPayInfo==null?0:lastPayInfo.getCurrentPeriod())+1);
-			if(payDefine==null){
+			/*if(payDefine==null){
 				if (log.isDebugEnabled()) {
 					log.debug(String.format("根据标的记录号[%s]查询不到标的付款设置信息",project.getObjectId()));
 				}
 				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的付款设置信息",project.getObjectId()));
 			
-			}
+			}*/
 			
-			Long paidAmount= proRecordDao.getPaidAmountByObjectId(project.getObjectId());
+			Long paidAmount= payRecordDao.getPaidAmountByObjectId(project.getObjectId());
 			allPaidAmount+=paidAmount;
 			allAmount+=objcet.getWinBidAmount();
-			allWillPayAmount+=lastPayInfo==null?payDefine.getPaySum():lastPayInfo.getLeftAmount();
+			allWillPayAmount+=lastPayInfo==null?(payDefine.getPaySum()==null?0:payDefine.getPaySum()):lastPayInfo.getLeftAmount();
 			Long nextPeriodPayAmount=0l;
 			if(payDefine!=null){
 				
@@ -234,7 +232,7 @@ public class ProjectServiceImpl implements ProjectService{
 			ProjectPaymentReceive lastPayInfo=receiveRecordDao.getLastRecord(project.getObjectId());
 			ProjectPaymentDefineDetail payDefine=payDefineDao.selectByObjectId(project.getObjectId(),(lastPayInfo==null?0:lastPayInfo.getCurrentPeriod())+1);
 			
-			Long paidAmount= proRecordDao.getReceivedAmountByObjectId(project.getObjectId());
+			Long paidAmount= receiveRecordDao.getReceivedAmountByObjectId(project.getObjectId());
 			Long willReceiveAmount=0l;
 			if(lastPayInfo!=null){
 				willReceiveAmount=lastPayInfo.getLeftAmount();
@@ -283,7 +281,7 @@ public class ProjectServiceImpl implements ProjectService{
 			ProjectPaymentReceive lastReceivedInfo=receiveRecordDao.getLastRecord(project.getObjectId());
 			ProjectPaymentDefineDetail payDefine=payDefineDao.selectByObjectId(project.getObjectId(),(lastReceivedInfo==null?0:lastReceivedInfo.getCurrentPeriod())+1);
 			
-			Long paidAmount= proRecordDao.getPaidAmountByObjectId(project.getObjectId());
+			Long paidAmount= payRecordDao.getPaidAmountByObjectId(project.getObjectId());
 			allPaidAmount+=paidAmount;
 			allAmount+=objcet.getWinBidAmount();
 			allWillPayAmount+=lastReceivedInfo==null?objcet.getObjectAmount():lastReceivedInfo.getLeftAmount();

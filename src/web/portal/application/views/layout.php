@@ -47,8 +47,8 @@
                         <li  class="submenu">
                             <span>会员服务 <i class="i-down"></i></span>
                             <dl>
-                                <dd><a href="/member/vip/tenderIndex">招标人会员</a></dd>
-                                <dd><a href="/member/vip/bidIndex">投标人会员</a></dd>
+                                <dd><a href="<?=U('/member/vip/terIndex')?>">招标人会员</a></dd>
+                                <dd><a href="<?=U('/member/vip/bidIndex')?>">投标人会员</a></dd>
                             </dl>
                         </li>
                         <li><a href="#">关于我们</a></li>

@@ -185,7 +185,7 @@
      a.id, a.status, a.project_id, current_period, amount, should_receive_time, receive_time, 
     total_amount, left_period, left_amount, total_period, order_id
     from t_gcgl_project_payment_receive a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p.object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
   </select>
   <select id="queryReceivedRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -194,6 +194,13 @@
     total_amount, left_period, left_amount, total_period, order_id
     from t_gcgl_project_payment_receive a,t_gcgl_project p
     where a.project_id = p.project_id
-    and p. object_id = #{objectId,jdbcType=VARCHAR} 
+    and p. object_id = #{objectId,jdbcType=VARCHAR} and a.status='OK#'
+  </select>
+  <select id="getReceivedAmountByObjectId" resultType="long" parameterType="java.lang.String" >
+    select 
+    IFNULL(sum(abs(`amount`)),0) receivedAmount
+    from t_gcgl_project_payment_Receive a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p. object_id = #{objectId,jdbcType=VARCHAR} and a.status='OK#'
   </select>
 </mapper>

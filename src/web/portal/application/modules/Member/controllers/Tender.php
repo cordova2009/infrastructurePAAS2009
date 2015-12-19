@@ -124,7 +124,16 @@ class TenderController extends MemberController{
             $this->error('提交方式不正确！');
         }
 
-        $data = ['token'=>$this->user['token']];
+        $data['QQ'] = I('QQ');
+        $data['QQtoken'] = I('QQtoken');
+        $data['email'] = I('email');
+        $data['telephone'] = I('telephone');
+        $data['address'] = I('address');
+        $data['addressAnswerTime'] = I('addressAnswerTime');
+        $data['addressAnswerDate'] = I('addressAnswerDate');
+
+        
+        $data['token'] = $this->user['token'];
 
         $data['objectId'] = I('objectId');
         if(empty($data['objectId'])){
@@ -139,14 +148,6 @@ class TenderController extends MemberController{
         if(empty($data['startTime'])){
             $this->error('答疑结束时间不能为空！');
         }
-
-        $data['QQ'] = I('QQ');
-        $data['QQtoken'] = I('QQtoken');
-        $data['email'] = I('email');
-        $data['telephone'] = I('telephone');
-        $data['address'] = I('address');
-        $data['addressAnswerTime'] = I('addressAnswerTime');
-        $data['addressAnswerDate'] = I('addressAnswerDate');
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('tender/saveAnswerMethodInfo');

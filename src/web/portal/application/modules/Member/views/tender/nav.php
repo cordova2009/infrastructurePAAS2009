@@ -40,7 +40,4 @@
             <a href="#bidEvaluationTypeInfo">评标方式</a>
         </li>
     </ul>
-    <div class="tijiao">
-        <a href="#" class="btn-tijiao">提交招标申请</a>
-    </div>
 </div>

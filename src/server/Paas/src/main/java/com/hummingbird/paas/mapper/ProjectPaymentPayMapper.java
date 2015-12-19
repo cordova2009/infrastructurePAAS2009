@@ -80,4 +80,10 @@ public interface ProjectPaymentPayMapper {
      * 逾期付款次数
      */
     int getBidderOutTimeNum(Integer bidderId);
+    /**
+     * 查询该标的已付款的金额
+     * @param ObjectId
+     * @return
+     */
+    Long getPaidAmountByObjectId(String ObjectId);
 }

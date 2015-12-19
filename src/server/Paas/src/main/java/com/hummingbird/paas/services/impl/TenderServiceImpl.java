@@ -108,6 +108,7 @@ import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
@@ -1547,6 +1548,26 @@ public class TenderServiceImpl implements TenderService {
 			qlr.add(qr);
 		}
 		return qlr;
+	}
+	
+	/**
+	 * 首页查询投标人列表
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
+			Pagingnation pagingnation){
+		if(pagingnation!=null&&pagingnation.isCountsize()){
+			int count = berDao.selectBidderCount(body);
+			pagingnation.setTotalCount(count);
+			pagingnation.calculatePageCount();
+		}
+		List<String> keywords = body.getKeywords();
+		String bidderName = body.getBidderName();
+		
+		List<QueryBidderListHomepageResultVO> bers = berDao.selectBidder4homepage(keywords,bidderName,pagingnation);
+		return bers;
 	}
 
 	/**

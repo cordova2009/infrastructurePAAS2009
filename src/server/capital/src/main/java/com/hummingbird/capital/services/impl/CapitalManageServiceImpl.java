@@ -60,6 +60,15 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		
 		return proActDao.queryAccountInfo(userId);
 	}
+	
+	/**
+	 * 根据用户Id查询工程款账户信息
+	 * @param userId
+	 * @return
+	 */
+	public ProjectPaymentAccount queryProjectPaymentAccountInfo(Integer userId){
+		return (ProjectPaymentAccount) proPaymentActDao.getAccountByUserId(userId);
+	}
 	@Override
 	public List<ProjectAccountOrder> queryAccountRecordsByAccountId(
 			String accountId,Pagingnation page) {

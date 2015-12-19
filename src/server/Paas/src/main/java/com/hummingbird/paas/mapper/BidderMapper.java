@@ -9,6 +9,7 @@ import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.vo.CompanyCerticateInfo;
 import com.hummingbird.paas.vo.CompanySurvey;
 import com.hummingbird.paas.vo.MyLoseObjectProject;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 
 public interface BidderMapper {
@@ -98,5 +99,16 @@ public interface BidderMapper {
 	 * @return
 	 */
 	int selectBidderCount(QueryCertificateListBodyVO queryCertificateListBodyVO);
+
+
+	/**
+	 * 查询首页的投标人信息
+	 * @param keywords
+	 * @param bidderName
+	 * @param pagingnation
+	 * @return
+	 */
+	List<QueryBidderListHomepageResultVO> selectBidder4homepage(@Param("keyword")List<String> keywords,@Param("bidderName") String bidderName,
+			@Param("page") Pagingnation pagingnation);
     
 }

@@ -269,6 +269,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<tr>
 		<td><input  value="支付宝网关支付通知"  onclick='setbinding("/order/payNotify","{        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },        \"body\":{           \"errcode\":0, \"errmsg\":\"支付成功\",\"orderId\":\"FN2010219392838232\",\"payTime\":\"2015-02-02 12:12:12\"        }    }")'  type="button" ></td>
 	</tr>
+	<tr><td colspan="6">首页</td></tr>
+	<tr>
+		<td><input  value="查询投标人列表"  onclick='setbinding("/tender/queryBidderList_homepage","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },    \"body\":        { \"keywords\":[\"公司\"]         }    }")'  type="button" ></td>
+	</tr>
 	<tr><td colspan="6">其它</td></tr>
 	<tr>
 		<td><input  value="查询工程类别列表"  onclick='setbinding("/tender/getIndustryList","    {        \"app\":{            \"appId\":\"zjhtwallet\",            \"timeStamp\":\"TIMESTAMP\",             \"nonce\":\"NONCE\",            \"signature\":\"SIGNATURE\"        },                \"body\":        {          }    }")'  type="button" ></td>

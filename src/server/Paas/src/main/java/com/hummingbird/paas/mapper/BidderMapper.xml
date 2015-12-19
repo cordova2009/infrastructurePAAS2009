@@ -53,6 +53,12 @@
     <result column="certicateName" property="certicateName" jdbcType="VARCHAR" />
     <result column="certicateUrl" property="certicateUrl" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BidderListHomepageResultMap" type="com.hummingbird.paas.vo.QueryBidderListHomepageResultVO" >
+    <result column="bidderName" property="bidderName" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="creditLevel" property="creditLevel" jdbcType="VARCHAR" />
+    <result column="bidderId" property="bidderId" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
     business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
@@ -86,6 +92,28 @@
     where id in (select bidder_id 
     from t_ztgl_bid_invite_bidder
      where object_id = #{objectId,jdbcType=VARCHAR})
+  </select>
+  <select id="selectBidder4homepage" resultMap="BidderListHomepageResultMap" parameterType="java.lang.String" >
+    select 
+    b.id bidderId,b.company_name bidderName,ifnull(u.real_name,'未实名认证') userName,level_name creditLevel
+    from t_qyzz_bidder b
+    left join t_user_auth u on b.user_id = u.user_id
+    left join t_xyjf_bidder_credit c on c.bidder_id = b.id
+    inner join t_xyjf_score_level l on c.credit_score >= l.min_score and c.credit_score &lt; l.max_score
+    where 1=1 
+    <if test="bidderName != null" >
+       and company_name like  "%"#{bidderName}"%"
+    </if>
+    <if test="keyword != null" >
+        and 
+       <foreach collection="keyword" item="item" index="index"
+		   open="(" separator="OR" close=")">
+		   company_name like "%"#{item}"%"
+		  </foreach>
+     </if>
+      <if test="page != null" >
+   		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+      </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder

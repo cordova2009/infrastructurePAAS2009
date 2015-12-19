@@ -2824,7 +2824,7 @@ public class TenderController extends BaseController {
 	 */
 	protected void writeAppLog(AbstractAppLog applog) {
 		if(applog!=null){
-			applogDao.insert(new AppLog(applog));
+//			applogDao.insert(new AppLog(applog));
 		}
 	}
 	

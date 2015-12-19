@@ -541,6 +541,7 @@
                     }else{
                         layer.alert(data.result.msg,{icon:2});
                     }
+		    $(this).parent().next('.progress').hide().next().hide()
                 },
                 fail: function () {
                     $(this).parent().css('background','#8ab46e');

@@ -165,7 +165,7 @@ display:block;
 								<span class="lab">法人身份证扫描件</span>
 								<div class="value auto">
 									<div class="marb20 clear">
-										<img src="/uploads/pic.jpg" alt="" class="left marr10" >
+										<img src="<?=empty($legal['idCardfrontUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardfrontUrl'],178,112)?>" alt="" class="left marr10" >
 										<div class="left wid110">
 											<label class="btn-file3  "> 上传附件<input type="file" name="file" >
 <input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" ></label>
@@ -176,7 +176,7 @@ display:block;
 					</div>
 									</div>
 									<div class="marb20 clear">
-										<img src="/uploads/pic.jpg" alt="" class="left marr10">
+									<img src="<?=empty($legal['idCardBackUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardBackUrl'],178,112)?>" alt="" class="left marr10">
 										<div class="left wid110">
 											<label class="btn-file3  "> 上传附件<input type="file" name="file">
 <input type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" ></label>
@@ -185,6 +185,7 @@ display:block;
                                         </div>
                                         <p class="color8 text-center hide">上传中…</p>
 								</div>
+						</div>
 							</div>
 							<div class="item">
 								<span class="lab">法人授权书扫描件</span>
@@ -207,7 +208,6 @@ display:block;
 
 							</div>
 						</form>
-						</div>
 						</div>
 						</div>
 					</div>
@@ -500,6 +500,7 @@ var obj ={};
 obj.certificationContent = $('#certificationContent').val();
 obj.cshow= $('#cshow').val();
 $('#certificationContent').val('');
+$('#cshow').val('');
 obj.projectTypeid= $('#projectType').val();
 obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
 $('#projectType').val('');
@@ -723,7 +724,7 @@ $(function(){
 
     $("input[type=file]").fileupload({
         url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-        formData:{},//如果需要额外添加参数可以在这里添加
+	formData:{width:178,height:112},//如果需要额外添加参数可以在这里添加
         dataType: 'json',
         add: function (e, data) {
                     if (e.isDefaultPrevented()) {
@@ -763,6 +764,7 @@ $(function(){
             }else{
                 layer.alert(data.result.msg,{icon:2});
             }
+	    $(this).parent().next('.progress').hide().next().hide()
         },
         fail: function () {
                     $(this).parent().css('background','#8ab46e');

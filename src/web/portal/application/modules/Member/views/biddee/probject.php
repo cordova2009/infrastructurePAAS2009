@@ -28,9 +28,9 @@
 							<div class="tab_box2">
 								<div class="hd tab_tit ul3 clear">
 									<ul>
-										<li class="" data-type="biding" data-index="<?=isset($bidingi)?$bidingi:0?>">招标中的项目</li>
+										<li class="on" data-type="biding" data-index="<?=isset($bidingi)?$bidingi:0?>">招标中的项目</li>
 										<li class="" data-type="doing" data-index="<?=isset($doingi)?$doingi:0?>">实施中的项目</li>
-										<li class="on" data-type="done" data-index="<?=isset($donei)?$donei:0?>">已结束的项目</li>
+										<li class="" data-type="done" data-index="<?=isset($donei)?$donei:0?>">已结束的项目</li>
 									</ul>
 								</div>
 								<div class="bd">

@@ -126,15 +126,16 @@
                                 </div>
                             </form>
                         </div>
-
                     </li>
+                    <!--
                     <li>
                         <div class="clear">
                             <span class=" ico  i-email"></span>
                             <span class="lab">绑定邮箱</span>
-                            <span class="value"><?=$user['email']?></span>
+                            <span class="value"><?/*=$user['email']*/?></span>
                         </div>
                     </li>
+                    -->
                     <li class="bordn">
                         <div class="clear">
                             <span class=" ico  i-password2"></span>

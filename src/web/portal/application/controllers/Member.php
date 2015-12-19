@@ -12,7 +12,13 @@ class MemberController extends MallController {
         parent::init();
 
         if(empty($this->user)){
-            $this->redirect(U('/login'));
+            if(IS_AJAX){
+
+                $this->error('对不起，您当前不在登录状态，请重新登录！',U('/login'));
+            }else{
+
+                $this->redirect(U('/login'));
+            }
         }
     }
 }

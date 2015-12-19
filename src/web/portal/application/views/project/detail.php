@@ -22,11 +22,11 @@
                     <div class="cell wdi50">
                         <div class="clear">
                             <div class="lab">公告截止时间 </div>
-                            <div class="value"><?=isset($survey['announcementEndTime'])?$survey['announcementEndTime']:'未填写'?></div>
+                            <div class="value"><?=date('Y-m-d',strtotime($survey['announcementEndTime']))?></div>
                         </div>
                         <div class="clear">
                             <div class="lab">投标截止时间 </div>
-                            <div class="value"><?=isset($survey['biddingEndTime'])?$survey['biddingEndTime']:'未填写'?></div>
+                            <div class="value"><?=date('Y-m-d',strtotime($survey['biddingEndTime']))?></div>
                         </div>
                     </div>
                     <div class="cell ">

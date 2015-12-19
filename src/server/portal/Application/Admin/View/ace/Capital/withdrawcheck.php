@@ -103,9 +103,12 @@ td{width:50%;}
 		<div class="clearfix form-actions">
             <div class="col-xs-12 center" style="margin-top:1em;">
 <input type="hidden" name="status" value="OK#">
-<button id="sub-btn" class="btn btn-success ajax-post no-refresh" target-form="form-horizontal" type="submit">
+<button id="sub-btn" class="btn btn-sm btn-success no-border ajax-post no-refresh " target-form="form-horizontal" type="submit">
                               <i class="icon-ok bigger-110"></i> 确认转账
                           </button>
+<a href="javascript:;" class="btn btn-white" onclick="history.go(-1)">
+                         返回
+                      </a>
             </div>
         </div>
 </form>

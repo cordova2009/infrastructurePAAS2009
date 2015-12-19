@@ -125,7 +125,7 @@ class CapitalController extends AdminController {
 			{
 				$this->error('系统错误,请稍后再试');
 			}
-			$this->success('审核完成');
+			$this->success('审核完成',U('recharge'));
 		}
 		$id = I('get.id');
 		$item = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name')->find();

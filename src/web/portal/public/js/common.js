@@ -147,21 +147,49 @@ $(function() {
 
     $(document).on('blur','.price_format',toThousands);
 
-    $(document).on("click",".checkBtn2 a",function(){
+    $(document).on("click",".checkBtn2 a,.pay_select a",function(){
         $(this).siblings('a').removeClass('active')
         $(this).addClass('active').children('input').prop('checked',true);
     });
 
+    $(document).on("click",".checklist .i-check",function(){
+        var $this = $(this);
+
+        if($this.hasClass('radio') && $this.hasClass('on')){
+            return false;
+        }else if($this.hasClass('radio') && !$this.hasClass('on')){
+            $this.siblings().removeClass('on')
+            $this.addClass('on')
+                .next().prop('checked',true);
+            return true;
+        }
+
+        if($this.hasClass('on')){
+            $this.removeClass('on').nextAll('input').prop('checked',false);
+        }else{
+            $this.addClass('on').nextAll('input').prop('checked',true);
+        }
+    });
+
+    $(document.body).on('click', '.datepicker', function(){
+        $(this).datetimepicker({
+            timepicker: false,
+            lang: 'ch',
+            format: 'Y-m-d',
+            formatDate: 'Y-m-d'
+        });
+        $(this).datetimepicker('show')
+    });
+
     //
     $(document).on('submit','.ajax-form',function(){
-        //$this.prop("disabled", true);
-        //$this.addClass('disabled');
         var $this = $(this);
         var flag = calculateFunctionValue($this.attr('before'),[$this],'');
         if(typeof flag == 'boolean' && !flag){
             return false;
         }
 
+        var sb_btn = $this.find('[type=submit]').prop("disabled", true);
         var loading = layer.load();
         $.post(this.action,$(this).serializeArray(),function(resp){
             if(resp.status == '0'){
@@ -183,48 +211,25 @@ $(function() {
                     //返回信息与url都为空
                     calculateFunctionValue($this.attr('success'),[$this,resp],'');
                 }
-            }
-            else{
-                layer.alert(resp.msg,{icon:2},function(index){
-                    calculateFunctionValue($this.attr('fail'),[$this,resp],'');
-                    layer.close(index);
-                });
+            }else{
+                if(resp.url == ''){
+                    layer.alert(resp.msg,{icon:2},function(index){
+                        calculateFunctionValue($this.attr('fail'),[$this,resp],'');
+                        layer.close(index);
+                    });
+                }else{
+                    layer.msg(resp.msg,{icon:2,time: 3000},function(){
+                        window.location = resp.url;
+                    });
+                }
             }
         },'json').always(function () {
             layer.close(loading);
+            sb_btn.prop('disabled',false);
         });
 
         return false;
     });
-
-    $(document).on("click",".checklist .i-check",function(){
-        var $this = $(this);
-
-        if($this.hasClass('radio') && $this.hasClass('on')){
-            return false;
-        }else if($this.hasClass('radio') && !$this.hasClass('on')){
-            $(".i-check").removeClass('on');
-            $this.addClass('on').next().prop('checked',true);
-            return true;
-        }
-
-        if($this.hasClass('on')){
-            $this.removeClass('on').nextAll('input').prop('checked',false);
-        }else{
-            $this.addClass('on').nextAll('input').prop('checked',true);
-        }
-    });
-
-    $(document.body).on('click', '.datepicker', function(){
-        $(this).datetimepicker({
-            timepicker: false,
-            lang: 'ch',
-            format: 'Y-m-d',
-            formatDate: 'Y-m-d'
-        });
-        $(this).datetimepicker('show')
-    })
-
 
     //验证码
     $("#get-sms-code,.get-code").click(function() {

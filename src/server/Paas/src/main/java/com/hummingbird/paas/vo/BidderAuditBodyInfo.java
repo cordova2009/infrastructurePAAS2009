@@ -1,6 +1,7 @@
 package com.hummingbird.paas.vo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 投标人认证审核接口 
@@ -25,6 +26,10 @@ public class BidderAuditBodyInfo {
 	private BidderLegalPersonCheck  legalPersonCheck;
 	private BidderRegisteredInfoCheck  registeredInfoCheck;
 	private BidderBankInfoCheck  bankInfoCheck;
+	/**
+	 * 证书审核列表
+	 */
+	private List<CertificationCheck>  certificationsCheck;
 	/**
 	 * @return the baseInfoCheck
 	 */
@@ -79,7 +84,20 @@ public class BidderAuditBodyInfo {
 	@Override
 	public String toString() {
 		return "BidderAuditBodyInfo [baseInfoCheck=" + baseInfoCheck + ", legalPersonCheck=" + legalPersonCheck
-				+ ", registeredInfoCheck=" + registeredInfoCheck + ", bankInfoCheck=" + bankInfoCheck + "]";
+				+ ", registeredInfoCheck=" + registeredInfoCheck + ", bankInfoCheck=" + bankInfoCheck
+				+ ", certificationsCheck=" + certificationsCheck + "]";
+	}
+	/**
+	 * 证书审核列表
+	 */
+	public List<CertificationCheck> getCertificationsCheck() {
+		return certificationsCheck;
+	}
+	/**
+	 * 证书审核列表
+	 */
+	public void setCertificationsCheck(List<CertificationCheck> certificationsCheck) {
+		this.certificationsCheck = certificationsCheck;
 	}
 	
 	

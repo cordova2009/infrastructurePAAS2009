@@ -77,6 +77,11 @@ public class WithdrawApply {
     private String updator;
 
     /**
+     * 实际提现金额
+     */
+    private Long realWithdrawAmount;
+
+    /**
      * @return 订单id
      */
     public String getOrderId() {
@@ -286,6 +291,21 @@ public class WithdrawApply {
         this.updator = updator == null ? null : updator.trim();
     }
 
+    /**
+     * @return 实际提现金额
+     */
+    public Long getRealWithdrawAmount() {
+        return realWithdrawAmount;
+    }
+
+    /**
+     * @param realWithdrawAmount 
+	 *            实际提现金额
+     */
+    public void setRealWithdrawAmount(Long realWithdrawAmount) {
+        this.realWithdrawAmount = realWithdrawAmount;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -311,7 +331,8 @@ public class WithdrawApply {
             && (this.getVoucherPic() == null ? other.getVoucherPic() == null : this.getVoucherPic().equals(other.getVoucherPic()))
             && (this.getBankId() == null ? other.getBankId() == null : this.getBankId().equals(other.getBankId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()));
+            && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()))
+            && (this.getRealWithdrawAmount() == null ? other.getRealWithdrawAmount() == null : this.getRealWithdrawAmount().equals(other.getRealWithdrawAmount()));
     }
 
     @Override
@@ -332,6 +353,7 @@ public class WithdrawApply {
         result = prime * result + ((getBankId() == null) ? 0 : getBankId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getUpdator() == null) ? 0 : getUpdator().hashCode());
+        result = prime * result + ((getRealWithdrawAmount() == null) ? 0 : getRealWithdrawAmount().hashCode());
         return result;
     }
 }

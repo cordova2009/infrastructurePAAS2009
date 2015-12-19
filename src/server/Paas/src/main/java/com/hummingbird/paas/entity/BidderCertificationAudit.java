@@ -32,6 +32,11 @@ public class BidderCertificationAudit {
     private Integer auditor;
 
     /**
+     * 审核备注
+     */
+    private String auditReason;
+
+    /**
      * @return 主键
      */
     public Integer getId() {
@@ -106,6 +111,21 @@ public class BidderCertificationAudit {
         this.auditor = auditor;
     }
 
+    /**
+     * @return 审核备注
+     */
+    public String getAuditReason() {
+        return auditReason;
+    }
+
+    /**
+     * @param auditReason 
+	 *            审核备注
+     */
+    public void setAuditReason(String auditReason) {
+        this.auditReason = auditReason == null ? null : auditReason.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -122,7 +142,8 @@ public class BidderCertificationAudit {
             && (this.getCertificationCerticateId() == null ? other.getCertificationCerticateId() == null : this.getCertificationCerticateId().equals(other.getCertificationCerticateId()))
             && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
             && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
-            && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()));
+            && (this.getAuditor() == null ? other.getAuditor() == null : this.getAuditor().equals(other.getAuditor()))
+            && (this.getAuditReason() == null ? other.getAuditReason() == null : this.getAuditReason().equals(other.getAuditReason()));
     }
 
     @Override
@@ -134,6 +155,7 @@ public class BidderCertificationAudit {
         result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
         result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
         result = prime * result + ((getAuditor() == null) ? 0 : getAuditor().hashCode());
+        result = prime * result + ((getAuditReason() == null) ? 0 : getAuditReason().hashCode());
         return result;
     }
 }

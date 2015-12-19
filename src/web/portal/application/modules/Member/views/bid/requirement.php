@@ -1,14 +1,16 @@
 <?php
 extract($certificationInfo);
-$cert_name_list = [
-    'needPmCertification'=>'项目经理证明',
-    'needConstructorCertification'=>'建造师证明',
-    'needSafetyPermit'=>'安全生产许可证明',
-    'needPmSafetyCertification'=>'项目经理安全生产考核合格证明',
-];
 if(is_array($bidRequirementInfo)){
     extract($bidRequirementInfo);
+
+    if(isset($bidSafetyInfo) && isset($bidPeopleRequirement)){
+        $queryNeedCertList = array_merge($bidSafetyInfo,$bidPeopleRequirement);
+        unset($bidSafetyInfo);
+        unset($bidPeopleRequirement);
+    }
+    unset($bidRequirementInfo);
 }
+
 ?>
 <div class=" main">
     <?php require_once 'step.php'?>
@@ -19,7 +21,7 @@ if(is_array($bidRequirementInfo)){
             <div class="zhengming">
                 <form action="<?=U('/member/bid/requirement')?>" method="post" class="ajax-form" success="save_success" next_step="businessStandard">
                     <input name="objectId" value="<?=$objectId?>" type="hidden" />
-                    <input name="bidId" value="<?=isset($bidRequirementInfo['bidId']) ? $bidRequirementInfo['bidId'] : ''?>" type="hidden" />
+                    <input name="bidId" value="<?=isset($bidId) ? $bidId : ''?>" type="hidden" />
                     <div class="tit6">投标人营业执照</div>
                     <div class="zhizhao_info">
                         <div class="text-center checkBtn">
@@ -82,13 +84,16 @@ if(is_array($bidRequirementInfo)){
                         <?php
                             $item = current($requirementList);
                             $i = 0;
+                            $need_array = [];
                             while($item):
+                                $need_array[] = $item['certificateId'];
                         ?>
                             <div class="clear txt2 <?=($i%2 == 0) ? '' : 'bordb2'?>">
                                 <div class="li"><?=$item['certificationName']?></div>
                             <?php
                                 $item = next($requirementList);
                                 if(!empty($item)):
+                                    $need_array[] = $item['certificateId'];
                             ?>
                                 <div class="li"><?=$item['certificationName']?></div>
                             <?php
@@ -101,13 +106,23 @@ if(is_array($bidRequirementInfo)){
                             endwhile;
                         ?>
                     </div>
+
                     <p class="tips2">请根据招标要求填写或选择相应资质</p>
                     <div class="zhengshu checklist">
                         <ul class="clear">
-                            <?php foreach($bidderList as $item):?>
+                            <?php
+                                foreach($bidderList as $item):
+                                    //判断所拥有的证书是否在要求证书列表中
+                                    $checked = '';
+                                    $class = '';
+                                    if(in_array($item['certificateId'],$need_array)){
+                                        $checked = 'checked';
+                                        $class= 'on';
+                                    }
+                            ?>
                             <li>
-                                <i class="ico i-check"></i>
-                                <input class="hide" type="checkbox" name="bidderCertList[]" value="<?=$item['certificateId']?>"/>
+                                <i class="ico i-check <?=$class?>"></i>
+                                <input class="hide" type="checkbox" <?=$checked?> name="bidderCertList[]" value="<?=$item['certificateId']?>"/>
                                 <?=$item['certificationName']?>
                             </li>
                             <?php endforeach;?>
@@ -121,103 +136,42 @@ if(is_array($bidRequirementInfo)){
                         </p>
                         <?php endif;?>
                     </div>
-                    <?php if(!empty($safetyInfo)):?>
-                    <div class="tit6">投标人安全生产证明</div>
-                    <div class="yaoqiu">
-                        <div class="txt1"><i class="ico i-paper"></i> 招标要求</div>
-                        <div class="clear txt2 ">
-                        <?php foreach($safetyInfo as $key=>$item):?>
-                            <?php if($item == 'YES'):?>
-                            <div class="li"><?=$cert_name_list[$key]?></div>
-                            <?php endif;?>
-                        <?php endforeach;?>
-                        </div>
-                    </div>
-                    <p class="tips2">请根据招标要求填写或选择相应资质</p>
-                    <ul class="clear">
-                        <?php if($safetyInfo['needSafetyPermit'] == 'YES'):?>
-                        <li>
-                            <div class="cell lab">
-                                安全生产许可证明
-                            </div>
-                            <div class="cell padl20">
-                                <input type="text" class="input1 " placeholder="编号" name="needSafetyPermitNo" value="<?=isset($bidSafetyInfo) ? $bidSafetyInfo['safetyPermitNo'] : ''?>"/>
-                                <input type="text" class="input1 datepicker" placeholder="有效期" name="needSafetyPermitEndDate" value="<?=isset($bidSafetyInfo) ? $bidSafetyInfo['safetyPermitEndDate'] : ''?>"/>
-                            </div>
-                            <div class="cell padr40">
-                                <a class="btn-file2" href="javascript:">
-                                    <input type="file" class="file-upload" name="file"> 上传附件
-                                    <input type="hidden" name="safetyPermitUrl" value="<?=isset($bidSafetyInfo) ? $bidSafetyInfo['safetyPermitEndDate'] : ''?>">
-                                </a>
-                            </div>
-                        </li>
-                        <?php endif;?>
-                        <?php if($safetyInfo['needPmSafetyCertification'] == 'YES'):?>
-                        <li>
-                            <div class="cell lab">
-                                项目经理安全生产<br>考核合格证明
-                            </div>
-                            <div class="cell padl20">
-                                <input type="text" class="input1" placeholder="编号" name="needPmSafetyCertificationNo" value="<?=isset($bidSafetyInfo) ? $bidSafetyInfo['pmSafetyCertificationNo'] : ''?>"/>
-                                <input type="text" class="input1 datepicker" placeholder="有效期" name="needPmSafetyCertificationEndDate" value="<?=isset($bidSafetyInfo) ? $bidSafetyInfo['pmSafetyCertificationEndDate'] : ''?>"/>
-                            </div>
-                            <div class="cell padr40">
-                                <a class="btn-file2" href="javascript:">
-                                    <input type="file" class="file-upload" name="file"> 上传附件
-                                    <input type="hidden" name="pmSafetyCertificationUrl" value="<?=isset($bidSafetyInfo) ? $bidSafetyInfo['pmSafetyCertificationUrl'] : ''?>">
-                                </a>
-                            </div>
-                        </li>
-                        <?php endif;?>
-                    </ul>
-                    <?php endif;?>
 
-                    <?php if(!empty($peopleRequirement)):?>
-                    <div class="tit6">投标人主要人员资质</div>
-                    <div class="yaoqiu">
-                        <div class="txt1"><i class="ico i-paper"></i> 招标要求</div>
-                        <div class="clear txt2 ">
-                            <?php foreach($peopleRequirement as $key=>$item):?>
-                                <?php if($item == 'YES'):?>
-                                    <div class="li"><?=$cert_name_list[$key]?></div>
-                                <?php endif;?>
-                            <?php endforeach;?>
+                    <?php
+                        foreach($needCertList as $title=>$certList):
+                            if(empty($certList)){
+                                continue;
+                            }
+                    ?>
+                        <div class="tit6"><?=$title?></div>
+                        <div class="yaoqiu">
+                            <div class="txt1"><i class="ico i-paper"></i> 招标要求</div>
+                            <div class="clear txt2 ">
+                                <?=implode('',$certList)?>
+                            </div>
                         </div>
-                    </div>
-                    <p class="tips2">请根据招标要求填写或选择相应资质</p>
-                    <ul class="clear">
-                        <li>
-                            <div class="cell lab">
-                                项目经理证
-                            </div>
-                            <div class="cell padl20">
-                                <input type="text" class="input1 " placeholder="编号" name="needPmCertificationNo" value="<?=isset($bidPeopleRequirement) ? $bidPeopleRequirement['pmCertificationNo'] : ''?>">
-                                <input type="text" class="input1 datepicker" placeholder="有效期" name="needPmCertificationEndDate" value="<?=isset($bidPeopleRequirement) ? $bidPeopleRequirement['pmCertificationEndDate'] : ''?>">
-                            </div>
-                            <div class="cell padr40">
-                                <a class="btn-file2" href="javascript:">
-                                    <input type="file" class="file-upload" name="file"> 上传附件
-                                    <input type="hidden" name="pmCertificationUrl" value="<?=isset($bidPeopleRequirement) ? $bidPeopleRequirement['pmCertificationUrl'] : ''?>">
-                                </a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="cell lab">
-                               注册建造师证
-                            </div>
-                            <div class="cell padl20">
-                                <input type="text" class="input1" placeholder="编号" name="needConstructorCertificationNo" value="<?=isset($bidPeopleRequirement) ? $bidPeopleRequirement['constructorCertificationNo'] : ''?>">
-                                <input type="text" class="input1 datepicker" placeholder="有效期" name="needConstructorCertificationEndDate" value="<?=isset($bidPeopleRequirement) ? $bidPeopleRequirement['constructorCertificationEndDate'] : ''?>">
-                            </div>
-                            <div class="cell padr40">
-                                <a class="btn-file2" href="javascript:">
-                                    <input type="file" class="file-upload" name="file"> 上传附件
-                                    <input type="hidden" name="constructorCertificationUrl" value="<?=isset($bidPeopleRequirement) ? $bidPeopleRequirement['constructorCertificationUrl'] : ''?>">
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                    <?php endif;?>
+                        <p class="tips2">请根据招标要求填写或选择相应资质</p>
+                        <ul class="clear">
+                        <?php foreach($certList as $key=>$val):?>
+                            <li>
+                                <div class="cell lab">
+                                    <?=$cert_name_list[$key]?>
+                                </div>
+
+                                <div class="cell padl20">
+                                    <input type="text" class="input1 " placeholder="编号" name="<?=$key?>No" value="<?=isset($queryNeedCertList) ? $queryNeedCertList[$key.'No'] : ''?>">
+                                    <input type="text" class="input1 datepicker" placeholder="有效期" name="<?=$key?>EndDate" value="<?=isset($queryNeedCertList) ? $queryNeedCertList[$key.'EndDate'] : ''?>">
+                                </div>
+                                <div class="cell padr40">
+                                    <a class="btn-file2" href="javascript:">
+                                        <input type="file" class="file-upload" name="file"> 上传附件
+                                        <input type="hidden" name="<?=$key?>Url" value="<?=isset($queryNeedCertList) ? $queryNeedCertList[$key.'Url'] : ''?>">
+                                    </a>
+                                </div>
+                            </li>
+                        <?php endforeach;?>
+                        </ul>
+                    <?php endforeach;?>
 
                     <div class="tit6">投标保函</div>
                     <div class="zhengshu2 checklist">

@@ -1452,9 +1452,18 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
 			throws BusinessException {
-		String[] kw=null;
+		List<String> kwlist=new ArrayList<>();
 		if(keywords!=null&&keywords.length>0){
-			kw = keywords;
+			for (int i = 0; i < keywords.length; i++) {
+				String akw = keywords[i];
+				if(StringUtils.isNotBlank(akw)){
+					kwlist.add(akw);
+				}
+			}
+		}
+		String[] kw=null;
+		if(!kwlist.isEmpty()){
+			kw = kwlist.toArray(new String[]{});
 		}
 		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalTenderObjectList(kw);

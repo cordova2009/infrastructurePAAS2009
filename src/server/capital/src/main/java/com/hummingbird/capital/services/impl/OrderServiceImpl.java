@@ -355,6 +355,44 @@ public class OrderServiceImpl implements OrderService{
 			throws MaAccountException {
 
 		Long feeAmount=feeRateDao.selectMoney(body.getAmount(), "TX#")==null?0:feeRateDao.selectMoney(body.getAmount(), "TX#");
+		feeAmount = 0l;
+		WithdrawApply apply=new WithdrawApply();
+		String applyOrderId=AccountGenerationUtil.genNO("TX00");
+		apply.setOrderId(applyOrderId);
+		apply.setCommissionFees(feeAmount);
+		apply.setInsertTime(new Date());
+		apply.setStatus("CRT");
+		apply.setUserBankcardId(body.getBankId());
+		apply.setUserId(user.getId());
+		apply.setWithdrawAmount(body.getAmount());
+		withdrawApplyDao.insert(apply);
+		
+		//冻结
+		//调用提现冻结接口
+		FreezeBondBodyVO freezeBody=new FreezeBondBodyVO();
+		freezeBody.setAppOrderId(applyOrderId);
+		freezeBody.setRemark("用户请求提现，冻结金额"+body.getAmount().toString()+"元");
+		freezeBody.setAmount(body.getAmount());
+		freezeBody.setType("FRZ");
+		FreezeBondReturnVO bond=freeze(freezeBody,user,method);
+		
+		return applyOrderId;
+	}
+	
+	/**
+	 * 工程款提现申请
+	 * @param body
+	 * @param user
+	 * @param method
+	 * @return
+	 * @throws MaAccountException
+	 */
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public String projectPaymentWithdrawalsApply(WithdrawalsApplyBodyVO body, User user,String method)
+			throws MaAccountException {
+		
+//		Long feeAmount=feeRateDao.selectMoney(body.getAmount(), "TX#")==null?0:feeRateDao.selectMoney(body.getAmount(), "TX#");
+		Long feeAmount=0l;
 		WithdrawApply apply=new WithdrawApply();
 		String applyOrderId=AccountGenerationUtil.genNO("TX00");
 		apply.setOrderId(applyOrderId);
@@ -436,7 +474,7 @@ public class OrderServiceImpl implements OrderService{
 			UnfreezeVO withdraw=new UnfreezeVO();
 			withdraw.setAppOrderId(body.getOrderId());
 			withdraw.setRemark(body.getRemark());
-			withdraw.setSum(apply.getWithdrawAmount());
+			withdraw.setSum(body.getAmount());
 			withdraw.setType("TX#");
 			User user=userDao.selectByPrimaryKey(apply.getUserId());
 			withdrawals(withdraw, user, method);
@@ -462,6 +500,7 @@ public class OrderServiceImpl implements OrderService{
 		apply.setUpdator(body.getOperator().toString());
 		apply.setVoucher(body.getVoucherNo());
 		apply.setVoucherPic(body.getVoucherFileUrl());
+		apply.setRealWithdrawAmount(body.getAmount());
 		withdrawApplyDao.updateByPrimaryKey(apply);
 	}
 

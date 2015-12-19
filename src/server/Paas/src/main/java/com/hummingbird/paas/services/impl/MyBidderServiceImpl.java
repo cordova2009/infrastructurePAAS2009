@@ -8,14 +8,17 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
@@ -27,6 +30,7 @@ import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.BidderCertification;
+import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.entity.BidderCredit;
@@ -39,6 +43,7 @@ import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
+import com.hummingbird.paas.mapper.BidderCertificationAuditMapper;
 import com.hummingbird.paas.mapper.BidderCertificationCertificationMapper;
 import com.hummingbird.paas.mapper.BidderCertificationCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCertificationMapper;
@@ -57,6 +62,7 @@ import com.hummingbird.paas.vo.BidderBankInfoCheck;
 import com.hummingbird.paas.vo.BidderBaseInfoCheck;
 import com.hummingbird.paas.vo.BidderLegalPersonCheck;
 import com.hummingbird.paas.vo.BidderRegisteredInfoCheck;
+import com.hummingbird.paas.vo.CertificationCheck;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderEqInfo;
@@ -95,6 +101,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 	protected BidderCertificationCreditScoreMapper bccsDao;
 	@Autowired
 	protected BidderBidCreditScoreMapper bbcsDao;
+	@Autowired
+	protected BidderCertificationAuditMapper bcaDao;
 
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
@@ -588,11 +596,13 @@ public class MyBidderServiceImpl implements MyBidderService {
 			BidderLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
 			BidderRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
 			BidderBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
+			List<CertificationCheck> certificationsCheck = body.getCertificationsCheck();
 			
 			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck, null);
 			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck, null);
 			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck, bc.getBusinessLicenseType());
 			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck, null);
+			
 //			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
 			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
 				flag = false;
@@ -613,12 +623,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 					}
 					
 //					2.插入资质证书正式表
-					List<BidderCertification> bcfs  = bcDao.selectByBidderId(bidderId);
-					if(bcfs == null || bcfs.size()==0){
-						bcDao.insertSelectiveByCertificationIdSuccess(bidderId);
-					}else{
-						bcDao.updateByCertificationIdSuccess(bidderId);
-					}
+//					List<BidderCertification> bcfs  = bcDao.selectByBidderId(bidderId);
+//					if(bcfs == null || bcfs.size()==0){
+//						bcDao.insertSelectiveByCertificationIdSuccess(bidderId);
+//					}else{
+//						bcDao.updateByCertificationIdSuccess(bidderId);
+//					}
 					
 //					3.插入开户行正式表 信息
 					List<UserBankcard> ubcs = userBankcardDao.selectBidderBankInfoByUserId(bc.getUserId());
@@ -629,6 +639,27 @@ public class MyBidderServiceImpl implements MyBidderService {
 					}
 					bca.setAuditStatus("OK#");
 					bc.setStatus("OK#");
+					
+					//添加 证书资质信息,只有通过的资质证书放过去
+					//删除所有证书
+					bcDao.removeAllByBidderId(bidderId);
+					if(CollectionUtils.isNotEmpty(certificationsCheck)){
+						for (Iterator iterator = certificationsCheck.iterator(); iterator.hasNext();) {
+							CertificationCheck certificationCheck = (CertificationCheck) iterator.next();
+							Integer certificationApplyId = certificationCheck.getCertificationApplyId();
+							if(StringUtils.equals(CommonStatusConst.STATUS_OK,certificationCheck.getCertificationApply().getResult())){
+								bcDao.insertByApplyId(certificationApplyId);
+							}
+							BidderCertificationAudit ca = new BidderCertificationAudit();
+							ca.setAuditor(bc.getUserId());
+							ca.setAuditStatus(certificationCheck.getCertificationApply().getResult());
+							ca.setAuditTime(new Date());
+							ca.setAuditReason(certificationCheck.getCertificationApply().getMsg());
+							ca.setCertificationCerticateId(certificationApplyId);
+							bcaDao.insert(ca);
+						}
+					}
+					
 					
 				}else{//审核不通过
 					bca.setAuditStatus("FLS");
@@ -705,7 +736,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 	 * @throws BusinessException
 	 */
 	public  <T> BidderCertificateAduit getBidderCertificateAduitInfo(T obj,BidderCertificateAduit bc) throws BusinessException {
-		// TODO Auto-generated method stub
 		
 		Class clazz = obj.getClass();
 	    Field[] fields = obj.getClass().getDeclaredFields();//获得属性
@@ -724,7 +754,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 							AuditInfo mm =(AuditInfo)o;
 							//动态set方法  result 
 							String name = cu.underlineToCamel2(field.getName());
-							System.out.println("转换后的字段名"+name);
+//							System.out.println("转换后的字段名"+name);
 							rpd = new PropertyDescriptor(name,
 									bc.getClass());
 				            	Method setresultMethod = rpd.getWriteMethod();//获得set方法
@@ -737,22 +767,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 							Object om =  setMsgMethod.invoke(bc,mm.getMsg());  //执行set 
 //							System.out.println(om.toString());
 						}
-						System.out.println(o.getClass().getName());
+//						System.out.println(o.getClass().getName());
 					}
 					
 					
-				} catch (IntrospectionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (Exception e) {
+					throw ValidateException.ERROR_SYSTEM_INTERNAL.clone(e, "数据处理出错");
 				}
 	    }
 	    return bc;

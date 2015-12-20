@@ -103,10 +103,12 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
                             <div class="auto value ">
-								<div class="marb20 clear">
+<div class="marb20 clear">
+                                    <img src="<?=empty($base['logoUrl']) ? '/uploads/pic.jpg' : imageView2($base['logoUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
                                         <label class="btn-file3  ">
-                                            上传图片<input type="file" name="file" value="<?=$base['logoUrl']?>" ><input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
+                                            上传图片<input type="file" name="file">
+                                            <input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>

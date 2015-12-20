@@ -46,9 +46,8 @@ class FactoryController extends AdminController {
         $accountType     = I('get.accountType',0,'intval');
         $accountTypeList = array(
                             '0'=>'--所有--',
-                            'CA#'=>'现金账户',
-                            'IA#'=>'投资账户',
-                            'OCA'=>'分期卡账户',
+                            'PA#'=>'资金账户',
+                            'PP#'=>'工程款账户',
                         );
         
         $type_keys = array_keys($accountTypeList);
@@ -109,7 +108,8 @@ class FactoryController extends AdminController {
             'CRT'=>'创建任务',
             'DNG'=>'执行中',
             'OK#'=>'执行完成',
-            'DEL'=>'任务撤销'
+            'DEL'=>'任务撤销',
+            'FLS'=>'执行失败'
         );
         $status_keys = array_keys($status_list);
         if($status AND array_key_exists($status, $status_keys)){

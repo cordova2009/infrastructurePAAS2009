@@ -99,16 +99,16 @@ public class CapitalManageServiceImpl implements CapitalManageService{
 		}
 		String decodeTradePassword =null;
 		//尝试进行解密
-//		if(StringUtils.isNotBlank(tradePassword)){
-//			try {
-//				decodeTradePassword= DESUtil.decodeDESwithCBC(tradePassword, appkey);
-//				
-//			}catch (Exception e) {
-//				log.error(String.format("支付密码des解密出错"),e);
-//				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e,"支付密码des解密出错");
-//			}
-//		}
-//		ValidateUtil.assertNotEqual(userPassword.getTradePassword(), decodeTradePassword,"支付密码不正确", ValidateException.ERROR_MATCH_VALIDATECODE.getErrcode());
+		if(StringUtils.isNotBlank(tradePassword)){
+			try {
+				decodeTradePassword= DESUtil.decodeDESwithCBC(tradePassword, appkey);
+				
+			}catch (Exception e) {
+				log.error(String.format("支付密码des解密出错"),e);
+				throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e,"支付密码des解密出错");
+			}
+		}
+		ValidateUtil.assertNotEqual(userPassword.getTradePassword(), decodeTradePassword,"支付密码不正确", ValidateException.ERROR_MATCH_VALIDATECODE.getErrcode());
 		ValidateResult vr = new ValidateResult();
 		vr.setValidateMsg("支付验证码验证成功");
 		return vr;

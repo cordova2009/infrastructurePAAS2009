@@ -2,6 +2,7 @@ package com.hummingbird.paas.mapper;
 
 import java.util.List;
 
+import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.User;
 
 public interface UserMapper {

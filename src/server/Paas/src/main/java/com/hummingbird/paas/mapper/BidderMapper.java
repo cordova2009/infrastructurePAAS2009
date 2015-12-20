@@ -45,7 +45,6 @@ public interface BidderMapper {
      * 根据工程邀请投标人
      */
     List<Bidder> selectInviteBidders(String  objectId);
-
     /**
      * 根据主键更新属性不为空的记录
      */

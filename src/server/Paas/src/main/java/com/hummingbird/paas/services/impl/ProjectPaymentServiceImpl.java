@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.constant.CommonStatusConst;
+import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.RequestException;
@@ -22,11 +23,15 @@ import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.util.http.HttpRequester;
 import com.hummingbird.commonbiz.util.TransOrderBuilder;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectPaymentPay;
 import com.hummingbird.paas.entity.ProjectPaymentReceive;
+import com.hummingbird.paas.event.BidSelectedEvent;
+import com.hummingbird.paas.event.ConfirmPayEvent;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
@@ -54,6 +59,8 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 	@Autowired
 	ProjectInfoMapper projectdao;
 	@Autowired
+	BiddeeMapper biddeedao;
+	@Autowired
 	BidderMapper bidderdao;
 
 	/**
@@ -79,8 +86,16 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		transPayment2Bidder(pp);
 		//资金帐户收款
 		receivenPayment2platform(pp);
-		
-		
+		//add 付款通知   2015年12月20日
+		ProjectInfo projectInfo = projectdao.selectByPrimaryKey(pp.getProjectId());
+		Integer biddeeId = projectInfo.getBiddeeId();
+		Integer bidderId = projectInfo.getBidderId();
+		Biddee biddee = biddeedao.selectByPrimaryKey(biddeeId);
+		Bidder bidder = bidderdao.selectByPrimaryKey(bidderId);
+		if(biddee != null && bidder != null){
+			ConfirmPayEvent pay = new ConfirmPayEvent(pp.getProjectId(),biddee.getUserId(),bidder.getUserId());
+			EventListenerContainer.getInstance().fireEvent(pay);
+		}
 		if(log.isDebugEnabled()){
 			log.debug("确认工程付款完成");
 		}

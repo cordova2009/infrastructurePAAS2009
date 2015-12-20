@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.constant.CommonStatusConst;
+import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.RequestException;
@@ -58,6 +59,7 @@ import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.event.InvBidEvent;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidCertificationMapper;
@@ -1402,6 +1404,20 @@ public class TenderServiceImpl implements TenderService {
 		bo.setObjectStatus("PUB");
 		bo.setPublishTime(new Date());
 		dao.updateByPrimaryKey(bo);
+		String objectId = bo.getObjectId();
+		//被邀标人
+		List<Integer> bidderIds = new ArrayList<Integer>();
+		if("INV".equalsIgnoreCase(bo.getObjectPublishType())){
+			List<Bidder> bidders = berDao.selectInviteBidders(objectId);
+			if(bidders!= null && bidders.size() >0){
+				for(Bidder bidder : bidders){
+					bidderIds.add(bidder.getUserId());
+				}
+				InvBidEvent bide = new InvBidEvent(objectId, bidderIds);
+				EventListenerContainer.getInstance().fireEvent(bide);
+			}
+			
+		}
 		if (log.isDebugEnabled()) {
 			log.debug("发布标的接口完成");
 		}

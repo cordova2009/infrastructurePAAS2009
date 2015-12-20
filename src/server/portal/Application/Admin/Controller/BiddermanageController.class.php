@@ -79,7 +79,7 @@ class BiddermanageController extends AdminController {
 		$api = new ApiService();
 		$resp = $api->setApiUrl(C('APIURI.paas1'))
 		->setData($data)->send('myBidder/authInfo/checkApplication');
-		if($resp===false)
+		if(!check_resp($resp))
 		{
 			$this->error('系统错误,请稍后再试');
 		}

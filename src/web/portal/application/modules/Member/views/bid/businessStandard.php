@@ -11,7 +11,7 @@ if(check_resp($resp)){
             <input name="bidId" value="<?=$bidId?>" type="hidden" />
             <div class="shangwubiao">
                 <div class="clear">
-                    <i class="ico i-info left marr10" style="margin-top: 3px;"></i>
+                    <i class="ico i-info left marr10"></i>
                     <div class="auto orange">
                         商务标标附件包括法定代表人身份证明、法人授权委托书、投标函、报价表、企业营业执照、
                         资质证书，以及安全生产证明等，具体请下载招标文件，严格按照招标文件要求完成商务标。
@@ -31,10 +31,16 @@ if(check_resp($resp)){
                 <div class="item">
                     <div class="lab">项目报价表</div>
                     <div class="value">
-                        <a class="btn-file2 wid110" href="javascript:">
-                            <input type="file" class="file-upload" name="file"> 上传附件
+                        <a class="btn-file2 wid110 <?php if(isset($info) && !empty($info['projectQuotationUrl'])) echo 'hide'?>" href="javascript:">
+                            <span>上传附件</span>
+                            <input type="file" class="file-upload" name="file">
                             <input type="hidden" name="projectQuotationUrl" value="<?=isset($info) ? $info['projectQuotationUrl'] : ''?>">
                         </a>
+
+                        <div class="uploaded <?php if(!isset($info) || empty($info['projectQuotationUrl'])) echo 'hide'?>">
+                            <a target="_blank" href="<?=isset($info)?imageView2($info['projectQuotationUrl']):''?>" class="btn-file2 view">查看</a>
+                            <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                        </div>
                     </div>
                 </div>
 
@@ -50,10 +56,15 @@ if(check_resp($resp)){
                 <div class="item">
                     <div class="lab">商务标书</div>
                     <div class="value">
-                        <a class="btn-file2 wid110" href="javascript:">
-                            <input type="file" class="file-upload" name="file"> 上传附件
+                        <a class="btn-file2 wid110 <?php if(isset($info) && !empty($info['constructionCommitmentUrl'])) echo 'hide'?>" href="javascript:">
+                            <span>上传附件</span>
+                            <input type="file" class="file-upload" name="file">
                             <input type="hidden" name="constructionCommitmentUrl" value="<?=isset($info) ? $info['constructionCommitmentUrl'] : ''?>">
                         </a>
+                        <div class="uploaded <?php if(!isset($info) || empty($info['constructionCommitmentUrl'])) echo 'hide'?>">
+                            <a target="_blank" href="<?=isset($info)?imageView2($info['constructionCommitmentUrl']):''?>" class="btn-file2 view">查看</a>
+                            <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                        </div>
                     </div>
                 </div>
 
@@ -73,18 +84,4 @@ if(check_resp($resp)){
         </form>
     </div>
 </div>
-<script>
-$(".file-upload").fileupload({
-    url:'<?=U('/member/upload/file')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-    dataType: 'json',
-    done:function(e,data){
-        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-        //返回的数据在data.result中，假设我们服务器返回了一个json对象
-        if(data.result.status == '0'){
-            $(this).next().val(data.result.url);
-        }else{
-            layer.alert(data.result.msg,{icon:2});
-        }
-    }
-})
-</script>
+<?php require_once __DIR__.'/../common/upload.pic.php';?>

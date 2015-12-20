@@ -11,7 +11,6 @@ input[type='checkbox']{vertical-align: -2px;margin-right: 5px;}
 a{ color:#000; text-decoration:none;}
 a:link,a:visited{ text-decoration:none;}
 a:hover{ opacity: 0.8;transition:all .5s;-webkit-transition:all .5s;}
-.red,.red a{ color:#F00;}
 .left{ float:left; display:inline}
 .right{ float:right;display:inline}
 .auto{ height:auto; overflow:hidden; zoom:1;}
@@ -595,7 +594,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .checkBtn a{color: #fff;width: 180px;text-align: center;line-height: 40px;display: inline-block;background: #bebebe;border-radius: 5px;margin: 0 30px;}
 .checkBtn a.active{background: #1b8fff;position: relative;}
 .checkBtn a.active:after{width: 16px;height: 12px;background: url(../images/ico1.png);background-position: -24px -278px;content: "";position: absolute;right: 5px;bottom: 5px;}
-.zhizhao{padding-left: 120px;}
+.zhizhao{ margin: 0 auto; width: 400px;}
 
 .i-right{background-position: -24px -280px;width: 16px;height: 11px;display: inline-block;vertical-align: middle; float: right; top: 20px; right: 7px;}
 .zhizhao p{color: #555;font-size: 15px;padding-top: 25px;}
@@ -629,7 +628,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .shangwubiao .input1{line-height: 40px;height: 40px;width: 340px;}
 .shangwubiao .item{margin-top: 25px;height: auto;overflow: hidden;}
 .shangwubiao .value{width: 420px;float: left;}
-.shangwubiao .btn-file2{line-height: 42px;height: 42px;vertical-align: middle;margin-left: 10px;}
+.shangwubiao .btn-file2{line-height: 42px;height: 42px;vertical-align: middle;margin-right: 10px;}
 .shangwubiao .datepicker{width: 160px;}
 
 .chongzhi{padding: 40px 0;font-size: 26px;}
@@ -720,7 +719,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .table3 table{width: 100%;font-size: 14px;color: #222;line-height: 30px;}
 .table3 table td{padding: 0 5px;}
 
-.i-info{width: 15px;height: 15px;background-position: 0 -368px;vertical-align: middle;}
+.i-info{width: 15px;height: 15px;background-position: 0 -368px;vertical-align: middle;margin-top: 3px;}
 
 /*企业资质*/
 .qyzz .leftimg{width: 244px;height: 166px;margin-left: 80px;}
@@ -758,7 +757,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .errorCont .left{margin-right: 38px;}
 .errorCont .errorTxt1{font-size: 20px;color: #1b8fff;line-height: 26px;}
 .errorCont .errorTxt2{font-size: 42px;color: #1b8fff;line-height: 42px;padding-top: 5px;font-weight: bold;}
-.errorCont .errorTxt3{font-size: 14px;color: #1b8fff;line-height: 18px;padding-top: 38px;}
+.errorCont .errorTxt3,.errorCont .errorTxt3 a{font-size: 14px;color: #1b8fff;line-height: 18px;padding-top: 38px;}
 
 .errorLink{text-align: center;color: #1b8fff;padding-top: 150px;padding-bottom: 60px;}
 .errorLink a{color: #1b8fff;line-height: 34px;margin: 0 40px;display: inline-block;font-size: 18px;border-top: #1b8fff 1px solid;border-bottom: #1b8fff 1px solid;}
@@ -850,7 +849,9 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .orange{color: #ff9b09}
 .blue{color: #1b8fff;}
 .blue2{color: #73e2ff;}
+.red{color: #73e2ff;}
 a.blue:hover{color: #73e2ff}
+.red,.red a{ color:#F00;}
 
 .text-left{text-align: left!important;}
 .text-center{text-align: center!important;}

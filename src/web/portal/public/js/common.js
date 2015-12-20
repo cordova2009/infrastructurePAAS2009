@@ -158,7 +158,7 @@ $(function() {
         if($this.hasClass('radio') && $this.hasClass('on')){
             return false;
         }else if($this.hasClass('radio') && !$this.hasClass('on')){
-            $this.siblings().removeClass('on')
+            $('.i-check').removeClass('on')
             $this.addClass('on')
                 .next().prop('checked',true);
             return true;
@@ -178,7 +178,7 @@ $(function() {
             format: 'Y-m-d',
             formatDate: 'Y-m-d'
         });
-        $(this).datetimepicker('show')
+        $(this).datetimepicker('show');
     });
 
     //

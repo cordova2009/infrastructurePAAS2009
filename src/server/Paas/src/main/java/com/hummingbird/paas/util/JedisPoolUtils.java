@@ -4,9 +4,11 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.PropertiesUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Token;
 
 import net.sf.json.util.JSONUtils;
@@ -215,6 +217,55 @@ public class JedisPoolUtils {
 		
 		return i;
 	}
+	
+	/**
+	 * 执行redis,使用模板模式,需要用户创建执行器进行处理,如果获取不到jedis连接,会抛出JedisException异常
+	 * @param executor
+	 * @param onerror
+	 * @return
+	 * @throws BusinessException 业务操作
+	 */
+	public static Object execute(JedisExecutor executor) throws BusinessException{
+		return execute(executor,null);
+	}
+
+	
+	/**
+	 * 执行redis,使用模板模式,需要用户创建执行器进行处理
+	 * @param executor
+	 * @param onerror
+	 * @return
+	 * @throws BusinessException 业务操作
+	 */
+	public static Object execute(JedisExecutor executor,JedisErrorExecutor onerror) throws BusinessException{
+		Jedis jedis=null;
+		ValidateUtil.assertNullnoappend(executor, "业务处理代码为空");
+		try {
+				jedis = getJedis();
+				return executor.execute(jedis);//执行业务
+			} catch (JedisException e) {
+				if(onerror!=null){
+					//由用户自定义处理器处理
+					return onerror.onJedisGetError(e,jedis);     
+				}
+				else{
+					//抛出错误 
+					throw e;
+				}
+			
+			} finally{ 
+		        // 正确释放资源
+		         if(jedis != null ) {
+		                try {
+							returnRes(jedis);
+						} catch (Exception e) {
+							log.error(String.format("归还redis连接出错"),e);
+						}
+		         }
+			}
+	}
+	
+	
 
 	private static  int getDefaultExpireIn(){
 		//1小时有效
@@ -251,5 +302,35 @@ public class JedisPoolUtils {
 		System.out.println(jpu);
 
 		}
+	
+	/**
+	 * @author john huang
+	 * 2015年12月20日 下午5:04:38
+	 * 本类主要做为 jedis错误 时的处理器
+	 */
+	public static interface JedisErrorExecutor{
+		/**
+		 * 获取不到jedis时,或jedis出错时的处理
+		 * @param jedis 
+		 * @return
+		 */
+		public Object onJedisGetError(JedisException e, Jedis jedis) throws BusinessException;
 	}
-
+	
+	/**
+	 * @author john huang
+	 * 2015年12月20日 下午5:05:01
+	 * 本类主要做为 jedis的执行器
+	 */
+	public static interface JedisExecutor{
+		/**
+		 * 执行jedis的内容
+		 * @param jedis
+		 * @return
+		 */
+		public Object execute(Jedis jedis) throws BusinessException;
+		
+	}
+	
+	
+}

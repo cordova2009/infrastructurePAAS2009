@@ -1,4 +1,6 @@
 <?php
+
+namespace Payment\Alipay;
 /* *
  * 类名：AlipaySubmit
  * 功能：支付宝各接口请求提交类
@@ -30,7 +32,7 @@ class AlipaySubmit {
 	/**
 	 * 生成签名结果
 	 * @param $para_sort 已排序要签名的数组
-	 * return 签名结果字符串
+	 * @return string 签名结果字符串
 	 */
 	function buildRequestMysign($para_sort) {
 		//把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串

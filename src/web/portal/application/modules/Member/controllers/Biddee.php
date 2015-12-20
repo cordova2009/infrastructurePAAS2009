@@ -17,11 +17,11 @@ class BiddeeController extends MemberController{
             if(!check_resp($resp)) {
 		 $this->redirect(U('/login'));
             }
-	    if(empty($resp['datail'])||empty($resp['overall']))
+	    if(empty($resp['detail'])||empty($resp['overall']))
 	    {
 		  //  $this->redirect(U('applyfor'));
 	    }
-	    $this->assign('datail',isset($resp['datail'])?$resp['datail']:[]);
+	    $this->assign('datail',isset($resp['detail'])?$resp['detail']:[]);
 	    $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);
 	    $this->layout->meta_title = '认证信息';
     }
@@ -30,6 +30,9 @@ class BiddeeController extends MemberController{
 	    $token = isset($this->user['token'])?$this->user['token']:'';
             $curl = new Curl($this->config->url->api->paas);
             $base = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getBaseInfo_apply');
+	    if(!check_resp($base)) {
+		    $this->error($base['errmsg']);
+	    }
             $legal= $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getLegalPersonInfo_apply');
             $registered = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getRegisteredInfo_apply');
             $bank = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getBankInfo_apply');
@@ -59,9 +62,13 @@ class BiddeeController extends MemberController{
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('myBiddee/authInfo/getApplication');
-	    if($resp['errcode']==1)
-	    {
-		    $this->redirect(U('/login'));
+	    if(!check_resp($resp)) {
+		    if($resp['errcode']==1)
+		    {
+			    $this->redirect(U('/login'));
+			    return;
+		    }
+		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
 	    }
 	    $this->assign('bank',$resp['bankInfo']);
 	    $this->assign('base',$resp['baseInfo']);
@@ -121,11 +128,10 @@ class BiddeeController extends MemberController{
 	    //$name = encrypt($name,$this->config->api->app->appKey);
 	    //$idCard = encrypt($idCard,$this->config->api->app->appKey);
 	    $resp = $curl->setData(['token'=>$token,'legalPerson'=>['name'=>$name,'idCard'=>$idCard,'idCardfrontUrl'=>$idCardfrontUrl,'idCardBackUrl'=>$idCardBackUrl,'authorityBookUrl'=>$authorityBookUrl]])->send('myBiddee/authInfo/saveLegalPersonInfo_apply');
-	    if(check_resp($resp)) {
-		    $this->success('保存成功！');
-	    }else{
+	    if(!check_resp($resp)) {
 		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
 	    }
+	    $this->success('保存成功！');
     }
     private function companyRegistered()
     {
@@ -262,11 +268,12 @@ class BiddeeController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('tender/queryMyObjectSurvey');
-	    if(check_resp($resp)) {
-		    $this->assign('bidingNum',$resp['bidingNum']);
-		    $this->assign('doingNum',$resp['doingNum']);
-		    $this->assign('doneNum',$resp['doneNum']);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('bidingNum',$resp['bidingNum']);
+	    $this->assign('doingNum',$resp['doingNum']);
+	    $this->assign('doneNum',$resp['doneNum']);
 	    $this->assign('pageIndex',I('pageIndex'));
 	    $this->assign('type',I('type','biding'));
     }
@@ -276,11 +283,12 @@ class BiddeeController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('tender/getIndustryList');
-	    if(check_resp($resp)) {
-		    foreach($resp['list'] as $v)
-		    {
-			    $tmp[$v['industryId']] = ['industryIcon'=>$v['industryIcon'],'industryName'=>$v['industryName']];
-		    }
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
+	    }
+	    foreach($resp['list'] as $v)
+	    {
+		    $tmp[$v['industryId']] = ['industryIcon'=>$v['industryIcon'],'industryName'=>$v['industryName']];
 	    }
 	    return $tmp;
     }
@@ -312,6 +320,9 @@ class BiddeeController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('tender/'.$func);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
+	    }
 	    $page = $this->getPagination($resp['total'], $this->pageSize);
 	    $ret = $this->getIndustrys();
 	    $html = $this->render($type,['page'=>$page,$type=>$resp['list'],'industry'=>$ret]);
@@ -370,31 +381,33 @@ class BiddeeController extends MemberController{
 		    $token = $this->user['token'];
 		    $curl = new Curl($this->config->url->api->paas);
 		    $resp = $curl->setData(['token'=>$token,'objectId'=>$objectId,'winBidId'=>$winBidId,'paymentInfo'=>['payType'=>$payType,'payPeriod'=>$payPeriod,'payList'=>$data]])->send('tender/bidEvaluation');
-		    if(check_resp($resp)) {
-			    $this->success('保存成功！');
-		    }else{
-			    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+		    if(!check_resp($resp)) {
+			    $this->error($resp['errmsg']);
 		    }
+		    $this->success('保存成功！');
 	    }
-/*
-$this->assign('survery',['bidderNum'=>5,'objectName'=>'asdf','maxBidAmount'=>200,'minBidAmount'=>100]);
-$this->assign('list',[['bidId'=>1,'bidderCompanyName'=>'asf','bidderId'=>'123123','bidTime'=>'2015-05-03','bidAmount'=>200,'projectExpectStartDate'=>'2015-09-09','projectExpectPeriod'=>200,'fileUrl'=>'asf','certificationList'=>[['certificationId'=>2,'certificationName'=>'一级建造']]]]);
-$this->assign('page', '');
-return;
-*/
+	    /*
+	       $this->assign('survery',['bidderNum'=>5,'objectName'=>'asdf','maxBidAmount'=>200,'minBidAmount'=>100]);
+	       $this->assign('list',[['bidId'=>1,'bidderCompanyName'=>'asf','bidderId'=>'123123','bidTime'=>'2015-05-03','bidAmount'=>200,'projectExpectStartDate'=>'2015-09-09','projectExpectPeriod'=>200,'fileUrl'=>'asf','certificationList'=>[['certificationId'=>2,'certificationName'=>'一级建造']]]]);
+	       $this->assign('page', '');
+	       return;
+	     */
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('tender/queryMyObjectTenderSurvey');
 	    if(check_resp($resp)) {
 		    $this->assign('survey',$resp['survey']);
 	    }else{
-		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+		    //    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
 	    }
 	    $i = I('pageIndex');
 	    $p = $this->pageSize;
 	    $i = $i==''?0:$i;
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
+	    }
 	    $this->assign('list',$resp['list']);
 	    $this->assign('objectId',$id);
 	    $page = $this->getPagination($resp['total'], $this->pageSize);
@@ -420,30 +433,30 @@ return;
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('bid/queryTendererEvaluate');
-	    if(check_resp($resp)) {
-		    $this->assign('evaluate',$resp['evaluateInfo']);
-	    }else{
-		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('evaluate',$resp['evaluateInfo']);
     }
     public function incomeAction()
     {
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('myPayment/getMyPaymentOverall');
-	    if(check_resp($resp)) {
-		    $this->assign('income',$resp['overall']);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('income',$resp['overall']);
 	    $p = $this->pageSize;
 	    $i = empty($i)?1:$i;
 	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('myPayment/queryMyPaymentList');
 	    if(!check_resp($resp)) {
 		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '出错了，请稍后再试！！');
 	    }
-        $this->assign('list',$resp['list']);
-        $page = $this->getPagination($resp['total'], $this->pageSize);
-        $this->assign('page', $page);
-        $this->assign('pageIndex',I('pageIndex'));
+	    $this->assign('list',$resp['list']);
+	    $page = $this->getPagination($resp['total'], $this->pageSize);
+	    $this->assign('page', $page);
+	    $this->assign('pageIndex',I('pageIndex'));
     }
     public function paymentAction()
     {
@@ -485,10 +498,11 @@ return;
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->capital);
 	    $resp = $curl->setData(['token'=>$token])->send('capitalManage/getPlatformBankcard');
-	    if(check_resp($resp)) {
-		    $this->assign('bankInfo',$resp['bankInfo']);
-		    $this->assign('objectId',$id);
+	    if(!check_resp($resp)) {
+		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '出错了，请稍后再试！！');
 	    }
+	    $this->assign('bankInfo',$resp['bankInfo']);
+	    $this->assign('objectId',$id);
     }
     public function receivedAction()
     {
@@ -496,9 +510,10 @@ return;
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myPayment/queryPaidAmountDetail');
-	    if(check_resp($resp)) {
-		    $this->assign('list',$resp['list']);
+	    if(!check_resp($resp)) {
+		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '出错了，请稍后再试！！');
 	    }
+	    $this->assign('list',$resp['list']);
     }
     public function willreceiveAction()
     {
@@ -506,8 +521,9 @@ return;
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myPayment/queryWillPayAmountDetail');
-	    if(check_resp($resp)) {
-		    $this->assign('list',$resp['list']);
+	    if(!check_resp($resp)) {
+		    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '出错了，请稍后再试！！');
 	    }
+	    $this->assign('list',$resp['list']);
     }
 }

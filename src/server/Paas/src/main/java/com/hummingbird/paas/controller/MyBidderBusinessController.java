@@ -805,7 +805,7 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveBaseInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveBaseInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 233800;
 		String messagebase = "保存投标人基本信息";
@@ -871,7 +871,7 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveLegalPersonInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveLegalPersonInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 233900;
 		String messagebase = "保存投标人法人信息";
@@ -937,7 +937,7 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveRegisteredInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveRegisteredInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 234000;
 		String messagebase = "保存投标人公司注册信息";
@@ -1007,7 +1007,7 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveBankInfo",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveBankInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 234100;
 		String messagebase = "保存投标人开户行信息";
@@ -1136,7 +1136,7 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/applay",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel applay(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 234300;
 		String messagebase = "提交投标人认证申请";
@@ -1194,7 +1194,6 @@ public class MyBidderBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/checkApplication",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 234400;
 		String messagebase = "提交投标人认证审核结果";
@@ -1227,17 +1226,6 @@ public class MyBidderBusinessController extends BaseController  {
 			ValidateUtil.assertNull(bic.getBidder_id(), "参数bidder_id不能为空!");
 			
 			flag = myBidderService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBidder_id());
-				
-		
-//				int i= 0;
-//				
-//				i= myBidderService.applay(transorder.getApp().getAppId(), token);
-//				if(i<= 0){
-//					rm.setErrmsg("数据未修改！");
-//				}else{
-//					rm.setErrmsg(messagebase + "成功");
-//				}
-//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

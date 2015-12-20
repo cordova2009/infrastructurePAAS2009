@@ -29,8 +29,6 @@ function regex($value,$rule) {
         'integer'   =>  '/^[-\+]?\d+$/',
         'double'    =>  '/^[-\+]?\d+(\.\d+)?$/',
         'english'   =>  '/^[A-Za-z]+$/',
-        'mobile'   =>  '/^(1[0-9])\d{9}$/',
-        'telephone'   =>  '/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/',
     );
     // 检查是否有内置的正则表达式
     if(isset($validate[strtolower($rule)]))
@@ -223,11 +221,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
  * @return bool
  */
 function check_resp($resp){
-    $return = false;
-    if(!empty($resp) && $resp['errcode'] == '0'){
-        $return = true;
-    }
-    return $return;
+    return !empty($resp) && $resp['errcode'] == '0';
 }
 /**
  * @param $mobile
@@ -429,8 +423,14 @@ function price_dispose($price,$dividend=100){
  * @return string
  */
 function price_format($price,$num=100){
-    return number_format(price_convert($price,$num),0);
-    return $price;
+    $price = price_convert($price,$num);
+    $surfix = '';
+    //
+    if($price > 999999){
+        $price = $price / 10000;
+        $surfix = '万';
+    }
+    return number_format($price,0).$surfix;
 }
 /**
  * 金额转换方法
@@ -583,7 +583,7 @@ function newBusinessLicenseNumValid($code)
 	$str = '0123456789ABCDEFGHJKLMNPQRTUWXY';
 	$ws =[1,3,9,27,19,26,16,17,20,29,25,13,8,24,10,30,28];
 	$codes  = [];
-	$codes[0] = substr($code),0,17);
+	$codes[0] = substr($code,0,17);
 	$codes[1] = substr($code,17);	
 	
 	$sum = 0;
@@ -604,7 +604,7 @@ function newBusinessLicenseNumValid($code)
 	return true;
 }
 
-function OrgCode($orgCode){
+function orgCodeValid($orgCode){
 	if(""==$orgCode || sizeof($orgCode)!==10)
 	{
 		return false;
@@ -640,6 +640,34 @@ function OrgCode($orgCode){
 		if($crc==substr($orgCode,0,-1)){
 			$ret=true;
 		}
+	}
+	return $ret;
+}
+
+function busCodeValid($busCode){
+	$ret=false;
+	if(empty($busCode)||sizeof($$busCode)!=15)
+	{
+		return false;
+	}
+	$sum=0;
+	$s=[];
+	$p=[];
+	$a=[];
+	$m=10;
+	$p[0]=10;
+	for($i=0;$i<sizeof($busCode);$i++)
+	{
+		$a[$i]=(int)substr($busCode,$i,1);
+		$s[$i]=($p[$i]%11)+$a[$i];
+		if(0==$s[$i]%11){
+			$p[$i+1]=20;
+		}else{
+			$p[$i+1]=($s[$i]%10)*2;
+		}    
+	}                                       
+	if(1==($s[14]%10)){
+		$ret=true;
 	}
 	return $ret;
 }

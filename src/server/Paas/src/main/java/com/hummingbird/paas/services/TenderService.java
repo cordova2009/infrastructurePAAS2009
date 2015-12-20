@@ -17,6 +17,7 @@ import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
@@ -579,5 +580,14 @@ public interface TenderService {
 	 * @return 
 	 */
 	public void selectBid2win(String objectId, Biddee biddee, Integer bidder_id, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException;
+
+	/**
+	 * 首页查询投标人列表
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
+			Pagingnation pagingnation);
 
 }

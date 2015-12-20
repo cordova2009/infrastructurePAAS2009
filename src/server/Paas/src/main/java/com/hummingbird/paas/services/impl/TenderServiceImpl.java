@@ -110,6 +110,7 @@ import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
@@ -1468,9 +1469,18 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
 			throws BusinessException {
-		String[] kw=null;
+		List<String> kwlist=new ArrayList<>();
 		if(keywords!=null&&keywords.length>0){
-			kw = keywords;
+			for (int i = 0; i < keywords.length; i++) {
+				String akw = keywords[i];
+				if(StringUtils.isNotBlank(akw)){
+					kwlist.add(akw);
+				}
+			}
+		}
+		String[] kw=null;
+		if(!kwlist.isEmpty()){
+			kw = kwlist.toArray(new String[]{});
 		}
 		if (page != null && page.isCountsize()) {
 			int totalcount = dao.selectTotalTenderObjectList(kw);
@@ -1554,6 +1564,26 @@ public class TenderServiceImpl implements TenderService {
 			qlr.add(qr);
 		}
 		return qlr;
+	}
+	
+	/**
+	 * 首页查询投标人列表
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
+			Pagingnation pagingnation){
+		if(pagingnation!=null&&pagingnation.isCountsize()){
+			int count = berDao.selectBidderCount(body);
+			pagingnation.setTotalCount(count);
+			pagingnation.calculatePageCount();
+		}
+		List<String> keywords = body.getKeywords();
+		String bidderName = body.getBidderName();
+		
+		List<QueryBidderListHomepageResultVO> bers = berDao.selectBidder4homepage(keywords,bidderName,pagingnation);
+		return bers;
 	}
 
 	/**
@@ -1934,6 +1964,7 @@ public class TenderServiceImpl implements TenderService {
 		BidRecord bid = bidRecordDao.selectByPrimaryKey(winbidId);
 		ValidateUtil.assertNullnoappend(bid, "招标记录不存在");
 		ValidateUtil.assertNotEqual(bid.getObjectId(),objectId, "招标与投标不匹配");
+		ObjectProjectInfo objproj = bpdao.selectByPrimaryKey(objectId);
 		Integer winBidderId = bid.getBidderId();
 		ProjectPaymentDefine ppd = new ProjectPaymentDefine();
 		ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
@@ -2022,6 +2053,7 @@ public class TenderServiceImpl implements TenderService {
 		project.setBidderId(winBidderId);
 		project.setProjectId(objectId);//使用标的id
 		project.setStatus("OK#");
+		project.setProjectName(objproj.getProjectName());
 		try {
 			project.setStartTime(getDateFromStringOrNull(bid.getConstructionStartDate()));
 			project.setEndTime(getDateFromStringOrNull(bid.getConstructionEndDate()));

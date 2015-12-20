@@ -718,7 +718,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveBaseInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveBaseInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 230700;
 		String messagebase = "保存招标人基本信息";
@@ -783,7 +783,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveLegalPersonInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveLegalPersonInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 230800;
 		String messagebase = "保存招标人法人信息";
@@ -846,7 +846,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveRegisteredInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveRegisteredInfo_apply(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 230900;
 		String messagebase = "保存招标人公司注册信息";
@@ -978,7 +978,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/applay",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel applay(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 231100;
 		String messagebase = "提交招标人认证申请";
@@ -1037,7 +1037,6 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/checkApplication",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
 		int basecode = 231200;
 		String messagebase = "提交招标人认证审核结果";

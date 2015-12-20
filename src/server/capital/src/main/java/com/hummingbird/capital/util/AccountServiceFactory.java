@@ -10,6 +10,7 @@ import com.hummingbird.capital.exception.MaAccountException;
 import com.hummingbird.capital.face.Account;
 import com.hummingbird.capital.services.AccountService;
 import com.hummingbird.capital.services.ProjectAccountService;
+import com.hummingbird.capital.services.ProjectPaymentAccountService;
 
 /**
  * @author huangjiej_2
@@ -33,6 +34,9 @@ public class AccountServiceFactory {
 		switch (accountcode) {
 		case Account.ACCOUNT_PROJECT:
 			as= SpringBeanUtil.getInstance().getBean(ProjectAccountService.class );
+			break;
+		case Account.ACCOUNT_PROJECT_PAYMENT:
+			as= SpringBeanUtil.getInstance().getBean(ProjectPaymentAccountService.class );
 			break;
 		
 		default:

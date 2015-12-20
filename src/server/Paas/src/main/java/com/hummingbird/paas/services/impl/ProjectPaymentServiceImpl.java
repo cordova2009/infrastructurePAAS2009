@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,17 +76,29 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		if(log.isDebugEnabled()){
 			log.debug("确认工程付款开始");
 		}
+		
 		ValidateUtil.assertNullnoappend(body.getOrderId(), "工程付款订单号不存在");
 		ProjectPaymentPay pp = paydao.selectByOrderId(body.getOrderId());
 		ValidateUtil.assertNullnoappend(pp, "工程付款记录不存在");
 		ValidateUtil.assertNotEqual(pp.getStatus(), "CRT", "工程付款已处理,无法再处理");
-		pp.setStatus(CommonStatusConst.STATUS_OK);
-		pp.setPayTime(new Date());
-		paydao.updateByPrimaryKey(pp);
-		//转帐到投标人
-		transPayment2Bidder(pp);
+		
+		String confirmStatus = body.getConfirmStatus();
+		if(StringUtils.equals(CommonStatusConst.STATUS_OK, confirmStatus)){
+			//成功
+			pp.setStatus(CommonStatusConst.STATUS_OK);
+			pp.setPayTime(new Date());
+			paydao.updateByPrimaryKey(pp);
+			//转帐到投标人
+			transPayment2Bidder(pp);
+		}
+		else{
+			//失败
+			pp.setStatus(CommonStatusConst.STATUS_FAIL);
+			pp.setPayTime(new Date());
+			paydao.updateByPrimaryKey(pp);
+		}
 		//资金帐户收款
-		receivenPayment2platform(pp);
+//		receivenPayment2platform(pp);
 		//add 付款通知   2015年12月20日
 		ProjectInfo projectInfo = projectdao.selectByPrimaryKey(pp.getProjectId());
 		Integer biddeeId = projectInfo.getBiddeeId();
@@ -108,7 +121,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 	 * @throws DataInvalidException 
 	 * @throws RequestException 
 	 */
-	private void receivenPayment2platform(ProjectPaymentPay pp) throws MaAccountException, DataInvalidException, SignatureException, RequestException {
+	private void receivenPayment2bidder(ProjectPaymentReceive pp) throws MaAccountException, DataInvalidException, SignatureException, RequestException {
 		PropertiesUtil pu=new PropertiesUtil();
 		Map capbody = new HashMap();
 		capbody.put("amount", pp.getAmount());
@@ -122,8 +135,8 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 		
 		BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans("paas", pu.getProperty("appkey"), capbody, false, false);
 		String requestJson = JsonUtil.convert2Json(buildBaseTrans);
-		String paygatewayUrl = String.format("%s/capitalManage/UserAccountIncome",pu.getProperty("capital.url"));
-		log.debug(String.format("开始调用资金账户用户收入接口，地址是：%s", paygatewayUrl));
+		String paygatewayUrl = String.format("%s/capitalManage/userProjectPaymentAccountIncome",pu.getProperty("capital.url"));
+		log.debug(String.format("开始调用资金账户用户工程款收入接口，地址是：%s", paygatewayUrl));
 		String result2 = new HttpRequester().postRequest(paygatewayUrl,
 				requestJson);
 		if(result2==null){
@@ -146,9 +159,12 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 	/**
 	 * @param pp
 	 * @throws DataInvalidException 
+	 * @throws RequestException 
+	 * @throws MaAccountException 
+	 * @throws SignatureException 
 	 */
 	 @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	private void transPayment2Bidder(ProjectPaymentPay pp) throws DataInvalidException {
+	private void transPayment2Bidder(ProjectPaymentPay pp) throws DataInvalidException, SignatureException, MaAccountException, RequestException {
 		String orderId = pp.getOrderId();
 		ValidateUtil.assertNullnoappend(orderId, "工程收款订单号不存在");
 		ProjectPaymentReceive ppr = receivedao.selectByOrderId(orderId);
@@ -174,7 +190,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 			receivedao.insert(ppr);
 		}
 		//招标人资金帐户收款
-		
+		receivenPayment2bidder(ppr);
 		//平台方资金帐户付款
 	}
 		

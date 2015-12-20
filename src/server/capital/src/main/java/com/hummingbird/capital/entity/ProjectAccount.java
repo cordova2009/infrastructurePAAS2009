@@ -231,26 +231,22 @@ public class ProjectAccount implements Account{
 
 	@Override
 	public String getAccountName() {
-		// TODO Auto-generated method stub
 		return "资金账户";
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return "OK".equalsIgnoreCase(status);
 	}
 
 	
 	@Override
 	public boolean checkBalanceLimit(long limit) {
-		// TODO Auto-generated method stub
 		return getRemainingSum()>=limit;
 	}
 
 	@Override
 	public boolean isVirtualAccount() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

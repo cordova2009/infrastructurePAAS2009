@@ -9,9 +9,10 @@
     <result column="biddee_id" property="biddeeId" jdbcType="INTEGER" />
     <result column="start_time" property="startTime" jdbcType="DATE" />
     <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    project_id, object_id, bidder_id, status, biddee_id, start_time, end_time
+    project_id, object_id, bidder_id, status, biddee_id, start_time, end_time, project_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,10 +33,10 @@
   <insert id="insert" parameterType="com.hummingbird.paas.entity.ProjectInfo" >
     insert into t_gcgl_project (project_id, object_id, bidder_id, 
       status, biddee_id, start_time, 
-      end_time)
+      end_time, project_name)
     values (#{projectId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{bidderId,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{biddeeId,jdbcType=INTEGER}, #{startTime,jdbcType=DATE}, 
-      #{endTime,jdbcType=DATE})
+      #{endTime,jdbcType=DATE}, #{projectName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ProjectInfo" >
     insert into t_gcgl_project
@@ -61,6 +62,9 @@
       <if test="endTime != null" >
         end_time,
       </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="projectId != null" >
@@ -83,6 +87,9 @@
       </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=DATE},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -107,6 +114,9 @@
       <if test="endTime != null" >
         end_time = #{endTime,jdbcType=DATE},
       </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
     </set>
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
@@ -117,7 +127,8 @@
       status = #{status,jdbcType=VARCHAR},
       biddee_id = #{biddeeId,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=DATE},
-      end_time = #{endTime,jdbcType=DATE}
+      end_time = #{endTime,jdbcType=DATE},
+      project_name = #{projectName,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
    <select id="queryBeeProject" resultMap="BaseResultMap" >

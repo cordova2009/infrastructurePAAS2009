@@ -178,9 +178,39 @@ class BidController extends MemberController {
         }
         $this->assign('bidderInfo',$resp['bidderInfo']);
 
+        //查询投标要求基础信息
+        $resp = $curl->setData($data)
+                    ->send('bid/queryObjectRequirementInfo');
+        $cert_name_list = [
+            'pmCertification'=>'项目经理证明',
+            'constructorCertification'=>'建造师证明',
+            'safetyPermit'=>'安全生产许可证明',
+            'pmSafetyCertification'=>'项目经理安全生产考核合格证明',
+        ];
+        $this->assign('cert_name_list',$cert_name_list);
+
+        $safetyInfo=[];
+        $peopleRequirement=[];
+
+        if(check_resp($resp)) {
+            foreach($resp['bidSafetyInfo'] as $key=>$val){
+                $key = lcfirst(str_replace('need','',$key));
+                if($val == 'YES'){
+                    $safetyInfo[$key] = '<div class="li">'.$cert_name_list[$key].'</div>';
+                }
+            }
+
+            foreach($resp['bidPeopleRequirement'] as $key=>$val){
+                $key = lcfirst(str_replace('need','',$key));
+                if($val == 'YES'){
+                    $peopleRequirement[$key] = '<div class="li">'.$cert_name_list[$key].'</div>';
+                }
+            }
+        }
+
         //查询投标人在投标时已有和缺少的资质证书信息
         $resp       = $curl->setData($data)
-                    ->send('bid/queryBidderCertificationInfo');
+                            ->send('bid/queryBidderCertificationInfo');
         //
         $this->assign('certificationInfo',$resp['certificationInfo']);
 
@@ -192,46 +222,77 @@ class BidController extends MemberController {
             $bidderCertList = I('bidderCertList',[]);
 
             //这个判断只能判断数量是不是一致
-//            if(sizeof($bidderCertList) != sizeof($resp['certificationInfo']['requirementList'])){
-//                $this->error('投标失败，您的资质证书与要求不符！');
-//            }
-
-            $certificationList = [];
-            foreach($bidderCertList as $item){
-                if(in_array($item,$resp['certificationInfo']['requirementList'])){
-
-                    $certificationList[] = [
-                        'objReqId'=>$item,
-                        'bidderCertificationId'=>$item,
-                    ];
-                }
+            if(sizeof($bidderCertList) < sizeof($resp['certificationInfo']['requirementList'])){
+                $this->error('投标失败，您提交的资质证书与要求不符！');
             }
 
-            //这个判断才是真正判断要求的证书和提交的是否一致
-//            if(sizeof($resp['certificationInfo']['requirementList']) != sizeof($certificationList)){
-//                $this->error('投标失败，您的资质证书与要求不符！');
-//            }
+            $certificationList = [];
+            $tmp_array = [];
+            foreach($resp['certificationInfo']['requirementList'] as $item){
+
+                //这个判断才是真正判断要求的证书和提交的是否一致
+                if(!in_array($item['certificateId'],$bidderCertList)){
+
+                    $this->error('投标失败，缺少'.$item['certificationName']);
+                }
+
+                $certificationList[] = [
+                    'objReqId'=>$item['certificateId'],
+                    'bidderCertificationId'=>$item['certificateId'],
+                ];
+                $tmp_array[] = $item['certificateId'];
+            }
+            //将未要求的证书也加入到列表中
+            foreach(array_diff($bidderCertList,$tmp_array) as $item){
+                $certificationList[] = ['objReqId'=>$item,'bidderCertificationId'=>$item];
+            }
 
             $data['bidId'] = I('bidId');
             $data['certificationList'] = $certificationList;
 
-            $data['bidSafetyInfo']['needSafetyPermitNo'] = I('needSafetyPermitNo');
-            $data['bidSafetyInfo']['needSafetyPermitEndDate'] = I('needSafetyPermitEndDate');
+            array_map(function($key) use ($cert_name_list){
+                $value = I($key.'No');
+                if(empty($value)){
+                    $this->error($cert_name_list[$key].'编号不能为空！');
+                }
+                $value = I($key.'EndDate');
+                if(empty($value)){
+                    $this->error($cert_name_list[$key].'有效期不能为空！');
+                }
+                $value = I($key.'Url');
+                if(empty($value)){
+                    $this->error('请上传'.$cert_name_list[$key].'附件！');
+                }
+            },array_keys($safetyInfo),array_keys($peopleRequirement));
+
+            $data['bidSafetyInfo']['needSafetyPermitNo'] = I('safetyPermitNo');
+            $data['bidSafetyInfo']['needSafetyPermitEndDate'] = I('safetyPermitEndDate');
             $data['bidSafetyInfo']['needSafetyPermitUrl'] = I('safetyPermitUrl');
-            $data['bidSafetyInfo']['needPmSafetyCertificationNo'] = I('needPmSafetyCertificationNo');
-            $data['bidSafetyInfo']['needPmSafetyCertificationEndDate'] = I('needPmSafetyCertificationEndDate');
+
+            $data['bidSafetyInfo']['needPmSafetyCertificationNo'] = I('pmSafetyCertificationNo');
+            $data['bidSafetyInfo']['needPmSafetyCertificationEndDate'] = I('pmSafetyCertificationEndDate');
             $data['bidSafetyInfo']['needPmSafetyCertificationUrl'] = I('pmSafetyCertificationUrl');
 
-            $data['bidPeopleRequirement']['needPmCertificationNo'] = I('needPmCertificationNo');
-            $data['bidPeopleRequirement']['needPmCertificationEndDate'] = I('needPmCertificationEndDate');
+            $data['bidPeopleRequirement']['needPmCertificationNo'] = I('pmCertificationNo');
+            $data['bidPeopleRequirement']['needPmCertificationEndDate'] = I('pmCertificationEndDate');
             $data['bidPeopleRequirement']['needPmCertificationUrl'] = I('pmCertificationUrl');
-            $data['bidPeopleRequirement']['needConstructorCertificationNo'] = I('needConstructorCertificationNo');
-            $data['bidPeopleRequirement']['needConstructorCertificationEndDate'] = I('needConstructorCertificationEndDate');
+
+            $data['bidPeopleRequirement']['needConstructorCertificationNo'] = I('constructorCertificationNo');
+            $data['bidPeopleRequirement']['needConstructorCertificationEndDate'] = I('constructorCertificationEndDate');
             $data['bidPeopleRequirement']['needConstructorCertificationUrl'] = I('constructorCertificationUrl');
 
             $data['bankGuarantee']['bankGuaranteeAmount'] = price_dispose(I('bankGuaranteeAmount'));
+            if(empty($data['bankGuarantee']['bankGuaranteeAmount'])){
+                $this->error('投标保函金额不能为空！');
+            }
             $data['bankGuarantee']['bankGuaranteeUrl'] = I('bankGuaranteeUrl');
+            if(empty($data['bankGuarantee']['bankGuaranteeUrl'])){
+                $this->error('请上传保函凭证扫描件！');
+            }
             $data['bankGuarantee']['bankGuaranteeNo'] = I('bankGuaranteeNo');
+            if(empty($data['bankGuarantee']['bankGuaranteeNo'])){
+                $this->error('保函凭证编号不能为空！');
+            }
 
             $resp = $curl->setData($data)->send('bid/saveBidRequirementInfo');
             if(check_resp($resp)){
@@ -250,17 +311,7 @@ class BidController extends MemberController {
 
         $this->assign('bidRequirementInfo',$resp['bidRequirementInfo']);
 
-        //查询投标要求基础信息
-        $resp = $curl->setData($data)
-                        ->send('bid/queryObjectRequirementInfo');
-        $safetyInfo=[];
-        $peopleRequirement=[];
-        if(check_resp($resp)) {
-            $safetyInfo = $resp['bidSafetyInfo'];
-            $peopleRequirement = $resp['bidPeopleRequirement'];
-        }
-        $this->assign('safetyInfo',$safetyInfo);
-        $this->assign('peopleRequirement',$peopleRequirement);
+        $this->assign('needCertList',['投标人安全生产证明'=>$safetyInfo,'投标人主要人员资质'=>$peopleRequirement]);
 
         $this->assign('objectId',$objectId);
     }

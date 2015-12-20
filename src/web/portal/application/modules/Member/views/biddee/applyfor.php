@@ -103,9 +103,18 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
                             <div class="auto value ">
-                                <div class="btn-file2 padm10"><input type="file" class=""  name="file"  value="<?=$base['logoUrl']?>"><input type="hidden" name="logoUrl" value="<?=isset($base['logoUrl'])?$base['logoUrl']:''?>">
-                                    上传图片</div>
-                            </div>
+								<div class="marb20 clear">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            上传图片<input type="file" name="file" value="<?=$base['logoUrl']?>" ><input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                        <p class="color8 text-center hide">上传中…</p>
+                                    </div>
+                                </div>
+                                </div>
                         </div>
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）简介</span>
@@ -541,6 +550,7 @@
                     }else{
                         layer.alert(data.result.msg,{icon:2});
                     }
+		    $(this).parent().next('.progress').hide().next().hide()
                 },
                 fail: function () {
                     $(this).parent().css('background','#8ab46e');

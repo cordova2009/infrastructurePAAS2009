@@ -8,7 +8,7 @@
             <div class="table charge_table getout_table">
                 <table>
                     <tr class="bg2 thead">
-                        <td class="wid90 ">提现申请日期</td>
+                        <td class="wid150 ">提现申请日期</td>
                         <td class="wid90 text-right">申请提现金额</td>
                         <td class="wid90 text-right">提现手续费</td>
                         <td class="wid90 ">状态</td>
@@ -35,17 +35,11 @@
                         <td><?=$item['remark']?></td>
                     </tr>
                     <?php endforeach; ?>
-
+                    <?php if(empty($list)):?>
+                    <tr><td colspan="7">暂无数据</td></tr>
+                    <?php endif;?>
                 </table>
             </div>
-            <!--<div class="page">
-                <a class="disabled">上一页</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">下一页</a>
-            </div>-->
         </div>
     </div>
 </div>

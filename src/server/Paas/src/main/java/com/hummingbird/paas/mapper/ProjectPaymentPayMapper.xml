@@ -244,7 +244,7 @@
     left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
     order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p. object_id = #{objectId,jdbcType=VARCHAR} ORDER BY id DESC limit 1
   </select>
   <select id="getRecordByPeriod" resultMap="BaseResultMap"  >
@@ -253,7 +253,7 @@
     left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
     order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p.object_id = #{objectId,jdbcType=VARCHAR} and current_period = #{period,jdbcType=INTEGER}
   </select>
   <select id="queryPaidRecord" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -262,27 +262,34 @@
     left_period, left_amount, total_period, bank, voucher, voucher_pic, transfer_date, 
     order_id, bank_id
     from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p. object_id = #{objectId,jdbcType=VARCHAR} 
   </select>
    <select id="getBiddeeOnTimeNum" resultType="int" parameterType="java.lang.Integer" >
      select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p.biddee_id=#{biddeeId,jdbcType=INTEGER}  and  a.should_pay_time &gt;a.pay_time 
   </select>
   <select id="getBiddeeOutTimeNum" resultType="int" parameterType="java.lang.Integer" >
      select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p.biddee_id=#{biddeeId,jdbcType=INTEGER}  and  a.should_pay_time &lt; a.pay_time 
   </select>
    <select id="getBidderOnTimeNum" resultType="int" parameterType="java.lang.Integer" >
      select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p.bidder_id=#{bidderId,jdbcType=INTEGER}  and  a.should_pay_time &gt;a.pay_time 
   </select>
   <select id="getBidderOutTimeNum" resultType="int" parameterType="java.lang.Integer" >
      select count(1) from t_gcgl_project_payment_pay a,t_gcgl_project p
-    where a.project_id = p.project_id
+    where a.project_id = p.project_id and a.status='OK#'
     and p.bidder_id=#{bidderId,jdbcType=INTEGER}  and  a.should_pay_time &lt;a.pay_time 
+  </select>
+  <select id="getPaidAmountByObjectId" resultType="long" parameterType="java.lang.String" >
+    select 
+    IFNULL(sum(abs(`amount`)),0) paidAmount
+    from t_gcgl_project_payment_pay a,t_gcgl_project p
+    where a.project_id = p.project_id
+    and p.object_id = #{objectId,jdbcType=VARCHAR} and a.status='OK#'
   </select>
 </mapper>

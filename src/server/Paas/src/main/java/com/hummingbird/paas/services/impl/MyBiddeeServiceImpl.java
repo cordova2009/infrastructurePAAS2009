@@ -10,8 +10,10 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
@@ -30,8 +33,10 @@ import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCertification;
+import com.hummingbird.paas.entity.BiddeeCertificationAudit;
 import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
+import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.exception.MaAccountException;
@@ -41,11 +46,13 @@ import com.hummingbird.paas.mapper.BiddeeBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificateAduitMapper;
+import com.hummingbird.paas.mapper.BiddeeCertificationAuditMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificationCertificationMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificationCreditScoreMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificationMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
+import com.hummingbird.paas.mapper.BidderCertificationAuditMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
@@ -61,6 +68,7 @@ import com.hummingbird.paas.vo.BiddeeLegalPerson;
 import com.hummingbird.paas.vo.BiddeeLegalPersonCheck;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfoCheck;
+import com.hummingbird.paas.vo.CertificationCheck;
 @Service
 public class MyBiddeeServiceImpl implements MyBiddeeService {
 	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
@@ -92,6 +100,8 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	protected BiddeeCertificationCreditScoreMapper bccsDao;
 	@Autowired
 	protected BiddeeBidCreditScoreMapper bbcsDao;
+	@Autowired
+	protected BiddeeCertificationAuditMapper bcaDao;
 	
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
@@ -495,7 +505,6 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public  Boolean checkApplication(String appId, BiddeeAuditBodyInfo body, Integer biddeeId) throws BusinessException {
-		// TODO Auto-generated method stub
 		boolean flag = true;
 		try{
 			BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
@@ -506,6 +515,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 			BiddeeLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
 			BiddeeRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
 			BiddeeBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
+			List<CertificationCheck> certificationsCheck = body.getCertificationsCheck();
 			
 			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck,null);
 			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck,null);
@@ -533,12 +543,12 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					}
 					
 //					2.插入资质证书正式表
-					List<BiddeeCertification> bcfs  = bcDao.selectByBiddeeId(biddeeId);
-					if(bcfs == null || bcfs.size()==0){
-						bcDao.insertSelectiveByCertificationIdSuccess(biddeeId);
-					}else{
-						bcDao.updateByCertificationIdSuccess(biddeeId);
-					}
+//					List<BiddeeCertification> bcfs  = bcDao.selectByBiddeeId(biddeeId);
+//					if(bcfs == null || bcfs.size()==0){
+//						bcDao.insertSelectiveByCertificationIdSuccess(biddeeId);
+//					}else{
+//						bcDao.updateByCertificationIdSuccess(biddeeId);
+//					}
 					
 //					3.插入开户行正式表 信息
 					List<UserBankcard> ubcs = userBankcardDao.selectBiddeeBankInfoByUserId(bc.getUserId());
@@ -549,6 +559,27 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					}
 					bca.setAuditStatus("OK#");
 					bc.setStatus("OK#");
+					
+					//添加 证书资质信息,只有通过的资质证书放过去
+					//删除所有证书
+					//招标人无资质证书
+//					bcDao.removeAllByBiddeeId(biddeeId);
+//					if(CollectionUtils.isNotEmpty(certificationsCheck)){
+//						for (Iterator iterator = certificationsCheck.iterator(); iterator.hasNext();) {
+//							CertificationCheck certificationCheck = (CertificationCheck) iterator.next();
+//							Integer certificationApplyId = certificationCheck.getCertificationApplyId();
+//							if(StringUtils.equals(CommonStatusConst.STATUS_OK,certificationCheck.getCertificationApply().getResult())){
+//								bcDao.insertByApplyId(certificationApplyId);
+//							}
+//							BiddeeCertificationAudit ca = new BiddeeCertificationAudit();
+//							ca.setAuditor(bc.getUserId());
+//							ca.setAuditStatus(certificationCheck.getCertificationApply().getResult());
+//							ca.setAuditTime(new Date());
+//							
+//							ca.setCertificationCerticateId(certificationApplyId);
+//							bcaDao.insert(ca);
+//						}
+//					}
 					
 				}else{//审核不通过
 					bca.setAuditStatus("FLS");

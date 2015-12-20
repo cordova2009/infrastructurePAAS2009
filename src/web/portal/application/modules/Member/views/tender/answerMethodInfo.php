@@ -21,7 +21,7 @@ if(check_resp($resp)){
             <div class="table">
                 <div class="cell checklist">
                     <i class="ico i-check <?php if(isset($info) && !empty($info['qq'])) echo 'on'?>""></i>
-                    <input type="checkbox" class="hide" <?php if(isset($info) && !empty($info['qq'])) echo 'checked'?>>
+                    <input name="answer_type[]" type="checkbox" class="hide" <?php if(isset($info) && !empty($info['qq'])) echo 'checked'?>>
                 </div>
                 <div class="cell icoCont">
                     <i class="ico i-qq"></i>
@@ -37,7 +37,7 @@ if(check_resp($resp)){
             <div class="table">
                 <div class="cell checklist">
                     <i class="ico i-check <?php if(isset($info) && !empty($info['email'])) echo 'on'?>""></i>
-                    <input type="checkbox" class="hide" <?php if(isset($info) && !empty($info['email'])) echo 'checked'?>>
+                    <input name="answer_type[]" type="checkbox" class="hide" <?php if(isset($info) && !empty($info['email'])) echo 'checked'?>>
                 </div>
                 <div class="cell icoCont">
                     <i class="ico i-mail"></i>
@@ -52,7 +52,7 @@ if(check_resp($resp)){
             <div class="table">
                 <div class="cell checklist">
                     <i class="ico i-check <?php if(isset($info) && !empty($info['telephone'])) echo 'on'?>""></i>
-                    <input type="checkbox" class="hide" <?php if(isset($info) && !empty($info['telephone'])) echo 'checked'?>>
+                    <input name="answer_type[]" type="checkbox" class="hide" <?php if(isset($info) && !empty($info['telephone'])) echo 'checked'?>>
                 </div>
                 <div class="cell icoCont">
                     <i class="ico i-tel"></i>
@@ -66,7 +66,7 @@ if(check_resp($resp)){
             <div class="table">
                 <div class="cell checklist">
                     <i class="ico i-check <?php if(isset($info) && !empty($info['address'])) echo 'on'?>""></i>
-                    <input type="checkbox" class="hide" <?php if(isset($info) && !empty($info['address'])) echo 'checked'?>>
+                    <input name="answer_type[]" type="checkbox" class="hide" <?php if(isset($info) && !empty($info['address'])) echo 'checked'?>>
                 </div>
                 <div class="cell icoCont">
                     <i class="ico i-xc"></i>
@@ -93,3 +93,11 @@ if(check_resp($resp)){
 
     </div>
 </div>
+<script>
+$('.table input').blur(function(){
+    var checkbox = $(this).closest('.table').find('.i-check');
+    if($.trim(this.value) != '' && !checkbox.hasClass('on')){
+        checkbox.click();
+    }
+})
+</script>

@@ -15,11 +15,11 @@ class BidderController extends MemberController{
             if(!check_resp($resp)) {
 		 $this->redirect(U('/login'));
             }
-	    if(empty($resp['datail'])||empty($resp['overall']))
+	    if(empty($resp['detail'])||empty($resp['overall']))
 	    {
 		 //   $this->redirect(U('applyfor'));
 	    }
-	    $this->assign('datail',isset($resp['datail'])?$resp['datail']:[]);
+	    $this->assign('datail',isset($resp['detail'])?$resp['detail']:[]);
 	    $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);
 	    $this->assign('zizhi',isset($resp['zizhi'])?$resp['zizhi']:[]);
 	    $this->layout->meta_title = '认证信息';
@@ -30,6 +30,9 @@ class BidderController extends MemberController{
 	    $token = isset($this->user['token'])?$this->user['token']:'';
             $curl = new Curl($this->config->url->api->paas);
             $base = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getBaseInfo_apply');
+	    if(!check_resp($base)) {
+		    $this->error($base['errmsg']);
+	    }
             $legal= $curl->setData(['token'=>$token])->send('myBidder/authInfo/getLegalPersonInfo_apply');
             $registered = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getRegisteredInfo_apply');
             $bank = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getBankInfo_apply');
@@ -37,17 +40,12 @@ class BidderController extends MemberController{
 	    $this->assign('base',isset($base['baseInfo'])?$base['baseInfo']:'');
 	    $this->assign('registered',isset($registered['registeredInfo'])?$registered['registeredInfo']:'');
 	    $this->assign('legal',isset($legal['legalPerson'])?$legal['legalPerson']:'');
-	   // $name = decrypt($legal['legalPerson']['name'],$this->config->api->app->appKey);
-	   // $idcard = decrypt($legal['legalPerson']['idCard'],$this->config->api->app->appKey);
-	   // $this->assign('name',$name);
-	   // $this->assign('idcard',$idcard);
 	    $types =$curl->setData(new stdClass())->send('tender/queryCertificateList');
 	    $projectType = [];
 	    $certificateName = [];
 	    foreach($types['certificateList'] as $v)
 	    {
 		    $projectType[$v['industryId']] = $v['industryName'];
-		    //$certificateName[$v['industryName']] = $v['certificateList'];
 		    $certificateName[$v['industryId']] = $v['certificateList'];
 	    }
             $zizhi= $curl->setData(['token'=>$token])->send('myBidder/authInfo/getEnterpriseQualification');
@@ -76,9 +74,13 @@ class BidderController extends MemberController{
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getApplication');
-	    if($resp['errcode']==1)
-	    {
-		    $this->redirect(U('/login'));
+	    if(!check_resp($resp)) {
+		    if($resp['errcode']==1)
+		    {
+			    $this->redirect(U('/login'));
+			    return;
+		    }
+		    $this->error($resp['errmsg']);
 	    }
 	    $this->assign('bank',$resp['bankInfo']);
 	    $this->assign('base',$resp['baseInfo']);
@@ -303,11 +305,12 @@ class BidderController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('tender/queryMyBidSurvey');
-	    if(check_resp($resp)) {
-		    $this->assign('bidingNum',$resp['bidingNum']);
-		    $this->assign('doingNum',$resp['doingNum']);
-		    $this->assign('doneNum',$resp['doneNum']);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('bidingNum',$resp['bidingNum']);
+	    $this->assign('doingNum',$resp['doingNum']);
+	    $this->assign('doneNum',$resp['doneNum']);
 	    $this->assign('pageIndex',I('pageIndex'));
 	    $this->assign('type',I('type','biding'));
     }
@@ -348,11 +351,12 @@ class BidderController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('tender/getIndustryList');
-	    if(check_resp($resp)) {
-		    foreach($resp['list'] as $v)
-		    {
-			    $tmp[$v['industryId']] = ['industryIcon'=>$v['industryIcon'],'industryName'=>$v['industryName']];
-		    }
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
+	    }
+	    foreach($resp['list'] as $v)
+	    {
+		    $tmp[$v['industryId']] = ['industryIcon'=>$v['industryIcon'],'industryName'=>$v['industryName']];
 	    }
 	    return $tmp;
     }
@@ -373,11 +377,10 @@ class BidderController extends MemberController{
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('bid/queryMyObjectTenderSurvey');
-	    if(check_resp($resp)) {
-		    $this->assign('survey',$resp['survey']);
-	    }else{
-		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('survey',$resp['survey']);
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('bid/queryMyObjectBidList');
 	    $this->assign('list',$resp['list']);
@@ -390,18 +393,20 @@ class BidderController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token])->send('myIncome/getMyIncomeOverall');
-	    if(check_resp($resp)) {
-		    $this->assign('income',$resp['overall']);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('income',$resp['overall']);
 	    $p = $this->pageSize;
 	    $i = empty($i)?1:$i;
 	    $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('myIncome/queryMyIncomeList');
-	    if(check_resp($resp)) {
-		    $this->assign('list',$resp['list']);
-		    $page = $this->getPagination($resp['total'], $this->pageSize);
-		    $this->assign('page', $page);
-		    $this->assign('pageIndex',I('pageIndex'));
+	    if(!check_resp($resp)) {
+		    $this->redirect(U('/login'));
 	    }
+	    $this->assign('list',$resp['list']);
+	    $page = $this->getPagination($resp['total'], $this->pageSize);
+	    $this->assign('page', $page);
+	    $this->assign('pageIndex',I('pageIndex'));
     }
     public function receivedAction()
     {
@@ -409,9 +414,10 @@ class BidderController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myIncome/queryWillReceiveAmountDetail');
-	    if(check_resp($resp)) {
-		    $this->assign('list',$resp['list']);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('list',$resp['list']);
     }
     public function willreceiveAction()
     {
@@ -419,9 +425,10 @@ class BidderController extends MemberController{
 	    $token = $this->user['token'];
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myIncome/queryWillReceiveAmountDetail');
-	    if(check_resp($resp)) {
-		    $this->assign('list',$resp['list']);
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('list',$resp['list']);
     }
     public function evaluateAction()
     {
@@ -443,10 +450,9 @@ class BidderController extends MemberController{
 	    $token = isset($this->user['token'])?$this->user['token']:'';
 	    $curl = new Curl($this->config->url->api->paas);
 	    $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('bid/queryTendererEvaluate');
-	    if(check_resp($resp)) {
-		    $this->assign('evaluate',$resp['evaluateInfo']);
-	    }else{
-		//    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+	    if(!check_resp($resp)) {
+		    $this->error($resp['errmsg']);
 	    }
+	    $this->assign('evaluate',$resp['evaluateInfo']);
     }
 }

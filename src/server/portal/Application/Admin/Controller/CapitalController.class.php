@@ -121,11 +121,11 @@ class CapitalController extends AdminController {
 			$api = new ApiService();
 			$resp = $api->setApiUrl(C('APIURI.paas3'))
 				->setData($data)->send('capitalManage/checkRechargeApply');
-			if($resp===false)
+			if($resp===false||$resp['errcode']!=0)
 			{
 				$this->error('系统错误,请稍后再试');
 			}
-			$this->success('审核完成');
+			$this->success('审核完成',U('recharge'));
 		}
 		$id = I('get.id');
 		$item = M('ddgl_recharge_apply a')->join('t_user b on a.user_id=b.id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name')->find();
@@ -139,22 +139,25 @@ class CapitalController extends AdminController {
 			$uid= session('user_auth')['uid'];
 			$remark=I('post.remark');
 			$status=I('post.status');
+			$transferTime =I('post.transferTime');
 			$id =I('post.order_id');
 			$checkWithdrawalsNo =I('post.voucher');
-			$data = ['orderId'=>$id,'checkWithdrawalsNo'=>$checkWithdrawalsNo,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid];
+			$voucherFileUrl =I('post.voucherFileUrl');
+			$amount =I('post.amount')*100;
+			$data = ['orderId'=>$id,'voucherNo'=>$checkWithdrawalsNo,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid,'amount'=>$amount,'voucherFileUrl'=>$voucherFileUrl];
 			$api = new ApiService();
 			$resp = $api->setApiUrl(C('APIURI.paas3'))
 				->setData($data)->send('capitalManage/checkWithdrawalsApply');
-			if($resp===false)
+			if($resp===false||$resp['errcode']!=0)
 			{
 				$this->error('系统错误,请稍后再试');
 			}
-			$this->success('审核完成');
+			$this->success('审核完成',U('withdraw'));
 		}
 		$id = I('get.id');
-		$item = M('ddgl_withdraw_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_bankcard c on c.id=a.user_bankcard_id')->where(['a.order_id'=>$id])->field('a.*,b.nick_name,c.user,bank_name,account_no,account_name')->find();
+		$item = M('ddgl_withdraw_apply a')->join('t_user b on a.user_id=b.id')->join('t_user_bankcard c on c.id=a.user_bankcard_id')->join('t_user_auth d on d.user_id=a.user_id')->join('t_project_account e on c.user_id=a.user_id')->where(['a.order_id'=>$id])->field('*')->find();
 		$this->assign('item', $item);
-		$this->meta_title = '充值申请审核';
+		$this->meta_title = '转账';
 		$this->display();
 	}
 }

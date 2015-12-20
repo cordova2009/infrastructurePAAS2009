@@ -30,7 +30,7 @@ img{max-width:400px;}
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">凭证号:</span>{$item.voucher}</td>
-			<td><span style="color:#999;padding-right:8px;">凭证扫描件:</span><img src="{$item.voucher_url|imageView2}" /></td>
+			<td><span style="color:#999;padding-right:8px;">凭证扫描件:</span><img src="{$item.voucher_pic|imageView2}" /></td>
 		</tr>
 	 </tbody>
 	</table>

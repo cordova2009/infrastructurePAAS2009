@@ -4,15 +4,17 @@
   <resultMap id="BaseResultMap" type="com.hummingbird.capital.entity.ProjectPaymentAccount" >
     <id column="account_id" property="accountId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="balance" property="balance" jdbcType="INTEGER" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remaining_sum" property="remainingSum" jdbcType="BIGINT" />
+    <result column="frozen_sum" property="frozenSum" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    account_id, user_id, balance, signature, insert_time, update_time, remark, status
+    account_id, user_id, signature, insert_time, update_time, remark, status, remaining_sum, 
+    frozen_sum
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -20,17 +22,31 @@
     from t_project_payment_account
     where account_id = #{accountId,jdbcType=VARCHAR}
   </select>
+  <select  resultMap="BaseResultMap" id="getAccountByUserId"  parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_payment_account
+    where user_id = #{userId,jdbcType=INTEGER} 
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByMobile"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_payment_account
+    where user_id in (select id from t_user where mobile_num= #{mobile,jdbcType=VARCHAR} )
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_project_payment_account
     where account_id = #{accountId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.capital.entity.ProjectPaymentAccount" >
-    insert into t_project_payment_account (account_id, user_id, balance, 
-      signature, insert_time, update_time, 
-      remark, status)
-    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, 
-      #{signature,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+    insert into t_project_payment_account (account_id, user_id, signature, 
+      insert_time, update_time, remark, 
+      status, remaining_sum, frozen_sum
+      )
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remainingSum,jdbcType=BIGINT}, #{frozenSum,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.capital.entity.ProjectPaymentAccount" >
     insert into t_project_payment_account
@@ -40,9 +56,6 @@
       </if>
       <if test="userId != null" >
         user_id,
-      </if>
-      <if test="balance != null" >
-        balance,
       </if>
       <if test="signature != null" >
         signature,
@@ -59,6 +72,12 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="remainingSum != null" >
+        remaining_sum,
+      </if>
+      <if test="frozenSum != null" >
+        frozen_sum,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="accountId != null" >
@@ -66,9 +85,6 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="balance != null" >
-        #{balance,jdbcType=INTEGER},
       </if>
       <if test="signature != null" >
         #{signature,jdbcType=VARCHAR},
@@ -85,6 +101,12 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
+      <if test="remainingSum != null" >
+        #{remainingSum,jdbcType=BIGINT},
+      </if>
+      <if test="frozenSum != null" >
+        #{frozenSum,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.capital.entity.ProjectPaymentAccount" >
@@ -92,9 +114,6 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="balance != null" >
-        balance = #{balance,jdbcType=INTEGER},
       </if>
       <if test="signature != null" >
         signature = #{signature,jdbcType=VARCHAR},
@@ -111,18 +130,25 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="remainingSum != null" >
+        remaining_sum = #{remainingSum,jdbcType=BIGINT},
+      </if>
+      <if test="frozenSum != null" >
+        frozen_sum = #{frozenSum,jdbcType=BIGINT},
+      </if>
     </set>
     where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.capital.entity.ProjectPaymentAccount" >
     update t_project_payment_account
     set user_id = #{userId,jdbcType=INTEGER},
-      balance = #{balance,jdbcType=INTEGER},
       signature = #{signature,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      remaining_sum = #{remainingSum,jdbcType=BIGINT},
+      frozen_sum = #{frozenSum,jdbcType=BIGINT}
     where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -93,12 +93,12 @@
 
                 <hr />
                 <div class="row-fluid wizard-actions">
-                    <button class="btn btn-info btn-prev">
+                    <button class="btn btn-white btn-prev">
                         <i class="icon-arrow-left"></i>
                         上一步
                     </button>
 
-                    <button class="btn btn-success btn-next" data-last="确认重置 ">
+                    <button class="btn btn-white btn-next" data-last="确认重置 ">
                         下一步
                         <i class="icon-arrow-right icon-on-right"></i>
                     </button>

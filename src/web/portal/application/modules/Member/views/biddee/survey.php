@@ -40,7 +40,7 @@
 							<td><?=$v['projectExpectPeriod']?>天</td>
 							<td><?=$v['bidTime']?></td>
 							<td><a href="<?=get_qiniu_file_durl($v['fileUrl'])?>" class="blue">下载</a></td>
-							<td><a href="<?=U('show')?>" ><i class="ico i-eye3"></i></a></td>
+							<td><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>" ><i class="ico i-eye3"></i></a></td>
 						</tr>
 						<?php }?>
 					</tbody></table>

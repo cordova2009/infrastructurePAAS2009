@@ -4,12 +4,15 @@ public class QueryBidderListResultVO {
 	/**
 	 * 公司名
 	 */
-	private String bidderName;
+	protected String bidderName;
 	/**
 	 * 用户名
 	 */
-	private String userName;
-	private Integer bidderId;
+	protected String userName;
+	/**
+	 * 投标人id
+	 */
+	protected Integer bidderId;
 
 	public String getBidderName() {
 		return bidderName;

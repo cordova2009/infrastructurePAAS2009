@@ -2,7 +2,6 @@
 
 <block name="body">
 	<!-- 表单 -->
-
 <style>
 td{width:50%;}
 img{max-width:400px;}
@@ -29,7 +28,7 @@ img{max-width:400px;}
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">公司简介:</span>{$item.description}</td>
-			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><img src="{$item.logourl|imageView2}"/></td>
+			<td><span style="color:#999;padding-right:8px;">公司LOGO:</span><a href="{$item.logo|imageView2}" class="ace-thumbnails" ><img src="{$item.logo|imageView2}"/></a></td>
 		</tr>
 	 </tbody>
 	</table>
@@ -68,7 +67,7 @@ img{max-width:400px;}
        <table class="table  table-bordered " style="margin-bottom:0px;">
 	<tbody>
 		<tr>
-			<td colspan="2" ><span style="color:#999;padding-right:8px;">营业执照类型:</span><?php echo $item['business_license_type']=='NEW'?'三证合一':'非三证合一';?></td>
+			<td  ><span style="color:#999;padding-right:8px;">营业执照类型:</span><?php echo $item['business_license_type']=='NEW'?'三证合一':'非三证合一';?></td>
 <?php if($item['business_license_type']=='NEW'){ ?>
 		<td ><span style="color:#999;padding-right:8px;">统一社会信用代码:</span>{$item.unified_social_credit_code}</td>
 		</tr>
@@ -82,11 +81,11 @@ img{max-width:400px;}
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">税务登记证编号:</span><?php echo $item['tax_registration_certificate'];?></td>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo imageView2($item['tax_registration_certificate_url'])?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">税务登记证扫描件:</span><img src="<?php echo imageView2($item['tax_registration_certificate_url'])?>"/></td>
 		</tr>
 	<tr>
 		<td><span style="color:#999;padding-right:8px;">组织机构代码证编号:</span><?php echo $item['org_code_certificate'];?></td>
-			<td colspan="2"><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo imageView2($item['org_code_certificate_url'])?>"/></td>
+			<td ><span style="color:#999;padding-right:8px;">组织机构代码证扫描件:</span><img src="<?php echo imageView2($item['org_code_certificate_url'])?>"/></td>
 		</tr>
 <?php }?>
 	<tr>

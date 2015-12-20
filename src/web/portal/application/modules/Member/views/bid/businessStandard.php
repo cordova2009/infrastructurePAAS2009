@@ -11,7 +11,7 @@ if(check_resp($resp)){
             <input name="bidId" value="<?=$bidId?>" type="hidden" />
             <div class="shangwubiao">
                 <div class="clear">
-                    <i class="ico i-info left marr10"></i>
+                    <i class="ico i-info left marr10" style="margin-top: 3px;"></i>
                     <div class="auto orange">
                         商务标标附件包括法定代表人身份证明、法人授权委托书、投标函、报价表、企业营业执照、
                         资质证书，以及安全生产证明等，具体请下载招标文件，严格按照招标文件要求完成商务标。

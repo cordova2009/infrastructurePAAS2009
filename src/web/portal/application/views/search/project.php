@@ -40,7 +40,7 @@
                     <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>
                     <td class="td4"><?=price_format($v['evaluationAmount'])?> <span class="fz12">元</span></td>
                     <td><?= $v['projectExpectStartDate'] ?></td>
-                    <td>接口没返回</td>
+                    <td><?=$v['projectExpectPeriod']?>天</td>
                     <td class="info"><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach; ?>

@@ -36,6 +36,9 @@
                     <td class="info"><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach; ?>
+                <?php if(empty($list)):?>
+                    <tr><td colspan="5" class="text-center">暂无数据</td></tr>
+                <?php endif;?>
             </table>
         </div>
         

@@ -521,6 +521,15 @@ class TenderController extends MemberController{
             $this->error('您还没有招标人资格，请先进行认证！',U('/member/biddee/authInfo'));
         }
 
+        $resp = $curl->setData($data)->send('member/queryMemberProduct');
+        if(!check_resp($resp)) {
+            $this->error('查询会员信息失败，请稍后再试或联系网站客服人员！');
+        }
+
+        if($resp['terMember'] != 'OK#'){
+            $this->error('您还不是招标人会员，请先充值购买！',U('/member/vip/terIndex'));
+        }
+
         if(IS_POST){
 
             $objectId = I('objectId');

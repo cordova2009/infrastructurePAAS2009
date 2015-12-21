@@ -24,10 +24,10 @@
                 </tr>
                 <?php foreach($list as $v): ?>
                 <tr>
-                    <td ><?= $v['shortName'] ?></td>
-                    <td><?= $v['area'] ?></td>
-                    <td><span class="tag2"><?= $v['eq'] ?></span></td>
-                    <td><a href="/bidder/detail/id/<?= $v['bidderId'] ?>.html" class="blue">查看</a></td>
+                    <td ><?= $v['bidderName'] ?></td>
+                    <td><?= $v['userName'] ?></td>
+                    <td><span class="tag2"><?= $v['creditLevel'] ?></span></td>
+                    <td><a href="<?=U('/bidder/detail',['id'=>$v['bidderId']])?>" class="blue">查看</a></td>
                 </tr>
                 <?php endforeach; ?>
                 <?php if(empty($list)):?>

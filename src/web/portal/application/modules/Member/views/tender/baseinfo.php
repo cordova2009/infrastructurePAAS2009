@@ -105,11 +105,6 @@ $(function(){
         var $this = $(this);
         var wrap = $($this.children('a').attr('href'));
         if(wrap.length > 0){
-//            wrap.remove();
-//            var form = $('<form></form>');
-//            form.attr('next_step',$this.children('a').attr('href').replace('#',''));
-//            save_success({step:$this.index(),objectId:'ZB00201512051631124'},form);
-//            return false;
             $("#right-content .box").hide();
             $("#side_menu_ul li").removeClass('on');
             wrap.show();

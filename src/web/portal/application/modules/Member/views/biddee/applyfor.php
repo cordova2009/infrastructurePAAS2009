@@ -1,18 +1,9 @@
+<block name="style">
+    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
+</block>
+
 <div class=" main">
     <style>
-        .btn-file2{position: relative;}
-        .btn-file2 input {
-            cursor: pointer;
-            direction: ltr;
-            height: 44px;
-            margin: 0;
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 92px;
-            display:block;
-        }
         /*img{max-width:178px;}*/
         .btn-file3{position: relative;}
         .btn-file3 input {
@@ -28,7 +19,6 @@
             display:block;
         }
     </style>
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
     <div class="box  pad0 bg-orange">
         <div class="stepbox2">
             <ul class="clear">
@@ -78,10 +68,6 @@
                     <a href="javascript:;">银行开户信息</a>
                 </li>
             </ul>
-            <div class="tijiao">
-                <a href="#" id="tijiao" class="btn-tijiao">提交招标人认证</a>
-            </div>
-
         </div>
         <div class="auto  box pad0 " id="base">
             <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="base_sucess">
@@ -103,7 +89,7 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
                             <div class="auto value ">
-<div class="marb20 clear">
+                                <div class="marb20 clear">
                                     <img src="<?=empty($base['logoUrl']) ? '/uploads/pic.jpg' : imageView2($base['logoUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
                                         <label class="btn-file3  ">
@@ -116,7 +102,7 @@
                                         <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）简介</span>
@@ -211,7 +197,7 @@
                                 <span class="color8 text-center hide">上传中…</span>
 
                                 <i class="ico tip-qus2 verm marl20"></i>
-									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
+                                <span class="red tips_txt">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                             </div>
                         </div>
 
@@ -377,9 +363,27 @@
                                 <input type="text" class="input1 wid350" name="accountId" value="<?=$bankInfo['accountId']?>">
                             </div>
                         </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 税号</span>
+                            <div class="auto value ">
+                                <input type="text" name="taxNo" class="input1 wid350" value="<?=$bankInfo['taxNo'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 联系电话</span>
+                            <div class="auto value ">
+                                <input type="text" name="telephone" class="input1 wid350" value="<?=$bankInfo['telephone'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 公司地址</span>
+                            <div class="auto value ">
+                                <input type="text" name="address" class="input1 wid350" value="<?=$bankInfo['address'];?>">
+                            </div>
+                        </div>
                         <div class="text-center padv30">
                             <input type="hidden" name="type" value="bankInfo" >
-                            <input type="submit" class="btn-green2" value="保存">
+                            <input type="submit" class="btn-green2" value="保存并继续">
                         </div>
                     </div>
                 </form>
@@ -519,7 +523,7 @@
                     }
                     var obj = $(this).data('data',data)
                         .parent();
-                        obj.css('background','#bebebe').nextAll().show()
+                    obj.css('background','#bebebe').nextAll().show()
                         .children('span')
                         .css('width','0%');
                     obj.nextAll('.text-center').text('上传中...');
@@ -529,9 +533,9 @@
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
                     $(this).parent()
-                            .next('.progress')
-                            .children('span')
-                            .css('width',progress + '%');
+                        .next('.progress')
+                        .children('span')
+                        .css('width',progress + '%');
                 },
                 done:function(e,data){
                     //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
@@ -552,7 +556,7 @@
                     }else{
                         layer.alert(data.result.msg,{icon:2});
                     }
-		    $(this).parent().next('.progress').hide().next().hide()
+                    $(this).parent().next('.progress').hide().next().hide()
                 },
                 fail: function () {
                     $(this).parent().css('background','#8ab46e');
@@ -560,11 +564,11 @@
                 }
             })
         })
-$(".tip-qus2").mouseover(function (){
-$(this).next().show();
-});
-$(".tip-qus2").mouseout(function (){
-$(this).next().hide();
-});
+        $(".tip-qus2").mouseover(function (){
+            $(this).next().show();
+        });
+        $(".tip-qus2").mouseout(function (){
+            $(this).next().hide();
+        });
     </script>
 </block>

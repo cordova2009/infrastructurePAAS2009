@@ -7,28 +7,49 @@
 */
 class ProjectController extends MallController
 {
-    private $_curl = '';
+    private $pageSize = 2;
     
     public function init(){
         parent::init();
-        $this->_curl = new Curl();
-    }
-    
-    /**
-     * 更多招标项目
-     */
-    public function listAction(){
-        
     }
 
-        /**
+    /**
+     * 招标项目列表
+     */
+    public function listAction(){
+        $keyword = $this->getRequest()->getQuery('keyword');
+        $pageIndex = $this->getRequest()->getQuery('page', 0);
+
+        $tmp = str_replace(array(',', '、', ' '), ',', $keyword);
+        $keywords = explode(',', $tmp);
+
+        $curl = new Curl();
+        $resp = $curl->setData([
+            'keywords' => $keywords,
+            'pageIndex' => $pageIndex,
+            'pageSize'=>  $this->pageSize
+        ])->send('tender/queryObjectList_homepage');
+
+        $list = [];
+        if(check_resp($resp)){
+            $list = $resp['list'];
+            $page = $this->getPagination($resp['total'], $this->pageSize);
+            $this->assign('page', $page);
+        }
+
+        $this->assign('list', $list);
+        $this->layout->meta_title = '招标项目列表';
+    }
+
+    /**
      * 中标结果列表
      */
     public function bidlistAction() {
         $pageSize = 10;
         $pageIndex = $this->getRequest()->getQuery('page', 0);
-        
-        $resp = $this->_curl->setData([
+
+        $curl = new Curl();
+        $resp = $curl->setData([
             'pageIndex' => $pageIndex,
             'pageSize'=>  $pageSize
         ])->send('tender/queryBidIndexList');
@@ -44,29 +65,6 @@ class ProjectController extends MallController
     }
 
     /**
-     * 招标项目列表
-     */
-    public function tenderlistAction() {
-        $pageSize = 10;
-        $pageIndex = $this->getRequest()->getQuery('page', 0);
-
-        $resp = $this->_curl->setData([
-            'token'=>$this->user['token'],
-            'pageIndex' => $pageIndex==0?1:$pageIndex,
-            'pageSize'=>  $pageSize
-        ])->send('bid/queryObjectList');
-
-        $list = [];
-        if(check_resp($resp)){
-            $list = $resp['list'];
-            $page = $this->getPagination($resp['total'], $pageSize);
-            $this->assign('page', $page);
-        }
-        $this->assign('object_list', $list);
-        $this->layout->meta_title = "招标项目列表";
-    }
-    
-    /**
      * 招标详情
      */
     public function detailAction(){
@@ -76,7 +74,8 @@ class ProjectController extends MallController
         }
         $objectId =I('objectId');
 
-        $resp = $this->_curl->setData([
+        $curl = new Curl();
+        $resp = $curl->setData([
                                             'token' => $this->user['token'],
                                             'objectId'=> $objectId
                                         ])

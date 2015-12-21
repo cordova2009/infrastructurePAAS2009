@@ -169,6 +169,17 @@ class BidController extends MemberController {
         $curl               = new Curl();
         $objectId           = I('objectId');
         $data               = ['token'=>$this->user['token']];
+
+
+        $resp = $curl->setData($data)->send('member/queryMemberProduct');
+        if(!check_resp($resp)) {
+            $this->error('查询会员信息失败，请稍后再试或联系网站客服人员！');
+        }
+
+        if($resp['birMember'] != 'OK#'){
+            $this->error('您还不是投标人会员，请先充值购买！',U('/member/vip/bidIndex'));
+        }
+
         $data['objectId']   = $objectId;
 
         //查询投标人营业执照
@@ -177,6 +188,7 @@ class BidController extends MemberController {
         if(!check_resp($resp)) {
             $this->error('<a href="'.U('/member/bidder/authInfo').'">您还没有投标人资格，请点击这里进行认证！</a>');
         }
+
         $this->assign('bidderInfo',$resp['bidderInfo']);
 
         //查询投标要求基础信息

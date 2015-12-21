@@ -113,7 +113,7 @@
             <?php if(empty($object_list)):?>
             <div class="list-more">暂无数据</div>
             <?php endif;?>
-            <div class="list-more"><a href="<?=U('/project/tenderlist')?>">查看更多招标项目</a></div>
+            <div class="list-more"><a href="<?=U('/project/list')?>">查看更多招标项目</a></div>
         </div>
     </div>
 </div>
@@ -214,12 +214,12 @@
         });
         
         $("#bidder").click(function(){
-            $("#myform").attr('action', "/search/bidder.html");
+            $("#myform").attr('action', "/bidder/list.html");
             $("#myform").submit();
         });
         
         $("#project").click(function(){
-            $("#myform").attr('action', "/search/project.html");
+            $("#myform").attr('action', "/project/list.html");
             $("#myform").submit();
         });
 

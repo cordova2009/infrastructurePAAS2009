@@ -1,6 +1,5 @@
 <div class=" main">
     <style>
-        .btn-file2{position: relative;}
         .btn-file2 input {
             cursor: pointer;
             direction: ltr;
@@ -81,10 +80,6 @@
                     <a href="javascript:;">企业资质</a>
                 </li>
             </ul>
-            <div class="tijiao">
-                <a href="#" id="tijiao" class="btn-tijiao">提交投标人认证</a>
-            </div>
-
         </div>
         <div class="auto  box pad0 " id="base">
             <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="base_sucess">
@@ -107,20 +102,17 @@
                             <span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
                             <div class="auto value ">
                                 <div class="marb20 clear">
+                                    <img src="<?=empty($base['logoUrl']) ? '/uploads/pic.jpg' : imageView2($base['logoUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
-                                        <div class="marb20 clear">
-                                            <img src="<?=empty($base['logoUrl']) ? '/uploads/pic.jpg' : imageView2($base['logoUrl'],178,112)?>" alt="" class="left marr10">
-                                            <div class="left wid110">
-                                                <label class="btn-file3  ">
-                                                    上传图片<input type="file" name="file">
-                                                    <input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
-                                                </label>
-                                                <div class="progress mart20 hide">
-                                                    <span class="on"></span>
-                                                </div>
-                                                <p class="color8 text-center hide">上传中…</p>
-                                            </div>
+                                        <label class="btn-file3  ">
+                                            <span>上传图片</span>
+                                            <input type="file" name="file">
+                                            <input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
                                         </div>
+                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                             </div>
@@ -154,7 +146,6 @@
                             <input type="hidden" name="type" value="base" >
                             <input type="submit" class="btn-green2" value="保存并继续">
                         </div>
-
                     </div>
                 </div>
             </form>
@@ -182,8 +173,11 @@
                                 <div class="marb20 clear">
                                     <img src="<?=empty($legal['idCardfrontUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardfrontUrl'],178,112)?>" alt="" class="left marr10" >
                                     <div class="left wid110">
-                                        <label class="btn-file3  "> 上传附件<input type="file" name="file" >
-                                            <input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" ></label>
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" >
+                                        </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
@@ -214,246 +208,255 @@
                                     <span class="red tips_txt hide">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                                 </div>
                             </div>
-
-
                             <div class="text-center padv30">
                                 <input type="hidden" name="type" value="legal" >
                                 <input type="submit" class="btn-green2" value="保存并继续">
                             </div>
-
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
-    </div>
 
 
-    <div class="auto  box pad0 hide"  id="companyRegistered">
-        <div class="h2">公司注册信息</div>
-        <div class="padm30 jibenxx">
-            <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="companyRegistered_sucess">
-                <div class="text-center checkBtn padv40 zhucexx">
-                    <a href="javascript:;" class="active">统一社会信用代码</a>
-                    <a href="javascript:;" class="">非统一社会信用代码</a>
-                </div>
-                <!--统一社会信用代码-->
-                <div class=" charge_form ">
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 统一社会信用代码</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 " name="newBusinessLicenseNum" value="<?=$registered['newBusinessLicenseNum']?>">
-                        </div>
+        <div class="auto  box pad0 hide"  id="companyRegistered">
+            <div class="h2">公司注册信息</div>
+            <div class="padm30 jibenxx">
+                <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="companyRegistered_sucess">
+                    <div class="text-center checkBtn padv40 zhucexx">
+                        <a href="javascript:;" class="active">统一社会信用代码</a>
+                        <a href="javascript:;" class="">非统一社会信用代码</a>
                     </div>
-
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 统一社会信用代码扫描件</span>
-                        <div class="auto value ">
-                            <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>"></div>
-                            <div class="progress wid100 dib hide">
-                                <span class="on"></span>
+                    <!--统一社会信用代码-->
+                    <div class=" charge_form ">
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 统一社会信用代码</span>
+                            <div class="auto value ">
+                                <input type="text" class="input1 " name="newBusinessLicenseNum" value="<?=$registered['newBusinessLicenseNum']?>">
                             </div>
-                            <span class="color8 text-center hide">上传中…</span>
                         </div>
-                    </div>
-                </div>
-                <div class=" charge_form hide" >
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 营业执照编号</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 " name="businessLicenseNum" value="<?=$registered['businessLicenseNum']?>">
-                        </div>
-                    </div>
 
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 营业执照扫描件</span>
-                        <div class="auto value ">
-                            <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>"></div>
-                            <div class="progress wid100 dib hide">
-                                <span class="on"></span>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 统一社会信用代码扫描件</span>
+                            <div class="auto value ">
+                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>"></div>
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
                             </div>
-                            <span class="color8 text-center hide">上传中…</span>
                         </div>
                     </div>
-
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 组织机构代码证编号</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 " name="organizationCodeNum" value="<?=$registered['organizationCodeNum']?>">
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 组织机构代码证扫描件</span>
-                        <div class="auto value ">
-                            <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>"></div>
-                            <div class="progress wid100 dib hide">
-                                <span class="on"></span>
+                    <div class=" charge_form hide" >
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 营业执照编号</span>
+                            <div class="auto value ">
+                                <input type="text" class="input1 " name="businessLicenseNum" value="<?=$registered['businessLicenseNum']?>">
                             </div>
-                            <span class="color8 text-center hide">上传中…</span>
                         </div>
-                    </div>
 
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 税务登记证编号</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 " name="taxRegistrationNum" value="<?=$registered['taxRegistrationNum']?>">
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 税务登记证扫描件</span>
-                        <div class="auto value " id="">
-                            <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>"></div>
-                            <div class="progress wid100 dib hide">
-                                <span class="on"></span>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 营业执照扫描件</span>
+                            <div class="auto value ">
+                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>"></div>
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
                             </div>
-                            <span class="color8 text-center hide">上传中…</span>
+                        </div>
 
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 组织机构代码证编号</span>
+                            <div class="auto value ">
+                                <input type="text" class="input1 " name="organizationCodeNum" value="<?=$registered['organizationCodeNum']?>">
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 组织机构代码证扫描件</span>
+                            <div class="auto value ">
+                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>"></div>
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 税务登记证编号</span>
+                            <div class="auto value ">
+                                <input type="text" class="input1 " name="taxRegistrationNum" value="<?=$registered['taxRegistrationNum']?>">
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 税务登记证扫描件</span>
+                            <div class="auto value " id="">
+                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>"></div>
+                                <div class="progress wid100 dib hide">
+                                    <span class="on"></span>
+                                </div>
+                                <span class="color8 text-center hide">上传中…</span>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 经营范围</span>
-                    <div class="auto value ">
-                        <textarea  id="" class="textarea" name="businessScope"><?=$registered['businessScope']?></textarea>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 成立时间</span>
-                    <div class="auto value ">
-                        <input type="text" class="input1 datepicker" name="regTime" value="<?=$registered['regTime']?>">
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 营业期限</span>
-                    <div class="auto value ">
-                        <div class="select">
-                            <select name="businessLicenseExpireTime" id="">
-                                <option value="0" <?=$registered['businessLicenseExpireTime']=='0'?'selected':''?> >长期</option>
-                                <option value="1" <?=$registered['businessLicenseExpireTime']=='1'?'selected':''?> >一年</option>
-                                <option value="2" <?=$registered['businessLicenseExpireTime']=='2'?'selected':''?> >两年</option>
-                                <option value="3" <?=$registered['businessLicenseExpireTime']=='3'?'selected':''?> >三年</option>
-                                <option value="5" <?=$registered['businessLicenseExpireTime']=='5'?'selected':''?> >五年</option>
-                                <option value="10" <?=$registered['businessLicenseExpireTime']=='10'?'selected':''?> >十年</option>
-                            </select>
+                    <div class="item">
+                        <span class="lab"><span class="red">*</span> 经营范围</span>
+                        <div class="auto value ">
+                            <textarea  id="" class="textarea" name="businessScope"><?=$registered['businessScope']?></textarea>
                         </div>
                     </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 公司地址</span>
-                    <div class="auto value ">
-                        <input type="text" class="input1 " name="address" value="<?=$registered['address']?>" >
+                    <div class="item">
+                        <span class="lab"><span class="red">*</span> 成立时间</span>
+                        <div class="auto value ">
+                            <input type="text" class="input1 datepicker" name="regTime" value="<?=$registered['regTime']?>">
+                        </div>
                     </div>
-                </div>
+                    <div class="item">
+                        <span class="lab"><span class="red">*</span> 营业期限</span>
+                        <div class="auto value ">
+                            <div class="select">
+                                <select name="businessLicenseExpireTime" id="">
+                                    <option value="0" <?=$registered['businessLicenseExpireTime']=='0'?'selected':''?> >长期</option>
+                                    <option value="1" <?=$registered['businessLicenseExpireTime']=='1'?'selected':''?> >一年</option>
+                                    <option value="2" <?=$registered['businessLicenseExpireTime']=='2'?'selected':''?> >两年</option>
+                                    <option value="3" <?=$registered['businessLicenseExpireTime']=='3'?'selected':''?> >三年</option>
+                                    <option value="5" <?=$registered['businessLicenseExpireTime']=='5'?'selected':''?> >五年</option>
+                                    <option value="10" <?=$registered['businessLicenseExpireTime']=='10'?'selected':''?> >十年</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="lab"><span class="red">*</span> 公司地址</span>
+                        <div class="auto value ">
+                            <input type="text" class="input1 " name="address" value="<?=$registered['address']?>" >
+                        </div>
+                    </div>
 
-                <div class="text-center padv30">
-                    <input  type="submit" class="btn-green2" value="保存并继续">
-                </div>
+                    <div class="text-center padv30">
+                        <input  type="submit" class="btn-green2" value="保存并继续">
+                    </div>
+            </div>
+            <!--非统一社会信用代码-->
+            <input type="hidden" name="type" value="companyRegistered" >
+            <input type="hidden" name="businessLicenseType" value="<?=$registered['businessLicenseType']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
+            </form>
         </div>
-        <!--非统一社会信用代码-->
-        <input type="hidden" name="type" value="companyRegistered" >
-        <input type="hidden" name="businessLicenseType" value="<?=$registered['businessLicenseType']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
-        </form>
-    </div>
 
-    <div class="auto  box pad0 hide" id="bank">
-        <div class="h2">银行开户信息</div>
-        <div class="padm30 chargeBox jibenxx">
-            <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
-                <div class=" charge_form padv40">
+        <div class="auto  box pad0 hide" id="bank">
+            <div class="h2">银行开户信息</div>
+            <div class="padm30 chargeBox jibenxx">
+                <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
+                    <div class=" charge_form padv40">
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 开户人名称</span>
+                            <div class="auto value ">
+                                <input type="text" name="accountName" class="input1 wid350" value="<?=$bankInfo['accountName'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 开户银行</span>
+                            <div class="auto value ">
+                                <input type="text" name="bank" class="input1 wid350" value="<?=$bankInfo['bank'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 银行账号</span>
+                            <div class="auto value ">
+                                <input type="text" class="input1 wid350" name="accountId" value="<?=$bankInfo['accountId']?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 税号</span>
+                            <div class="auto value ">
+                                <input type="text" name="taxNo" class="input1 wid350" value="<?=$bankInfo['taxNo'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 联系电话</span>
+                            <div class="auto value ">
+                                <input type="text" name="telephone" class="input1 wid350" value="<?=$bankInfo['telephone'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 公司地址</span>
+                            <div class="auto value ">
+                                <input type="text" name="address" class="input1 wid350" value="<?=$bankInfo['address'];?>">
+                            </div>
+                        </div>
+                        <div class="text-center padv30">
+                            <input type="hidden" name="type" value="bankInfo" >
+                            <input type="submit" class="btn-green2" value="保存并继续">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="auto  box pad0 hide" id="zizhi">
+            <div class="h2">企业资质</div>
+            <div class="padm30 jibenxx" id="zizhi_show">
+                <div id="zizhi_model" >
+                </div>
+                <div class=" charge_form padv20">
                     <div class="item">
-                        <span class="lab"><span class="red">*</span> 开户人名称</span>
+                        <span class="lab"><span class="red">*</span> 工程类别</span>
                         <div class="auto value ">
-                            <input type="text" name="accountName" class="input1 wid350" value="<?=$bankInfo['accountName'];?>">
+                            <a href="javascript:;" class="btn right" id="save">保存</a>
+                            <div class="select">
+                                <select name="projectType" id="projectType">
+                                    <?php foreach($projectType as $k=>$v){?>
+                                        <option value="<?=$k?>"><?=$v?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="item">
-                        <span class="lab"><span class="red">*</span> 开户银行</span>
+                        <span class="lab"><span class="red">*</span> 资质名称</span>
                         <div class="auto value ">
-                            <input type="text" name="bank" class="input1 wid350" value="<?=$bankInfo['bank'];?>">
+                            <div class="select">
+                                <select name="eqName" id="eqName" >
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="item">
-                        <span class="lab"><span class="red">*</span> 银行账号</span>
+                        <span class="lab">资质编号</span>
                         <div class="auto value ">
-                            <input type="text" class="input1 wid350" name="accountId" value="<?=$bankInfo['accountId']?>">
+                            <input type="text" class="input1 " name="certificationNo" id="certificationNo">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="lab"><span class="red">*</span> 资质有效期</span>
+                        <div class="auto value ">
+                            <input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="lab"><span class="red">*</span> 适用区域</span>
+                        <div class="auto value ">
+                            <input type="text" class="input1 " name="applicableRegion" id="applicableRegion">
+                        </div>
+                    </div>
+
+                    <div class="item bordb padb30">
+                        <span class="lab"><span class="red">*</span> 附件上传</span>
+                        <div class="auto value ">
+                            <div class="btn-file3">上传文件 <input type="file" name="file" > <input type="hidden" name="certificationContent" value="" id="certificationContent"><input type="hidden" name="cshow" value="" id="cshow"></div>
+                            <div class="progress wid100 dib hide">
+                                <span class="on"></span>
+                            </div>
+                            <span class="color8 text-center hide">上传中…</span>
                         </div>
                     </div>
                     <div class="text-center padv30">
                         <input type="hidden" name="type" value="bankInfo" >
-                        <input type="submit" class="btn-green2" value="保存并继续">
+                        <input type="button" id="submit" success="zizhi_sucess" class="btn-green2" value="保存并继续" >
                     </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="auto  box pad0 hide" id="zizhi">
-        <div class="h2">企业资质</div>
-        <div class="padm30 jibenxx" id="zizhi_show">
-            <div id="zizhi_model" >
-            </div>
-            <div class=" charge_form padv20">
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 工程类别</span>
-                    <div class="auto value ">
-                        <a href="javascript:;" class="btn right" id="save">保存</a>
-                        <div class="select">
-                            <select name="projectType" id="projectType">
-                                <?php foreach($projectType as $k=>$v){?>
-                                    <option value="<?=$k?>"><?=$v?></option>
-                                <?php }?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 资质名称</span>
-                    <div class="auto value ">
-                        <div class="select">
-                            <select name="eqName" id="eqName" >
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="lab">资质编号</span>
-                    <div class="auto value ">
-                        <input type="text" class="input1 " name="certificationNo" id="certificationNo">
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 资质有效期</span>
-                    <div class="auto value ">
-                        <input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate">
-                    </div>
-                </div>
-                <div class="item">
-                    <span class="lab"><span class="red">*</span> 适用区域</span>
-                    <div class="auto value ">
-                        <input type="text" class="input1 " name="applicableRegion" id="applicableRegion">
-                    </div>
-                </div>
-
-                <div class="item bordb padb30">
-                    <span class="lab"><span class="red">*</span> 附件上传</span>
-                    <div class="auto value ">
-                        <div class="btn-file3">上传文件 <input type="file" name="file" > <input type="hidden" name="certificationContent" value="" id="certificationContent"><input type="hidden" name="cshow" value="" id="cshow"></div>
-                        <div class="progress wid100 dib hide">
-                            <span class="on"></span>
-                        </div>
-                        <span class="color8 text-center hide">上传中…</span>
-                    </div>
-                </div>
-                <!--
-                                            <div class="bordb text-center padv40">
-                                                <a href="#"><img src="/images/add.png" height="54" width="54" alt=""></a>
-                                            </div>
-                                            <p class="checklist text-center padt20"><i class="ico i-check"></i> 我已阅读并同意《XXXX协议》</p>
-
-                -->
-                <div class="text-center padv30">
-                    <input type="hidden" name="type" value="bankInfo" >
-                    <input type="button" id="submit" success="zizhi_sucess" class="btn-green2" value="保存并继续" >
                 </div>
             </div>
         </div>
@@ -463,12 +466,8 @@
 
 <block name="script">
     <script src="/js/jquery.datetimepicker.js"></script>
-    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="/js/upload/jquery.iframe-transport.js"></script>
-    <!-- The basic File Upload plugin -->
-    <script src="/js/upload/jquery.fileupload.js"></script>
+
+    <?php require_once __DIR__.'/../common/upload.js.php';?>
     <script>
         function add(obj)
         {
@@ -553,8 +552,8 @@
                     }
                     tmp[id]= $(o).html();
                 });
-//var src = $(o).find('img').eq(0).attr('src');
-//tmp.certificationContent=src;
+//                var src = $(o).find('img').eq(0).attr('src');
+//                tmp.certificationContent=src;
                 obj.push(tmp);
             });
 
@@ -563,29 +562,13 @@
                 layer.alert("请先添加资质证书");
                 return false;
             }
-            var loading = layer.load();
-            $.post('<?=U('doapply')?>',{type:'zizhi',data:obj},function(resp){
-                if(resp.status == '0'){
-
-                    if(resp.url != '' && resp.msg == ''){
-                        window.location = resp.url;
-                    }else if(resp.msg != '' && resp.url != null && resp.url != '' ){
-                        layer.msg(resp.msg,{icon:1},function(){
-                            window.location = resp.url;
-                        });
-                    }else if(resp.msg != ''){
-                        layer.msg(resp.msg,{icon:1},function(){
-                            calculateFunctionValue($('#submit').attr('success'),[resp,{type:'zizhi',data:obj}],'');
-                        });
-                    }
-                }
-                else{
-                    layer.alert(resp.msg);
-                }
-            },'json').always(function () {
-                layer.close(loading);
-            });
+            var url = '<?=U('doapply')?>';
+//            if(this.id == 'tijiao'){
+//                url = '<?//=U('doapply/and/save')?>//'
+//            }
+            ajax_post.apply(this,[url,{type:'zizhi',data:obj}]);
         }
+
         var eqName = <?=json_encode($certificateName);?>;
         function selected()
         {
@@ -649,14 +632,13 @@
             $('#creditRating').html('80');
             $(".progressBox .progress span").css({'width':'80%'});
         }
-        function zizhi_sucess()
+        function zizhi_sucess(form,resp)
         {
             $(".stepbox2 .clear li").removeClass('active');
             $(".stepbox2 .clear li:eq(3)").addClass('active');
             $(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
             $('#creditRating').html('100');
             $(".progressBox .progress span").css({'width':'100%'});
-            $('#tijiao').attr('href','<?=U('submitapply')?>').addClass('bg-green2');
         }
         function change()
         {
@@ -664,8 +646,10 @@
             {
                 return false;
             }
+
             $(".side_menu li").removeClass('on');
             $(this).addClass('on');
+
             $(".auto.box").hide();
             var id = $(this).data('id');
             $('#'+id).show();
@@ -732,15 +716,14 @@
                 }
 
             });
+
             $(".side_menu li").click(change);
             $("#save").click(save);
             $('#projectType').change(selected);
+
             $('#submit').click(submit);
+
             init();
-        })
-
-
-        $(function(){
 
             $("input[type=file]").fileupload({
                 url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
@@ -752,6 +735,7 @@
                     }
                     var obj = $(this).data('data',data)
                         .parent();
+
                     obj.css('background','#bebebe').nextAll().show()
                         .children('span')
                         .css('width','0%');
@@ -790,8 +774,9 @@
                     $(this).parent().css('background','#8ab46e');
                     layer.alert('上传失败，请重新再试',{icon:2});
                 }
-            })
-        })
+            });
+        });
+
         $(".tip-qus2").mouseover(function (){
             $(this).next().show();
         });

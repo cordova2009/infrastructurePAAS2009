@@ -460,7 +460,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .addimpress .input1{line-height: 30px;margin: 0}
 
 .pingfen{padding: 20px 40px;color: #555;}
-.textarea{border:#c5c5c5 1px solid;font-size: 14px;width: 470px;height: 100px;padding: 20px;}
+.textarea{border:#c5c5c5 1px solid;font-size: 14px;width: 470px;height: 100px;padding: 5px;}
 
 .xm_info {background: #fff;color: #555;padding: 40px ;}
 .xm_info .cell{width: 200px;padding-left: 20px;}
@@ -648,7 +648,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .gcjbxx .item{margin-top: 25px;line-height: 43px}
 .gcjbxx .input1{height: 41px;line-height: 41px;width: 350px;}
 
-.textarea2{border: #c5c5c5 1px solid;width: 340px;padding: 10px;height:80px;}
+.textarea2{border: #c5c5c5 1px solid;width: 370px;padding: 10px;height:110px;}
 
 .gqyq .input1{width: 355px;}
 .gqyq .width330{width: 334px;background: #fff;}
@@ -695,7 +695,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zbxmxx{width: 620px}
 .zbxmxx .input1{width: 350px;}
 .zbxmxx .yuanbox .input1{width: 330px;}
-.zbxmxx .textarea{width: 320px;height: 66px;}
+.zbxmxx .textarea{width: 350px;height: 96px;}
 
 .select{position:relative;border:#c5c5c5 1px solid;display:inline-block;width:360px;vertical-align:top;background:#fff;overflow:hidden;border-radius:0.15rem;}
 .select:after{position:absolute;display:block;top:35%;right:20px;content:'';border-left:5px solid transparent;border-right:5px solid transparent;border-top:9px solid #aaa;pointer-events:none;}
@@ -709,7 +709,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .jibenxx .item .lab{padding-right: 20px;text-align: right;width: 195px;color: #222;font-size: 16px;}
 .jibenxx .item .input1{height: 42px;line-height: 40px;width: 350px;	}
 .jibenxx .btn-file2{height: 44px;}
-.jibenxx .item .textarea{width: 320px;height: 60px;}
+.jibenxx .item .textarea{width: 350px;height: 90px;}
 .jibenxx .item .select{width: 362px;}
 .color5 .value,.color5 .lab{color: #555;}
 
@@ -850,6 +850,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .blue{color: #1b8fff;}
 .blue2{color: #73e2ff;}
 .red{color: #73e2ff;}
+.green{color: #6fc1a7;}
 a.blue:hover{color: #73e2ff}
 .red,.red a{ color:#F00;}
 
@@ -1012,6 +1013,7 @@ a.blue:hover{color: #73e2ff}
 .verm{vertical-align: middle;}
 .vert{vertical-align: top;}
 .radiu0{border-radius: 0;}
+.radiu5{border-radius: 5px;}
 .taged{border:#A6B010 1px solid}
 .disabled,.btn[disabled],button[disabled],input[disabled]{
     background-color: #ababab !important;

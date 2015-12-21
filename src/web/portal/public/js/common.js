@@ -133,6 +133,54 @@ String.prototype.len=function(){return this.replace(/[^\x00-\xff]/g,"__").length
 function toThousands() {
     this.value = (this.value || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
 }
+function ajax_post(url,data){
+
+    var $this = $(this);
+    var node_name = $this.get(0).nodeName;
+    if(node_name == 'FORM'){
+        var sb_btn = $this.find('[type=submit]').prop("disabled", true);
+    }else if(node_name == 'BUTTON' || node_name == 'INPUT'){
+        var sb_btn = $this;
+    }
+
+    var loading = layer.load();
+    $.post(url,data,function(resp){
+        if(resp.status == '0'){
+
+            if(resp.url != '' && resp.msg == ''){
+                //返回url不为空并且消息为空
+                window.location = resp.url;
+            }else if(resp.msg != '' && resp.url != null && resp.url != '' ){
+                //返回信息与url都不为空
+                layer.msg(resp.msg,{icon:1},function(){
+                    window.location = resp.url;
+                });
+            }else if(resp.msg != ''){
+                //返回消息为空
+                layer.msg(resp.msg,{icon:1},function(){
+                    calculateFunctionValue($this.attr('success'),[$this,resp],'');
+                });
+            }else if(resp.msg == '' && resp.url == ''){
+                //返回信息与url都为空
+                calculateFunctionValue($this.attr('success'),[$this,resp],'');
+            }
+        }else{
+            if(resp.url == ''){
+                layer.alert(resp.msg,{icon:2},function(index){
+                    calculateFunctionValue($this.attr('fail'),[$this,resp],'');
+                    layer.close(index);
+                });
+            }else{
+                layer.msg(resp.msg,{icon:2,time: 3000},function(){
+                    window.location = resp.url;
+                });
+            }
+        }
+    },'json').always(function () {
+        layer.close(loading);
+        sb_btn.prop('disabled',false);
+    });
+}
 
 $(function() {
 
@@ -188,46 +236,7 @@ $(function() {
         if(typeof flag == 'boolean' && !flag){
             return false;
         }
-
-        var sb_btn = $this.find('[type=submit]').prop("disabled", true);
-        var loading = layer.load();
-        $.post(this.action,$(this).serializeArray(),function(resp){
-            if(resp.status == '0'){
-
-                if(resp.url != '' && resp.msg == ''){
-                    //返回url不为空并且消息为空
-                    window.location = resp.url;
-                }else if(resp.msg != '' && resp.url != null && resp.url != '' ){
-                    //返回信息与url都不为空
-                    layer.msg(resp.msg,{icon:1},function(){
-                        window.location = resp.url;
-                    });
-                }else if(resp.msg != ''){
-                    //返回消息为空
-                    layer.msg(resp.msg,{icon:1},function(){
-                        calculateFunctionValue($this.attr('success'),[$this,resp],'');
-                    });
-                }else if(resp.msg == '' && resp.url == ''){
-                    //返回信息与url都为空
-                    calculateFunctionValue($this.attr('success'),[$this,resp],'');
-                }
-            }else{
-                if(resp.url == ''){
-                    layer.alert(resp.msg,{icon:2},function(index){
-                        calculateFunctionValue($this.attr('fail'),[$this,resp],'');
-                        layer.close(index);
-                    });
-                }else{
-                    layer.msg(resp.msg,{icon:2,time: 3000},function(){
-                        window.location = resp.url;
-                    });
-                }
-            }
-        },'json').always(function () {
-            layer.close(loading);
-            sb_btn.prop('disabled',false);
-        });
-
+        ajax_post.apply(this,[this.action,$(this).serializeArray()]);
         return false;
     });
 

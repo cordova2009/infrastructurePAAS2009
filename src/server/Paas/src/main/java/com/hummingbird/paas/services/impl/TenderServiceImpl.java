@@ -1575,13 +1575,27 @@ public class TenderServiceImpl implements TenderService {
 	 */
 	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
 			Pagingnation pagingnation){
+		List<String> keywords = body.getKeywords();
+		//如果列表中的无内容,或者为"",会变成sql错误,这里进行处理
+		if(keywords.isEmpty()){
+			keywords=null;
+		}
+		else{
+			boolean allblank = true;
+			for (Iterator iterator = keywords.iterator(); iterator.hasNext();) {
+				String kw = (String) iterator.next();
+				allblank&=StringUtils.isBlank(kw);
+			}
+			if(allblank){
+				keywords=null;
+			}
+		}
+		String bidderName = body.getBidderName();
 		if(pagingnation!=null&&pagingnation.isCountsize()){
-			int count = berDao.selectBidderCount(body);
+			int count = berDao.selectBidderCount4homepage(keywords,bidderName);
 			pagingnation.setTotalCount(count);
 			pagingnation.calculatePageCount();
 		}
-		List<String> keywords = body.getKeywords();
-		String bidderName = body.getBidderName();
 		
 		List<QueryBidderListHomepageResultVO> bers = berDao.selectBidder4homepage(keywords,bidderName,pagingnation);
 		return bers;

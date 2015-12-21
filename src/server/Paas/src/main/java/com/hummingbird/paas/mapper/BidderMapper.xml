@@ -582,6 +582,25 @@
         and a.company_name like  "%"#{bidderName,jdbcType=VARCHAR}"%"
       </if>
   </select>
+  <select id="selectBidderCount4homepage" resultType="int"  >
+      select 
+    count(*)
+    from t_qyzz_bidder b
+    
+    where 1=1 
+    <if test="bidderName != null" >
+       and company_name like  "%"#{bidderName}"%"
+    </if>
+    <if test="keyword != null" >
+        and 
+       <foreach collection="keyword" item="item" index="index"
+		   open="(" separator="OR" close=")">
+		   company_name like "%"#{item}"%"
+		  </foreach>
+     </if>
+      
+      
+  </select>
   <select id="countSecondBiderNum" resultType="int"  >
     select count(a.id) from t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certification b on a.id = b.bidder_id 
     INNER JOIN t_base_certification_type c on b.certification_id = c.id and c.certification_level = 20 

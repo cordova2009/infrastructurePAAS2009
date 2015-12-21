@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.capital.mapper.BidderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.capital.entity.Bidder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="contact_mobile_num" property="contactMobileNum" jdbcType="VARCHAR" />
+    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+    <result column="org_code_certificate" property="orgCodeCertificate" jdbcType="VARCHAR" />
+    <result column="tax_registration_certificate" property="taxRegistrationCertificate" jdbcType="VARCHAR" />
+    <result column="new_business_license" property="newBusinessLicense" jdbcType="VARCHAR" />
+    <result column="business_license_type" property="businessLicenseType" jdbcType="VARCHAR" />
+    <result column="business_license_expire_time" property="businessLicenseExpireTime" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="legal_person_authority_book" property="legalPersonAuthorityBook" jdbcType="VARCHAR" />
+    <result column="project_scope" property="projectScope" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="website" property="website" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="certificate_time" property="certificateTime" jdbcType="TIMESTAMP" />
+    <result column="certificate_status" property="certificateStatus" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="sector_id" property="sectorId" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="registered_capital" property="registeredCapital" jdbcType="VARCHAR" />
+    <result column="business_scope" property="businessScope" jdbcType="VARCHAR" />
+    <result column="legal_person_idcard" property="legalPersonIdcard" jdbcType="VARCHAR" />
+    <result column="legal_person_idcard_front_url" property="legalPersonIdcardFrontUrl" jdbcType="VARCHAR" />
+    <result column="legal_person_idcard_back_url" property="legalPersonIdcardBackUrl" jdbcType="VARCHAR" />
+    <result column="business_license_url" property="businessLicenseUrl" jdbcType="VARCHAR" />
+    <result column="org_code_certificate_url" property="orgCodeCertificateUrl" jdbcType="VARCHAR" />
+    <result column="tax_registration_certificate_url" property="taxRegistrationCertificateUrl" jdbcType="VARCHAR" />
+    <result column="unified_social_credit_code" property="unifiedSocialCreditCode" jdbcType="VARCHAR" />
+    <result column="unified_social_credit_code_url" property="unifiedSocialCreditCodeUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
+    business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
+    business_license_type, business_license_expire_time, email, legal_person_authority_book, 
+    project_scope, description, website, address, certificate_time, certificate_status, 
+    status, industry_id, sector_id, province, district, logo, short_name, registered_capital, 
+    business_scope, legal_person_idcard, legal_person_idcard_front_url, legal_person_idcard_back_url, 
+    business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
+    unified_social_credit_code, unified_social_credit_code_url
+  </sql>
+  <sql id="Base1_Column_List" >
+    a.id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
+    business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
+    business_license_type, business_license_expire_time, email, legal_person_authority_book, 
+    project_scope, description, website, address, certificate_time, certificate_status, 
+    status, industry_id, sector_id, province, district, logo, short_name, registered_capital, 
+    business_scope, legal_person_idcard, legal_person_idcard_front_url, legal_person_idcard_back_url, 
+    business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
+    unified_social_credit_code, unified_social_credit_code_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_bidder
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectInviteBidders" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_bidder 
+    where id in (select bidder_id 
+    from t_ztgl_bid_invite_bidder
+     where object_id = #{objectId,jdbcType=VARCHAR})
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_qyzz_bidder
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.capital.entity.Bidder" >
+    insert into t_qyzz_bidder (id, user_id, company_name, 
+      legal_person, reg_time, contact_name, 
+      contact_mobile_num, business_license, org_code_certificate, 
+      tax_registration_certificate, new_business_license, 
+      business_license_type, business_license_expire_time, 
+      email, legal_person_authority_book, project_scope, 
+      description, website, address, 
+      certificate_time, certificate_status, status, 
+      industry_id, sector_id, province, 
+      district, logo, short_name, 
+      registered_capital, business_scope, legal_person_idcard, 
+      legal_person_idcard_front_url, legal_person_idcard_back_url, 
+      business_license_url, org_code_certificate_url, 
+      tax_registration_certificate_url, unified_social_credit_code, 
+      unified_social_credit_code_url)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
+      #{legalPerson,jdbcType=VARCHAR}, #{regTime,jdbcType=TIMESTAMP}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactMobileNum,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{orgCodeCertificate,jdbcType=VARCHAR}, 
+      #{taxRegistrationCertificate,jdbcType=VARCHAR}, #{newBusinessLicense,jdbcType=VARCHAR}, 
+      #{businessLicenseType,jdbcType=VARCHAR}, #{businessLicenseExpireTime,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{legalPersonAuthorityBook,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{certificateTime,jdbcType=TIMESTAMP}, #{certificateStatus,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{industryId,jdbcType=VARCHAR}, #{sectorId,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{district,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
+      #{registeredCapital,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR}, #{legalPersonIdcard,jdbcType=VARCHAR}, 
+      #{legalPersonIdcardFrontUrl,jdbcType=VARCHAR}, #{legalPersonIdcardBackUrl,jdbcType=VARCHAR}, 
+      #{businessLicenseUrl,jdbcType=VARCHAR}, #{orgCodeCertificateUrl,jdbcType=VARCHAR}, 
+      #{taxRegistrationCertificateUrl,jdbcType=VARCHAR}, #{unifiedSocialCreditCode,jdbcType=VARCHAR}, 
+      #{unifiedSocialCreditCodeUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.capital.entity.Bidder" >
+    insert into t_qyzz_bidder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="legalPerson != null" >
+        legal_person,
+      </if>
+      <if test="regTime != null" >
+        reg_time,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactMobileNum != null" >
+        contact_mobile_num,
+      </if>
+      <if test="businessLicense != null" >
+        business_license,
+      </if>
+      <if test="orgCodeCertificate != null" >
+        org_code_certificate,
+      </if>
+      <if test="taxRegistrationCertificate != null" >
+        tax_registration_certificate,
+      </if>
+      <if test="newBusinessLicense != null" >
+        new_business_license,
+      </if>
+      <if test="businessLicenseType != null" >
+        business_license_type,
+      </if>
+      <if test="businessLicenseExpireTime != null" >
+        business_license_expire_time,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="legalPersonAuthorityBook != null" >
+        legal_person_authority_book,
+      </if>
+      <if test="projectScope != null" >
+        project_scope,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="website != null" >
+        website,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="certificateTime != null" >
+        certificate_time,
+      </if>
+      <if test="certificateStatus != null" >
+        certificate_status,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="industryId != null" >
+        industry_id,
+      </if>
+      <if test="sectorId != null" >
+        sector_id,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="shortName != null" >
+        short_name,
+      </if>
+      <if test="registeredCapital != null" >
+        registered_capital,
+      </if>
+      <if test="businessScope != null" >
+        business_scope,
+      </if>
+      <if test="legalPersonIdcard != null" >
+        legal_person_idcard,
+      </if>
+      <if test="legalPersonIdcardFrontUrl != null" >
+        legal_person_idcard_front_url,
+      </if>
+      <if test="legalPersonIdcardBackUrl != null" >
+        legal_person_idcard_back_url,
+      </if>
+      <if test="businessLicenseUrl != null" >
+        business_license_url,
+      </if>
+      <if test="orgCodeCertificateUrl != null" >
+        org_code_certificate_url,
+      </if>
+      <if test="taxRegistrationCertificateUrl != null" >
+        tax_registration_certificate_url,
+      </if>
+      <if test="unifiedSocialCreditCode != null" >
+        unified_social_credit_code,
+      </if>
+      <if test="unifiedSocialCreditCodeUrl != null" >
+        unified_social_credit_code_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null" >
+        #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobileNum != null" >
+        #{contactMobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null" >
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificate != null" >
+        #{orgCodeCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificate != null" >
+        #{taxRegistrationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="newBusinessLicense != null" >
+        #{newBusinessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseType != null" >
+        #{businessLicenseType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseExpireTime != null" >
+        #{businessLicenseExpireTime,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonAuthorityBook != null" >
+        #{legalPersonAuthorityBook,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScope != null" >
+        #{projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null" >
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateTime != null" >
+        #{certificateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateStatus != null" >
+        #{certificateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorId != null" >
+        #{sectorId,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapital != null" >
+        #{registeredCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null" >
+        #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcard != null" >
+        #{legalPersonIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardFrontUrl != null" >
+        #{legalPersonIdcardFrontUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardBackUrl != null" >
+        #{legalPersonIdcardBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseUrl != null" >
+        #{businessLicenseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificateUrl != null" >
+        #{orgCodeCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrl != null" >
+        #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCode != null" >
+        #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCodeUrl != null" >
+        #{unifiedSocialCreditCodeUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.capital.entity.Bidder" >
+    update t_qyzz_bidder
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null" >
+        reg_time = #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactName != null" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobileNum != null" >
+        contact_mobile_num = #{contactMobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null" >
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificate != null" >
+        org_code_certificate = #{orgCodeCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificate != null" >
+        tax_registration_certificate = #{taxRegistrationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="newBusinessLicense != null" >
+        new_business_license = #{newBusinessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseType != null" >
+        business_license_type = #{businessLicenseType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseExpireTime != null" >
+        business_license_expire_time = #{businessLicenseExpireTime,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonAuthorityBook != null" >
+        legal_person_authority_book = #{legalPersonAuthorityBook,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScope != null" >
+        project_scope = #{projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null" >
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateTime != null" >
+        certificate_time = #{certificateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateStatus != null" >
+        certificate_status = #{certificateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        industry_id = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorId != null" >
+        sector_id = #{sectorId,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapital != null" >
+        registered_capital = #{registeredCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null" >
+        business_scope = #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcard != null" >
+        legal_person_idcard = #{legalPersonIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardFrontUrl != null" >
+        legal_person_idcard_front_url = #{legalPersonIdcardFrontUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonIdcardBackUrl != null" >
+        legal_person_idcard_back_url = #{legalPersonIdcardBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseUrl != null" >
+        business_license_url = #{businessLicenseUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCodeCertificateUrl != null" >
+        org_code_certificate_url = #{orgCodeCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRegistrationCertificateUrl != null" >
+        tax_registration_certificate_url = #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCode != null" >
+        unified_social_credit_code = #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCodeUrl != null" >
+        unified_social_credit_code_url = #{unifiedSocialCreditCodeUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.capital.entity.Bidder" >
+    update t_qyzz_bidder
+    set user_id = #{userId,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      reg_time = #{regTime,jdbcType=TIMESTAMP},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_mobile_num = #{contactMobileNum,jdbcType=VARCHAR},
+      business_license = #{businessLicense,jdbcType=VARCHAR},
+      org_code_certificate = #{orgCodeCertificate,jdbcType=VARCHAR},
+      tax_registration_certificate = #{taxRegistrationCertificate,jdbcType=VARCHAR},
+      new_business_license = #{newBusinessLicense,jdbcType=VARCHAR},
+      business_license_type = #{businessLicenseType,jdbcType=VARCHAR},
+      business_license_expire_time = #{businessLicenseExpireTime,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      legal_person_authority_book = #{legalPersonAuthorityBook,jdbcType=VARCHAR},
+      project_scope = #{projectScope,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      website = #{website,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      certificate_time = #{certificateTime,jdbcType=TIMESTAMP},
+      certificate_status = #{certificateStatus,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      industry_id = #{industryId,jdbcType=VARCHAR},
+      sector_id = #{sectorId,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      registered_capital = #{registeredCapital,jdbcType=VARCHAR},
+      business_scope = #{businessScope,jdbcType=VARCHAR},
+      legal_person_idcard = #{legalPersonIdcard,jdbcType=VARCHAR},
+      legal_person_idcard_front_url = #{legalPersonIdcardFrontUrl,jdbcType=VARCHAR},
+      legal_person_idcard_back_url = #{legalPersonIdcardBackUrl,jdbcType=VARCHAR},
+      business_license_url = #{businessLicenseUrl,jdbcType=VARCHAR},
+      org_code_certificate_url = #{orgCodeCertificateUrl,jdbcType=VARCHAR},
+      tax_registration_certificate_url = #{taxRegistrationCertificateUrl,jdbcType=VARCHAR},
+      unified_social_credit_code = #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      unified_social_credit_code_url = #{unifiedSocialCreditCodeUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_bidder
+    where user_id = #{userId,jdbcType=INTEGER} and status='OK#'
+  </select>
+  <select id="selectBidder" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_bidder
+    where status='OK#'
+      <if test="queryCertificateListBodyVO.bidderName != null" >
+        and company_name like  "%"#{queryCertificateListBodyVO.bidderName,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="page != null" >
+   		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+      </if>
+  </select>
+  <select id="getIndexBidListPages" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base1_Column_List" />
+	from t_qyzz_bidder a INNER JOIN t_tjnr_bidder_recommend b on a.id = b.bidder_id  
+	where status='OK#' ORDER BY b.sort_no
+    limit #{begin},#{limit}
+  </select>
+  <select id="countStairBiderNum" resultType="int"  >
+    select count(a.id) from t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certification b on a.id = b.bidder_id 
+    INNER JOIN t_base_certification_type c on b.certification_id = c.id and c.certification_level = 10
+    where a.status='OK#'
+   
+  </select>
+  <select id="countSecondBiderNum" resultType="int"  >
+    select count(a.id) from t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certification b on a.id = b.bidder_id 
+    INNER JOIN t_base_certification_type c on b.certification_id = c.id and c.certification_level = 20 
+    where a.status='OK#'
+   
+  </select>
+  <insert id="insertSelectByBidderIdSuccess" parameterType="java.lang.Integer" >
+   insert into t_qyzz_bidder(id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
+    business_license, org_code_certificate, tax_registration_certificate, new_business_license, 
+    business_license_type, business_license_expire_time, email, legal_person_authority_book, 
+    project_scope, description, website, address, industry_id, sector_id, province, district, logo, short_name, registered_capital, 
+    business_scope, legal_person_idcard, legal_person_idcard_front_url, legal_person_idcard_back_url, 
+    business_license_url, org_code_certificate_url, tax_registration_certificate_url, 
+    unified_social_credit_code, unified_social_credit_code_url,certificate_time, certificate_status,status) select a.id, a.user_id, a.company_name, a.legal_person, a.reg_time, a.contact_name, a.contact_mobile_num, 
+    a.business_license, a.org_code_certificate, a.tax_registration_certificate, a.new_business_license, 
+    a.business_license_type, a.business_license_expire_time, a.email, a.legal_person_authority_book, 
+    a.project_scope, a.description, a.website, a.address, a.industry_id, a.sector_id, a.province, a.district, a.logo, a.short_name, a.registered_capital, 
+    a.business_scope, a.legal_person_idcard, a.legal_person_idcard_front_url, a.legal_person_idcard_back_url, 
+    a.business_license_url, a.org_code_certificate_url, a.tax_registration_certificate_url, 
+    a.unified_social_credit_code, a.unified_social_credit_code_url,now(),'OK#','OK#' FROM t_qyzz_bidder_certicate a
+      where a.id = #{bidderId,jdbcType=INTEGER}
+  </insert>
+   <update id="updateByBidderIdSuccess" parameterType="com.hummingbird.capital.entity.Bidder" >
+   update t_qyzz_bidder a INNER JOIN t_qyzz_bidder_certicate b ON a.id = b.id set a.id = b.id, a.user_id = b.user_id, a.company_name = b.company_name, 
+      a.legal_person = b.legal_person, a.reg_time = b.reg_time, a.contact_name = b.contact_name, 
+      a.contact_mobile_num = b.contact_mobile_num, a.business_license = b.business_license, a.org_code_certificate = b.org_code_certificate, 
+      a.tax_registration_certificate = b.tax_registration_certificate, a.new_business_license = b.new_business_license, 
+      a.business_license_type = b.business_license_type, a.business_license_expire_time = b.business_license_expire_time, 
+      a.legal_person_idcard = b.legal_person_idcard, a.legal_person_idcard_front_url = b.legal_person_idcard_front_url, 
+      a.email = b.email, a.legal_person_authority_book = b.legal_person_authority_book, a.project_scope = b.project_scope, 
+      a.description = b.description, a.website = b.website, a.address = b.address, 
+      a.industry_id = b.industry_id, a.sector_id = b.sector_id, a.province = b.province, 
+      a.district = b.district, a.logo = b.logo, a.short_name = b.short_name, 
+      a.registered_capital = b.registered_capital, a.business_scope = b.business_scope, a.legal_person_idcard_back_url = b.legal_person_idcard_back_url, 
+      a.business_license_url = b.business_license_url, a.org_code_certificate_url = b.org_code_certificate_url, 
+      a.tax_registration_certificate_url = b.tax_registration_certificate_url, a.unified_social_credit_code = b.unified_social_credit_code, 
+      a.unified_social_credit_code_url = b.unified_social_credit_code_url,a.certificate_time = now(), a.certificate_status = 'OK#',a.status = 'OK#' 
+      where b.id = #{bidderId,jdbcType=INTEGER}
+  </update>
+</mapper>

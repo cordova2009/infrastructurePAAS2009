@@ -76,9 +76,10 @@
                         <a href="#">帮助中心</a>
                         <a href="#">联系我们</a>
                     </div>
-                </div>
-                <div class="right foot-right">
-                    客服电话<br><span class="tel">400-555-8888 </span><br>9:00 - 21:00
+                    <div class="footer-link">
+                        <a href="#">客服电话</a>
+                        <span class="tel">400-555-8888 </span>
+                    </div>
                 </div>
             </div>
         </div>

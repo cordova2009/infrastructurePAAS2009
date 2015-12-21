@@ -3,7 +3,7 @@
         <form action="<?=U('/member/vip/pay')?>" method="post" target="_blank">
             <input type="hidden" name="type" value="<?=$type?>">
             <div class="payBOx">
-                <div class="txt1"><?=$product['productName']?>服务价格<?=price_format($product['productPrice'])?>元/年</div>
+                <div class="txt1"><?=$product['productName']?>服务价格<?=$product['productPrice']?><?=price_format($product['productPrice'])?>元/年</div>
                 <div class="txt2">请选择支付方式</div>
                 <div class="clear pay_select">
                     <a class="left radio" href="javascript:;">

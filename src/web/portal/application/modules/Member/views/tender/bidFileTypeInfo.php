@@ -9,7 +9,7 @@ if(check_resp($resp)){
         <form action="<?=U('/member/tender/saveBidFileTypeInfo')?>" method="post" class="ajax-form" success="save_success" next_step="answerMethodInfo">
         <input name="objectId" value="<?=$objectId?>" type="hidden" />
         <div class="shangwubiao fz16">
-            <div class="tit6"><span class="red">*</span>请上传招标文件</div>
+            <div class="tit6"><span class="red">*</span> 请上传招标文件</div>
             <div class="item mart0 text-center">
                 <div class=" <?=(empty($info['tenderFile']) ? '' : 'hide')?>" id="upload-tender-file">
                     <span>招标文件</span>
@@ -25,7 +25,7 @@ if(check_resp($resp)){
                     <a class="btn-file2 padm20 bg-grey" id="delete-tender-file">删除</a>
                 </div>
             </div>
-            <div class="tit6"><span class="red">*</span>请选择投标方需要提交的电子标书</div>
+            <div class="tit6"><span class="red">*</span> 请选择投标方需要提交的电子标书</div>
 
             <div class="item ">
                 <div class="lab"></div>

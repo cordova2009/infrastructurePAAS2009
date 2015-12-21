@@ -591,7 +591,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .h2{color: #222;border-bottom: #e6e6e6 1px solid;font-size: 25px;line-height: 60px;padding: 0 15px;}
 .tit6{color: #222;font-size: 16px;padding: 20px 0;}
 
-.checkBtn a{color: #fff;width: 180px;text-align: center;line-height: 40px;display: inline-block;background: #bebebe;border-radius: 5px;margin: 0 30px;}
+.checkBtn a{color: #fff;width: 180px;text-align: center;line-height: 40px;display: inline-block;background: #8ab46e;border-radius: 5px;margin: 0 30px;}
 .checkBtn a.active{background: #1b8fff;position: relative;}
 .checkBtn a.active:after{width: 16px;height: 12px;background: url(../images/ico1.png);background-position: -24px -278px;content: "";position: absolute;right: 5px;bottom: 5px;}
 .zhizhao{ margin: 0 auto; width: 400px;}
@@ -693,9 +693,9 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .ziliao ul li{width: 260px;font-size: 14px;}
 
 .zbxmxx{width: 620px}
-.zbxmxx .input1{width: 360px;}
-.zbxmxx .yuanbox .input1{width: 340px;}
-.zbxmxx .textarea{width: 330px;height: 66px;}
+.zbxmxx .input1{width: 350px;}
+.zbxmxx .yuanbox .input1{width: 330px;}
+.zbxmxx .textarea{width: 320px;height: 66px;}
 
 .select{position:relative;border:#c5c5c5 1px solid;display:inline-block;width:360px;vertical-align:top;background:#fff;overflow:hidden;border-radius:0.15rem;}
 .select:after{position:absolute;display:block;top:35%;right:20px;content:'';border-left:5px solid transparent;border-right:5px solid transparent;border-top:9px solid #aaa;pointer-events:none;}

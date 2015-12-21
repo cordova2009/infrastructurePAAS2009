@@ -40,6 +40,9 @@
                         <td class="info"><a href="<?=U('/member/Information/publishDetail',['informationId'=>$item['informationId']])?>"><i class="ico i-eye"></i></a></td>
                     </tr>
                     <?php endforeach; ?>
+                    <?php if(empty($list)):?>
+                    <tr><td colspan="6">暂无数据</td></tr>
+                    <?php endif;?>
                 </table>
             </div>
             <?php include(APP_PATH . 'views/common/page.php'); ?>

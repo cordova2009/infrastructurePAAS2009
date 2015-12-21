@@ -99,7 +99,7 @@ if(check_resp($resp)){
                 <div class="cell lab padr20">
                     <span class="red">*</span> 中标通知书
                 </div>
-                <div class="cell ">
+                <div class="cell wid170">
                     <a href="javascript:" class="btn-file2 <?php if(isset($info) && !empty($info['letterOfAcceptanceUrl'])) echo 'hide'?>">
                         <span class="upload-text">上传附件</span>
                         <input type="file" name="file" class="file-upload">
@@ -111,7 +111,7 @@ if(check_resp($resp)){
                         <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                     </div>
                 </div>
-                <div class="cell wid280">
+                <div class="cell">
                     <p class="red">
                         如果国有土地使用证中使用单位与招标人不一致，<br>
                         请务必提交中标通知书，保证招标可信度。<br>

@@ -88,7 +88,7 @@
                         <div class="item">
                             <div class="lab"></div>
                             <div class="value">
-                                <button class="btn-green2 " type="submit" style="margin-right: 143px">确定</button>
+                                <button class="btn-green2 " type="submit" style="margin-right: 100px">确定</button>
                                 <button type="reset" class="btn-green2 bg-grey " >重置</button>
 
                             </div>

@@ -83,7 +83,7 @@
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
-                        <?=isset($dateRequirementInfo['biddingEndTime'])?time_format(strtotime($dateRequirementInfo['announcementBeginTime']),'Y-m-d'):'未填写'?>
+                        <?=isset($dateRequirementInfo['biddingEndTime'])?time_format(strtotime($dateRequirementInfo['biddingEndTime']),'Y-m-d'):'未填写'?>
                         <br>投标截止
                     </span>
                 </li>

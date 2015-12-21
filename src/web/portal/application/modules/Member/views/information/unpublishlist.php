@@ -27,6 +27,9 @@
                         <td><a href="<?=U('/member/Information/index',['informationId'=>$item['informationId']])?>" class="toubiao">修改</a></td>
                     </tr>
                     <?php endforeach; ?>
+                    <?php if(empty($list)):?>
+                        <tr><td colspan="7">暂无数据</td></tr>
+                    <?php endif;?>
                 </table>
             </div>
             <?php include(APP_PATH . 'views/common/page.php'); ?>

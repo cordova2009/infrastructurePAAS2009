@@ -649,3 +649,13 @@ function get_action_type($type, $all = false){
     }
     return $list[$type];
 }
+
+
+/**
+ * 检查接口返回
+ * @param intger $type 类型
+ * @author huajie <banhuajie@163.com>
+ */
+function check_resp($resp){
+    return !empty($resp) && $resp['errcode'] == '0';
+}

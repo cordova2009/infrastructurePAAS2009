@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import com.hummingbird.capital.entity.Bidder;
 import com.hummingbird.capital.event.BidSelectedEvent;
 import com.hummingbird.capital.event.ConfirmPayEvent;
-import com.hummingbird.capital.event.InvBidEvent;
+import com.hummingbird.capital.event.projectPaymentWithdrawalsApplyEvent;
 import com.hummingbird.capital.mapper.BidderMapper;
 import com.hummingbird.capital.services.UserMsgService;
 import com.hummingbird.capital.vo.UserMsgBodyVO;
@@ -28,7 +28,7 @@ import com.hummingbird.common.util.SpringBeanUtil;
  * 2015年12月11日 下午6:45:45
  * 本类主要做为  系统自动监听处理通知=信息类  
  */
-public class BidEvalutionEventListener extends AbstractBusinessEventListener {
+public class HandleEventListener extends AbstractBusinessEventListener {
 
 	@Autowired
 	UserMsgService  umService;
@@ -59,18 +59,39 @@ public class BidEvalutionEventListener extends AbstractBusinessEventListener {
 					}
 					
 					
-				}else if (event instanceof InvBidEvent) {
-					InvBidEvent inv = (InvBidEvent) event;
-					System.out.println("邀标事件处理");
-					if(inv!= null && inv.getBidderIds()!= null){
-						UserMsgBodyVO info = new UserMsgBodyVO();
-						info.setMsgContent("招标【"+inv.getObjectId()+"】项目邀请您投标了");
-						info.setMsgTitle("邀标通知");
-						info.setMsgType("PRI");
-						for(Integer uid : inv.getBidderIds()){
-							info.setUserId(uid);
-							umService.addMsg(info);
+				}else if (event instanceof projectPaymentWithdrawalsApplyEvent) {
+					projectPaymentWithdrawalsApplyEvent inv = (projectPaymentWithdrawalsApplyEvent) event;
+					System.out.println("工程提现事件处理");
+					if(inv!= null){
+						if("STA".equalsIgnoreCase(inv.getStatus())){
+							UserMsgBodyVO info = new UserMsgBodyVO();
+							info.setMsgContent("您有一笔【"+inv.getAmount()+"】元的提现申请");
+							info.setMsgTitle("工程提现通知");
+							info.setMsgType("PRI");
+							if(inv.getBidderId() != null){
+								info.setUserId(inv.getBidderId());
+								umService.addMsg(info);
+							}
+						}else if("OK#".equalsIgnoreCase(inv.getStatus())){
+							UserMsgBodyVO info = new UserMsgBodyVO();
+							info.setMsgContent("您有一笔【"+inv.getAmount()+"】元的提现成功");
+							info.setMsgTitle("工程提现通知");
+							info.setMsgType("PRI");
+							if(inv.getBidderId() != null){
+								info.setUserId(inv.getBidderId());
+								umService.addMsg(info);
+							}
+						}else if("FLS".equalsIgnoreCase(inv.getStatus())){
+							UserMsgBodyVO info = new UserMsgBodyVO();
+							info.setMsgContent("您有一笔【"+inv.getAmount()+"】元的提现失败");
+							info.setMsgTitle("工程提现通知");
+							info.setMsgType("PRI");
+							if(inv.getBidderId() != null){
+								info.setUserId(inv.getBidderId());
+								umService.addMsg(info);
+							}
 						}
+						
 					}
 					
 					

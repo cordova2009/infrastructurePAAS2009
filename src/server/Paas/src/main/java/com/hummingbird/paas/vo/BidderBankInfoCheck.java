@@ -19,6 +19,8 @@ public class BidderBankInfoCheck {
 	private AuditInfo  bank_name;
 	private AuditInfo  account_no;
 	private AuditInfo  account_name;
+	
+	
 	/**
 	 * 电话
 	 */
@@ -112,6 +114,5 @@ public class BidderBankInfoCheck {
 	public void setAddress(AuditInfo address) {
 		this.address = address;
 	}
-	
 	
 }

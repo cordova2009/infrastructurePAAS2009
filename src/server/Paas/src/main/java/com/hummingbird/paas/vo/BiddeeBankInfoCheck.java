@@ -19,18 +19,11 @@ public class BiddeeBankInfoCheck {
 	private AuditInfo  bank_name;
 	private AuditInfo  account_no;
 	private AuditInfo  account_name;
-	/**
-	 * 电话
-	 */
+	
 	private AuditInfo  telephone;
-	/**
-	 * 税号
-	 */
 	private AuditInfo  tax_no;
-	/**
-	 * 地址
-	 */
 	private AuditInfo  address;
+	
 	/**
 	 * @return the bank_name
 	 */
@@ -68,49 +61,40 @@ public class BiddeeBankInfoCheck {
 		this.account_name = account_name;
 	}
 	/**
-	 * 电话 
+	 * @return the telephone
 	 */
 	public AuditInfo getTelephone() {
 		return telephone;
 	}
 	/**
-	 * 电话 
-	 */
-	public void setTelephone(AuditInfo telephone) {
-		this.telephone = telephone;
-	}
-	/**
-	 * 税号 
+	 * @return the tax_no
 	 */
 	public AuditInfo getTax_no() {
 		return tax_no;
 	}
 	/**
-	 * 税号 
-	 */
-	public void setTax_no(AuditInfo tax_no) {
-		this.tax_no = tax_no;
-	}
-	/**
-	 * 地址 
+	 * @return the address
 	 */
 	public AuditInfo getAddress() {
 		return address;
 	}
 	/**
-	 * 地址 
+	 * @param telephone the telephone to set
+	 */
+	public void setTelephone(AuditInfo telephone) {
+		this.telephone = telephone;
+	}
+	/**
+	 * @param tax_no the tax_no to set
+	 */
+	public void setTax_no(AuditInfo tax_no) {
+		this.tax_no = tax_no;
+	}
+	/**
+	 * @param address the address to set
 	 */
 	public void setAddress(AuditInfo address) {
 		this.address = address;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "BiddeeBankInfoCheck [bank_name=" + bank_name + ", account_no=" + account_no + ", account_name="
-				+ account_name + ", telephone=" + telephone + ", tax_no=" + tax_no + ", address=" + address + "]";
-	}
-	
 	
 }

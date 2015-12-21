@@ -2,6 +2,11 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.hummingbird.common.constant.CommonStatusConst;
+
 /**
  * 审核信息 包括状态和msg原因 
  * @author YJY  
@@ -46,6 +51,15 @@ public class AuditInfo {
 	 */
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	/**
+	 * 是否通过
+	 * @return
+	 */
+	@JsonIgnore
+	public boolean isPass(){
+		return StringUtils.equals(CommonStatusConst.STATUS_OK, result);
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

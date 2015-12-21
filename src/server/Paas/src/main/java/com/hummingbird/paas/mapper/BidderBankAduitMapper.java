@@ -38,4 +38,10 @@ public interface BidderBankAduitMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidderBankAduit record);
+
+	/**
+	 * 删除审核表中的银行卡信息
+	 * @param bidderId
+	 */
+	void removeAduitRecord(Integer bidderCertificationId);
 }

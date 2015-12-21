@@ -35,6 +35,10 @@
     delete from t_qyzz_bidder_bank_aduit
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="removeAduitRecord" parameterType="java.lang.Integer" >
+    delete from t_qyzz_bidder_bank_aduit
+    where bidder_certicate_id = #{bidderCertificationId}
+  </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderBankAduit" >
     insert into t_qyzz_bidder_bank_aduit (id, bidder_certicate_id, bankcard_certificate_msg, 
       bank_certificate_msg, acccount_name_certificate_msg, 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.MapMaker;
 import com.hummingbird.common.util.RequestUtil;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
@@ -116,6 +118,7 @@ import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
+import com.hummingbird.paas.vo.TenderCertificationReturnVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
@@ -1648,6 +1651,7 @@ public class TenderController extends BaseController {
 						row.put("bidTime", DateUtil.formatShortDateorNull(ori.getBidTime()));
 						row.put("projectExpectStartDate", DateUtil.formatShortDateorNull(ori.getProjectExpectStartDate()));
 						row.put("projectExpectEndDate", DateUtil.formatShortDateorNull(ori.getProjectExpectEndDate()));
+						row.put("certificationList",ori.getCertificationList());
 						
 						row.remove("class");
 						return row;

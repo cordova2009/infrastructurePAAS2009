@@ -471,7 +471,7 @@ public class MemberController extends BaseController{
 				Integer userId=token.getUserId();
 				if( userId != null){
 					
-					rm.setErrcode(850000);
+					rm.setErrcode(280200);
 					rm.setErrmsg(messagebase+"成功");
 					//---------------------招标人验证-----------------------------------------------
 					//招标人表t_qyzz_biddee 
@@ -489,10 +489,12 @@ public class MemberController extends BaseController{
 						// 查询招标人会员信息  t_hygl_biddee 招标人会员表
 						HyglBiddee hyglBiddee=hyglBiddeeMapper.selectByBiddeeId(biddeeId);
 						Date date=new Date();
-						Date endTime=hyglBiddee.getEndTime();
-						if(hyglBiddee != null && endTime.getTime()>date.getTime()){
-							rm.setErrcode(850001);
-							rm.setErrmsg("您已是会员");
+						if(hyglBiddee != null){
+							Date endTime=hyglBiddee.getEndTime();
+							if(endTime.getTime()>date.getTime()){
+								rm.setErrcode(280201);
+								rm.setErrmsg("您已是会员");
+							}
 						}
 						else{
 							//***检查用户的订单表有没有购买招标人会员的订单,订单状态为CRT(待支付),调用支付宝网关,查询订单状态*****
@@ -829,10 +831,13 @@ public class MemberController extends BaseController{
 						// 查询招标人会员信息  t_hygl_biddee 招标人会员表
 						HyglBidder hyglBidder=hyglBidderMapper.selectByBidderId(bidderId);
 						Date date=new Date();
-						Date endTime=hyglBidder!=null?hyglBidder.getEndTime():null;
-						if(hyglBidder != null && endTime.getTime()>date.getTime()){
-							rm.setErrcode(280201);
-							rm.setErrmsg("您已是会员");
+						if(hyglBidder != null ){
+							Date endTime=hyglBidder.getEndTime();
+							if(endTime.getTime()>date.getTime()){
+								
+								rm.setErrcode(280201);
+								rm.setErrmsg("您已是会员");
+							}
 						}else{
 							//***检查用户的订单表有没有购买招标人会员的订单,订单状态为CRT(待支付),调用支付宝网关,查询订单状态*****
 							Order order = new Order();

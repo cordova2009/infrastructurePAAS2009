@@ -1063,8 +1063,9 @@ public class TenderServiceImpl implements TenderService {
 							if(ds != null && ds.size()>0){
 								for(BidCertification dd : ds){
 									TenderCertificationReturnVO mm = new TenderCertificationReturnVO();
-									mm.setCertificationId(Integer.valueOf(mm.getCertificationId()));
-									mm.setCertificationName(dd.getCertificationName());
+									mm.setCertificationId((dd.getBidderCertificationId()));
+									String certificationName = dd.getCertificationName();
+									mm.setCertificationName(certificationName);
 									
 									certificationList.add(mm);
 								}

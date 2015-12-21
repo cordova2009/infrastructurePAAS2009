@@ -42,7 +42,11 @@
                                 <td class=""><a href="<?=U('received',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['paidAmount'])?>元</span></a></td>
                                 <td ><a href="<?=U('willreceive',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['willPayAmount'])?>元</span></a></td>
                                 <td><?=price_format($v['nextPeriodPayAmount'])?>元<br><?php echo empty($v['nextPeriodPayTime'])?'':'（付款时间'.$v['nextPeriodPayTime'].'）' ;?></td>
-                                <td><a href="<?=U('payment',['id'=>$v['objectId']])?>" class="btn-blue bg-orange2">付款</a></td>
+                                <td>
+<?php if($v['status']!='CRT'){?>
+				<a href="<?=U('payment',['id'=>$v['objectId']])?>" class="btn-blue bg-orange2">付款</a>
+<?php }?>
+				</td>
                             </tr>
                         <?php endforeach;?>
 

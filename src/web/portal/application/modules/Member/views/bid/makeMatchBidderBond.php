@@ -6,7 +6,7 @@ if(check_resp($resp)){
 <div class="auto  box pad0" id="makeMatchBidderBond">
     <div class="h2">撮合交易保证金</div>
     <div class="padm30">
-        <form action="<?=U('/member/bid/saveMakeMatchBidderBond')?>" method="post" class="ajax-form" success="save_success" next_step="bidderBond">
+        <form action="<?=U('/member/bid/saveMakeMatchBidderBond')?>" method="post" class="ajax-form" success="save_success" next_step="bidFile">
             <input name="objectId" value="<?=$objectId?>" type="hidden" />
             <input name="bidId" value="<?=$bidId?>" type="hidden" />
             <div class="text-center chongzhi">

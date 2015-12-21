@@ -29,12 +29,14 @@ import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Biddee;
+import com.hummingbird.paas.entity.BiddeeBankAduit;
 import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCertification;
 import com.hummingbird.paas.entity.BiddeeCertificationAudit;
 import com.hummingbird.paas.entity.BiddeeCredit;
+import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.Token;
@@ -602,6 +604,24 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 					biddeeCertificateAduitDao.updateByPrimaryKey(bca);
 				}
 
+				//插入银行审核信息
+				BiddeeBankAduit bba = new BiddeeBankAduit();
+				bba.setAuditTime(new Date());
+				bba.setBiddeeCerticateId(biddeeId);
+				bba.setBankcardCertificateResult(bankInfoCheck.getAccount_no   ().getResult());
+				bba.setBankCertificateResult(bankInfoCheck.getBank_name()        .getResult());
+				bba.setAcccountNameCertificateResult(bankInfoCheck.getAccount_name().getResult());
+				bba.setTaxNoCertificateResult(bankInfoCheck.getTax_no       ().getResult());
+				bba.setAddressCertificateResult(bankInfoCheck.getAddress     ().getResult());
+				bba.setTelephoneCertificateResult(bankInfoCheck.getTelephone   ().getResult());
+				bba.setBankcardCertificateMsg(bankInfoCheck.getAccount_no   ().getMsg());
+				bba.setBankCertificateMsg(bankInfoCheck.getBank_name()        .getMsg());
+				bba.setAcccountNameCertificateMsg(bankInfoCheck.getAccount_name().getMsg());
+				bba.setTaxNoCertificateMsg(bankInfoCheck.getTax_no       ().getMsg());
+				bba.setAddressCertificateMsg(bankInfoCheck.getAddress     ().getMsg());
+				bba.setTelephoneCertificateMsg(bankInfoCheck.getTelephone   ().getMsg());
+				biddeeBankAduitDao.removeAduitRecord(biddeeId);
+				biddeeBankAduitDao.insert(bba);
 //				5.插入积分信息
 //				 BiddeeCreditMapper biddeeCreditDao;
 //				 BiddeeCertificationCreditScoreMapper bccsDao;

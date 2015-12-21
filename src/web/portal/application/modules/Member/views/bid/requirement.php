@@ -29,51 +29,36 @@ if(is_array($bidRequirementInfo)){
                             <a href="javascript:;" <?php if($bidderInfo['businessLicenseType'] == 'OLD') echo 'class="active"'?>>非统一社会信用代码</a>
                         </div>
                         <div class="zhizhao">
-                            <p>营业执照公司名称
-                                <span class="padl40"><?=$bidderInfo['companyName']?></span>
+                            <p>
+                                <span class="wid180 left">营业执照公司名称</span>
+                                <span class="padl40 "><?=$bidderInfo['companyName']?></span>
                             </p>
                             <?php if($bidderInfo['businessLicenseType'] == 'NEW'):?>
-                            <p>统一社会信用代码
-                                <span class="padl40">
+                            <p>
+                                <span class="wid180 left">统一社会信用代码</span>
+                                <span class="padl40 ">
                                     <?=$bidderInfo['newBusinessLicenseNum'];?>
                                 </span>
                             </p>
-                            <p>统一社会信用代码扫描件
-                                <span class="padl40">
+                            <p>
+                                <span class="wid180 left">统一社会信用代码扫描件</span>
+                                <span class="padl40 ">
                                     <a href="<?=imageView2($bidderInfo['newBusinessLicenseUrl'])?>" class="blue" target="_blank">查看</a>
                                 </span>
                             </p>
                             <?php else:?>
-                            <p>营业执照编号
-                                <span class="padl40">
+                            <p>
+                                <span class="wid180 left">营业执照编号</span>
+                                <span class="padl40 ">
                                     <?=$bidderInfo['businessLicenseNum'];?>
                                 </span>
                             </p>
-                            <p>营业执照扫描件
-                                <span class="padl40">
+                            <p>
+                                <span class="wid180 left">营业执照扫描件</span>
+                                <span class="padl40 ">
                                     <a href="<?=imageView2($bidderInfo['businessLicenseUrl'])?>" class="blue" target="_blank">查看</a>
                                 </span>
                             </p>
-                            <!--<p>组织机构代码证编号
-                                <span class="padl40">
-                                    <?/*=$bidderInfo['organizationCodeNum'];*/?>
-                                </span>
-                            </p>
-                            <p>组织机构代码证扫描件
-                                <span class="padl40">
-                                    <a href="<?/*=imageView2($bidderInfo['organizationCodeUrl'])*/?>" class="blue" target="_blank">查看</a>
-                                </span>
-                            </p>
-                            <p>税务登记证编号
-                                <span class="padl40">
-                                    <?/*=$bidderInfo['taxRegistrationNum'];*/?>
-                                </span>
-                            </p>
-                            <p>税务登记证扫描件
-                                <span class="padl40">
-                                    <a href="<?/*=imageView2($bidderInfo['taxRegistrationUrl'])*/?>" class="blue" target="_blank">查看</a>
-                                </span>
-                            </p>-->
                             <?php endif;?>
                         </div>
                     </div>
@@ -127,8 +112,8 @@ if(is_array($bidRequirementInfo)){
                             </li>
                             <?php endforeach;?>
                         </ul>
-                        <?php if(!empty($missingList)):?>
-                        <p class="tips2">
+                        <?php if(empty($missingList)):?>
+                        <p class="tips2 red">
                             对不起，您当前证书不满足投标要求，缺少证书：
                             <?php foreach($missingList as $item):?>
                                 《<?=$item['certificationName']?>》
@@ -153,7 +138,7 @@ if(is_array($bidRequirementInfo)){
                         <p class="tips2">请根据招标要求填写或选择相应资质</p>
                         <ul class="clear">
                         <?php foreach($certList as $key=>$val):?>
-                            <li>
+                            <li class="upload_wrap">
                                 <div class="cell lab">
                                     <?=$cert_name_list[$key]?>
                                 </div>
@@ -164,9 +149,19 @@ if(is_array($bidRequirementInfo)){
                                 </div>
                                 <div class="cell padr40">
                                     <a class="btn-file2" href="javascript:">
-                                        <input type="file" class="file-upload" name="file"> 上传附件
-                                        <input type="hidden" name="<?=$key?>Url" value="<?=isset($queryNeedCertList) ? $queryNeedCertList[$key.'Url'] : ''?>">
+                                        <span>上传附件</span>
+                                        <input type="file" class="file-upload" name="file">
+                                        <input type="hidden" class="hidden-url" name="<?=$key?>Url" value="<?=isset($queryNeedCertList) ? $queryNeedCertList[$key.'Url'] : ''?>">
                                     </a>
+                                </div>
+                            </li>
+
+                            <li class="uploaded mart10 <?php if(!isset($queryNeedCertList) || empty($queryNeedCertList[$key.'Url'])) echo 'hide2'?>">
+                                <div class="cell lab">
+                                </div>
+                                <div class="value padl20">
+                                    <a target="_blank" href="<?=isset($queryNeedCertList)?imageView2($queryNeedCertList[$key.'Url']):''?>" class="btn-file2 view">查看</a>
+                                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                                 </div>
                             </li>
                         <?php endforeach;?>
@@ -185,18 +180,21 @@ if(is_array($bidRequirementInfo)){
                                         <input type="text" class="input1 price_format" placeholder="" name="bankGuaranteeAmount" value="<?=isset($bankGuarantee) ? price_format($bankGuarantee['bankGuaranteeAmount']) : ''?>">
                                         <span class="yuan">元</span>
                                     </span>
-                                    <span class="padm50 " >
+                                    <span class="padm50">
                                         保函凭证扫描件
-                                        <a href="javascript:" class="btn-file2" >
+                                        <a href="javascript:" class="btn-file2 <?php if(isset($bankGuarantee) && !empty($bankGuarantee['bankGuaranteeUrl'])) echo 'hide'?>" >
+                                            <span>上传附件</span>
                                             <input class="file-upload" type="file" name="file">
-                                            <input type="hidden" name="bankGuaranteeUrl" value="<?=isset($bankGuarantee) ? $bankGuarantee['bankGuaranteeUrl'] : ''?>">
-                                            上传附件
+                                            <input type="hidden" class="hidden-url" name="bankGuaranteeUrl" value="<?=isset($bankGuarantee) ? $bankGuarantee['bankGuaranteeUrl'] : ''?>">
                                         </a>
+                                        <span class="uploaded <?php if(!isset($bankGuarantee) || empty($bankGuarantee['bankGuaranteeUrl'])) echo 'hide'?>">
+                                            <a target="_blank" href="<?=isset($bankGuarantee)?imageView2($bankGuarantee['bankGuaranteeUrl']):''?>" class="btn-file2 view" style="width: 50px;">查看</a>
+                                            <a class="btn-file2 bg-grey delete-pic-btn" style="width: 50px;">删除</a>
+                                        </span>
                                     </span>
                                 </div>
                             </li>
                             <li>
-
                                 <div class="cell lab">
                                     保函凭证编号
                                 </div>
@@ -209,7 +207,7 @@ if(is_array($bidRequirementInfo)){
                     </div>
 
                     <?php if(!empty($missingList)):?>
-                    <p class="tips2">
+                    <p class="tips2 red">
                         对不起，您当前证书不满足投标要求，缺少证书：
                         <?php foreach($missingList as $item):?>
                             《<?=$item['certificationName']?>》
@@ -232,15 +230,9 @@ if(is_array($bidRequirementInfo)){
     <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
 </block>
 <block name="script">
-<script src="/js/jquery.datetimepicker.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="/js/upload/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="/js/upload/jquery.fileupload.js"></script>
 <script>
 $(function(){
+
     $("#side_menu_ul li:eq(0)").addClass('on');
 
     $("#side_menu_ul li").click(function () {
@@ -320,33 +312,9 @@ function save_success(form,resp) {
 }
 
 function step_toggle(step){
-    if(step == 1){
-        $("#step-box li:eq(0)").addClass('active');
-        $("#step-box li:gt(0)").removeClass('active');
-    }else if(step ==2){
-        $("#step-box li:eq(1)").addClass('active');
-        $("#step-box li:gt(1)").removeClass('active');
-    }else if(step ==3){
-        $("#step-box li:eq(2)").addClass('active');
-        $("#step-box li:gt(2)").removeClass('active');
-    }else if(step == 4){
-        $("#step-box li:eq(3)").addClass('active');
-    }
+    $("#step-box li").removeClass('active').eq(step).addClass('active');
 }
-
-$(".file-upload").fileupload({
-    url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-    dataType: 'json',
-    done:function(e,data){
-        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-        //返回的数据在data.result中，假设我们服务器返回了一个json对象
-        if(data.result.status == '0'){
-            $(this).next().val(data.result.url);
-        }else{
-            layer.alert(data.result.msg,{icon:2});
-        }
-    }
-})
 </script>
-
+<?php require_once __DIR__.'/../common/upload.js.php';?>
+<?php require_once __DIR__.'/../common/upload.pic.php';?>
 </block>

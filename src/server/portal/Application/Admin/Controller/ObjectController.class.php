@@ -76,7 +76,7 @@ class ObjectController extends AdminController {
 			$api = new ApiService();
 			$resp = $api->setApiUrl(C('APIURI.paas1'))
 				->setData($data)->send('projectPayment/confirmPayment');
-			if($resp===false)
+			if(!check_resp($resp))
 			{
 				$this->error('系统错误,请稍后再试');
 			}

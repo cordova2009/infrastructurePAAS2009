@@ -11,7 +11,7 @@ use Payment\AbstractPayment;
 class Alipay extends AbstractPayment
 {
 	//页面跳转同步通知页面路径
-    const URL_REMOTE_RETURN = '/payment/alipay/type/return.html';
+    const URL_REMOTE_RETURN = '/payment/callback';
 	//服务器异步通知页面路径
     const URL_REMOTE_NOTIFY = 'http://112.124.6.88:8097/AlipayPaymentGateway/alipay/alipay_payment_notify';
     

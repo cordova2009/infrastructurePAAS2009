@@ -124,15 +124,8 @@ class TenderController extends MemberController{
             $this->error('提交方式不正确！');
         }
 
-        $data['QQ'] = I('QQ');
-        $data['QQtoken'] = I('QQtoken');
-        $data['email'] = I('email');
-        $data['telephone'] = I('telephone');
-        $data['address'] = I('address');
-        $data['addressAnswerTime'] = I('addressAnswerTime');
-        $data['addressAnswerDate'] = I('addressAnswerDate');
+        $data = [];
 
-        
         $data['token'] = $this->user['token'];
 
         $data['objectId'] = I('objectId');
@@ -147,6 +140,30 @@ class TenderController extends MemberController{
         $data['endTime'] = I('endTime');
         if(empty($data['startTime'])){
             $this->error('答疑结束时间不能为空！');
+        }
+
+        $data['QQ'] = I('QQ');
+        $data['QQtoken'] = I('QQtoken');
+        $data['email'] = I('email');
+        $data['telephone'] = I('telephone');
+        $data['address'] = I('address');
+        $data['addressAnswerTime'] = I('addressAnswerTime');
+        $data['addressAnswerDate'] = I('addressAnswerDate');
+
+        $answer_type = I('answer_type');
+        if(empty($answer_type)
+            ||(empty($data['QQ'])
+            && empty($data['QQ'])
+            && empty($data['QQtoken'])
+            && empty($data['email'])
+            && empty($data['telephone'])
+            && empty($data['address'])
+            && empty($data['address'])
+            && empty($data['addressAnswerTime'])
+            && empty($data['addressAnswerDate'])
+            )
+        ){
+            $this->error('请选择一种答疑方式');
         }
 
         $curl = new Curl();

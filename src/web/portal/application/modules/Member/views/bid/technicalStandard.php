@@ -20,10 +20,15 @@ if(check_resp($resp)){
                 <div class="item">
                     <div class="lab">技术标书</div>
                     <div class="value">
-                        <a class="btn-file2 wid110" href="javascript:">
-                            <input type="file" class="file-upload" name="file"> 上传附件
+                        <a class="btn-file2 wid110 <?php if(isset($info) && !empty($info['technicalStandardUrl'])) echo 'hide'?>" href="javascript:">
+                            <span>上传附件</span>
+                            <input type="file" class="file-upload" name="file">
                             <input type="hidden" name="technicalStandardUrl" value="<?=isset($info) ? $info['technicalStandardUrl'] : ''?>">
                         </a>
+                        <div class="uploaded <?php if(!isset($info) || empty($info['technicalStandardUrl'])) echo 'hide'?>">
+                            <a target="_blank" href="<?=isset($info)?imageView2($info['technicalStandardUrl']):''?>" class="btn-file2 view">查看</a>
+                            <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                        </div>
                     </div>
                 </div>
 
@@ -43,18 +48,4 @@ if(check_resp($resp)){
         </form>
     </div>
 </div>
-<script>
-$(".file-upload").fileupload({
-    url:'<?=U('/member/upload/file')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-    dataType: 'json',
-    done:function(e,data){
-        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-        //返回的数据在data.result中，假设我们服务器返回了一个json对象
-        if(data.result.status == '0'){
-            $(this).next().val(data.result.url);
-        }else{
-            layer.alert(data.result.msg,{icon:2});
-        }
-    }
-})
-</script>
+<?php require_once __DIR__.'/../common/upload.pic.php';?>

@@ -26,6 +26,7 @@ import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
@@ -659,7 +660,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 							bcaDao.insert(ca);
 						}
 					}
-					
+
 					
 				}else{//审核不通过
 					bca.setAuditStatus("FLS");
@@ -681,6 +682,29 @@ public class MyBidderServiceImpl implements MyBidderService {
 				}else{
 					bidderCertificateAduitDao.updateByPrimaryKey(bca);
 				}
+				//插入银行审核信息
+				boolean bankpass = true;
+				BidderBankAduit bba = new BidderBankAduit();
+				bba.setAuditTime(new Date());
+				bba.setBidderCerticateId(bidderId);
+				bba.setBankcardCertificateResult(bankInfoCheck.getAccount_no   ().getResult());
+				bba.setBankCertificateResult(bankInfoCheck.getBank_name()        .getResult());
+				bba.setAcccountNameCertificateResult(bankInfoCheck.getAccount_name().getResult());
+				bba.setTaxNoCertificateResult(bankInfoCheck.getTax_no       ().getResult());
+				bba.setAddressCertificateResult(bankInfoCheck.getAddress     ().getResult());
+				bba.setTelephoneCertificateResult(bankInfoCheck.getTelephone   ().getResult());
+				bba.setBankcardCertificateMsg(bankInfoCheck.getAccount_no   ().getMsg());
+				bba.setBankCertificateMsg(bankInfoCheck.getBank_name()        .getMsg());
+				bba.setAcccountNameCertificateMsg(bankInfoCheck.getAccount_name().getMsg());
+				bba.setTaxNoCertificateMsg(bankInfoCheck.getTax_no       ().getMsg());
+				bba.setAddressCertificateMsg(bankInfoCheck.getAddress     ().getMsg());
+				bba.setTelephoneCertificateMsg(bankInfoCheck.getTelephone   ().getMsg());
+				bankpass = bankInfoCheck.getBank_name().isPass() &&bankInfoCheck.getAccount_no().isPass()
+						&&bankInfoCheck.getAccount_name().isPass() &&bankInfoCheck.getTax_no().isPass()
+						&&bankInfoCheck.getAddress().isPass() &&bankInfoCheck.getTelephone().isPass();
+				bba.setBankcardCertificateResult(bankpass?CommonStatusConst.STATUS_OK:CommonStatusConst.STATUS_FAIL);
+				bidderBankAduitDao.removeAduitRecord(bidderId);
+				bidderBankAduitDao.insert(bba);
 
 //				5.插入积分信息
 //				protected BiddeeCreditMapper biddeeCreditDao;
@@ -788,7 +812,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 	 * @throws BusinessException
 	 */
 	public  <T> Boolean checkIsOk(T obj,String type) throws BusinessException {
-		// TODO Auto-generated method stub
 		boolean flag = true;
 //		BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 		Class clazz = obj.getClass();
@@ -833,27 +856,14 @@ public class MyBidderServiceImpl implements MyBidderService {
 									}
 								
 							}
-							System.out.println(o.getClass().getName());
 						}
-//						System.out.println(o.getClass().getName());
 					}
 					
 					
-				} catch (IntrospectionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (Exception e) {
+					log.error("招标人资质认证参数转换出错",e);
 				}
 	    }
-//		baseInfoCheck.getCompany_name().getResult()
 		return flag;
 	}
 	

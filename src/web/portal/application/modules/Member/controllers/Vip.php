@@ -64,6 +64,11 @@ class VipController extends MemberController {
             $this->error('提交方式不正确，请返回重新提交！');
         }
 
+        $payWay     = I('post.payWay');
+        if($payWay != 'ALI'){
+            $this->error('暂只支持支付宝支付！');
+        }
+
         $type       = I('type','bir');
         $product    = $this->_get_product($type);
 

@@ -47,10 +47,10 @@ public class Payment {
         params.put("out_trade_no", out_trade_no);
         params.put("_input_charset", input_charset);
      
-
-        String prestr = "";
-
-        prestr = prestr + key;
+//
+//        String prestr = "";
+//
+//        prestr = prestr + key;
         //System.out.println("prestr=" + prestr);
 
         String sign = Md5Util.Encrypt(getContent(params, key));

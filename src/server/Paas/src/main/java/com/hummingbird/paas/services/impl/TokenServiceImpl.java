@@ -53,7 +53,6 @@ public class TokenServiceImpl implements TokenService {
 		try {
 			to = this.getTokenOnRedis(token);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
 		}
 		if(to == null){
@@ -106,7 +105,6 @@ public class TokenServiceImpl implements TokenService {
 		try {
 			to = this.getTokenOnRedis(token);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
 		}
 		if(to == null){
@@ -254,7 +252,14 @@ public class TokenServiceImpl implements TokenService {
 		Jedis jedis = JedisPoolUtils.getJedisIfNessary();
 //		jedis.flushDB();
 		if(jedis != null && jedis.exists(token)){
-			String json = jedis.get(token);
+			String json;
+			try {
+				json = jedis.get(token);
+			} 
+			finally{
+				JedisPoolUtils.returnRes(jedis);
+			}
+			
 				Token to;
 				try {
 					to = JsonUtil.convertJson2Obj(json, Token.class);
@@ -284,10 +289,16 @@ public class TokenServiceImpl implements TokenService {
 		
 		try {
 			if(jpu!=null&&record!=null){
-				if(!jpu.exists(record.getToken())){
-					jpu.set(record.getToken(), JsonUtil.convert2Json(record));
-					jpu.expire(record.getToken(), 3600);//设置有效期
-				}	 
+				try {
+					if(!jpu.exists(record.getToken())){
+						jpu.set(record.getToken(), JsonUtil.convert2Json(record));
+						jpu.expire(record.getToken(), 3600);//设置有效期
+					}	 
+				} 
+				finally{
+					JedisPoolUtils.returnRes(jpu);
+				}
+				
 			}
 			
 		} catch (DataInvalidException e) {
@@ -309,8 +320,13 @@ public class TokenServiceImpl implements TokenService {
 			String json;
 			try {
 				json = JsonUtil.convert2Json(token);
-				jedis.set(token.getToken(), json);
-				jedis.expire(token.getToken(), 3600);
+				try {
+					jedis.set(token.getToken(), json);
+					jedis.expire(token.getToken(), 3600);
+				} 
+				finally{
+					JedisPoolUtils.returnRes(jedis);
+				}
 			} catch (DataInvalidException e) {
 				log.error("转换失败",e);
 			}
@@ -331,7 +347,12 @@ public class TokenServiceImpl implements TokenService {
 		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
 		Long ll = 0L;
 		if(jpu!=null){
-		 ll= jpu.del(token);
+			try {
+				ll= jpu.del(token);
+			} 
+			finally{
+				JedisPoolUtils.returnRes(jpu);
+			}
 		}
 		
 		return ll;

@@ -8,9 +8,10 @@
 class BidController extends MemberController {
 
     /**
-     * 提交投标申请
+     * 保存投标文件
+     * @param string $sb 是否提交投标申请，yes提交，no不提交
      */
-    public function submitBidAction(){
+    public function submitBidAction($sb='no'){
 
         if(!IS_POST){
             $this->error('提交方式不正确！');
@@ -174,7 +175,7 @@ class BidController extends MemberController {
         $resp               = $curl->setData($data)
                                     ->send('bid/queryBidderCompanyInfo');
         if(!check_resp($resp)) {
-            $this->error('您还没有投标人资格，请先认证！');
+            $this->error('<a href="'.U('/member/bidder/authInfo').'">您还没有投标人资格，请点击这里进行认证！</a>');
         }
         $this->assign('bidderInfo',$resp['bidderInfo']);
 
@@ -306,7 +307,7 @@ class BidController extends MemberController {
         $resp = $curl->setData($data)
                         ->send('bid/queryBidRequirementInfo');
         if(!check_resp($resp)) {
-            $this->error('投标失败，标的不存在！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '投标失败，标的不存在！');
         }
 
         $this->assign('bidRequirementInfo',$resp['bidRequirementInfo']);
@@ -340,7 +341,7 @@ class BidController extends MemberController {
             'businessStandard'=>'bid/queryBusinessStandardInfo',
             'technicalStandard'=>'bid/queryTechnicalStandardInfo',
             'makeMatchBidderBond'=>'bid/queryMakeMatchBidderBond',
-            'bidderBond'=>'bid/queryBidFile4Submit',
+            'bidFile'=>'bid/queryBidFile4Submit',
         ];
 
         if(!array_key_exists($step,$url_list)){

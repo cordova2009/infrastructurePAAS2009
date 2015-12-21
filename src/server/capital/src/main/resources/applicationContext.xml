@@ -35,5 +35,7 @@
 	<context:component-scan base-package="com.hummingbird.capital.services"/>
 	<!--<context:component-scan base-package="com.hummingbird.maaccount.service"/> -->
  	<context:component-scan base-package="com.hummingbird.capital.schedule"/>
+
+ 	<!-- <context:component-scan base-package="com.hummingbird.capital.listener"/> -->
  
 </beans> 	

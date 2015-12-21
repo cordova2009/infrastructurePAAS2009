@@ -56,6 +56,7 @@ import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.event.BidSelectedEvent;
+import com.hummingbird.paas.event.InvBidEvent;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.AppinfoMapper;
@@ -1361,7 +1362,7 @@ public class TenderController extends BaseController {
 			}
 			tenderService.submitObject(transorder.getApp().getAppId(),transorder.getBody(),biddee.getId());
 			tokenSrv.postponeToken(token);
-			
+
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1564,7 +1565,7 @@ public class TenderController extends BaseController {
 			return rm;
 		}
 		rm.setErrmsg(messagebase + "成功");
-		RequestEvent qe=null ;		
+		RequestEvent qe=null;
 		AppLog rnr = new AppLog();
 		rnr.setAppid(transorder.getApp().getAppId());
 		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
@@ -1578,6 +1579,7 @@ public class TenderController extends BaseController {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
+			
 			Biddee biddee = biddeeDao.selectByUserId(token.getUserId());
 			if(biddee==null)
 			{
@@ -1589,8 +1591,10 @@ public class TenderController extends BaseController {
 			Integer bidder_id = transorder.getBody().getWinBidId();
 			
 			tenderService.selectBid2win(objectId,biddee,bidder_id,transorder.getBody().getPaymentInfo(),transorder.getBody().getToken());
+			
 			BidSelectedEvent bide = new BidSelectedEvent(objectId,bidder_id);
-			EventListenerContainer.getInstance().fireEvent(qe);
+			EventListenerContainer.getInstance().fireEvent(bide);
+			
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);

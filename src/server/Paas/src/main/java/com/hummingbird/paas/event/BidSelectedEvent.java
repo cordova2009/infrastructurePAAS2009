@@ -5,6 +5,7 @@
  */
 package com.hummingbird.paas.event;
 
+import com.hummingbird.common.event.BusinessEvent;
 import com.hummingbird.common.exception.BusinessException;
 
 /**
@@ -12,7 +13,7 @@ import com.hummingbird.common.exception.BusinessException;
  * 2015年12月11日 下午6:05:34
  * 本类主要做为 定标事件
  */
-public class BidSelectedEvent extends BusinessException {
+public class BidSelectedEvent implements BusinessEvent {
 
 	/**
 	 * 中标标的

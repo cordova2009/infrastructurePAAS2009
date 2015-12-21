@@ -143,7 +143,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			uidr.setStatus(ui.getStatus());
 			User user = userDao.selectByPrimaryKey(ui.getUserId());
 			if(user!= null){
-				uidr.setUserName(user.getUserName());
+				uidr.setUserName(user.getNickName());
 			}
 			
 			List<UserInformationComments> comments = uicDao.selectByInformationId(ui.getId());
@@ -165,6 +165,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int replyUserInformation(String appId, UserInformationReplyBodyVO ui, Token token)
 			throws BusinessException {
 		// TODO Auto-generated method stub

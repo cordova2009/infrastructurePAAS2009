@@ -1,7 +1,7 @@
 <?php
-//if(check_resp($resp)){
-//    $info = $resp['technicalStandardInfo'];
-//}
+if(check_resp($resp)){
+    $info = $resp['result'];
+}
 ?>
 <div class="auto  box pad0" id="bidderBond">
     <div class="h2">投标文件</div>
@@ -20,10 +20,15 @@
                 <div class="item">
                     <div class="lab">投标文件</div>
                     <div class="value">
-                        <a class="btn-file2 wid110" href="javascript:">
-                            <input type="file" class="file-upload" name="file"> 上传附件
+                        <a class="btn-file2 wid110 <?php if(isset($info) && !empty($info['bidFile'])) echo 'hide'?>" href="javascript:">
+                            <span>上传附件</span>
+                            <input type="file" class="file-upload" name="file">
                             <input type="hidden" name="bidFile" value="">
                         </a>
+                        <div class="uploaded <?php if(!isset($info) || empty($info['bidFile'])) echo 'hide'?>">
+                            <a target="_blank" href="<?=isset($info)?imageView2($info['bidFile']):''?>" class="btn-file2 view">查看</a>
+                            <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                        </div>
                     </div>
                 </div>
 
@@ -31,22 +36,22 @@
 
             <div class="text-center padv30">
                 <button type="submit" class="btn-green2">提交投标申请</button>
+                <!--
+                &nbsp;
+                <button type="button" class="btn-green2">保存并且提交</button>
+                -->
             </div>
         </form>
     </div>
 </div>
+<?php require_once __DIR__.'/../common/upload.pic.php';?>
 <script>
-$(".file-upload").fileupload({
-    url:'<?=U('/member/upload/file')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-    dataType: 'json',
-    done:function(e,data){
-        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-        //返回的数据在data.result中，假设我们服务器返回了一个json对象
-        if(data.result.status == '0'){
-            $(this).next().val(data.result.url);
-        }else{
-            layer.alert(data.result.msg,{icon:2});
-        }
-    }
-})
+//$("button").click(function(){
+//    var $this = $(this);
+//    var action = '<?//=U('/member/bid/submitBid')?>//';
+//    if($this.index() == 1){
+//        action = '<?//=U('/member/bid/submitBid/sb/yes')?>//';
+//    }
+//    $this.closest('form').attr('action',action).submit();
+//});
 </script>

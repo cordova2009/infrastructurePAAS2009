@@ -19,6 +19,11 @@ public class BidderBankInfoCheck {
 	private AuditInfo  bank_name;
 	private AuditInfo  account_no;
 	private AuditInfo  account_name;
+	
+	private AuditInfo  telephone;
+	private AuditInfo  tax_no;
+	private AuditInfo  address;
+	
 	/**
 	 * @return the bank_name
 	 */
@@ -62,6 +67,42 @@ public class BidderBankInfoCheck {
 	public String toString() {
 		return "BidderBankInfoCheck [bank_name=" + bank_name + ", account_no=" + account_no + ", account_name="
 				+ account_name + "]";
+	}
+	/**
+	 * @return the telephone
+	 */
+	public AuditInfo getTelephone() {
+		return telephone;
+	}
+	/**
+	 * @return the tax_no
+	 */
+	public AuditInfo getTax_no() {
+		return tax_no;
+	}
+	/**
+	 * @return the address
+	 */
+	public AuditInfo getAddress() {
+		return address;
+	}
+	/**
+	 * @param telephone the telephone to set
+	 */
+	public void setTelephone(AuditInfo telephone) {
+		this.telephone = telephone;
+	}
+	/**
+	 * @param tax_no the tax_no to set
+	 */
+	public void setTax_no(AuditInfo tax_no) {
+		this.tax_no = tax_no;
+	}
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(AuditInfo address) {
+		this.address = address;
 	}
 	
 	

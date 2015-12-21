@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hummingbird.common.event.AbstractBusinessEventListener;
 import com.hummingbird.common.event.BusinessEvent;
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.util.SpringBeanUtil;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.event.BidSelectedEvent;
 import com.hummingbird.paas.event.ConfirmPayEvent;
@@ -24,11 +25,6 @@ import com.hummingbird.paas.vo.UserMsgBodyVO;
  * 本类主要做为  系统自动监听处理通知=信息类  
  */
 public class BidEvalutionEventListener extends AbstractBusinessEventListener {
-
-	@Autowired
-	UserMsgService  umService;
-	@Autowired
-	BidderMapper  bidderDao;
 	
 	/* (non-Javadoc)
 	 * @see com.hummingbird.common.event.BusinessEventListener#handleEvent(com.hummingbird.common.event.BusinessEvent)
@@ -36,7 +32,9 @@ public class BidEvalutionEventListener extends AbstractBusinessEventListener {
 	@Override
 	public void handleEvent(BusinessEvent event) {
 		try {
-//			add by YJY 2015-12-19 添加中标  邀标   付款  提现 充值  以及付款超时提醒 
+//			add by YJY 2015-12-19 添加中标  邀标   付款  提现 充值  以及付款超时提醒
+			UserMsgService  umService = (UserMsgService)SpringBeanUtil.getInstance().getBean(UserMsgService.class);
+			BidderMapper  bidderDao = (BidderMapper)SpringBeanUtil.getInstance().getBean(BidderMapper.class);
 				if (event instanceof BidSelectedEvent) {
 					BidSelectedEvent bse = (BidSelectedEvent) event;
 					System.out.println("中标事件处理");

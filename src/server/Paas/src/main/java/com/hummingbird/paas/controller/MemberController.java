@@ -275,8 +275,6 @@ public class MemberController extends BaseController{
 					tokenService.postponeToken(token);
 					//*****************************验证结束************************************************
 				} catch (Exception e) {
-					rm.setErrcode(210101);
-					rm.setErrmsg(messagebase+"失败");
 					log.error(String.format(messagebase + "失败"), e);
 					rm.mergeException(e);
 				}
@@ -287,7 +285,7 @@ public class MemberController extends BaseController{
     }	
     //查询可购买的会员
     @RequestMapping(value = "/queryMemberProduct", method = RequestMethod.POST)
-    @AccessRequered(methodName = "查询可购买会员列表接口", isJson = true, codebase = 840000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryVIPBodyVO", appLog = true)
+    @AccessRequered(methodName = "查询可购买会员列表接口", isJson = true, codebase = 280200, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryVIPBodyVO", appLog = true)
   	public @ResponseBody ResultModel queryMemberProduct(HttpServletRequest request,HttpServletResponse response) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -419,8 +417,6 @@ public class MemberController extends BaseController{
 				}
 				tokenService.postponeToken(token);
 			} catch (Exception e)  {
-				rm.setErrcode(840001);
-				rm.setErrmsg(messagebase+"失败");
 				log.error(String.format(messagebase + "失败"), e);
 				rm.mergeException(e);
 			}
@@ -431,7 +427,7 @@ public class MemberController extends BaseController{
     }	
     //购买招标方会员
     @RequestMapping(value = "/buyBiddeeMember", method = RequestMethod.POST)
-    @AccessRequered(methodName = "购买招标方会员接口", isJson = true, codebase = 850000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
+    @AccessRequered(methodName = "购买招标方会员接口", isJson = true, codebase = 280300, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
   	public @ResponseBody ResultModel buyBiddeeMember(HttpServletRequest request) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -470,9 +466,6 @@ public class MemberController extends BaseController{
 				
 				Integer userId=token.getUserId();
 				if( userId != null){
-					
-					rm.setErrcode(280200);
-					rm.setErrmsg(messagebase+"成功");
 					//---------------------招标人验证-----------------------------------------------
 					//招标人表t_qyzz_biddee 
 					QyzzBiddee biddee = qyzzBiddeeMapper.selectByUserId(userId);
@@ -492,7 +485,7 @@ public class MemberController extends BaseController{
 						if(hyglBiddee != null){
 							Date endTime=hyglBiddee.getEndTime();
 							if(endTime.getTime()>date.getTime()){
-								rm.setErrcode(280201);
+								rm.setErrcode(280301);
 								rm.setErrmsg("您已是会员");
 							}
 						}
@@ -766,8 +759,6 @@ public class MemberController extends BaseController{
 			
 		}catch (Exception e) {
 			
-			rm.setErrcode(850001);
-			rm.setErrmsg(messagebase+"失败");
 			log.error(String.format(messagebase + "失败"), e);
 			rm.mergeException(e);
 		}
@@ -775,7 +766,7 @@ public class MemberController extends BaseController{
     }	
     //购买招标方会员
     @RequestMapping(value = "/buyBidderMember", method = RequestMethod.POST)
-    @AccessRequered(methodName = "购买投标方会员接口", isJson = true, codebase = 280200, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
+    @AccessRequered(methodName = "购买投标方会员接口", isJson = true, codebase = 280400, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
   	public @ResponseBody ResultModel buyBidderMember(HttpServletRequest request, HttpServletResponse response) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -835,7 +826,7 @@ public class MemberController extends BaseController{
 							Date endTime=hyglBidder.getEndTime();
 							if(endTime.getTime()>date.getTime()){
 								
-								rm.setErrcode(280201);
+								rm.setErrcode(280401);
 								rm.setErrmsg("您已是会员");
 							}
 						}else{
@@ -1060,9 +1051,6 @@ public class MemberController extends BaseController{
 			//*****************************验证开始************************************************
 			
 		}catch (Exception e) {
-			
-			rm.setErrcode(850001);
-			rm.setErrmsg(messagebase+"失败");
 			log.error(String.format(messagebase + "失败"), e);
 			rm.mergeException(e);
 		}

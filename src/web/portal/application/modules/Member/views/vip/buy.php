@@ -4,7 +4,7 @@
             <input type="hidden" name="type" value="<?=$type?>">
             <input type="hidden" name="orderId" value="<?=$orderId?>">
             <div class="payBOx">
-                <div class="txt1"><?=$product['productName']?>服务价格<?=$product['productPrice']?><?=price_format($product['productPrice'])?>元/年</div>
+                <div class="txt1"><?=$product['productName']?>服务价格<?=$product['productPrice']/100?>元/年</div>
                 <div class="txt2">请选择支付方式</div>
                 <div class="clear pay_select">
                     <a class="left radio" href="javascript:;">

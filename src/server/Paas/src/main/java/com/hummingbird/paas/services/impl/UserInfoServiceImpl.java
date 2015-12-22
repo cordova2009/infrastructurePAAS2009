@@ -23,7 +23,9 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.Announcement;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
@@ -103,6 +105,7 @@ import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationComments;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
@@ -246,6 +249,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), (pageIndex-1)*pageSize, pageSize);
 		return qlr;
 	}
+	
+
 
 	@Override
 	public int replyUserInformation(String appId, UserInformationReplyBodyVO ui, Token token)
@@ -282,5 +287,38 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return num;
 	}
 
+
+	@Override
+	public void auditUserInformation(UserInformationAuditBodyVO body)
+			throws BusinessException {
+					 if (log.isDebugEnabled()) {
+						log.debug("审核用户发布的信息接口开始");
+					 }
+		              //数据校验
+		              String status = body.getAuditStatus();
+		              Integer informationId = body.getInformationId();
+		              ValidateUtil.assertNull(status, "审核状态");
+		              ValidateUtil.assertNull(informationId, "发布信息ID");
+		              if(status != null && !"OK#".equals(status) && !"FLS".equals(status)){
+						  throw new BusinessException(242400,"审核状态不正确,状态必须是OK#或者FLS");
+		              }
+		              //判断当前操作者是否有审核权限
+		        	  
+		        	  //判断要审核的信息是否存在
+		        	   UserInformation userInfo=uiDao.selectByPrimaryKey(informationId);
+					   if(userInfo == null){
+							throw new BusinessException(10111,"不存在该发布信息");
+					   }
+					   //要审核的状态和信息目前的状态不相同的时候才进行更新操作
+					   if(!status.equals(userInfo.getAuditStatus())){
+						   UserInformation audit = new UserInformation();
+							audit.setId(userInfo.getId());
+							audit.setAuditStatus(status);
+							uiDao.updateByPrimaryKeySelective(audit);
+					   }
+					   if (log.isDebugEnabled()) {
+							log.debug("审核用户发布的信息接口完成");
+					   }
+	}
 
 }

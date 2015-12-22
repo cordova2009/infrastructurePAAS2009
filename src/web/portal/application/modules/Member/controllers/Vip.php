@@ -57,7 +57,7 @@ class VipController extends MemberController {
 
         if($type == 'ter' && $resp['terMember'] == 'NCP'){
             $this->error('<a href="'.U('/member/biddee/authInfo').'">您还未通过招标人资质审核，请点击这里进行认证！</a>');
-        }elseif($resp['birMember'] == 'NCP'){
+        }elseif($type !='ter' && $resp['birMember'] == 'NCP'){
             $this->error('<a href="'.U('/member/bidder/authInfo').'">您还未通过投标人资质审核，请点击这里进行认证！</a>');
         }
 

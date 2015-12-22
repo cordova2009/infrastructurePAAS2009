@@ -10,6 +10,28 @@ class BiddeeController extends MemberController{
 
     var $pageSize=10;
 
+    /**
+     * 投诉
+     */
+    public function complainAction(){
+        if(IS_POST)
+        {
+            $data = ['token'=>$this->user['token']];
+            $data['complainType'] = I('complainType');
+            $data['refType'] ='TER';
+            $data['refId']=I('objectId');
+            $data['complainContent']=I('complainContent');
+            $curl = new Curl($this->config->url->api->paas);
+            $resp = $curl->setData($data)->send('complain/submitComplain');
+            if(check_resp($resp)) {
+                $this->success('保存成功！',U('/member/biddee/project'));
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+            }
+        }
+    }
+
+
     public function authInfoAction(){
 
         $curl = new Curl($this->config->url->api->paas);

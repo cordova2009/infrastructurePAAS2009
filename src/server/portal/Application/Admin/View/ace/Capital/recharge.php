@@ -11,18 +11,19 @@
                         <label>手机号码
                             <input type="text" class="search-input " name="mobilenum" value="{:I('mobilenum')}" placeholder="请输入手机号码">
                         </label>
-                        <label>用户昵称
-                            <input type="text" class="search-input " name="nick_name" value="{:I('nick_name')}" placeholder="请输入用户昵称">
-                        </label>
                         <label>姓名
                             <input type="text" class="search-input" name="real_name" value="{:I('real_name')}" placeholder="请输入姓名">
                         </label>
+
                         <label>申请时间段
                             <input type="text" class="search-input day-input" name="sdate" value="{:I('edate')}" placeholder="选择开始时间">
                         </label>-
                         <label>
                             <input type="text" class="search-input day-input" name="edate" value="{:I('edate')}" placeholder="选择结束时间">
-                        <label>
+                        </label>
+                        <label>用户昵称
+                            <input type="text" class="search-input " name="nick_name" value="{:I('nick_name')}" placeholder="请输入用户昵称">
+                        </label>
                         <label>
                             <button class="btn btn-sm btn-primary" type="button" id="search" url="{:U('recharge')}">
                                <i class="icon-search"></i>搜索

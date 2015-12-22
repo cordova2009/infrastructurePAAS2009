@@ -1548,29 +1548,12 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/bidEvaluation",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	@AccessRequered(methodName = "定标", isJson = true, codebase = 244100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.TenderBidEvaluationBodyVO", appLog = true)
 	public @ResponseBody ResultModel bidEvaluation(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
 		String messagebase = "定标";
-		BaseTransVO<TenderBidEvaluationBodyVO> transorder = null;
-		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
-		try {
-			String jsonstr  = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, TenderBidEvaluationBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数异常"));
-			return rm;
-		}
-		rm.setErrmsg(messagebase + "成功");
+		BaseTransVO<TenderBidEvaluationBodyVO> transorder = (BaseTransVO<TenderBidEvaluationBodyVO>) super.getParameterObject();
+		ResultModel rm = super.getResultModel();
 		RequestEvent qe=null;
-		AppLog rnr = new AppLog();
-		rnr.setAppid(transorder.getApp().getAppId());
-		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
-		rnr.setInserttime(new Date());
-		rnr.setMethod("/tender/bidEvaluation");
 		
 		try {
 			

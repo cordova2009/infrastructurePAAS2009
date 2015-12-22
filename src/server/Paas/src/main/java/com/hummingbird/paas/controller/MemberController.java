@@ -517,6 +517,8 @@ public class MemberController extends BaseController{
 									if(CommonStatusConst.STATUS_OK.equals(pr.getPayStatus())){
 										//支付成功
 										ordersrv.paySuccess(order);
+										rm.setErrcode(280301);
+										rm.setErrmsg("您已是会员");
 									}
 									else if("NON".equals(pr.getPayStatus())){
 										// 未支付,使用原来的订单id
@@ -527,13 +529,18 @@ public class MemberController extends BaseController{
 									else if("CRT".equals(pr.getPayStatus()))
 									{
 										//待支付,关闭原来的支付
-										
+										rm.setErrcode(280302);
+										rm.setErrmsg("您原来有一笔会员购买订单,请先等待这笔订单支付完成");
 									}
 									else{
 										//支付失败等
 										order.setPayStatus("FLS");
 										order.setUpdateTime(new Date());
 										orderMapper.updateByPrimaryKey(order);
+										//重新发起支付
+										Order createOrder = ordersrv.createOrder(transorder.getApp().getAppId(),productId,userId,100);
+										rm.setErrmsg("购买会员成功");
+										rm.put("orderId", createOrder.getOrderId());
 									}
 								}
 							}
@@ -857,6 +864,8 @@ public class MemberController extends BaseController{
 									if(CommonStatusConst.STATUS_OK.equals(pr.getPayStatus())){
 										//支付成功
 										ordersrv.paySuccess(order);
+										rm.setErrcode(280401);
+										rm.setErrmsg("您已是会员");
 									}
 									else if("NON".equals(pr.getPayStatus())){
 										// 未支付,使用原来的订单id
@@ -867,13 +876,18 @@ public class MemberController extends BaseController{
 									else if("CRT".equals(pr.getPayStatus()))
 									{
 										//待支付,关闭原来的支付
-										
+										rm.setErrcode(280402);
+										rm.setErrmsg("您原来有一笔会员购买订单,请先等待这笔订单支付完成");
 									}
 									else{
 										//支付失败等
 										order.setPayStatus("FLS");
 										order.setUpdateTime(new Date());
 										orderMapper.updateByPrimaryKey(order);
+										//重新发起支付
+										Order createOrder = ordersrv.createOrder(transorder.getApp().getAppId(),productId,userId,100);
+										rm.setErrmsg("购买会员成功");
+										rm.put("orderId", createOrder.getOrderId());
 									}
 								}
 //								PropertiesUtil pu = new PropertiesUtil();

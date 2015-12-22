@@ -14,6 +14,27 @@ class ProjectController extends MallController
     }
 
     /**
+     * 举报
+     */
+    public function reportAction(){
+        if(IS_POST)
+        {
+            $data = ['token'=>$this->user['token']];
+            $data['reportType'] = I('reportType');
+            $data['refType'] ='TER';
+            $data['refId']=I('objectId');
+            $data['reportContent']=I('reportContent');
+            $curl = new Curl($this->config->url->api->paas);
+            $resp = $curl->setData($data)->send('report/submitReport');
+            if(check_resp($resp)) {
+                $this->success('保存成功！',U('/project/tenderlist'));
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+            }
+        }
+    }
+
+    /**
      * 招标项目列表
      */
     public function listAction(){

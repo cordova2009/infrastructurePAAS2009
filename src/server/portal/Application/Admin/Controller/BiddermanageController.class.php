@@ -12,6 +12,49 @@ use Admin\Service\ApiService;
 
 class BiddermanageController extends AdminController {
 
+    public function brsort(){
+
+        $prefix = C('DB_PREFIX');
+        if(IS_POST){
+            $ids  = I('post.selected');
+            $datas = [];
+            foreach($ids as $key=>$id){
+                $tmp = [
+                    'bidder_id'=>$id,
+                    'sort_no'=>($key+1),
+                    'insert_time'=>time_format(),
+                    'creator'=>session('user_auth.username'),
+                ];
+                $datas[] = $tmp;
+            }
+
+            M()->execute('delete from '.$prefix.'tjnr_bidder_recommend');
+
+            if(empty($datas) || M('tjnr_bidder_recommend')->addAll($datas)){
+                $this->success('推荐成功！');
+            }else{
+
+                $this->error('保存失败，请重新再试！');
+            }
+        }
+
+        $pList = M('qyzz_bidder b')
+            ->join($prefix.'user u on b.user_id = u.id')
+            ->where(['certificate_status'=>'OK#','b.status'=>'OK#'])
+            ->getField('b.id,b.user_id,b.company_name,u.mobile_num');
+
+        $selected = M()->table($prefix.'qyzz_bidder b')
+            ->join($prefix.'user u on u.id = b.user_id')
+            ->join($prefix.'tjnr_bidder_recommend a on b.id = a.bidder_id')
+            ->order('sort_no')
+            ->getField('b.id,b.user_id,b.company_name,u.mobile_num');
+
+        $this->assign('plist',$pList);
+        $this->meta_title = '投标人推荐';
+        $this->assign('selected',$selected);
+        $this->display();
+    }
+
     public function index()
     {
         if(!empty(I('short_name')))

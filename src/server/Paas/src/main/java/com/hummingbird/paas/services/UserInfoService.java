@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailReturnVO;
@@ -107,7 +108,16 @@ public interface UserInfoService {
 	public int replyUserInformation(String appId, UserInformationReplyBodyVO body,Token token)
 			throws BusinessException;
 
-
+	/**
+	 * 审核用户发布的信息
+	 * @param body
+	 *            参数
+	 * 
+	 * @return
+	 * @throws BusinessException
+	 */
+	public void auditUserInformation(UserInformationAuditBodyVO body)
+			throws BusinessException;
 
 
 }

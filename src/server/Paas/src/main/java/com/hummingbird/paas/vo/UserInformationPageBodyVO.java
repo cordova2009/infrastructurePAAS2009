@@ -13,12 +13,9 @@ import java.util.Date;
 //"pageIndex":1,
 //"pageSize":10,
 //"status":"CRT"
-public class UserInformationPageBodyVO{
+public class UserInformationPageBodyVO extends BaseUserInformationPageBodyVO{
 	
 	private String   token;
-	private Integer   pageIndex;
-	private Integer   pageSize;
-	private String   status;
 	/**
 	 * @return the token
 	 */
@@ -26,54 +23,18 @@ public class UserInformationPageBodyVO{
 		return token;
 	}
 	/**
-	 * @return the pageIndex
-	 */
-	public Integer getPageIndex() {
-		return pageIndex;
-	}
-	/**
-	 * @return the pageSize
-	 */
-	public Integer getPageSize() {
-		return pageSize;
-	}
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-	/**
 	 * @param token the token to set
 	 */
 	public void setToken(String token) {
 		this.token = token;
-	}
-	/**
-	 * @param pageIndex the pageIndex to set
-	 */
-	public void setPageIndex(Integer pageIndex) {
-		this.pageIndex = pageIndex;
-	}
-	/**
-	 * @param pageSize the pageSize to set
-	 */
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "UserInformationPageBodyVO [token=" + token + ", pageIndex=" + pageIndex + ", pageSize=" + pageSize
-				+ ", status=" + status + "]";
+		return "UserInformationPageBodyVO [token=" + token + ", status=" + status + ", keywords=" + keywords
+				+ ", pageSize=" + pageSize + ", pageIndex=" + pageIndex + "]";
 	}
 	
 	

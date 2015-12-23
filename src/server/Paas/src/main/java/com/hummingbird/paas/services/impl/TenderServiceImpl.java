@@ -1583,7 +1583,7 @@ public class TenderServiceImpl implements TenderService {
 			Pagingnation pagingnation){
 		List<String> keywords = body.getKeywords();
 		//如果列表中的无内容,或者为"",会变成sql错误,这里进行处理
-		if(keywords.isEmpty()){
+		if(keywords==null||keywords.isEmpty()){
 			keywords=null;
 		}
 		else{

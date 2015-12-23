@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.UserInformation;
 import com.hummingbird.paas.vo.UserInformationPageReturnVO;
 
@@ -56,6 +57,26 @@ public interface UserInformationMapper {
      * 查询成功发布信息的用户总数
      */
     int selectPublishedManCount();
+
+	/**
+	 * 查询用户信息列表
+	 * @param integer
+	 * @param status
+	 * @param keywords
+	 * @param page
+	 * @return
+	 */
+	List<UserInformationPageReturnVO> selectUserInfoPage(@Param("userId") Integer userId,@Param("status") String status,@Param("keywords") List<String> keywords,@Param("page")
+			Pagingnation page);
+	/**
+	 * 查询用户信息列表记录数
+	 * @param integer
+	 * @param status
+	 * @param keywords
+	 * @param page
+	 * @return
+	 */
+	int selectUserInfoCount(@Param("userId") Integer userId,@Param("status") String status,@Param("keywords") List<String> keywords);
     
     
 }

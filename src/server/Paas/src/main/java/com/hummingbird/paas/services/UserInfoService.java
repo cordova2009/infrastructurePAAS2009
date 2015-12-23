@@ -3,7 +3,9 @@ package com.hummingbird.paas.services;
 import java.util.List;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.vo.BaseUserInformationPageBodyVO;
 import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
@@ -118,6 +120,17 @@ public interface UserInfoService {
 	 */
 	public void auditUserInformation(UserInformationAuditBodyVO body)
 			throws BusinessException;
+
+
+	/**
+	 * 查询用户信息列表
+	 * @param appId
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<UserInformationPageReturnVO> queryUserInformationPage(String appId, BaseUserInformationPageBodyVO body,
+			Pagingnation pagingnation,Token token);
 
 
 }

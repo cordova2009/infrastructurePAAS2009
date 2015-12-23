@@ -2,14 +2,17 @@ package com.hummingbird.paas.services.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
@@ -20,6 +23,7 @@ import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserInfoService;
+import com.hummingbird.paas.vo.BaseUserInformationPageBodyVO;
 import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationComments;
@@ -156,13 +160,48 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public List<UserInformationPageReturnVO> queryUserInformationPage(String appId, UserInformationPageBodyVO body,
 			Token token) throws BusinessException {
-		// TODO Auto-generated method stub
 		Integer pageIndex = body.getPageIndex();
 		Integer pageSize = body.getPageSize();
 		
 		List<UserInformationPageReturnVO> qlr = new ArrayList<UserInformationPageReturnVO>();
 		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), (pageIndex-1)*pageSize, pageSize);
 		return qlr;
+	}
+	
+	/**
+	 * 查询用户信息列表
+	 * @param appId
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<UserInformationPageReturnVO> queryUserInformationPage(String appId, BaseUserInformationPageBodyVO body,
+			Pagingnation page,Token token){
+		//处理keyword
+		List<String> keywords = body.getKeywords();
+		//如果列表中的无内容,或者为"",会变成sql错误,这里进行处理
+		if(keywords==null||keywords.isEmpty()){
+			keywords=null;
+		}
+		else{
+			boolean allblank = true;
+			for (Iterator iterator = keywords.iterator(); iterator.hasNext();) {
+				String kw = (String) iterator.next();
+				allblank&=StringUtils.isBlank(kw);
+			}
+			if(allblank){
+				keywords=null;
+			}
+		}
+		
+		if(page!=null&&page.isCountsize()){
+			int num = 0;
+			num = uiDao.selectUserInfoCount(token!=null?token.getUserId():null, body.getStatus(),keywords);
+			page.setTotalCount(num);
+			page.calculatePageCount();
+		}
+		List<UserInformationPageReturnVO> list=uiDao.selectUserInfoPage(token!=null?token.getUserId():null, body.getStatus(),keywords,page);
+		return list;
 	}
 
 	@Override
@@ -195,7 +234,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public int queryUserInformationPageTotal(String appId, UserInformationPageBodyVO body, Token token)
 			throws BusinessException {
-		// TODO Auto-generated method stub
 		int num = 0;
 		num = uiDao.selectTotalByUserIdAndStatus(token.getUserId(), body.getStatus());
 		return num;

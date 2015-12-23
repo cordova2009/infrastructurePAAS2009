@@ -15,14 +15,6 @@ class IndexController extends MallController {
         $this->_curl = new Curl();
     }
 
-    public function testAction(){
-
-        var_dump($this->getRequest()->getRequest());
-        var_dump($this->getRequest()->getParam('a'));
-        var_dump($this->getRequest()->getParams());
-
-        die;
-    }
     /**
     * 默认动作，首页
     * Yaf支持直接把Yaf\Request_Abstract::getParam()得到的同名参数作为Action的形参
@@ -44,8 +36,33 @@ class IndexController extends MallController {
         $this->assign('bidder_list',$this->_bidder_list());
         //公告
         $this->assign('site_notice',$this->_site_notice());
+
+        //项目信息
+        $this->_p_info();
     }
     
+    private function _p_info()
+    {
+
+        $resp = $this->_curl->setData(['pageIndex'=>1,'pageSize'=>4])
+                        ->send('userInformation/queryUserInformationPage');
+        $list = [];
+        if(check_resp($resp)){
+            $list = $resp['list'];
+        }
+
+        $this->assign('p_info_list',$list);
+
+//        $resp = $this->_curl->send('userInformation/queryUserInformationPage');
+
+        $info = ['num'=>0,'amount'=>'0'];
+//        if(check_resp($resp)){
+//            $info = $resp['info'];
+//        }
+
+        $this->assign('p_info',$info);
+    }
+
     private function _object_info()
     {
         $resp = $this->_curl->send('tender/queryObjectIndexSurvey');
@@ -54,10 +71,10 @@ class IndexController extends MallController {
         if(check_resp($resp)){
             $object_info = $resp['info'];
         }
-        
+
         return $object_info;
     }
-    
+
     private function _bid_info()
     {
         $resp = $this->_curl->send('tender/queryBidIndexSurvey');

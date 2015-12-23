@@ -1,7 +1,3 @@
-<block name="style">
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
-</block>
-
 <div class=" main">
     <style>
         /*img{max-width:178px;}*/
@@ -162,25 +158,26 @@
                                     <img src="<?=empty($legal['idCardfrontUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardfrontUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
                                         <label class="btn-file3  ">
-                                            上传附件<input type="file" name="file" >
-                                            <input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" >
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" >
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                                 <div class="marb20 clear">
                                     <img src="<?=empty($legal['idCardBackUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardBackUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
-                                        <label class="btn-file3  "> 上传附件<input type="file" name="file">
-                                            <input type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" >
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file">
+                                            <input class="hidden-url" type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" >
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                             </div>
@@ -188,14 +185,18 @@
                         <div class="item">
                             <span class="lab">法人授权书扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3 ">
-                                    上传文件 <input type="file" name="file"><input type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" >
+                                <div class="btn-file3  <?php if(isset($legal) && !empty($legal['authorityBookUrl'])) echo 'hide'?>">
+                                    <span>上传文件</span>
+                                    <input type="file" name="file">
+                                    <input class="hidden-url" type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" >
+                                </div>
+                                <div class="uploaded <?php if(!isset($legal) || empty($legal['authorityBookUrl'])) echo 'hide'?>">
+                                    <a target="_blank" href="<?=isset($legal)?imageView2($legal['authorityBookUrl']):''?>" class="btn-file2 view">查看</a>
+                                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                                 </div>
                                 <div class="progress wid100 dib hide">
                                     <span class="on"></span>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
-
                                 <i class="ico tip-qus2 verm marl20"></i>
                                 <span class="red tips_txt">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                             </div>
@@ -392,15 +393,13 @@
     </div>
 </div>
 <!--list-->
+<block name="style">
+    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+</block>
 
 <block name="script">
     <script src="/js/jquery.datetimepicker.js"></script>
-    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="/js/upload/jquery.iframe-transport.js"></script>
-    <!-- The basic File Upload plugin -->
-    <script src="/js/upload/jquery.fileupload.js"></script>
+    <?php require_once __DIR__.'/../common/upload.js.php';?>
     <script>
         function base_sucess()
         {
@@ -507,11 +506,9 @@
                     $('#businessLicenseType').val('OLD');
                 }
             });
+
             $(".side_menu li").click(change);
             init();
-        })
-
-        $(function(){
 
             $("input[type=file]").fileupload({
                 url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
@@ -521,19 +518,16 @@
                     if (e.isDefaultPrevented()) {
                         return false;
                     }
-                    var obj = $(this).data('data',data)
-                        .parent();
-                    obj.css('background','#bebebe').nextAll().show()
-                        .children('span')
-                        .css('width','0%');
-                    obj.nextAll('.text-center').text('上传中...');
-
+                    $(this).prev().text('上传中..')
+                        .parent().css('background','#bebebe')
+                        .nextAll('.progress').show()
+                        .children('span').css('width','0%');
                     data.submit();
                 },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
                     $(this).parent()
-                        .next('.progress')
+                        .nextAll('.progress')
                         .children('span')
                         .css('width',progress + '%');
                 },
@@ -542,32 +536,50 @@
                     //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
                     //返回的数据在result.result中，假设我们服务器返回了一个json对象
 
+                    var $this = $(this);
+                    var parent =$this
+                        .prev().text('上传附件')
+                        .parent().css('background','#8ab46e');
+
                     if(data.result.status == '0'){
-                        var img_el = $(this).next().val(data.result.url)
-                            .parent().css('background','#8ab46e')
-                            .nextAll('.text-center').text('上传成功').parent().prev('img');
+                        //为隐藏标签赋值
+                        $this.next().val(data.result.url);
+
+                        var obj = parent.hide().next('.uploaded');
+                        if(obj.length > 0) {
+                            obj.removeClass('hide').show()
+                                .find('.view').attr('href', data.result.src);
+                        }
+
+                        var img_el = parent.parent().prev('img');
                         if(img_el.length > 0){
                             img_el.attr('src',data.result.src);
-                        }
-                        if($(this).next().next().attr('name')=='cshow')
-                        {
-                            $(this).next().next().val(data.result.src);
                         }
                     }else{
                         layer.alert(data.result.msg,{icon:2});
                     }
-                    $(this).parent().next('.progress').hide().next().hide()
+
+                    parent.nextAll('.progress').hide();
                 },
                 fail: function () {
-                    $(this).parent().css('background','#8ab46e');
+                    $(this)
+                        .prev().text('上传附件')
+                        .parent().css('background','#8ab46e');
                     layer.alert('上传失败，请重新再试',{icon:2});
                 }
-            })
-        })
+            });
+
+            $(".delete-pic-btn").click(function () {
+                $(this)
+                    .closest('.uploaded').hide()
+                    .prev().removeClass('hide').show()
+                    .find('.hidden-url').val('');
+            });
+        });
+
         $(".tip-qus2").mouseover(function (){
             $(this).next().show();
-        });
-        $(".tip-qus2").mouseout(function (){
+        }).mouseout(function (){
             $(this).next().hide();
         });
     </script>

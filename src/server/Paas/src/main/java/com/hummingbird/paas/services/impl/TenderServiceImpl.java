@@ -85,6 +85,7 @@ import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
+import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
@@ -126,6 +127,7 @@ import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
@@ -211,6 +213,9 @@ public class TenderServiceImpl implements TenderService {
 	protected BidEvaluationMapper bidevaDao;
 	@Autowired
 	protected MakeMatchBondRecordMapper mmbondDao;
+	@Autowired
+	protected UserInformationMapper userInformationMapper;
+	
 
 	/**
 	 * 我的招标评标概况接口
@@ -2139,6 +2144,21 @@ public class TenderServiceImpl implements TenderService {
 			return mmcapReturn.getResult();
 		}
 		
+	}
+
+	
+	@Override
+	public QueryProjectSurveyResultVO queryUserInformationIndexSurvey()
+			throws BusinessException {
+		QueryProjectSurveyResultVO projectSurvey = new QueryProjectSurveyResultVO();
+		
+		// 查询所有用户成功发布信息的总数
+		int publishedCount = userInformationMapper.selectPublishedInfoCount();
+		
+		//查询成功发布信息的用户总数
+		
+		projectSurvey.setPublishedCount(publishedCount);
+		return projectSurvey;
 	}
 
 }

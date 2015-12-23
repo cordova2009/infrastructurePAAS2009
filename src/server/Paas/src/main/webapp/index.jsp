@@ -40,6 +40,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 	</div>
 	<table>
+	<tr><td colspan="2">查询项目信息概况</td></tr>
+	<tr>
+	
+		<td><input  value="查询项目信息概况接口"  onclick='setbinding("/tender/queryUserInformationIndexSurvey","{    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    }}   ")'  type="button" ></td>
+	</tr>
 	<tr><td colspan="2">公司信息</td></tr>
 	<tr>
 	

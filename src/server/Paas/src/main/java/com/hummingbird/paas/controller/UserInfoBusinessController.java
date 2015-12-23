@@ -329,6 +329,7 @@ public class UserInfoBusinessController extends BaseController {
 		}catch (Exception e) {
 			log.error(String.format(messagebase + "失败"), e);
 			rm.mergeException(e);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
 		}
 		return rm;
 		

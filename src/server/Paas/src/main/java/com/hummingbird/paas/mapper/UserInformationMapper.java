@@ -46,4 +46,11 @@ public interface UserInformationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(UserInformation record);
+    
+    /**
+     * 查询所有用户成功发布的信息总数
+     */
+    int selectPublishedInfoCount();
+    
+    
 }

@@ -99,4 +99,7 @@ public interface BidRecordMapper {
 	 * @return
 	 */
 	List<BidRecord> selectBids(@Param("bidderId") Integer bidderId,@Param("objectId") String objectId,@Param("status") String status);
+	
+
+	
 }

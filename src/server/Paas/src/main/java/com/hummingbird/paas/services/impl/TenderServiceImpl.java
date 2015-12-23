@@ -90,6 +90,7 @@ import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.CapitalOrderReturnVO;
 import com.hummingbird.paas.vo.CompanyBaseInfo;
 import com.hummingbird.paas.vo.CompanyBidInfo;

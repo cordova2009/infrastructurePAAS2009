@@ -74,6 +74,7 @@ import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.BaseTenderObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;

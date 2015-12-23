@@ -41,6 +41,7 @@ import com.hummingbird.paas.entity.BidderCertification;
 import com.hummingbird.paas.entity.CertificationRequirement;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.MakeMatchBondRecord;
+import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectEvaluationBidder;
@@ -76,6 +77,7 @@ import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.util.MoneyUtil;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.CertificationMatchVO;
 import com.hummingbird.paas.vo.DetailVO;
 import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
@@ -83,6 +85,7 @@ import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.FreezeVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
+import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_1;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult_2;
@@ -1545,6 +1548,34 @@ public class BidServiceImpl implements BidService {
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成的投标信息(投标附件)完成");
+		}
+		return result;
+	}
+	
+	/**
+	 * 查询未完成招标项目投标文件
+	 * @param appId
+	 * @param body
+	 * @return
+	 * @throws DataInvalidException 
+	 */
+	public AbstractBidFileTypeInfo queryBidFileTypeInfo(String appId, QueryObjectBodyVO body) throws DataInvalidException{
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标项目投标文件开始");
+		}
+		String objectId = body.getObjectId();
+		BidObject bo = objectdao.selectByPrimaryKey(objectId);
+		if(bo==null){
+			log.error( "标的不存在:"+objectId);
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "标的不存在:");
+		}
+		AbstractBidFileTypeInfo result = new AbstractBidFileTypeInfo();
+		result.setNeedBusinessStandard(bo.getNeedBusinessStandard());
+		result.setNeedCertificationCheckupFile(bo.getNeedCertificationCheckupFile());
+		result.setNeedTechnicalStandard(bo.getNeedTechnicalStandard());
+		// 请自行调整
+		if (log.isDebugEnabled()) {
+			log.debug("查询未完成招标项目投标文件完成");
 		}
 		return result;
 	}

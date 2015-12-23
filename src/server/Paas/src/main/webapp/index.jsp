@@ -65,8 +65,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tr>
 		<td><input  value="查询发布信息列表接口"  onclick='setbinding("/userInformation/queryUserInformationPage"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"pageIndex\":1,        \"pageSize\":10,        \"status\":\"CRT\"    }}  ")'  type="button" ></td>
 		<td><input  value="回复用户信息接口"  onclick='setbinding("/userInformation/replyUserInformation"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"informationId\":1,        \"replyContent\":\"我可以试试\"    }}  ")'  type="button" ></td>		
-		<td><input  value="审核发布信息接口"  onclick='setbinding("/userInformation/auditUserInformation"," {    \"app\":{        \"appId\":\"zjhtwallet\",        \"timeStamp\":\"TIMESTAMP\",         \"nonce\":\"NONCE\",        \"signature\":\"SIGNATURE\"    },    \"body\":{        \"token\":\"12345\",        \"informationId\":8,        \"auditStatus\":\"OK#\"    }}  ")'  type="button" ></td>		
-		
 		</tr>
 	
 	<tr>

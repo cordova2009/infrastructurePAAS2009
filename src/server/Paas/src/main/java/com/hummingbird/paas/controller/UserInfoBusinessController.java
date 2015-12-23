@@ -26,7 +26,6 @@ import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserInfoService;
-import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailReturnVO;
@@ -242,7 +241,6 @@ public class UserInfoBusinessController extends BaseController {
 		return rm;
 		
 	}
-
 	
 	/**
 	 * 回复用户信息接口
@@ -298,42 +296,6 @@ public class UserInfoBusinessController extends BaseController {
 		if(applog!=null){
 			applogDao.insert(new AppLog(applog));
 		}
-	}
-	
-	
-	
-	/**
-	 * 审核用户发布的信息
-	 * @return  ResultModel
-	 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/auditUserInformation",method=RequestMethod.POST)
-	@AccessRequered(methodName = "审核用户发布的信息",isJson=true,codebase=242400,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.UserInformationAuditBodyVO",appLog=true)
-	public @ResponseBody ResultModel auditUserInformation(HttpServletRequest request,HttpServletResponse response) {
-		ResultModel rm = super.getResultModel();
-		BaseTransVO<UserInformationAuditBodyVO> transorder = (BaseTransVO<UserInformationAuditBodyVO>) super.getParameterObject();
-		String messagebase = "审核用户发布的信息"; 
-		try {
-			// 业务数据必填等校验
-			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
-			if (token == null) {
-				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
-				throw new TokenException("token验证失败,或已过期,请重新登录");
-			}
-			if(log.isDebugEnabled()){
-				log.debug("检验通过，获取请求");
-			}
-			//审核用户发布的信息
-			uiService.auditUserInformation(transorder.getBody());
-			rm.setErrcode(0);
-			rm.setErrmsg(messagebase + "成功");
-			tokenSrv.postponeToken(token);
-		}catch (Exception e) {
-			log.error(String.format(messagebase + "失败"), e);
-			rm.mergeException(e);
-		}
-		return rm;
-		
 	}
 	
 }

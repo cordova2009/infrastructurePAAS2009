@@ -11,27 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.ValidateUtil;
-<<<<<<< HEAD
-import com.hummingbird.commonbiz.exception.TokenException;
-import com.hummingbird.commonbiz.util.NoGenerationUtil;
-import com.hummingbird.commonbiz.vo.BaseTransVO;
-import com.hummingbird.paas.entity.Announcement;
-import com.hummingbird.paas.entity.BidInviteBidder;
-import com.hummingbird.paas.entity.BidObject;
-import com.hummingbird.paas.entity.ObjectProjectInfo;
-import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.Bidder;
-import com.hummingbird.paas.entity.BidderCerticate;
-import com.hummingbird.paas.entity.CertificationType;
-import com.hummingbird.paas.entity.Industry;
-import com.hummingbird.paas.entity.ObjectBaseinfo;
-import com.hummingbird.paas.entity.ObjectBondSetting;
-import com.hummingbird.paas.entity.ObjectCertificationRequirement;
-import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
-import com.hummingbird.paas.entity.ProjectInfo;
-import com.hummingbird.paas.entity.Qanda;
-=======
->>>>>>> 768ccc76ca944006747e0a0f63b99a94cc8a85df
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserInformation;
@@ -41,49 +20,6 @@ import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserInfoService;
-<<<<<<< HEAD
-import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
-import com.hummingbird.paas.vo.InviteTenderVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
-import com.hummingbird.paas.vo.MyTenderObjectListVO;
-import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
-import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
-import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
-import com.hummingbird.paas.vo.QueryBidIndexListResult;
-import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
-import com.hummingbird.paas.vo.QueryBidderListResultVO;
-import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
-import com.hummingbird.paas.vo.QueryCertificateListResultVO;
-import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
-import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
-import com.hummingbird.paas.vo.QueryIndexObjectListResult;
-import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
-import com.hummingbird.paas.vo.QueryObjectBodyVO;
-import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
-import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
-import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
-import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
-import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
-import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
-import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
-import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
-import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
-import com.hummingbird.paas.vo.SaveObjectBaseInfo;
-import com.hummingbird.paas.vo.SaveObjectBondInfo;
-import com.hummingbird.paas.vo.SaveObjectCertificationInfo;
-import com.hummingbird.paas.vo.SaveObjectConstructionInfo;
-import com.hummingbird.paas.vo.SaveObjectMethodInfo;
-import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
-import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
-import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
-import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
-import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
-import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
-import com.hummingbird.paas.vo.TenderObjectListReturnVO;
-import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
-=======
->>>>>>> 768ccc76ca944006747e0a0f63b99a94cc8a85df
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationComments;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
@@ -227,8 +163,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), (pageIndex-1)*pageSize, pageSize);
 		return qlr;
 	}
-	
-
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
@@ -266,38 +200,5 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return num;
 	}
 
-
-	@Override
-	public void auditUserInformation(UserInformationAuditBodyVO body)
-			throws BusinessException {
-					 if (log.isDebugEnabled()) {
-						log.debug("审核用户发布的信息接口开始");
-					 }
-		              //数据校验
-		              String status = body.getAuditStatus();
-		              Integer informationId = body.getInformationId();
-		              ValidateUtil.assertNull(status, "审核状态");
-		              ValidateUtil.assertNull(informationId, "发布信息ID");
-		              if(status != null && !"OK#".equals(status) && !"FLS".equals(status)){
-						  throw new BusinessException(242400,"审核状态不正确,状态必须是OK#或者FLS");
-		              }
-		              //判断当前操作者是否有审核权限
-		        	  
-		        	  //判断要审核的信息是否存在
-		        	   UserInformation userInfo=uiDao.selectByPrimaryKey(informationId);
-					   if(userInfo == null){
-							throw new BusinessException(10111,"不存在该发布信息");
-					   }
-					   //要审核的状态和信息目前的状态不相同的时候才进行更新操作
-					   if(!status.equals(userInfo.getAuditStatus())){
-						   UserInformation audit = new UserInformation();
-							audit.setId(userInfo.getId());
-							audit.setAuditStatus(status);
-							uiDao.updateByPrimaryKeySelective(audit);
-					   }
-					   if (log.isDebugEnabled()) {
-							log.debug("审核用户发布的信息接口完成");
-					   }
-	}
 
 }

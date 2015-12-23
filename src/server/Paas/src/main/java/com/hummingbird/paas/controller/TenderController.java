@@ -105,6 +105,7 @@ import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
 import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
@@ -2883,6 +2884,30 @@ public class TenderController extends BaseController {
 			if(qe!=null)
 				EventListenerContainer.getInstance().fireEvent(qe);
 		}
+		return rm;
+		
+	}
+	
+	
+	/**
+	 * 查询项目信息概况
+	 * @return
+	 */
+	@RequestMapping(value="/queryUserInformationIndexSurvey",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询项目信息概况",isJson=true,codebase=10000,appLog=true)
+	public @ResponseBody ResultModel queryUserInformationIndexSurvey(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		String messagebase = "查询项目信息概况"; 
+		try {
+			QueryProjectSurveyResultVO  result = tenderService.queryUserInformationIndexSurvey();
+			rm.put("result",result);	
+			rm.setErrcode(0);
+			rm.setErrmsg(messagebase + "成功");
+		}catch (Exception e) {
+			log.error(String.format(messagebase + "失败"), e);
+			rm.mergeException(e);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		} 
 		return rm;
 		
 	}

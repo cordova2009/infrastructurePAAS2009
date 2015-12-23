@@ -57,6 +57,13 @@
 	from t_zxgl_user_information a LEFT JOIN t_user b  on a.user_id = b.id
 	where a.user_id = #{userId} and a.status =#{status}  
   </select>
+  
+   <select id="selectPublishedInfoCount" resultType="int" >
+    select count(*)
+	from t_zxgl_user_information 
+	where status = "OK#"
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_zxgl_user_information
     where id = #{id,jdbcType=INTEGER}

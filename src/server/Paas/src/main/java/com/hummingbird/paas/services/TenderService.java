@@ -32,6 +32,7 @@ import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
@@ -589,5 +590,11 @@ public interface TenderService {
 	 */
 	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
 			Pagingnation pagingnation);
+	/**
+	 * 查询项目信息概况
+	 * @return QueryProjectSurveyResultVO
+	 */
+	public QueryProjectSurveyResultVO queryUserInformationIndexSurvey()throws BusinessException ;
+	
 
 }

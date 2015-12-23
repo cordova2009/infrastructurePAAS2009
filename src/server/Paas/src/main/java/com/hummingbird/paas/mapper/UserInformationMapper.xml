@@ -63,6 +63,11 @@
 	from t_zxgl_user_information 
 	where status = "OK#"
   </select>
+   <select id="selectPublishedManCount" resultType="int" >
+    select count(distinct user_id)
+	from t_zxgl_user_information 
+	where status = "OK#"
+  </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_zxgl_user_information

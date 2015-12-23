@@ -2156,8 +2156,10 @@ public class TenderServiceImpl implements TenderService {
 		int publishedCount = userInformationMapper.selectPublishedInfoCount();
 		
 		//查询成功发布信息的用户总数
+		int publishedManCount = userInformationMapper.selectPublishedManCount();
 		
 		projectSurvey.setPublishedCount(publishedCount);
+		projectSurvey.setPublishedManCount(publishedManCount);
 		return projectSurvey;
 	}
 

@@ -19,8 +19,9 @@
   </select>
   <select id="selectByBidId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
-    from t_ztgl_bid_certification
+    bc.id, bc.bid_id, bc.obj_req_id, bc.bidder_certification_id, t.certification_name certification_name
+    from t_ztgl_bid_certification bc
+    left join t_base_certification_type t on bc.bidder_certification_id = t.id 
     where bid_id = #{bidId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

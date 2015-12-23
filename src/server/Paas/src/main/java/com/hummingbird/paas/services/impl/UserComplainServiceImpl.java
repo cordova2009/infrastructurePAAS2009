@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.ValidateUtil;
@@ -43,6 +45,7 @@ public class UserComplainServiceImpl implements UserComplainService {
 
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int submitComplain(String appId, UserComplainBodyVO uc, Token token) throws BusinessException {
 		// TODO Auto-generated method stub
 		int i= 0;

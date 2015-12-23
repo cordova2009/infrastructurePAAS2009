@@ -275,8 +275,6 @@ public class MemberController extends BaseController{
 					tokenService.postponeToken(token);
 					//*****************************验证结束************************************************
 				} catch (Exception e) {
-					rm.setErrcode(210101);
-					rm.setErrmsg(messagebase+"失败");
 					log.error(String.format(messagebase + "失败"), e);
 					rm.mergeException(e);
 				}
@@ -287,7 +285,7 @@ public class MemberController extends BaseController{
     }	
     //查询可购买的会员
     @RequestMapping(value = "/queryMemberProduct", method = RequestMethod.POST)
-    @AccessRequered(methodName = "查询可购买会员列表接口", isJson = true, codebase = 840000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryVIPBodyVO", appLog = true)
+    @AccessRequered(methodName = "查询可购买会员列表接口", isJson = true, codebase = 280200, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.QueryVIPBodyVO", appLog = true)
   	public @ResponseBody ResultModel queryMemberProduct(HttpServletRequest request,HttpServletResponse response) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -419,8 +417,6 @@ public class MemberController extends BaseController{
 				}
 				tokenService.postponeToken(token);
 			} catch (Exception e)  {
-				rm.setErrcode(840001);
-				rm.setErrmsg(messagebase+"失败");
 				log.error(String.format(messagebase + "失败"), e);
 				rm.mergeException(e);
 			}
@@ -431,7 +427,7 @@ public class MemberController extends BaseController{
     }	
     //购买招标方会员
     @RequestMapping(value = "/buyBiddeeMember", method = RequestMethod.POST)
-    @AccessRequered(methodName = "购买招标方会员接口", isJson = true, codebase = 850000, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
+    @AccessRequered(methodName = "购买招标方会员接口", isJson = true, codebase = 280300, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
   	public @ResponseBody ResultModel buyBiddeeMember(HttpServletRequest request) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -470,9 +466,6 @@ public class MemberController extends BaseController{
 				
 				Integer userId=token.getUserId();
 				if( userId != null){
-					
-					rm.setErrcode(850000);
-					rm.setErrmsg(messagebase+"成功");
 					//---------------------招标人验证-----------------------------------------------
 					//招标人表t_qyzz_biddee 
 					QyzzBiddee biddee = qyzzBiddeeMapper.selectByUserId(userId);
@@ -489,10 +482,12 @@ public class MemberController extends BaseController{
 						// 查询招标人会员信息  t_hygl_biddee 招标人会员表
 						HyglBiddee hyglBiddee=hyglBiddeeMapper.selectByBiddeeId(biddeeId);
 						Date date=new Date();
-						Date endTime=hyglBiddee.getEndTime();
-						if(hyglBiddee != null && endTime.getTime()>date.getTime()){
-							rm.setErrcode(850001);
-							rm.setErrmsg("您已是会员");
+						if(hyglBiddee != null){
+							Date endTime=hyglBiddee.getEndTime();
+							if(endTime.getTime()>date.getTime()){
+								rm.setErrcode(280301);
+								rm.setErrmsg("您已是会员");
+							}
 						}
 						else{
 							//***检查用户的订单表有没有购买招标人会员的订单,订单状态为CRT(待支付),调用支付宝网关,查询订单状态*****
@@ -522,6 +517,8 @@ public class MemberController extends BaseController{
 									if(CommonStatusConst.STATUS_OK.equals(pr.getPayStatus())){
 										//支付成功
 										ordersrv.paySuccess(order);
+										rm.setErrcode(280301);
+										rm.setErrmsg("您已是会员");
 									}
 									else if("NON".equals(pr.getPayStatus())){
 										// 未支付,使用原来的订单id
@@ -532,13 +529,18 @@ public class MemberController extends BaseController{
 									else if("CRT".equals(pr.getPayStatus()))
 									{
 										//待支付,关闭原来的支付
-										
+										rm.setErrcode(280302);
+										rm.setErrmsg("您原来有一笔会员购买订单,请先等待这笔订单支付完成");
 									}
 									else{
 										//支付失败等
 										order.setPayStatus("FLS");
 										order.setUpdateTime(new Date());
 										orderMapper.updateByPrimaryKey(order);
+										//重新发起支付
+										Order createOrder = ordersrv.createOrder(transorder.getApp().getAppId(),productId,userId,100);
+										rm.setErrmsg("购买会员成功");
+										rm.put("orderId", createOrder.getOrderId());
 									}
 								}
 							}
@@ -764,8 +766,6 @@ public class MemberController extends BaseController{
 			
 		}catch (Exception e) {
 			
-			rm.setErrcode(850001);
-			rm.setErrmsg(messagebase+"失败");
 			log.error(String.format(messagebase + "失败"), e);
 			rm.mergeException(e);
 		}
@@ -773,7 +773,7 @@ public class MemberController extends BaseController{
     }	
     //购买招标方会员
     @RequestMapping(value = "/buyBidderMember", method = RequestMethod.POST)
-    @AccessRequered(methodName = "购买投标方会员接口", isJson = true, codebase = 280200, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
+    @AccessRequered(methodName = "购买投标方会员接口", isJson = true, codebase = 280400, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.BuyBiddeeVIPListVO", appLog = true)
   	public @ResponseBody ResultModel buyBidderMember(HttpServletRequest request, HttpServletResponse response) {
     	//结果集汇总
 		ResultModel rm = super.getResultModel();
@@ -829,10 +829,13 @@ public class MemberController extends BaseController{
 						// 查询招标人会员信息  t_hygl_biddee 招标人会员表
 						HyglBidder hyglBidder=hyglBidderMapper.selectByBidderId(bidderId);
 						Date date=new Date();
-						Date endTime=hyglBidder!=null?hyglBidder.getEndTime():null;
-						if(hyglBidder != null && endTime.getTime()>date.getTime()){
-							rm.setErrcode(280201);
-							rm.setErrmsg("您已是会员");
+						if(hyglBidder != null ){
+							Date endTime=hyglBidder.getEndTime();
+							if(endTime.getTime()>date.getTime()){
+								
+								rm.setErrcode(280401);
+								rm.setErrmsg("您已是会员");
+							}
 						}else{
 							//***检查用户的订单表有没有购买招标人会员的订单,订单状态为CRT(待支付),调用支付宝网关,查询订单状态*****
 							Order order = new Order();
@@ -861,6 +864,8 @@ public class MemberController extends BaseController{
 									if(CommonStatusConst.STATUS_OK.equals(pr.getPayStatus())){
 										//支付成功
 										ordersrv.paySuccess(order);
+										rm.setErrcode(280401);
+										rm.setErrmsg("您已是会员");
 									}
 									else if("NON".equals(pr.getPayStatus())){
 										// 未支付,使用原来的订单id
@@ -871,13 +876,18 @@ public class MemberController extends BaseController{
 									else if("CRT".equals(pr.getPayStatus()))
 									{
 										//待支付,关闭原来的支付
-										
+										rm.setErrcode(280402);
+										rm.setErrmsg("您原来有一笔会员购买订单,请先等待这笔订单支付完成");
 									}
 									else{
 										//支付失败等
 										order.setPayStatus("FLS");
 										order.setUpdateTime(new Date());
 										orderMapper.updateByPrimaryKey(order);
+										//重新发起支付
+										Order createOrder = ordersrv.createOrder(transorder.getApp().getAppId(),productId,userId,100);
+										rm.setErrmsg("购买会员成功");
+										rm.put("orderId", createOrder.getOrderId());
 									}
 								}
 //								PropertiesUtil pu = new PropertiesUtil();
@@ -1055,9 +1065,6 @@ public class MemberController extends BaseController{
 			//*****************************验证开始************************************************
 			
 		}catch (Exception e) {
-			
-			rm.setErrcode(850001);
-			rm.setErrmsg(messagebase+"失败");
 			log.error(String.format(messagebase + "失败"), e);
 			rm.mergeException(e);
 		}

@@ -78,7 +78,7 @@
             </tr>
             <tr>
                 <th>安全生产许可证附件</th>
-                <td><a href="<?=$item['safety_permit_url']?>">下载</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['safety_permit_url'])?>">查看</a></td>
             </tr>
             <tr>
                 <th>项目经理安全生产考核合格证编号</th>
@@ -90,7 +90,7 @@
             </tr>
             <tr>
                 <th>项目经理安全生产考核合格证附件</th>
-                <td><a href="<?=$item['pm_safety_certification_url']?>">下载</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['pm_safety_certification_url'])?>">查看</a></td>
             </tr>
         </tbody>
     </table>
@@ -111,7 +111,7 @@
             </tr>
             <tr>
                 <th>项目经理证附件</th>
-                <td><a href="<?=$item['pm_certification_url']?>">下载</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['pm_certification_url'])?>">查看</a></td>
             </tr>
             <tr>
                 <th>注册建造师证编号</th>
@@ -123,7 +123,7 @@
             </tr>
             <tr>
                 <th>注册建造师证附件</th>
-                <td><a href="<?=$item['constructor_certification_url']?>">下载</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['constructor_certification_url'])?>">查看</a></td>
             </tr>
         </tbody>
     </table>
@@ -144,7 +144,7 @@
             </tr>
             <tr>
                 <th>保函凭证扫描件</th>
-                <td><a href="<?=$item['bank_guarantee_url']?>">下载</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['bank_guarantee_url'])?>">查看</a></td>
             </tr>
         </tbody>
     </table>
@@ -166,7 +166,7 @@
             </tr>
             <tr>
                 <th>项目报价表</th>
-                <td><a href="<?=$item['project_quotation_url']?>">下载</a></td>
+                <td><a href="<?=get_qiniu_file_durl($item['project_quotation_url'])?>">下载</a></td>
             </tr>
             <tr>
                 <th>施工承诺函</th>
@@ -178,11 +178,11 @@
             </tr>
             <tr>
                 <th>施工承诺函扫描件</th>
-                <td><a href="<?=$item['construction_commitment_url']?>">下载</a></td>
+                <td><a class="ace-thumbnails" href="<?=imageView2($item['construction_commitment_url'])?>">查看</a></td>
             </tr>
             <tr>
                 <th>技术标书</th>
-                <td><a href="<?=$item['technical_standard_url']?>">下载</a></td>
+                <td><a href="<?=get_qiniu_file_durl($item['technical_standard_url'])?>">下载</a></td>
             </tr>
         </tbody>
     </table>
@@ -216,9 +216,9 @@
         <tbody>
             <tr>
                 <td class="center">
-                    <a href="" class="btn btn-app btn-purple btn-sm">
+                    <a href="<?=get_qiniu_file_durl($item)?>" class="btn btn-app btn-purple btn-sm">
                         <i class="icon-cloud-download bigger-200"></i>
-                        下载
+                        查看
                     </a>
                 </td>
             </tr>
@@ -226,15 +226,17 @@
     </table>
 
     <div class="clearfix form-actions">
-        <div class="col-xs-12 center">
-            <a onclick="history.go(-1)" class="btn btn-info" href="javascript:;">
+        <div class="col-xs-12">
+            <a onclick="history.go(-1)" class="btn btn-white" href="javascript:;">
                 <i class="icon-reply"></i>返回上一页
             </a>
         </div>
     </div>
 </div>
 </block>
+
 <block name="script">
+<include file="Public/colorbox"/>
 <script>
     highlight_subnav('<?=U('ztglobject/yzbindex')?>');
 </script>

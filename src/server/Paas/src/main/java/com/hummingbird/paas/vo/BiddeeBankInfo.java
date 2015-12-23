@@ -19,6 +19,10 @@ public class BiddeeBankInfo {
 	private String  bank;
 	private String  accountId;
 	private String  accountName;
+	
+	private String  telephone;
+	private String  taxNo;
+	private String  address;
 
 
 	/**
@@ -81,6 +85,60 @@ public class BiddeeBankInfo {
 	@Override
 	public String toString() {
 		return "BiddeeBankInfo [bank=" + bank + ", accountId=" + accountId + ", accountName=" + accountName + "]";
+	}
+
+
+
+	/**
+	 * @return the telephone
+	 */
+	public String getTelephone() {
+		return telephone;
+	}
+
+
+
+	/**
+	 * @return the taxNo
+	 */
+	public String getTaxNo() {
+		return taxNo;
+	}
+
+
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	/**
+	 * @param telephone the telephone to set
+	 */
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+
+
+	/**
+	 * @param taxNo the taxNo to set
+	 */
+	public void setTaxNo(String taxNo) {
+		this.taxNo = taxNo;
+	}
+
+
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

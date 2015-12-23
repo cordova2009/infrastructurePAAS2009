@@ -38,6 +38,10 @@ public interface Account {
 	 * 资金帐户
 	 */
 	public static String ACCOUNT_PROJECT="projectAccount";
+	/**
+	 * 工程款帐户
+	 */
+	public static String ACCOUNT_PROJECT_PAYMENT="projectPaymentAccount";
 	
 	/**
 	 * 银行帐户

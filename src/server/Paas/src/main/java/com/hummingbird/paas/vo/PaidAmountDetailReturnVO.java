@@ -13,6 +13,13 @@ public class PaidAmountDetailReturnVO {
 	private String transferDate;
 	private String bankName;
 	private String voucherNo;
+	/**
+	 * 支付状态,,NON待支付,CRT 已支付待确认,OK# 支付确认,FLS 支付失败(确认失败)
+	 */
+	private String payStatus;
+	
+	
+	
 	public String getFundName() {
 		return fundName;
 	}
@@ -42,6 +49,27 @@ public class PaidAmountDetailReturnVO {
 	}
 	public void setVoucherNo(String voucherNo) {
 		this.voucherNo = voucherNo;
+	}
+	/**
+	 * 支付状态NON待支付CRT 已支付待确认OK# 支付确认FLS 支付失败(确认失败) 
+	 */
+	public String getPayStatus() {
+		return payStatus;
+	}
+	/**
+	 * 支付状态NON待支付CRT 已支付待确认OK# 支付确认FLS 支付失败(确认失败) 
+	 */
+	public void setPayStatus(String payStatus) {
+		this.payStatus = payStatus;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PaidAmountDetailReturnVO [fundName=" + fundName + ", amount=" + amount + ", transferDate="
+				+ transferDate + ", bankName=" + bankName + ", voucherNo=" + voucherNo + ", payStatus=" + payStatus
+				+ "]";
 	}
 	
 }

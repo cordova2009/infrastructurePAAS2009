@@ -6,7 +6,6 @@ import java.util.List;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Token;
-import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
@@ -68,6 +67,12 @@ public interface MyBidderService {
 	* @throws BusinessException 
 	*/
 	public BidderRegisteredInfo getRegisteredInfo_apply(Token token) throws BusinessException; 
+	/**
+	* 查询保存的招标人公司注册信息接口
+	* @return 
+	* @throws BusinessException 
+	*/
+	public BidderRegisteredInfo getRegisteredInfo(Token token) throws BusinessException; 
 	/**
 	 * 保存招标人公司注册信息接口
 	 * 
@@ -139,11 +144,11 @@ public interface MyBidderService {
 	 *            应用id
 	 * @param body
 	 *            参数
-	 * @param biddee_id
+	 * @param bidder_id
 	 * @return 审核
 	 * @throws BusinessException
 	 */
 	
-	public Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer biddee_id) throws BusinessException;
+	public Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer bidder_id) throws BusinessException;
 	
 }

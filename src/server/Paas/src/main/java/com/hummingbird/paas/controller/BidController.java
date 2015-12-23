@@ -907,12 +907,12 @@ public class BidController extends BaseController {
 				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
+//			Bidder bidder = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
 			//业务数据逻辑校验
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			QueryObjectDetailResultVO  result = bidService.queryObjectDetail(transorder.getApp().getAppId(),transorder.getBody(),bidder.getId());
+			QueryObjectDetailResultVO  result = bidService.queryObjectDetail(transorder.getApp().getAppId(),transorder.getBody(),null);
 			rm.put("body",result);
 			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
@@ -1003,18 +1003,14 @@ public class BidController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			Integer pageIndex =transorder.getBody().getPageIndex();
-			Integer pageSize =transorder.getBody().getPageSize();
-			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
-				log.error(String.format(messagebase + "失败"));
-				rm.setErrmsg("参数错误");
-				return rm;
-			}
-			liq = beeServiceSer.queryMyBidObjectList(token.getUserId(), pageIndex, pageSize);
-			int total = obDao.getMyObjectProjectCount(token.getUserId());
-			rm.put("total", total);
-			rm.put("pageIndex", pageIndex);
-			rm.put("pageSize", pageSize);
+			
+			Pagingnation page=transorder.getBody().toPagingnation();
+			
+			liq = beeServiceSer.queryMyBidObjectList(token.getUserId(), page);
+			
+			rm.put("pageSize", page.getPageSize());
+			rm.put("pageIndex", page.getCurrPage());
+			rm.put("total", page.getTotalCount());
 	        rm.put("list",liq);
 	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
@@ -1035,11 +1031,11 @@ public class BidController extends BaseController {
 	 * @return  queryMyBuildingObject
 	 */
 	@RequestMapping(value="/queryMyBuildingObject",method=RequestMethod.POST)
-	@AccessRequered(methodName = "查询我的投标中项目列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
+	@AccessRequered(methodName = "查询施工中项目列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.GetMsgListBodyVO",appLog=true)
 	public @ResponseBody ResultModel queryMyBuildingObject(HttpServletRequest request,HttpServletResponse response) {
 		ResultModel rm = super.getResultModel();
 		BaseTransVO<GetMsgListBodyVO> transorder = (BaseTransVO<GetMsgListBodyVO>) super.getParameterObject();
-		String messagebase = "查询我的投标中项目列表"; 
+		String messagebase = "查询施工中项目列表"; 
 		RequestEvent qe=null ; 
 		List<QueryMyBuildingObjectListResultVO> liq = null;
 		try {

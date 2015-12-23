@@ -49,7 +49,12 @@ public class TokenServiceImpl implements TokenService {
 		if(StringUtils.isBlank(token)){
 			return null;
 		}
-		Token to  = this.getTokenOnRedis(token);
+		Token to = null;
+		try {
+			to = this.getTokenOnRedis(token);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
+		}
 		if(to == null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("redis没有获取token数据,开始从数据库表查询!"));
@@ -96,7 +101,12 @@ public class TokenServiceImpl implements TokenService {
 		if(StringUtils.isBlank(token)){
 			return null;
 		}
-		Token to  = this.getTokenOnRedis(token);
+		Token to = null;
+		try {
+			to = this.getTokenOnRedis(token);
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
+		}
 		if(to == null){
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("redis没有获取token数据,开始从数据库表查询!"));
@@ -201,7 +211,7 @@ public class TokenServiceImpl implements TokenService {
 	
 	private int getDefaultExpireIn(){
 		//1小时有效
-		return new PropertiesUtil().getInt("usertoken.expirein", 3600);
+		return new PropertiesUtil().getInt("usertoken.expirein", 7*24*3600);//测试阶段暂时有效期改为一周     正式环境  再改回   2015年12月10日
 	}
 	
 	/**
@@ -209,15 +219,23 @@ public class TokenServiceImpl implements TokenService {
 	 * @param token
 	 */
 	public void postponeToken(Token token){
-		Token to = getTokenOnRedis(token.getToken());
+		Token to = null;
+		try {
+			to = this.getTokenOnRedis(token.getToken());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			throw new NumberFormatException("创建redis失败,可能redis配置文件未配置");
+		}
 		if(to!= null){//从redis取数据  
 			to.setUpdateTime(new Date());
+			to.setExpireIn(this.getDefaultExpireIn());//延长有效期
 			tokenmapper.updateByPrimaryKeySelective(to);
 			updateTokenOnRedis(to);
 		}else{
 			to = tokenmapper.selectByTokenStr(token.getToken());
 			if(to!=null){
 				to.setUpdateTime(new Date());
+				to.setExpireIn(getDefaultExpireIn());
 				tokenmapper.updateByPrimaryKeySelective(to);
 				saveTokenToRedis(to);
 			}
@@ -234,7 +252,14 @@ public class TokenServiceImpl implements TokenService {
 		Jedis jedis = JedisPoolUtils.getJedisIfNessary();
 //		jedis.flushDB();
 		if(jedis != null && jedis.exists(token)){
-			String json = jedis.get(token);
+			String json;
+			try {
+				json = jedis.get(token);
+			} 
+			finally{
+				JedisPoolUtils.returnRes(jedis);
+			}
+			
 				Token to;
 				try {
 					to = JsonUtil.convertJson2Obj(json, Token.class);
@@ -264,10 +289,16 @@ public class TokenServiceImpl implements TokenService {
 		
 		try {
 			if(jpu!=null&&record!=null){
-				if(!jpu.exists(record.getToken())){
-					jpu.set(record.getToken(), JsonUtil.convert2Json(record));
-					jpu.expire(record.getToken(), getDefaultExpireIn());//设置有效期
-				}	 
+				try {
+					if(!jpu.exists(record.getToken())){
+						jpu.set(record.getToken(), JsonUtil.convert2Json(record));
+						jpu.expire(record.getToken(), 3600);//设置有效期
+					}	 
+				} 
+				finally{
+					JedisPoolUtils.returnRes(jpu);
+				}
+				
 			}
 			
 		} catch (DataInvalidException e) {
@@ -289,8 +320,13 @@ public class TokenServiceImpl implements TokenService {
 			String json;
 			try {
 				json = JsonUtil.convert2Json(token);
-				jedis.set(token.getToken(), json);
-				jedis.expire(token.getToken(), token.getExpireIn());
+				try {
+					jedis.set(token.getToken(), json);
+					jedis.expire(token.getToken(), 3600);
+				} 
+				finally{
+					JedisPoolUtils.returnRes(jedis);
+				}
 			} catch (DataInvalidException e) {
 				log.error("转换失败",e);
 			}
@@ -311,7 +347,12 @@ public class TokenServiceImpl implements TokenService {
 		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
 		Long ll = 0L;
 		if(jpu!=null){
-		 ll= jpu.del(token);
+			try {
+				ll= jpu.del(token);
+			} 
+			finally{
+				JedisPoolUtils.returnRes(jpu);
+			}
 		}
 		
 		return ll;

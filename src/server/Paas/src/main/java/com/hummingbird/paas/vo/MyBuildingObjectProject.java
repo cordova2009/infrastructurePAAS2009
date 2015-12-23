@@ -11,40 +11,50 @@ public class MyBuildingObjectProject extends ObjectProject{
     /**
      * 已收款
      */
-    private String receivedAmount;
+    private Long receivedAmount;
 
     /**
      * dai收款
      */
-    private String willReceiveAmount;
+    private Long willReceiveAmount;
 
 	/**
 	 * @return the receivedAmount
 	 */
-	public String getReceivedAmount() {
+	public Long getReceivedAmount() {
 		return receivedAmount;
 	}
 
 	/**
 	 * @return the willReceiveAmount
 	 */
-	public String getWillReceiveAmount() {
+	public Long getWillReceiveAmount() {
 		return willReceiveAmount;
 	}
 
 	/**
 	 * @param receivedAmount the receivedAmount to set
 	 */
-	public void setReceivedAmount(String receivedAmount) {
+	public void setReceivedAmount(Long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
 
 	/**
 	 * @param willReceiveAmount the willReceiveAmount to set
 	 */
-	public void setWillReceiveAmount(String willReceiveAmount) {
+	public void setWillReceiveAmount(Long willReceiveAmount) {
 		this.willReceiveAmount = willReceiveAmount;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MyBuildingObjectProject [receivedAmount=" + receivedAmount + ", willReceiveAmount=" + willReceiveAmount
+				+ "]";
+	}
+
+	
     
 }

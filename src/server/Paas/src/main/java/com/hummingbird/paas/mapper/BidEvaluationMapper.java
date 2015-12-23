@@ -32,4 +32,11 @@ public interface BidEvaluationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidEvaluation record);
+
+	/**
+	 * 更新评标情况
+	 * @param objectId
+	 * @param winbidderId
+	 */
+	void insertBidEvaluation(String objectId, Integer winbidderId);
 }

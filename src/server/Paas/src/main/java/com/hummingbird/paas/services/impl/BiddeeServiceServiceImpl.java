@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeCredit;
@@ -20,6 +21,7 @@ import com.hummingbird.paas.entity.ObjectProject;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
@@ -82,6 +84,8 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	@Autowired
 	ObjectProjectMapper obDao;
 	@Autowired
+	BidObjectMapper bidobjDao;
+	@Autowired
 	BiddeeCreditMapper bcDao;
 	@Autowired
 	ScoreLevelMapper slDao;
@@ -127,7 +131,7 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			if(proj!=null&&proj.getProjectExpectStartDate()!=null)
 			qol.setObjectPredictStartTime(proj.getProjectExpectStartDate());
 			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
+			qol.setObjectName(pj.getObjectName());
 			qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
 			if (pj.getBiddeeId() != null) {
 				Integer biddeeId = pj.getBiddeeId();
@@ -215,8 +219,13 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		qodb.setBiddingNo(ob.getObjectNo());
 		qodb.setContractType(ob.getContractType());
 		qodb.setCurrency(ob.getCurrency());
-		if (ob.getEvaluationAmount() != null)
-			qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+		if (ob.getEvaluationAmount() != null){
+			if(StringUtils.equals(ob.getEvaluationAmountVisiable(),"ENB")){
+				//如果是公开估价,才会显示
+				qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
+			}
+		}
+//			qodb.setEvaluationAmount(ob.getEvaluationAmount().toString());
 		qodb.setIndustryId(ob.getIndustryId());
 		qodb.setObjectName(ob.getObjectName());
 		qodb.setObjectScope(ob.getObjectScope());
@@ -323,36 +332,21 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 	}
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer user_id, Integer pageIndex, Integer pageSize)
+	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer userId, Pagingnation page)
 			throws BusinessException {
 		// TODO Auto-generated method stub
 		if(log.isDebugEnabled()){
 			log.debug("查询我的投标中项目列表");
 		}
-		List<QueryMyBidObjectListResultVO> qors = new ArrayList<QueryMyBidObjectListResultVO>();
-		QueryObjectListResultVO qmb = null;
-		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
-			return null;
+		
+		if(page!=null&&page.isCountsize()){
+			int totalcount = bidobjDao.countBidingNum(userId);
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
 		}
-
-		List<ObjectProject> pjs = obDao.getMyObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
-		QueryMyBidObjectListResultVO qol = null;
-		for (ObjectProject pj : pjs) {
-			if(pj != null){
-			 qol = new QueryMyBidObjectListResultVO();
-			qol.setIndustryId(pj.getIndustryId());
-			qol.setBidAmount(String.valueOf(pj.getWinBidAmount()));
-			qol.setBidOpenDate(pj.getBidOpenDate());
-			qol.setObjectId(pj.getObjectId());
-			qol.setObjetName(pj.getObjectName());
-			if(log.isDebugEnabled()){
-				log.debug("查询招标的项目列表完成:"+qol);
-			}
-			qors.add(qol);
-			}
-		}
-			
-		return qors;
+		List<QueryMyBidObjectListResultVO> objects=obDao.queryBidByAccountId(page,userId);
+		
+		return objects;
 	}
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
@@ -372,16 +366,21 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		
 		QueryMyBuildingObjectListResultVO qol = null;
 		for (MyBuildingObjectProject pj : pjs) {
-			if(pj != null){
+			if(pj.getObjectId() != null){
 				qol = new QueryMyBuildingObjectListResultVO();
-				
+				ProjectInfos  proj = pIDao.selectByPrimaryKey(pj.getObjectId());
 				qol.setObjectId(pj.getObjectId());
 //				qol.set
 				qol.setObjetName(pj.getObjectName());
-				qol.setProjectExpectPeriod(0);
+				if(proj!=null){
+					qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
+					qol.setProjectExpectStartDate(proj.getProjectExpectStartDate());
+				}else {
+					qol.setProjectExpectPeriod(0);
+				}
 //				qol.setProjectExpectStartDate(pj.getpro);
 				qol.setReceivedAmount(pj.getReceivedAmount());
-				qol.setWillReceiveAmount(String.valueOf(pj.getWinBidAmount()));
+				qol.setWillReceiveAmount(pj.getWinBidAmount());
 				if(log.isDebugEnabled()){
 					log.debug("查询招标的项目列表完成:"+qol);
 				}

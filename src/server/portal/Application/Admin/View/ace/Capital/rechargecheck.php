@@ -5,6 +5,7 @@
 
 <style>
 td{width:50%;}
+img{max-width:400px;}
 </style>
 <input type="hidden" name="id"  value="{$item.id}">
 <div class="widget-box" style="opacity: 1; z-index: 0;margin-bottom:1em;">
@@ -25,11 +26,11 @@ td{width:50%;}
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">银行账号:</span>{$item.account_no}</td>
-			<td><span style="color:#999;padding-right:8px;">开户银行:</span>{$item.bank_name}</td>
+			<td><span style="color:#999;padding-right:8px;">开户银行:</span>{$item.bank}</td>
 		</tr>
 		<tr>
 			<td><span style="color:#999;padding-right:8px;">凭证号:</span>{$item.voucher}</td>
-			<td><span style="color:#999;padding-right:8px;">凭证扫描件:</span>{$item.voucher_url}</td>
+			<td><span style="color:#999;padding-right:8px;">凭证扫描件:</span><img src="{$item.voucher_pic|imageView2}" /></td>
 		</tr>
 	 </tbody>
 	</table>

@@ -6,9 +6,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.PropertiesUtil;
+import com.hummingbird.common.util.SignatureUtil;
 
 /* *
  *类名：AlipayNotify
@@ -90,13 +97,23 @@ public class AlipayNotify {
         String preSignStr = AlipayCore.createLinkString(sParaNew);
         //获得签名验证结果
         boolean isSign = false;
-        String publickey = new PropertiesUtil().getProperty("ali_public_key");
-        String input_charset = new PropertiesUtil().getProperty("input_charset");
-//        if(AlipayConfig.sign_type.equals("RSA")){
+        PropertiesUtil pu = new PropertiesUtil();
+        String publickey = pu.getProperty("ali_public_key");
+        String input_charset = pu.getProperty("input_charset");
+        String key = pu.getProperty("key");//安全校验码
+        if(StringUtils.equalsIgnoreCase(Params.get("sign_type"), "MD5")){
+        	String makesign1 = Md5Util.Encrypt(preSignStr+key);
+        	return StringUtils.equals(makesign1, sign);
+        }
+        else{
+        	
         	isSign = RSA.verify(preSignStr, sign,publickey,input_charset);
+        }
+//        if(AlipayConfig.sign_type.equals("RSA")){
 //        }
         return isSign;
     }
+	
 
     /**
     * 获取远程服务器ATN结果,验证返回URL

@@ -45,6 +45,21 @@ public class BiddeeBankCardCerticate {
     private String accountName;
 
     /**
+     * 税号
+     */
+    private String taxNo;
+
+    /**
+     * 公司地址
+     */
+    private String address;
+
+    /**
+     * 电话
+     */
+    private String telephone;
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -162,5 +177,50 @@ public class BiddeeBankCardCerticate {
      */
     public void setAccountName(String accountName) {
         this.accountName = accountName == null ? null : accountName.trim();
+    }
+
+    /**
+     * @return 税号
+     */
+    public String getTaxNo() {
+        return taxNo;
+    }
+
+    /**
+     * @param taxNo 
+	 *            税号
+     */
+    public void setTaxNo(String taxNo) {
+        this.taxNo = taxNo == null ? null : taxNo.trim();
+    }
+
+    /**
+     * @return 公司地址
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address 
+	 *            公司地址
+     */
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    /**
+     * @return 电话
+     */
+    public String getTelephone() {
+        return telephone;
+    }
+
+    /**
+     * @param telephone 
+	 *            电话
+     */
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
     }
 }

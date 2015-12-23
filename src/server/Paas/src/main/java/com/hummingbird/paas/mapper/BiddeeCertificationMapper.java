@@ -47,4 +47,16 @@ public interface BiddeeCertificationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BiddeeCertification record);
+
+    /**
+	 * 删除所有正式的证书
+	 * @param bidderId
+	 */
+	int removeAllByBiddeeId(Integer biddeeId);
+
+	/**
+	 * 把申请的证书复制到正式表中
+	 * @param certificationApplyId
+	 */
+	int insertByApplyId(Integer certificationApplyId);
 }

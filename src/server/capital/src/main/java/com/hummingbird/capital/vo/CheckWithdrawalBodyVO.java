@@ -19,14 +19,20 @@ public class CheckWithdrawalBodyVO {
 	private String voucherFileUrl;
 	private String checkResult;
 	private String remark;
-	private Integer operator;
+	private Integer operator; 
+	/**
+	 * 提现金额,可能与申请不同
+	 */
+	private Long amount; 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "CheckWithdrawalBodyVO [orderId=" + orderId + ", transferTime=" + transferTime + 
-				",voucherNo=" + voucherNo +",voucherFileUrl="+voucherFileUrl+ 
-				",checkResult="+checkResult+",remark="+remark+
-				",operator="+operator+"]";
+		return "CheckWithdrawalBodyVO [orderId=" + orderId + ", transferTime=" + transferTime + ", voucherNo="
+				+ voucherNo + ", voucherFileUrl=" + voucherFileUrl + ", checkResult=" + checkResult + ", remark="
+				+ remark + ", operator=" + operator + ", amount=" + amount + "]";
 	}
 	
 	public String getOrderId() {
@@ -70,6 +76,20 @@ public class CheckWithdrawalBodyVO {
 	}
 	public void setOperator(Integer operator) {
 		this.operator = operator;
+	}
+
+	/**
+	 * 提现金额可能与申请不同 
+	 */
+	public Long getAmount() {
+		return amount;
+	}
+
+	/**
+	 * 提现金额可能与申请不同 
+	 */
+	public void setAmount(Long amount) {
+		this.amount = amount;
 	}
 	
 	

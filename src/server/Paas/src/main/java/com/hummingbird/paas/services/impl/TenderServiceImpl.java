@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,38 +21,58 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hummingbird.common.constant.CommonStatusConst;
+import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.RequestException;
+import com.hummingbird.common.exception.SignatureException;
 import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.DateUtil;
+import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.MapMaker;
+import com.hummingbird.common.util.PropertiesUtil;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.common.util.http.HttpRequester;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
+import com.hummingbird.commonbiz.util.TransOrderBuilder;
+import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.BidCertification;
 import com.hummingbird.paas.entity.BidInviteBidder;
 import com.hummingbird.paas.entity.BidObject;
+import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
+import com.hummingbird.paas.entity.MakeMatchBondRecord;
 import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
-import com.hummingbird.paas.entity.ObjectBondSetting;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
+import com.hummingbird.paas.entity.Project;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
 import com.hummingbird.paas.entity.ProjectInfo;
+import com.hummingbird.paas.entity.ProjectInfos;
+import com.hummingbird.paas.entity.ProjectPaymentDefine;
+import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.Qanda;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.event.InvBidEvent;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
+import com.hummingbird.paas.mapper.BidCertificationMapper;
+import com.hummingbird.paas.mapper.BidEvaluationMapper;
 import com.hummingbird.paas.mapper.BidInviteBidderMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
+import com.hummingbird.paas.mapper.BidderRecommendMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.IndustryMapper;
+import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
@@ -59,12 +81,15 @@ import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
 import com.hummingbird.paas.mapper.ProjectEvaluationBidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
+import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.CapitalOrderReturnVO;
 import com.hummingbird.paas.vo.CompanyBaseInfo;
 import com.hummingbird.paas.vo.CompanyBidInfo;
 import com.hummingbird.paas.vo.CompanyCerticateInfo;
@@ -79,13 +104,13 @@ import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultBodyVO;
@@ -103,6 +128,7 @@ import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
 import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
@@ -113,11 +139,18 @@ import com.hummingbird.paas.vo.SaveObjectMethodInfo;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
+import com.hummingbird.paas.vo.SelectBidWinMakeMatchBondRewardReturnBodyVO;
+import com.hummingbird.paas.vo.SelectBidWinMakeMatchBondRewardReturnVO;
 import com.hummingbird.paas.vo.TagInfo;
+import com.hummingbird.paas.vo.TenderCertificationReturnVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
+import com.hummingbird.paas.vo.TenderPaymentInfo;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 /**
  * @author
@@ -155,6 +188,8 @@ public class TenderServiceImpl implements TenderService {
 	@Autowired
 	BidderMapper berDao;
 	@Autowired
+	BidderRecommendMapper bidderRecDao;
+	@Autowired
 	ProjectInfoMapper projectInfoDao;
 	@Autowired
 	ProjectEvaluationBiddeeMapper evaluationBiddeeDao;
@@ -165,7 +200,17 @@ public class TenderServiceImpl implements TenderService {
 	@Autowired
 	ProjectPaymentPayMapper pppDao;
 	@Autowired
+	BidCertificationMapper bcDao;
+	@Autowired
 	UserMapper userDao;
+	@Autowired
+	protected ProjectPaymentDefineMapper projectPaymentDefineDao;
+	@Autowired
+	protected ProjectPaymentDefineDetailMapper projectPaymentDefineDetailDao;
+	@Autowired
+	protected BidEvaluationMapper bidevaDao;
+	@Autowired
+	protected MakeMatchBondRecordMapper mmbondDao;
 
 	/**
 	 * 我的招标评标概况接口
@@ -177,23 +222,15 @@ public class TenderServiceImpl implements TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
+	public TenderSurveyReturnVO queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
 			Biddee biddee) throws BusinessException {
 		if (log.isDebugEnabled()) {
 			log.debug("我的招标评标概况接口开始");
 		}
-		throw new BusinessException("未完成 ");
-		// Project project = dao.selectByPrimaryKey(body.getObjectId());
-		// ValidateUtil.assertNull(project, "标的");
-		// ObjectProjectInfo pi = bpdao.selectByPrimaryKey(body.getObjectId());
-		// MyObjectTenderSurveyBodyVOResult result =
-		// bidRecordDao.selectTenderSurveyByObjectId(body.getObjectId());
-		// result.setObjectName(project.getObjectName());
-
-		// if(log.isDebugEnabled()){
-		// log.debug("我的招标评标概况接口完成");
-		// }
-		// return result;
+		
+		TenderSurveyReturnVO selectTenderSurvey2selectByObjectId = bidRecordDao.selectTenderSurvey2selectByObjectId(body.getObjectId());
+		
+		return selectTenderSurvey2selectByObjectId;
 	}
 
 	/**
@@ -996,19 +1033,56 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	@Override
-	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
-		 org.apache.commons.logging.Log log =
-				 org.apache.commons.logging.LogFactory.getLog(this.getClass());
+	public List<TenderMyObjectBidReturnWithCertificationVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page) {
+		 List<TenderMyObjectBidReturnWithCertificationVO> tmob =new ArrayList<TenderMyObjectBidReturnWithCertificationVO>();
+		 
 				 Biddee biddee = beDao.selectByUserId(userId);
-				 if(page!=null&&page.isCountsize()){
-					 int totalcount = bidRecordDao.selectTotalByObjectIdInValid(biddee.getId(), objectId);
-							 page.setTotalCount(totalcount);
-							 page.calculatePageCount();
+				 if(biddee != null){
+					 if(page!=null&&page.isCountsize()){
+						 int totalcount = bidRecordDao.selectTotalByObjectIdInValid(biddee.getId(), objectId);
+								 page.setTotalCount(totalcount);
+								 page.calculatePageCount();
+					 }
+					 List<TenderMyObjectBidReturnVO> nos =
+							 bidRecordDao.selectByObjectIdInValid(biddee.getId(), objectId, page);
+					if(nos!= null && nos.size()>0){
+						List<TenderCertificationReturnVO> certificationList = new ArrayList<TenderCertificationReturnVO>();
+						for(TenderMyObjectBidReturnVO tm : nos){
+							TenderMyObjectBidReturnWithCertificationVO tmb = new TenderMyObjectBidReturnWithCertificationVO();
+							tmb.setBidAmount(tm.getBidAmount());
+							tmb.setBidderCompanyName(tm.getBidderCompanyName());
+							tmb.setBidderId(tm.getBidderId());
+							
+							tmb.setBidId(tm.getBidId());
+							tmb.setBidTime(tm.getBidTime());
+							tmb.setFileUrl(tm.getFileUrl());
+							tmb.setProjectExpectEndDate(tm.getProjectExpectEndDate());
+							tmb.setProjectExpectPeriod(tm.getProjectExpectPeriod());
+							tmb.setProjectExpectStartDate(tm.getProjectExpectStartDate());
+							List<BidCertification>  ds = bcDao.selectByBidId(tm.getBidId());
+							if(ds != null && ds.size()>0){
+								for(BidCertification dd : ds){
+									TenderCertificationReturnVO mm = new TenderCertificationReturnVO();
+									mm.setCertificationId((dd.getBidderCertificationId()));
+									String certificationName = dd.getCertificationName();
+									mm.setCertificationName(certificationName);
+									
+									certificationList.add(mm);
+								}
+							}
+							tmb.setCertificationList(certificationList);
+							tmob.add(tmb);
+						}
+						
+					}
+				 }else{
+					 if(page!=null&&page.isCountsize()){
+								 page.setTotalCount(0);
+								 page.calculatePageCount();
+					 }
 				 }
-				 List<TenderMyObjectBidReturnVO> nos =
-						 bidRecordDao.selectByObjectIdInValid(biddee.getId(), objectId, page);
-//				
-				 return nos;
+				 
+				 return tmob;
 	}
 
 	// @Override
@@ -1051,26 +1125,30 @@ public class TenderServiceImpl implements TenderService {
 		if (objs != null && !objs.isEmpty()) {
 			bo = objs.get(0);
 		}
-		ValidateUtil.assertNull(bo, "招标项目不存在");
+		ValidateUtil.assertNullnoappend(bo, "招标项目不存在");
 		Qanda qanda = qaDao.selectByObjectId(body.getObjectId());
-		QueryAnswerMethodInfoBodyVOResult result = new QueryAnswerMethodInfoBodyVOResult();
-		if ("YES".equals(qanda.getIsEmailAnswer())) {
-			result.setEmail(qanda.getEmail());
+		QueryAnswerMethodInfoBodyVOResult result=null;
+		if(qanda!=null){
+			 
+			result = new QueryAnswerMethodInfoBodyVOResult();
+			if ("YES".equals(qanda.getIsEmailAnswer())) {
+				result.setEmail(qanda.getEmail());
+			}
+			if ("YES".equals(qanda.getIsMeetngAnswer())) {
+				result.setAddress(qanda.getAddress());
+				result.setAddressAnswerDate(qanda.getAnswerDate());
+				result.setAddressAnswerTime(qanda.getAnswerTime());
+			}
+			if ("YES".equals(qanda.getIsQqAnswer())) {
+				result.setQQ(qanda.getQqNo());
+				result.setQQtoken(qanda.getQqPassword());
+			}
+			if ("YES".equals(qanda.getIsTelAnswer())) {
+				result.setTelephone(qanda.getTelephone());
+			}
+			result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
+			result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 		}
-		if ("YES".equals(qanda.getIsMeetngAnswer())) {
-			result.setAddress(qanda.getAddress());
-			result.setAddressAnswerDate(qanda.getAnswerDate());
-			result.setAddressAnswerTime(qanda.getAnswerTime());
-		}
-		if ("YES".equals(qanda.getIsQqAnswer())) {
-			result.setQQ(qanda.getQqNo());
-			result.setQQtoken(qanda.getQqPassword());
-		}
-		if ("YES".equals(qanda.getIsTelAnswer())) {
-			result.setTelephone(qanda.getTelephone());
-		}
-		result.setStartTime(DateUtil.format(qanda.getAnswerStartDate(), "yyyy-MM-dd"));
-		result.setEndTime(DateUtil.format(qanda.getAnswerEndDate(), "yyyy-MM-dd"));
 
 		if (log.isDebugEnabled()) {
 			log.debug("查询未完成招标答疑方式接口完成");
@@ -1328,6 +1406,20 @@ public class TenderServiceImpl implements TenderService {
 		bo.setObjectStatus("PUB");
 		bo.setPublishTime(new Date());
 		dao.updateByPrimaryKey(bo);
+		String objectId = bo.getObjectId();
+		//被邀标人
+		List<Integer> bidderIds = new ArrayList<Integer>();
+		if("INV".equalsIgnoreCase(bo.getObjectPublishType())){
+			List<Bidder> bidders = berDao.selectInviteBidders(objectId);
+			if(bidders!= null && bidders.size() >0){
+				for(Bidder bidder : bidders){
+					bidderIds.add(bidder.getUserId());
+				}
+				InvBidEvent bide = new InvBidEvent(objectId, bidderIds);
+				EventListenerContainer.getInstance().fireEvent(bide);
+			}
+			
+		}
 		if (log.isDebugEnabled()) {
 			log.debug("发布标的接口完成");
 		}
@@ -1378,13 +1470,25 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
 			throws BusinessException {
-
+		List<String> kwlist=new ArrayList<>();
+		if(keywords!=null&&keywords.length>0){
+			for (int i = 0; i < keywords.length; i++) {
+				String akw = keywords[i];
+				if(StringUtils.isNotBlank(akw)){
+					kwlist.add(akw);
+				}
+			}
+		}
+		String[] kw=null;
+		if(!kwlist.isEmpty()){
+			kw = kwlist.toArray(new String[]{});
+		}
 		if (page != null && page.isCountsize()) {
-			int totalcount = dao.selectTotalTenderObjectList(keywords);
+			int totalcount = dao.selectTotalTenderObjectList(kw);
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(keywords, page);
+		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(kw, page);
 
 		return ans;
 	}
@@ -1402,6 +1506,18 @@ public class TenderServiceImpl implements TenderService {
 			page.calculatePageCount();
 		}
 		List<QueryIndexObjectListResult> ans = dao.selectIndexObjectList(page);
+
+		return ans;
+	}
+	@Override
+	 public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
+	 page) throws BusinessException {
+		if (page != null && page.isCountsize()) {
+			int totalcount = dao.selectTotalTjIndexObjectList();
+			page.setTotalCount(totalcount);
+			page.calculatePageCount();
+		}
+		List<QueryIndexObjectListResult> ans = dao.selectTjIndexObjectList(page);
 
 		return ans;
 	}
@@ -1449,6 +1565,40 @@ public class TenderServiceImpl implements TenderService {
 			qlr.add(qr);
 		}
 		return qlr;
+	}
+	
+	/**
+	 * 首页查询投标人列表
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
+			Pagingnation pagingnation){
+		List<String> keywords = body.getKeywords();
+		//如果列表中的无内容,或者为"",会变成sql错误,这里进行处理
+		if(keywords.isEmpty()){
+			keywords=null;
+		}
+		else{
+			boolean allblank = true;
+			for (Iterator iterator = keywords.iterator(); iterator.hasNext();) {
+				String kw = (String) iterator.next();
+				allblank&=StringUtils.isBlank(kw);
+			}
+			if(allblank){
+				keywords=null;
+			}
+		}
+		String bidderName = body.getBidderName();
+		if(pagingnation!=null&&pagingnation.isCountsize()){
+			int count = berDao.selectBidderCount4homepage(keywords,bidderName);
+			pagingnation.setTotalCount(count);
+			pagingnation.calculatePageCount();
+		}
+		
+		List<QueryBidderListHomepageResultVO> bers = berDao.selectBidder4homepage(keywords,bidderName,pagingnation);
+		return bers;
 	}
 
 	/**
@@ -1510,7 +1660,7 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public List<QueryIndexBidListResultVO> queryIndexBidList(Integer pageIndex, Integer pageSize)
 			throws BusinessException {
-		List<Bidder> bers = berDao.getIndexBidListPages(pageIndex, pageSize);
+		List<Bidder> bers = berDao.getIndexBidListPages((pageIndex-1)*pageSize, pageSize);
 		List<QueryIndexBidListResultVO> qlr = new ArrayList<QueryIndexBidListResultVO>();
 		QueryIndexBidListResultVO qr = null;
 		for (Bidder ber : bers) {
@@ -1567,7 +1717,7 @@ public class TenderServiceImpl implements TenderService {
 		cc.setSurvey(cs);
 		// 2.基本信息
 		Biddee biddee = beDao.selectByPrimaryKey(mm.getCompanyId());
-		ValidateUtil.assertNull(biddee, "招标信息不存在！");
+		ValidateUtil.assertNull(biddee, "公司信息不存在！");
 		cb.setAddress(biddee.getAddress());
 		cb.setBusinessScope(biddee.getBusinessScope());
 		cb.setCompanyName(biddee.getCompanyName());
@@ -1635,7 +1785,7 @@ public class TenderServiceImpl implements TenderService {
 		cc.setSurvey(cs);
 //		2.基本信息
 		Bidder bidder = berDao.selectByPrimaryKey(mm.getCompanyId());
-		ValidateUtil.assertNull(bidder,"招标信息不存在！");
+		ValidateUtil.assertNull(bidder,"公司信息不存在！");
 		cb.setAddress(bidder.getAddress());
 		cb.setBusinessScope(bidder.getBusinessScope());
 		cb.setCompanyName(bidder.getCompanyName());
@@ -1686,6 +1836,7 @@ public class TenderServiceImpl implements TenderService {
 				
 			}
 		}catch(JsonSyntaxException e){
+			//转换失败  可能是没数据  期间   所得标签都是为空     
 			log.error(e.getMessage());
 		}
 		
@@ -1804,6 +1955,190 @@ public class TenderServiceImpl implements TenderService {
 		item.setIndustryName(industry.getIndustryName());
 		return item;
 
+	}
+	
+	/**
+	 * 定标
+	 * @param objectId
+	 * @param biddee
+	 * @param bidder_id
+	 * @param tenderPaymentInfo 分期付款设定
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void selectBid2win(String objectId, Biddee biddee, Integer winbidId, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException{
+		if (log.isDebugEnabled()) {
+			log.debug("定标开始");
+		}
+		ValidateUtil.assertNullnoappend(objectId, "招标编号不存在");
+		ValidateUtil.assertNullnoappend(winbidId, "投标记录不存在");
+		BidObject bo = dao.selectByPrimaryKey(objectId);
+		ValidateUtil.assertNullnoappend(bo, "招标项目不存在");
+		ValidateUtil.assertNotEqual(bo.getBiddeeId(), biddee.getId(), "此项目并不是您的标的,不能进行操作");
+//		ValidateUtil.assertNotEqual(bo.getObjectStatus(), "REV", "项目还没有开标,不能进行操作");
+		
+		BidRecord bid = bidRecordDao.selectByPrimaryKey(winbidId);
+		ValidateUtil.assertNullnoappend(bid, "招标记录不存在");
+		ValidateUtil.assertNotEqual(bid.getObjectId(),objectId, "招标与投标不匹配");
+		ObjectProjectInfo objproj = bpdao.selectByPrimaryKey(objectId);
+		Integer winBidderId = bid.getBidderId();
+		ProjectPaymentDefine ppd = new ProjectPaymentDefine();
+		ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
+		TenderPaymentInfo tp = tenderPaymentInfo;
+		List<TenderPaymentDetailInfo> tpds= tp.getPayList();
+		//1.保存到招标表
+		bo.setObjectStatus("SEL");//修改状态为定标
+		bo.setWinBidderId(winBidderId);
+		bo.setWinBidAmount(bid.getBidAmount());
+		dao.updateByPrimaryKey(bo);
+		//更新投标表
+		//更新其它投标为失败
+		bidRecordDao.update2fail(objectId, winbidId);
+		bid.setBidStatus("WIN");
+		bidRecordDao.updateByPrimaryKey(bid);
+		
+		//2.保存到工程付款表
+		ppd.setObjectId(objectId);
+		ppd.setPayPeriod(tp.getPayPeriod());
+		ppd.setPayType(tp.getPayType());
+		int pid = projectPaymentDefineDao.insert(ppd); 
+		for(TenderPaymentDetailInfo mm : tpds){
+			ppf.setPaySum(mm.getPaySum());
+			ppf.setPeriod(mm.getPeriod());
+			ppf.setPayEndTime(mm.getPayDate());
+			if(mm.getPayDate()!=null){
+				
+				ppf.setPayStartTime(DateUtils.addDays(mm.getPayDate(), -30));
+			}
+			ppf.setProjectPaymentDefineId(ppd.getId());
+			projectPaymentDefineDetailDao.insert(ppf);
+		}
+		//更新投标评标表	
+		//XXX 先暂时不处理,好像不需要使用
+//		BidEvaluation be = new BidEvaluation();
+//		bidevaDao.insertBidEvaluation(objectId, winbidderId);
+		
+		PropertiesUtil pu = new PropertiesUtil();
+		String url=pu.getProperty("capital.url");
+		String appkey = pu.getProperty("appkey");
+		String appId = pu.getProperty("appId");
+		ValidateUtil.assertNullnoappend(url, "资金服务访问地址为空");
+		//解冻保证金
+		//收取中标者的保证金,这2个放到最后处理
+		List<MakeMatchBondRecord> mmbonds = mmbondDao.selectByObjectId(objectId);
+		String wincaporder = null;
+		List<Map<String,String>> losecaporders = new ArrayList<>();
+		String appOrderId = NoGenerationUtil.genNO("MM00", 6);
+		MakeMatchBondRecord winMakeMatchBondRecord = null;
+		List<MakeMatchBondRecord> loseMakeMatchBondRecords = new ArrayList<>();
+		for (Iterator iterator = mmbonds.iterator(); iterator.hasNext();) {
+			MakeMatchBondRecord makeMatchBondRecord = (MakeMatchBondRecord) iterator.next();
+			if(bid.getId()==makeMatchBondRecord.getBidId()){
+				wincaporder = makeMatchBondRecord.getCapitalOrderId();
+				winMakeMatchBondRecord =  new MakeMatchBondRecord();
+				winMakeMatchBondRecord.setBidId(makeMatchBondRecord.getBidId());
+				winMakeMatchBondRecord.setObjectId(makeMatchBondRecord.getObjectId());
+				winMakeMatchBondRecord.setOrderId(appOrderId);
+				winMakeMatchBondRecord.setBondAmount(makeMatchBondRecord.getBondAmount());
+				winMakeMatchBondRecord.setStatus("PAY");
+				winMakeMatchBondRecord.setInsertTime(new Date());
+				winMakeMatchBondRecord.setCreator(String.valueOf(biddee.getUserId()));
+				
+			}
+			else{
+				MakeMatchBondRecord loseMakeMatchBondRecord =  new MakeMatchBondRecord();
+				loseMakeMatchBondRecord.setBidId(makeMatchBondRecord.getBidId());
+				loseMakeMatchBondRecord.setOrderId(NoGenerationUtil.genNO("MM00", 6));
+				loseMakeMatchBondRecord.setObjectId(makeMatchBondRecord.getObjectId());
+				loseMakeMatchBondRecord.setBondAmount(makeMatchBondRecord.getBondAmount());
+				loseMakeMatchBondRecord.setStatus("REV");
+				loseMakeMatchBondRecord.setInsertTime(new Date());
+				loseMakeMatchBondRecord.setCreator(String.valueOf(biddee.getUserId()));
+				loseMakeMatchBondRecords.add(loseMakeMatchBondRecord);
+				Map<String,String> lose = new HashMap<>();
+				lose.put("appOrderId", loseMakeMatchBondRecord.getOrderId());
+				lose.put("orderId", makeMatchBondRecord.getCapitalOrderId());
+				losecaporders.add(lose);
+			}
+			
+		}
+		//生成工程信息
+		ProjectInfo project = new ProjectInfo();
+		project.setObjectId(objectId);
+		project.setBiddeeId(bo.getBiddeeId());
+		project.setBidderId(winBidderId);
+		project.setProjectId(objectId);//使用标的id
+		project.setStatus("OK#");
+		project.setProjectName(objproj.getProjectName());
+		try {
+			project.setStartTime(getDateFromStringOrNull(bid.getConstructionStartDate()));
+			project.setEndTime(getDateFromStringOrNull(bid.getConstructionEndDate()));
+		} catch (ParseException e) {
+//			log.error(String.format("施工开始时间 或 结束时间 有误 "),e);
+			throw ValidateException.ERROR_PARAM_FORMAT_ERROR.clone(e, "施工开始时间 或 结束时间 有误 ");
+		}
+		projectInfoDao.insert(project);
+		//收取中标者的保证金,解冻保证金
+		Map param = MapMaker.buildFromKeyValue(new DefaultKeyValue("token",token),new DefaultKeyValue("orderId",wincaporder),new DefaultKeyValue("lose",losecaporders),new DefaultKeyValue("appOrderId",appOrderId));
+		SelectBidWinMakeMatchBondRewardReturnBodyVO makeMatchBondRewardReturnVO = callTransBond2platform(param,url,appId,appkey);
+		String winorderId = makeMatchBondRewardReturnVO.getOrderId();
+		winMakeMatchBondRecord.setCapitalOrderId(winorderId);
+		mmbondDao.insert(winMakeMatchBondRecord);
+		List<CapitalOrderReturnVO> unfreezOrders = makeMatchBondRewardReturnVO.getLose();
+		for (Iterator iterator = unfreezOrders.iterator(); iterator.hasNext();) {
+			CapitalOrderReturnVO capitalOrderReturnVO = (CapitalOrderReturnVO) iterator.next();
+			String unfreezeorderId = capitalOrderReturnVO.getOrderId();
+			String apporderid = capitalOrderReturnVO.getAppOrderId();
+			for (Iterator iterator2 = loseMakeMatchBondRecords.iterator(); iterator2.hasNext();) {
+				MakeMatchBondRecord makeMatchBondRecord = (MakeMatchBondRecord) iterator2.next();
+				if(makeMatchBondRecord.getOrderId().equals(apporderid)){
+					makeMatchBondRecord.setCapitalOrderId(unfreezeorderId);
+					mmbondDao.insert(makeMatchBondRecord);
+					break;
+				}
+			}
+		}
+		
+		
+
+		if (log.isDebugEnabled()) {
+			log.debug("定标完成");
+		}
+		
+		
+		
+	}
+
+	/**
+	 * 调用资金帐户把钱移到平台帐户 中
+	 * @param orderId
+	 * @param appkey 
+	 * @param appId 
+	 * @param url 
+	 * @return 
+	 * @throws PaasException 
+	 * @throws SignatureException 
+	 * @throws DataInvalidException 
+	 * @throws RequestException 
+	 */
+	private SelectBidWinMakeMatchBondRewardReturnBodyVO callTransBond2platform(Map param, String url, String appId, String appkey) throws PaasException, DataInvalidException, SignatureException, RequestException {
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("请求资金服务,中标投标人撮合保证转移到平台,非中标投标人撮合保证金解冻"));
+		}
+		BaseTransVO<Map> buildBaseTrans = TransOrderBuilder.buildBaseTrans(appId,appkey,param, false, false);
+		String poststr = JsonUtil.convert2Json(buildBaseTrans);
+		String result = new HttpRequester().postRequest(url+"/capitalManage/payMatchHandingCharge", poststr);
+		SelectBidWinMakeMatchBondRewardReturnVO mmcapReturn = JsonUtil.convertJson2Obj(result, SelectBidWinMakeMatchBondRewardReturnVO.class);
+		
+		if(mmcapReturn.getErrcode()!=0){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("请求资金服务,中标投标人撮合保证转移到平台,非中标投标人撮合保证金解冻,出错,信息为%s",mmcapReturn));
+			}
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,"定标撮合保证金处理出错");
+		}
+		else{
+			return mmcapReturn.getResult();
+		}
+		
 	}
 
 }

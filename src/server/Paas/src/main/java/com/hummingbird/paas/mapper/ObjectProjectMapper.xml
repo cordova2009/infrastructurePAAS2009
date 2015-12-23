@@ -69,10 +69,20 @@
     <result column="win_bid_time" property="winBidTime" jdbcType="TIMESTAMP" />
   </resultMap>
    <resultMap id="MyBuildingObjectResultMap" type="com.hummingbird.paas.vo.MyBuildingObjectProject" extends="BaseResultMap" >
-    <result column="receivedAmount" property="receivedAmount" jdbcType="VARCHAR" />
-    <result column="willReceiveAmount" property="willReceiveAmount" jdbcType="VARCHAR" />
+    <result column="receivedAmount" property="receivedAmount" jdbcType="BIGINT" />
+    <result column="willReceiveAmount" property="willReceiveAmount" jdbcType="BIGINT" />
   </resultMap>
-   <resultMap id="MyEndedObjectResultMap" type="com.hummingbird.paas.vo.MyEndedObjectProject" extends="BaseResultMap" >
+  <resultMap id="QueryMyBidObjectListResultMap" type="com.hummingbird.paas.vo.QueryMyBidObjectListResultVO" extends="BaseResultMap" >
+   	<result column="object_id" property="objectId" jdbcType="VARCHAR" />
+   	<result column="object_name" property="objectName" jdbcType="VARCHAR" />
+   	<result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+   	<result column="bid_amount" property="bidAmount" jdbcType="BIGINT" />
+   	<result column="bid_open_date" property="bidOpenDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="bid_Column_List" >
+    a.object_id,a.object_name,a.industry_id,b.bid_amount,a.bid_open_date
+  </sql>
+  <resultMap id="MyEndedObjectResultMap" type="com.hummingbird.paas.vo.MyEndedObjectProject" extends="BaseResultMap" >
     <result column="company_name" property="biddee" jdbcType="VARCHAR" />
   </resultMap>
    <resultMap id="MyLoseObjectResultMap" type="com.hummingbird.paas.vo.MyLoseObjectProject" extends="BaseResultMap" >
@@ -96,8 +106,9 @@
     need_safety_permit, need_pm_safety_certification, evaluation_amount, object_scope, 
     win_bid_time
   </sql>
+  
   <sql id="My_Building_Column_List" >
-    a.object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    a.object_id, a.biddee_id, object_no, object_name, object_amount, object_publish_type, 
     object_status, win_bid_amount, win_bidder_id, a.industry_id, a.sector_id, a.province, a.district, 
     biddee_company_principal, biddee_company_telephone, bid_open_date,  
     contract_type, currency, bid_bond_amount, need_business_standard, need_technical_standard, 
@@ -144,16 +155,28 @@
   </select>
    <select id="queryObjectByPage" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from t_ztgl_object
-    where object_status='PUB'
+    o.object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
+    object_status, win_bid_amount, win_bidder_id, industry_id, sector_id, province, district, 
+    biddee_company_principal, biddee_company_telephone, bid_open_date, contract_type, 
+    currency, bid_bond_amount, need_business_standard, need_technical_standard, need_certification_checkup_file, 
+    need_pm_certification, need_constructor_certification, need_safety_permit, need_pm_safety_certification, 
+    if(evaluation_amount_visiable='ENB',evaluation_amount,null) evaluation_amount, object_scope, win_bid_time, insert_time, update_time, object_type, 
+    evaluation_amount_visiable, publish_time
+    from t_ztgl_object o,t_ztgl_object_baseinfo b
+    where o.object_id = b.object_id
+    and o.object_status='PUB'
+    and CURRENT_DATE() >= b.announcement_begin_time 
+    and CURRENT_DATE() &lt; b.announcement_end_time
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
   </select>
    <select id="queryObjectCount" resultType="int">
     select 
     count(*)
-    from t_ztgl_object
-    where object_status='PUB'
+    from t_ztgl_object o,t_ztgl_object_baseinfo b
+    where o.object_id = b.object_id
+    and o.object_status='PUB'
+    and CURRENT_DATE() >= b.announcement_begin_time 
+    and CURRENT_DATE() &lt; b.announcement_end_time
   </select>
   <select id="getMyObjectProjectPages" resultMap="BaseResultMap" >
     select 
@@ -174,9 +197,9 @@
     select 
     <include refid="My_Building_Column_List" />
     from t_ztgl_object a
-   	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
+   	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id  and b.status = 'OK#'
+		inner join t_gcgl_project d on d.object_id = a.object_id and d.bidder_id = b.id and d.status = 'OK'
    	left join t_gcgl_project_payment_pay c on a.object_id = c.project_id and c.`status` = 'OK#'
-    where  b.user_id = #{userId} and a.object_status = 'SEL' 
     limit #{begin},#{limit}
   </select>
    <select id="getMyBuildingObjectProjectCount" resultType="int" >
@@ -596,4 +619,11 @@
       publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where object_id = #{objectId,jdbcType=VARCHAR}
   </update>
+  <select id="queryBidByAccountId" resultMap="QueryMyBidObjectListResultMap">
+  select <include refid="bid_Column_List" />
+   from t_ztgl_bid_record b 
+  INNER JOIN  t_ztgl_object a on a.object_id = b.object_id INNER JOIN t_qyzz_bidder c on b.bidder_id = c.id 
+     where  c.user_id = #{user_id,jdbcType=INTEGER} AND (a.object_status = 'PUB' or a.object_status = 'REV')
+     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
 </mapper>

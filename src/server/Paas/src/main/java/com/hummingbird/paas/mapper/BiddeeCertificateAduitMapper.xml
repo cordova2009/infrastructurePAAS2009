@@ -116,7 +116,7 @@
   </select>
    <select id="selectCompanyRegisteredInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    a.*
     from t_qyzz_biddee_certificate_aduit  a inner join  t_qyzz_biddee_certicate b on b.id = a.biddee_certicate_id
     where a.biddee_certicate_id = #{bcid,jdbcType=INTEGER}  and a.business_scope = 'OK#' and a.business_license_expire_time = 'OK#' and a.reg_time = 'OK#' 
         and a.address = 'OK#' and a.legal_person_authority_book = 'OK#' and ((b.business_license_type = 'NEW3' and a.unified_social_credit_code = 'OK#' and a.unified_social_credit_code_url = 'OK#') or (b.business_license_type = 'OLD3' 

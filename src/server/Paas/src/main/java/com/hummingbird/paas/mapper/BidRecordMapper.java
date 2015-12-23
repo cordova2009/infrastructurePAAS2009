@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.BidRecord;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
@@ -33,12 +32,16 @@ public interface BidRecordMapper {
     /**
      * 根据object_id,bidderid查询记录
      */
-    BidRecord selectByObjectIdAndBidderId(@Param("object_id") String object_id,@Param("bidder_id") Integer bidder_id);
-    
+    BidRecord selectByObjectIdAndBidId(@Param("object_id") String object_id,@Param("bidId") Integer bidId);
     /**
      * 根据object_id查询记录
      */
-    TenderSurveyReturnVO selectByObjectId(String object_id);
+    List<BidRecord> selectByObjectId(@Param("object_id") String object_id);
+    
+    /**
+     * 定标页面,查询标的信息的概括
+     */
+    TenderSurveyReturnVO selectTenderSurvey2selectByObjectId(String object_id);
 
     /**
      * 根据主键更新属性不为空的记录
@@ -59,7 +62,7 @@ public interface BidRecordMapper {
      * @param objectId
      * @return
      */
-    MyObjectTenderSurveyBodyVOResult selectTenderSurveyByObjectId(String objectId);
+    TenderSurveyReturnVO selectTenderSurveyByObjectId(String objectId);
 
 	/**
 	 * 查询未完成的投标
@@ -82,4 +85,18 @@ public interface BidRecordMapper {
 	 * @return
 	 */
 	List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(@Param("biddeeId") Integer biddeeId,@Param("objectId") String objectId,@Param("page") Pagingnation page);
+
+	/**
+	 * 更新其它投标为失败
+	 * @param objectId
+	 * @param winbidderId
+	 */
+	void update2fail(@Param("objectId")String objectId,@Param("bidId") Integer winbidId);
+
+	/**
+	 * @param bidderId
+	 * @param objectId
+	 * @return
+	 */
+	List<BidRecord> selectBids(@Param("bidderId") Integer bidderId,@Param("objectId") String objectId,@Param("status") String status);
 }

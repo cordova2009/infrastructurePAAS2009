@@ -42,6 +42,11 @@ public class ProjectInfo {
     private Date endTime;
 
     /**
+     * 项目名称
+     */
+    private String projectName;
+
+    /**
      * @return 工程编号,使用 GC00日期时间随机数
      */
     public String getProjectId() {
@@ -146,6 +151,21 @@ public class ProjectInfo {
         this.endTime = endTime;
     }
 
+    /**
+     * @return 项目名称
+     */
+    public String getProjectName() {
+        return projectName;
+    }
+
+    /**
+     * @param projectName 
+	 *            项目名称
+     */
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -164,7 +184,8 @@ public class ProjectInfo {
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getBiddeeId() == null ? other.getBiddeeId() == null : this.getBiddeeId().equals(other.getBiddeeId()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
+            && (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName()));
     }
 
     @Override
@@ -178,6 +199,7 @@ public class ProjectInfo {
         result = prime * result + ((getBiddeeId() == null) ? 0 : getBiddeeId().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
+        result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
         return result;
     }
 }

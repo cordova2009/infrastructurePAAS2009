@@ -1,28 +1,17 @@
 package com.hummingbird.paas.services.impl;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
-import com.hummingbird.common.exception.ValidateException;
-import com.hummingbird.common.face.Pagingnation;
-import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.ValidateUtil;
+<<<<<<< HEAD
 import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
@@ -41,31 +30,18 @@ import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.Qanda;
+=======
+>>>>>>> 768ccc76ca944006747e0a0f63b99a94cc8a85df
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.entity.UserInformation;
 import com.hummingbird.paas.entity.UserInformationComment;
-import com.hummingbird.paas.exception.MaAccountException;
-import com.hummingbird.paas.mapper.BidInviteBidderMapper;
-import com.hummingbird.paas.mapper.BidObjectMapper;
-import com.hummingbird.paas.mapper.ObjectProjectInfoMapper;
-import com.hummingbird.paas.mapper.BidRecordMapper;
-import com.hummingbird.paas.mapper.BidderMapper;
-import com.hummingbird.paas.mapper.CertificationTypeMapper;
-import com.hummingbird.paas.mapper.IndustryMapper;
-import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
-import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
-import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
-import com.hummingbird.paas.mapper.ObjectCertificationRequirementMapper;
-import com.hummingbird.paas.mapper.ProjectEvaluationBiddeeMapper;
-import com.hummingbird.paas.mapper.ProjectInfoMapper;
-import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.UserInformationCommentMapper;
 import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
-import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserInfoService;
+<<<<<<< HEAD
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
@@ -106,6 +82,8 @@ import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
+=======
+>>>>>>> 768ccc76ca944006747e0a0f63b99a94cc8a85df
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationComments;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
@@ -229,7 +207,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			uidr.setStatus(ui.getStatus());
 			User user = userDao.selectByPrimaryKey(ui.getUserId());
 			if(user!= null){
-				uidr.setUserName(user.getUserName());
+				uidr.setUserName(user.getNickName());
 			}
 			
 			List<UserInformationComments> comments = uicDao.selectByInformationId(ui.getId());
@@ -253,6 +231,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int replyUserInformation(String appId, UserInformationReplyBodyVO ui, Token token)
 			throws BusinessException {
 		// TODO Auto-generated method stub

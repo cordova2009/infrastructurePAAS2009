@@ -33,7 +33,7 @@ class ZtglobjectController extends AdminController {
             M()->execute('delete from '.$prefix.'tjnr_object_recommend');
 
             if(empty($datas) || M('tjnr_object_recommend')->addAll($datas)){
-                $this->success('推荐成功！',U('ztglobject/zzzbindex'));
+                $this->success('推荐成功！');
             }else{
 
                 $this->error('保存失败，请重新再试！');
@@ -129,6 +129,7 @@ class ZtglobjectController extends AdminController {
                     bid_open_date,
                     b.id as bid,
                     b.bidder_id,
+                    b.bid_amount,
                     b.insert_time as toubiao_time,
                     c.company_name
                     ';

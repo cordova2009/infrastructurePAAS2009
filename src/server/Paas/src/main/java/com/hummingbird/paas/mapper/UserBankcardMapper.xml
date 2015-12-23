@@ -133,15 +133,17 @@
     </trim>
   </insert>
    <insert id="insertBiddeeBankInfo" parameterType="java.lang.Integer" >
-    insert into t_user_bankcard (id, user_id, 
+    insert into t_user_bankcard (user_id, 
       bank_name, bank_branch_name, account_no, 
-      province, city, account_name,user)select a.*,'BEE' from t_qyzz_biddee_bankcard_certicate a 
+      province, city, account_name, 
+      tax_no, address, telephone,user)select a.user_id,a.bank_name,a.bank_branch_name,a.account_no,a.province,a.city,a.account_name,tax_no, address, telephone,'BEE' from t_qyzz_biddee_bankcard_certicate a 
 	  where a.user_id =  #{userId,jdbcType=INTEGER}
   </insert>
    <insert id="insertBidderBankInfo" parameterType="java.lang.Integer" >
-     insert into t_user_bankcard (id, user_id, 
+     insert into t_user_bankcard (user_id, 
       bank_name, bank_branch_name, account_no, 
-      province, city, account_name,user)select a.*,'BER' from t_qyzz_bidder_bankcard_certicate a 
+      province, city, account_name, 
+      tax_no, address, telephone,user)select a.user_id,a.bank_name,a.bank_branch_name,a.account_no,a.province,a.city,a.account_name,tax_no, address, telephone,'BEE' from t_qyzz_bidder_bankcard_certicate a 
 	  where a.user_id =  #{userId,jdbcType=INTEGER}
   </insert>
   <update id="updateBiddeeBankInfo" parameterType="com.hummingbird.paas.entity.UserBankcard" >
@@ -152,7 +154,10 @@
       a.account_no = b.account_no,
       a.province = b.province,
       a.city =b.city,
-      a.account_name =b.account_name
+      a.account_name =b.account_name,
+      a.tax_no = b.tax_no,
+	  a.telephone = b.telephone,
+	  a.address = b.address
    	 where b.user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateBidderBankInfo" parameterType="com.hummingbird.paas.entity.UserBankcard" >
@@ -163,7 +168,10 @@
       a.account_no = b.account_no,
       a.province = b.province,
       a.city =b.city,
-      a.account_name =b.account_name
+      a.account_name =b.account_name,
+      a.tax_no = b.tax_no,
+	  a.telephone = b.telephone,
+	  a.address = b.address
    	 where b.user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserBankcard" >

@@ -7,9 +7,10 @@
     <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="INTEGER" />
+    <result column="audit_reason" property="auditReason" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, certification_certicate_id, audit_time, audit_status, auditor
+    id, certification_certicate_id, audit_time, audit_status, auditor, audit_reason
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderCertificationAudit" >
     insert into t_qyzz_bidder_certification_audit (id, certification_certicate_id, audit_time, 
-      audit_status, auditor)
+      audit_status, auditor, audit_reason
+      )
     values (#{id,jdbcType=INTEGER}, #{certificationCerticateId,jdbcType=INTEGER}, #{auditTime,jdbcType=TIMESTAMP}, 
-      #{auditStatus,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER})
+      #{auditStatus,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER}, #{auditReason,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidderCertificationAudit" >
     insert into t_qyzz_bidder_certification_audit
@@ -45,6 +48,9 @@
       <if test="auditor != null" >
         auditor,
       </if>
+      <if test="auditReason != null" >
+        audit_reason,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,6 +67,9 @@
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=INTEGER},
+      </if>
+      <if test="auditReason != null" >
+        #{auditReason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -79,6 +88,9 @@
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=INTEGER},
       </if>
+      <if test="auditReason != null" >
+        audit_reason = #{auditReason,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +99,8 @@
     set certification_certicate_id = #{certificationCerticateId,jdbcType=INTEGER},
       audit_time = #{auditTime,jdbcType=TIMESTAMP},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
-      auditor = #{auditor,jdbcType=INTEGER}
+      auditor = #{auditor,jdbcType=INTEGER},
+      audit_reason = #{auditReason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

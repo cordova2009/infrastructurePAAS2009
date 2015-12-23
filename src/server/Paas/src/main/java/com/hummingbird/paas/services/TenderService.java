@@ -1,29 +1,23 @@
 package com.hummingbird.paas.services;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.Biddee;
-import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
 import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
@@ -31,7 +25,6 @@ import com.hummingbird.paas.vo.QueryCompanyInfoBodyVO;
 import com.hummingbird.paas.vo.QueryDateRequirementInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryIndexBidListResultVO;
 import com.hummingbird.paas.vo.QueryIndexObjectListResult;
-import com.hummingbird.paas.vo.QueryMyLoseObjectListResultVO;
 import com.hummingbird.paas.vo.QueryObjectBaseInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryObjectBodyVO;
 import com.hummingbird.paas.vo.QueryObjectBondInfoResult;
@@ -41,6 +34,7 @@ import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
+import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
 import com.hummingbird.paas.vo.SaveDateRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.SaveObjectBaseInfo;
@@ -54,7 +48,10 @@ import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
+import com.hummingbird.paas.vo.TenderPaymentInfo;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 
 /**
  * @author
@@ -74,7 +71,7 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
+	public TenderSurveyReturnVO queryMyObjectTenderSurvey(String appId, MyObjectTenderSurveyBodyVO body,
 			Biddee biddee) throws BusinessException;
 
 	/**
@@ -243,7 +240,7 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<TenderMyObjectBidReturnVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
+	public List<TenderMyObjectBidReturnWithCertificationVO> selectByObjectIdInValid(Integer userId, String objectId, Pagingnation page);
 
 	/**
 	 * 查询未完成招标项目投标文件接口
@@ -447,6 +444,19 @@ public interface TenderService {
 	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
 	// page) throws BusinessException;
 	public List<QueryIndexObjectListResult> getIndexObjectList() throws BusinessException;
+	/**
+	 * 查询首页招标项目列表接口
+	 * 
+	 * @param appId
+	 *            应用id
+	 * @param body
+	 *            参数
+	 * @return
+	 * @throws BusinessException
+	 */
+	// public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation
+	// page) throws BusinessException;
+	public List<QueryIndexObjectListResult> getIndexObjectList(Pagingnation page) throws BusinessException;
 
 	/**
 	 * 查询首页中标结果概况接口
@@ -560,5 +570,24 @@ public interface TenderService {
 	 */
 	public GetIndustryListBodyVOResult getIndustryDetail(String appId, GetIndustryDetailBodyVO body)
 			throws BusinessException;
+
+	/**
+	 * 定标
+	 * @param objectId
+	 * @param biddee
+	 * @param bidder_id
+	 * @param tenderPaymentInfo 分期付款设定
+	 * @return 
+	 */
+	public void selectBid2win(String objectId, Biddee biddee, Integer bidder_id, TenderPaymentInfo tenderPaymentInfo,String token)throws BusinessException;
+
+	/**
+	 * 首页查询投标人列表
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
+			Pagingnation pagingnation);
 
 }

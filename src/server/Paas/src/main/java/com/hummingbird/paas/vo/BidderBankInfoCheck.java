@@ -19,6 +19,21 @@ public class BidderBankInfoCheck {
 	private AuditInfo  bank_name;
 	private AuditInfo  account_no;
 	private AuditInfo  account_name;
+	
+	
+	/**
+	 * 电话
+	 */
+	private AuditInfo  telephone;
+	/**
+	 * 税号
+	 */
+	private AuditInfo  tax_no;
+	/**
+	 * 地址
+	 */
+	private AuditInfo  address;
+	
 	/**
 	 * @return the bank_name
 	 */
@@ -61,8 +76,43 @@ public class BidderBankInfoCheck {
 	@Override
 	public String toString() {
 		return "BidderBankInfoCheck [bank_name=" + bank_name + ", account_no=" + account_no + ", account_name="
-				+ account_name + "]";
+				+ account_name + ", telephone=" + telephone + ", tax_no=" + tax_no + ", address=" + address + "]";
 	}
-	
+	/**
+	 * 电话 
+	 */
+	public AuditInfo getTelephone() {
+		return telephone;
+	}
+	/**
+	 * 电话 
+	 */
+	public void setTelephone(AuditInfo telephone) {
+		this.telephone = telephone;
+	}
+	/**
+	 * 税号 
+	 */
+	public AuditInfo getTax_no() {
+		return tax_no;
+	}
+	/**
+	 * 税号 
+	 */
+	public void setTax_no(AuditInfo tax_no) {
+		this.tax_no = tax_no;
+	}
+	/**
+	 * 地址 
+	 */
+	public AuditInfo getAddress() {
+		return address;
+	}
+	/**
+	 * 地址 
+	 */
+	public void setAddress(AuditInfo address) {
+		this.address = address;
+	}
 	
 }

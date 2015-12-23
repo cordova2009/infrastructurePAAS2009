@@ -55,6 +55,7 @@ public class UserReportServiceImpl implements UserReportService {
 	
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int submitReport(String appId, UserReportBodyVO ui, Token token) throws BusinessException {
 		// TODO Auto-generated method stub
 		int i= 0;

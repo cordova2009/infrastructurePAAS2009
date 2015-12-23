@@ -20,7 +20,7 @@ public class QueryBidIndexListResult
   protected String industryId;
   protected String biddeeName;
   protected String bidderName;
-  protected String winBidAmount;
+  protected Long winBidAmount;
 /**
  * @return the objectId
  */
@@ -48,7 +48,7 @@ public String getBiddeeName() {
 /**
  * @return the winBidAmount
  */
-public String getWinBidAmount() {
+public Long getWinBidAmount() {
 	return winBidAmount;
 }
 /**
@@ -78,7 +78,7 @@ public void setBiddeeName(String biddee) {
 /**
  * @param winBidAmount the winBidAmount to set
  */
-public void setWinBidAmount(String winBidAmount) {
+public void setWinBidAmount(Long winBidAmount) {
 	this.winBidAmount = winBidAmount;
 }
 /* (non-Javadoc)

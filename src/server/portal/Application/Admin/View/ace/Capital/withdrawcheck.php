@@ -16,16 +16,16 @@ td{width:50%;}
        <table class="table  table-bordered " style="margin-bottom:0px;">
 	<tbody>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">用户名:</span>{$item.nick_name}</td>
-			<td><span style="color:#999;padding-right:8px;">提现时间:</span>{$item.transport_time}</td>
-		</tr>
-		<tr>
-			<td><span style="color:#999;padding-right:8px;">提现金额:</span>{$item.amount|price_format}</td>
+			<td><span style="color:#999;padding-right:8px;">用户名:</span>{$item.real_name}({$item.nick_name}:{$item.mobile_num})</td>
 			<td><span style="color:#999;padding-right:8px;">申请时间:</span>{$item.insert_time}</td>
 		</tr>
 		<tr>
-			<td><span style="color:#999;padding-right:8px;">银行账号:</span>{$item.account_no}</td>
+			<td><span style="color:#999;padding-right:8px;">提现金额:</span>{$item.withdraw_amount|price_format}</td>
+			<td><span style="color:#999;padding-right:8px;">银行账号:</span>{$item.account_name}</td>
+		</tr>
+		<tr>
 			<td><span style="color:#999;padding-right:8px;">开户银行:</span>{$item.bank_name}</td>
+			<td><span style="color:#999;padding-right:8px;">银行账号:</span>{$item.account_no}</td>
 		</tr>
 	 </tbody>
 	</table>
@@ -39,7 +39,7 @@ td{width:50%;}
         <div class="col-xs-12 col-sm-5">
 	<div class="controls">
                 <input type="file" id="upload_file_file_id">
-                <input type="hidden" name="file_id" value="" id="file_id"/>
+                <input type="hidden" name="voucherFileUrl" value="" id="file_id"/>
                 <div class="upload-img-box">
                 </div>
             <script type="text/javascript">
@@ -63,10 +63,10 @@ td{width:50%;}
 		    var data = $.parseJSON(data);
 		    var src = '';
 		    if(data.status){
-			    src = data.url || '' + data.path;
+			    src = data.url || '' + data.src;
 			    $("#file_id").val(src);
 			    $("#file_id").parent().find('.upload-img-box').html(
-					    '<div class="upload-pre-item"><img width="120" src="' + src + '"/></div>'
+					    '<div class="upload-pre-item"><img width="120" src="' + data.src+ '"/></div>'
 					    );
 		    } else {
 			    updateAlert(data.info);
@@ -83,10 +83,9 @@ td{width:50%;}
     </div>
 	    
 <div class="form-group">
-        <label class="col-xs-12 col-sm-2 control-label no-padding-right">审核意见</label>
+        <label class="col-xs-12 col-sm-2 control-label no-padding-right">转账金额</label>
         <div class="col-xs-12 col-sm-5">
-	    <input type="radio" name="status" value="OK#"> 通过&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    <input type="radio" name="status" value="FLS"> 拒绝
+	<input type="text" value="" name="amount" placeholder="请填转账的金额">
 	    </div>
     </div>
 <div class="form-group">
@@ -98,14 +97,18 @@ td{width:50%;}
 <div class="form-group">
         <label class="col-xs-12 col-sm-2 control-label no-padding-right">备注</label>
         <div class="col-xs-12 col-sm-5">
-	    <textarea  name="remark" placeholder="请填写审核备注" style="width:250px;height:150px;"></textarea>
+	    <textarea  name="remark" placeholder="请填写转账备注" style="width:250px;height:150px;"></textarea>
 	    </div>
     </div>
 		<div class="clearfix form-actions">
             <div class="col-xs-12 center" style="margin-top:1em;">
-<button id="sub-btn" class="btn btn-success ajax-post no-refresh" target-form="form-horizontal" type="submit">
-                              <i class="icon-ok bigger-110"></i> 审核
+<input type="hidden" name="status" value="OK#">
+<button id="sub-btn" class="btn btn-sm btn-success no-border ajax-post no-refresh " target-form="form-horizontal" type="submit">
+                              <i class="icon-ok bigger-110"></i> 确认转账
                           </button>
+<a href="javascript:;" class="btn btn-white" onclick="history.go(-1)">
+                         返回
+                      </a>
             </div>
         </div>
 </form>

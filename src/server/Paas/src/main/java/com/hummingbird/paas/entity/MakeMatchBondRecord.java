@@ -52,6 +52,11 @@ public class MakeMatchBondRecord {
     private String updator;
 
     /**
+     * 资金订单id
+     */
+    private String capitalOrderId;
+
+    /**
      * @return 订单id,BZ00时间戳+随机数组成
      */
     public String getOrderId() {
@@ -186,6 +191,21 @@ public class MakeMatchBondRecord {
         this.updator = updator == null ? null : updator.trim();
     }
 
+    /**
+     * @return 资金订单id
+     */
+    public String getCapitalOrderId() {
+        return capitalOrderId;
+    }
+
+    /**
+     * @param capitalOrderId 
+	 *            资金订单id
+     */
+    public void setCapitalOrderId(String capitalOrderId) {
+        this.capitalOrderId = capitalOrderId == null ? null : capitalOrderId.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -206,7 +226,8 @@ public class MakeMatchBondRecord {
             && (this.getInsertTime() == null ? other.getInsertTime() == null : this.getInsertTime().equals(other.getInsertTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
-            && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()));
+            && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()))
+            && (this.getCapitalOrderId() == null ? other.getCapitalOrderId() == null : this.getCapitalOrderId().equals(other.getCapitalOrderId()));
     }
 
     @Override
@@ -222,6 +243,7 @@ public class MakeMatchBondRecord {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getUpdator() == null) ? 0 : getUpdator().hashCode());
+        result = prime * result + ((getCapitalOrderId() == null) ? 0 : getCapitalOrderId().hashCode());
         return result;
     }
 }

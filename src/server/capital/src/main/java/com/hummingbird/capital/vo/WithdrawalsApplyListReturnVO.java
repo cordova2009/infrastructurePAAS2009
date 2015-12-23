@@ -13,19 +13,35 @@ public class WithdrawalsApplyListReturnVO {
     "withdrawalsNo":"WITHDRAWAL_NO"
 }]*/
 	private String createTime;
+	/**
+	 * 提现申请金额
+	 */
 	private String withdrawalsTime;
 	private String amount;
+	/**
+	 * 手续费
+	 */
 	private String handingCharge;
+	/**
+	 * 转帐状态
+	 */
 	private String status;
 	private String remark;
 	private String withdrawalsNo;
+	/**
+	 * 真正提现金额
+	 */
+	private String realWithdrawalsAmount;
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "WithdrawalsApplyListReturnVO [createTime=" + createTime + ", withdrawalsTime=" + withdrawalsTime + 
-				",amount=" + amount +",handingCharge="+handingCharge+ 
-				",status="+status+",remark+"+remark+
-				",withdrawalsNo="+withdrawalsNo+"]";
+		return "WithdrawalsApplyListReturnVO [createTime=" + createTime + ", withdrawalsTime=" + withdrawalsTime
+				+ ", amount=" + amount + ", handingCharge=" + handingCharge + ", status=" + status + ", remark="
+				+ remark + ", withdrawalsNo=" + withdrawalsNo + ", realWithdrawalsAmount=" + realWithdrawalsAmount
+				+ "]";
 	}
 	
 	public String getCreateTime() {
@@ -69,5 +85,19 @@ public class WithdrawalsApplyListReturnVO {
 	}
 	public void setWithdrawalsNo(String withdrawalsNo) {
 		this.withdrawalsNo = withdrawalsNo;
+	}
+
+	/**
+	 * 真正提现金额 
+	 */
+	public String getRealWithdrawalsAmount() {
+		return realWithdrawalsAmount;
+	}
+
+	/**
+	 * 真正提现金额 
+	 */
+	public void setRealWithdrawalsAmount(String realWithdrawalsAmount) {
+		this.realWithdrawalsAmount = realWithdrawalsAmount;
 	}
 }

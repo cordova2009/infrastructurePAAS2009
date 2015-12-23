@@ -18,7 +18,7 @@ public class SaveBidRequirementInfoBodyVO_4 {
     /**
      * 投标资质证书id
      */
-    private String bidderCertificationId;
+    private Integer bidderCertificationId;
 
 
     /**
@@ -57,14 +57,14 @@ public class SaveBidRequirementInfoBodyVO_4 {
 	/**
 	 * 投标资质证书id 
 	 */
-	public String getBidderCertificationId() {
+	public Integer getBidderCertificationId() {
 		return bidderCertificationId;
 	}
 
 	/**
 	 * 投标资质证书id 
 	 */
-	public void setBidderCertificationId(String bidderCertificationId) {
+	public void setBidderCertificationId(Integer bidderCertificationId) {
 		this.bidderCertificationId = bidderCertificationId;
 	}
 }

@@ -2,6 +2,8 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.hummingbird.commonbiz.vo.PagingnationVO;
 
 /**
@@ -14,10 +16,14 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	private String industryId;
 	private String objectId;
 	private String objectName;
-	private Integer evaluationAmount;
+	private Long evaluationAmount;
 	private String projectExpectStartDate;
 	private Integer projectExpectPeriod;
 	private String biddingEndTime;
+	/**
+	 * 工程标的估价可见,ENB 可见, DIS 不可见
+	 */
+	private String evaluationAmountVisiable;
 	/**
 	 * @return the industryId
 	 */
@@ -39,7 +45,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @return the evaluationAmount
 	 */
-	public Integer getEvaluationAmount() {
+	public Long getEvaluationAmount() {
 		return evaluationAmount;
 	}
 	/**
@@ -81,7 +87,7 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	/**
 	 * @param evaluationAmount the evaluationAmount to set
 	 */
-	public void setEvaluationAmount(Integer evaluationAmount) {
+	public void setEvaluationAmount(Long evaluationAmount) {
 		this.evaluationAmount = evaluationAmount;
 	}
 	/**
@@ -110,7 +116,20 @@ public class MyTenderObjectListVO extends PagingnationVO{
 		return "MyTenderObjectListVO [industryId=" + industryId + ", objectId=" + objectId + ", objectName="
 				+ objectName + ", evaluationAmount=" + evaluationAmount + ", projectExpectStartDate="
 				+ projectExpectStartDate + ", projectExpectPeriod=" + projectExpectPeriod + ", biddingEndTime="
-				+ biddingEndTime + "]";
+				+ biddingEndTime + ", evaluationAmountVisiable=" + evaluationAmountVisiable + "]";
+	}
+	/**
+	 * 工程标的估价可见ENB 可见 DIS 不可见 
+	 */
+	@JsonIgnore
+	public String getEvaluationAmountVisiable() {
+		return evaluationAmountVisiable;
+	}
+	/**
+	 * 工程标的估价可见ENB 可见 DIS 不可见 
+	 */
+	public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
+		this.evaluationAmountVisiable = evaluationAmountVisiable;
 	}
 	
 

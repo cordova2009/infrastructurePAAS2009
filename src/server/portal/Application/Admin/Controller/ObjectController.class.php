@@ -65,6 +65,29 @@ class ObjectController extends AdminController {
 		$this->meta_title = '工程付款';
 		$this->display();
 	}
+	public function receive()
+	{
+		if(IS_POST)
+		{
+			$data['orderId'] = I('orderId');
+			$data['confirmStatus'] = I('confirmStatus');
+			$data['remark'] = I('remark');
+			$data['operator'] = session('user_auth')['uid'];
+			$api = new ApiService();
+			$resp = $api->setApiUrl(C('APIURI.paas1'))
+				->setData($data)->send('projectPayment/confirmPayment');
+			if(!check_resp($resp))
+			{
+				$this->error('系统错误,请稍后再试');
+			}
+			$this->success('审核完成',U("biddeemanage/verify"));
+		}
+		$id = I('id');
+		$item = M('gcgl_project_payment_receive a')->join('t_ztgl_object b on a.project_id =b.object_id')->where(['id'=>$id])->find();
+		$this->assign('item', $item);
+		$this->meta_title = '付款明细';
+		$this->display();
+	}
 	public function paymentshow()
 	{
 		$id = I('id');
@@ -80,6 +103,22 @@ class ObjectController extends AdminController {
 		$list   =   $this->lists($model, $map,'should_receive_time desc','*');
 		$this->assign('_list', $list);
 		$this->meta_title = '工程收款风险预警';
+		$this->display();
+	}
+	public function baseshow()
+	{
+		$id = I('id');
+		$type = I('type');
+		if($type=='bidder')
+		{
+			$item = $model = M('qyzz_bidder a')->where(['a.id'=>$id])->find();
+			$this->assign('title', '投标人');
+		}else{
+			$item = $model = M('qyzz_biddee a')->where(['a.id'=>$id])->find();
+			$this->assign('title', '招标人');
+		}
+		$this->assign('item', $item);
+		$this->meta_title = '付款明细';
 		$this->display();
 	}
 }

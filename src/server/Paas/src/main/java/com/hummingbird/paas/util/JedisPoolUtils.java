@@ -4,11 +4,11 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.PropertiesUtil;
-import com.hummingbird.commonbiz.vo.BaseUserToken;
-import com.hummingbird.commonbiz.vo.UserToken;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Token;
 
 import net.sf.json.util.JSONUtils;
@@ -131,9 +131,150 @@ public class JedisPoolUtils {
 		jedisPool.returnResource(jedis);
 	}
 
+	/**
+	 * 从redis读取数据
+	 * @author YJY 
+	 * @param key
+	 * @param record
+	 * @return 
+	 * @since 2015-11-25 17:22:50
+	 */
+	public static  <T> T getDataOnRedis(String key,Class<T> type) throws Exception {
+		Jedis jedis = JedisPoolUtils.getJedisIfNessary();
+//		jedis.flushDB();
+		if(jedis != null && jedis.exists(key)){
+			String json = jedis.get(key);
+				T to;
+				try {
+					to = (T) JsonUtil.convertJson2Obj(json, type);
+//					System.out.println(to.getToken());
+					if(to!=null)
+					{
+						if (log.isDebugEnabled()) {
+							log.debug(String.format("从redis读取数据成功！"));
+						}
+						return to;
+					}
+				} catch (DataInvalidException e) {
+					log.error("转换失败",e);
+				}
+			
 
+			//System.out.println(json);
+		}
+		return null;
+	}
+	
+	/**
+	 * 将数据保存到redis(更新或者新增)
+	 * @author YJY 
+	 * @param key
+	 * @param record
+	 * @since 2015-11-25 17:22:50
+	 */
+	public static  <T> T saveDataToRedis(String key,T record) {
+		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
+		
+		try {
+			if(jpu!=null&&record!=null){
+				String result = jpu.set(key, JsonUtil.convert2Json(record));
+				jpu.expire(key, getDefaultExpireIn());
+//				jpu.expire(key, 7*24*3600);
+				if (log.isDebugEnabled()) {
+					if("OK".equalsIgnoreCase(result)){
+						log.debug(String.format("保存数据到redis成功！"));
+					}
+					
+				}
+			}
+			
+		} catch (DataInvalidException e) {
+			log.error("转换失败",e);
+		}
+		return record;
+	}
+	
+	
+	/**
+	 * 将数据从redis移除
+	 * @author YJY 
+	 * @param key
+	 * @since 2015-11-25 17:22:50
+	 */
+	public static  Long removeDataOnRedis(String key) {
+		
+		Jedis jpu = JedisPoolUtils.getJedisIfNessary();
+		Long i = 0L;
+		if(jpu!=null){
+		 i= jpu.del(key);
+		 if(log.isDebugEnabled()){
+			 if(i>0){
+					log.debug(String.format("数据从redis移除成功！"));
+				}
+		 }
+		 
+		}
+		
+		return i;
+	}
+	
+	/**
+	 * 执行redis,使用模板模式,需要用户创建执行器进行处理,如果获取不到jedis连接,会抛出JedisException异常
+	 * @param executor
+	 * @param onerror
+	 * @return
+	 * @throws BusinessException 业务操作
+	 */
+	public static Object execute(JedisExecutor executor) throws BusinessException{
+		return execute(executor,null);
+	}
+
+	
+	/**
+	 * 执行redis,使用模板模式,需要用户创建执行器进行处理
+	 * @param executor
+	 * @param onerror
+	 * @return
+	 * @throws BusinessException 业务操作
+	 */
+	public static Object execute(JedisExecutor executor,JedisErrorExecutor onerror) throws BusinessException{
+		Jedis jedis=null;
+		ValidateUtil.assertNullnoappend(executor, "业务处理代码为空");
+		try {
+				jedis = getJedis();
+				return executor.execute(jedis);//执行业务
+			} catch (JedisException e) {
+				if(onerror!=null){
+					//由用户自定义处理器处理
+					return onerror.onJedisGetError(e,jedis);     
+				}
+				else{
+					//抛出错误 
+					throw e;
+				}
+			
+			} finally{ 
+		        // 正确释放资源
+		         if(jedis != null ) {
+		                try {
+							returnRes(jedis);
+						} catch (Exception e) {
+							log.error(String.format("归还redis连接出错"),e);
+						}
+		         }
+			}
+	}
+	
+	
+
+	private static  int getDefaultExpireIn(){
+		//1小时有效
+		return new PropertiesUtil().getInt("usertoken.expirein", 3600);
+	}
+	
 	public static void main(String[] args) {
-		Jedis jpu = JedisPoolUtils.getJedis();		 		
+		Jedis jpu = JedisPoolUtils.getJedis();	
+//		jpu.flushDB();
 		Token record=new Token();		
 		record.setAppId("paas");		
 		record.setUserId(46);		
@@ -149,9 +290,47 @@ public class JedisPoolUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	 		
-		
- 		System.out.println(jpu);
-		
+		try {
+			Token mm=getDataOnRedis("11111", Token.class);
+			System.out.println(mm.getToken()+"<<<"+mm.getUserId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
+//		Long i = removeDataOnRedis("11111");
+//		 mm  = getDataOnRedis("11111", record.getClass());
+		System.out.println(jpu);
 
+		}
+	
+	/**
+	 * @author john huang
+	 * 2015年12月20日 下午5:04:38
+	 * 本类主要做为 jedis错误 时的处理器
+	 */
+	public static interface JedisErrorExecutor{
+		/**
+		 * 获取不到jedis时,或jedis出错时的处理
+		 * @param jedis 
+		 * @return
+		 */
+		public Object onJedisGetError(JedisException e, Jedis jedis) throws BusinessException;
+	}
+	
+	/**
+	 * @author john huang
+	 * 2015年12月20日 下午5:05:01
+	 * 本类主要做为 jedis的执行器
+	 */
+	public static interface JedisExecutor{
+		/**
+		 * 执行jedis的内容
+		 * @param jedis
+		 * @return
+		 */
+		public Object execute(Jedis jedis) throws BusinessException;
+		
+	}
+	
+	
+}

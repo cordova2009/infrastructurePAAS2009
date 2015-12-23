@@ -69,11 +69,11 @@ public class TenderProjectController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "/queryMyPaymentList", method = RequestMethod.POST)
-	@AccessRequered(methodName = "查询我的招标项目付款情况",  appLog = true)
+	@AccessRequered(methodName = "查询我的招标项目付款情况",codebase=250100,  appLog = true)
 	public @ResponseBody Object queryMyPaymentList(HttpServletRequest request) {
 		
 		TokenPagingVO transorder;
-		ResultModel rm = new ResultModel();
+		ResultModel rm = super.getResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -83,10 +83,7 @@ public class TenderProjectController extends BaseController{
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
 			return rm;
 		}
-		
 		String messagebase = "查询我的招标项目付款情况";
-		rm.setBaseErrorCode(250100);
-		rm.setErrmsg(messagebase+"成功");
 		try {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");

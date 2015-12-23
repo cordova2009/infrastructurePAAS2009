@@ -2,10 +2,12 @@ package com.hummingbird.paas.vo;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.hummingbird.common.util.convertor.JacksonDateSerializer;
 import com.hummingbird.common.util.convertor.JacksonDateTimeSerializer;
+import com.hummingbird.paas.util.JacksonDateDeserializer;
 
 /**
  * 投标人资质信息
@@ -100,7 +102,7 @@ public class BidderEqInfo {
 	/**
 	 * @return the expiryDate
 	 */
-	@JsonSerialize(using = JacksonDateTimeSerializer.class)
+	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getExpiryDate() {
 		return expiryDate;
 	}
@@ -108,6 +110,7 @@ public class BidderEqInfo {
 	/**
 	 * @param projectType the projectType to set
 	 */
+	
 	public void setProjectType(String projectType) {
 		this.projectType = projectType;
 	}
@@ -164,6 +167,7 @@ public class BidderEqInfo {
 	/**
 	 * @param expiryDate the expiryDate to set
 	 */
+	@JsonDeserialize(using = JacksonDateDeserializer.class)
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 	}

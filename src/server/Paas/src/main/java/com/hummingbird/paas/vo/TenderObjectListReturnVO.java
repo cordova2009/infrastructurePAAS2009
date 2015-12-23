@@ -28,7 +28,11 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	private Long evaluationAmount;
 	private String projectExpectStartDate;
 	private String projectExpectEndDate;
-	private String projectExpectPeriod;
+	private Integer projectExpectPeriod;
+	/**
+	 * 工程标的估价可见,ENB 可见, DIS 不可见
+	 */
+	private String evaluationAmountVisiable;
 	/**
 	 * @return the objectId
 	 */
@@ -74,7 +78,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	/**
 	 * @return the projectExpectPeriod
 	 */
-	public String getProjectExpectPeriod() {
+	public Integer getProjectExpectPeriod() {
 		return projectExpectPeriod;
 	}
 	/**
@@ -122,7 +126,7 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	/**
 	 * @param projectExpectPeriod the projectExpectPeriod to set
 	 */
-	public void setProjectExpectPeriod(String projectExpectPeriod) {
+	public void setProjectExpectPeriod(Integer projectExpectPeriod) {
 		this.projectExpectPeriod = projectExpectPeriod;
 	}
 	/* (non-Javadoc)
@@ -133,7 +137,20 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 		return "TenderObjectListReturnVO [objectId=" + objectId + ", objectName=" + objectName + ", biddee=" + biddee
 				+ ", creditRating=" + creditRating + ", evaluationAmount=" + evaluationAmount
 				+ ", projectExpectStartDate=" + projectExpectStartDate + ", projectExpectEndDate="
-				+ projectExpectEndDate + ", projectExpectPeriod=" + projectExpectPeriod + "]";
+				+ projectExpectEndDate + ", projectExpectPeriod=" + projectExpectPeriod + ", evaluationAmountVisiable="
+				+ evaluationAmountVisiable + "]";
+	}
+	/**
+	 * 工程标的估价可见ENB 可见 DIS 不可见 
+	 */
+	public String getEvaluationAmountVisiable() {
+		return evaluationAmountVisiable;
+	}
+	/**
+	 * 工程标的估价可见ENB 可见 DIS 不可见 
+	 */
+	public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
+		this.evaluationAmountVisiable = evaluationAmountVisiable;
 	}
 	
 

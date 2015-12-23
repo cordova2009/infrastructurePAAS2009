@@ -19,7 +19,7 @@ public class TenderMyEndedObjectVO extends PagingnationVO {
 //    }]
 	private String objectId;
 	private String objectName;
-	private String winBidAmount;
+	private Long winBidAmount;
 	private String winBidder;
 	private String industryId;
 	/**
@@ -37,7 +37,7 @@ public class TenderMyEndedObjectVO extends PagingnationVO {
 	/**
 	 * @return the winBidAmount
 	 */
-	public String getWinBidAmount() {
+	public Long getWinBidAmount() {
 		return winBidAmount;
 	}
 	/**
@@ -67,7 +67,7 @@ public class TenderMyEndedObjectVO extends PagingnationVO {
 	/**
 	 * @param winBidAmount the winBidAmount to set
 	 */
-	public void setWinBidAmount(String winBidAmount) {
+	public void setWinBidAmount(Long winBidAmount) {
 		this.winBidAmount = winBidAmount;
 	}
 	/**
@@ -91,7 +91,6 @@ public class TenderMyEndedObjectVO extends PagingnationVO {
 				+ winBidAmount + ", winBidder=" + winBidder + ", industryId=" + industryId + "]";
 	}
 	
-
 
 
 }

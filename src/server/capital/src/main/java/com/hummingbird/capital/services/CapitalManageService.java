@@ -7,6 +7,7 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.vo.ValidateResult;
 import com.hummingbird.capital.entity.ProjectAccount;
 import com.hummingbird.capital.entity.ProjectAccountOrder;
+import com.hummingbird.capital.entity.ProjectPaymentAccount;
 import com.hummingbird.capital.entity.User;
 import com.hummingbird.capital.entity.UserBankcard;
 import com.hummingbird.capital.exception.MaAccountException;
@@ -28,6 +29,12 @@ public interface CapitalManageService {
 	 * @return
 	 */
 	public ProjectAccount queryAccountInfo(Integer userId);
+	/**
+	 * 根据用户Id查询工程款账户信息
+	 * @param userId
+	 * @return
+	 */
+	public ProjectPaymentAccount queryProjectPaymentAccountInfo(Integer userId);
 	
 	/**
 	 * 查询用户资金账户流水
@@ -65,5 +72,22 @@ public interface CapitalManageService {
 	 * @see com.hummingbird.maaccount.service.impl.DefaultAccountService#createAccount(java.lang.Integer)
 	 */
 	public Account createAccount(Integer userId) throws MaAccountException;
+
+	/**
+	 * 工程款收入
+	 * @param platformuserId
+	 * @param amount
+	 * @param appOrderId
+	 * @throws MaAccountException 
+	 */
+	public void incomeProjectPayment(Integer userId, Long amount, String appOrderId,String remark) throws MaAccountException;
+
+	/**
+	 * 创建工程款帐户
+	 * @param userId
+	 * @return
+	 * @throws MaAccountException
+	 */
+	Account createProjectPaymentAccount(Integer userId) throws MaAccountException;
 	
 }

@@ -47,4 +47,18 @@ public interface ProjectPaymentReceiveMapper {
      * @return
      */
     List<ProjectPaymentReceive> queryReceivedRecord(String objectId);
+
+	/**
+	 * 根据订单查询收款记录
+	 * @param orderId
+	 * @return
+	 */
+	ProjectPaymentReceive selectByOrderId(String orderId);
+	
+	/**
+     * 查询该标的已收款的金额
+     * @param ObjectId
+     * @return
+     */
+    Long getReceivedAmountByObjectId(String ObjectId);
 }

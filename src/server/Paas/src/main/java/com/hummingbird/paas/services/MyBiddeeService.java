@@ -61,6 +61,13 @@ public interface MyBiddeeService {
 	* @throws BusinessException 
 	*/
 	public BiddeeRegisteredInfo getRegisteredInfo_apply(Token token) throws BusinessException; 
+	
+	/**
+	* 查询保存的招标人公司注册信息接口
+	* @return 
+	* @throws BusinessException 
+	*/
+	public BiddeeRegisteredInfo getRegisteredInfo(Token token) throws BusinessException; 
 	/**
 	 * 保存招标人公司注册信息接口
 	 * 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,15 @@ import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.CollectionTools;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.util.MapMaker;
 import com.hummingbird.common.util.RequestUtil;
+import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.commonbiz.exception.TokenException;
+import com.hummingbird.commonbiz.vo.AppVO;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.entity.Appinfo;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Biddee;
@@ -50,8 +55,11 @@ import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectStatus;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.event.BidSelectedEvent;
+import com.hummingbird.paas.event.InvBidEvent;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.AppLogMapper;
+import com.hummingbird.paas.mapper.AppinfoMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidRecordMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
@@ -67,6 +75,7 @@ import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
+import com.hummingbird.paas.vo.BaseTenderObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;
 import com.hummingbird.paas.vo.EvaluateBidderBodyVO;
 import com.hummingbird.paas.vo.GetIndustryDetailBodyVO;
@@ -74,13 +83,13 @@ import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
-import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVOResult;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidEvaluationTypeInfoBodyVOResult;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidIndexListResult;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
+import com.hummingbird.paas.vo.QueryBidderListHomepageResultVO;
 import com.hummingbird.paas.vo.QueryBidderListResultVO;
 import com.hummingbird.paas.vo.QueryCertificateListBodyVO;
 import com.hummingbird.paas.vo.QueryCertificateListResultVO;
@@ -110,15 +119,18 @@ import com.hummingbird.paas.vo.SaveObjectProjectInfoBodyVOResult;
 import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.TagInfo;
 import com.hummingbird.paas.vo.TenderBidEvaluationBodyVO;
+import com.hummingbird.paas.vo.TenderCertificationReturnVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
+import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
 import com.hummingbird.paas.vo.TenderMyObjectSurveyBodyVO;
 import com.hummingbird.paas.vo.TenderObjectBodyVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyBodyVO;
+import com.hummingbird.paas.vo.TenderSurveyReturnVO;
 import com.hummingbird.paas.vo.TendererEvaluateReturnVO;
 
 /**
@@ -159,6 +171,8 @@ public class TenderController extends BaseController {
 	BidderMapper  bidderDao;
 	@Autowired
 	ProjectStatusMapper  psDao;
+	@Autowired
+	AppinfoMapper  appDao;
 	
 	
 	@Autowired(required = true)
@@ -196,7 +210,7 @@ public class TenderController extends BaseController {
 			if (log.isDebugEnabled()) {
 				log.debug("检验通过，获取请求");
 			}
-			MyObjectTenderSurveyBodyVOResult queryMyObjectTenderSurvey = tenderService
+			TenderSurveyReturnVO queryMyObjectTenderSurvey = tenderService
 					.queryMyObjectTenderSurvey(transorder.getApp().getAppId(), transorder.getBody(),biddee);
 			rm.put("survey", queryMyObjectTenderSurvey);
 			tokenSrv.postponeToken(token);
@@ -998,6 +1012,10 @@ public class TenderController extends BaseController {
 		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
 		
 		try {
+			AppVO app = transorder.getApp();
+			Appinfo appinfo = appDao.selectByPrimaryKey(app.getAppId());
+			ValidateUtil.assertNull(appinfo, "app");
+			app.setAppKey(appinfo.getAppkey());
 			//业务数据必填等校验
 			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
 			if (token == null) {
@@ -1344,7 +1362,7 @@ public class TenderController extends BaseController {
 			}
 			tenderService.submitObject(transorder.getApp().getAppId(),transorder.getBody(),biddee.getId());
 			tokenSrv.postponeToken(token);
-			
+
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -1387,8 +1405,9 @@ public class TenderController extends BaseController {
 		return rm;
 		
 	}
+	
 	/**
-	 * 查询未完成招标项目工程施工证明接口
+	 * 查询投标方列表接口
 	 * @return  queryObjectList
 	 */
 	@RequestMapping(value="/queryBidderList",method=RequestMethod.POST)
@@ -1412,6 +1431,38 @@ public class TenderController extends BaseController {
 			rm.mergeException(e1);
 			if(qe!=null)
 			qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询首页投标方列表
+	 */
+	@RequestMapping(value="/queryBidderList_homepage",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询首页投标方列表",isJson=true,codebase=242300,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryCertificateListBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryBidderList_homepage(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryCertificateListBodyVO> transorder = (BaseTransVO<QueryCertificateListBodyVO>) super.getParameterObject();
+		String messagebase = "查询首页投标方列表"; 
+		RequestEvent qe=null ; 
+		List<QueryBidderListHomepageResultVO> liq = null;
+		try {
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			Pagingnation pagingnation = transorder.getBody().toPagingnation();
+			liq = tenderService.queryBidderList4homepage(transorder.getBody(),pagingnation);
+			mergeListOutput(rm, pagingnation, liq);
+//	        rm.put("list",liq);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
 		} finally {
 			if(qe!=null)
 				EventListenerContainer.getInstance().fireEvent(qe);
@@ -1497,81 +1548,36 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/bidEvaluation",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	@AccessRequered(methodName = "定标", isJson = true, codebase = 244100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.TenderBidEvaluationBodyVO", appLog = true)
 	public @ResponseBody ResultModel bidEvaluation(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
 		String messagebase = "定标";
-		BaseTransVO<TenderBidEvaluationBodyVO> transorder = null;
-		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
-		try {
-			String jsonstr  = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, TenderBidEvaluationBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数异常"));
-			return rm;
-		}
-		rm.setErrmsg(messagebase + "成功");
-		RequestEvent qe=null ;		
-		AppLog rnr = new AppLog();
-		rnr.setAppid(transorder.getApp().getAppId());
-		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
-		rnr.setInserttime(new Date());
-		rnr.setMethod("/tender/bidEvaluation");
-		
+		BaseTransVO<TenderBidEvaluationBodyVO> transorder = (BaseTransVO<TenderBidEvaluationBodyVO>) super.getParameterObject();
+		ResultModel rm = super.getResultModel();
+		RequestEvent qe=null;
 		
 		try {
-		String token =  transorder.getBody().getToken();
-		String objectId =  transorder.getBody().getObjectId();
-		Integer bidder_id = transorder.getBody().getWinBidId();
-
-		int i= 0;
-		if(StringUtils.isNotBlank(token)){
-			BidObject  bid =bidObjectDao.selectByPrimaryKey(objectId);
 			
-			BidRecord bidr = bidRecordDao.selectByObjectIdAndBidderId(objectId, bidder_id);
-			ProjectPaymentDefine ppd = new ProjectPaymentDefine();
-			ProjectPaymentDefineDetail ppf = new ProjectPaymentDefineDetail();
-			TenderPaymentInfo tp = transorder.getBody().getPaymentInfo();
-			List<TenderPaymentDetailInfo> tpds= tp.getPayList();
-			if(bid==null){
-				rm.setErrmsg("未找到相应招标记录!");
-				return rm;
-				}else{
-					//1.保存到招标表
-					bid.setObjectStatus("SEL");;//修改状态为定标
-					bid.setWinBidderId(transorder.getBody().getWinBidId());
-					bid.setWinBidAmount(bidr.getBidAmount());
-					i = bidObjectDao.updateByPrimaryKeySelective(bid);
-					//2.保存到工程付款表
-					UUID uid = UUID.randomUUID();
-					Integer pid = uid.hashCode();
-					ppd.setId(pid);
-					ppd.setObjectId(objectId);
-					ppd.setPayPeriod(tp.getPayPeriod());
-					ppd.setPayType(tp.getPayType());
-					projectPaymentDefineDao.insert(ppd); 
-					for(TenderPaymentDetailInfo mm : tpds){
-						ppf.setPaySum(mm.getPaySum());
-						//ppf.setPayTime(mm.getPayDate());
-						ppf.setPeriod(mm.getPeriod());
-						ppf.setProjectPaymentDefineId(pid);
-						projectPaymentDefineDetailDao.insert(ppf);
-					}
-					
-					
-				}
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
-	
-		
-		if(i<= 0){
-			rm.setErrmsg("数据未修改！");
-		}else{
-			rm.setErrmsg(messagebase + "成功");
-		}
-//		activityService.JoinActivity(activityId,unionId,parentName,mobileNum,babyName,babySex,babyBirthday,city,district);
+			
+			Biddee biddee = biddeeDao.selectByUserId(token.getUserId());
+			if(biddee==null)
+			{
+				log.error(String.format("用户%s查找不到招标方信息,可能未进行资格认证", token.getUserId()));
+				throw new PaasException(PaasException.ERR_BIDDEE_INFO_EXCEPTION,"您没有招标方资质认证,请先进行认证");
+			}
+			
+			String objectId =  transorder.getBody().getObjectId();
+			Integer bidder_id = transorder.getBody().getWinBidId();
+			
+			tenderService.selectBid2win(objectId,biddee,bidder_id,transorder.getBody().getPaymentInfo(),transorder.getBody().getToken());
+			
+			BidSelectedEvent bide = new BidSelectedEvent(objectId,bidder_id);
+			EventListenerContainer.getInstance().fireEvent(bide);
+			
 		} catch (Exception e1) {
 			log.error(String.format(messagebase+"失败"),e1);
 			rm.mergeException(e1);
@@ -1611,7 +1617,7 @@ public class TenderController extends BaseController {
 		rnr.setInserttime(new Date());
 		rnr.setMethod("/tender/queryMyObjectBidList");
 		
-		List<TenderMyObjectBidReturnVO> list=new ArrayList<TenderMyObjectBidReturnVO>();
+		List<TenderMyObjectBidReturnWithCertificationVO> list=new ArrayList<TenderMyObjectBidReturnWithCertificationVO>();
 		try {
 			// 业务数据必填等校验
 			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
@@ -1622,15 +1628,17 @@ public class TenderController extends BaseController {
 			com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 			
 			list = tenderService.selectByObjectIdInValid(token.getUserId(),transorder.getBody().getObjectId(),page);
-			List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderMyObjectBidReturnVO, Map>() {
+			List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderMyObjectBidReturnWithCertificationVO, Map>() {
 
 				@Override
-				public Map convert(TenderMyObjectBidReturnVO ori) {
+				public Map convert(TenderMyObjectBidReturnWithCertificationVO ori) {
 					
 					try {
 						Map row= BeanUtils.describe(ori);
-//						row.put("bidTime", DateUtil.formatCommonDateorNull(ori.getBidTime()));
-//						row.put("projectExpectStartDate", DateUtil.formatCommonDateorNull(ori.getProjectExpectStartDate()));
+						row.put("bidTime", DateUtil.formatShortDateorNull(ori.getBidTime()));
+						row.put("projectExpectStartDate", DateUtil.formatShortDateorNull(ori.getProjectExpectStartDate()));
+						row.put("projectExpectEndDate", DateUtil.formatShortDateorNull(ori.getProjectExpectEndDate()));
+						row.put("certificationList",ori.getCertificationList());
 						
 						row.remove("class");
 						return row;
@@ -2233,23 +2241,23 @@ public class TenderController extends BaseController {
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
 				String[] keywords = transorder.getBody().getKeywords();
 				list = tenderService.getTenderObjectList(transorder.getBody().getKeywords(), page);
-				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
-
-					@Override
-					public Map convert(TenderObjectListReturnVO ori) {
-						
-						try {
-							Map row= BeanUtils.describe(ori);
-							row.remove("class");
-							return row;
-							
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-							log.error(String.format("转换为map对象出错"),e);
-							return null;
-						}
-					}
-				});
-				mergeListOutput(rm, page, nos);
+//				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
+//
+//					@Override
+//					public Map convert(TenderObjectListReturnVO ori) {
+//						
+//						try {
+//							Map row= BeanUtils.describe(ori);
+//							row.remove("class");
+//							return row;
+//							
+//						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//							log.error(String.format("转换为map对象出错"),e);
+//							return null;
+//						}
+//					}
+//				});
+				mergeListOutput(rm, page, list);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -2275,6 +2283,88 @@ public class TenderController extends BaseController {
 	 * @author YJY
 	 * @since 2015年11月14日19:30:17
 	 * @return
+//	 */
+//	@RequestMapping(value="/queryIndexObjectList",method=RequestMethod.POST)
+//	@AccessRequered(methodName = " 查询首页招标项目列表")
+//	// 框架的日志处理
+//	public @ResponseBody ResultModel queryIndexObjectList(HttpServletRequest request,
+//			HttpServletResponse response) {
+//		String messagebase = " 查询首页招标项目列表";
+//		int basecode = 0;
+//		BaseTransVO<BaseBidObjectVO> transorder = null;
+//		ResultModel rm = new ResultModel();
+//		try {
+//			String jsonstr = RequestUtil.getRequestPostData(request);
+//			request.setAttribute("rawjson", jsonstr);
+//			transorder = (BaseTransVO<BaseBidObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseBidObjectVO.class);
+//		} catch (Exception e) {
+//			log.error(String.format("获取%s参数出错",messagebase),e);
+//			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
+//			return rm;
+//		}
+////		// 预设的一些信息
+//		
+////		rm.setBaseErrorCode(basecode);
+//		rm.setErrmsg(messagebase + "成功");
+//		RequestEvent qe=null ;
+//		
+//		
+//		AppLog rnr = new AppLog();
+//		rnr.setAppid(transorder.getApp().getAppId());
+//		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
+//		rnr.setInserttime(new Date());
+//		rnr.setMethod("/tender/queryIndexObjectList");
+//		
+//		try {
+//			
+////				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+//				
+//				List<QueryIndexObjectListResult> list=new ArrayList<QueryIndexObjectListResult>();
+////				list = announcementService.selectAnnouncementInValid(user_id, page);
+////				list = tenderService.getIndexObjectList(page);
+//				list = tenderService.getIndexObjectList();
+//				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryIndexObjectListResult, Map>() {
+//
+//					@Override
+//					public Map convert(QueryIndexObjectListResult ori) {
+//						
+//						try {
+//							Map row= BeanUtils.describe(ori);
+////							row.put(key, value);
+//							row.remove("class");
+//							return row;
+//							
+//						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//							log.error(String.format("转换为map对象出错"),e);
+//							return null;
+//						}
+//					}
+//				});
+//				rm.put("list", nos);
+//		}catch (Exception e1) {
+//			log.error(String.format(messagebase + "失败"), e1);
+//			rm.mergeException(e1);
+//			if(qe!=null)
+//				qe.setSuccessed(false);
+//		} finally {
+//			try {
+//				rnr.setRespone(StringUtils.substring(JsonUtil.convert2Json(rm),0,2000));
+//				applogDao.insert(rnr);
+//			} catch (DataInvalidException e) {
+//				log.error(String.format("日志处理出错"),e);
+//			}
+//			
+//			if(qe!=null)
+//				EventListenerContainer.getInstance().fireEvent(qe);
+//		}
+//		return rm;
+//		
+//	}
+	/**
+	 * 查询首页招标项目列表接口
+	 * @author YJY
+	 * @since 2015年11月14日19:30:17
+	 * @return
 	 */
 	@RequestMapping(value="/queryIndexObjectList",method=RequestMethod.POST)
 	@AccessRequered(methodName = " 查询首页招标项目列表")
@@ -2283,12 +2373,12 @@ public class TenderController extends BaseController {
 			HttpServletResponse response) {
 		String messagebase = " 查询首页招标项目列表";
 		int basecode = 0;
-		BaseTransVO<BaseBidObjectVO> transorder = null;
+		BaseTransVO<BaseTenderObjectVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
 			String jsonstr = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
-			transorder = (BaseTransVO<BaseBidObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseBidObjectVO.class);
+			transorder = (BaseTransVO<BaseTenderObjectVO> )RequestUtil.convertJson2Obj(jsonstr, BaseTransVO.class,BaseTenderObjectVO.class);
 		} catch (Exception e) {
 			log.error(String.format("获取%s参数出错",messagebase),e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, messagebase+"参数"));
@@ -2309,12 +2399,11 @@ public class TenderController extends BaseController {
 		
 		try {
 			
-//				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
+				com.hummingbird.common.face.Pagingnation page = transorder.getBody().toPagingnation();
 				
 				List<QueryIndexObjectListResult> list=new ArrayList<QueryIndexObjectListResult>();
-//				list = announcementService.selectAnnouncementInValid(user_id, page);
 //				list = tenderService.getIndexObjectList(page);
-				list = tenderService.getIndexObjectList();
+				list = tenderService.getIndexObjectList(page);
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<QueryIndexObjectListResult, Map>() {
 
 					@Override
@@ -2323,6 +2412,7 @@ public class TenderController extends BaseController {
 						try {
 							Map row= BeanUtils.describe(ori);
 //							row.put(key, value);
+							row.put("creditRating", StringUtils.defaultIfEmpty(ori.getCreditRating(), "A"));
 							row.remove("class");
 							return row;
 							
@@ -2332,7 +2422,7 @@ public class TenderController extends BaseController {
 						}
 					}
 				});
-				rm.put("list", nos);
+				mergeListOutput(rm, page, nos);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);
@@ -2656,9 +2746,9 @@ public class TenderController extends BaseController {
 
 		try {
 			CompanyInfo cc = new CompanyInfo();
-			if("BEE".equals(transorder.getBody().getType())){//招标
+			if("BEE".equalsIgnoreCase(transorder.getBody().getType())){//招标
 				 cc = tenderService.queryTenderCompanyInfo(transorder.getApp().getAppId(), transorder.getBody());
-			}else if("BER".equals(transorder.getBody().getType())){//投标 
+			}else if("BER".equalsIgnoreCase(transorder.getBody().getType())){//投标 
 				 cc = tenderService.queryBidderCompanyInfo(transorder.getApp().getAppId(), transorder.getBody());
 			}
 			
@@ -2725,7 +2815,7 @@ public class TenderController extends BaseController {
 	 */
 	protected void writeAppLog(AbstractAppLog applog) {
 		if(applog!=null){
-			applogDao.insert(new AppLog(applog));
+//			applogDao.insert(new AppLog(applog));
 		}
 	}
 	

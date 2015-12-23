@@ -64,6 +64,7 @@ import com.hummingbird.paas.vo.BiddeeLegalPerson;
 import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
+import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 @Controller
 @RequestMapping(value="/myBiddee/authInfo"
 		 ,method=RequestMethod.POST)
@@ -97,7 +98,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getAuthInfo(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询我的招标人认证信息";
-		int basecode = 0;
+		int basecode = 230100;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -111,7 +112,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -136,7 +137,15 @@ public class MyBiddeeBusinessController extends BaseController  {
 				Map baseInof= new HashMap();//基础信息
 				Map tradeInfo= new HashMap();//交易信息
 				Map myBiddeeInfo= new HashMap();//企业信息
+				BiddeeAuthInfo personalInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo baseInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo legalPersonInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo companyRegisteredInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo bankInfo = new BiddeeAuthInfo();
+				BiddeeAuthInfo biddeeNum = new BiddeeAuthInfo();
+				BiddeeAuthInfo tradeAmount = new BiddeeAuthInfo();
 				BiddeeAuthInfo ba = new BiddeeAuthInfo();
+				BiddeeAuthInfo baa = new BiddeeAuthInfo();
 				
 				BiddeeCertificateAduit p = new BiddeeCertificateAduit();
 				BiddeeCertificateAduit bi = new BiddeeCertificateAduit();
@@ -149,81 +158,172 @@ public class MyBiddeeBusinessController extends BaseController  {
 				BiddeeCredit aa = biddeeCreditDao.selectByUserId(biddee.getId());
 //				 bb = scoreLevelDao.countLevelByScore(aa.getCreditScore()!=null?aa.getCreditScore():0);
 				
-				if(aa !=null ){
-					 bb = scoreLevelDao.countLevelByScore(aa.getCreditScore()!=null?aa.getCreditScore():0);
-					 p = biddeeCertificateAduitDao.selectPersonalInfo(aa.getTendererId());
-					 bi = biddeeCertificateAduitDao.selectBaseInfo(aa.getTendererId());
-					 lp = biddeeCertificateAduitDao.selectLegalPersonInfo(aa.getTendererId());
-					 cr = biddeeCertificateAduitDao.selectCompanyRegisteredInfo(aa.getTendererId());
-					 bba = biddeeBankAduitDao.selectByBcId(aa.getTendererId());
+					 bb = scoreLevelDao.countLevelByScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					 p = biddeeCertificateAduitDao.selectPersonalInfo(biddee.getId());
+					 bi = biddeeCertificateAduitDao.selectBaseInfo(biddee.getId());
+					 lp = biddeeCertificateAduitDao.selectLegalPersonInfo(biddee.getId());
+					 cr = biddeeCertificateAduitDao.selectCompanyRegisteredInfo(biddee.getId());
+					 bba = biddeeBankAduitDao.selectByBcId(biddee.getId());
 					 
 					//1.个人状态、积分信息
-						ba.setCreditScore(aa.getCreditScore());
-						if(p!=null){
-							ba.setStatus("已认证");
-						}else{
-							ba.setStatus("待认证");
-						}
-						baseInof.put("personalInfo", ba);
+					 personalInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					 if("APY".equalsIgnoreCase(biddee.getStatus())){
+						 personalInfo.setStatus("待审核");
+					 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
+								personalInfo.setStatus("已认证");
+					 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+						 if(p!=null){
+								personalInfo.setStatus("已认证");
+							}else{
+								personalInfo.setStatus("认证不通过");
+							}
+					 }
+						
+						baseInof.put("personalInfo", personalInfo);
 						detail.put("baseInof", baseInof);
-						baseInof.clear();
-						ba.setCreditScore(aa.getBaseinfoCreditScore());
+//						baseInof.clear();
+						baseInfo.setCreditScore(aa==null?0:(aa.getBaseinfoCreditScore()!=null?aa.getBaseinfoCreditScore():0));
 						//2.基本状态、积分信息
-						if(bi!=null){
-							ba.setStatus("已认证");
-						}else{
-							ba.setStatus("待认证");
-						}
-						myBiddeeInfo.put("baseInfo", ba);
+						if("APY".equalsIgnoreCase(biddee.getStatus())){
+							baseInfo.setStatus("待审核");
+						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
+									baseInfo.setStatus("已认证");
+						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 if(bi!=null){
+								 baseInfo.setStatus("已认证");
+								}else{
+									baseInfo.setStatus("认证不通过");
+								}
+						 }
+						
+						myBiddeeInfo.put("baseInfo", baseInfo);
 						//3.法人状态、积分信息
-						if(lp!=null){
-							ba.setStatus("已认证");
-						}else{
-							ba.setStatus("待认证");
-						}
-						ba.setCreditScore(aa.getLegalPersonInfo());
-						myBiddeeInfo.put("legalPersonInfo", ba);
+						if("APY".equalsIgnoreCase(biddee.getStatus())){
+							legalPersonInfo.setStatus("待审核");
+						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
+									legalPersonInfo.setStatus("已认证");
+						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 if(lp!=null){
+								 legalPersonInfo.setStatus("已认证");
+								}else{
+									legalPersonInfo.setStatus("认证不通过");
+								}
+						 }
+						
+						legalPersonInfo.setCreditScore(aa==null?0:(aa.getLegalPersonInfo()!=null?aa.getLegalPersonInfo():0));
+						myBiddeeInfo.put("legalPersonInfo", legalPersonInfo);
 						//4.公司注册状态、积分信息
-						if(cr!=null){
-							ba.setStatus("已认证");
-						}else{
-							ba.setStatus("待认证");
-						}
-						ba.setCreditScore(aa.getCompanyRegisteredInfo());
-						myBiddeeInfo.put("companyRegisteredInfo", ba);
+						if("APY".equalsIgnoreCase(biddee.getStatus())){
+							companyRegisteredInfo.setStatus("待审核");
+						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
+									companyRegisteredInfo.setStatus("已认证");
+						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 if(cr!=null){
+								 companyRegisteredInfo.setStatus("已认证");
+								}else{
+									companyRegisteredInfo.setStatus("认证不通过");
+								}
+						 }
+						
+						companyRegisteredInfo.setCreditScore(aa==null?0:(aa.getCompanyRegisteredInfo()!=null?aa.getCompanyRegisteredInfo():0));
+						myBiddeeInfo.put("companyRegisteredInfo", companyRegisteredInfo);
 						//5.开户行 状态、积分信息
-						if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-							ba.setStatus("已认证");
-						}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
-							ba.setStatus("认证失败");
+						if("APY".equalsIgnoreCase(biddee.getStatus())){
+							bankInfo.setStatus("待审核");
+						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
+							 if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+									bankInfo.setStatus("已认证");
+								}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+									bankInfo.setStatus("认证不通过");
+								}else{
+									bankInfo.setStatus("认证中");
+								}
+						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 if(bba!=null&&"OK#".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+									bankInfo.setStatus("已认证");
+								}else if(bba!=null&&"FLS".equalsIgnoreCase(bba.getBankcardCertificateResult())){
+									bankInfo.setStatus("认证不通过");
+								}else{
+									bankInfo.setStatus("认证中");
+								}
+						 }
+						
+						bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
+						myBiddeeInfo.put("bankInfo", bankInfo);
+						QueryObjectIndexSurveyResult bis = bidObjectDao.selectObjectIndexSurvey();
+						if(bis != null){
+							biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
+							biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
+							tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+							tradeAmount.setCreditScore(20);
 						}else{
-							ba.setStatus("待认证");
+							biddeeNum.setStatus("0");
+							biddeeNum.setCreditScore(0);//按照次数乘以10
+							tradeAmount.setStatus("0");
+							tradeAmount.setCreditScore(0);
 						}
-						ba.setCreditScore(aa.getBankInfo());
-						myBiddeeInfo.put("bankInfo", ba);
-						int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-						ba.setStatus(ObjectUtils.toString(num));
-						ba.setCreditScore(num*10);//按照次数乘以10
-						tradeInfo.put("winNum", ba);
-						Long amount = bidObjectDao.countAmountByBid(aa.getTendererId());
-						ba.setStatus(ObjectUtils.toString(amount));
-						ba.setCreditScore(10);
-						tradeInfo.put("tradeAmount", ba);
+						
+						tradeInfo.put("biddeeNum", biddeeNum);
+//						Long amount = bidObjectDao.countAmountByBid(biddee.getId(),null);
+						
+						tradeInfo.put("tradeAmount", tradeAmount);
 						detail.put("myBiddeeInfo", myBiddeeInfo);
 						detail.put("tradeInfo", tradeInfo);
 					
-				}else{
-					overall.put("creditScore", "");
+					overall.put("creditScore", aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
 					
-				}
 				if(bb!= null){
-					overall.put("creditRating", bb.getLevelName());
+					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
-					overall.put("creditRating", "");
-					overall.put("creditRatingIcon", "");
+					overall.put("creditRating", "A");
+					overall.put("creditRatingIcon", null);
 				}
 				
+				
+				rm.put("overall", overall);
+				rm.put("detail", detail);
+			}else{
+				//1.个人状态、积分信息
+				ba.setCreditScore(0);
+				
+				ba.setStatus("未认证");
+				
+				baseInof.put("personalInfo", ba);
+				detail.put("baseInof", baseInof);
+//				baseInof.clear();
+				
+				myBiddeeInfo.put("baseInfo", ba);
+				
+				myBiddeeInfo.put("legalPersonInfo", ba);
+				//4.公司注册状态、积分信息
+				
+				myBiddeeInfo.put("companyRegisteredInfo", ba);
+				
+				myBiddeeInfo.put("bankInfo", ba);
+//				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
+				QueryObjectIndexSurveyResult bis = bidObjectDao.selectObjectIndexSurvey();
+				if(bis != null){
+					biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
+					biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
+					tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+					tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+				}else{
+					biddeeNum.setStatus("0");
+					biddeeNum.setCreditScore(0);//按照次数乘以10
+					tradeAmount.setStatus("0");
+					tradeAmount.setCreditScore(0);
+				}
+				
+				tradeInfo.put("biddeeNum", biddeeNum);
+				
+				tradeInfo.put("tradeAmount", tradeAmount);
+				detail.put("myBiddeeInfo", myBiddeeInfo);
+				detail.put("tradeInfo", tradeInfo);
+				
+				overall.put("creditScore", 0);
+				overall.put("creditRating", "A");
+				overall.put("creditRatingIcon", "");
 				
 				rm.put("overall", overall);
 				rm.put("detail", detail);
@@ -260,7 +360,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getBaseInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人基本信息";
-		int basecode = 0;
+		int basecode = 230200;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -274,7 +374,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -332,7 +432,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getLegalPersonInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人法人信息";
-		int basecode = 0;
+		int basecode = 230300;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -346,7 +446,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -405,7 +505,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getRegisteredInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人公司注册信息";
-		int basecode = 0;
+		int basecode = 230400;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -419,7 +519,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -474,7 +574,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getBankInfo_apply(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询保存的招标人开户行信息";
-		int basecode = 0;
+		int basecode = 230500;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -488,7 +588,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -543,7 +643,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 	public @ResponseBody ResultModel getApplication(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询招标人认证申请详情";
-		int basecode = 0;
+		int basecode = 230600;
 		BaseTransVO<MyBiddeeAuthInfoBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
 		try {
@@ -557,7 +657,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 		}
 //		// 预设的一些信息
 		
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		rm.setErrmsg(messagebase + "成功");
 		RequestEvent qe=null ;
 		
@@ -582,7 +682,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			
 			baseInfo = myBiddeeService.getBaseInfo_apply(token);
 			legalPerson = myBiddeeService.getLegalPersonInfo_apply(token);
-			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);
+			registeredInfo = myBiddeeService.getRegisteredInfo(token);
 			bankInfo = myBiddeeService.getBankInfo_apply(token);
 
 			
@@ -618,13 +718,13 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveBaseInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveBaseInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 230700;
 		String messagebase = "保存招标人基本信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -683,13 +783,13 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveLegalPersonInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveLegalPersonInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 230800;
 		String messagebase = "保存招标人法人信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -746,13 +846,13 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/saveRegisteredInfo_apply",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel saveRegisteredInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 230900;
 		String messagebase = "保存招标人公司注册信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -818,11 +918,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 */
 	@RequestMapping(value="/saveBankInfo",method=RequestMethod.POST)
 	public @ResponseBody ResultModel saveBankInfo_apply(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 231000;
 		String messagebase = "保存招标人开户行信息";
 		BiddeeCerticateSaveInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -878,13 +978,13 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/applay",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	
 	public @ResponseBody ResultModel applay(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
-		String messagebase = "提交投标人认证申请";
+		int basecode = 231100;
+		String messagebase = "提交招标人认证申请";
 		MyBiddeeAuthInfoApplyVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);
@@ -937,13 +1037,12 @@ public class MyBiddeeBusinessController extends BaseController  {
 	 * @return
 	 */
 	@RequestMapping(value="/checkApplication",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public @ResponseBody ResultModel checkApplication(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
+		int basecode = 231200;
 		String messagebase = "提交招标人认证审核结果";
 		BiddeeAuditInfoVO transorder = null;
 		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
+		rm.setBaseErrorCode(basecode);
 		try {
 			String jsonstr  = RequestUtil.getRequestPostData(request);
 			request.setAttribute("rawjson", jsonstr);

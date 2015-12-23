@@ -3,6 +3,7 @@ package com.hummingbird.paas.services;
 import java.util.List;
 
 import com.hummingbird.common.exception.BusinessException;
+<<<<<<< HEAD
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.paas.entity.Biddee;
@@ -45,6 +46,9 @@ import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
+=======
+import com.hummingbird.paas.entity.Token;
+>>>>>>> 768ccc76ca944006747e0a0f63b99a94cc8a85df
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
 import com.hummingbird.paas.vo.UserInformationDetailReturnVO;

@@ -13,6 +13,9 @@
  */
 require_once(APP_PATH . '/Admin/Common/ace.php');
 
+function bfb($num=0){
+    return intval($num)>0 ? $num.' %' : $num;
+}
 /**
  * 裁剪正中部分，等比缩小生成缩略图
  * @param $url
@@ -26,6 +29,19 @@ function imageView2($url,$w=null,$h=null){
     }else{
         $url = $url.'?imageView2/1/w/'.$w.'/h/'.$h.'/interlace/1&e='.(time()+3600);
     }
+
+    $config = C('UPLOAD_QINIU_CONFIG');
+    $sign = hash_hmac('sha1', $url, $config['secrectKey'], true);
+    return $url.'&token='.$config['accessKey'].':'.urlsafe_base64_encode($sign);
+}
+
+/**
+ * 获取7牛下载链接
+ * @param $url
+ * @return string
+ */
+function get_qiniu_file_durl($url){
+    $url = $url.'?attname=&e='.(time()+3600);
 
     $config = C('UPLOAD_QINIU_CONFIG');
     $sign = hash_hmac('sha1', $url, $config['secrectKey'], true);
@@ -632,4 +648,14 @@ function get_action_type($type, $all = false){
         return $list;
     }
     return $list[$type];
+}
+
+
+/**
+ * 检查接口返回
+ * @param intger $type 类型
+ * @author huajie <banhuajie@163.com>
+ */
+function check_resp($resp){
+    return !empty($resp) && $resp['errcode'] == '0';
 }

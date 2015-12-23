@@ -22,7 +22,7 @@ public class ProjectPaymentAccountOrder {
     private Date insertTime;
 
     /**
-     * 类别，SGC平台方收工程款（发包方），FGC平台方付工程款（承包商）
+     * 类别，SGC平台方收工程款（招标人），FGC平台方付工程款（投标人）
      */
     private String type;
 
@@ -122,6 +122,16 @@ public class ProjectPaymentAccountOrder {
     private Date externalOrderTime;
 
     /**
+     * 冻结余额
+     */
+    private Long frozenSumSnapshot;
+
+    /**
+     * 产品名称
+     */
+    private String productName;
+
+    /**
      * @return 订单id
      */
     public String getOrderId() {
@@ -167,7 +177,7 @@ public class ProjectPaymentAccountOrder {
     }
 
     /**
-     * @return 类别，SGC平台方收工程款（发包方），FGC平台方付工程款（承包商）
+     * @return 类别，SGC平台方收工程款（招标人），FGC平台方付工程款（投标人）
      */
     public String getType() {
         return type;
@@ -175,7 +185,7 @@ public class ProjectPaymentAccountOrder {
 
     /**
      * @param type 
-	 *            类别，SGC平台方收工程款（发包方），FGC平台方付工程款（承包商）
+	 *            类别，SGC平台方收工程款（招标人），FGC平台方付工程款（投标人）
      */
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
@@ -466,6 +476,36 @@ public class ProjectPaymentAccountOrder {
         this.externalOrderTime = externalOrderTime;
     }
 
+    /**
+     * @return 冻结余额
+     */
+    public Long getFrozenSumSnapshot() {
+        return frozenSumSnapshot;
+    }
+
+    /**
+     * @param frozenSumSnapshot 
+	 *            冻结余额
+     */
+    public void setFrozenSumSnapshot(Long frozenSumSnapshot) {
+        this.frozenSumSnapshot = frozenSumSnapshot;
+    }
+
+    /**
+     * @return 产品名称
+     */
+    public String getProductName() {
+        return productName;
+    }
+
+    /**
+     * @param productName 
+	 *            产品名称
+     */
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : productName.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -500,7 +540,9 @@ public class ProjectPaymentAccountOrder {
             && (this.getMethod() == null ? other.getMethod() == null : this.getMethod().equals(other.getMethod()))
             && (this.getAppAlias() == null ? other.getAppAlias() == null : this.getAppAlias().equals(other.getAppAlias()))
             && (this.getAppAlias2() == null ? other.getAppAlias2() == null : this.getAppAlias2().equals(other.getAppAlias2()))
-            && (this.getExternalOrderTime() == null ? other.getExternalOrderTime() == null : this.getExternalOrderTime().equals(other.getExternalOrderTime()));
+            && (this.getExternalOrderTime() == null ? other.getExternalOrderTime() == null : this.getExternalOrderTime().equals(other.getExternalOrderTime()))
+            && (this.getFrozenSumSnapshot() == null ? other.getFrozenSumSnapshot() == null : this.getFrozenSumSnapshot().equals(other.getFrozenSumSnapshot()))
+            && (this.getProductName() == null ? other.getProductName() == null : this.getProductName().equals(other.getProductName()));
     }
 
     @Override
@@ -530,6 +572,8 @@ public class ProjectPaymentAccountOrder {
         result = prime * result + ((getAppAlias() == null) ? 0 : getAppAlias().hashCode());
         result = prime * result + ((getAppAlias2() == null) ? 0 : getAppAlias2().hashCode());
         result = prime * result + ((getExternalOrderTime() == null) ? 0 : getExternalOrderTime().hashCode());
+        result = prime * result + ((getFrozenSumSnapshot() == null) ? 0 : getFrozenSumSnapshot().hashCode());
+        result = prime * result + ((getProductName() == null) ? 0 : getProductName().hashCode());
         return result;
     }
 }

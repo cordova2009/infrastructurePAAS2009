@@ -12,11 +12,18 @@
     <result column="acccount_name_certificate_result" property="acccountNameCertificateResult" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="INTEGER" />
     <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="tax_no_certificate_msg" property="taxNoCertificateMsg" jdbcType="VARCHAR" />
+    <result column="address_certificate_msg" property="addressCertificateMsg" jdbcType="VARCHAR" />
+    <result column="telephone_certificate_msg" property="telephoneCertificateMsg" jdbcType="VARCHAR" />
+    <result column="tax_no_certificate_result" property="taxNoCertificateResult" jdbcType="VARCHAR" />
+    <result column="address_certificate_result" property="addressCertificateResult" jdbcType="VARCHAR" />
+    <result column="telephone_certificate_result" property="telephoneCertificateResult" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_certicate_id, bankcard_certificate_msg, bank_certificate_msg, acccount_name_certificate_msg, 
     bankcard_certificate_result, bank_certificate_result, acccount_name_certificate_result, 
-    auditor, audit_time
+    auditor, audit_time, tax_no_certificate_msg, address_certificate_msg, telephone_certificate_msg, 
+    tax_no_certificate_result, address_certificate_result, telephone_certificate_result
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,27 +31,31 @@
     from t_qyzz_bidder_bank_aduit
     where id = #{id,jdbcType=INTEGER}
   </select>
-   <select id="selectByBcId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_qyzz_bidder_bank_aduit
-    where bidder_certicate_id = #{bcid,jdbcType=INTEGER} 
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder_bank_aduit
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="removeAduitRecord" parameterType="java.lang.Integer" >
+    delete from t_qyzz_bidder_bank_aduit
+    where bidder_certicate_id = #{bidderCertificationId}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BidderBankAduit" >
     insert into t_qyzz_bidder_bank_aduit (id, bidder_certicate_id, bankcard_certificate_msg, 
       bank_certificate_msg, acccount_name_certificate_msg, 
       bankcard_certificate_result, bank_certificate_result, 
       acccount_name_certificate_result, auditor, 
-      audit_time)
+      audit_time, tax_no_certificate_msg, address_certificate_msg, 
+      telephone_certificate_msg, tax_no_certificate_result, 
+      address_certificate_result, telephone_certificate_result
+      )
     values (#{id,jdbcType=INTEGER}, #{bidderCerticateId,jdbcType=INTEGER}, #{bankcardCertificateMsg,jdbcType=VARCHAR}, 
       #{bankCertificateMsg,jdbcType=VARCHAR}, #{acccountNameCertificateMsg,jdbcType=VARCHAR}, 
       #{bankcardCertificateResult,jdbcType=VARCHAR}, #{bankCertificateResult,jdbcType=VARCHAR}, 
       #{acccountNameCertificateResult,jdbcType=VARCHAR}, #{auditor,jdbcType=INTEGER}, 
-      #{auditTime,jdbcType=TIMESTAMP})
+      #{auditTime,jdbcType=TIMESTAMP}, #{taxNoCertificateMsg,jdbcType=VARCHAR}, #{addressCertificateMsg,jdbcType=VARCHAR}, 
+      #{telephoneCertificateMsg,jdbcType=VARCHAR}, #{taxNoCertificateResult,jdbcType=VARCHAR}, 
+      #{addressCertificateResult,jdbcType=VARCHAR}, #{telephoneCertificateResult,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.BidderBankAduit" >
     insert into t_qyzz_bidder_bank_aduit
@@ -79,6 +90,24 @@
       <if test="auditTime != null" >
         audit_time,
       </if>
+      <if test="taxNoCertificateMsg != null" >
+        tax_no_certificate_msg,
+      </if>
+      <if test="addressCertificateMsg != null" >
+        address_certificate_msg,
+      </if>
+      <if test="telephoneCertificateMsg != null" >
+        telephone_certificate_msg,
+      </if>
+      <if test="taxNoCertificateResult != null" >
+        tax_no_certificate_result,
+      </if>
+      <if test="addressCertificateResult != null" >
+        address_certificate_result,
+      </if>
+      <if test="telephoneCertificateResult != null" >
+        telephone_certificate_result,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -110,6 +139,24 @@
       </if>
       <if test="auditTime != null" >
         #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxNoCertificateMsg != null" >
+        #{taxNoCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="addressCertificateMsg != null" >
+        #{addressCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneCertificateMsg != null" >
+        #{telephoneCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNoCertificateResult != null" >
+        #{taxNoCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="addressCertificateResult != null" >
+        #{addressCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneCertificateResult != null" >
+        #{telephoneCertificateResult,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -143,6 +190,24 @@
       <if test="auditTime != null" >
         audit_time = #{auditTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="taxNoCertificateMsg != null" >
+        tax_no_certificate_msg = #{taxNoCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="addressCertificateMsg != null" >
+        address_certificate_msg = #{addressCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneCertificateMsg != null" >
+        telephone_certificate_msg = #{telephoneCertificateMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNoCertificateResult != null" >
+        tax_no_certificate_result = #{taxNoCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="addressCertificateResult != null" >
+        address_certificate_result = #{addressCertificateResult,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneCertificateResult != null" >
+        telephone_certificate_result = #{telephoneCertificateResult,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -156,7 +221,19 @@
       bank_certificate_result = #{bankCertificateResult,jdbcType=VARCHAR},
       acccount_name_certificate_result = #{acccountNameCertificateResult,jdbcType=VARCHAR},
       auditor = #{auditor,jdbcType=INTEGER},
-      audit_time = #{auditTime,jdbcType=TIMESTAMP}
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      tax_no_certificate_msg = #{taxNoCertificateMsg,jdbcType=VARCHAR},
+      address_certificate_msg = #{addressCertificateMsg,jdbcType=VARCHAR},
+      telephone_certificate_msg = #{telephoneCertificateMsg,jdbcType=VARCHAR},
+      tax_no_certificate_result = #{taxNoCertificateResult,jdbcType=VARCHAR},
+      address_certificate_result = #{addressCertificateResult,jdbcType=VARCHAR},
+      telephone_certificate_result = #{telephoneCertificateResult,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByBcId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_bidder_bank_aduit
+    where bidder_certicate_id = #{bcid,jdbcType=INTEGER} 
+  </select>
 </mapper>

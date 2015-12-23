@@ -6,35 +6,47 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
-import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.Bidder;
+import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.BidderCertification;
+import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificationCertification;
+import com.hummingbird.paas.entity.BidderCredit;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
+import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
+import com.hummingbird.paas.mapper.BidderCertificationAuditMapper;
 import com.hummingbird.paas.mapper.BidderCertificationCertificationMapper;
+import com.hummingbird.paas.mapper.BidderCertificationCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCertificationMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
@@ -43,14 +55,15 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.util.CamelUtil;
+import com.hummingbird.paas.util.PhoneAndEmailUtil;
 import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
-import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderBankInfoCheck;
 import com.hummingbird.paas.vo.BidderBaseInfoCheck;
 import com.hummingbird.paas.vo.BidderLegalPersonCheck;
 import com.hummingbird.paas.vo.BidderRegisteredInfoCheck;
+import com.hummingbird.paas.vo.CertificationCheck;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderEqInfo;
@@ -70,8 +83,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Autowired
 	protected UserBankcardMapper userBankcardDao;
 	@Autowired
-	protected BidderCreditMapper bidderCreditDao;
-	@Autowired
 	protected BidderBidCreditScoreMapper bidderBidCreditScoreDao;
 	@Autowired
 	protected BidderBankAduitMapper bidderBankAduitDao;
@@ -85,6 +96,14 @@ public class MyBidderServiceImpl implements MyBidderService {
 	protected BidderMapper bidderDao;
 	@Autowired
 	protected BidderCertificationMapper bcDao;
+	@Autowired
+	protected BidderCreditMapper bidderCreditDao;
+	@Autowired
+	protected BidderCertificationCreditScoreMapper bccsDao;
+	@Autowired
+	protected BidderBidCreditScoreMapper bbcsDao;
+	@Autowired
+	protected BidderCertificationAuditMapper bcaDao;
 
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
@@ -130,8 +149,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 		StringUtil util = new StringUtil();
 		if(aa !=null){
 			
-			legalPerson.setName(util.getShowString(aa.getLegalPerson()));
-			legalPerson.setIdCard(util.getShowString(aa.getLegalPersonIdcard()));
+			legalPerson.setName(aa.getLegalPerson());
+			legalPerson.setIdCard(aa.getLegalPersonIdcard());
 			legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
 			legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
 			legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
@@ -146,37 +165,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 		// TODO Auto-generated method stub
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
 		
-//		 "registeredInfo":{
-//	         "businessLicenseNum":"BUSINESS_LICENSE_NUM",
-//	         "":"BUSINESS_LICENSE_URL",
-//	         "taxRegistrationNum":"TAX_REGISTRATION_NUM",
-//	         "taxRegistrationUrl":"TAX_REGISTRATION_URL",
-//	         "organizationCodeNum":"ORGANIZATION_CODE_NUM",
-//	         "organizationCodeUrl":"ORGANIZATION_CODE_URL"
-//	         "businessScope":"经营范围",
-//	         "regTime":"2014-04-05",
-//	         "businessLicenseExpireTime":"10年",
-//	         "address":"",
-//	         "businessLicenseType":"OLD",
-//	         "newBusinessLicenseNum":"",
-//	         "newBusinessLicenseUrl":"",
-//	    }registeredInfo
-		
-//		Map registeredInfo= new HashMap();
-//		registeredInfo.put("businessLicenseNum", aa.getBusinessLicense());
-//		registeredInfo.put("businessLicenseUrl", aa.getBusinessLicenseUrl());
-//		registeredInfo.put("taxRegistrationNum", aa.getTaxRegistrationCertificate());
-//		registeredInfo.put("taxRegistrationUrl", aa.getTaxRegistrationCertificateUrl());
-//		registeredInfo.put("organizationCodeNum", aa.getOrgCodeCertificate());
-//		registeredInfo.put("organizationCodeUrl", aa.getOrgCodeCertificateUrl());
-//		registeredInfo.put("businessScope", aa.getBusinessScope());
-//		registeredInfo.put("regTime", aa.getRegTime());
-//		registeredInfo.put("businessLicenseExpireTime", aa.getBusinessLicenseExpireTime());
-//		
-//		registeredInfo.put("address", aa.getAddress());
-//		registeredInfo.put("businessLicenseType", aa.getBusinessLicenseType());
-//		registeredInfo.put("newBusinessLicenseNum", aa.getNewBusinessLicense());
-//		registeredInfo.put("newBusinessLicenseUrl", aa.getUnifiedSocialCreditCodeUrl());
 		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
 		if(aa != null){
 			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
@@ -188,6 +176,38 @@ public class MyBidderServiceImpl implements MyBidderService {
 			registeredInfo.setBusinessScope(aa.getBusinessScope());
 			registeredInfo.setRegTime(aa.getRegTime());
 			registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+				
+			registeredInfo.setAddress(aa.getAddress());
+			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
+			registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+			
+		}
+		
+		
+		return registeredInfo;
+	}
+	@Override
+	public BidderRegisteredInfo getRegisteredInfo(Token token) throws BusinessException {
+		// TODO Auto-generated method stub
+		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
+		
+		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
+		if(aa != null){
+			registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+			registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+			registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+			registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+			registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+			registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+			registeredInfo.setBusinessScope(aa.getBusinessScope());
+			registeredInfo.setRegTime(aa.getRegTime());
+			if("0".equals(aa.getBusinessLicenseExpireTime())){
+				registeredInfo.setBusinessLicenseExpireTime("长期");
+			}else{
+				registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+				
+			}
 			registeredInfo.setAddress(aa.getAddress());
 			registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
 			registeredInfo.setNewBusinessLicenseNum(aa.getNewBusinessLicense());
@@ -220,6 +240,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 			bankInfo.setBank(aa.get(0).getBankName());
 			bankInfo.setAccountId(aa.get(0).getAccountNo());
 			bankInfo.setAccountName(aa.get(0).getAccountName());
+			bankInfo.setTaxNo(aa.get(0).getTaxNo());
+			bankInfo.setTelephone(aa.get(0).getTelephone());
+			bankInfo.setAddress(aa.get(0).getAddress());
 		}
 		return bankInfo;
 	}
@@ -233,6 +256,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 		if(token.getUserId() != null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
 //			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+			PhoneAndEmailUtil pn = new PhoneAndEmailUtil();
 			if(bidder==null){
 				bidder=new BidderCerticate();
 				if(baseInfo!= null){
@@ -243,6 +267,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 					String telephone = baseInfo.getTelephone();
 					String email = baseInfo.getEmail();
 					String logo = baseInfo.getLogoUrl();
+//					if(!pn.isPhoneNumber(telephone)){
+//						throw new BusinessException(10220, "电话号码格式不正确");
+//					}
+//					if(!pn.isEmail(email)){
+//						throw new BusinessException(10221, "邮箱格式不正确");
+//					}
 					bidder.setUserId(token.getUserId());
 					bidder.setCompanyName(company_name);
 					bidder.setShortName(short_name);
@@ -252,6 +282,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setEmail(email);
 					bidder.setLogo(logo);
 					bidder.setStatus("CRT");
+					bidder.setApplyTime(new Date());
 				}
 			
 				
@@ -302,7 +333,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 					String idCardBackUrl = legalPerson.getIdCardBackUrl();
 					String authorityBookUrl = legalPerson.getAuthorityBookUrl();
 					
-					
+					bidder.setUserId(token.getUserId());
 					bidder.setLegalPerson(name);
 					bidder.setLegalPersonIdcard(idCard);
 					bidder.setLegalPersonIdcardFrontUrl(idCardfrontUrl);
@@ -350,7 +381,11 @@ public class MyBidderServiceImpl implements MyBidderService {
 		int i= 0;
 		if(token.getUserId() != null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
-//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写基本信息再提交!");
+			if(bidder == null){
+				bidder = new BidderCerticate();
+				bidder.setUserId(token.getUserId());
+			}
 			if(registeredInfo!= null){
 				
 				String businessLicenseNum = registeredInfo.getBusinessLicenseNum();
@@ -373,8 +408,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setUnifiedSocialCreditCode(newBusinessLicenseNum);
 					bidder.setUnifiedSocialCreditCodeUrl(newBusinessLicenseUrl);
 					bidder.setNewBusinessLicense(newBusinessLicenseNum);
-					ValidateUtil.assertNull(newBusinessLicenseNum, "社会统一信用代码");
-					ValidateUtil.assertNull(newBusinessLicenseUrl, "三合一执照url");
+					ValidateUtil.assertEmpty(newBusinessLicenseNum, "社会统一信用代码");
+					ValidateUtil.assertEmpty(newBusinessLicenseUrl, "三合一执照url");
 					/*bidder.setBusinessLicense(newBusinessLicenseNum);
 					bidder.setBusinessLicenseUrl(newBusinessLicenseUrl);*/
 				}else if("OLD".equalsIgnoreCase(businessLicenseType)){
@@ -384,12 +419,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bidder.setTaxRegistrationCertificateUrl(taxRegistrationUrl);
 					bidder.setOrgCodeCertificate(organizationCodeNum);
 					bidder.setOrgCodeCertificateUrl(organizationCodeUrl);
-					ValidateUtil.assertNull(businessLicenseNum, "营业执照");
-					ValidateUtil.assertNull(businessLicenseUrl, "营业执照url");
-					ValidateUtil.assertNull(taxRegistrationNum, "税务证书编号");
-					ValidateUtil.assertNull(taxRegistrationUrl, "税务证书url");
-					ValidateUtil.assertNull(organizationCodeNum, "组织机构代码");
-					ValidateUtil.assertNull(organizationCodeUrl, "组织机构url");
+					ValidateUtil.assertEmpty(businessLicenseNum, "营业执照");
+					ValidateUtil.assertEmpty(businessLicenseUrl, "营业执照url");
+					ValidateUtil.assertEmpty(taxRegistrationNum, "税务证书编号");
+					ValidateUtil.assertEmpty(taxRegistrationUrl, "税务证书url");
+					ValidateUtil.assertEmpty(organizationCodeNum, "组织机构代码");
+					ValidateUtil.assertEmpty(organizationCodeUrl, "组织机构url");
 				}else{
 						throw new BusinessException("营业执照类型不对");
 					
@@ -401,7 +436,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 				bidder.setRegTime(regTime);
 				bidder.setBusinessLicenseExpireTime(businessLicenseExpireTime);
 			}	
-			if(bidder==null && bidder.getId()==null){
+			if(bidder.getId()==null){
 				//bidder=new BidderCerticate();
 				i = bidderCerticateDao.insertSelective(bidder);
 			}else{
@@ -431,6 +466,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 					 b.setBankName(bankInfo.getBank());
 					 b.setAccountNo(bankInfo.getAccountId());
 					 b.setAccountName(bankInfo.getAccountName());
+					 b.setTaxNo(bankInfo.getTaxNo());
+					 b.setTelephone(bankInfo.getTelephone());
+					 b.setAddress(bankInfo.getAddress());
 				 }
 				
 				i = bbccDao.updateByPrimaryKeySelective(b);
@@ -441,6 +479,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 					 b.setBankName(bankInfo.getBank());
 					 b.setAccountNo(bankInfo.getAccountId());
 					 b.setAccountName(bankInfo.getAccountName());
+					 b.setTaxNo(bankInfo.getTaxNo());
+					 b.setTelephone(bankInfo.getTelephone());
+					 b.setAddress(bankInfo.getAddress());
 				 }
 				i = bbccDao.insertSelective(b);
 			}
@@ -458,7 +499,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
 			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
 	
-			bidder.setStatus("OK#");//修改状态为已认证
+			bidder.setStatus("APY");//修改状态为已认证
 			i = bidderCerticateDao.updateByPrimaryKeySelective(bidder);
 		
 			}
@@ -483,7 +524,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 			throws BusinessException {
 			int i =0;
 			BidderCerticate bidder = bidderCerticateDao.selectByUserId(token.getUserId());
-//			ValidateUtil.assertNull(bidder, "未找到投标人数据！请先填写完信息再提交!");
+			ValidateUtil.assertNull(bidder, "请先填写投标人基本信息再提交!");
 			if(eqInfos!= null && eqInfos.size()>0){
 //				1.筛选出修改的记录
 				List<Integer> updIds = new ArrayList<Integer>();
@@ -546,74 +587,160 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public  Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer bidderId) throws BusinessException {
 		boolean flag = true;
-		BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
-		BidderLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
-		BidderRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
-		BidderBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
-		
-		boolean baseInfoCheckflag = checkIsOk(baseInfoCheck);
-		boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck);
-		boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck);
-		boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck);
-//		所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
-		if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
-			flag = false;
-		}
-//		baseInfoCheck.getCompany_name().getResult()
-		BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
-		BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByPrimaryKey(bidderId);
+		try{
+			BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
+			BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(bidderId);
 
-		ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
-		if(bca == null){
-			bca = new BidderCertificateAduit();
-		}
-			//审核通过 
-			if(flag){
-//				1.插入投标人正式表
-				Bidder bidder = bidderDao.selectByUserId(bc.getUserId());
-				if(bidder==null){
-					bidderDao.insertSelectByBidderIdSuccess(bidderId);
-				}else{
-					bidderDao.updateByBidderIdSuccess(bidderId);
-				}
-				
-//				2.插入资质证书正式表
-				List<BidderCertification> bcfs  = bcDao.selectByBidderId(bidderId);
-				if(bcfs == null || bcfs.size()==0){
-					bcDao.insertSelectiveByCertificationIdSuccess(bidderId);
-				}else{
-					bcDao.updateByCertificationIdSuccess(bidderId);
-				}
-				
-//				3.插入开户行正式表 信息
-				List<UserBankcard> ubcs = userBankcardDao.selectBidderBankInfoByUserId(bc.getUserId());
-				if(ubcs != null || ubcs.size()==0){
-					userBankcardDao.insertBidderBankInfo(bc.getUserId());
-				}else{
-					userBankcardDao.updateBidderBankInfo(bc.getUserId());
-				}
-				bca.setAuditStatus("OK#");
-				
-			}else{//审核不通过
-				bca.setAuditStatus("FLS");
-				
-			}
-//			4.插入审核信息
+			ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
 			
-				bca = this.getBidderCertificateAduitInfo(body.getBaseInfoCheck(), bca);
-				bca = getBidderCertificateAduitInfo(body.getLegalPersonCheck(), bca);
-				bca = getBidderCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
-				bca.setInsertTime(new Date());//首次插入时间
-				bca.setBidderCerticateId(bidderId);
-				bca.setAuditor(bc.getUserId());
-				bca.setAuditTime(new Date());
-			if(bca==null){
-				bca.setInsertTime(new Date());//首次插入时间
-				bidderCertificateAduitDao.insert(bca);
-			}else{
-				bidderCertificateAduitDao.updateByPrimaryKey(bca);
+			BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
+			BidderLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();
+			BidderRegisteredInfoCheck registeredInfoCheck = body.getRegisteredInfoCheck();
+			BidderBankInfoCheck bankInfoCheck  = body.getBankInfoCheck();
+			List<CertificationCheck> certificationsCheck = body.getCertificationsCheck();
+			
+			boolean baseInfoCheckflag = checkIsOk(baseInfoCheck, null);
+			boolean legalPersonCheckfalg = checkIsOk(legalPersonCheck, null);
+			boolean registeredInfoCheckflag = checkIsOk(registeredInfoCheck, bc.getBusinessLicenseType());
+			boolean bankInfoCheckfalg = checkIsOk(bankInfoCheck, null);
+			
+//			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
+			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
+				flag = false;
 			}
+//			baseInfoCheck.getCompany_name().getResult()
+			
+			if(bca == null){
+				bca = new BidderCertificateAduit();
+			}
+				//审核通过 
+				if(flag){
+//					1.插入投标人正式表
+					Bidder bidder = bidderDao.selectByUserId(bc.getUserId());
+					if(bidder==null){
+						bidderDao.insertSelectByBidderIdSuccess(bidderId);
+					}else{
+						bidderDao.updateByBidderIdSuccess(bidderId);
+					}
+					
+//					2.插入资质证书正式表
+//					List<BidderCertification> bcfs  = bcDao.selectByBidderId(bidderId);
+//					if(bcfs == null || bcfs.size()==0){
+//						bcDao.insertSelectiveByCertificationIdSuccess(bidderId);
+//					}else{
+//						bcDao.updateByCertificationIdSuccess(bidderId);
+//					}
+					
+//					3.插入开户行正式表 信息
+					List<UserBankcard> ubcs = userBankcardDao.selectBidderBankInfoByUserId(bc.getUserId());
+					if(ubcs == null || ubcs.size()==0){
+						userBankcardDao.insertBidderBankInfo(bc.getUserId());
+					}else{
+						userBankcardDao.updateBidderBankInfo(bc.getUserId());
+					}
+					bca.setAuditStatus("OK#");
+					bc.setStatus("OK#");
+					
+					//添加 证书资质信息,只有通过的资质证书放过去
+					//删除所有证书
+					bcDao.removeAllByBidderId(bidderId);
+					if(CollectionUtils.isNotEmpty(certificationsCheck)){
+						for (Iterator iterator = certificationsCheck.iterator(); iterator.hasNext();) {
+							CertificationCheck certificationCheck = (CertificationCheck) iterator.next();
+							Integer certificationApplyId = certificationCheck.getCertificationApplyId();
+							if(StringUtils.equals(CommonStatusConst.STATUS_OK,certificationCheck.getCertificationApply().getResult())){
+								bcDao.insertByApplyId(certificationApplyId);
+							}
+							BidderCertificationAudit ca = new BidderCertificationAudit();
+							ca.setAuditor(bc.getUserId());
+							ca.setAuditStatus(certificationCheck.getCertificationApply().getResult());
+							ca.setAuditTime(new Date());
+							ca.setAuditReason(certificationCheck.getCertificationApply().getMsg());
+							ca.setCertificationCerticateId(certificationApplyId);
+							bcaDao.insert(ca);
+						}
+					}
 
+					
+				}else{//审核不通过
+					bca.setAuditStatus("FLS");
+					bc.setStatus("FLS");
+					
+				}
+//				4.插入审核信息
+				
+					bca = this.getBidderCertificateAduitInfo(body.getBaseInfoCheck(), bca);
+					bca = getBidderCertificateAduitInfo(body.getLegalPersonCheck(), bca);
+					bca = getBidderCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
+					bca.setInsertTime(new Date());//首次插入时间
+					bca.setBidderCerticateId(bidderId);
+					bca.setAuditor(bc.getUserId());
+					bca.setAuditTime(new Date());
+				if(bca.getId()==null){
+					bca.setInsertTime(new Date());//首次插入时间
+					bidderCertificateAduitDao.insert(bca);
+				}else{
+					bidderCertificateAduitDao.updateByPrimaryKey(bca);
+				}
+				//插入银行审核信息
+				boolean bankpass = true;
+				BidderBankAduit bba = new BidderBankAduit();
+				bba.setAuditTime(new Date());
+				bba.setBidderCerticateId(bidderId);
+				bba.setBankcardCertificateResult(bankInfoCheck.getAccount_no   ().getResult());
+				bba.setBankCertificateResult(bankInfoCheck.getBank_name()        .getResult());
+				bba.setAcccountNameCertificateResult(bankInfoCheck.getAccount_name().getResult());
+				bba.setTaxNoCertificateResult(bankInfoCheck.getTax_no       ().getResult());
+				bba.setAddressCertificateResult(bankInfoCheck.getAddress     ().getResult());
+				bba.setTelephoneCertificateResult(bankInfoCheck.getTelephone   ().getResult());
+				bba.setBankcardCertificateMsg(bankInfoCheck.getAccount_no   ().getMsg());
+				bba.setBankCertificateMsg(bankInfoCheck.getBank_name()        .getMsg());
+				bba.setAcccountNameCertificateMsg(bankInfoCheck.getAccount_name().getMsg());
+				bba.setTaxNoCertificateMsg(bankInfoCheck.getTax_no       ().getMsg());
+				bba.setAddressCertificateMsg(bankInfoCheck.getAddress     ().getMsg());
+				bba.setTelephoneCertificateMsg(bankInfoCheck.getTelephone   ().getMsg());
+				bankpass = bankInfoCheck.getBank_name().isPass() &&bankInfoCheck.getAccount_no().isPass()
+						&&bankInfoCheck.getAccount_name().isPass() &&bankInfoCheck.getTax_no().isPass()
+						&&bankInfoCheck.getAddress().isPass() &&bankInfoCheck.getTelephone().isPass();
+				bba.setBankcardCertificateResult(bankpass?CommonStatusConst.STATUS_OK:CommonStatusConst.STATUS_FAIL);
+				bidderBankAduitDao.removeAduitRecord(bidderId);
+				bidderBankAduitDao.insert(bba);
+
+//				5.插入积分信息
+//				protected BiddeeCreditMapper biddeeCreditDao;
+//				protected BiddeeCertificationCreditScoreMapper bccsDao;
+//				protected BiddeeBidCreditScoreMapper bbcsDao;
+				BidderCredit bcr  = bidderCreditDao.selectByPrimaryKey(bidderId);
+				if(bcr == null){
+					bcr = new BidderCredit();
+				}
+//				这里积分规则未定出     暂时全部存入 0 
+				bcr.setBankInfo(20);
+				bcr.setBaseinfoCreditScore(40);
+				bcr.setCompanyRegisteredInfo(40);
+				bcr.setCreditScore(40);
+				bcr.setLegalPersonInfo(40);
+				
+				if(bcr.getBidderId() != null){
+					bidderCreditDao.updateByPrimaryKeySelective(bcr);
+				}else{
+					bcr.setBidderId(bidderId);
+					bidderCreditDao.insert(bcr);
+				}
+				
+//				6.修改临时表数据状态
+				
+				bidderCerticateDao.updateByPrimaryKeySelective(bc);
+		}catch(ValidateException ve){
+			
+			//throw new DataInvalidException(errcode, msg );
+			throw new DataInvalidException(10103, ve.getMessage());
+		
+		}catch(Exception e){
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,
+					String.format("投标人【%s】审核失败", bidderId));
+		}
+		
 			
 		
 		
@@ -633,7 +760,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 	 * @throws BusinessException
 	 */
 	public  <T> BidderCertificateAduit getBidderCertificateAduitInfo(T obj,BidderCertificateAduit bc) throws BusinessException {
-		// TODO Auto-generated method stub
 		
 		Class clazz = obj.getClass();
 	    Field[] fields = obj.getClass().getDeclaredFields();//获得属性
@@ -652,7 +778,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 							AuditInfo mm =(AuditInfo)o;
 							//动态set方法  result 
 							String name = cu.underlineToCamel2(field.getName());
-							System.out.println("转换后的字段名"+name);
+//							System.out.println("转换后的字段名"+name);
 							rpd = new PropertyDescriptor(name,
 									bc.getClass());
 				            	Method setresultMethod = rpd.getWriteMethod();//获得set方法
@@ -665,22 +791,12 @@ public class MyBidderServiceImpl implements MyBidderService {
 							Object om =  setMsgMethod.invoke(bc,mm.getMsg());  //执行set 
 //							System.out.println(om.toString());
 						}
-						System.out.println(o.getClass().getName());
+//						System.out.println(o.getClass().getName());
 					}
 					
 					
-				} catch (IntrospectionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (Exception e) {
+					throw ValidateException.ERROR_SYSTEM_INTERNAL.clone(e, "数据处理出错");
 				}
 	    }
 	    return bc;
@@ -695,12 +811,26 @@ public class MyBidderServiceImpl implements MyBidderService {
 	 * @return flag
 	 * @throws BusinessException
 	 */
-	public  <T> Boolean checkIsOk(T obj) throws BusinessException {
-		// TODO Auto-generated method stub
+	public  <T> Boolean checkIsOk(T obj,String type) throws BusinessException {
 		boolean flag = true;
 //		BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 		Class clazz = obj.getClass();
 	    Field[] fields = obj.getClass().getDeclaredFields();//获得属性
+	    List<String> strs = new ArrayList<String>();
+	    if(type != null){
+	    	if("OLD".equalsIgnoreCase(type)){
+				String[] str = {"unified_social_credit_code_url","unified_social_credit_code"};
+			    strs = Arrays.asList(str);
+				
+			}else if("NEW".equalsIgnoreCase(type)){
+				String[] str = {"business_license","business_license_url","tax_registration_certificate","tax_registration_certificate_url","org_code_certificate","org_code_certificate_url"};
+				strs = Arrays.asList(str);
+//				str.toString().contains("1212");
+			}else{
+				ValidateUtil.assertNull(null, "没有该类型的营业执照请核对后在审核！");
+			}
+	    }
+	    
 	    for (Field field : fields) {
 	    PropertyDescriptor pd;
 		   try {
@@ -711,30 +841,29 @@ public class MyBidderServiceImpl implements MyBidderService {
 					if(o!= null && o.getClass()!=null){
 						if("AuditInfo".equals(o.getClass().getSimpleName())){
 							AuditInfo mm =(AuditInfo)o;
-							if(!"OK#".equalsIgnoreCase(mm.getResult())){
-								return false;
+							if(type ==null){//非公司注册的校验
+								if(!"OK#".equalsIgnoreCase(mm.getResult())){
+									return false;
+								}
+							}else{//公司注册的校验 
+//								List<String> strs = new ArrayList<String>(); 
+								
+									if(strs.contains(field.getName())){
+										continue;
+									}
+									if(!"OK#".equalsIgnoreCase(mm.getResult())){
+										return false;
+									}
+								
 							}
-							System.out.println(o.getClass().getName());
 						}
-//						System.out.println(o.getClass().getName());
 					}
 					
 					
-				} catch (IntrospectionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (Exception e) {
+					log.error("招标人资质认证参数转换出错",e);
 				}
 	    }
-//		baseInfoCheck.getCompany_name().getResult()
 		return flag;
 	}
 	

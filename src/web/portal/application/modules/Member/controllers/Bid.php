@@ -170,7 +170,6 @@ class BidController extends MemberController {
         $objectId           = I('objectId');
         $data               = ['token'=>$this->user['token']];
 
-
         $resp = $curl->setData($data)->send('member/queryMemberProduct');
         if(!check_resp($resp)) {
             $this->error('查询会员信息失败，请稍后再试或联系网站客服人员！');

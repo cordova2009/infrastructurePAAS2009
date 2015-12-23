@@ -228,7 +228,7 @@
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">招标方式</td>
-                            <?php $objectMethod = ['PUB' => '公开招标', 'INVI' => '邀请投标']; ?>
+                            <?php $objectMethod = ['PUB' => '公开招标', 'INV' => '邀请投标']; ?>
                             <td class="value"> <?=isset($objectMethodInfo['objectMethodInfo'])?$objectMethod[$objectMethodInfo['objectMethodInfo']]:'未填写'?> </td>
                         </tr>
                         <tr >
@@ -265,7 +265,7 @@
                         </tr>
                         <tr>
                             <td class="lab">招标时间要求</td>
-                            <td class="value"> <?=isset($dateRequirementInfo['bidOpenDate'])?$info['detail']['dateRequirementInfo']['bidOpenDate']:'未设置'?> </td>
+                            <td class="value"> <?=isset($dateRequirementInfo['bidOpenDate'])?str_replace('00:00:00','',$info['detail']['dateRequirementInfo']['bidOpenDate']):'未设置'?> </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">评标方法及标准</td>

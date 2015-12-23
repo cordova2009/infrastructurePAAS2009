@@ -13,66 +13,67 @@
                 </div>
                 <div class="bd">
                     <div class="tab_cont card_info">
-                    <?php
-                    if(!empty($info['BerbankInfo'])):
-                        foreach($info['BerbankInfo'] as $item):
-                    ?>
-                        <span class="left leftimg"><img src="/images/card.jpg"></span>
-                        <div class="auto">
-                            <div class="item">
-                                <span class="lab">账户名</span>
-                                <div class="auto value">
-                                    <?=$item['accountName']?>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <span class="lab">账户</span>
-                                <div class="auto value">
-                                    <?=$item['accountId']?>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <span class="lab">开户行</span>
-                                <div class="auto value">
-                                    <?=$item['bank']?>
-                                </div>
-                            </div>
-                        </div>
                         <?php
+                        if(!empty($info['BerbankInfo'])):
+                            foreach($info['BerbankInfo'] as $item):
+                                ?>
+                                <span class="left leftimg"><img src="/images/card.jpg"></span>
+                                <div class="auto">
+                                    <div class="item">
+                                        <span class="lab">账户名</span>
+                                        <div class="auto value">
+                                            <?=$item['accountName']?>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="lab">账户</span>
+                                        <div class="auto value">
+                                            <?=$item['accountId']?>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="lab">开户行</span>
+                                        <div class="auto value">
+                                            <?=$item['bank']?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
                             endforeach;
-                            else:
+                        else:
                             ?>
                             您还没有认证招标人！
                         <?php endif;?>
                     </div>
+
                     <div class="tab_cont card_info">
                         <?php
                         if(!empty($info['BeebankInfo'])):
-                        foreach($info['BeebankInfo'] as $item):
-                        ?>
-                        <span class="left leftimg"><img src="/images/card.jpg"></span>
-                        <div class="auto">
-                            <div class="item">
-                                <span class="lab">账户名</span>
-                                <div class="auto value">
-                                    <?=$item['accountName']?>
+                            foreach($info['BeebankInfo'] as $item):
+                                ?>
+                                <span class="left leftimg"><img src="/images/card.jpg"></span>
+                                <div class="auto">
+                                    <div class="item">
+                                        <span class="lab">账户名</span>
+                                        <div class="auto value">
+                                            <?=$item['accountName']?>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="lab">账户</span>
+                                        <div class="auto value">
+                                            <?=$item['accountId']?>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="lab">开户行</span>
+                                        <div class="auto value">
+                                            <?=$item['bank']?>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <span class="lab">账户</span>
-                                <div class="auto value">
-                                    <?=$item['accountId']?>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <span class="lab">开户行</span>
-                                <div class="auto value">
-                                    <?=$item['bank']?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                        endforeach;
+                            <?php
+                            endforeach;
                         else:
                             ?>
                             您还没有认证招标人！
@@ -84,9 +85,9 @@
     </div>
 </div>
 <block name="script">
-<script>
-$(function(){
-    $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(2)").addClass('active');
-})
-</script>
+    <script>
+        $(function(){
+            $("#left-menu .submenu:eq(0),#left-menu .submenu:eq(0) a:eq(2)").addClass('active');
+        })
+    </script>
 </block>

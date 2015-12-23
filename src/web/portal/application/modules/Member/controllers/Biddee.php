@@ -36,15 +36,18 @@ class BiddeeController extends MemberController{
 
         $curl = new Curl($this->config->url->api->paas);
         $resp = $curl->setData(['token'=>$this->user['token']])->send('myBiddee/authInfo/getAuthInfo');
+
         if(!check_resp($resp)) {
-            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '查询招标人认证信息失败，请稍后再试！');
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据查询失败，请重新再试或联系客服人员！');
         }
-        if(empty($resp['detail'])||empty($resp['overall']))
-        {
-            //  $this->redirect(U('applyfor'));
+
+        if(empty($resp['detail']) || empty($resp['overall'])){
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据查询失败，请重新再试或联系客服人员！');
         }
-        $this->assign('datail',isset($resp['detail'])?$resp['detail']:[]);
-        $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);
+
+//        var_dump($resp['detail']);die;
+        $this->assign('detail',$resp['detail']);
+        $this->assign('overall',$resp['overall']);
         $this->layout->meta_title = '认证信息';
     }
     public function applyforAction(){
@@ -210,10 +213,8 @@ class BiddeeController extends MemberController{
         if(empty($date['regTime'])){
             $this->error('成立时间不能为空！');
         }
-        $date['businessLicenseExpireTime']= I('businessLicenseExpireTime');
-        if(empty($date['businessLicenseExpireTime'])){
-            $this->error('营业期限不能为空！');
-        }
+        $date['businessLicenseExpireTime']= intval(I('businessLicenseExpireTime'));
+
         $date['address'] = I('address');
         if(empty($date['address'])){
             $this->error('公司地址不能为空！');

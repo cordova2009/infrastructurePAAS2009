@@ -252,3 +252,11 @@ if(check_resp($resp)){
     </div>
 </div>
 <?php require_once __DIR__.'/../common/upload.pic.php';?>
+<script>
+$('#constructionInfo ul input[type=text]').blur(function(){
+    var checkbox = $(this).closest('ul').prev().find('.i-check');
+    if($.trim(this.value) != '' && !checkbox.hasClass('on')){
+        checkbox.click();
+    }
+});
+</script>

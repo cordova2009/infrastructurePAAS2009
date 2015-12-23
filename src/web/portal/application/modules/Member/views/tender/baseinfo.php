@@ -8,7 +8,7 @@
             <div class="padm30">
                 <form action="<?=U('/member/tender/baseInfo')?>" method="post" class="ajax-form" success="save_success" next_step="projectInfo">
                 <input name="objectId" value="<?=isset($info)?$info['objectId']:''?>" type="hidden" />
-                <div class="shangwubiao zbxmxx">
+                <div class="gcjbxx zbxmxx">
                     <div class="item ">
                         <div class="lab"><span class="red">*</span>  招标项目名称</div>
                         <div class="value">
@@ -24,7 +24,7 @@
                     <div class="item ">
                         <div class="lab"><span class="red">*</span>招标项目范围</div>
                         <div class="value">
-                            <input name="objectScope" type="text" class="input1 " placeholder="" value="<?=isset($info)?$info['objectScope']:''?>">
+                            <input name="objectScope" type="text" class="input1 " placeholder="这里是示例，需要完善" value="<?=isset($info)?$info['objectScope']:''?>">
                         </div>
                     </div>
                     <div class="item ">

@@ -193,6 +193,12 @@ $(function() {
         toThousands.call(this);
     });
 
+    $(document).on('mouseover','.tip-qus,.tip-qus2',function(){
+        $(this).next().show();
+    }).on('mouseout','.tip-qus,.tip-qus2',function(){
+        $(this).next().hide();
+    });
+
     $(document).on('blur','.price_format',toThousands);
 
     $(document).on("click",".checkBtn2 a,.pay_select a",function(){

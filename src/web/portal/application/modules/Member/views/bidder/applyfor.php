@@ -1,17 +1,6 @@
-<div class=" main">
+<block name="style">
+    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <style>
-        .btn-file2 input {
-            cursor: pointer;
-            direction: ltr;
-            height: 44px;
-            margin: 0;
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 92px;
-            display:block;
-        }
         /*img{max-width:178px;}*/
         .btn-file3{position: relative;}
         .btn-file3 input {
@@ -27,7 +16,9 @@
             display:block;
         }
     </style>
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
+</block>
+<!--list-->
+<div class=" main">
     <div class="box  pad0 bg-orange">
         <div class="stepbox2">
             <ul class="clear">
@@ -107,12 +98,11 @@
                                         <label class="btn-file3  ">
                                             <span>上传图片</span>
                                             <input type="file" name="file">
-                                            <input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
+                                            <input class="hidden-url" type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +110,7 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）简介</span>
                             <div class="auto value ">
-                                <textarea  id="" class="textarea" name="description" ><?=$base['description']?></textarea>
+                                <textarea class="textarea" name="description" ><?=$base['description']?></textarea>
                             </div>
                         </div>
                         <div class="item">
@@ -181,29 +171,37 @@
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                                 <div class="marb20 clear">
                                     <img src="<?=empty($legal['idCardBackUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardBackUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
-                                        <label class="btn-file3  "> 上传附件<input type="file" name="file">
-                                            <input type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" ></label>
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file">
+                                            <input class="hidden-url" type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" >
+                                        </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="item">
                                 <span class="lab">法人授权书扫描件</span>
                                 <div class="auto value ">
-                                    <div class="btn-file3 ">上传文件 <input type="file" name="file"><input type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" ></div>
-                                    <div class="progress wid100 dib hide">
+                                    <div class="btn-file3 <?php if(isset($legal) && !empty($legal['authorityBookUrl'])) echo 'hide'?>">
+                                        <span>上传附件</span>
+                                        <input type="file" name="file">
+                                        <input class="hidden-url" type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" >
+                                    </div>
+                                    <div class="uploaded left <?php if(!isset($legal) || empty($legal['authorityBookUrl'])) echo 'hide'?>">
+                                        <a target="_blank" href="<?=isset($legal)?imageView2($legal['authorityBookUrl']):''?>" class="btn-file2 view">查看</a>
+                                        <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                                    </div>
+                                    <div class="progress wid100 dib hide left">
                                         <span class="on"></span>
                                     </div>
-                                    <span class="color8 text-center hide">上传中…</span>
                                     <i class="ico tip-qus2 verm marl20 "></i>
                                     <span class="red tips_txt hide">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                                 </div>
@@ -224,11 +222,17 @@
             <div class="padm30 jibenxx">
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="companyRegistered_sucess">
                     <div class="text-center checkBtn padv40 zhucexx">
-                        <a href="javascript:;" class="active">统一社会信用代码</a>
-                        <a href="javascript:;" class="">非统一社会信用代码</a>
+                        <a href="javascript:;" class=" <?=($registered['businessLicenseType'] != 'OLD')? 'active' :'';?>">
+                            统一社会信用代码
+                            <input type="radio" class="hide" <?=($registered['businessLicenseType'] != 'OLD')? 'checked' :'';?> name="businessLicenseType" value="NEW" >
+                        </a>
+                        <a href="javascript:;" class=" <?=($registered['businessLicenseType'] == 'OLD')? 'active' :'';?>">
+                            非统一社会信用代码
+                            <input type="radio" class="hide" <?=($registered['businessLicenseType'] == 'OLD')? 'checked' :'';?> name="businessLicenseType" value="OLD" >
+                        </a>
                     </div>
                     <!--统一社会信用代码-->
-                    <div class=" charge_form ">
+                    <div class=" charge_form  <?=($registered['businessLicenseType'] != 'OLD')? '' :'hide';?>">
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 统一社会信用代码</span>
                             <div class="auto value ">
@@ -239,15 +243,23 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 统一社会信用代码扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['newBusinessLicenseUrl']) ? '/uploads/pic.jpg' : imageView2($registered['newBusinessLicenseUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
                     </div>
-                    <div class=" charge_form hide" >
+                    <div class=" charge_form  <?=($registered['businessLicenseType'] == 'OLD')? '' :'hide';?>" >
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 营业执照编号</span>
                             <div class="auto value ">
@@ -258,11 +270,19 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 营业执照扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['businessLicenseUrl']) ? '/uploads/pic.jpg' : imageView2($registered['businessLicenseUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
 
@@ -276,11 +296,19 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 组织机构代码证扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['organizationCodeUrl']) ? '/uploads/pic.jpg' : imageView2($registered['organizationCodeUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
 
@@ -294,12 +322,19 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 税务登记证扫描件</span>
                             <div class="auto value " id="">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['taxRegistrationUrl']) ? '/uploads/pic.jpg' : imageView2($registered['taxRegistrationUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
-
                             </div>
                         </div>
                     </div>
@@ -340,11 +375,9 @@
                     <div class="text-center padv30">
                         <input  type="submit" class="btn-green2" value="保存并继续">
                     </div>
+                    <input type="hidden" name="type" value="companyRegistered" >
+                </form>
             </div>
-            <!--非统一社会信用代码-->
-            <input type="hidden" name="type" value="companyRegistered" >
-            <input type="hidden" name="businessLicenseType" value="<?=$registered['businessLicenseType']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
-            </form>
         </div>
 
         <div class="auto  box pad0 hide" id="bank">
@@ -402,56 +435,10 @@
                 <div id="zizhi_model" >
                 </div>
                 <div class=" charge_form padv20">
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 工程类别</span>
-                        <div class="auto value ">
-                            <a href="javascript:;" class="btn right" id="save">保存</a>
-                            <div class="select">
-                                <select name="projectType" id="projectType">
-                                    <?php foreach($projectType as $k=>$v){?>
-                                        <option value="<?=$k?>"><?=$v?></option>
-                                    <?php }?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 资质名称</span>
-                        <div class="auto value ">
-                            <div class="select">
-                                <select name="eqName" id="eqName" >
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab">资质编号</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 " name="certificationNo" id="certificationNo">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 资质有效期</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="lab"><span class="red">*</span> 适用区域</span>
-                        <div class="auto value ">
-                            <input type="text" class="input1 " name="applicableRegion" id="applicableRegion">
-                        </div>
-                    </div>
-
-                    <div class="item bordb padb30">
-                        <span class="lab"><span class="red">*</span> 附件上传</span>
-                        <div class="auto value ">
-                            <div class="btn-file3">上传文件 <input type="file" name="file" > <input type="hidden" name="certificationContent" value="" id="certificationContent"><input type="hidden" name="cshow" value="" id="cshow"></div>
-                            <div class="progress wid100 dib hide">
-                                <span class="on"></span>
-                            </div>
-                            <span class="color8 text-center hide">上传中…</span>
-                        </div>
+                    <div class="bordb text-center padv40">
+                        <a id="add-new-zizhi" href="javascript:">
+                            <img width="54" height="54" alt="" src="/images/add.png">
+                        </a>
                     </div>
                     <div class="text-center padv30">
                         <input type="hidden" name="type" value="bankInfo" >
@@ -464,23 +451,84 @@
 </div>
 <!--list-->
 
+<div id="new-zizhi-wrap" class="">
+    <div class="item">
+        <span class="lab"><span class="red">*</span> 工程类别</span>
+        <div class="auto value ">
+            <a href="javascript:;" class="btn right save-btn">保存</a>
+            <div class="select">
+                <select name="projectType" id="projectType">
+                    <?php foreach($projectType as $k=>$v){?>
+                        <option value="<?=$k?>"><?=$v?></option>
+                    <?php }?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <span class="lab"><span class="red">*</span> 资质名称</span>
+        <div class="auto value ">
+            <div class="select">
+                <select name="certificationId" id="certificationId" >
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <span class="lab"><span class="red">*</span> 资质编号</span>
+        <div class="auto value ">
+            <input type="text" class="input1 " name="certificationNo" id="certificationNo">
+        </div>
+    </div>
+    <div class="item">
+        <span class="lab"><span class="red">*</span> 资质有效期</span>
+        <div class="auto value ">
+            <input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate">
+        </div>
+    </div>
+    <div class="item">
+        <span class="lab"><span class="red">*</span> 适用区域</span>
+        <div class="auto value ">
+            <input type="text" class="input1 " name="applicableRegion" id="applicableRegion">
+        </div>
+    </div>
+
+    <div class="item bordb padb30">
+        <span class="lab"><span class="red">*</span> 附件上传</span>
+        <div class="auto value ">
+            <div class="marb20 clear">
+                <img id="cshow" src="/uploads/pic.jpg" alt="" class="left marr10">
+                <div class="left wid110">
+                    <label class="btn-file3  ">
+                        <span>上传附件</span>
+                        <input type="file" name="file" >
+                        <input type="hidden" class="hidden-url" name="certificationContent" value="" id="certificationContent">
+                    </label>
+                    <div class="progress mart20 hide">
+                        <span class="on"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <block name="script">
     <script src="/js/jquery.datetimepicker.js"></script>
 
     <?php require_once __DIR__.'/../common/upload.js.php';?>
     <script>
-        function add(obj)
-        {
+        function add(obj,subitem){
             var tmp = [];
-            tmp.push('<div class="subitem"><div class="text-right padt20"> <a href="javascript:;" class="btn " onclick="edit();">修改</a> <a href="javascript:;" class=" btn-grey2 marl10 " onclick="del();">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg "><img src="');
+            tmp.push('<div class="subitem"><div class="text-right padt20"> <a href="javascript:;" class="btn edit-zizhi" >修改</a> <a href="javascript:;" class=" btn-grey2 marl10 del-zizhi">删除</a> </div> <div class="qyzz bordb padb30"> <span class="left leftimg "><img src="');
             tmp.push(obj.cshow);
-            tmp.push('"></span><div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto value" data-name="projectType">');
+            tmp.push('"></span><div class="auto"> <div class="item"> <span class="lab">资质类别</span> <div class="auto">');
             tmp.push(obj.projectType);
-            tmp.push('&nbsp;</div><div class="auto value hide" data-name="projectTypeid">');
+            tmp.push('&nbsp;</div><div class="auto value hide" data-name="projectType">');
             tmp.push(obj.projectTypeid);
             tmp.push('</div><div class="auto value hide" data-name="certificationContent">');
             tmp.push(obj.certificationContent);
-            tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value" data-name="eqName">');
+            tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto">');
             tmp.push(obj.eqName);
             tmp.push('</div><div class="auto value hide" data-name="certificationId">');
             tmp.push(obj.certificationId);
@@ -491,65 +539,20 @@
             tmp.push('</div> </div> <div class="item"> <span class="lab">适用区域</span> <div class="auto value" data-name="applicableRegion">');
             tmp.push(obj.applicableRegion);
             tmp.push('</div></div></div>');
-            $('#zizhi_model').append(tmp.join(''));
-        }
-        function del()
-        {
-            var _this = event.target;
-            $(_this).parent().parent().remove();
-        }
-        function edit()
-        {
-            var _this = event.target;
-            $(_this).parent().parent().find('.value').each(function(i,o){
-                var id = $(o).data('name')
-                $('#'+id).val($(o).html());
-            });
-            var src = $(_this).parent().parent().find('img').eq(0).attr('src');
-            $('#cshow').val(src);
-            $(_this).parent().parent().remove();
-        }
-        function save(){
-            if($("#expiryDate").val()=='')
-            {
-                layer.alert("请先填写证书内容");
-                return false;
+            if(subitem != null){
+                subitem.before(tmp.join(''));
+            }else{
+
+                $('#zizhi_model').append(tmp.join(''));
             }
-            var obj ={};
-            obj.certificationContent = $('#certificationContent').val();
-            obj.cshow= $('#cshow').val();
-            $('#certificationContent').val('');
-            $('#cshow').val('');
-            obj.projectTypeid= $('#projectType').val();
-            obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
-            $('#projectType').val('');
-            obj.eqName= $('#eqName').find("option:selected").text();
-            obj.certificationId = $('#eqName').val();
-            $('#eqName').val('');
-            obj.certificationNo= $('#certificationNo').val();
-            $('#certificationNo').val('');
-            obj.expiryDate= $('#expiryDate').val();
-            $('#expiryDate').val('');
-            obj.applicableRegion= $('#applicableRegion').val();
-            $('#applicableRegion').val('');
-            add(obj);
         }
-        function submit()
-        {
+
+        function submit(){
             var obj = [];
-            $('#zizhi_model').find('.subitem').each(function (i,o){
+            $('#zizhi_model .subitem').each(function (i,o){
                 var tmp = {}
                 $(o).find('.value').each(function(i,o){
                     var id = $(o).data('name')
-                    if(id=='projectType')
-                    {
-                        return;
-                    }
-                    if(id=='projectTypeid')
-                    {
-                        tmp['projectType']= $(o).html();
-                        return;
-                    }
                     tmp[id]= $(o).html();
                 });
 //                var src = $(o).find('img').eq(0).attr('src');
@@ -559,7 +562,7 @@
 
             if(obj.length==0)
             {
-                layer.alert("请先添加资质证书");
+                layer.alert("请先添加资质证书",{icon:2});
                 return false;
             }
             var url = '<?=U('doapply')?>';
@@ -569,19 +572,7 @@
             ajax_post.apply(this,[url,{type:'zizhi',data:obj}]);
         }
 
-        var eqName = <?=json_encode($certificateName);?>;
-        function selected()
-        {
-            var val = $('#projectType').val();
-            var o = eqName[val];
-            $('#eqName').empty();
-            for(var i=0;i<o.length;i++)
-            {
-                $('#eqName').append('<option value="'+o[i].certificateId+'">'+o[i].certificateName+'</option>');
-            }
-        }
-        function base_sucess()
-        {
+        function base_sucess(){
 
             $('#base').hide();
             $('#legal').show();
@@ -594,8 +585,7 @@
             $(".progressBox .progress span").css({'width':'20%'});
             //$('#accountName').val($('#companyName').val());
         }
-        function legal_sucess()
-        {
+        function legal_sucess(){
 
             $('#legal').hide();
             $('#companyRegistered').show();
@@ -607,9 +597,7 @@
             $('#creditRating').html('40');
             $(".progressBox .progress span").css({'width':'40%'})
         }
-        function companyRegistered_sucess()
-        {
-
+        function companyRegistered_sucess(){
             $('#companyRegistered').hide();
             $('#bank').show();
             $(".stepbox2 .clear li").removeClass('active');
@@ -620,8 +608,7 @@
             $('#creditRating').html('60');
             $(".progressBox .progress span").css({'width':'60%'})
         }
-        function bank_sucess()
-        {
+        function bank_sucess(){
             $('#bank').hide();
             $('#zizhi').show();
             $(".stepbox2 .clear li").removeClass('active');
@@ -632,16 +619,14 @@
             $('#creditRating').html('80');
             $(".progressBox .progress span").css({'width':'80%'});
         }
-        function zizhi_sucess(form,resp)
-        {
+        function zizhi_sucess(form,resp){
             $(".stepbox2 .clear li").removeClass('active');
             $(".stepbox2 .clear li:eq(3)").addClass('active');
             $(".side_menu li:eq(4) a").html('企业资质 <i class="ico i-right"></i>');
             $('#creditRating').html('100');
             $(".progressBox .progress span").css({'width':'100%'});
         }
-        function change()
-        {
+        function change(){
             if($(this).find('.i-right').size()==0)
             {
                 return false;
@@ -654,9 +639,7 @@
             var id = $(this).data('id');
             $('#'+id).show();
         }
-        function init()
-        {
-            selected();
+        function init(){
             var base="<?=empty($base['companyName'])?'1':'0'?>";
             if(base==0)
             {
@@ -700,88 +683,192 @@
             }
         }
         $(function(){
-            $(".jibenxx .checkBtn a").click(function() {
-
-                $(this).addClass('active').siblings('a').removeClass('active')
-
-                var i = $(this).index();
-                $('#companyRegistered .charge_form').addClass('hide');
-                $('#companyRegistered .charge_form').eq(i).removeClass('hide');
-                if(i ==0 )
-                {
-                    $('#businessLicenseType').val('NEW');
-                }else
-                {
-                    $('#businessLicenseType').val('OLD');
-                }
-
-            });
-
-            $(".side_menu li").click(change);
-            $("#save").click(save);
-            $('#projectType').change(selected);
-
-            $('#submit').click(submit);
 
             init();
 
-            $("input[type=file]").fileupload({
-                url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
-                formData:{width:178,height:112},//如果需要额外添加参数可以在这里添加
-                dataType: 'json',
-                add: function (e, data) {
-                    if (e.isDefaultPrevented()) {
-                        return false;
-                    }
-                    var obj = $(this).data('data',data)
-                        .parent();
+            $(".jibenxx .checkBtn a").click(function() {
+                $(this)
+                    .addClass('active')
+                    .children('input').prop('checked',true);
+                $(this).siblings('a').removeClass('active');
 
-                    obj.css('background','#bebebe').nextAll().show()
-                        .children('span')
-                        .css('width','0%');
-                    obj.nextAll('.text-center').text('上传中...');
-
-                    data.submit();
-                },
-                progressall: function (e, data) {
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $(this).parent()
-                        .next('.progress')
-                        .children('span')
-                        .css('width',progress + '%');
-                },
-                done:function(e,data){
-                    //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-                    //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
-                    //返回的数据在result.result中，假设我们服务器返回了一个json对象
-                    if(data.result.status == '0'){
-                        var img_el = $(this).next().val(data.result.url)
-                            .parent().css('background','#8ab46e')
-                            .nextAll('.text-center').text('上传成功').parent().prev('img');
-                        if(img_el.length > 0){
-                            img_el.attr('src',data.result.src);
-                        }
-                        if($(this).next().next().attr('name')=='cshow')
-                        {
-                            $(this).next().next().val(data.result.src);
-                        }
-                    }else{
-                        layer.alert(data.result.msg,{icon:2});
-                    }
-                    $(this).parent().next('.progress').hide().next().hide()
-                },
-                fail: function () {
-                    $(this).parent().css('background','#8ab46e');
-                    layer.alert('上传失败，请重新再试',{icon:2});
-                }
+                $('#companyRegistered .charge_form')
+                    .addClass('hide')
+                    .eq($(this).index()).removeClass('hide');
             });
-        });
 
-        $(".tip-qus2").mouseover(function (){
-            $(this).next().show();
-        });
-        $(".tip-qus2").mouseout(function (){
-            $(this).next().hide();
+            $(".side_menu li").click(change);
+
+            $(document).on('click',"#zizhi_model .del-zizhi",function(){
+                $(this).closest('.subitem').remove();
+            });
+
+            $(document).on('click',"#zizhi_model .edit-zizhi",function(){
+                var parent = $(this).closest('.subitem');
+                parent.after(new_zizhi);
+                pic_upload($("#new-zizhi-wrap input[type=file]"));
+
+                parent.find('.value').each(function(i,o){
+                    var id = $(o).data('name');
+                    $('#'+id).val($.trim($(o).html()));
+                    if(id == 'projectType'){
+                        $("#projectType").change();
+                    }
+                });
+
+                var src = parent.find('img').eq(0).attr('src');
+                $('#cshow').attr('src',src);
+            });
+
+            var eqName = <?=json_encode($certificateName);?>;
+            function projecttype_change_fun(){
+                var o = eqName[this.value];
+                if(o == null){
+                    return false;
+                }
+                var _option_html = '';
+                for(var i=0;i<o.length;i++){
+                    _option_html += '<option value="'+o[i].certificateId+'">'+o[i].certificateName+'</option>';
+                }
+                $('#certificationId').html(_option_html);
+            }
+
+            $(document).on('change','#projectType',projecttype_change_fun);
+            projecttype_change_fun.call(document.getElementById("projectType"));
+
+            $('#submit').click(submit);
+
+            function pic_upload(element){
+                $(element).fileupload({
+                    url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
+                    dataType: 'json',
+                    formData:{width:178,height:112},//如果需要额外添加参数可以在这里添加
+                    add: function (e, data) {
+                        if (e.isDefaultPrevented()) {
+                            return false;
+                        }
+                        $(this).prev().text('上传中..')
+                            .parent().css('background','#bebebe')
+                            .nextAll('.progress').show()
+                            .children('span').css('width','0%');
+                        data.submit();
+                    },
+                    progressall: function (e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        $(this).parent()
+                            .nextAll('.progress')
+                            .children('span')
+                            .css('width',progress + '%');
+                    },
+                    done:function(e,data){
+                        //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+                        //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
+                        //返回的数据在result.result中，假设我们服务器返回了一个json对象
+
+                        var $this = $(this);
+                        var parent =$this
+                            .prev().text('上传附件')
+                            .parent().css('background','#8ab46e');
+
+                        if(data.result.status == '0'){
+                            //为隐藏标签赋值
+                            $this.next().val(data.result.url);
+
+                            var obj = parent.next('.uploaded');
+                            if(obj.length > 0) {
+                                parent.hide();
+                                obj.removeClass('hide').show()
+                                    .find('.view').attr('href', data.result.src);
+                            }
+
+                            var img_el = parent.parent().prev('img');
+                            if(img_el.length > 0){
+                                img_el.attr('src',data.result.src);
+                            }
+                        }else{
+                            layer.alert(data.result.msg,{icon:2});
+                        }
+
+                        parent.nextAll('.progress').hide();
+                    },
+                    fail: function () {
+                        $(this)
+                            .prev().text('上传附件')
+                            .parent().css('background','#8ab46e');
+                        layer.alert('上传失败，请重新再试',{icon:2});
+                    }
+                });
+            }
+            pic_upload("input[type=file]");
+
+            $(document).on('click',".delete-pic-btn",function () {
+                $(this)
+                    .closest('.uploaded').hide()
+                    .prev().removeClass('hide').show()
+                    .find('.hidden-url').val('');
+            });
+
+            $(document).on('click',".save-btn",function(){
+                var obj ={};
+                obj.projectTypeid= $('#projectType').val();
+                obj.projectType= $('#projectType').find('option[value='+obj.projectTypeid+']').html()
+                obj.eqName= $('#certificationId').find("option:selected").text();
+
+                obj.certificationId = $('#certificationId').val();
+                if(obj.certificationId == ''){
+                    layer.alert("资质证书名称不能为空！",{icon:2});
+                    return false;
+                }
+
+                obj.certificationNo= $('#certificationNo').val();
+                if(obj.certificationNo == ''){
+                    layer.alert("资质证书编号不能为空！",{icon:2});
+                    return false;
+                }
+
+                obj.expiryDate= $('#expiryDate').val();
+                if(obj.expiryDate == ''){
+                    layer.alert("资质证书有效期不能为空！",{icon:2});
+                    return false;
+                }
+
+                obj.applicableRegion= $('#applicableRegion').val();
+                if(obj.applicableRegion == ''){
+                    layer.alert("适用区域不能为空！",{icon:2});
+                    return false;
+                }
+
+                obj.certificationContent = $('#certificationContent').val();
+                obj.cshow = $('#cshow').attr('src');
+                if(obj.certificationContent == '' || obj.cshow == '/uploads/pic.jpg'){
+                    layer.alert("请上传资质证书附件",{icon:2});
+                    return false;
+                }
+
+                $('#certificationNo,#expiryDate,#applicableRegion,#certificationContent').val('');
+
+                $('#cshow').attr('src','/uploads/pic.jpg');
+
+                var subitem = $("#new-zizhi-wrap").prev('.subitem');
+
+                add(obj,subitem);
+                if(subitem.length > 0){
+                    subitem.remove();
+                }
+                $("#new-zizhi-wrap").remove();
+            });
+
+            var new_zizhi = $("#new-zizhi-wrap").clone();
+            $("#new-zizhi-wrap").remove();
+            $("#add-new-zizhi").click(function(){
+                $("#zizhi_model").after(new_zizhi)
+
+                $('#certificationNo,#expiryDate,#applicableRegion,#certificationContent').val('');
+
+                $('#cshow').attr('src','/uploads/pic.jpg');
+
+                pic_upload($("#new-zizhi-wrap input[type=file]"));
+            });
         });
     </script>
 </block>

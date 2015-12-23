@@ -433,7 +433,9 @@ function price_format($price,$num=100,$need_format=true){
         $price = $price / 10000;
         $surfix = '万';
     }
-    if($price > 999)
+    if($price > 999 && $num = 10000){
+
+    }
     if($need_format){
 
         return number_format($price,0).$surfix;

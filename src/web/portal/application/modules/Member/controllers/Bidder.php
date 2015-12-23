@@ -30,19 +30,21 @@ class BidderController extends MemberController{
     }
 
     public function authInfoAction(){
-        $token = isset($this->user['token'])?$this->user['token']:'';
-        $curl = new Curl($this->config->url->api->paas);
-        $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getAuthInfo');
+        $token  = isset($this->user['token'])?$this->user['token']:'';
+        $curl   = new Curl($this->config->url->api->paas);
+        $resp   = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getAuthInfo');
+
         if(!check_resp($resp)) {
-            $this->redirect(U('/login'));
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据查询失败，请重新再试或联系客服人员！');
         }
-        if(empty($resp['detail'])||empty($resp['overall']))
-        {
-            //   $this->redirect(U('applyfor'));
+
+        if(empty($resp['detail']) || empty($resp['overall'])){
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据查询失败，请重新再试或联系客服人员！');
         }
-        $this->assign('datail',isset($resp['detail'])?$resp['detail']:[]);
-        $this->assign('overall',isset($resp['overall'])?$resp['overall']:[]);
-        $this->assign('zizhi',isset($resp['zizhi'])?$resp['zizhi']:[]);
+
+        $this->assign('detail',$resp['detail']);
+        $this->assign('overall',$resp['overall']);
+        $this->assign('zizhi',[]);
         $this->layout->meta_title = '认证信息';
     }
 
@@ -227,10 +229,8 @@ class BidderController extends MemberController{
         if(empty($date['regTime'])){
             $this->error('成立时间不能为空！');
         }
-        $date['businessLicenseExpireTime']= I('businessLicenseExpireTime');
-        if(empty($date['businessLicenseExpireTime'])){
-            $this->error('营业期限不能为空！');
-        }
+        $date['businessLicenseExpireTime']= intval(I('businessLicenseExpireTime'));
+
         $date['address'] = I('address');
         if(empty($date['address'])){
             $this->error('公司地址不能为空！');

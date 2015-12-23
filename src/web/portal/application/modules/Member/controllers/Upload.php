@@ -12,6 +12,9 @@ class UploadController extends MemberController {
      */
     public function pictureAction(){
         $file = $this->getRequest()->getFiles('file');
+        if(empty($file)){
+            $this->error('上传图片失败，图片为空！');
+        }
 
         $driver = $this->config->upload->driver;
         $config = $this->config->get($driver)->toArray();

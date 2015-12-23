@@ -223,7 +223,7 @@ class InfoController extends MemberController {
             }
             $data['email'] = I('email');
             if(!empty($data['email']) && !regex($data['email'],'email')){
-                $this->error('邮箱不能为空！');
+                $this->error('邮箱格式不正确！');
             }
             $data['address'] = I('address');
 //            if(empty($data['address'])){

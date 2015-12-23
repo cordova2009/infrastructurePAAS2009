@@ -170,13 +170,18 @@ class BidController extends MemberController {
         $objectId           = I('objectId');
         $data               = ['token'=>$this->user['token']];
 
+        $resp = $curl->setData($data)->send('bid/isInvitationOfBid');
+        if(!check_resp($resp)){
+            $this->error('<a href="'.U('member/bidder/authInfo').'">您还没有招标人资格，请点击这里进行认证！</a>',U('/member/bidder/authInfo'));
+        }
+
         $resp = $curl->setData($data)->send('member/queryMemberProduct');
         if(!check_resp($resp)) {
             $this->error('查询会员信息失败，请稍后再试或联系网站客服人员！');
         }
 
         if($resp['birMember'] != 'OK#'){
-            $this->error('您还不是投标人会员，请先充值购买！',U('/member/vip/bidIndex'));
+            $this->error('<a href="'.U('member/vip/bidIndex').'">您还不是投标人会员，请先充值购买！</a>',U('/member/vip/bidIndex'));
         }
 
         $data['objectId']   = $objectId;
@@ -185,7 +190,7 @@ class BidController extends MemberController {
         $resp               = $curl->setData($data)
                                     ->send('bid/queryBidderCompanyInfo');
         if(!check_resp($resp)) {
-            $this->error('<a href="'.U('/member/bidder/authInfo').'">您还没有投标人资格，请点击这里进行认证！</a>');
+            $this->error('<a href="'.U('/member/bidder/authInfo').'">数据查询失败，请重新再试或联系客服人员！</a>');
         }
 
         $this->assign('bidderInfo',$resp['bidderInfo']);

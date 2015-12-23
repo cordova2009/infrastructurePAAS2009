@@ -525,7 +525,7 @@ class TenderController extends MemberController{
 
         $resp = $curl->setData($data)->send('tender/isInvitationOfTender');
         if(!check_resp($resp)){
-            $this->error('您还没有招标人资格，请先进行认证！',U('/member/biddee/authInfo'));
+            $this->error('<a href="'.U('/member/biddee/authInfo').'">您还没有招标人资格，请点击这里进行认证！</a>',U('/member/biddee/authInfo'));
         }
 
         $resp = $curl->setData($data)->send('member/queryMemberProduct');
@@ -534,7 +534,7 @@ class TenderController extends MemberController{
         }
 
         if($resp['terMember'] != 'OK#'){
-            $this->error('您还不是招标人会员，请先充值购买！',U('/member/vip/terIndex'));
+            $this->error('<a href="'.U('/member/vip/terIndex').'">您还不是招标人会员，请先充值购买！</a>',U('/member/vip/terIndex'));
         }
 
         if(IS_POST){

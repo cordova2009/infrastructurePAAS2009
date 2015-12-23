@@ -52,5 +52,10 @@ public interface UserInformationMapper {
      */
     int selectPublishedInfoCount();
     
+    /**
+     * 查询成功发布信息的用户总数
+     */
+    int selectPublishedManCount();
+    
     
 }

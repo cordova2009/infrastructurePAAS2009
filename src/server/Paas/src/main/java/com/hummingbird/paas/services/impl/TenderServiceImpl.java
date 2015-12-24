@@ -2151,16 +2151,10 @@ public class TenderServiceImpl implements TenderService {
 	@Override
 	public QueryProjectSurveyResultVO queryUserInformationIndexSurvey()
 			throws BusinessException {
-		QueryProjectSurveyResultVO projectSurvey = new QueryProjectSurveyResultVO();
 		
-		// 查询所有用户成功发布信息的总数
-		int publishedCount = userInformationMapper.selectPublishedInfoCount();
+		// 查询所有用户成功发布信息的总数 和 成功发布信息的用户总数
+		QueryProjectSurveyResultVO projectSurvey = userInformationMapper.queryUserInformationIndexSurvey();
 		
-		//查询成功发布信息的用户总数
-		int publishedManCount = userInformationMapper.selectPublishedManCount();
-		
-		projectSurvey.setPublishedCount(publishedCount);
-		projectSurvey.setPublishedManCount(publishedManCount);
 		return projectSurvey;
 	}
 

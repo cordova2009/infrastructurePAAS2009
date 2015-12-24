@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.UserInformation;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.UserInformationPageReturnVO;
 
 public interface UserInformationMapper {
@@ -48,15 +50,11 @@ public interface UserInformationMapper {
      */
     int updateByPrimaryKey(UserInformation record);
     
-    /**
-     * 查询所有用户成功发布的信息总数
-     */
-    int selectPublishedInfoCount();
-    
-    /**
-     * 查询成功发布信息的用户总数
-     */
-    int selectPublishedManCount();
+	/**
+	 * 查询项目信息概况
+	 * @return QueryProjectSurveyResultVO
+	 */
+	public QueryProjectSurveyResultVO queryUserInformationIndexSurvey()throws BusinessException ;
 
 	/**
 	 * 查询用户信息列表

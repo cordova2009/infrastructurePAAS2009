@@ -272,7 +272,7 @@ public class UserInfoBusinessController extends BaseController {
 				return rm;
 			}
 			Pagingnation pagingnation = transorder.getBody().toPagingnation();
-			transorder.getBody().setStatus("CRT#");
+			transorder.getBody().setStatus("OK#");
 			liq = uiService.queryUserInformationPage(transorder.getApp().getAppId(), transorder.getBody(), pagingnation,null);
 //			liq = uiService.queryUserInformationPage(transorder.getApp().getAppId(), transorder.getBody(),token);
 //			int total = uiService.queryUserInformationPageTotal(transorder.getApp().getAppId(), transorder.getBody(),token);

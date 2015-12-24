@@ -63,7 +63,7 @@ public interface UserInfoService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public UserInformationDetailWithCommentsReturnVO getUserInformationDetailWithComments(String appId, UserInformationDetailBodyVO body,Token token)
+	public UserInformationDetailWithCommentsReturnVO getUserInformationDetailWithComments(String appId, UserInformationDetailBodyVO body)
 			throws BusinessException;
 
 	

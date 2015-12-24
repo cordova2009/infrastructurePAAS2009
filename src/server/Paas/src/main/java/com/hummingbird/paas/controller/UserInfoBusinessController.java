@@ -164,26 +164,13 @@ public class UserInfoBusinessController extends BaseController {
 		RequestEvent qe = null; // 业务请求事件,当实现一些关键的业务时,需要生成该请求
 
 		try {
-			// 业务数据必填等校验
-			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
-			if (token == null) {
-				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
-				throw new TokenException("token验证失败,或已过期,请重新登录");
-			}
-			
-			// 业务数据逻辑校验
-			if (log.isDebugEnabled()) {
-				log.debug("检验通过，获取请求");
-			}
-			UserInformationDetailWithCommentsReturnVO quidwc = uiService.getUserInformationDetailWithComments(transorder.getApp().getAppId(), transorder.getBody(),token);
+			UserInformationDetailWithCommentsReturnVO quidwc = uiService.getUserInformationDetailWithComments(transorder.getApp().getAppId(), transorder.getBody());
 			if (quidwc == null) {
 				rm.setErr(rm.getBaseerrcode() + PaasException.ERR_USER_INFO_EXCEPTION, "没有相关数据");
 			} else {
 
 				rm.put("result", quidwc);
 			}
-			// tokenSrv.renewToken(token);
-			tokenSrv.postponeToken(token);
 		} catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

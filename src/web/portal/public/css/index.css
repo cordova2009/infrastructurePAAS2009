@@ -394,6 +394,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .item .lab{width: 160px;text-align: right;font-size: 16px;padding-right: 25px;float: left;color: #222;min-height: 20px;}
 .item .value{color: #222;}
 .item .value .input1{font-size: 16px;margin: 0}
+.item .value img{ width:178px; height: 112px;}
 .i-ok3{width: 17px;height: 17px;background-position: -42px -224px;vertical-align: middle;}
 /*upload box*/
 .modal{position: fixed;z-index: 20;left: 0;top:0;bottom: 0;right: 0;display: none;}
@@ -651,6 +652,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .gcjbxx .input1{height: 41px;line-height: 41px;width: 350px;}
 
 .textarea2{border: #c5c5c5 1px solid;width: 370px;padding: 10px;height:110px;}
+.gcjbxx .textarea2{ width: 340px;}
 
 .gqyq .input1{width: 355px;}
 .gqyq .width330{width: 334px;background: #fff;}
@@ -716,7 +718,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .color5 .value,.color5 .lab{color: #555;}
 
 .tips_txt{line-height: 18px;font-size: 12px;display: inline-block;vertical-align: middle;}
-
+.gcjbxx .tips_txt{ line-height: 41px;}
 
 .table3 table{width: 100%;font-size: 14px;color: #222;line-height: 30px;}
 .table3 table td{padding: 0 5px;}

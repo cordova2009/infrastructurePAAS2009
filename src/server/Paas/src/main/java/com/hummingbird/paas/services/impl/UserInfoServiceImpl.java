@@ -130,7 +130,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public UserInformationDetailWithCommentsReturnVO getUserInformationDetailWithComments(String appId,
-			UserInformationDetailBodyVO body, Token token) throws BusinessException {
+			UserInformationDetailBodyVO body) throws BusinessException {
 		// TODO Auto-generated method stub
 		UserInformationDetailWithCommentsReturnVO uidr = new UserInformationDetailWithCommentsReturnVO();
 		UserInformation ui = uiDao.selectByPrimaryKey(body.getInformationId());

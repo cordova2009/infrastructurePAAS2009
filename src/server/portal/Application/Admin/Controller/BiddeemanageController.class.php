@@ -89,10 +89,45 @@ class BiddeemanageController extends AdminController {
     private function getData(){
         $data = [];
         $get = [
-            'baseInfoCheck'=>['company_name'=>'company_name','short_name'=>'short_name','contact_mobile_num'=>'contact_mobile_num','email'=>'email','description'=>'description','logo'=>'logo','registered_capital'=>'registered_capital'],
-            'legalPersonCheck'=>['legal_person'=>'legal_person','legal_person_idcard'=>'legal_person_idcard','legal_person_idcard_front_url'=>'legal_person_idcard_front_url','legal_person_idcard_back_url'=>'legal_person_idcard_back_url','legal_person_authority_book'=>'legal_person_authority_book'],
-            'registeredInfoCheck'=>['unified_social_credit_code_url'=>'unified_social_credit_code_url','unified_social_credit_code'=>'unified_social_credit_code','business_license'=>'businessLicenseNum','business_license_url'=>'businessLicenseUrl','tax_registration_certificate'=>'tax_registration_certificate','tax_registration_certificate_url'=>'tax_registration_certificate_url','org_code_certificate'=>'org_code_certificate','org_code_certificate_url'=>'org_code_certificate_url','business_license_expire_time'=>'business_license_expire_time','reg_time'=>'reg_time','business_scope'=>'business_scope','address'=>'address'],
-            'bankInfoCheck'=>['bank_name'=>'bank_name','account_no'=>'account_no','account_name'=>'account_name','telephone'=>'telephone','tax_no'=>'tax_no','address'=>'address2']
+            'baseInfoCheck'=>
+                [
+                    'company_name'=>'company_name',
+                    'short_name'=>'short_name',
+                    'contact_mobile_num'=>'contact_mobile_num',
+                    'email'=>'email',
+                    'description'=>'description',
+                    'logo'=>'logo',
+                    'registered_capital'=>'registered_capital'
+                ],
+            'legalPersonCheck'=>[
+                'legal_person'=>'legal_person',
+                'legal_person_idcard'=>'legal_person_idcard',
+                'legal_person_idcard_front_url'=>'legal_person_idcard_front_url',
+                'legal_person_idcard_back_url'=>'legal_person_idcard_back_url',
+                'legal_person_authority_book'=>'legal_person_authority_book'
+            ],
+            'registeredInfoCheck'=>[
+                'unified_social_credit_code_url'=>'unified_social_credit_code_url',
+                'unified_social_credit_code'=>'unified_social_credit_code',
+                'business_license'=>'business_license',
+                'business_license_url'=>'business_license_url',
+                'tax_registration_certificate'=>'tax_registration_certificate',
+                'tax_registration_certificate_url'=>'tax_registration_certificate_url',
+                'org_code_certificate'=>'org_code_certificate',
+                'org_code_certificate_url'=>'org_code_certificate_url',
+                'business_license_expire_time'=>'business_license_expire_time',
+                'reg_time'=>'reg_time',
+                'business_scope'=>'business_scope',
+                'address'=>'address'
+            ],
+            'bankInfoCheck'=>[
+                'bank_name'=>'bank_name',
+                'account_no'=>'account_no',
+                'account_name'=>'account_name',
+                'telephone'=>'telephone',
+                'tax_no'=>'tax_no',
+                'address'=>'address2'
+            ]
         ];
         foreach($get as $k=>$v)
         {

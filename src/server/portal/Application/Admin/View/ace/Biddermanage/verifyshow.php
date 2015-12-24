@@ -137,7 +137,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><a href="<?=imageView2($item['business_license_url'])?>" class="ace-thumbnails" ><img src="<?php echo imageView2($item['business_license_url'])?>"/></a></td>
+                                <td ><span style="color:#999;padding-right:8px;">营业执照扫描件:</span><a href="<?=imageView2($item['business_license_url'])?>" class="ace-thumbnails" ><img src="<?php echo imageView2($item['business_license_url'],100,100)?>"/></a></td>
                                 <td>
                                     <label style="color:#999;padding-right:8px;">
                                         <input type="radio" value="Y" name="business_license_url"> 审核通过

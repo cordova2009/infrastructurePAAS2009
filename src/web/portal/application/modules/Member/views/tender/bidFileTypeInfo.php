@@ -25,7 +25,7 @@ if(check_resp($resp)){
                     <a class="btn-file2 padm20 bg-grey" id="delete-tender-file">删除</a>
                 </div>
             </div>
-            <div class="tit6"><span class="red">*</span> 请选择投标方需要提交的电子标书</div>
+            <div class="tit6">请选择投标方需要提交的电子标书</div>
 
             <div class="item ">
                 <div class="lab"></div>

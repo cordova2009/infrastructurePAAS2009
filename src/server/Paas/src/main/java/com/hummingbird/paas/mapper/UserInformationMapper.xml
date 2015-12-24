@@ -35,11 +35,23 @@
     <result column="phase" property="phase" jdbcType="VARCHAR" />
      <result column="user_name" property="userName" jdbcType="VARCHAR" />
   </resultMap>
+  
+   <resultMap id="InformationCountResultMap" type="com.hummingbird.paas.vo.QueryProjectSurveyResultVO" >
+    <result column="published_count" property="publishedCount" jdbcType="INTEGER" />
+    <result column="published_man_count" property="publishedManCount" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, user_id, address, status, insert_time, update_time, updator, object_amount, district, 
     project_period, project_situation, employer, object_type, object_name, phase, audit_status, 
     auditor, audit_time
   </sql>
+   <select id="queryUserInformationIndexSurvey" resultMap="InformationCountResultMap" >
+   select  count(*) as publishedCount,count( distinct user_id) as publishedManCount 
+	from t_zxgl_user_information 
+	where status = "OK#"
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

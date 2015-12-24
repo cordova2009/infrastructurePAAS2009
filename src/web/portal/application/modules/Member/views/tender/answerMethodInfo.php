@@ -99,5 +99,5 @@ $('.table input').blur(function(){
     if($.trim(this.value) != '' && !checkbox.hasClass('on')){
         checkbox.click();
     }
-})
+});
 </script>

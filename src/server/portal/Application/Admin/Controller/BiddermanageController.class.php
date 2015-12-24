@@ -96,8 +96,12 @@ class BiddermanageController extends AdminController {
         }
         $map['a.status'] = 'APY';
         $prefix = C('DB_PREFIX');
-        $model = M('qyzz_bidder_certicate a')->join('t_user b on a.user_id=b.id');
+        $model = M('qyzz_bidder_certicate a')
+                    ->join($prefix.'user b on a.user_id=b.id');
+
         $list   =   $this->lists($model, $map,'apply_time desc','a.*,b.nick_name');
+//        var_dump($model->_sql());
+//        var_dump($list);die;
         $this->assign('_list', $list);
         $this->meta_title = '投标人待审核列表';
         $this->display();
@@ -150,8 +154,8 @@ class BiddermanageController extends AdminController {
             'registeredInfoCheck'=>[
                 'unified_social_credit_code_url'=>'unified_social_credit_code_url',
                 'unified_social_credit_code'=>'unified_social_credit_code',
-                'business_license'=>'businessLicenseNum',
-                'business_license_url'=>'businessLicenseUrl',
+                'business_license'=>'business_license',
+                'business_license_url'=>'business_license_url',
                 'tax_registration_certificate'=>'tax_registration_certificate',
                 'tax_registration_certificate_url'=>'tax_registration_certificate_url',
                 'org_code_certificate'=>'org_code_certificate',
@@ -189,6 +193,7 @@ class BiddermanageController extends AdminController {
             $data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','msg'=>''];
         }
         $data['baseInfoCheck']['bidder_id']=I('post.id');
+        var_dump($data);
         return $data;
     }
 }

@@ -12,7 +12,7 @@ if(check_resp($resp)){
         <div class="gcjbxx">
 
             <div class="item ">
-                <div class="lab">工程类别</div>
+                <div class="lab">招标项目名称</div>
                 <div class="value">
                     <div class="select">
                         <select name="industryId">
@@ -28,6 +28,7 @@ if(check_resp($resp)){
                 <div class="value">
                     <input type="text" class="input1" placeholder="" name="projectName" value="<?=isset($info)?$info['projectName']:''?>">
                     <i class="ico tip-qus"></i>
+                    <span class="red tips_txt hide right">这个问号要提示什么东西？</span>
                 </div>
             </div>
             <div class="item ">
@@ -40,7 +41,7 @@ if(check_resp($resp)){
             <div class="item ">
                 <div class="lab"><span class="red">*</span>工程规模及特征</div>
                 <div class="value">
-                    <textarea name="projectScale" id="" class="textarea2" placeholder=""><?=isset($info)?$info['projectScale']:''?></textarea>
+                    <textarea name="projectScale" id="" class="textarea2" placeholder="这里需要提供样例"><?=isset($info)?$info['projectScale']:''?></textarea>
                 </div>
             </div>
 

@@ -46,6 +46,7 @@
     <result column="project_expect_start_date" property="projectExpectStartDate" jdbcType="VARCHAR" />
     <result column="project_expect_end_date" property="biddingEndTime" jdbcType="VARCHAR" />
     <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
+    <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="MyTenderBuildingObjectListResultMap" type="com.hummingbird.paas.vo.TenderMyBuildingObjectVO" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
@@ -177,7 +178,7 @@
        where c.user_id =#{user_id,jdbcType=INTEGER}  and p.status  = 'OK#'
   </select>
   <select id="selectTenderObject" resultMap="MyTenderObjectListResultMap"  >
-     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,b.project_expect_period,b.project_expect_start_date,d.bidding_end_time project_expect_end_date 
+     select a.industry_id,a.object_id,a.object_name,a.evaluation_amount,b.project_expect_period,b.project_expect_start_date,d.bidding_end_time project_expect_end_date ,a.object_status
      from t_ztgl_object a 
      inner join t_ztgl_object_baseinfo d on d.object_id = a.object_id
      inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 

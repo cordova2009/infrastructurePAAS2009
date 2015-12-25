@@ -8,12 +8,11 @@
 class BidderController extends MallController
 {
     
-    private $_curl = '';
+    private $pageSize = 2;
     
     public function init()
     {
         parent::init();
-        $this->_curl = new Curl();
     }
     
     /**
@@ -21,7 +20,28 @@ class BidderController extends MallController
      */
     public function listAction()
     {
-        
+        $keyword = $this->getRequest()->getQuery('keyword');
+        $pageIndex = $this->getRequest()->getQuery('page', 1);
+
+        $tmp = str_replace(array(',', '、', ' '), ',', $keyword);
+        $keywords = explode(',', $tmp);
+
+        $curl = new Curl();
+        $resp = $curl->setData([
+            'keywords' => $keywords,
+            'pageIndex' => $pageIndex,
+            'pageSize'=>  $this->pageSize
+        ])->send('tender/queryBidderList_homepage');
+
+        $list = [];
+        if(check_resp($resp)){
+            $list = $resp['list'];
+            $page = $this->getPagination($resp['total'], $this->pageSize);
+            $this->assign('page', $page);
+        }
+
+        $this->assign('list', $list);
+        $this->layout->meta_title = '投标人列表';
     }
 
     public function detailAction()

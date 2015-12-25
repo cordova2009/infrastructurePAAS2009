@@ -74,6 +74,7 @@ import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.BaseBidObjectVO;
 import com.hummingbird.paas.vo.BaseTenderObjectVO;
 import com.hummingbird.paas.vo.CompanyInfo;
@@ -105,6 +106,7 @@ import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
 import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidFileTypeInfo;
@@ -1548,29 +1550,12 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/bidEvaluation",method=RequestMethod.POST)
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	@AccessRequered(methodName = "定标", isJson = true, codebase = 244100, className = "com.hummingbird.commonbiz.vo.BaseTransVO", genericClassName = "com.hummingbird.paas.vo.TenderBidEvaluationBodyVO", appLog = true)
 	public @ResponseBody ResultModel bidEvaluation(HttpServletRequest request,HttpServletResponse response) {
-//		int basecode = 2341210;//待定
 		String messagebase = "定标";
-		BaseTransVO<TenderBidEvaluationBodyVO> transorder = null;
-		ResultModel rm = new ResultModel();
-//		rm.setBaseErrorCode(basecode);
-		try {
-			String jsonstr  = RequestUtil.getRequestPostData(request);
-			request.setAttribute("rawjson", jsonstr);
-			transorder = RequestUtil.convertJson2Obj(jsonstr,BaseTransVO.class, TenderBidEvaluationBodyVO.class);
-		} catch (Exception e) {
-			log.error(String.format("获取参数出错"),e);
-			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "参数异常"));
-			return rm;
-		}
-		rm.setErrmsg(messagebase + "成功");
+		BaseTransVO<TenderBidEvaluationBodyVO> transorder = (BaseTransVO<TenderBidEvaluationBodyVO>) super.getParameterObject();
+		ResultModel rm = super.getResultModel();
 		RequestEvent qe=null;
-		AppLog rnr = new AppLog();
-		rnr.setAppid(transorder.getApp().getAppId());
-		rnr.setRequest(ObjectUtils.toString(request.getAttribute("rawjson")));
-		rnr.setInserttime(new Date());
-		rnr.setMethod("/tender/bidEvaluation");
 		
 		try {
 			
@@ -1956,7 +1941,6 @@ public class TenderController extends BaseController {
 	 */
 	@RequestMapping(value="/queryMyTenderObject",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询我的招标项目列表")
-	// 框架的日志处理
 	public @ResponseBody ResultModel queryMyTenderObject(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询我的招标项目列表";
@@ -1996,7 +1980,7 @@ public class TenderController extends BaseController {
 				
 				List<MyTenderObjectListVO> list=new ArrayList<MyTenderObjectListVO>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
-					list = tenderService.getTenderObjectList(token.getUserId(), page);
+				list = tenderService.getTenderObjectList(token.getUserId(), page);
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<MyTenderObjectListVO, Map>() {
 
 					@Override
@@ -2900,6 +2884,30 @@ public class TenderController extends BaseController {
 			if(qe!=null)
 				EventListenerContainer.getInstance().fireEvent(qe);
 		}
+		return rm;
+		
+	}
+	
+	
+	/**
+	 * 查询项目信息概况
+	 * @return
+	 */
+	@RequestMapping(value="/queryUserInformationIndexSurvey",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询项目信息概况",isJson=true,codebase=10000,appLog=true)
+	public @ResponseBody ResultModel queryUserInformationIndexSurvey(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		String messagebase = "查询项目信息概况"; 
+		try {
+			QueryProjectSurveyResultVO  result = tenderService.queryUserInformationIndexSurvey();
+			rm.put("result",result);	
+			rm.setErrcode(0);
+			rm.setErrmsg(messagebase + "成功");
+		}catch (Exception e) {
+			log.error(String.format(messagebase + "失败"), e);
+			rm.mergeException(e);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		} 
 		return rm;
 		
 	}

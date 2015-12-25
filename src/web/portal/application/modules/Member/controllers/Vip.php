@@ -17,7 +17,25 @@ class VipController extends MemberController {
 
     public function buyAction($type='ter'){
 
-        $this->assign('product',$this->_get_product($type));
+        $product = $this->_get_product($type);
+
+        //默认购买投标人
+        $url        = 'member/buyBidderMember';
+        //
+        if($type == 'ter'){
+            $url        = 'member/buyBiddeeMember';
+        }
+
+        $curl           = new Curl();
+        $resp           = $curl->setData(['token'=>$this->user['token'],'productId'=>$product['productId']])
+                            ->send($url);
+
+        if(!check_resp($resp) || !isset($resp['orderId'])) {
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '订单提交失败，请重新再试或联系客服人员！');
+        }
+
+        $this->assign('orderId',$resp['orderId']);
+        $this->assign('product',$product);
         $this->assign('type',$type);
     }
 
@@ -33,14 +51,14 @@ class VipController extends MemberController {
 
         if($type =='ter' && $resp['terMember'] == 'OK#'){
             $this->error('您现在已经是招标人会员，会员到期时间是：'.$resp['terMemberExpireTime'].'');
-        }elseif($resp['birMember'] == 'OK#'){
-            $this->error('您现在已经是招标人会员，会员到期时间是：'.$resp['birMemberExpireTime'].'');
+        }elseif($type !='ter' && $resp['birMember'] == 'OK#'){
+            $this->error('您现在已经是投标人会员，会员到期时间是：'.$resp['birMemberExpireTime'].'');
         }
 
         if($type == 'ter' && $resp['terMember'] == 'NCP'){
-            $this->error('您还未通过招标人资质审核，请到用户管理中心进行投标人申请！');
-        }elseif($resp['birMember'] == 'NCP'){
-            $this->error('您还未通过投标人资质审核，请到用户管理中心进行投标人申请！');
+            $this->error('<a href="'.U('/member/biddee/authInfo').'">您还未通过招标人资质审核，请点击这里进行认证！</a>');
+        }elseif($type !='ter' && $resp['birMember'] == 'NCP'){
+            $this->error('<a href="'.U('/member/bidder/authInfo').'">您还未通过投标人资质审核，请点击这里进行认证！</a>');
         }
 
         $product = [];
@@ -69,32 +87,21 @@ class VipController extends MemberController {
             $this->error('暂只支持支付宝支付！');
         }
 
+        $orderId = I('orderId');
+        if(empty($orderId)){
+            $this->error('订单编号不能为空！');
+        }
+
         $type       = I('type','bir');
         $product    = $this->_get_product($type);
 
-        //默认购买投标人
-        $url        = 'member/buyBidderMember';
-
-        //
-        if($type == 'ter'){
-            $url        = 'member/buyBiddeeMember';
-        }
-
-        $data               = ['token'=>$this->user['token']];
-        $data['productId']  = $product['productId'];
-
-        $curl               = new Curl();
-        $resp               = $curl->setData($data)->send($url);
-
-        if(!check_resp($resp)) {
-            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '购买投标方会员失败，请重新再试！');
-        }
         $order = [
-            'sn'=>$resp['orderId'],
+            'sn'=>$orderId,
             'amount'=>$product['productPrice'],
             'desc'=>$product['productDesc'],
             'show_url'=>'',
         ];
+
 //        var_dump($order);die;
         $config = new Yaf\Config\Ini(CONF_PATH.'payment.ini','common');
         $pay_server = new Payment\Alipay\Alipay($config->payment->toArray());

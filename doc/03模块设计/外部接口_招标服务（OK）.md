@@ -2202,7 +2202,8 @@ status|是|查询列表状态（发布中的，实施中，已结束）
             "evaluationAmount":"30000000",
             "projectExpectStartDate":"2015-06-12",
             "projectExpectPeriod":300,
-            "biddingEndTime":"2015-04-25"
+            "biddingEndTime":"2015-04-25",
+            "objectStatus":"REV"
         }]
     }
 
@@ -2223,6 +2224,7 @@ evaluationAmount|是|标的估价
 projectExpectStartDate|是|计划开工日期
 projectExpectPeriod|是|标准工期
 biddingEndTime|是|投标截止时间
+objectStatus|是|标的状态,REV可评标,PUB发布阶段,可投标,不能评标
 
 
 ##查询我的施工项目列表接口

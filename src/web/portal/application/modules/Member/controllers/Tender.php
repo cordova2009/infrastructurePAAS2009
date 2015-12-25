@@ -195,6 +195,7 @@ class TenderController extends MemberController{
         if(empty($data['tenderFile'])){
             $this->error('请上传招标文件！');
         }
+
         $data['needBusinessStandard'] = $yes_no[intval(I('needBusinessStandard',0))%2];
         $data['needTechnicalStandard'] = $yes_no[intval(I('needTechnicalStandard',0))%2];
         $data['needCertificationCheckupFile'] = $yes_no[intval(I('needCertificationCheckupFile',0))%2];
@@ -269,6 +270,9 @@ class TenderController extends MemberController{
         $data['bidBondAmount'] = price_dispose(I('bidBondAmount',0));
         if(empty($data['bidBondAmount'])){
             $this->error('保证金金额不能为空！');
+        }
+        if($data['bidBondAmount'] < 0){
+            $this->error('保证金金额不能小于0元！');
         }
 
         $curl = new Curl();
@@ -497,6 +501,9 @@ class TenderController extends MemberController{
         $data['employerPrincipal'] = I('employerPrincipal');
 
         $data['employerTelephone'] = I('employerTelephone');
+        if(!regex($data['employerTelephone'],'telephone')){
+            $this->error('建设单位办公电话格式不正确！');
+        }
 
         $curl = new Curl();
         $resp = $curl->setData($data)->send('tender/saveObjectProjectInfo');
@@ -518,7 +525,16 @@ class TenderController extends MemberController{
 
         $resp = $curl->setData($data)->send('tender/isInvitationOfTender');
         if(!check_resp($resp)){
-            $this->error('您还没有招标人资格，请先进行认证！',U('/member/biddee/authInfo'));
+            $this->error('<a href="'.U('/member/biddee/authInfo').'">您还没有招标人资格，请点击这里进行认证！</a>',U('/member/biddee/authInfo'));
+        }
+
+        $resp = $curl->setData($data)->send('member/queryMemberProduct');
+        if(!check_resp($resp)) {
+            $this->error('查询会员信息失败，请稍后再试或联系网站客服人员！');
+        }
+
+        if($resp['terMember'] != 'OK#'){
+            $this->error('<a href="'.U('/member/vip/terIndex').'">您还不是招标人会员，请先充值购买！</a>',U('/member/vip/terIndex'));
         }
 
         if(IS_POST){
@@ -547,6 +563,9 @@ class TenderController extends MemberController{
             $data['biddeeCompanyTelephone'] = I('biddeeCompanyTelephone');
             if(empty($data['biddeeCompanyTelephone'])){
                 $this->error('招标办公电话不能为空！');
+            }
+            if(!regex($data['biddeeCompanyTelephone'],'telephone')){
+                $this->error('招标办公电话格式不正确！');
             }
             $data['currency'] = I('currency');
             $data['evaluationAmountVisiable'] = I('evaluationAmountVisiable');

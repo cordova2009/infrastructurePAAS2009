@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.UserInformation;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.UserInformationPageReturnVO;
 
 public interface UserInformationMapper {
@@ -46,4 +49,32 @@ public interface UserInformationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(UserInformation record);
+    
+	/**
+	 * 查询项目信息概况
+	 * @return QueryProjectSurveyResultVO
+	 */
+	public QueryProjectSurveyResultVO queryUserInformationIndexSurvey()throws BusinessException ;
+
+	/**
+	 * 查询用户信息列表
+	 * @param integer
+	 * @param status
+	 * @param keywords
+	 * @param page
+	 * @return
+	 */
+	List<UserInformationPageReturnVO> selectUserInfoPage(@Param("userId") Integer userId,@Param("status") String status,@Param("keywords") List<String> keywords,@Param("page")
+			Pagingnation page);
+	/**
+	 * 查询用户信息列表记录数
+	 * @param integer
+	 * @param status
+	 * @param keywords
+	 * @param page
+	 * @return
+	 */
+	int selectUserInfoCount(@Param("userId") Integer userId,@Param("status") String status,@Param("keywords") List<String> keywords);
+    
+    
 }

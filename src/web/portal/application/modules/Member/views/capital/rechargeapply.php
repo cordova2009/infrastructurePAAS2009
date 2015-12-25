@@ -93,7 +93,7 @@
         </div>
     </div>
 </div>
-<block>
+<block name="style">
     <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
 </block>
 <block name="script">

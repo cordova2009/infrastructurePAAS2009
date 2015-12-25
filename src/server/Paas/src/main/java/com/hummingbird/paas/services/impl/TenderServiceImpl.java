@@ -85,10 +85,12 @@ import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
+import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.CapitalOrderReturnVO;
 import com.hummingbird.paas.vo.CompanyBaseInfo;
 import com.hummingbird.paas.vo.CompanyBidInfo;
@@ -126,6 +128,7 @@ import com.hummingbird.paas.vo.QueryObjectCertificationInfoResult;
 import com.hummingbird.paas.vo.QueryObjectConstructionInfoResult;
 import com.hummingbird.paas.vo.QueryObjectMethodInfoResult;
 import com.hummingbird.paas.vo.QueryObjectProjectInfoResult;
+import com.hummingbird.paas.vo.QueryProjectSurveyResultVO;
 import com.hummingbird.paas.vo.SaveAnswerMethodInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvaluationTypeInfoBodyVO;
 import com.hummingbird.paas.vo.SaveBidEvalutionResultVO;
@@ -211,6 +214,9 @@ public class TenderServiceImpl implements TenderService {
 	protected BidEvaluationMapper bidevaDao;
 	@Autowired
 	protected MakeMatchBondRecordMapper mmbondDao;
+	@Autowired
+	protected UserInformationMapper userInformationMapper;
+	
 
 	/**
 	 * 我的招标评标概况接口
@@ -1575,13 +1581,27 @@ public class TenderServiceImpl implements TenderService {
 	 */
 	public List<QueryBidderListHomepageResultVO> queryBidderList4homepage(QueryCertificateListBodyVO body,
 			Pagingnation pagingnation){
+		List<String> keywords = body.getKeywords();
+		//如果列表中的无内容,或者为"",会变成sql错误,这里进行处理
+		if(keywords==null||keywords.isEmpty()){
+			keywords=null;
+		}
+		else{
+			boolean allblank = true;
+			for (Iterator iterator = keywords.iterator(); iterator.hasNext();) {
+				String kw = (String) iterator.next();
+				allblank&=StringUtils.isBlank(kw);
+			}
+			if(allblank){
+				keywords=null;
+			}
+		}
+		String bidderName = body.getBidderName();
 		if(pagingnation!=null&&pagingnation.isCountsize()){
-			int count = berDao.selectBidderCount(body);
+			int count = berDao.selectBidderCount4homepage(keywords,bidderName);
 			pagingnation.setTotalCount(count);
 			pagingnation.calculatePageCount();
 		}
-		List<String> keywords = body.getKeywords();
-		String bidderName = body.getBidderName();
 		
 		List<QueryBidderListHomepageResultVO> bers = berDao.selectBidder4homepage(keywords,bidderName,pagingnation);
 		return bers;
@@ -2125,6 +2145,17 @@ public class TenderServiceImpl implements TenderService {
 			return mmcapReturn.getResult();
 		}
 		
+	}
+
+	
+	@Override
+	public QueryProjectSurveyResultVO queryUserInformationIndexSurvey()
+			throws BusinessException {
+		
+		// 查询所有用户成功发布信息的总数 和 成功发布信息的用户总数
+		QueryProjectSurveyResultVO projectSurvey = userInformationMapper.queryUserInformationIndexSurvey();
+		
+		return projectSurvey;
 	}
 
 }

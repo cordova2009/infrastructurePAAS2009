@@ -244,6 +244,8 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zhongbiao-result .txt1{font-size: 20px;color: #555;padding: 38px 0 5px;}
 .zhongbiao-result .table td.name{padding-left: 10px;}
 
+.xmxx{color: #f02b2b;background: #ffe3e3}
+.xmxx .tag-txt2{ width: 120px;text-align: center;font-size: 24px;line-height: 40px;vertical-align: middle;padding-top: 10px;}
 
 .best-toubiao {}
 .best-toubiao ul{padding-bottom: 10px;border-bottom: #ccc 1px solid;}
@@ -392,6 +394,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .item .lab{width: 160px;text-align: right;font-size: 16px;padding-right: 25px;float: left;color: #222;min-height: 20px;}
 .item .value{color: #222;}
 .item .value .input1{font-size: 16px;margin: 0}
+.item .value img{ width:178px; height: 112px;}
 .i-ok3{width: 17px;height: 17px;background-position: -42px -224px;vertical-align: middle;}
 /*upload box*/
 .modal{position: fixed;z-index: 20;left: 0;top:0;bottom: 0;right: 0;display: none;}
@@ -460,7 +463,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .addimpress .input1{line-height: 30px;margin: 0}
 
 .pingfen{padding: 20px 40px;color: #555;}
-.textarea{border:#c5c5c5 1px solid;font-size: 14px;width: 470px;height: 100px;padding: 20px;}
+.textarea{border:#c5c5c5 1px solid;font-size: 14px;width: 470px;height: 100px;padding: 5px;}
 
 .xm_info {background: #fff;color: #555;padding: 40px ;}
 .xm_info .cell{width: 200px;padding-left: 20px;}
@@ -648,7 +651,8 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .gcjbxx .item{margin-top: 25px;line-height: 43px}
 .gcjbxx .input1{height: 41px;line-height: 41px;width: 350px;}
 
-.textarea2{border: #c5c5c5 1px solid;width: 340px;padding: 10px;height:80px;}
+.textarea2{border: #c5c5c5 1px solid;width: 370px;padding: 10px;height:110px;}
+.gcjbxx .textarea2{ width: 340px;}
 
 .gqyq .input1{width: 355px;}
 .gqyq .width330{width: 334px;background: #fff;}
@@ -695,7 +699,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zbxmxx{width: 620px}
 .zbxmxx .input1{width: 350px;}
 .zbxmxx .yuanbox .input1{width: 330px;}
-.zbxmxx .textarea{width: 320px;height: 66px;}
+.zbxmxx .textarea{width: 350px;height: 96px;}
 
 .select{position:relative;border:#c5c5c5 1px solid;display:inline-block;width:360px;vertical-align:top;background:#fff;overflow:hidden;border-radius:0.15rem;}
 .select:after{position:absolute;display:block;top:35%;right:20px;content:'';border-left:5px solid transparent;border-right:5px solid transparent;border-top:9px solid #aaa;pointer-events:none;}
@@ -709,12 +713,12 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .jibenxx .item .lab{padding-right: 20px;text-align: right;width: 195px;color: #222;font-size: 16px;}
 .jibenxx .item .input1{height: 42px;line-height: 40px;width: 350px;	}
 .jibenxx .btn-file2{height: 44px;}
-.jibenxx .item .textarea{width: 320px;height: 60px;}
+.jibenxx .item .textarea{width: 350px;height: 90px;}
 .jibenxx .item .select{width: 362px;}
 .color5 .value,.color5 .lab{color: #555;}
 
 .tips_txt{line-height: 18px;font-size: 12px;display: inline-block;vertical-align: middle;}
-
+.gcjbxx .tips_txt{ line-height: 41px;}
 
 .table3 table{width: 100%;font-size: 14px;color: #222;line-height: 30px;}
 .table3 table td{padding: 0 5px;}
@@ -850,6 +854,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .blue{color: #1b8fff;}
 .blue2{color: #73e2ff;}
 .red{color: #73e2ff;}
+.green{color: #6fc1a7;}
 a.blue:hover{color: #73e2ff}
 .red,.red a{ color:#F00;}
 
@@ -1012,6 +1017,7 @@ a.blue:hover{color: #73e2ff}
 .verm{vertical-align: middle;}
 .vert{vertical-align: top;}
 .radiu0{border-radius: 0;}
+.radiu5{border-radius: 5px;}
 .taged{border:#A6B010 1px solid}
 .disabled,.btn[disabled],button[disabled],input[disabled]{
     background-color: #ababab !important;

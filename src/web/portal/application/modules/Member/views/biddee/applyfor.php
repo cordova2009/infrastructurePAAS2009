@@ -1,18 +1,6 @@
-<div class=" main">
+<block name="style">
+    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <style>
-        .btn-file2{position: relative;}
-        .btn-file2 input {
-            cursor: pointer;
-            direction: ltr;
-            height: 44px;
-            margin: 0;
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 92px;
-            display:block;
-        }
         /*img{max-width:178px;}*/
         .btn-file3{position: relative;}
         .btn-file3 input {
@@ -28,7 +16,8 @@
             display:block;
         }
     </style>
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
+</block>
+<div class=" main">
     <div class="box  pad0 bg-orange">
         <div class="stepbox2">
             <ul class="clear">
@@ -78,10 +67,6 @@
                     <a href="javascript:;">银行开户信息</a>
                 </li>
             </ul>
-            <div class="tijiao">
-                <a href="#" id="tijiao" class="btn-tijiao">提交招标人认证</a>
-            </div>
-
         </div>
         <div class="auto  box pad0 " id="base">
             <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="base_sucess">
@@ -103,20 +88,20 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）LOGO</span>
                             <div class="auto value ">
-<div class="marb20 clear">
+                                <div class="marb20 clear">
                                     <img src="<?=empty($base['logoUrl']) ? '/uploads/pic.jpg' : imageView2($base['logoUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
                                         <label class="btn-file3  ">
-                                            上传图片<input type="file" name="file">
+                                            <span>上传图片</span>
+                                            <input type="file" name="file">
                                             <input type="hidden" name="logoUrl" value="<?=$base['logoUrl']?>">
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 公司（单位）简介</span>
@@ -176,25 +161,26 @@
                                     <img src="<?=empty($legal['idCardfrontUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardfrontUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
                                         <label class="btn-file3  ">
-                                            上传附件<input type="file" name="file" >
-                                            <input type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" >
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="idCardfrontUrl" value="<?=$legal['idCardfrontUrl']?>" >
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                                 <div class="marb20 clear">
                                     <img src="<?=empty($legal['idCardBackUrl']) ? '/uploads/pic.jpg' : imageView2($legal['idCardBackUrl'],178,112)?>" alt="" class="left marr10">
                                     <div class="left wid110">
-                                        <label class="btn-file3  "> 上传附件<input type="file" name="file">
-                                            <input type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" >
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file">
+                                            <input class="hidden-url" type="hidden" name="idCardBackUrl" value="<?=$legal['idCardBackUrl']?>" >
                                         </label>
                                         <div class="progress mart20 hide">
                                             <span class="on"></span>
                                         </div>
-                                        <p class="color8 text-center hide">上传中…</p>
                                     </div>
                                 </div>
                             </div>
@@ -202,16 +188,20 @@
                         <div class="item">
                             <span class="lab">法人授权书扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3 ">
-                                    上传文件 <input type="file" name="file"><input type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" >
+                                <div class="btn-file3 left <?php if(isset($legal) && !empty($legal['authorityBookUrl'])) echo 'hide'?>">
+                                    <span>上传文件</span>
+                                    <input type="file" name="file">
+                                    <input class="hidden-url" type="hidden" name="authorityBookUrl" value="<?=$legal['authorityBookUrl']?>" >
                                 </div>
-                                <div class="progress wid100 dib hide">
+                                <div class="uploaded left <?php if(!isset($legal) || empty($legal['authorityBookUrl'])) echo 'hide'?>">
+                                    <a target="_blank" href="<?=isset($legal)?imageView2($legal['authorityBookUrl']):''?>" class="btn-file2 view">查看</a>
+                                    <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
+                                </div>
+                                <div class="progress wid100 dib hide left">
                                     <span class="on"></span>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
-
                                 <i class="ico tip-qus2 verm marl20"></i>
-									<span class="red tips_txt">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
+                                <span class="red tips_txt hide">如果法人姓名与注册账号姓名不一致，需要上传法人授权书</span>
                             </div>
                         </div>
 
@@ -232,11 +222,17 @@
             <div class="padm30 jibenxx">
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="companyRegistered_sucess">
                     <div class="text-center checkBtn padv40 zhucexx">
-                        <a href="javascript:;" class="active">统一社会信用代码</a>
-                        <a href="javascript:;" class="">非统一社会信用代码</a>
+                        <a href="javascript:;" class=" <?=($registered['businessLicenseType'] != 'OLD')? 'active' :'';?>">
+                            统一社会信用代码
+                            <input type="radio" class="hide" <?=($registered['businessLicenseType'] != 'OLD')? 'checked' :'';?> name="businessLicenseType" value="NEW" >
+                        </a>
+                        <a href="javascript:;" class=" <?=($registered['businessLicenseType'] == 'OLD')? 'active' :'';?>">
+                            非统一社会信用代码
+                            <input type="radio" class="hide" <?=($registered['businessLicenseType'] == 'OLD')? 'checked' :'';?> name="businessLicenseType" value="OLD" >
+                        </a>
                     </div>
                     <!--统一社会信用代码-->
-                    <div class=" charge_form ">
+                    <div class=" charge_form <?=($registered['businessLicenseType'] != 'OLD')? '' :'hide';?>">
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 统一社会信用代码</span>
                             <div class="auto value ">
@@ -247,15 +243,23 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 统一社会信用代码扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['newBusinessLicenseUrl']) ? '/uploads/pic.jpg' : imageView2($registered['newBusinessLicenseUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="newBusinessLicenseUrl" value="<?=$registered['newBusinessLicenseUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
                     </div>
-                    <div class=" charge_form hide" >
+                    <div class=" charge_form <?=($registered['businessLicenseType'] == 'OLD')? '' :'hide';?>" >
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 营业执照编号</span>
                             <div class="auto value ">
@@ -266,11 +270,19 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 营业执照扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['businessLicenseUrl']) ? '/uploads/pic.jpg' : imageView2($registered['businessLicenseUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="businessLicenseUrl" value="<?=$registered['businessLicenseUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
 
@@ -284,11 +296,19 @@
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 组织机构代码证扫描件</span>
                             <div class="auto value ">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['organizationCodeUrl']) ? '/uploads/pic.jpg' : imageView2($registered['organizationCodeUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="organizationCodeUrl" value="<?=$registered['organizationCodeUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
 
@@ -301,12 +321,20 @@
 
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 税务登记证扫描件</span>
-                            <div class="auto value " id="">
-                                <div class="btn-file3">上传文件 <input type="file" name="file"><input type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>"></div>
-                                <div class="progress wid100 dib hide">
-                                    <span class="on"></span>
+                            <div class="auto value ">
+                                <div class="marb20 clear">
+                                    <img src="<?=empty($registered['taxRegistrationUrl']) ? '/uploads/pic.jpg' : imageView2($registered['taxRegistrationUrl'],178,112)?>" alt="" class="left marr10">
+                                    <div class="left wid110">
+                                        <label class="btn-file3  ">
+                                            <span>上传附件</span>
+                                            <input type="file" name="file" >
+                                            <input class="hidden-url" type="hidden" name="taxRegistrationUrl" value="<?=$registered['taxRegistrationUrl']?>">
+                                        </label>
+                                        <div class="progress mart20 hide">
+                                            <span class="on"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="color8 text-center hide">上传中…</span>
                             </div>
                         </div>
                     </div>
@@ -347,11 +375,9 @@
                     <div class="text-center padv30">
                         <input  type="submit" class="btn-green2" value="保存并继续">
                     </div>
+                    <input type="hidden" name="type" value="companyRegistered" >
+                </form>
             </div>
-            <!--非统一社会信用代码-->
-            <input type="hidden" name="type" value="companyRegistered" >
-            <input type="hidden" name="businessLicenseType" value="<?=$registered['businessLicenseType']=='OLD'?'OLD':'NEW';?>" id="businessLicenseType" >
-            </form>
         </div>
 
         <div class="auto  box pad0 hide" id="bank">
@@ -377,9 +403,27 @@
                                 <input type="text" class="input1 wid350" name="accountId" value="<?=$bankInfo['accountId']?>">
                             </div>
                         </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 税号</span>
+                            <div class="auto value ">
+                                <input type="text" name="taxNo" class="input1 wid350" value="<?=$bankInfo['taxNo'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 联系电话</span>
+                            <div class="auto value ">
+                                <input type="text" name="telephone" class="input1 wid350" value="<?=$bankInfo['telephone'];?>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="lab"><span class="red">*</span> 公司地址</span>
+                            <div class="auto value ">
+                                <input type="text" name="address" class="input1 wid350" value="<?=$bankInfo['address'];?>">
+                            </div>
+                        </div>
                         <div class="text-center padv30">
                             <input type="hidden" name="type" value="bankInfo" >
-                            <input type="submit" class="btn-green2" value="保存">
+                            <input type="submit" class="btn-green2" value="保存并继续">
                         </div>
                     </div>
                 </form>
@@ -387,16 +431,9 @@
         </div>
     </div>
 </div>
-<!--list-->
-
 <block name="script">
     <script src="/js/jquery.datetimepicker.js"></script>
-    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="/js/upload/jquery.iframe-transport.js"></script>
-    <!-- The basic File Upload plugin -->
-    <script src="/js/upload/jquery.fileupload.js"></script>
+    <?php require_once __DIR__.'/../common/upload.js.php';?>
     <script>
         function base_sucess()
         {
@@ -490,24 +527,18 @@
         $(function(){
             $(".jibenxx .checkBtn a").click(function() {
 
-                $(this).addClass('active').siblings('a').removeClass('active')
+                $(this)
+                    .addClass('active')
+                    .children('input').prop('checked',true);
+                $(this).siblings('a').removeClass('active');
 
-                var i = $(this).index();
-                $('#companyRegistered .charge_form').addClass('hide');
-                $('#companyRegistered .charge_form').eq(i).removeClass('hide');
-                if(i ==0 )
-                {
-                    $('#businessLicenseType').val('NEW');
-                }else
-                {
-                    $('#businessLicenseType').val('OLD');
-                }
+                $('#companyRegistered .charge_form')
+                    .addClass('hide')
+                    .eq($(this).index()).removeClass('hide');
             });
+
             $(".side_menu li").click(change);
             init();
-        })
-
-        $(function(){
 
             $("input[type=file]").fileupload({
                 url:'<?=U('/member/upload/picture')?>',//文件上传地址，当然也可以直接写在input的data-url属性内
@@ -517,54 +548,64 @@
                     if (e.isDefaultPrevented()) {
                         return false;
                     }
-                    var obj = $(this).data('data',data)
-                        .parent();
-                        obj.css('background','#bebebe').nextAll().show()
-                        .children('span')
-                        .css('width','0%');
-                    obj.nextAll('.text-center').text('上传中...');
-
+                    $(this).prev().text('上传中..')
+                        .parent().css('background','#bebebe')
+                        .nextAll('.progress').show()
+                        .children('span').css('width','0%');
                     data.submit();
                 },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
                     $(this).parent()
-                            .next('.progress')
-                            .children('span')
-                            .css('width',progress + '%');
+                        .nextAll('.progress')
+                        .children('span')
+                        .css('width',progress + '%');
                 },
                 done:function(e,data){
                     //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
                     //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
                     //返回的数据在result.result中，假设我们服务器返回了一个json对象
 
+                    var $this = $(this);
+                    var parent =$this
+                        .prev().text('上传附件')
+                        .parent().css('background','#8ab46e');
+
                     if(data.result.status == '0'){
-                        var img_el = $(this).next().val(data.result.url)
-                            .parent().css('background','#8ab46e')
-                            .nextAll('.text-center').text('上传成功').parent().prev('img');
+                        //为隐藏标签赋值
+                        $this.next().val(data.result.url);
+
+                        var obj = parent.next('.uploaded');
+                        if(obj.length > 0) {
+                            parent.hide();
+                            obj.removeClass('hide').show()
+                                .find('.view').attr('href', data.result.src);
+                        }
+
+                        var img_el = parent.parent().prev('img');
                         if(img_el.length > 0){
                             img_el.attr('src',data.result.src);
-                        }
-                        if($(this).next().next().attr('name')=='cshow')
-                        {
-                            $(this).next().next().val(data.result.src);
                         }
                     }else{
                         layer.alert(data.result.msg,{icon:2});
                     }
-		    $(this).parent().next('.progress').hide().next().hide()
+
+                    parent.nextAll('.progress').hide();
                 },
                 fail: function () {
-                    $(this).parent().css('background','#8ab46e');
+                    $(this)
+                        .prev().text('上传附件')
+                        .parent().css('background','#8ab46e');
                     layer.alert('上传失败，请重新再试',{icon:2});
                 }
-            })
-        })
-$(".tip-qus2").mouseover(function (){
-$(this).next().show();
-});
-$(".tip-qus2").mouseout(function (){
-$(this).next().hide();
-});
+            });
+
+            $(".delete-pic-btn").click(function () {
+                $(this)
+                    .closest('.uploaded').hide()
+                    .prev().removeClass('hide').show()
+                    .find('.hidden-url').val('');
+            });
+        });
     </script>
 </block>

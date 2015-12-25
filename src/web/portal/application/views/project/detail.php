@@ -228,7 +228,7 @@
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">招标方式</td>
-                            <?php $objectMethod = ['PUB' => '公开招标', 'INVI' => '邀请投标']; ?>
+                            <?php $objectMethod = ['PUB' => '公开招标', 'INV' => '邀请投标']; ?>
                             <td class="value"> <?=isset($objectMethodInfo['objectMethodInfo'])?$objectMethod[$objectMethodInfo['objectMethodInfo']]:'未填写'?> </td>
                         </tr>
                         <tr >
@@ -265,7 +265,7 @@
                         </tr>
                         <tr>
                             <td class="lab">招标时间要求</td>
-                            <td class="value"> <?=isset($dateRequirementInfo['bidOpenDate'])?$info['detail']['dateRequirementInfo']['bidOpenDate']:'未设置'?> </td>
+                            <td class="value"> <?=isset($dateRequirementInfo['bidOpenDate'])?str_replace('00:00:00','',$info['detail']['dateRequirementInfo']['bidOpenDate']):'未设置'?> </td>
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">评标方法及标准</td>
@@ -334,8 +334,49 @@
         </div>
     </div>
     <div class="text-right">
-        <a href="javascript:" class="pad5 color8">举报</a>
+        <a href="javascript:;" class="pad5 color8" data-toggle="modal" data-target="#modalJubao">举报</a>
     </div>
     <!--list-->
 
 </div>
+<div class="modal modalJubao hide" id="modalJubao" >
+
+    <div class="modal-body">
+        <form action="<?=U('/project/report')?>" method="post" class="ajax-form" success="save_success" next_step="projectInfo">
+            <input name="objectId" type="hidden"  value="<?=$info['objectId']?>" >
+            <div class="modal-header fz18	"><i class="ico_info marr5"></i> 举报</div>
+        <div class="modal-cont">
+            <div class="cont1 ">
+                <div class="txt1">您为什么要举报<span class="blue"><?=$baseInfo['objectName']?>（<?=$info['objectId']?>）</span>？</div>
+                <div class="modalJubao_list">
+                        <a href="javascript:;" ><i></i>
+                            <input name="reportType" type="radio" class="hide" value="UTT" checked>
+                            虚假招标信息
+                        </a>
+                </div>
+            </div>
+            <div class="cont1 hide">
+                <div class="txt1">您还可以详细描述被举报人的恶意行为（选填）</div>
+                <textarea  class="textarea3" name="reportContent"></textarea>
+                <div class="btns text-right">
+                    <a href="javascript:;" class="btn3 prev">上一步</a>
+                    <input type="submit" value="提交" class="btn3" data-miss="modal">
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<block name="script">
+<script type="text/javascript">
+    $(".modalJubao_list a").click(function(event) {
+        $(this).children('input[type=radio]').prop('checked',true);
+        $(this).parents(".modalJubao").find(".cont1").addClass('hide');
+        $(this).parents(".modalJubao").find(".cont1").eq(1).removeClass('hide')
+    });
+    $(".modalJubao .prev").click(function(event) {
+        $(this).parents(".modalJubao").find(".cont1").addClass('hide');
+        $(this).parents(".modalJubao").find(".cont1").eq(0).removeClass('hide')
+    });
+</script>
+</block>

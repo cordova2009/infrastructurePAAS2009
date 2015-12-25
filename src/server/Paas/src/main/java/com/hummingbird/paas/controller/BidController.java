@@ -55,6 +55,7 @@ import com.hummingbird.paas.services.BiddeeServiceService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserService;
 import com.hummingbird.paas.util.CallInterfaceUtil;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.BidEvaluateReturnVO;
 import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
@@ -1280,6 +1281,41 @@ public class BidController extends BaseController {
 			}
 			bidService.evaluateBiddee(transorder.getApp().getAppId(),transorder.getBody(),bidder);
 			tokenSrv.postponeToken(token);
+		}catch (Exception e1) {
+			log.error(String.format(messagebase + "失败"), e1);
+			rm.mergeException(e1);
+			if(qe!=null)
+				qe.setSuccessed(false);
+		} finally {
+			if(qe!=null)
+				EventListenerContainer.getInstance().fireEvent(qe);
+		}
+		return rm;
+		
+	}
+	
+	/**
+	 * 查询招标中的招投标文件要求
+	 * @return
+	 */
+	@RequestMapping(value="/queryObjectFileTypeRequirementInfo",method=RequestMethod.POST)
+	@AccessRequered(methodName = "查询招标中的招投标文件要求",isJson=true,codebase=247700,className="com.hummingbird.commonbiz.vo.BaseTransVO",genericClassName="com.hummingbird.paas.vo.QueryObjectBodyVO",appLog=true)
+	public @ResponseBody ResultModel queryBidFileTypeInfo(HttpServletRequest request,HttpServletResponse response) {
+		ResultModel rm = super.getResultModel();
+		BaseTransVO<QueryObjectBodyVO> transorder = (BaseTransVO<QueryObjectBodyVO>) super.getParameterObject();
+		String messagebase = "查询招标中的招投标文件要求"; 
+	
+		RequestEvent qe=null ; //业务请求事件,当实现一些关键的业务时,需要生成该请求
+		
+		try {
+			//业务数据必填等校验
+
+			//业务数据逻辑校验
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			AbstractBidFileTypeInfo queryBidFileTypeInfo = bidService.queryBidFileTypeInfo(transorder.getApp().getAppId(),transorder.getBody());
+			rm.put("bidFileTypeInfo", queryBidFileTypeInfo);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

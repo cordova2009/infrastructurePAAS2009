@@ -109,5 +109,13 @@ public interface BidderMapper {
 	 */
 	List<QueryBidderListHomepageResultVO> selectBidder4homepage(@Param("keyword")List<String> keywords,@Param("bidderName") String bidderName,
 			@Param("page") Pagingnation pagingnation);
+
+	/**
+	 * 查询投标人列表 
+	 * @param queryCertificateListBodyVO
+	 * @param pagingnation
+	 * @return
+	 */
+	int selectBidderCount4homepage(@Param("keyword")List<String> keywords,@Param("bidderName") String bidderName);
     
 }

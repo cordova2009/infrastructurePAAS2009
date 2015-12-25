@@ -12,7 +12,7 @@
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <![endif]-->
-    <?php if(isset($block['style'])) echo $block['style']; ?>
+    <block name="style"></block>
 </head>
 <body>
 <div class="pg-container">
@@ -42,7 +42,7 @@
                     <ul>
                         <li><a href="<?=U('/')?>">首页</a></li>
                         <li><a href="<?=U('/member/tender/baseinfo')?>">我要招标</a></li>
-                        <li><a href="<?=U('/project/tenderlist')?>">我要投标</a></li>
+                        <li><a href="<?=U('/project/list')?>">我要投标</a></li>
                         <li><a href="#">新手指引</a></li>
                         <li  class="submenu">
                             <span>会员服务 <i class="i-down"></i></span>

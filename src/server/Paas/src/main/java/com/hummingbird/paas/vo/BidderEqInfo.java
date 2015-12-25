@@ -5,6 +5,7 @@ import java.util.Date;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import com.hummingbird.common.util.convertor.JacksonDateSerializer;
 import com.hummingbird.common.util.convertor.JacksonDateTimeSerializer;
 import com.hummingbird.paas.util.JacksonDateDeserializer;
 
@@ -101,7 +102,7 @@ public class BidderEqInfo {
 	/**
 	 * @return the expiryDate
 	 */
-	@JsonSerialize(using = JacksonDateTimeSerializer.class)
+	@JsonSerialize(using = JacksonDateSerializer.class)
 	public Date getExpiryDate() {
 		return expiryDate;
 	}

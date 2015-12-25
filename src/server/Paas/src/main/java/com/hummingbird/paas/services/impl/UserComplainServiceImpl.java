@@ -47,7 +47,6 @@ public class UserComplainServiceImpl implements UserComplainService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int submitComplain(String appId, UserComplainBodyVO uc, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
 		int i= 0;
 		User user = userDao.selectByPrimaryKey(token.getUserId());
 		ValidateUtil.assertNull(user, "用户记录未找到！");

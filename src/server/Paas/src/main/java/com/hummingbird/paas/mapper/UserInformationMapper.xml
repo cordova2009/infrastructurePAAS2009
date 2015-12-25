@@ -35,34 +35,111 @@
     <result column="phase" property="phase" jdbcType="VARCHAR" />
      <result column="user_name" property="userName" jdbcType="VARCHAR" />
   </resultMap>
+  
+   <resultMap id="InformationCountResultMap" type="com.hummingbird.paas.vo.QueryProjectSurveyResultVO" >
+    <result column="published_count" property="publishedCount" jdbcType="INTEGER" />
+    <result column="published_man_count" property="publishedManCount" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, user_id, address, status, insert_time, update_time, updator, object_amount, district, 
     project_period, project_situation, employer, object_type, object_name, phase, audit_status, 
     auditor, audit_time
   </sql>
+   <select id="queryUserInformationIndexSurvey" resultMap="InformationCountResultMap" >
+   select  count(*) as publishedCount,count( distinct user_id) as publishedManCount 
+	from t_zxgl_user_information 
+	where status = "OK#"
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_zxgl_user_information
+    from t_xxfb_user_information
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByUserIdAndStatus" resultMap="UserInformationPageResultMap"  >
    select a.id information_id,a.address,a.district,a.employer,a.object_amount,a.object_name,a.object_type,a.phase,a.project_period,a.project_situation,a.status,b.nick_name
-	from t_zxgl_user_information a LEFT JOIN t_user b  on a.user_id = b.id
+	from t_xxfb_user_information a LEFT JOIN t_user b  on a.user_id = b.id
 	where a.user_id = #{userId} and a.status =#{status}  
    limit #{begin},#{limit}
   </select>
+  <select id="selectUserInfoPage" resultMap="UserInformationPageResultMap"  >
+   select a.id information_id,a.address,a.district,a.employer,a.object_amount,a.object_name,a.object_type,a.phase,a.project_period,a.project_situation,a.status,b.nick_name user_name
+	from t_xxfb_user_information a LEFT JOIN t_user b  on a.user_id = b.id
+	where 1=1 
+	<if test="userId != null" >
+	 and a.user_id = #{userId} 
+	</if>
+	<if test="status != null" >
+	 and a.status = #{status}  
+	</if>
+	<if test="keywords != null" >
+        and (
+       <foreach collection="keywords" item="item" index="index"
+		   open="(" separator="OR" close=")">
+		   object_name like "%"#{item}"%"
+		</foreach>
+        or
+       <foreach collection="keywords" item="item" index="index"
+		   open="(" separator="OR" close=")">
+		   project_situation like "%"#{item}"%"
+		</foreach>
+        
+        )
+     </if>
+	<if test="page != null" >
+   		 limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+     </if>
+  </select>
+  <select id="selectUserInfoCount" resultType="int"  >
+   select count(*)
+	from t_xxfb_user_information a
+	where 1=1 
+	<if test="userId != null" >
+	 and a.user_id = #{userId} 
+	</if>
+	<if test="status != null" >
+	 and a.status = #{status}  
+	</if>
+	<if test="keywords != null" >
+        and (
+       <foreach collection="keywords" item="item" index="index"
+		   open="(" separator="OR" close=")">
+		   object_name like "%"#{item}"%"
+		</foreach>
+        or
+       <foreach collection="keywords" item="item" index="index"
+		   open="(" separator="OR" close=")">
+		   project_situation like "%"#{item}"%"
+		</foreach>
+        
+        )
+     </if>
+  </select>
    <select id="selectTotalByUserIdAndStatus" resultType="int" >
    select count(1)
-	from t_zxgl_user_information a LEFT JOIN t_user b  on a.user_id = b.id
+	from t_xxfb_user_information a LEFT JOIN t_user b  on a.user_id = b.id
 	where a.user_id = #{userId} and a.status =#{status}  
   </select>
+  
+   <select id="selectPublishedInfoCount" resultType="int" >
+    select count(*)
+	from t_xxfb_user_information 
+	where status = "OK#"
+  </select>
+   <select id="selectPublishedManCount" resultType="int" >
+    select count(distinct user_id)
+	from t_xxfb_user_information 
+	where status = "OK#"
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_zxgl_user_information
+    delete from t_xxfb_user_information
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.UserInformation" >
-    insert into t_zxgl_user_information (id, user_id, address, 
+    insert into t_xxfb_user_information (id, user_id, address, 
       status, insert_time, update_time, 
       updator, object_amount, district, 
       project_period, project_situation, employer, 
@@ -78,7 +155,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.UserInformation" >
-    insert into t_zxgl_user_information
+    insert into t_xxfb_user_information
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -193,7 +270,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.UserInformation" >
-    update t_zxgl_user_information
+    update t_xxfb_user_information
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -250,7 +327,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.UserInformation" >
-    update t_zxgl_user_information
+    update t_xxfb_user_information
     set user_id = #{userId,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},

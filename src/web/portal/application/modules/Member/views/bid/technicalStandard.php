@@ -4,7 +4,7 @@ if(check_resp($resp)){
 }
 ?>
 <div class="auto  box pad0" id="technicalStandard">
-    <div class="h2">商务标</div>
+    <div class="h2">技术标</div>
     <div class="padm30">
         <form action="<?=U('/member/bid/saveTechnicalStandard')?>" method="post" class="ajax-form" success="save_success" next_step="makeMatchBidderBond">
             <input name="objectId" value="<?=$objectId?>" type="hidden" />

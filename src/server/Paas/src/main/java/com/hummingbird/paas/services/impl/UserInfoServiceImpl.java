@@ -2,14 +2,17 @@ package com.hummingbird.paas.services.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.BusinessException;
+import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
@@ -20,6 +23,8 @@ import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.services.UserInfoService;
+import com.hummingbird.paas.vo.BaseUserInformationPageBodyVO;
+import com.hummingbird.paas.vo.UserInformationAuditBodyVO;
 import com.hummingbird.paas.vo.UserInformationBodyVO;
 import com.hummingbird.paas.vo.UserInformationComments;
 import com.hummingbird.paas.vo.UserInformationDetailBodyVO;
@@ -125,7 +130,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public UserInformationDetailWithCommentsReturnVO getUserInformationDetailWithComments(String appId,
-			UserInformationDetailBodyVO body, Token token) throws BusinessException {
+			UserInformationDetailBodyVO body) throws BusinessException {
 		// TODO Auto-generated method stub
 		UserInformationDetailWithCommentsReturnVO uidr = new UserInformationDetailWithCommentsReturnVO();
 		UserInformation ui = uiDao.selectByPrimaryKey(body.getInformationId());
@@ -155,13 +160,48 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public List<UserInformationPageReturnVO> queryUserInformationPage(String appId, UserInformationPageBodyVO body,
 			Token token) throws BusinessException {
-		// TODO Auto-generated method stub
 		Integer pageIndex = body.getPageIndex();
 		Integer pageSize = body.getPageSize();
 		
 		List<UserInformationPageReturnVO> qlr = new ArrayList<UserInformationPageReturnVO>();
 		qlr = uiDao.selectByUserIdAndStatus(token.getUserId(), body.getStatus(), (pageIndex-1)*pageSize, pageSize);
 		return qlr;
+	}
+	
+	/**
+	 * 查询用户信息列表
+	 * @param appId
+	 * @param body
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<UserInformationPageReturnVO> queryUserInformationPage(String appId, BaseUserInformationPageBodyVO body,
+			Pagingnation page,Token token){
+		//处理keyword
+		List<String> keywords = body.getKeywords();
+		//如果列表中的无内容,或者为"",会变成sql错误,这里进行处理
+		if(keywords==null||keywords.isEmpty()){
+			keywords=null;
+		}
+		else{
+			boolean allblank = true;
+			for (Iterator iterator = keywords.iterator(); iterator.hasNext();) {
+				String kw = (String) iterator.next();
+				allblank&=StringUtils.isBlank(kw);
+			}
+			if(allblank){
+				keywords=null;
+			}
+		}
+		
+		if(page!=null&&page.isCountsize()){
+			int num = 0;
+			num = uiDao.selectUserInfoCount(token!=null?token.getUserId():null, body.getStatus(),keywords);
+			page.setTotalCount(num);
+			page.calculatePageCount();
+		}
+		List<UserInformationPageReturnVO> list=uiDao.selectUserInfoPage(token!=null?token.getUserId():null, body.getStatus(),keywords,page);
+		return list;
 	}
 
 	@Override
@@ -194,11 +234,41 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public int queryUserInformationPageTotal(String appId, UserInformationPageBodyVO body, Token token)
 			throws BusinessException {
-		// TODO Auto-generated method stub
 		int num = 0;
 		num = uiDao.selectTotalByUserIdAndStatus(token.getUserId(), body.getStatus());
 		return num;
 	}
-
+	@Override
+	public void auditUserInformation(UserInformationAuditBodyVO body)
+			throws BusinessException {
+					 if (log.isDebugEnabled()) {
+						log.debug("审核用户发布的信息接口开始");
+					 }
+		              //数据校验
+		              String status = body.getAuditStatus();
+		              Integer informationId = body.getInformationId();
+		              ValidateUtil.assertNull(status, "审核状态");
+		              ValidateUtil.assertNull(informationId, "发布信息ID");
+		              if(status != null && !"OK#".equals(status) && !"FLS".equals(status)){
+						  throw new BusinessException(242400,"审核状态不正确,状态必须是OK#或者FLS");
+		              }
+		              //判断当前操作者是否有审核权限
+		        	  
+		        	  //判断要审核的信息是否存在
+		        	   UserInformation userInfo=uiDao.selectByPrimaryKey(informationId);
+					   if(userInfo == null){
+							throw new BusinessException(10111,"不存在该发布信息");
+					   }
+					   //要审核的状态和信息目前的状态不相同的时候才进行更新操作
+					   if(!status.equals(userInfo.getAuditStatus())){
+						   UserInformation audit = new UserInformation();
+							audit.setId(userInfo.getId());
+							audit.setAuditStatus(status);
+							uiDao.updateByPrimaryKeySelective(audit);
+					   }
+					   if (log.isDebugEnabled()) {
+							log.debug("审核用户发布的信息接口完成");
+					   }
+	}
 
 }

@@ -9,10 +9,8 @@
                     return false;
                 }
                 $(this)
-                    .prev()
-                    .text('上传中..')
-                    .parent()
-                    .css('background','#bebebe');
+                    .prev().text('上传中..')
+                    .parent().css('background','#bebebe');
                 data.submit();
             },
             done:function(e,data){
@@ -41,10 +39,8 @@
             },
             fail: function () {
                 $(this)
-                    .prev()
-                    .text('上传附件')
-                    .parent()
-                    .css('background','#8ab46e');
+                    .prev().text('上传附件')
+                    .parent().css('background','#8ab46e');
                 layer.alert('上传失败，请重新再试',{icon:2});
             }
         });

@@ -13,6 +13,7 @@ import com.hummingbird.paas.entity.BidRecord;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
+import com.hummingbird.paas.vo.AbstractBidFileTypeInfo;
 import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
@@ -269,5 +270,14 @@ public interface BidService {
 	 * @throws DataInvalidException 
 	 */
 	public SubmitBidBodyVO queryBidSubmit(String appId, QueryBidBodyVO body, Integer bidderId) throws DataInvalidException;
+
+	/**
+	 * 查询未完成招标项目投标文件
+	 * @param appId
+	 * @param body
+	 * @return
+	 * @throws DataInvalidException 
+	 */
+	public AbstractBidFileTypeInfo queryBidFileTypeInfo(String appId, QueryObjectBodyVO body) throws DataInvalidException;
 	
 }

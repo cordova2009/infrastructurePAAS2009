@@ -21,7 +21,7 @@ class ComplainController extends AdminController{
         $model = M()->table($prefix.'xxfb_complain xc')
             ->join($prefix.'user u on xc.user_id = u.id','left');
 
-        $this->assign('_list',$model->field('xc.*,u.nick_name')->select());
+        $this->assign('_list',$this->lists($model,[],'','xc.*,u.nick_name'));
 
         $this->meta_title = '投诉列表';
         $this->display();
@@ -32,9 +32,9 @@ class ComplainController extends AdminController{
     public function reportList(){
         $prefix = C('DB_PREFIX');
         $model = M()->table($prefix.'xxfb_report xc')
-            ->join($prefix.'user u on xc.user_id = u.id','left');
+                    ->join($prefix.'user u on xc.user_id = u.id','left');
 
-        $this->assign('_list',$model->field('xc.*,u.nick_name')->select());
+        $this->assign('_list',$this->lists($model,[],'','xc.*,u.nick_name'));
 
         $this->meta_title = '举报列表';
         $this->display();

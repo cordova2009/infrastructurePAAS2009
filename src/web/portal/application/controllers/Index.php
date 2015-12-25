@@ -36,6 +36,10 @@ class IndexController extends MallController {
         $this->assign('bidder_list',$this->_bidder_list());
         //公告
         $this->assign('site_notice',$this->_site_notice());
+        //项目信息公告
+        $this->assign('information_info',$this->_information_info());
+        //项目信息列表
+        $this->assign('information_list',$this->_information_list());
 
         //项目信息
         $this->_p_info();
@@ -71,10 +75,10 @@ class IndexController extends MallController {
         if(check_resp($resp)){
             $object_info = $resp['info'];
         }
-
+        
         return $object_info;
     }
-
+    
     private function _bid_info()
     {
         $resp = $this->_curl->send('tender/queryBidIndexSurvey');
@@ -95,6 +99,16 @@ class IndexController extends MallController {
         }
 
         return $bidder_info;
+    }
+    private function _information_info()
+    {
+        $resp = $this->_curl->send('tender/queryUserInformationIndexSurvey');
+        $information_info = ['publishedCount'=>0,'publishedManCount'=>0];
+        if(check_resp($resp)){
+            $information_info = $resp['result'];
+        }
+
+        return $information_info;
     }
     
     private function _object_list()
@@ -141,4 +155,14 @@ class IndexController extends MallController {
         return isset($notices[0]) ? $notices[0] : $notices;
     }
 
+    private function _information_list()
+    {
+        $resp = $this->_curl->setData(['pageSize'=>10,'pageIndex'=>1])->send('userInformation/queryUserInformationIndexPage');
+        $information_list = [];
+        if(check_resp($resp)){
+            $information_list = $resp['list'];
+        }
+
+        return $information_list;
+    }
 }

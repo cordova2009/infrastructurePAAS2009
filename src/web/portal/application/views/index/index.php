@@ -77,7 +77,7 @@
             <div class="left txt2">
                 <span class="left tag-txt">交易<br>金额</span>
                 <div class="left num">
-                    <span class="fz100"><?=price_convert($object_info['amount'],10000)?></span><span class="fz87">万</span><span class="left dw">元</span>
+                    <span class="fz100"><?=price_dispose($object_info['amount'],0.0001)?></span><span class="fz87">万</span><span class="left dw">元</span>
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
             <div class="left txt2">
                 <span class="left tag-txt2">中标<br>累计金额</span>
                 <div class="left num">
-                    <span class="fz100"><?=price_format($bid_info['amount'],10000,false)?></span><span class="fz87">万</span><span class="left dw">元</span>
+                    <span class="fz100"><?=price_dispose($bid_info['bidNum'],10000)?></span><span class="fz87">万</span><span class="left dw">元</span>
                 </div>
             </div>
         </div>
@@ -200,21 +200,21 @@
         <div class="list-more"><a href="/bidder/list.html">查看更多投标人</a></div>
     </div>
 </div>
-<!---->
-<div class="tips-box2 xmxx">
-    <div class="cent ">
+
+<div class="tips-box2 projectinfo">
+    <div class="cent">
         <div class="in-tit1">项目信息</div>
         <div class="clear tips-txtcont">
             <div class="left txt2">
                 <span class="left tag-txt2 padt30">发布信息</span>
                 <div class="left num">
-                    <span class="fz100"><?=$p_info['num']?></span><span class="left dw">家</span>
+                    <span class="fz100"><?=$information_info['publishedCount']?></span><span class="left dw">条</span>
                 </div>
             </div>
             <div class="left txt2">
-                <span class="left tag-txt2 padt30">参与数</span>
+                <span class="left tag-txt2">参与人数</span>
                 <div class="left num">
-                    <span class="fz100"><?=$p_info['amount']?></span><span class="left dw">家</span>
+                    <span class="fz100"><?=$information_info['publishedManCount']?></span><span class="left dw">人</span>
                 </div>
             </div>
         </div>
@@ -229,19 +229,17 @@
                 <tr class=" thead">
                     <td class="name">项目名称</td>
                     <td class="tenderee">工程阶段</td>
-                    <td class="tenderee">工程类型</td>
+                    <td class="tenderee">工程类别</td>
                     <td  class="price">地区</td>
                     <td class="info">详情</td>
-                    <td class="tenderee">参与数</td>
                 </tr>
-                <?php foreach($bid_list as $item):?>
+                <?php foreach($information_list as $item):?>
                     <tr>
-                        <td  class="name"><span class="tag">土</span><?= $item['objectName'] ?></td>
-                        <td class="tende$bid_listree" class="tenderee"><?= $item['bidderName'] ?></td>
-                        <td class="tenderee"><?= $item['biddeeName'] ?></td>
-                        <td class="price"><?= $item['winBidAmount']>0 ? $item['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
-                        <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
-                        <td>0</td>
+                        <td  class="name"><?= $item['objectName'] ?></td>
+                        <td class="tende$bid_listree" class="tenderee"><?= $item['phase'] ?></td>
+                        <td class="tenderee"><?= $item['objectType'] ?></td>
+                        <td class="price"><?= $item['district'] ?> </td>
+                        <td class="info"><a href="<?=U('/member/Information/publishDetail',['informationId'=>$item['informationId']])?>"><i class="ico i-eye"></i></a></td>
                     </tr>
                 <?php endforeach;?>
             </table>
@@ -252,7 +250,6 @@
         </div>
     </div>
 </div>
-
 <block name="script">
 <script type="text/javascript">
     $(function(){

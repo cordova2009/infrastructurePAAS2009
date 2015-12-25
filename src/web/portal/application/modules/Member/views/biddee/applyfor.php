@@ -1,5 +1,4 @@
 <block name="style">
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <style>
         /*img{max-width:178px;}*/
         .btn-file3{position: relative;}
@@ -432,7 +431,7 @@
     </div>
 </div>
 <block name="script">
-    <script src="/js/jquery.datetimepicker.js"></script>
+    <script src="/js/My97DatePicker/WdatePicker.js"></script>
     <?php require_once __DIR__.'/../common/upload.js.php';?>
     <script>
         function base_sucess()

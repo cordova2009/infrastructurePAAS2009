@@ -5,6 +5,7 @@ public class QueryObjectDetailResultVO {
      private String status;
      private SurveyVO survey;
      private DetailVO detail;
+     private String tenderFile;
 	public String getObjectId() {
 		return objectId;
 	}
@@ -17,6 +18,7 @@ public class QueryObjectDetailResultVO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	public SurveyVO getSurvey() {
 		return survey;
 	}
@@ -29,9 +31,16 @@ public class QueryObjectDetailResultVO {
 	public void setDetail(DetailVO detail) {
 		this.detail = detail;
 	}
+	public String getTenderFile() {
+		return tenderFile;
+	}
+	public void setTenderFile(String tenderFile) {
+		this.tenderFile = tenderFile;
+	}
 	@Override
 	public String toString() {
-		return "QueryObjectDetailResultVO [objectId=" + objectId + ", status=" + status + "]";
+		return "QueryObjectDetailResultVO [objectId=" + objectId + ", status=" + status 
+				+ ", tenderFile=" + tenderFile+"]";
 	}
 
 	

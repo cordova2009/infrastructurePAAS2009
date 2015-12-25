@@ -7,7 +7,7 @@ package com.hummingbird.capital.util;
 
 import java.util.Map;
 
-import com.hummingbird.capital.listener.BidEvalutionEventListener;
+import com.hummingbird.capital.listener.HandleEventListener;
 import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.ext.AppIniter;
 
@@ -23,7 +23,7 @@ public class CapitalIniter implements AppIniter{
 	 */
 	@Override
 	public void init(Map param) {
-		EventListenerContainer.getInstance().addMyListener(new BidEvalutionEventListener());
+		EventListenerContainer.getInstance().addMyListener(new HandleEventListener());
 		
 	}
 

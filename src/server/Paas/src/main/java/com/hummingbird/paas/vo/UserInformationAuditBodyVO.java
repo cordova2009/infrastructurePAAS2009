@@ -11,7 +11,7 @@ public class UserInformationAuditBodyVO{
 	
 	private String   token;
 	private Integer   informationId;
-	private String   auditStatus;
+	private String   status;
 	
 	/**
 	 * @return the token
@@ -38,18 +38,19 @@ public class UserInformationAuditBodyVO{
 		this.informationId = informationId;
 	}
 	
-	public String getAuditStatus() {
-		return auditStatus;
+
+	public String getStatus() {
+		return status;
 	}
-	public void setAuditStatus(String auditStatus) {
-		this.auditStatus = auditStatus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "UserInformationAuditReturnVO [token=" + token + ", informationId=" + informationId + ", auditStatus=" + auditStatus + "]";
+		return "UserInformationAuditReturnVO [token=" + token + ", informationId=" + informationId + ", status=" + status + "]";
 	}
 
 

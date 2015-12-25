@@ -59,7 +59,7 @@ public class UserMsgBusinessController extends BaseController {
 
 	
 	/**
-	 * 提交投诉接口
+	 * 添加用户消息
 	 * 
 	 * @return
 	 */

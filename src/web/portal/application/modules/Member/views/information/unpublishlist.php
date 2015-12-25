@@ -12,7 +12,8 @@
                         <td class="wid70 text-center">工程阶段</td>
                         <td class="wid70 text-center">工程类别</td>
                         <td class="wid70 text-center">地区</td>
-                        <td class="wid70 text-center">参与数</td>
+                        <td class="wid70 text-center">工期</td>
+                        <!--<td class="wid70 text-center">参与数</td>-->
                         <td>详情</td>
                         <td>操作</td>
                     </tr>
@@ -22,7 +23,8 @@
                         <td class="text-center"><?=isset($item['phase'])?$item['phase']:'无'?></td>
                         <td class="text-center"><?=isset($item['objectType'])?$item['objectType']:'无'?></td>
                         <td class="text-center"><?=isset($item['district'])?$item['district']:'无'?></td>
-                        <td class="text-center"><?=isset($item['partNumber'])?$item['partNumber']:'0'?></td>
+                        <td class="text-center"><?=isset($item['district'])?$item['projectPeriod']:'无'?></td>
+                        <!--<td class="text-center"><?/*=isset($item['partNumber'])?$item['partNumber']:'0'*/?></td>-->
                         <td class="text-center"><a href="<?=U('/member/Information/publishDetail',['informationId'=>$item['informationId']])?>"><i class="ico i-eye"></i></a></td>
                         <td><a href="<?=U('/member/Information/index',['informationId'=>$item['informationId']])?>" class="toubiao">修改</a></td>
                     </tr>

@@ -27,14 +27,14 @@
                             <div class="auto value " >
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input type="text" class="input1" id="amount" name="amount" tip="提现金额">
+                                <input type="text" class="input1 only-num" id="amount" name="amount" tip="提现金额">
                             </span>
                             </div>
                         </div>
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 提现费用</span>
                             <div class="auto value " >
-                                <span class="orange">0.00</span>元 <a href="#" class="blue padl30 fz14">提现费用说明</a>
+                                <span class="orange" id="amount-fee">0.00</span>元 <a href="#" class="blue padl30 fz14">提现费用说明</a>
                             </div>
                         </div>
                         <div class="item">
@@ -73,8 +73,8 @@
 </div>
 <block name="script">
     <script>
-        var BerbankId= "<?= $BerbankId ?>";
-        var BeebankId= "<?= $BeebankId ?>";
+        var BerbankId= "<?=$BerbankId ?>";
+        var BeebankId= "<?=$BeebankId ?>";
         $(function(){
             $(".radio a").click(function() {
                 var ind = $(this).index();
@@ -88,8 +88,21 @@
                 $(this).addClass('active');
                 $(".selectBank").find(".color9").eq(ind).removeClass('hide');
             });
+
             $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(3)").addClass('active');
             $("input[type=text]").val('');
-        })
+
+            $("#amount").blur(function(){
+                var amount = $.trim(this.value);
+                if(amount == '' || amount < 1){
+                    return false;
+                }
+                $.getJSON('<?=U('queryFeeAmount')?>',{amount:this.value},function(resp){
+                     if(resp.status == '0'){
+                         $("#amount-fee").text(resp.fee);
+                     }
+                });
+            });
+        });
     </script>
 </block>

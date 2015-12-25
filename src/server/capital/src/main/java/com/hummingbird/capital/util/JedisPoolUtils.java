@@ -2,8 +2,6 @@ package com.hummingbird.capital.util;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.hummingbird.capital.event.BidSelectedEvent;
-import com.hummingbird.common.event.EventListenerContainer;
 import com.hummingbird.common.util.PropertiesUtil;
 
 import redis.clients.jedis.Jedis;

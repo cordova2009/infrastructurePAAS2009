@@ -8,7 +8,6 @@
             <a href="#">招贤纳士</a>
             <a href="javascript:void(0)" class="active">网站公告</a>
             <a href="#">帮助中心</a>
-            <a href="/news/list.html">消息通知</a>
             <a href="#">联系我们</a>
         </div>
         <div class="content auto">

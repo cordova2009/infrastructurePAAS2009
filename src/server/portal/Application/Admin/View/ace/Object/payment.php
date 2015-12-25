@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form class="search-form">
-                        <label>标的名称
+                        <label>项目名称
                             <input type="text" class="search-input" name="object_name" value="{:I('object_name')}" placeholder="请输入标的名称">
                         </label>
                         <label>状态
@@ -35,7 +35,7 @@
             <table class="table table-striped table-bordered table-hover dataTable">
                 <thead>
                 <tr>
-                    <th>标的名称</th>
+                    <th>项目名称</th>
                     <th>工程总额</th>
                     <th>总期数</th>
                     <th>剩余金额</th>

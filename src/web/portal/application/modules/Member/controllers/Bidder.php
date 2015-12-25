@@ -90,21 +90,16 @@ class BidderController extends MemberController{
             $curl = new Curl($this->config->url->api->paas);
             $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/applay');
             if(check_resp($resp)) {
-                $this->success('保存成功！',U('/member/bidder/authInfo'));
+                $this->success($resp['errmsg'],U('/member/bidder/authInfo'));
             }else{
-                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '提交投标人资质申请失败，请重新再试或联系客服客服人员！');
             }
         }
         $token = isset($this->user['token'])?$this->user['token']:'';
         $curl = new Curl($this->config->url->api->paas);
         $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getApplication');
         if(!check_resp($resp)) {
-            if($resp['errcode']==1)
-            {
-                $this->redirect(U('/login'));
-                return;
-            }
-            $this->error($resp['errmsg']);
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '查询投标人信息失败，请重新再试或联系客服人员！');
         }
         $this->assign('bank',$resp['bankInfo']);
         $this->assign('base',$resp['baseInfo']);

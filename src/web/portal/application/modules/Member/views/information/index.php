@@ -37,7 +37,7 @@
                             <div class="value">
                             <span class="yuanbox">
                                 <span class="yuan">天</span>
-                                <input name="projectPeriod" value="<?=isset($result)?$result['projectPeriod']:''?>"  type="text" class="input1 " placeholder="0" >
+                                <input name="projectPeriod" value="<?=isset($result)?$result['projectPeriod']:''?>"  type="text" class="input1  only-num" placeholder="0" >
                             </span>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                             <div class="value">
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input name="objectAmount" value="<?=isset($result)?$result['objectAmount']:''?>"  type="text" class="input1 price_format" placeholder="" >
+                                <input name="objectAmount" value="<?=isset($result)?$result['objectAmount']:''?>"  type="text" class="input1 price_format  only-num" placeholder="" >
                             </span>
                             </div>
                         </div>

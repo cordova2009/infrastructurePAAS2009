@@ -245,7 +245,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 						log.debug("审核用户发布的信息接口开始");
 					 }
 		              //数据校验
-		              String status = body.getAuditStatus();
+		              String status = body.getStatus();
 		              Integer informationId = body.getInformationId();
 		              ValidateUtil.assertNull(status, "审核状态");
 		              ValidateUtil.assertNull(informationId, "发布信息ID");
@@ -260,10 +260,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 							throw new BusinessException(10111,"不存在该发布信息");
 					   }
 					   //要审核的状态和信息目前的状态不相同的时候才进行更新操作
-					   if(!status.equals(userInfo.getAuditStatus())){
+					   if(!status.equals(userInfo.getStatus())){
 						   UserInformation audit = new UserInformation();
 							audit.setId(userInfo.getId());
-							audit.setAuditStatus(status);
+							audit.setStatus(status);
 							uiDao.updateByPrimaryKeySelective(audit);
 					   }
 					   if (log.isDebugEnabled()) {

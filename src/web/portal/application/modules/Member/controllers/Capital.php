@@ -4,7 +4,7 @@
  * @author xuebingwang
  * @desc 默认控制器
  * @see http://www.php.net/manual/en/class.yaf-controller-abstract.php
-*/
+ */
 class CapitalController extends MemberController {
 
     /**
@@ -17,10 +17,10 @@ class CapitalController extends MemberController {
         $curl2 = new Curl($this->config->url->api->capital);
         $pageIndex = $this->getRequest()->getQuery('page', 0);
         $resp2 = $curl2->setData([
-                'token'=>$this->user['token'],
-                'pageSize'=> $pageSize,
-                'pageIndex' => $pageIndex
-            ])->send('capitalManage/queryTransactionRecords');
+            'token'=>$this->user['token'],
+            'pageSize'=> $pageSize,
+            'pageIndex' => $pageIndex
+        ])->send('capitalManage/queryTransactionRecords');
         $list = [];
         if(check_resp($resp2)) {
             $list = $resp2['list'];
@@ -67,15 +67,15 @@ class CapitalController extends MemberController {
             $data = ['token'=>$this->user['token']];
             $data['transferTime'] = I('transferTime');
             if(empty($data['transferTime'])){
-               $this->error('转账时间不能为空！');
+                $this->error('转账时间不能为空！');
             }
             $data['bankName'] = I('bankName');
             if(empty($data['bankName'])){
-               $this->error('转账银行名称为空！');
+                $this->error('转账银行名称为空！');
             }
             $data['voucherNo'] = I('voucherNo');
             if(empty($data['voucherNo'])){
-               $this->error('银行转账凭证号不能为空！');
+                $this->error('银行转账凭证号不能为空！');
             }
             $data['amount'] = I('amount');
             if(empty($data['amount'])){
@@ -90,9 +90,9 @@ class CapitalController extends MemberController {
             $resp = $curl->setData($data)->send('capitalManage/rechargeApply');
 
             if(check_resp($resp)) {
-               $this->success('保存成功！',U('/member/capital/rechargeList'));
+                $this->success('保存成功！',U('/member/capital/rechargeList'));
             }else{
-               $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '充值失败，请重新再试！');
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '充值失败，请重新再试！');
             }
 
             $this->error(var_export($data,true));
@@ -120,7 +120,7 @@ class CapitalController extends MemberController {
         $curl1 = new Curl($this->config->url->api->capital);
 
         $resp2 = $curl1->setData(['token'=>$this->user['token']])
-                        ->send('capitalManage/queryProjectAccount');
+            ->send('capitalManage/queryProjectAccount');
 
         if(check_resp($resp2)) {
             $account = $resp2['account'];
@@ -155,7 +155,7 @@ class CapitalController extends MemberController {
             $BeebankInfo = '您还没有认证招标人!';
             $BeebankId = 0;
         }
-       // var_dump($BeebankId); die;
+        // var_dump($BeebankId); die;
         $this->assign('BerbankInfo',$BerbankInfo);
         $this->assign('BerbankId',$BerbankId);
         $this->assign('BeebankInfo',$BeebankInfo);
@@ -202,7 +202,7 @@ class CapitalController extends MemberController {
             $this->error(var_export($data,true));
         }
 
-        $this->meta_title = '提现';
+        $this->meta_title = '提现申请';
 
     }
 
@@ -222,19 +222,18 @@ class CapitalController extends MemberController {
     }
 
     /**
-     * 检查用户是否存在
+     * 手续费查询
      */
     public function queryFeeAmountAction(){
 
-        $amount = $this->getRequest()->getPost('amount');
+        $amount     = price_dispose(I('amount'));
+        $curl       = new Curl($this->config->url->api->capital);
+        $resp       = $curl->setData(['amount'=>$amount])->send('capitalManage/queryWithdrawalsFee');
 
-        $curl      = new Curl($this->config->url->api->capital);
-
-        $resp = $curl->setData(['amount'=>$amount])->send('capitalManage/queryWithdrawalsFee');
-
+        $feeAmount = '0.00';
         if(check_resp($resp) ){
-            $feeAmount = $resp['feeAmount'];
+            $feeAmount = price_format($resp['feeAmount']);
         }
-        $this->assign('feeAmount',$feeAmount);
+        $this->success('ok','',['fee'=>$feeAmount]);
     }
 }

@@ -78,6 +78,7 @@ public class ProjectServiceImpl implements ProjectService{
 			Long projectamount = 0L;
 			Long hadpayamount = 0l;
 			boolean hadsetnextperiod = false;
+			int nextperiod =1;
 			ProjectPaymentDefineDetailAndPay shouldpay=null;
 			for (Iterator iterator = selectPayDefineByObjectId.iterator(); iterator.hasNext();) {
 				ProjectPaymentDefineDetailAndPay defineandpay = (ProjectPaymentDefineDetailAndPay) iterator
@@ -119,6 +120,7 @@ public class ProjectServiceImpl implements ProjectService{
 			query.setNextPeriodPayAmount(ObjectUtils.toString(shouldpay.getPaySum()));
 			query.setNextPeriodPayTime(DateUtil.formatCommonDateorNull(shouldpay.getPayStartTime()));
 			query.setStatus(StringUtils.defaultIfEmpty(shouldpay.getStatus(),"NON"));
+			query.setNextPeriod(shouldpay.getPeriod());
 			list.add(query);
 		}
 		return list;

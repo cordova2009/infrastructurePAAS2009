@@ -256,7 +256,7 @@
         where a.object_status = 'SEL' 
     </select>
     <select id="selectObjectIndexSurvey" resultMap="QueryObjectIndexSurveyResultMap">
-     select count(a.object_id) objectNum,IFNULL(sum(a.object_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id and a.object_status != 'CRT'
+     select count(a.object_id) objectNum,IFNULL(sum(a.evaluation_amount),0) amount from t_ztgl_object a INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id and a.object_status != 'CRT'
     </select>
      <select id="selectTotalBidIndexList" resultType="int">
    	 select count(a.object_id) from t_ztgl_object a 

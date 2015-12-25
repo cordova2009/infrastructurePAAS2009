@@ -42,6 +42,12 @@
                 <a href="<?=U('/member/information/unpublishList')?>">待发布信息</a>
             </div>
         </li>
+        <li>
+            <a href="javascript:">消息通知</a>
+            <div class="submenu">
+                <a href="<?=U('/member/news/list')?>">我的消息</a>
+            </div>
+        </li>
     </ul>
 
 </div>

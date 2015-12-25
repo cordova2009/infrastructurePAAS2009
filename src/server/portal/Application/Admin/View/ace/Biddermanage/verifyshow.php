@@ -250,5 +250,7 @@
             });
             return ret;
         }
+        //导航高亮
+        highlight_subnav('{:U('biddermanage/verify')}');
     </script>
 </block>

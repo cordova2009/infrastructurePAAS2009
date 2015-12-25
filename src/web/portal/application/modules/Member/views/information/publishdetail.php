@@ -86,15 +86,3 @@
     </div>
     <!--list-->
 </div>
-<block>
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-</block>
-<block name="script">
-    <script>
-        $(function(){
-
-        })
-
-    </script>
-
-</block>

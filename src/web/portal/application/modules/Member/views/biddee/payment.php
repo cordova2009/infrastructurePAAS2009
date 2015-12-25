@@ -86,14 +86,9 @@
 				</div>
 			</div>
 		</div>
-<link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
 <block name="script">
-<script src="/js/jquery.datetimepicker.js"></script>
-<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="/js/upload/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="/js/upload/jquery.fileupload.js"></script>
+<script src="/js/My97DatePicker/WdatePicker.js"></script>
+<?php require_once __DIR__.'/../common/upload.js.php';?>
 <script>
 $(function(){
     $("#left-menu .submenu:eq(1),#left-menu .submenu:eq(1) a:eq(2)").addClass('active');

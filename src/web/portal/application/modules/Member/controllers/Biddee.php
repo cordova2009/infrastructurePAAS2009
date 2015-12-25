@@ -31,7 +31,9 @@ class BiddeeController extends MemberController{
         }
     }
 
-
+    /**
+     *
+     */
     public function authInfoAction(){
 
         $curl = new Curl($this->config->url->api->paas);
@@ -297,27 +299,31 @@ class BiddeeController extends MemberController{
 
         $curl = new Curl($this->config->url->api->paas);
         $resp = $curl->setData([
-                                    'token'=>$token,
-                                    'bankInfo'=>[
-                                        'bank'=>$bank,
-                                        'accountId'=>$accountId,
-                                        'accountName'=>$accountName,
-                                        'taxNo'=>$taxNo,
-                                        'telephone'=>$telephone,
-                                        'address'=>$address
-                                    ]
-                                ])->send('myBiddee/authInfo/saveBankInfo');
+            'token'=>$token,
+            'bankInfo'=>[
+                'bank'=>$bank,
+                'accountId'=>$accountId,
+                'accountName'=>$accountName,
+                'taxNo'=>$taxNo,
+                'telephone'=>$telephone,
+                'address'=>$address
+            ]
+        ])->send('myBiddee/authInfo/saveBankInfo');
         if(check_resp($resp)) {
             $this->success('保存成功！',U('submitapply'));
         }else{
             $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
         }
     }
+
+    /**
+     *
+     */
     public function probjectAction()
     {
-        $token = $this->user['token'];
         $curl = new Curl($this->config->url->api->paas);
-        $resp = $curl->setData(['token'=>$token])->send('tender/queryMyObjectSurvey');
+        $resp = $curl->setData(['token'=>$this->user['token']])->send('tender/queryMyObjectSurvey');
+
         if(!check_resp($resp)) {
             $this->error($resp['errmsg']);
         }
@@ -327,6 +333,10 @@ class BiddeeController extends MemberController{
         $this->assign('pageIndex',I('pageIndex'));
         $this->assign('type',I('type','biding'));
     }
+
+    /**
+     * @return array
+     */
     private function getIndustrys()
     {
         $tmp = [];
@@ -344,15 +354,13 @@ class BiddeeController extends MemberController{
     }
     public function getProbjectAction()
     {
-        $i = I('pageIndex');
-        $type = I('type');
-        if(empty($type))
-        {
+        $i      = I('pageIndex');
+        $type   = I('type');
+        if(empty($type)){
             $type = 'biding';
         }
         $func = 'queryMyTenderObject';
-        if($type=='biding')
-        {
+        if($type=='biding'){
             $func = 'queryMyTenderObject';
             //    $html = $this->render($type,['page'=>'',$type=>[['industryId'=>'3','objectName'=>'ass','evaluationAmount'=>100,'projectExpectStartDate'=>'2015-01-01','projectExpectPeriod'=>300,'biddingEndTime'=>'2015-02-01','objectId'=>'asdf']],'industry'=>'']);
             //  $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
@@ -365,23 +373,24 @@ class BiddeeController extends MemberController{
         {
             $func = 'queryMyEndedObject';
         }
-        $p = $this->pageSize;
-        $i = $i==''?0:$i;
-        $token = $this->user['token'];
-        $curl = new Curl($this->config->url->api->paas);
-        $resp  = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('tender/'.$func);
+        $p      = $this->pageSize;
+        $i      = $i==''?0:$i;
+        $token  = $this->user['token'];
+        $curl   = new Curl($this->config->url->api->paas);
+        $resp   = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i])->send('tender/'.$func);
         if(!check_resp($resp)) {
             $this->error($resp['errmsg']);
         }
-        $page = $this->getPagination($resp['total'], $this->pageSize);
-        $ret = $this->getIndustrys();
-        $html = $this->render($type,['page'=>$page,$type=>$resp['list'],'industry'=>$ret]);
-        $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
+
+        $page   = $this->getPagination($resp['total'], $this->pageSize);
+        $ret    = $this->getIndustrys();
+
+        $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$this->render($type,['page'=>$page,$type=>$resp['list'],'industry'=>$ret])]);
     }
-    public function surveyAction()
-    {
+
+    public function surveyAction(){
         $id=I('id');
-        if(IS_AJAX)
+        if(IS_POST)
         {
             $payType = I('payType');
             $winBidId= I('winBidId');
@@ -434,7 +443,7 @@ class BiddeeController extends MemberController{
             if(!check_resp($resp)) {
                 $this->error($resp['errmsg']);
             }
-            $this->success('保存成功！');
+            $this->success('评标成功！',U('/member/biddee/probject'));
         }
         /*
            $this->assign('survery',['bidderNum'=>5,'objectName'=>'asdf','maxBidAmount'=>200,'minBidAmount'=>100]);

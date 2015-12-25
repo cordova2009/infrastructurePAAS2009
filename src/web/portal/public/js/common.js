@@ -79,29 +79,6 @@ function is_mobile(mobile){
     return !/^(1[0-9])\d{9}$/i.test(mobile);
 }
 
-var wait = 30;
-function time(o) {
-    if (wait == 0) {
-        o.prop("disabled",false).removeClass('disabled');
-        var tag_name = o.get(0).tagName.toUpperCase();
-        if(tag_name == 'INPUT'){
-            o.val('获取验证码');
-        }else if(tag_name == 'BUTTON'){
-            o.text('获取验证码');
-        }
-        wait = 30;
-    } else {
-        var tag_name = o.get(0).tagName.toUpperCase();
-        if(tag_name == 'INPUT'){
-            o.val("重新获取"+wait)
-        }else if(tag_name == 'BUTTON'){
-            o.text("重新获取"+wait)
-        }
-
-        wait--;
-        setTimeout(function() {time(o)},1000)
-    }
-}
 /**
  * 以字符串形式执行方法
  * @param func
@@ -165,7 +142,7 @@ function ajax_post(url,data){
                 calculateFunctionValue($this.attr('success'),[$this,resp],'');
             }
         }else{
-            if(resp.url == ''){
+            if(resp.url == null || resp.url == ''){
                 layer.alert(resp.msg,{icon:2},function(index){
                     calculateFunctionValue($this.attr('fail'),[$this,resp],'');
                     layer.close(index);
@@ -226,13 +203,25 @@ $(function() {
     });
 
     $(document.body).on('click', '.datepicker', function(){
-        $(this).datetimepicker({
-            timepicker: false,
-            lang: 'ch',
-            format: 'Y-m-d',
-            formatDate: 'Y-m-d'
-        });
-        $(this).datetimepicker('show');
+
+        var my_97_settings = {skin:'twoer'};
+        var $this = $(this);
+        my_97_settings.dateFmt = $this.attr('dateFmt') || 'yyyy-MM-dd';
+        my_97_settings.maxDate = $this.attr('maxDate') || '';
+        my_97_settings.minDate = $this.attr('minDate') || '';
+
+        if(typeof(my_97_custom_settings) == 'object'){
+            my_97_settings = $.extend(my_97_settings,my_97_custom_settings);
+        }
+        if($this.hasClass('after_time')){
+            var start_time = $("#"+$this.attr('minDate')).val();
+            if(start_time == ''){
+                layer.alert('请先选择'+$this.attr('alert_text')+'！',{icon:2});
+                return false;
+            }
+            my_97_settings.minDate = start_time;
+        }
+        WdatePicker(my_97_settings);
     });
 
     //
@@ -270,7 +259,30 @@ $(function() {
         $.post($this.attr('url') || '/public/sendSmsCode.html',data, function (resp) {
             if(resp.status == '0'){
                 layer.msg(resp.msg,{icon:1});
-                time($this);
+                var wait = 30;
+                var interval = setInterval(function(){
+                    if (wait == 0) {
+                        $this.prop("disabled",false).removeClass('disabled');
+                        var tag_name = $this.get(0).tagName.toUpperCase();
+                        if(tag_name == 'INPUT'){
+                            $this.val('获取验证码');
+                        }else if(tag_name == 'BUTTON'){
+                            $this.text('获取验证码');
+                        }
+                        wait = 30;
+                        if(interval != null){
+                            clearInterval(interval);
+                        }
+                    } else {
+                        var tag_name = $this.get(0).tagName.toUpperCase();
+                        if(tag_name == 'INPUT'){
+                            $this.val("重新获取"+wait)
+                        }else if(tag_name == 'BUTTON'){
+                            $this.text("重新获取"+wait)
+                        }
+                        wait--;
+                    }
+                },1000);
             }else{
                 layer.alert(resp.msg,{icon:2});
                 $this.prop("disabled", false);
@@ -305,5 +317,4 @@ $(function() {
 	});
 
 	$(".tab_box").slide({mainCell:".bd ",effect:"fade"})
-
 })

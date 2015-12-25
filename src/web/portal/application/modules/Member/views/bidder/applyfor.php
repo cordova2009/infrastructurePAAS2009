@@ -1,5 +1,4 @@
 <block name="style">
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
     <style>
         /*img{max-width:178px;}*/
         .btn-file3{position: relative;}
@@ -483,7 +482,7 @@
     <div class="item">
         <span class="lab"><span class="red">*</span> 资质有效期</span>
         <div class="auto value ">
-            <input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate">
+            <input type="text" class="input1 datepicker" name="expiryDate" id="expiryDate" minDate="<?=date('Y-m-d',strtotime('+1 day'))?>">
         </div>
     </div>
     <div class="item">
@@ -514,7 +513,7 @@
 </div>
 
 <block name="script">
-    <script src="/js/jquery.datetimepicker.js"></script>
+    <script src="/js/My97DatePicker/WdatePicker.js"></script>
 
     <?php require_once __DIR__.'/../common/upload.js.php';?>
     <script>
@@ -528,7 +527,7 @@
             tmp.push(obj.projectTypeid);
             tmp.push('</div><div class="auto value hide" data-name="certificationContent">');
             tmp.push(obj.certificationContent);
-            tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto">');
+            tmp.push('</div> </div> <div class="item"> <span class="lab">资质名称</span> <div class="auto value" data-name="eqName">');
             tmp.push(obj.eqName);
             tmp.push('</div><div class="auto value hide" data-name="certificationId">');
             tmp.push(obj.certificationId);
@@ -539,7 +538,7 @@
             tmp.push('</div> </div> <div class="item"> <span class="lab">适用区域</span> <div class="auto value" data-name="applicableRegion">');
             tmp.push(obj.applicableRegion);
             tmp.push('</div></div></div>');
-            if(subitem != null){
+            if(subitem != null && subitem.length > 0){
                 subitem.before(tmp.join(''));
             }else{
 

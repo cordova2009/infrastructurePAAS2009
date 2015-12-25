@@ -193,7 +193,6 @@ class BiddermanageController extends AdminController {
             $data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','msg'=>''];
         }
         $data['baseInfoCheck']['bidder_id']=I('post.id');
-        var_dump($data);
         return $data;
     }
 }

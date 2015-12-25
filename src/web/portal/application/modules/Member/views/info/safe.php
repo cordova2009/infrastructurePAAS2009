@@ -104,7 +104,7 @@
                                         <div class="lab2">手机验证码</div>
                                         <div class="value2">
                                             <input id="second_sms_code" name="second_sms_code" type="text" class="input1 wid120" autocomplete="off">
-                                            <input class="getBtn get-code" value="获取验证码" type="button">
+                                            <button class="getBtn get-code" type="button">获取验证码</button>
                                         </div>
                                     </div>
                                     <div class="form_item">

@@ -18,7 +18,7 @@
 			<td class=""><?=price_format($v['receivedAmount'])?>元</td>
 			<td class=""><?=price_format($v['willReceiveAmount'])?>元</td>
 			<td class=""><?=$v['projectExpectStartDate']?></td>
-			<td class=""><?=$v['projectExpectPeriod']?>天</td>
+			<td class=""><?=str_replace('00:00:00','',$v['projectExpectPeriod'])?></td>
 			<td class="">
                 <a objectid="<?=$v['objectId']?>" href="javascript:;" class="blue" data-toggle="modal" data-target="#modalJubao" >投诉</a>
 			</tr>

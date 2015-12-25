@@ -1941,7 +1941,6 @@ public class TenderController extends BaseController {
 	 */
 	@RequestMapping(value="/queryMyTenderObject",method=RequestMethod.POST)
 	@AccessRequered(methodName = "查询我的招标项目列表")
-	// 框架的日志处理
 	public @ResponseBody ResultModel queryMyTenderObject(HttpServletRequest request,
 			HttpServletResponse response) {
 		String messagebase = "查询我的招标项目列表";
@@ -1981,7 +1980,7 @@ public class TenderController extends BaseController {
 				
 				List<MyTenderObjectListVO> list=new ArrayList<MyTenderObjectListVO>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
-					list = tenderService.getTenderObjectList(token.getUserId(), page);
+				list = tenderService.getTenderObjectList(token.getUserId(), page);
 				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<MyTenderObjectListVO, Map>() {
 
 					@Override

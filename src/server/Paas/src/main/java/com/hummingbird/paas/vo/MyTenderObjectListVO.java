@@ -21,6 +21,10 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	private Integer projectExpectPeriod;
 	private String biddingEndTime;
 	/**
+	 * 标的状态,REV为可评标阶段
+	 */
+	private String objectStatus;
+	/**
 	 * 工程标的估价可见,ENB 可见, DIS 不可见
 	 */
 	private String evaluationAmountVisiable;
@@ -116,7 +120,8 @@ public class MyTenderObjectListVO extends PagingnationVO{
 		return "MyTenderObjectListVO [industryId=" + industryId + ", objectId=" + objectId + ", objectName="
 				+ objectName + ", evaluationAmount=" + evaluationAmount + ", projectExpectStartDate="
 				+ projectExpectStartDate + ", projectExpectPeriod=" + projectExpectPeriod + ", biddingEndTime="
-				+ biddingEndTime + ", evaluationAmountVisiable=" + evaluationAmountVisiable + "]";
+				+ biddingEndTime + ", objectStatus=" + objectStatus + ", evaluationAmountVisiable="
+				+ evaluationAmountVisiable + "]";
 	}
 	/**
 	 * 工程标的估价可见ENB 可见 DIS 不可见 
@@ -130,6 +135,18 @@ public class MyTenderObjectListVO extends PagingnationVO{
 	 */
 	public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
 		this.evaluationAmountVisiable = evaluationAmountVisiable;
+	}
+	/**
+	 * 标的状态REV为可评标阶段 
+	 */
+	public String getObjectStatus() {
+		return objectStatus;
+	}
+	/**
+	 * 标的状态REV为可评标阶段 
+	 */
+	public void setObjectStatus(String objectStatus) {
+		this.objectStatus = objectStatus;
 	}
 	
 

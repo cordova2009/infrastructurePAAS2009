@@ -27,7 +27,7 @@
                             <div class="auto value " >
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input type="text" class="input1" id="amount" name="amount" tip="提现金额">
+                                <input type="text" class="input1 only-num" id="amount" name="amount" tip="提现金额">
                             </span>
                             </div>
                         </div>

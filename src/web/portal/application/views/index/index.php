@@ -25,21 +25,21 @@
         <div class="ind-box1 clear">
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="<?=cms_url('detail/52')?>">
                         <div class="pic"><img src="images/in-p2.jpg" ></div>
                         <div class="txt1">安全保障</div>
                         <p class="txt2">大力99理财华丽升级，全面开启，新品牌为您打造始终如一的专业理财服务。</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?=cms_url('detail/55')?>">
                         <div class="pic"><img src="images/in-p1.jpg" ></div>
                         <div class="txt1">中间担保交易</div>
                         <p class="txt2">大力99理财华丽升级，全面开启，新品牌为您打造始终如一的专业理财服务。</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?=cms_url('detail/56')?>">
                         <div class="pic"><img src="images/in-p3.jpg" ></div>
                         <div class="txt1">严格资质审核</div>
                         <p class="txt2">大力99理财华丽升级，全面开启，新品牌为您打造始终如一的专业理财服务。</p>
@@ -246,7 +246,7 @@
             <?php if(empty($bid_list)):?>
                 <div class="list-more">暂无数据</div>
             <?php endif;?>
-            <div class="list-more"><a href="/project/bidlist.html">查看更多项目信息</a></div>
+            <div class="list-more"><a href="<?=U('/project/informationlist')?>">查看更多项目信息</a></div>
         </div>
     </div>
 </div>

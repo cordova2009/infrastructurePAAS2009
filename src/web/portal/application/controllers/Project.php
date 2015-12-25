@@ -142,5 +142,29 @@ class ProjectController extends MallController
         $this->assign('dateRequirementInfo', $dateRequirementInfo);
         $this->assign('bidEvaluationTypeInfo', $bidEvaluationTypeInfo);
     }
-    
+    public function informationListAction(){
+        /*"body":{
+            "token":"12345",
+            "pageIndex":1,
+            "pageSize":10,
+            "status":"CRT"
+        }*/
+        $pageSize = 10;
+        $status = 'OK#';
+        $curl1 = new Curl($this->config->url->api->paas);
+        $pageIndex = $this->getRequest()->getQuery('page', 0);
+        $resp2 = $curl1->setData([
+            'pageSize'=> $pageSize,
+            'pageIndex' => ($pageIndex==0?1:$pageIndex),
+            'status'=> $status
+        ])->send('userInformation/queryUserInformationIndexPage');
+
+        if(check_resp($resp2)) {
+            $list = $resp2['list'];
+            $page = $this->getPagination($resp2['total'], $pageSize);
+            $this->assign('page', $page);
+        }
+        $this->assign('list',$list);
+        $this->meta_title = '项目信息列表';
+    }
 }

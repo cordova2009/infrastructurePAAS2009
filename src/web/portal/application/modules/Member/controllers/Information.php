@@ -80,6 +80,8 @@ class InformationController extends MemberController {
         $this->meta_title = '发布信息';
 
     }
+
+
     public function publishListAction(){
         /*"body":{
             "token":"12345",
@@ -181,5 +183,7 @@ class InformationController extends MemberController {
         $this->assign('user',$this->user);
         $this->meta_title = '发布信息详情';
     }
+
+
 
 }

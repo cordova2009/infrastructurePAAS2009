@@ -88,7 +88,7 @@
 					</tbody></table>
 			
 					<div class="text-center agreen">
-						<p class="checklist"><i class="ico i-check"></i> 我已阅读并同意《xxxxxx协议》</p>
+						<p class="checklist"><i class="ico i-check"></i> 我已阅读并同意<a href="<?=cms_url('about/53')?>">《招标人资质认证协议》</a></p>
 						<div class="padv20">
 							<a href="<?=U('/member/biddee/applyfor')?>" class="btn-green2 bg-grey ">返回</a>
 							<input type="submit" class="btn-green2 marl150" value="确定">

@@ -23,7 +23,7 @@ if(check_resp($resp)){
                     <div class="value">
                         <span class="yuanbox">
                         <span class="yuan">元</span>
-                        <input type="text" class="input1 price_format" placeholder="" name="bidAmount" value="<?=isset($info)?price_format($info['bidAmount']):''?>">
+                        <input type="text" class="input1 price_format" placeholder="" name="bidAmount" value="<?=isset($info)?price_convert($info['bidAmount']):''?>">
                         </span>
                     </div>
                 </div>

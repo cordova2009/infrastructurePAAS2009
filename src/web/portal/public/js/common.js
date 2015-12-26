@@ -108,7 +108,7 @@ var calculateFunctionValue = function (func, args, defaultValue) {
 String.prototype.len=function(){return this.replace(/[^\x00-\xff]/g,"__").length;}
 
 function toThousands() {
-    this.value = (this.value || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    this.value = (this.value || '').toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
 }
 function ajax_post(url,data){
 
@@ -202,7 +202,7 @@ $(function() {
         }
     });
 
-    $(document.body).on('click', '.datepicker', function(){
+    $(document).on('click', '.datepicker', function(){
 
         var my_97_settings = {skin:'twoer'};
         var $this = $(this);
@@ -214,13 +214,23 @@ $(function() {
             my_97_settings = $.extend(my_97_settings,my_97_custom_settings);
         }
         if($this.hasClass('after_time')){
-            var start_time = $("#"+$this.attr('minDate')).val();
+
+            var start_time = '';
+            var before = $this.attr('before');
+            if(before != null && before != ''){
+                start_time = calculateFunctionValue(before,[$this],null);
+            }else{
+                start_time = $("#"+$this.attr('minDate')).val();
+            }
+
             if(start_time == ''){
                 layer.alert('请先选择'+$this.attr('alert_text')+'！',{icon:2});
                 return false;
             }
             my_97_settings.minDate = start_time;
         }
+
+
         WdatePicker(my_97_settings);
     });
 

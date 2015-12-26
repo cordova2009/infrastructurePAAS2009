@@ -389,88 +389,167 @@ class BiddeeController extends MemberController{
     }
 
     public function surveyAction(){
-        $id=I('id');
-        if(IS_POST)
-        {
-            $payType = I('payType');
+        $objectId = I('id');
+        if(empty($objectId)){
+
+            $objectId= I('objectId');
+        }
+        $token  = $this->user['token'];
+        $curl   = new Curl();
+        $resp   = $curl->setData(['token'=>$token,'pageSize'=>99999999,'pageIndex'=>0,'objectId'=>$objectId])
+                    ->send('tender/queryMyObjectBidList');
+
+        if(!check_resp($resp)) {
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '查询投标人列表失败，请重新再试或联系客服人员！');
+        }
+
+        if(IS_POST){
+
             $winBidId= I('winBidId');
+            if(empty($winBidId)){
+                $this->error('您还没有选择中标人！');
+            }
+
+            $winBid = null;
+            foreach($resp['list'] as $bid){
+                if($bid['bidderId'] == $winBidId){
+                    $winBid = $bid;
+                    break;
+                }
+            }
+            if(empty($winBid)){
+                $this->error('哇塞，您选择的投标人根本没投您的标，您是怎么选择的？');
+            }
+
+            $payType = I('payType');
             $objectId= I('objectId');
             $data = [];
-            if($payType=='ONE')
-            {
+            if($payType=='ONE'){
                 $payDate=I('payDate_one');
-                $paySum=price_dispose(I('paySum_one'));
-                $data[]= ['paySum'=>$paySum,'payDate'=>$payDate,'period'=>1];
+                $data[]= [
+                    'paySum'=>$winBid['bidAmount'],
+                    'payDate'=>$payDate,
+                    'period'=>1
+                ];
                 $payPeriod = 1;
             }
-            if($payType=='PID')
-            {
+
+            if($payType=='PID'){
                 $d = I('payDate_pid');
                 $s = I('paySum_pid');
                 $i = I('period_pid');
                 $payPeriod = I('payPeriod_pid');
-                foreach($d as $k=>$v)
-                {
-                    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
+                if(!is_array($d) || !is_array($s) || !is_array($i)){
+                    $this->error('提交的期数和金额不正确！');
+                }
+                if(!(sizeof($d) == sizeof($s) && sizeof($s) == sizeof($i))){
+                    $this->error('提交的期数和金额不对应！');
+                }
+                $sum_total = 0;
+
+                foreach($d as $k=>$v){
+                    if(empty($v)){
+                        $this->error('既然选择了期数，怎么可以不填写完呢？');
+                    }
+                    $tmp = [
+                        'paySum'=>price_dispose($s[$k]),
+                        'payDate'=>$d[$k],
+                        'period'=>$i[$k]
+                    ];
+                    $data[]=$tmp;
+                    $sum_total += $tmp['paySum'];
+                }
+                if($sum_total != $winBid['bidAmount']){
+                    $this->error('提交的金额与中标金额不一致！');
                 }
             }
-            if($payType=='MON')
-            {
+
+            if($payType=='MON'){
                 $d = I('payDate_mon');
                 $s = I('paySum_mon');
                 $i = I('period_mon');
                 $payPeriod = I('payPeriod_mon');
-                foreach($d as $k=>$v)
-                {
-                    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
+                if(!is_array($d) || !is_array($s) || !is_array($i)){
+                    $this->error('提交的期数和金额不正确！');
+                }
+                if(!(sizeof($d) == sizeof($s) && sizeof($s) == sizeof($i))){
+                    $this->error('提交的期数和金额不对应！');
+                }
+                $sum_total = 0;
+                foreach($d as $k=>$v){
+                    if(empty($v)){
+                        $this->error('既然选择了期数，怎么可以不填写完呢？');
+                    }
+                    $tmp = [
+                        'paySum'=>price_dispose($s[$k]),
+                        'payDate'=>$d[$k],
+                        'period'=>$i[$k]
+                    ];
+                    $data[]=$tmp;
+                    $sum_total += $tmp['paySum'];
+                }
+                if($sum_total != $winBid['bidAmount']){
+                    $this->error('提交的金额与中标金额不一致！');
                 }
             }
-            if($payType=='CUM')
-            {
+
+            if($payType=='CUM'){
                 $d = I('payDate_cum');
                 $s = I('paySum_cum');
                 $i = I('period_cum');
                 $payPeriod = I('payPeriod_cum');
-                foreach($d as $k=>$v)
-                {
-                    $data[]=['paySum'=>$s[$k],'payDate'=>$d[$k],'period'=>$i[$k] ];
+                if(!is_array($d) || !is_array($s) || !is_array($i)){
+                    $this->error('提交的期数和金额不正确！');
+                }
+                if(!(sizeof($d) == sizeof($s) && sizeof($s) == sizeof($i))){
+                    $this->error('提交的期数和金额不对应！');
+                }
+                $sum_total = 0;
+
+                foreach($d as $k=>$v){
+                    if(empty($v)){
+                        $this->error('既然选择了期数，怎么可以不填写完呢？');
+                    }
+                    $tmp = [
+                        'paySum'=>price_dispose($s[$k]),
+                        'payDate'=>$d[$k],
+                        'period'=>$i[$k]
+                    ];
+                    $data[]=$tmp;
+                    $sum_total += $tmp['paySum'];
+                }
+                if($sum_total != $winBid['bidAmount']){
+                    $this->error('提交的金额与中标金额不一致！');
                 }
             }
 
-            $token = $this->user['token'];
-            $curl = new Curl($this->config->url->api->paas);
-            $resp = $curl->setData(['token'=>$token,'objectId'=>$objectId,'winBidId'=>$winBidId,'paymentInfo'=>['payType'=>$payType,'payPeriod'=>$payPeriod,'payList'=>$data]])->send('tender/bidEvaluation');
+            $resp = $curl->setData([
+                                    'token'=>$token,
+                                    'objectId'=>$objectId,
+                                    'winBidId'=>$winBidId,
+                                    'paymentInfo'=>[
+                                                'payType'=>$payType,
+                                                'payPeriod'=>$payPeriod,
+                                                'payList'=>$data
+                                            ]
+                                    ])
+                            ->send('tender/bidEvaluation');
             if(!check_resp($resp)) {
                 $this->error($resp['errmsg']);
             }
             $this->success('评标成功！',U('/member/biddee/probject'));
         }
-        /*
-           $this->assign('survery',['bidderNum'=>5,'objectName'=>'asdf','maxBidAmount'=>200,'minBidAmount'=>100]);
-           $this->assign('list',[['bidId'=>1,'bidderCompanyName'=>'asf','bidderId'=>'123123','bidTime'=>'2015-05-03','bidAmount'=>200,'projectExpectStartDate'=>'2015-09-09','projectExpectPeriod'=>200,'fileUrl'=>'asf','certificationList'=>[['certificationId'=>2,'certificationName'=>'一级建造']]]]);
-           $this->assign('page', '');
-           return;
-         */
+        $this->assign('list',$resp['list']);
+
         $token = isset($this->user['token'])?$this->user['token']:'';
         $curl = new Curl($this->config->url->api->paas);
-        $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('tender/queryMyObjectTenderSurvey');
+        $resp = $curl->setData(['token'=>$token,'objectId'=>$objectId])->send('tender/queryMyObjectTenderSurvey');
         if(check_resp($resp)) {
             $this->assign('survey',$resp['survey']);
         }else{
             //    $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
         }
-        $i = I('pageIndex');
-        $p = $this->pageSize;
-        $i = $i==''?0:$i;
-        $curl = new Curl($this->config->url->api->paas);
-        $resp = $curl->setData(['token'=>$token,'pageSize'=>$p,'pageIndex'=>$i,'objectId'=>$id])->send('tender/queryMyObjectBidList');
-        if(!check_resp($resp)) {
-            $this->error($resp['errmsg']);
-        }
-        $this->assign('list',$resp['list']);
-        $this->assign('objectId',$id);
-        $page = $this->getPagination($resp['total'], $this->pageSize);
-        $this->assign('page', $page);
+        $this->assign('objectId',$objectId);
     }
     public function evaluateAction()
     {
@@ -523,7 +602,7 @@ class BiddeeController extends MemberController{
         $objectName=I('objectName');
         if(IS_POST)
         {
-            $data['amount'] = I('amount');
+            $data['amount'] = price_dispose(I('amount'));
             if(empty($data['amount'])){
                 $this->error('付款金额不能为空！');
             }

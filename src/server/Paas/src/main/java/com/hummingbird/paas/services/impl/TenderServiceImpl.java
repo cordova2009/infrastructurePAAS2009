@@ -54,6 +54,7 @@ import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.Project;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
+import com.hummingbird.paas.entity.ProjectEvaluationBidder;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
@@ -1707,8 +1708,8 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setInsertBy(token.getUserId().toString());
 		evaluationBiddee.setInsertTime(new Date());
 		evaluationBiddee.setProjectId(project.getProjectId());
-		evaluationBiddee.setScore(body.getEvaluateScore());
-		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
+		evaluationBiddee.setScore(body.getEvaluateScore()==null?0:(body.getEvaluateScore()*2));
+		evaluationBiddee.setStarCount(body.getEvaluateScore()==null?0:body.getEvaluateScore());
 		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
 		if (body.getTags() != null) {
 			for (String tag : body.getTags()) {
@@ -1913,17 +1914,17 @@ public class TenderServiceImpl implements TenderService {
 		// PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败",
 		// body.getObjectId()));
 		// }
-		ProjectEvaluationBiddee evaluationBiddee = new ProjectEvaluationBiddee();
-		evaluationBiddee.setStarCount(0);
-		evaluationBiddee.setBiddeeId(project.getBiddeeId());
-		evaluationBiddee.setBidderId(project.getBidderId());
-		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
-		evaluationBiddee.setInsertBy(biddee.getUserId().toString());
-		evaluationBiddee.setInsertTime(new Date());
-		evaluationBiddee.setProjectId(project.getProjectId());
-		evaluationBiddee.setScore(body.getEvaluateScore());
-		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
-		evaluationBiddeeDao.insert(evaluationBiddee);
+		ProjectEvaluationBidder evaluationBidder = new ProjectEvaluationBidder();
+		evaluationBidder.setStarCount(0);
+		evaluationBidder.setBiddeeId(project.getBiddeeId());
+		evaluationBidder.setBidderId(project.getBidderId());
+		evaluationBidder.setEvaluationContent(body.getEvaluateContent());
+		evaluationBidder.setInsertBy(biddee.getUserId().toString());
+		evaluationBidder.setInsertTime(new Date());
+		evaluationBidder.setProjectId(project.getProjectId());
+		evaluationBidder.setScore(body.getEvaluateScore()==null?0:body.getEvaluateScore()*2);
+		evaluationBidder.setStarCount(body.getEvaluateScore()==null?0:body.getEvaluateScore());
+		evaluationBidderDao.insert(evaluationBidder);
 		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
 		// 调用接口时,如果数据库失败,这个标签也会保存进去
 		if (body.getTags() != null) {

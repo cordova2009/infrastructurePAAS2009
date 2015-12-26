@@ -2,7 +2,7 @@
     <!--company-->
     <div class="company-pro ">
         <div class="table">
-            <div class="cell com-logo"><img src="<?= $info['survey']['logoUrl'] ?>"></div>
+            <div class="cell com-logo"><img src="<?=imageView2($info['survey']['logoUrl'],69,69) ?>"></div>
             <div class="cell">
                 <p class="com-name"><?= $info['survey']['companyName'] ?> <i class="ico i-grade"></i></p>
                 <div class="padt5">
@@ -58,10 +58,12 @@
                 </tr>
             </table>
         </div>
-        <div class="comInfo-tit">企业资质</div>
+        <?php $count = count($info['certicate']); ?>
+        <?php if($count>0){?>
+        <div class="comInfo-tit">企业资质<?=var_dump($info['certicate'])?></div>
         <div class="comInfo-table">
             <table>
-                <?php $count = count($info['certicate']); ?>
+
                 <?php for($i=0; $i < $count; $i +=2): ?>
                     <tr>
                         <?php if(isset($info['certicate'][$i])): ?>
@@ -80,8 +82,10 @@
                         <?php endif; ?>
                     </tr>
                 <?php endfor; ?>
+
             </table>
         </div>
+        <?php }?>
         <div class="comInfo-tit">招投标一览</div>
         <div class="comInfo-table">
             <table>

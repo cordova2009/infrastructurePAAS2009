@@ -345,13 +345,12 @@ class BidderController extends MemberController{
         }
     }
 
-    public function probjectAction()
-    {
+    public function probjectAction(){
         $token = $this->user['token'];
         $curl = new Curl($this->config->url->api->paas);
         $resp = $curl->setData(['token'=>$token])->send('tender/queryMyBidSurvey');
         if(!check_resp($resp)) {
-            $this->error($resp['errmsg']);
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '查询数据失败，请重新再试或联系客服人员！');
         }
         $this->assign('bidingNum',$resp['bidingNum']);
         $this->assign('doingNum',$resp['doingNum']);
@@ -359,8 +358,7 @@ class BidderController extends MemberController{
         $this->assign('pageIndex',I('pageIndex'));
         $this->assign('type',I('type','biding'));
     }
-    public function getProbjectAction()
-    {
+    public function getProbjectAction(){
         $i = I('pageIndex');
         $type = I('type');
         if(empty($type))

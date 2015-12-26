@@ -160,8 +160,7 @@
    <select id="selectEvaluationDetailByBidderId" resultMap="CompanyEvaluationDetailResultMap" parameterType="java.lang.Integer" >
     select a.bidder_id evaluationCompanyId,a.evaluation_content evaluationCompanyContent,"BER" evaluationCompanyType,a.insert_time evaluationCompanyTime,b.company_name evaluationCompanyName,c.object_id objectId,c.object_name objectName from t_gcgl_project_evaluation_bidder a 
 	INNER JOIN t_qyzz_bidder b on a.bidder_id = b.id  
-  	LEFT JOIN t_ztgl_bid_record d on d.bidder_id = b.id
-  	LEFT JOIN t_ztgl_object c on c.object_id  = d.object_id
+  	LEFT JOIN t_ztgl_object c on c.object_id = a.project_id and c.object_status !='CRT'
   	where a.bidder_id =  #{bidderId,jdbcType=INTEGER}
   </select>
 </mapper>

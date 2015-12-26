@@ -10,7 +10,7 @@ import com.hummingbird.commonbiz.vo.PagingnationVO;
  * @author YJY  
  * @since 2015年11月14日19:21:15
  * */
-public class TenderObjectListReturnVO extends PagingnationVO {
+public class TenderObjectListReturnVO  {
 //	"list":[{
 //        "objectId":"BH1245677899",
 //        "objectName":"深圳湾体育馆工程",
@@ -29,6 +29,14 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	private String projectExpectStartDate;
 	private String projectExpectEndDate;
 	private Integer projectExpectPeriod;
+	/**
+	 * 工程名称
+	 */
+	private String industryName;
+	/**
+	 * 工程图标
+	 */
+	private String industryIcon;
 	/**
 	 * 工程标的估价可见,ENB 可见, DIS 不可见
 	 */
@@ -137,7 +145,8 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 		return "TenderObjectListReturnVO [objectId=" + objectId + ", objectName=" + objectName + ", biddee=" + biddee
 				+ ", creditRating=" + creditRating + ", evaluationAmount=" + evaluationAmount
 				+ ", projectExpectStartDate=" + projectExpectStartDate + ", projectExpectEndDate="
-				+ projectExpectEndDate + ", projectExpectPeriod=" + projectExpectPeriod + ", evaluationAmountVisiable="
+				+ projectExpectEndDate + ", projectExpectPeriod=" + projectExpectPeriod + ", industryName="
+				+ industryName + ", industryIcon=" + industryIcon + ", evaluationAmountVisiable="
 				+ evaluationAmountVisiable + "]";
 	}
 	/**
@@ -151,6 +160,30 @@ public class TenderObjectListReturnVO extends PagingnationVO {
 	 */
 	public void setEvaluationAmountVisiable(String evaluationAmountVisiable) {
 		this.evaluationAmountVisiable = evaluationAmountVisiable;
+	}
+	/**
+	 * 工程名称 
+	 */
+	public String getIndustryName() {
+		return industryName;
+	}
+	/**
+	 * 工程名称 
+	 */
+	public void setIndustryName(String industryName) {
+		this.industryName = industryName;
+	}
+	/**
+	 * 工程图标 
+	 */
+	public String getIndustryIcon() {
+		return industryIcon;
+	}
+	/**
+	 * 工程图标 
+	 */
+	public void setIndustryIcon(String industryIcon) {
+		this.industryIcon = industryIcon;
 	}
 	
 

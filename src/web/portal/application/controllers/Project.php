@@ -38,16 +38,6 @@ class ProjectController extends MallController
      * 招标项目列表
      */
     public function listAction(){
-        $curl = new Curl($this->config->url->api->paas);
-        $resp = $curl->setData(new stdClass())->send('tender/getIndustryList');
-        if(!check_resp($resp)) {
-            $this->error($resp['errmsg']);
-        }
-        $industry_list = [];
-        foreach($resp['list'] as $v){
-            $industry_list[$v['industryId']] = $v['industryIcon'];
-        }
-        $this->assign('industry_list',$industry_list);
 
         $keyword    = $this->getRequest()->getQuery('keyword');
         $pageIndex  = $this->getRequest()->getQuery('page', 0);
@@ -112,11 +102,10 @@ class ProjectController extends MallController
                                             'objectId'=> $objectId
                                         ])
                             ->send('bid/queryObjectDetail');
-
-
         if(!check_resp($resp)) {
             $this->error('项目不存在！');
         }
+
         $info                   = $resp['body'];
         $survey                 = $resp['body']['survey'];
         $baseInfo               = $resp['body']['detail']['baseInfo'];
@@ -152,6 +141,17 @@ class ProjectController extends MallController
         $this->assign('answerQuestion', $answerQuestion);
         $this->assign('dateRequirementInfo', $dateRequirementInfo);
         $this->assign('bidEvaluationTypeInfo', $bidEvaluationTypeInfo);
+
+        $resp = $curl->setData(new stdClass())->send('tender/getIndustryList');
+        if(!check_resp($resp)) {
+            $this->error($resp['errmsg']);
+        }
+        $industry_list = [];
+        foreach($resp['list'] as $v){
+            $industry_list[$v['industryId']] = ['icon'=>$v['industryIcon'],'name'=>$v['industryName']];
+        }
+        $this->assign('industry_list',$industry_list);
+
     }
     public function informationListAction(){
         /*"body":{

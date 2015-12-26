@@ -27,7 +27,7 @@ class ProjectController extends MallController
             $curl = new Curl($this->config->url->api->paas);
             $resp = $curl->setData($data)->send('report/submitReport');
             if(check_resp($resp)) {
-                $this->success('保存成功！',U('/project/tenderlist'));
+                $this->success('保存成功！',U('/project/list'));
             }else{
                 $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
             }
@@ -38,18 +38,29 @@ class ProjectController extends MallController
      * 招标项目列表
      */
     public function listAction(){
-        $keyword = $this->getRequest()->getQuery('keyword');
-        $pageIndex = $this->getRequest()->getQuery('page', 0);
+        $curl = new Curl($this->config->url->api->paas);
+        $resp = $curl->setData(new stdClass())->send('tender/getIndustryList');
+        if(!check_resp($resp)) {
+            $this->error($resp['errmsg']);
+        }
+        $industry_list = [];
+        foreach($resp['list'] as $v){
+            $industry_list[$v['industryId']] = $v['industryIcon'];
+        }
+        $this->assign('industry_list',$industry_list);
 
-        $tmp = str_replace(array(',', '、', ' '), ',', $keyword);
-        $keywords = explode(',', $tmp);
+        $keyword    = $this->getRequest()->getQuery('keyword');
+        $pageIndex  = $this->getRequest()->getQuery('page', 0);
 
-        $curl = new Curl();
-        $resp = $curl->setData([
-            'keywords' => $keywords,
-            'pageIndex' => $pageIndex,
-            'pageSize'=>  $this->pageSize
-        ])->send('tender/queryObjectList_homepage');
+        $tmp        = str_replace(array(',', '、', ' '), ',', $keyword);
+        $keywords   = explode(',', $tmp);
+
+        $curl       = new Curl();
+        $resp       = $curl->setData([
+                                'keywords'  => $keywords,
+                                'pageIndex' => $pageIndex,
+                                'pageSize'  =>  $this->pageSize
+                            ])->send('tender/queryObjectList_homepage');
 
         $list = [];
         if(check_resp($resp)){

@@ -5,7 +5,7 @@
             <div class="tit3">提现</div>
             <div class="padm30 chargeBox">
                 <div class="padv40 charge_form">
-                    <form action="<?=U('/member/capital/withdrawalsApply')?>" method="post" class="ajax-form">
+                    <form action="<?=U('/member/capital/withdrawalsApply')?>" method="post" class="ajax-form" autocomplete="off">
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 提现到</span>
                             <div class="auto value radio selectBank" >
@@ -27,14 +27,14 @@
                             <div class="auto value " >
                             <span class="yuanbox">
                                 <span class="yuan">元</span>
-                                <input type="text" class="input1 only-num" id="amount" name="amount" tip="提现金额">
+                                <input type="text" class="input1 only-num" id="amount" name="amount" placeholder="提现金额">
                             </span>
                             </div>
                         </div>
                         <div class="item">
                             <span class="lab"><span class="red">*</span> 提现费用</span>
                             <div class="auto value " >
-                                <span class="orange" id="amount-fee">0.00</span>元 <a href="#" class="blue padl30 fz14">提现费用说明</a>
+                                <span class="orange" id="amount-fee">0</span>元 <a href="#" class="blue padl30 fz14">提现费用说明</a>
                             </div>
                         </div>
                         <div class="item">
@@ -95,6 +95,11 @@
             $("#amount").blur(function(){
                 var amount = $.trim(this.value);
                 if(amount == '' || amount < 1){
+                    return false;
+                }
+                if(amount > <?=price_convert($account['remainingSum'])?>){
+                    layer.alert('提现金额不能大于您的余额！');
+                    $(this).val(0);
                     return false;
                 }
                 $.getJSON('<?=U('queryFeeAmount')?>',{amount:this.value},function(resp){

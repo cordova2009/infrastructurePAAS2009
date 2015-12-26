@@ -13,10 +13,10 @@
 
     <!--pub-time-->
     <div class="pub-time">
-        选择工程项目发布时间段 
-        <a href="#">近一周发布的标的</a> 
-        <a href="#" class="active">近一个月发布的标的</a> 
-        <a href="#">近两个月发布的标的</a> 
+        选择工程项目发布时间段
+        <a href="#">近一周发布的标的</a>
+        <a href="#" class="active">近一个月发布的标的</a>
+        <a href="#">近两个月发布的标的</a>
         <a href="#">发布两个月以上的标的</a>
     </div>
     <!--list-->
@@ -34,15 +34,21 @@
                     <td>详情</td>
                 </tr>
                 <?php foreach($list as $k => $v): ?>
-                <tr <?php if(!($k % 2 == 0)) echo 'class="bg1"' ?>>
-                    <td class="td1"><span class="tag">土</span><?= $v['objectName'] ?></td>
-                    <td class="td2"><?= $v['biddee'] ?></td>
-                    <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>
-                    <td class="td4"><?=price_format($v['evaluationAmount'])?> <span class="fz12">元</span></td>
-                    <td><?= $v['projectExpectStartDate'] ?></td>
-                    <td><?=$v['projectExpectPeriod']?>天</td>
-                    <td class="info"><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>"><i class="ico i-eye"></i></a></td>
-                </tr>
+                    <tr <?php if(!($k % 2 == 0)) echo 'class="bg1"' ?>>
+                        <td class="td1">
+                            <span class="tag"><?=$industry_list[]?></span><?= $v['objectName'] ?>
+                        </td>
+                        <td class="td2"><?= $v['biddee'] ?></td>
+                        <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>
+                        <td class="td4"><?=price_format($v['evaluationAmount'])?> <span class="fz12">元</span></td>
+                        <td><?= $v['projectExpectStartDate'] ?></td>
+                        <td><?=$v['projectExpectPeriod']?>天</td>
+                        <td class="info">
+                            <a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>">
+                                <i class="ico i-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
                 <?php if(empty($list)):?>
                     <tr><td colspan="7" class="text-center">暂无数据</td></tr>

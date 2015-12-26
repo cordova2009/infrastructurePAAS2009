@@ -59,12 +59,16 @@
                             <td>{$item.left_amount|price_format}</td>
                             <td>{$item.left_period}</td>
                             <td>{$item.current_period}</td>
-                            <td>{$item.amount|price_format}</td>
+                            <td><a href="{:U('paymentshow?id='.$item['id'])}">{$item.amount|price_format}</a></td>
                             <td>{$item.should_pay_time}</td>
                             <td>{$item.pay_time}</td>
-                            <td>{$item.voucher}</td>
+                            <td><a href="{:U('paymentshow?id='.$item['id'])}">{$item.voucher}</a></td>
                             <td><?php echo $status[$item['status']];?></td>
-                            <td><a href="{:U('paymentshow?id='.$item['id'])}">查看</a></td>
+                            <td>
+                                <?php if($item['status'] == 'CRT'):?>
+                                <a href="{:U('paymentcheck?id='.$item['id'])}">审核</a>
+                                <?php endif;?>
+                            </td>
                         </tr>
                     </volist>
                     <else/>

@@ -2,7 +2,7 @@
 
 <block name="body">
 	<!-- 表单 -->
-<?php $status=['CRT'=>'待支付','OK#'=>'已支付','FLS'=>'支付失败'];?>
+    <?php $status=['OK#'=>'已收款','FLS'=>'收款失败','CRT'=>'待收款'];?>
 <style>
 td{width:50%;}
 </style>

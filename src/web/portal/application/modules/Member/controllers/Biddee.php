@@ -602,7 +602,7 @@ class BiddeeController extends MemberController{
         $objectName=I('objectName');
         if(IS_POST)
         {
-            $data['amount'] = I('amount');
+            $data['amount'] = price_dispose(I('amount'));
             if(empty($data['amount'])){
                 $this->error('付款金额不能为空！');
             }

@@ -26,7 +26,7 @@ if(check_resp($resp)){
                             <input type="hidden" name="bidFile" value="">
                         </a>
                         <div class="uploaded <?php if(!isset($info) || empty($info['bidFile'])) echo 'hide'?>">
-                            <a target="_blank" href="<?=isset($info)?imageView2($info['bidFile']):''?>" class="btn-file2 view">查看</a>
+                            <a target="_blank" href="<?=isset($info)?get_qiniu_file_durl($info['bidFile']):''?>" class="btn-file2 view">下载</a>
                             <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                         </div>
                     </div>
@@ -44,14 +44,4 @@ if(check_resp($resp)){
         </form>
     </div>
 </div>
-<?php require_once __DIR__.'/../common/upload.pic.php';?>
-<script>
-//$("button").click(function(){
-//    var $this = $(this);
-//    var action = '<?//=U('/member/bid/submitBid')?>//';
-//    if($this.index() == 1){
-//        action = '<?//=U('/member/bid/submitBid/sb/yes')?>//';
-//    }
-//    $this.closest('form').attr('action',action).submit();
-//});
-</script>
+<?php require_once __DIR__.'/../common/upload.file.php';?>

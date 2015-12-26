@@ -107,13 +107,13 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public BidderBaseInfo getBaseInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
 		BidderBaseInfo baseInfo = new BidderBaseInfo();
 		
@@ -135,7 +135,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public BidderLegalPerson getLegalPersonInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
 		
 //		"legalPerson":{
@@ -162,7 +162,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public BidderRegisteredInfo getRegisteredInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
 		
 		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
@@ -189,7 +189,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	}
 	@Override
 	public BidderRegisteredInfo getRegisteredInfo(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
 		
 		BidderRegisteredInfo registeredInfo = new BidderRegisteredInfo();
@@ -221,7 +221,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public BidderBankInfo getBankInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 
 		List<BidderBankCardCerticate> aa = bbccDao.selectBidderBankInfoByToken(token.getToken());
 //		Map bankInfo= new HashMap();
@@ -250,7 +250,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBaseInfo_apply(String appId, BidderBaseInfo baseInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -318,7 +318,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveLegalPersonInfo_apply(String appId, BidderLegalPerson legalPerson, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
         int i = 0;
 		if(token.getUserId()!=null){
 			BidderCerticate bidder=bidderCerticateDao.selectByUserId(token.getUserId());
@@ -376,7 +376,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveRegisteredInfo(String appId, BidderRegisteredInfo registeredInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -452,7 +452,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBankInfo(String appId, BidderBankInfo bankInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -492,7 +492,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public int applay(String appId, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -589,9 +589,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 		boolean flag = true;
 		try{
 			BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
+			ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
 			BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(bidderId);
 
-			ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
 			
 			BidderBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 			BidderLegalPersonCheck legalPersonCheck = body.getLegalPersonCheck();

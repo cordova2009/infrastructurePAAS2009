@@ -52,9 +52,9 @@ public interface BidderCertificationMapper {
 
 	/**
 	 * 删除所有正式的证书
-	 * @param bidderId
+	 * @param applyId
 	 */
-	int removeAllByBidderId(Integer bidderId);
+	int removeAllByBidderId(Integer applyId);
 
 	/**
 	 * 把申请的证书复制到正式表中

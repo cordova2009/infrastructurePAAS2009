@@ -2384,7 +2384,7 @@ POST数据格式：JSON
             "timeStamp":"TIMESTAMP", 
             "nonce":"NONCE",
             "signature":"SIGNATURE"
-        }
+        },
         "body":{
             
         }
@@ -2445,7 +2445,7 @@ POST数据格式：JSON
             "timeStamp":"TIMESTAMP", 
             "nonce":"NONCE",
             "signature":"SIGNATURE"
-        }
+        },
         "body":{
             "industryId":"TSF"
         }

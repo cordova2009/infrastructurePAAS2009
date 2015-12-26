@@ -9,42 +9,42 @@ public class ProjectInfo {
     /**
      * 工程编号,使用 GC00日期时间随机数
      */
-    private String projectId;
+    protected String projectId;
 
     /**
      * 标的id
      */
-    private String objectId;
+    protected String objectId;
 
     /**
      * 承包商id
      */
-    private Integer bidderId;
+    protected Integer bidderId;
 
     /**
      * 工程状态,OK# 施工中,END 完结,FLS 终止
      */
-    private String status;
+    protected String status;
 
     /**
      * 发包方id
      */
-    private Integer biddeeId;
+    protected Integer biddeeId;
 
     /**
      * 开工时间
      */
-    private Date startTime;
+    protected Date startTime;
 
     /**
      * 结束时间
      */
-    private Date endTime;
+    protected Date endTime;
 
     /**
      * 项目名称
      */
-    private String projectName;
+    protected String projectName;
 
     /**
      * @return 工程编号,使用 GC00日期时间随机数
@@ -202,4 +202,14 @@ public class ProjectInfo {
         result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
         return result;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ProjectInfo [projectId=" + projectId + ", objectId=" + objectId + ", bidderId=" + bidderId + ", status="
+				+ status + ", biddeeId=" + biddeeId + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", projectName=" + projectName + "]";
+	}
 }

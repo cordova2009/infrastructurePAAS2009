@@ -18,6 +18,7 @@ import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.commonbiz.util.NoGenerationUtil;
 import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.ProjectInfo;
+import com.hummingbird.paas.entity.ProjectInfoWithObjectAmount;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetailAndPay;
@@ -70,12 +71,12 @@ public class ProjectServiceImpl implements ProjectService{
 			pagingnation.setTotalCount(count);
 			pagingnation.calculatePageCount();
 		}
-		List<ProjectInfo> projects=projectDao.queryBeeProject(biddeeId,pagingnation);
+		List<ProjectInfoWithObjectAmount> projects=projectDao.queryBeeProject(biddeeId,pagingnation);
 		List<QueryMyPaymentListReturnVO> list=new ArrayList<QueryMyPaymentListReturnVO>();
-		for(ProjectInfo project:projects){
+		for(ProjectInfoWithObjectAmount project:projects){
 			
 			List<ProjectPaymentDefineDetailAndPay> selectPayDefineByObjectId = payDefineDao.selectPayDefineByObjectId(project.getObjectId());
-			Long projectamount = 0L;
+			Long projectamount = project.getObjectAmount();
 			Long hadpayamount = 0l;
 			boolean hadsetnextperiod = false;
 			int nextperiod =1;
@@ -83,7 +84,7 @@ public class ProjectServiceImpl implements ProjectService{
 			for (Iterator iterator = selectPayDefineByObjectId.iterator(); iterator.hasNext();) {
 				ProjectPaymentDefineDetailAndPay defineandpay = (ProjectPaymentDefineDetailAndPay) iterator
 						.next();
-				projectamount+=defineandpay.getPaySum();
+//				projectamount+=defineandpay.getPaySum();
 				if(shouldpay==null){
 					shouldpay = defineandpay;
 				}
@@ -130,21 +131,21 @@ public class ProjectServiceImpl implements ProjectService{
 	public MyPaymentOverallReturnVO getMyPaymentOverall(Integer biddeeId)
 			throws MaAccountException {
 		MyPaymentOverallReturnVO overall=new MyPaymentOverallReturnVO();
-		List<ProjectInfo> projects=projectDao.queryBeeProject(biddeeId,null);
+		List<ProjectInfoWithObjectAmount> projects=projectDao.queryBeeProject(biddeeId,null);
 		
 		Long allAmount=0l;
 		Long allPaidAmount=0l;
 		Long allWillPayAmount=0l;
 		Long allNextPeriodPayAmount=0l;
-		for(ProjectInfo project:projects){
-			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
-			if(objcet==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
-			
-			}
+		for(ProjectInfoWithObjectAmount project:projects){
+//			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
+//			if(objcet==null){
+//				if (log.isDebugEnabled()) {
+//					log.debug(String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
+//				}
+//				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
+//			
+//			}
 			ProjectPaymentPay lastPayInfo=payRecordDao.getLastRecord(project.getObjectId());
 			
 			ProjectPaymentDefineDetail payDefine=payDefineDao.selectByObjectId(project.getObjectId(),(lastPayInfo==null?0:lastPayInfo.getCurrentPeriod())+1);
@@ -158,7 +159,8 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			Long paidAmount= payRecordDao.getPaidAmountByObjectId(project.getObjectId());
 			allPaidAmount+=paidAmount;
-			allAmount+=objcet.getWinBidAmount();
+			allAmount+=project.getObjectAmount();
+//			allAmount+=objcet.getWinBidAmount();
 			allWillPayAmount+=lastPayInfo==null?(payDefine.getPaySum()==null?0:payDefine.getPaySum()):lastPayInfo.getLeftAmount();
 			Long nextPeriodPayAmount=0l;
 			if(payDefine!=null){
@@ -220,17 +222,17 @@ public class ProjectServiceImpl implements ProjectService{
 			pagingnation.calculatePageCount();
 		}
 		
-		List<ProjectInfo> projects=projectDao.queryBerProject(bidderId,pagingnation);
+		List<ProjectInfoWithObjectAmount> projects=projectDao.queryBerProject(bidderId,pagingnation);
 		List<QueryMyIncomeListReturnVO> list=new ArrayList<QueryMyIncomeListReturnVO>();
-		for(ProjectInfo project:projects){
-			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
-			if(objcet==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
-			
-			}
+		for(ProjectInfoWithObjectAmount project:projects){
+//			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
+//			if(objcet==null){
+//				if (log.isDebugEnabled()) {
+//					log.debug(String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
+//				}
+//				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
+//			
+//			}
 			ProjectPaymentReceive lastPayInfo=receiveRecordDao.getLastRecord(project.getObjectId());
 			ProjectPaymentDefineDetail payDefine=payDefineDao.selectByObjectId(project.getObjectId(),(lastPayInfo==null?0:lastPayInfo.getCurrentPeriod())+1);
 			
@@ -238,17 +240,17 @@ public class ProjectServiceImpl implements ProjectService{
 			Long willReceiveAmount=0l;
 			if(lastPayInfo!=null){
 				willReceiveAmount=lastPayInfo.getLeftAmount();
-			}else if(payDefine!=null){
-				willReceiveAmount=objcet.getWinBidAmount()-payDefine.getPaySum();
+//			}else if(payDefine!=null){
+//				willReceiveAmount=objcet.getWinBidAmount()-payDefine.getPaySum();
 			}else{
-				willReceiveAmount=0l;
+				willReceiveAmount=project.getObjectAmount();
 			}
 			QueryMyIncomeListReturnVO query=new QueryMyIncomeListReturnVO();
 			query.setObjectId(project.getObjectId());
-			query.setObjectName(objcet.getObjectName());
+			query.setObjectName(project.getObjectName());
 			query.setReceivedAmount(paidAmount.toString());
 			query.setWillReceiveAmount(ObjectUtils.toString(willReceiveAmount));
-			query.setWinBidAmount(ObjectUtils.toString(objcet.getWinBidAmount()));
+			query.setWinBidAmount(ObjectUtils.toString(project.getObjectAmount()));
 			if(payDefine==null){
 				query.setNextPeriodReceiveAmount("0");
 				query.setNextPeriodReceiveTime(null);
@@ -265,28 +267,30 @@ public class ProjectServiceImpl implements ProjectService{
 	public MyIncomeOverallReturnVO getMyIncomeOverall(Integer bidderId)
 			throws MaAccountException {
 		MyIncomeOverallReturnVO overall=new MyIncomeOverallReturnVO();
-		List<ProjectInfo> projects=projectDao.queryBerProject(bidderId,null);
+		List<ProjectInfoWithObjectAmount> projects=projectDao.queryBerProject(bidderId,null);
 		
 		Long allAmount=0l;
 		Long allPaidAmount=0l;
 		Long allWillPayAmount=0l;
 		Long allNextPeriodPayAmount=0l;
-		for(ProjectInfo project:projects){
-			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
-			if(objcet==null){
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
-				}
-				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
-			
-			}
+		for(ProjectInfoWithObjectAmount project:projects){
+//			BidObject objcet=objectDao.selectByPrimaryKey(project.getObjectId());
+//			if(objcet==null){
+//				if (log.isDebugEnabled()) {
+//					log.debug(String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
+//				}
+//				throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",project.getObjectId()));
+//			
+//			}
 			ProjectPaymentReceive lastReceivedInfo=receiveRecordDao.getLastRecord(project.getObjectId());
 			ProjectPaymentDefineDetail payDefine=payDefineDao.selectByObjectId(project.getObjectId(),(lastReceivedInfo==null?0:lastReceivedInfo.getCurrentPeriod())+1);
 			
 			Long paidAmount= payRecordDao.getPaidAmountByObjectId(project.getObjectId());
 			allPaidAmount+=paidAmount;
-			allAmount+=objcet.getWinBidAmount();
-			allWillPayAmount+=lastReceivedInfo==null?objcet.getObjectAmount():lastReceivedInfo.getLeftAmount();
+			allAmount+=project.getObjectAmount();
+			allWillPayAmount+=lastReceivedInfo==null?project.getObjectAmount():lastReceivedInfo.getLeftAmount();
+//			allAmount+=objcet.getWinBidAmount();
+//			allWillPayAmount+=lastReceivedInfo==null?objcet.getWinBidAmount():lastReceivedInfo.getLeftAmount();
 			Long nextPeriodPayAmount=0l;
 			if(payDefine!=null){
 				

@@ -104,14 +104,14 @@ public interface BidObjectMapper {
 	 * @param id
 	 * @return
 	 */
-	int selectTotalTenderObjectList(@Param("keywords")String[] keywords);
+	int selectTotalTenderObjectList(@Param("keywords")String[] keywords,@Param("status")String status,@Param("publishTime")Integer publishTime);
 	
 	/**
 	 * 项目列表接口
 	 * @param id
 	 * @return
 	 */
-	List<TenderObjectListReturnVO> selectTenderObjectList(@Param("keywords")String[] keywords,@Param("page")Pagingnation page);
+	List<TenderObjectListReturnVO> selectTenderObjectList(@Param("keywords")String[] keywords,@Param("page")Pagingnation page ,@Param("status")String status,@Param("publishTime")Integer publishTime);
 	/**
 	 * 计算首页招标项目列表总数
 	 * @param id

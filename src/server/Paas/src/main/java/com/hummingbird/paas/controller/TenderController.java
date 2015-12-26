@@ -2204,11 +2204,11 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryObjectList_homepage",method=RequestMethod.POST)
-	@AccessRequered(methodName = " 查询招标项目")
+	@AccessRequered(methodName = "查询招标项目")
 	// 框架的日志处理
 	public @ResponseBody ResultModel queryObjectList_homepage(HttpServletRequest request,
 			HttpServletResponse response) {
-		String messagebase = " 查询招标项目";
+		String messagebase = "查询招标项目";
 		int basecode = 0;
 		BaseTransVO<TenderObjectBodyVO> transorder = null;
 		ResultModel rm = new ResultModel();
@@ -2241,7 +2241,7 @@ public class TenderController extends BaseController {
 				List<TenderObjectListReturnVO> list=new ArrayList<TenderObjectListReturnVO>();
 //				list = announcementService.selectAnnouncementInValid(user_id, page);
 				String[] keywords = transorder.getBody().getKeywords();
-				list = tenderService.getTenderObjectList(transorder.getBody().getKeywords(), page);
+				list = tenderService.getTenderObjectList(transorder.getBody().getKeywords(), page,transorder.getBody());
 //				List<Map> nos = CollectionTools.convertCollection(list, Map.class, new CollectionTools.CollectionElementConvertor<TenderObjectListReturnVO, Map>() {
 //
 //					@Override

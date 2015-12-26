@@ -150,6 +150,7 @@ import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
+import com.hummingbird.paas.vo.TenderObjectBodyVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
@@ -1474,7 +1475,7 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	@Override
-	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
+	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page,TenderObjectBodyVO body)
 			throws BusinessException {
 		List<String> kwlist=new ArrayList<>();
 		if(keywords!=null&&keywords.length>0){
@@ -1490,11 +1491,11 @@ public class TenderServiceImpl implements TenderService {
 			kw = kwlist.toArray(new String[]{});
 		}
 		if (page != null && page.isCountsize()) {
-			int totalcount = dao.selectTotalTenderObjectList(kw);
+			int totalcount = dao.selectTotalTenderObjectList(kw,body.getStatus(),body.getPublishTime());
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(kw, page);
+		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(kw, page,body.getStatus(),body.getPublishTime());
 
 		return ans;
 	}

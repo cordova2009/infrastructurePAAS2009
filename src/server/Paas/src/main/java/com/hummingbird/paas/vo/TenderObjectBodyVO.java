@@ -15,6 +15,16 @@ public class TenderObjectBodyVO extends PagingnationVO {
 //		        "pageIndex":0,
 //		        "pageSize":10
 	private String[] keywords;
+	
+	/**
+	 * 发布时间
+	 */
+	private Integer publishTime;
+	
+	/**
+	 * 状态
+	 */
+	private String status;
 
 	/**
 	 * @return the keywords
@@ -36,6 +46,34 @@ public class TenderObjectBodyVO extends PagingnationVO {
 	@Override
 	public String toString() {
 		return "TenderObjectBodyVO [keywords=" + Arrays.toString(keywords) + "]";
+	}
+
+	/**
+	 * 发布时间 
+	 */
+	public Integer getPublishTime() {
+		return publishTime;
+	}
+
+	/**
+	 * 发布时间 
+	 */
+	public void setPublishTime(Integer publishTime) {
+		this.publishTime = publishTime;
+	}
+
+	/**
+	 * 状态 
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * 状态 
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	

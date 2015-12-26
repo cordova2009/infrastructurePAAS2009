@@ -18,20 +18,24 @@
     </div>
 
     <div class="box pad0 mart20" id="bidderid">
-        <div class="tit3"><a href="javascript:;" class="right btn-orange " data-toggle="modal" data-target="#xzzb">选择中标人</a>投标人列表</div>
+        <div class="tit3">
+            <a href="javascript:;" class="right btn-orange " data-toggle="modal" data-target="#xzzb">选择中标人</a>
+            投标人列表
+        </div>
         <div class="table   mart20">
             <table>
-                <tbody><tr class="bg2 thead">
-                    <td class="wid160 padl20 text-left">投标公司  </td>
-                    <td class="wid110 text-right">投标金额 </td>
-                    <td class="wid150 padm10">资质</td>
-                    <td class="wid100">开工日期</td>
-                    <td class="wid100">工期</td>
-                    <td class="wid100">投标时间</td>
-                    <td class="wid100">投标文件 </td>
-                    <td>查看 </td>
-                </tr>
-                <?php foreach($list as $v){?>
+                <tbody>
+                    <tr class="bg2 thead">
+                        <td class="wid160 padl20 text-left">投标公司</td>
+                        <td class="wid110 text-right">投标金额 </td>
+                        <td class="wid150 padm10">资质</td>
+                        <td class="wid100">开工日期</td>
+                        <td class="wid100">工期</td>
+                        <td class="wid100">投标时间</td>
+                        <td class="wid100">投标文件 </td>
+                        <td>查看 </td>
+                    </tr>
+                    <?php foreach($list as $v):?>
                     <tr>
                         <td class="padl20 text-left"><?=$v['bidderCompanyName']?></td>
                         <td class="text-right"><span><?=price_format($v['bidAmount'])?></span>元</td>
@@ -40,15 +44,18 @@
                         <td><?=$v['projectExpectPeriod']?>天</td>
                         <td><?=$v['bidTime']?></td>
                         <td><a href="<?=get_qiniu_file_durl($v['fileUrl'])?>" class="blue">下载</a></td>
-                        <td><a href="<?=U('/project/detail',['objectId'=>$v['objectId']])?>" ><i class="ico i-eye3"></i></a></td>
+                        <td><a target="_blank" href="<?=U('/company/index',['company_id'=>$v['bidderId'],'type'=>'BER'])?>" ><i class="ico i-eye3"></i></a></td>
                     </tr>
-                <?php }?>
-                </tbody></table>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
         </div>
-        <?php include(APP_PATH.'views/common/page.php'); ?>
     </div>
     <div class="box_tips hide">
-        <i class="ico i-tips"></i> 您已选择了<span class="blue" id="names"></span>为中标人，请选择付款方式~
+        <i class="ico i-tips"></i> 您已选择了
+        <span class="blue" id="names"></span>
+        为中标人，请选择付款方式~
+        <button class="btn-green right" id="re-choose" type="button">重新选择</button>
     </div>
 
     <div class="box pad0 mart30">
@@ -70,35 +77,39 @@
                                 <li>
                                     <div class="cell">
                                         <span class="left lab">首款</span>
-                                        <input type="text" name="paySum_pid[]" class="input1 left">
+                                        <input type="text" name="paySum_pid[]" class="input1 left price_format">
                                         <span class="left">元</span>
                                     </div>
                                     <div class="cell">
                                         <span class="left lab">付款时间</span>
-                                        <input type="text" name="payDate_pid[]" class="input1 left datepicker">
+                                        <input type="text" name="payDate_pid[]" class="input1 left datepicker" readonly>
                                         <input type="hidden" name="period_pid[]" value="1">
                                     </div>
                                 </li>
                             </ul>
                             <div class="box_add">
-                                <a href="javascript:;" class="btnAdd" data-num="1" data-show="1" data-type="pid" >添加期数 <i class="ico i-add"  ></i></a>
+                                <a href="javascript:;" class="btnAdd" data-num="1" data-show="1" data-type="pid" >
+                                    添加期数
+                                    <i class="ico i-add"></i>
+                                </a>
                             </div>
                             <div class="box_totle">
-                                共 <span class="fz36 qi">1</span> 期             <span class="blue fz36 marl100 rmb">0</span>元
+                                共 <span class="fz36 qi">1</span> 期
+                                <span class="blue fz36 marl100 rmb">0</span>元
                             </div>
                         </div>
                         <!--按月-->
-                        <div class="pay_way " style="display: none;">
+                        <div class="pay_way hide">
                             <ul class="clear">
                                 <li>
                                     <div class="cell">
-                                        <span class="left lab">第一个月</span>
-                                        <input type="text" class="input1 left" name="paySum_mon[1]">
+                                        <span class="left lab">第1个月</span>
+                                        <input type="text" class="input1 left price_format" name="paySum_mon[1]">
                                         <span class="left">元</span>
                                     </div>
                                     <div class="cell">
                                         <span class="left lab">付款时间</span>
-                                        <input type="text" class="input1 left datepicker" name="payDate_mon[1]">
+                                        <input type="text" class="input1 left datepicker" name="payDate_mon[1]" readonly>
                                         <input type="hidden" name="period_mon[1]" value="1">
                                     </div>
                                 </li>
@@ -107,31 +118,32 @@
                                 <a href="javascript:;" class="btnAdd" data-num="1" data-show="1" data-type="mon" >添加期数 <i class="ico i-add" ></i></a>
                             </div>
                             <div class="box_totle">
-                                共 <span class="fz36 yue">1</span> 月             <span class="blue fz36 rmb marl100">0</span>元
+                                共 <span class="fz36 yue">1</span> 月
+                                <span class="blue fz36 rmb marl100">0</span>元
                             </div>
 
                         </div>
                         <!--一次性付清-->
-                        <div class="pay_way " style="display: none;">
+                        <div class="pay_way hide">
                             <div class="txt1 text-center">付款总金额<span class="fz36 blue rmb">0</span>元</div>
                             <div class="text-center padt20">
                                 <span class=" lab">付款时间</span>
-                                <input type="text" class="input1  datepicker" name="payDate_one">
+                                <input type="text" class="input1  datepicker" name="payDate_one" readonly>
                             </div>
                         </div>
                         <!--自定义付款-->
-                        <div class="pay_way " style="display: none;">
+                        <div class="pay_way hide" >
                             <ul class="clear">
                                 <li>
                                     <div class="cell">
                                         <span class="left "><input type="text" placeholder="首款/第一期" class="input1 wid90"></span>
-                                        <input type="text" class="input1 left wid180" name="paySum_cum[1]">
+                                        <input type="text" class="input1 left wid180 price_format" name="paySum_cum[1]">
                                         <input type="hidden" name="period_cum[1]" value="1">
                                         <span class="left">元</span>
                                     </div>
                                     <div class="cell">
                                         <span class="left lab">付款时间</span>
-                                        <input type="text" class="input1 left datepicker" name="payDate_cum[1]">
+                                        <input type="text" class="input1 left datepicker" name="payDate_cum[1]" readonly>
                                     </div>
                                 </li>
                             </ul>
@@ -147,23 +159,20 @@
                     <div class="text-center " style="margin-top:8px;">
                         <input type="hidden" name="winBidId" id="winBidId" value="">
                         <input type="hidden" name="objectId" id="objectId" value="<?=$objectId?>">
-                        <input type="hidden" value="" name="paySum_one" id="paySum">
                         <input type="hidden" value="" name="payPeriod_cum" id="payPeriod_cum">
                         <input type="hidden" value="" name="payPeriod_pid" id="payPeriod_pid">
                         <input type="hidden" value="" name="payPeriod_mon" id="payPeriod_mon">
                         <input type="hidden" value="PID" name="payType" id="payType">
                         <input type="submit" value="提&nbsp;&nbsp;交" class="btn-green">
                     </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
-
-
     <!--list-->
-
 </div>
-<div class="modal xzzb" id="xzzb" style="display: none;">
+
+<div class="modal xzzb hide" id="xzzb">
     <div class="modal-cont">
         <div class="txt1">请选择中标人</div>
         <div class="table">
@@ -182,7 +191,8 @@
                         <td><a href="javascript:;"><i class="ico i-ok5" data-id="<?=$v['bidId']?>"></i></a></td>
                     </tr>
                 <?php } ?>
-                </tbody></table>
+                </tbody>
+            </table>
             <div class="text-center padv30">
                 <a href="javascript:;" class="btn-green" data-miss="modal" id="ok">确定</a>
                 <a href="javascript:;" class="btn-green" data-miss="modal" style=" margin-left: 6px; ">取消</a>
@@ -190,17 +200,18 @@
         </div>
     </div>
 </div>
+
 <div class="temp-li0 hide">
     <ul>
         <li>
             <div class="cell">
-                <span class="left lab"><span class="num">三</span>期</span>
-                <input type="text" class="input1 left" id="paySum_pid">
+                <span class="left lab">第<span class="num"></span>期</span>
+                <input type="text" class="input1 left price_format" id="paySum_pid">
                 <span class="left">元</span>
             </div>
             <div class="cell">
                 <span class="left lab">付款时间</span>
-                <input type="text" class="input1 left datepicker" id="payDate_pid">
+                <input type="text" class="input1 left datepicker after_time" before="select_date_before" alert_text="前一期的日期" id="payDate_pid" readonly>
                 <input type="hidden" id="period_pid" value="">
             </div>
         </li>
@@ -210,13 +221,13 @@
     <ul>
         <li>
             <div class="cell">
-                <span class="left lab">第<span class="num">三</span>个月</span>
-                <input type="text" class="input1 left" id="paySum_mon">
+                <span class="left lab">第<span class="num"></span>个月</span>
+                <input type="text" class="input1 left price_format" id="paySum_mon">
                 <span class="left">元</span>
             </div>
             <div class="cell">
                 <span class="left lab">付款时间</span>
-                <input type="text" class="input1 left datepicker" id="payDate_mon">
+                <input type="text" class="input1 left datepicker after_time" before="select_date_before" alert_text="前一月的日期" id="payDate_mon" readonly>
                 <input type="hidden" id="period_mon" value="">
             </div>
         </li>
@@ -226,13 +237,15 @@
     <ul>
         <li>
             <div class="cell">
-                <span class="left "><input type="text" placeholder="首款/第一期" class="input1 wid90"></span>
-                <input type="text" class="input1 left wid180" id="paySum_cum">
+                <span class="left ">
+                    <input type="text" placeholder="首款/第一期" class="input1 wid90">
+                </span>
+                <input type="text" class="input1 left wid180 price_format" id="paySum_cum">
                 <span class="left">元</span>
             </div>
             <div class="cell">
                 <span class="left lab">付款时间</span>
-                <input type="text" class="input1 left datepicker" id="payDate_cum">
+                <input type="text" class="input1 left datepicker after_time" before="select_date_before" alert_text="前一期的日期" id="payDate_cum" readonly>
                 <input type="hidden" id="period_cum" value="">
             </div>
         </li>
@@ -250,8 +263,8 @@
                 $('#names').html(tmp);
                 var tmp = $(this).parent().parent(). siblings().eq(1).find('span').eq(0).html()
                 $('.rmb').html(tmp);
-                $('#paySum').val(tmp);
             });
+
             $("#ok").click(function (){
                 if($(".i-ok5.on").length==0)
                 {
@@ -260,29 +273,20 @@
                 $(".box_tips").show();
                 $("#bidderid").hide();
             });
+
+            $("#re-choose").click(function(){
+                $(".box_tips").hide();
+                $("#bidderid").fadeIn();
+            });
+
             $(".tab2_tit").find('li').click(function (){
                 $("#payType").val($(this).data('type'));
-            })
+            });
+
             $(".btnAdd").click(function() {
                 var i = $(this).attr("data-show")
                 i++;
-                switch(i){
-                    case 2:
-                        num = "二";
-                        break;
-                    case 3:
-                        num = "三";
-                        break;
-                    case 4:
-                        num = "四";
-                        break;
-                    case 5:
-                        num = "五";
-                        break;
-                    case 6:
-                        num = "六";
-                        break;
-                }
+                num = i;
                 $(this).attr("data-num",num)
                 $(this).attr("data-show",i)
                 var ind = $(this).parents(".pay_way").index();
@@ -290,8 +294,7 @@
                 $(".temp-li"+ind).find(".num").html(num)
                 $(".temp-li"+ind).find('input').each(function (index,e){
                     e.name= e.id+'[]';
-                    if(e.id=='period_cum'||e.id=='period_pid'||e.id=='period_mon')
-                    {
+                    if(e.id=='period_cum'||e.id=='period_pid'||e.id=='period_mon'){
                         e.value=i;
                     }
                 });
@@ -300,7 +303,17 @@
                 $(this).parents(".pay_way").find('ul').append(html);
                 $(this).parents(".pay_way").find('span.qi').html(i);
             });
-        })
+        });
+
+        var my_97_custom_settings = {minDate:'<?=date('Y-m-d')?>'};
+        function select_date_before(obj){
+            var prev_picker = obj.closest('li').prev().find('.datepicker');
+            var prev_val = null;
+            if(prev_picker.length > 0){
+                prev_val = prev_picker.val();
+            }
+            return prev_val;
+        }
     </script>
     <script src="/js/My97DatePicker/WdatePicker.js"></script>
 </block>

@@ -18,6 +18,10 @@ public class QueryMyPaymentListReturnVO {
 	private String nextPeriodPayAmount;
 	private String nextPeriodPayTime;
 	/**
+	 * 下一期期数
+	 */
+	private Integer nextPeriod;
+	/**
      * 状态,CRT待支付,OK#已支付,FLS支付失败,CFM 待确认
      */
     private String status;
@@ -83,7 +87,19 @@ public class QueryMyPaymentListReturnVO {
 		return "QueryMyPaymentListReturnVO [objectId=" + objectId + ", objectName=" + objectName + ", winBidAmount="
 				+ winBidAmount + ", paidAmount=" + paidAmount + ", willPayAmount=" + willPayAmount
 				+ ", nextPeriodPayAmount=" + nextPeriodPayAmount + ", nextPeriodPayTime=" + nextPeriodPayTime
-				+ ", status=" + status + "]";
+				+ ", nextPeriod=" + nextPeriod + ", status=" + status + "]";
+	}
+	/**
+	 * 下一期期数 
+	 */
+	public Integer getNextPeriod() {
+		return nextPeriod;
+	}
+	/**
+	 * 下一期期数 
+	 */
+	public void setNextPeriod(Integer nextPeriod) {
+		this.nextPeriod = nextPeriod;
 	}
 	
 }

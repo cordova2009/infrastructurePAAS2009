@@ -348,55 +348,55 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 		
 		return objects;
 	}
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
-	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectList(Integer user_id, Integer pageIndex,
-			Integer pageSize) throws BusinessException {
-		// TODO Auto-generated method stub
-		if(log.isDebugEnabled()){
-			log.debug("查询我的实施中项目列表接口");
-		}
-		List<QueryMyBuildingObjectListResultVO> qors = new ArrayList<QueryMyBuildingObjectListResultVO>();
-		QueryObjectListResultVO qmb = null;
-		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
-			return null;
-		}
-
-		List<MyBuildingObjectProject> pjs = obDao.getMyBuildingObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
-		
-		QueryMyBuildingObjectListResultVO qol = null;
-		for (MyBuildingObjectProject pj : pjs) {
-			if(pj.getObjectId() != null){
-				qol = new QueryMyBuildingObjectListResultVO();
-				ProjectInfos  proj = pIDao.selectByPrimaryKey(pj.getObjectId());
-				qol.setObjectId(pj.getObjectId());
-//				qol.set
-				qol.setObjetName(pj.getObjectName());
-				if(proj!=null){
-					qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
-					qol.setProjectExpectStartDate(proj.getProjectExpectStartDate());
-				}else {
-					qol.setProjectExpectPeriod(0);
-				}
-//				qol.setProjectExpectStartDate(pj.getpro);
-				qol.setReceivedAmount(pj.getReceivedAmount());
-				qol.setWillReceiveAmount(pj.getWinBidAmount());
-				if(log.isDebugEnabled()){
-					log.debug("查询招标的项目列表完成:"+qol);
-				}
-				qors.add(qol);
-			}
-			 
-			}
-			
-			
-		return qors;
-	}
+	
+//	@Override
+//	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+//	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectList(Integer user_id, Integer pageIndex,
+//			Integer pageSize) throws BusinessException {
+//		// TODO Auto-generated method stub
+//		if(log.isDebugEnabled()){
+//			log.debug("查询我的实施中项目列表接口");
+//		}
+//		List<QueryMyBuildingObjectListResultVO> qors = new ArrayList<QueryMyBuildingObjectListResultVO>();
+//		QueryObjectListResultVO qmb = null;
+//		if (pageIndex == null || pageIndex <= 0 || pageSize == null || pageSize <= 0) {
+//			return null;
+//		}
+//
+//		List<MyBuildingObjectProject> pjs = obDao.getMyBuildingObjectProjectPages(user_id,(pageIndex-1) * pageSize, pageSize);
+//		
+//		QueryMyBuildingObjectListResultVO qol = null;
+//		for (MyBuildingObjectProject pj : pjs) {
+//			if(pj.getObjectId() != null){
+//				qol = new QueryMyBuildingObjectListResultVO();
+//				ProjectInfos  proj = pIDao.selectByPrimaryKey(pj.getObjectId());
+//				qol.setObjectId(pj.getObjectId());
+////				qol.set
+//				qol.setObjetName(pj.getObjectName());
+//				if(proj!=null){
+//					qol.setProjectExpectPeriod(proj.getProjectExpectPeriod());
+//					qol.setProjectExpectStartDate(proj.getProjectExpectStartDate());
+//				}else {
+//					qol.setProjectExpectPeriod(0);
+//				}
+////				qol.setProjectExpectStartDate(pj.getpro);
+//				qol.setReceivedAmount(pj.getReceivedAmount());
+//				qol.setWillReceiveAmount(pj.getWinBidAmount());
+//				if(log.isDebugEnabled()){
+//					log.debug("查询招标的项目列表完成:"+qol);
+//				}
+//				qors.add(qol);
+//			}
+//			 
+//		}
+//			
+//			
+//		return qors;
+//	}
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
 	public List<QueryMyEndedObjectListResultVO> queryMyEndedObjectList(Integer user_id, Integer pageIndex,
 			Integer pageSize) throws BusinessException {
-		// TODO Auto-generated method stub
 		if(log.isDebugEnabled()){
 			log.debug("询我的已结束项目列表接口");
 		}
@@ -459,4 +459,25 @@ public class BiddeeServiceServiceImpl implements BiddeeServiceService {
 			
 		return qors;
 	}
+	
+	/**
+	 * 查询我的实施中的工程
+	 * @param userId
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectPage(Integer userId, Pagingnation pagingnation){
+		if(pagingnation!=null&&pagingnation.isCountsize()){
+			int projectCount = obDao.getMyBuildingObjectProjectCount(userId);
+			pagingnation.setTotalCount(projectCount);
+			pagingnation.calculatePageCount();
+			
+		}
+		//TODO 这个查询列表,中间会有一个进行分组的查询,会导致性能下降,后面需要调整,可以加一个付款的统计表,用于记录每个项目付款的统计数
+		List<QueryMyBuildingObjectListResultVO> pjs = obDao.getMyBuildingObjectProjectPages(userId,pagingnation);
+		
+		return pjs;
+	}
+	
+	
 }

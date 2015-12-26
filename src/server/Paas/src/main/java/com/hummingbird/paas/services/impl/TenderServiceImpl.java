@@ -46,6 +46,8 @@ import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.entity.MakeMatchBondRecord;
+import com.hummingbird.paas.entity.MemberBiddee;
+import com.hummingbird.paas.entity.MemberBidder;
 import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
@@ -73,6 +75,8 @@ import com.hummingbird.paas.mapper.BidderRecommendMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.IndustryMapper;
 import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
+import com.hummingbird.paas.mapper.MemberBiddeeMapper;
+import com.hummingbird.paas.mapper.MemberBidderMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
@@ -217,6 +221,10 @@ public class TenderServiceImpl implements TenderService {
 	protected MakeMatchBondRecordMapper mmbondDao;
 	@Autowired
 	protected UserInformationMapper userInformationMapper;
+	@Autowired
+	protected MemberBiddeeMapper biddeeMembeeDao;
+	@Autowired
+	protected MemberBidderMapper biddeeMemberDao;
 	
 
 	/**
@@ -1736,8 +1744,8 @@ public class TenderServiceImpl implements TenderService {
 		cb.setRegTime(biddee.getRegTime());
 		cc.setBaseInfo(cb);
 		// 3.证书信息
-		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
-		cc.setCerticate(ccis);
+//		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
+//		cc.setCerticate(ccis);
 		// 4.招投标信息
 		CompanyBidInfo cbi = new CompanyBidInfo();
 		cbi.setTenderNum(dao.selectTenderNumbyBiddeeId(mm.getCompanyId()));
@@ -1754,6 +1762,15 @@ public class TenderServiceImpl implements TenderService {
 		List<CompanyEvaluationDetailInfo> cedis = evaluationBiddeeDao.selectEvaluationDetailByBiddeeId(mm.getCompanyId());
 		cei.setList(cedis);
 //		cei.set
+		//查询是否招标方会员
+		MemberBiddee mb = biddeeMembeeDao.selectByBiddeeId(biddee.getId());
+		cs.setIsMember("FLS");
+		if(mb!=null){
+			//判断时间有没有超出范围
+			if(mb.getEndTime().getTime()>System.currentTimeMillis()){
+				cs.setIsMember("OK#");
+			}
+		}
 		
 		//标签 
 		String  tagJson = CallInterfaceUtil.searchTag("biddee_manager", "t_qyzz_biddee", mm.getCompanyId());
@@ -1821,7 +1838,16 @@ public class TenderServiceImpl implements TenderService {
 		cei.setCompanyEvaluateScore(evaluationBidderDao.countEvaluationScoreByBidderId(mm.getCompanyId()));
 		List<CompanyEvaluationDetailInfo> cedis = evaluationBidderDao.selectEvaluationDetailByBidderId(mm.getCompanyId());
 		cei.setList(cedis);
-//		cei.set
+		
+		//查询是否招标方会员
+		MemberBidder mb = biddeeMemberDao.selectByBidderId(bidder.getId());
+		cs.setIsMember("FLS");
+		if(mb!=null){
+			//判断时间有没有超出范围
+			if(mb.getEndTime().getTime()>System.currentTimeMillis()){
+				cs.setIsMember("OK#");
+			}
+		}
 		
 		//标签 
 		String  tagJson = CallInterfaceUtil.searchTag("bidder_manager", "t_qyzz_bidder", mm.getCompanyId());

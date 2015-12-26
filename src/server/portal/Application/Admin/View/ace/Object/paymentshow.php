@@ -47,6 +47,7 @@ td{width:50%;}
 
 <block name="script">
 <script type="text/javascript" charset="utf-8">
-	Think.setValue('type',{$type|default=1});
+    //导航高亮
+    highlight_subnav('{:U('object/payment')}');
 </script>
 </block>

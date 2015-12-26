@@ -20,11 +20,11 @@
                 </tr>
                 <tr>
                     <td class="lab">工期</td>
-                    <td class="value"><?=isset($result['projectPeriod'])?$result['projectPeriod']:'未填写'?></td>
+                    <td class="value"><?=isset($result['projectPeriod'])?$result['projectPeriod'].'天':'未填写'?></td>
                 </tr>
                 <tr class="tr-bg1">
                     <td class="lab">造价</td>
-                    <td class="value"><?=isset($result['objectAmount'])?$result['objectAmount']:'未填写'?></td>
+                    <td class="value"><?=isset($result['objectAmount'])?$result['objectAmount'].'元':'未填写'?></td>
                 </tr>
                 <tr>
                     <td class="lab">阶段</td>

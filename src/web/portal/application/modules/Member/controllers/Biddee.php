@@ -519,6 +519,8 @@ class BiddeeController extends MemberController{
     }
     public function paymentAction()
     {
+        $nextPeriod=I('nextPeriod');
+        $objectName=I('objectName');
         if(IS_POST)
         {
             $data['amount'] = I('amount');
@@ -562,6 +564,8 @@ class BiddeeController extends MemberController{
         }
         $this->assign('bankInfo',$resp['bankInfo']);
         $this->assign('objectId',$id);
+        $this->assign('nextPeriod',$nextPeriod);
+        $this->assign('objectName',$objectName);
     }
     public function receivedAction()
     {
@@ -573,6 +577,7 @@ class BiddeeController extends MemberController{
             $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '出错了，请稍后再试！！');
         }
         $this->assign('list',$resp['list']);
+        $this->assign('projectName',$resp['projectName']);
     }
     public function willreceiveAction()
     {
@@ -584,5 +589,6 @@ class BiddeeController extends MemberController{
             $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '出错了，请稍后再试！！');
         }
         $this->assign('list',$resp['list']);
+        $this->assign('projectName',$resp['projectName']);
     }
 }

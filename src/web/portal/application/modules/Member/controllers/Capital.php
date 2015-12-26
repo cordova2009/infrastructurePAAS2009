@@ -179,8 +179,8 @@ class CapitalController extends MemberController {
             if(empty($data['amount'])){
                 $this->error('提现金额不能为空！');
             }
-            if( is_double($data['amount'])&&$data['amount']>0){
-                $this->error('提现金额必须大于0！');
+            if( is_double($data['amount'])&&$data['amount']>0&&$data['amount']<=($account['remainingSum']/100)){
+                $this->error('提现金额必须大于0！小于等于可用余额');
             }
             $data['amount']=$data['amount']*100;
             $data['tradePassword'] = encrypt(md5(I('tradePassword')),$this->config->api->app->appKey);

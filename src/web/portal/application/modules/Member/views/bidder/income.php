@@ -28,19 +28,25 @@
                     <table>
                         <tbody>
                         <tr class="bg2 thead">
-                            <td class="wid130 ">工程<br>标的</td>
-                            <td class="wid130">合同<br>金额</td>
-                            <td class="wid130">已收款<br>金额</td>
-                            <td class="wid130">应收款<br>金额</td>
+                            <td class="wid170 ">工程<br>标的</td>
+                            <td class="wid100">合同<br>金额</td>
+                            <td class="wid100">已收款<br>金额</td>
+                            <td class="wid100">应收款<br>金额</td>
                             <td>下期应收款<br>金额</td>
+                            <td class="wid110">下期付款<br>时间</td>
+                            <td class="wid110">操作</td>
                         </tr>
                         <?php foreach($list as $v):?>
                             <tr>
-                                <td><?=$v['objectName']?><br>（<?=$v['objectId']?>）</td>
+                                <td><?=$v['objectName']?></td>
                                 <td><?=price_format($v['winBidAmount'])?>元</td>
-                                <td class=""><a href="<?=U('received',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['receivedAmount'])?>元</span></a></td>
+                                <td><a href="<?=U('received',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['receivedAmount'])?>元</span></a></td>
                                 <td ><a href="<?=U('willreceive',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['willReceiveAmount'])?>元</span></a></td>
-                                <td><?=price_format($v['nextPeriodReceiveAmount'])?>元<br><?php echo empty($v['nextPeriodReceiveTime'])?'':'（付款时间'.$v['nextPeriodReceiveTime'].'）' ;?></td>
+                                <td><?=price_format($v['nextPeriodReceiveAmount'])?>元</td>
+                                <td><?php echo empty($v['nextPeriodReceiveTime'])?'':$v['nextPeriodReceiveTime'] ;?></td>
+                                <td>
+                                    <a href="<?=U('withdrawalsApply',['id'=>$v['objectId']])?>" class="btn-blue bg-orange2">提现</a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         <?php if(empty($list)):?>

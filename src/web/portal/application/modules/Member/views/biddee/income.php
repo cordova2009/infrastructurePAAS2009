@@ -28,28 +28,31 @@
                     <table>
                         <tbody>
                         <tr class="bg2 thead">
-                            <td class="wid130 ">工程<br>标的</td>
-                            <td class="wid130">合同<br>金额</td>
-                            <td class="wid130">已付款<br>金额</td>
-                            <td class="wid130">应付款<br>金额</td>
+                            <td class="wid170 ">工程<br>标的</td>
+                            <td class="wid110">合同<br>金额</td>
+                            <td class="wid110">已付款<br>金额</td>
+                            <td class="wid110">应付款<br>金额</td>
                             <td>下期应付款<br>金额</td>
+                            <td class="wid110">下期付款<br>时间</td>
                             <td>操作</td>
                         </tr>
                         <?php foreach($list as $v):?>
                             <tr>
-                                <td><?=$v['objectName']?><br>（<?=$v['objectId']?>）</td>
+                                <td><?=$v['objectName']?></td>
                                 <td><?=price_format($v['winBidAmount'])?>元</td>
                                 <td class=""><a href="<?=U('received',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['paidAmount'])?>元</span></a></td>
                                 <td ><a href="<?=U('willreceive',['id'=>$v['objectId']])?>" ><span class="blue"><?=price_format($v['willPayAmount'])?>元</span></a></td>
-                                <td><?=price_format($v['nextPeriodPayAmount'])?>元<br><?php echo empty($v['nextPeriodPayTime'])?'':'（付款时间'.$v['nextPeriodPayTime'].'）' ;?></td>
+                                <td><?=price_format($v['nextPeriodPayAmount'])?>元</td>
+                                <td><?php echo empty($v['nextPeriodPayTime'])?'':str_replace('08:00:00','',$v['nextPeriodPayTime']) ;?></td>
                                 <td>
-<?php if($v['status']!='CRT'){?>
-				<a href="<?=U('payment',['id'=>$v['objectId']])?>" class="btn-blue bg-orange2">付款</a>
-<?php }?>
-				</td>
+                                    <?php if($v['status']!='CRT'){?>
+                                        <a href="<?=U('payment',['id'=>$v['objectId'],'nextPeriod'=>$v['nextPeriod'],'objectName'=>$v['objectName']])?>" class="btn-blue bg-orange2">付款</a>
+                                    <?php }else{?>
+                                        <a href="#" class="btn-blue bg-grey">待审核</a>
+                                    <?php }?>
+                                </td>
                             </tr>
                         <?php endforeach;?>
-
                         <?php if(empty($list)):?>
                             <tr><td colspan="5">暂无数据</td></tr>
                         <?php endif;?>

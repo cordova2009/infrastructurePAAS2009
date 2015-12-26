@@ -30,6 +30,22 @@
 
 						<div class="padv40 charge_form">
 						<form action="<?=U('payment')?>" method="post" class="ajax-form" >
+                            <div class="item">
+                                <span class="lab"><span class="red">*</span> 付款项目名称</span>
+                                <div class="auto value ">
+									<span class="yuanbox">
+										<?=$objectName?>
+									</span>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <span class="lab"><span class="red">*</span> 当前付款期数</span>
+                                <div class="auto value ">
+									<span class="yuanbox">
+										<?=$nextPeriod?>
+									</span>
+                                </div>
+                            </div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 付款金额</span>
 								<div class="auto value ">

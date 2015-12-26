@@ -103,4 +103,8 @@
       score = #{score,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="sumScoreByBidderId"  resultType="int"   parameterType="java.lang.Integer" >
+  select IFNULL(sum(score),0)score from t_xyjf_bidder_bid_credit_score
+    where bidder_id = #{bidder_id,jdbcType=INTEGER}
+  </select>
 </mapper>

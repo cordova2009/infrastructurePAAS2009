@@ -40,33 +40,8 @@ class IndexController extends MallController {
         $this->assign('information_info',$this->_information_info());
         //项目信息列表
         $this->assign('information_list',$this->_information_list());
-
-        //项目信息
-        $this->_p_info();
     }
     
-    private function _p_info()
-    {
-
-        $resp = $this->_curl->setData(['pageIndex'=>1,'pageSize'=>4])
-                        ->send('userInformation/queryUserInformationPage');
-        $list = [];
-        if(check_resp($resp)){
-            $list = $resp['list'];
-        }
-
-        $this->assign('p_info_list',$list);
-
-//        $resp = $this->_curl->send('userInformation/queryUserInformationPage');
-
-        $info = ['num'=>0,'amount'=>'0'];
-//        if(check_resp($resp)){
-//            $info = $resp['info'];
-//        }
-
-        $this->assign('p_info',$info);
-    }
-
     private function _object_info()
     {
         $resp = $this->_curl->send('tender/queryObjectIndexSurvey');

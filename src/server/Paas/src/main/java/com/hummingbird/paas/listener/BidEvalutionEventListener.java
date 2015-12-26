@@ -11,10 +11,12 @@ import com.hummingbird.common.event.AbstractBusinessEventListener;
 import com.hummingbird.common.event.BusinessEvent;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.util.SpringBeanUtil;
+import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.event.BidSelectedEvent;
 import com.hummingbird.paas.event.ConfirmPayEvent;
 import com.hummingbird.paas.event.InvBidEvent;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.services.UserMsgService;
 import com.hummingbird.paas.vo.UserMsgBodyVO;
@@ -25,6 +27,8 @@ import com.hummingbird.paas.vo.UserMsgBodyVO;
  * 本类主要做为  系统自动监听处理通知=信息类  
  */
 public class BidEvalutionEventListener extends AbstractBusinessEventListener {
+	
+	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(this.getClass());
 	
 	/* (non-Javadoc)
 	 * @see com.hummingbird.common.event.BusinessEventListener#handleEvent(com.hummingbird.common.event.BusinessEvent)
@@ -39,27 +43,40 @@ public class BidEvalutionEventListener extends AbstractBusinessEventListener {
 					BidSelectedEvent bse = (BidSelectedEvent) event;
 					System.out.println("中标事件处理");
 					UserMsgBodyVO info = new UserMsgBodyVO();
-					info.setMsgContent("恭喜您在招标【"+bse.getObjectId()+"】项目中中标了");
-					info.setMsgTitle("中标通知");
-					info.setMsgType("PRI");
-					Bidder bidder = bidderDao.selectByPrimaryKey(bse.getBidderId());
-					if(bidder != null){
-						info.setUserId(bidder.getUserId());
-						umService.addMsg(info);
+					String objectId = bse.getObjectId();
+					BidObjectMapper bidObjectMapper = SpringBeanUtil.getInstance().getBean(BidObjectMapper.class);
+					BidObject bidObject = bidObjectMapper.selectByPrimaryKey(objectId);
+					if(bidObject!=null){
+						
+						info.setMsgContent("恭喜您在招标【"+bidObject.getObjectName()+"】项目中中标了");
+						info.setMsgTitle("中标通知");
+						info.setMsgType("PRI");
+						Bidder bidder = bidderDao.selectByPrimaryKey(bse.getBidderId());
+						if(bidder != null){
+							info.setUserId(bidder.getUserId());
+							umService.addMsg(info);
+						}
+						
 					}
-					
 					
 				}else if (event instanceof InvBidEvent) {
 					InvBidEvent inv = (InvBidEvent) event;
-					System.out.println("邀标事件处理");
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("邀标事件处理"));
+					}
 					if(inv!= null && inv.getBidderIds()!= null){
 						UserMsgBodyVO info = new UserMsgBodyVO();
-						info.setMsgContent("招标【"+inv.getObjectId()+"】项目邀请您投标了");
-						info.setMsgTitle("邀标通知");
-						info.setMsgType("PRI");
-						for(Integer uid : inv.getBidderIds()){
-							info.setUserId(uid);
-							umService.addMsg(info);
+						String objectId = inv.getObjectId();
+						BidObjectMapper bidObjectMapper = SpringBeanUtil.getInstance().getBean(BidObjectMapper.class);
+						BidObject bidObject = bidObjectMapper.selectByPrimaryKey(objectId);
+						if(bidObject!=null){
+							info.setMsgContent(String.format("招标【%s】项目邀请您来投标,请点击以下<a href='/project/detail.html?objectId=%s' target='_blank'>链接</a>查看和投标",bidObject.getObjectName(),bidObject.getObjectId()));
+							info.setMsgTitle("邀标通知");
+							info.setMsgType("PRI");
+							for(Integer uid : inv.getBidderIds()){
+								info.setUserId(uid);
+								umService.addMsg(info);
+							}
 						}
 					}
 					
@@ -90,8 +107,9 @@ public class BidEvalutionEventListener extends AbstractBusinessEventListener {
 				}
 				
 			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("事件处理失败",e));
+				}
 			}
 	}
 

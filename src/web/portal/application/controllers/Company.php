@@ -21,7 +21,7 @@ class CompanyController extends MallController
         $resp = $curl->setData([
                 'companyId' => $companyId,
                 'type' => $type
-        ])->send('/queryCompanyInfo');
+        ])->send('tender/queryCompanyInfo');
         $info = [];
         if(check_resp($resp)){
             $info = $resp['info'];

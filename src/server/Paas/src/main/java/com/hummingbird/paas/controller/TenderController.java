@@ -2516,7 +2516,7 @@ public class TenderController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryBidIndexList",method=RequestMethod.POST)
-	@AccessRequered(methodName = " 查询首页中标项目列表")
+	@AccessRequered(methodName = "查询首页中标项目列表")
 	// 框架的日志处理
 	public @ResponseBody ResultModel queryBidIndexList(HttpServletRequest request,
 			HttpServletResponse response) {

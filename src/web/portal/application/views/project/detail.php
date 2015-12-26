@@ -6,7 +6,10 @@
             <div class="left leftBox">
                 <div class="table">
                     <div class="cell leibie">
-                        <div class="txt1"><span class="tag3">土</span> 土石方</div>
+                        <div class="txt1">
+                            <span class="tag3"><?=$industry_list[$baseInfo['industryId']]['icon']?></span>
+                            <?=$industry_list[$baseInfo['industryId']]['name']?>
+                        </div>
                         <div class="txt2">工程类别</div>
                     </div>
                     <div class="cell gujia">
@@ -22,11 +25,11 @@
                     <div class="cell wdi50">
                         <div class="clear">
                             <div class="lab">公告截止时间 </div>
-                            <div class="value"><?=date('Y-m-d',strtotime($survey['announcementEndTime']))?></div>
+                            <div class="value"><?=str_replace('00:00:00','',$survey['announcementEndTime'])?></div>
                         </div>
                         <div class="clear">
                             <div class="lab">投标截止时间 </div>
-                            <div class="value"><?=date('Y-m-d',strtotime($survey['biddingEndTime']))?></div>
+                            <div class="value"><?=str_replace('00:00:00','',$survey['biddingEndTime'])?></div>
                         </div>
                     </div>
                     <div class="cell ">
@@ -67,46 +70,64 @@
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
-                        <?=isset($dateRequirementInfo['announcementBeginTime'])?time_format(strtotime($dateRequirementInfo['announcementBeginTime']),'Y-m-d'):'未填写'?>
+                        <?=isset($dateRequirementInfo['announcementBeginTime'])?str_replace('00:00:00','',$dateRequirementInfo['announcementBeginTime']):'未填写'?>
                         <br>招标发布
                     </span>
                 </li>
-                <li>
+                <?php
+                $now = time();
+                $time = strtotime($dateRequirementInfo['announcementEndTime']);
+                ?>
+                <li <?php if($now > $time) echo 'class="active"'?>>
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
-                        <?=isset($dateRequirementInfo['announcementEndTime'])?time_format(strtotime($dateRequirementInfo['announcementEndTime']),'Y-m-d'):'未填写'?>
+                        <?=time_format($time,'Y-m-d')?>
                         <br>公告截止
                     </span>
                 </li>
-                <li>
+
+                <?php
+                $time = strtotime($dateRequirementInfo['biddingEndTime']);
+                ?>
+                <li <?php if($now > $time) echo 'class="active"'?>>
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
-                        <?=isset($dateRequirementInfo['biddingEndTime'])?time_format(strtotime($dateRequirementInfo['biddingEndTime']),'Y-m-d'):'未填写'?>
+                        <?=time_format($time,'Y-m-d')?>
                         <br>投标截止
                     </span>
                 </li>
-                <li>
+                <?php
+                $time = strtotime($dateRequirementInfo['bidOpenDate']);
+                ?>
+                <li <?php if($now > $time) echo 'class="active"'?>>
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
-                        <?=isset($dateRequirementInfo['bidOpenDate'])?time_format(strtotime($dateRequirementInfo['bidOpenDate']),'Y-m-d'):'未填写'?>
+                        <?=time_format($time,'Y-m-d')?>
                         <br>开标
                     </span>
                 </li>
-                <li>
+                <?php
+                $time = strtotime($projectRequirementInfo['projectExpectStartDate']);
+                ?>
+                <li <?php if($now > $time) echo 'class="active"'?>>
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
-                        <?=isset($projectRequirementInfo['projectExpectStartDate'])?$projectRequirementInfo['projectExpectStartDate']:'未填写'?>
+                        <?=time_format($time,'Y-m-d')?>
                         <br>工程开始
                     </span>
                 </li>
-                <li class="last">
+                <?php
+                $time = strtotime($projectRequirementInfo['projectExpectStartDate'].' +'.$projectRequirementInfo['projectExpectPeriod'].' day');
+                ?>
+                <li class="last <?php if($now > $time) echo 'active'?>">
                     <span class="num"></span>
                     <div class="line"></div>
                     <span class="txt">
+                        <?=time_format($time,'Y-m-d')?>
                         <br>工程结束
                     </span>
                 </li>
@@ -200,7 +221,7 @@
                         </tr>
                         <tr class="tr-bg1">
                             <td class="lab">标准工期</td>
-                            <td class="value"><?=isset($projectRequirementInfo['projectExpectPeriod'])?$projectRequirementInfo['projectExpectPeriod'].'天':'未填写'?>  </td>
+                            <td class="value"><?=$projectRequirementInfo['projectExpectPeriod'].'天'?>  </td>
                         </tr>
                         <tr >
                             <td class="lab">建造师要求</td>

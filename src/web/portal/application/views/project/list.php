@@ -36,7 +36,7 @@
                 <?php foreach($list as $k => $v): ?>
                     <tr <?php if(!($k % 2 == 0)) echo 'class="bg1"' ?>>
                         <td class="td1">
-                            <span class="tag"><?=$industry_list[]?></span><?= $v['objectName'] ?>
+                            <span class="tag"><?=$v['industryIcon']?></span><?= $v['objectName'] ?>
                         </td>
                         <td class="td2"><?= $v['biddee'] ?></td>
                         <td class="td3"><span class="tag2"><?= $v['creditRating'] ?></span></td>

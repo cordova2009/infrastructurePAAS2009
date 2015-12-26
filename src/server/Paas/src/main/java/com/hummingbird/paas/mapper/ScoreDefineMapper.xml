@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.ScoreDefineMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.ScoreDefine" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="baseinfo_credit_score" property="baseinfoCreditScore" jdbcType="INTEGER" />
+    <result column="legal_person_info" property="legalPersonInfo" jdbcType="INTEGER" />
+    <result column="company_registered_info" property="companyRegisteredInfo" jdbcType="INTEGER" />
+    <result column="bank_info" property="bankInfo" jdbcType="INTEGER" />
+    <result column="tender_info" property="tenderInfo" jdbcType="INTEGER" />
+    <result column="bid_info" property="bidInfo" jdbcType="INTEGER" />
+    <result column="win_info" property="winInfo" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, baseinfo_credit_score, legal_person_info, company_registered_info, bank_info, 
+    tender_info, bid_info, win_info, insert_time, update_time, creator, updator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_xyjf_score_define
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_xyjf_score_define
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.ScoreDefine" >
+    insert into t_xyjf_score_define (id, baseinfo_credit_score, legal_person_info, 
+      company_registered_info, bank_info, tender_info, 
+      bid_info, win_info, insert_time, 
+      update_time, creator, updator
+      )
+    values (#{id,jdbcType=INTEGER}, #{baseinfoCreditScore,jdbcType=INTEGER}, #{legalPersonInfo,jdbcType=INTEGER}, 
+      #{companyRegisteredInfo,jdbcType=INTEGER}, #{bankInfo,jdbcType=INTEGER}, #{tenderInfo,jdbcType=INTEGER}, 
+      #{bidInfo,jdbcType=INTEGER}, #{winInfo,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.ScoreDefine" >
+    insert into t_xyjf_score_define
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="baseinfoCreditScore != null" >
+        baseinfo_credit_score,
+      </if>
+      <if test="legalPersonInfo != null" >
+        legal_person_info,
+      </if>
+      <if test="companyRegisteredInfo != null" >
+        company_registered_info,
+      </if>
+      <if test="bankInfo != null" >
+        bank_info,
+      </if>
+      <if test="tenderInfo != null" >
+        tender_info,
+      </if>
+      <if test="bidInfo != null" >
+        bid_info,
+      </if>
+      <if test="winInfo != null" >
+        win_info,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="baseinfoCreditScore != null" >
+        #{baseinfoCreditScore,jdbcType=INTEGER},
+      </if>
+      <if test="legalPersonInfo != null" >
+        #{legalPersonInfo,jdbcType=INTEGER},
+      </if>
+      <if test="companyRegisteredInfo != null" >
+        #{companyRegisteredInfo,jdbcType=INTEGER},
+      </if>
+      <if test="bankInfo != null" >
+        #{bankInfo,jdbcType=INTEGER},
+      </if>
+      <if test="tenderInfo != null" >
+        #{tenderInfo,jdbcType=INTEGER},
+      </if>
+      <if test="bidInfo != null" >
+        #{bidInfo,jdbcType=INTEGER},
+      </if>
+      <if test="winInfo != null" >
+        #{winInfo,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.ScoreDefine" >
+    update t_xyjf_score_define
+    <set >
+      <if test="baseinfoCreditScore != null" >
+        baseinfo_credit_score = #{baseinfoCreditScore,jdbcType=INTEGER},
+      </if>
+      <if test="legalPersonInfo != null" >
+        legal_person_info = #{legalPersonInfo,jdbcType=INTEGER},
+      </if>
+      <if test="companyRegisteredInfo != null" >
+        company_registered_info = #{companyRegisteredInfo,jdbcType=INTEGER},
+      </if>
+      <if test="bankInfo != null" >
+        bank_info = #{bankInfo,jdbcType=INTEGER},
+      </if>
+      <if test="tenderInfo != null" >
+        tender_info = #{tenderInfo,jdbcType=INTEGER},
+      </if>
+      <if test="bidInfo != null" >
+        bid_info = #{bidInfo,jdbcType=INTEGER},
+      </if>
+      <if test="winInfo != null" >
+        win_info = #{winInfo,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.ScoreDefine" >
+    update t_xyjf_score_define
+    set baseinfo_credit_score = #{baseinfoCreditScore,jdbcType=INTEGER},
+      legal_person_info = #{legalPersonInfo,jdbcType=INTEGER},
+      company_registered_info = #{companyRegisteredInfo,jdbcType=INTEGER},
+      bank_info = #{bankInfo,jdbcType=INTEGER},
+      tender_info = #{tenderInfo,jdbcType=INTEGER},
+      bid_info = #{bidInfo,jdbcType=INTEGER},
+      win_info = #{winInfo,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      updator = #{updator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

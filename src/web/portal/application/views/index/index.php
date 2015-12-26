@@ -77,7 +77,8 @@
             <div class="left txt2">
                 <span class="left tag-txt">交易<br>金额</span>
                 <div class="left num">
-                    <span class="fz100"><?=price_dispose($object_info['amount'],0.0001)?></span><span class="fz87">万</span><span class="left dw">元</span>
+                    <?=price_format($object_info['amount'],100,false,'<span class="fz100">%s</span><span class="fz87">%s</span>')?>
+                    <span class="left dw">元</span>
                 </div>
             </div>
         </div>
@@ -131,7 +132,8 @@
             <div class="left txt2">
                 <span class="left tag-txt2">中标<br>累计金额</span>
                 <div class="left num">
-                    <span class="fz100"><?=price_dispose($bid_info['bidNum'],10000)?></span><span class="fz87">万</span><span class="left dw">元</span>
+                    <?=price_format($bid_info['amount'],100,false,'<span class="fz100">%s</span><span class="fz87">%s</span>')?>
+                    <span class="left dw">元</span>
                 </div>
             </div>
         </div>
@@ -152,10 +154,10 @@
                 </tr>
                 <?php foreach($bid_list as $item):?>
                 <tr>
-                    <td  class="name"><span class="tag">土</span><?= $item['objectName'] ?></td>
+                    <td  class="name"><span class="tag"><?=$v['industryIcon']?></span><?= $item['objectName'] ?></td>
                     <td class="tende$bid_listree" class="tenderee"><?= $item['bidderName'] ?></td>
                     <td class="tenderee"><?= $item['biddeeName'] ?></td>
-                    <td class="price"><?= $item['winBidAmount']>0 ? $item['winBidAmount'] : 0 ?> <span class="fz12">元</span></td>
+                    <td class="price"><?=price_format($item['winBidAmount'])?> <span class="fz12">元</span></td>
                     <td class="info"><a href="#"><i class="ico i-eye"></i></a></td>
                 </tr>
                 <?php endforeach;?>
@@ -194,7 +196,7 @@
         <div class="in-tit1">优质投标人</div>
         <ul class="clear">
             <?php foreach($bidder_list as $item):?>
-            <li><a href="#"><img src="<?=imageView2($item['companyLogo'],87,50)?>"></a></li>
+            <li><a title="<?=$item['shortName']?>" href="<?=U('bidder/detail',['id'=>$item['biderId']])?>"><img src="<?=imageView2($item['companyLogo'],87,50)?>"></a></li>
             <?php endforeach;?>
         </ul>
         <div class="list-more"><a href="/bidder/list.html">查看更多投标人</a></div>
@@ -273,6 +275,6 @@
             $("#myform").submit();
         });
 
-    })
+    });
 </script>
 </block>

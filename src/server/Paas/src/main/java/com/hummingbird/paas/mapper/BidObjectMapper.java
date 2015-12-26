@@ -146,11 +146,23 @@ public interface BidObjectMapper {
 	 */
 	QueryBidIndexSurveyResult selectBidIndexSurvey();
 	/**
+	 * 查询我的投标概况接口
+	 * @param id
+	 * @return
+	 */
+	QueryBidIndexSurveyResult selectMyBidIndexSurvey(int bidderId);
+	/**
 	 * 查询首页招标项目概况接口
 	 * @param id
 	 * @return
 	 */
 	QueryObjectIndexSurveyResult selectObjectIndexSurvey();
+	/**
+	 * 查询我的招标项目概况接口
+	 * @param id
+	 * @return
+	 */
+	QueryObjectIndexSurveyResult selectMyObjectIndexSurvey(Integer biddeeId);
 	
 	/**
 	 * 查询首页中标项目列表接口

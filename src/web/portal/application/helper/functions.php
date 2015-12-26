@@ -427,25 +427,30 @@ function price_dispose($price,$dividend=100){
  * @param int $price 单位为分
  * @param int $num
  * @param boolean $need_format
+ * @param string $format
  * @return string
  */
-function price_format($price,$num=100,$need_format=true){
+function price_format($price,$num=100,$need_format=true,$format=''){
     $price = price_convert($price,$num);
     $surfix = '';
     //
-    if($num == 100 && $price > 999999){
-        $price = $price / 10000;
-        $surfix = '万';
+    if($num == 100){
+        if($price >= 100000000){
+            $price = $price / 100000000;
+            $surfix = '亿';
+        }elseif($price >= 10000){
+            $price = $price / 10000;
+            $surfix = '万';
+        }
     }
-    if($price > 999 && $num = 10000){
 
-    }
     if($need_format){
 
-        return number_format($price,0).$surfix;
+        return number_format($price).$surfix;
+    }elseif(!empty($format)) {
+        return sprintf($format,number_format($price,1,'.',''),$surfix);
     }else{
-
-        return $price.$surfix;
+        return round($price,1).$surfix;
     }
 }
 /**

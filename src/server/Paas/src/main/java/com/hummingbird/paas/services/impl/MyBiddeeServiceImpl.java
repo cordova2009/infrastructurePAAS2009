@@ -39,6 +39,7 @@ import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.BidderCertificationAudit;
+import com.hummingbird.paas.entity.ScoreDefine;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.exception.MaAccountException;
@@ -55,10 +56,12 @@ import com.hummingbird.paas.mapper.BiddeeCertificationMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderCertificationAuditMapper;
+import com.hummingbird.paas.mapper.ScoreDefineMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.util.CamelUtil;
+import com.hummingbird.paas.util.IntegerUtil;
 import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
 import com.hummingbird.paas.vo.BiddeeAuditBodyInfo;
@@ -104,6 +107,8 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	protected BiddeeBidCreditScoreMapper bbcsDao;
 	@Autowired
 	protected BiddeeCertificationAuditMapper bcaDao;
+	@Autowired
+	protected ScoreDefineMapper sdDao;
 	
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
@@ -506,8 +511,9 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public  Boolean checkApplication(String appId, BiddeeAuditBodyInfo body, Integer biddeeId) throws BusinessException {
+	public  String checkApplication(String appId, BiddeeAuditBodyInfo body, Integer biddeeId) throws BusinessException {
 		boolean flag = true;
+		String mscode = "4210";//审核完成 且通过审核
 		try{
 			BiddeeCerticate bc = biddeeCerticateDao.selectByPrimaryKey(biddeeId);
 			BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(biddeeId);
@@ -526,6 +532,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
 			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
 				flag = false;
+				mscode = "4211";   //审核完成 且 审核不通过
 			}
 //			baseInfoCheck.getCompany_name().getResult()
 			
@@ -583,6 +590,28 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //						}
 //					}
 					
+//					5.插入积分信息
+					BiddeeCredit bcr  = biddeeCreditDao.selectByPrimaryKey(biddeeId);
+					ScoreDefine sd = sdDao.selectByPrimaryKey(1);//信用积分配置表信息
+					if(bcr == null){
+						bcr = new BiddeeCredit();
+					}
+					ValidateUtil.assertNull(sd, "积分配置信息");
+					IntegerUtil iu = new IntegerUtil();
+//					这里积分规则未定出     暂时全部存入 0 
+					bcr.setBankInfo(iu.getRegulaInt(sd.getBankInfo()));
+					bcr.setBaseinfoCreditScore(iu.getRegulaInt(sd.getBaseinfoCreditScore()));
+					bcr.setCompanyRegisteredInfo(iu.getRegulaInt(sd.getCompanyRegisteredInfo()));
+					bcr.setCreditScore(iu.getSum(sd.getBankInfo(),sd.getBaseinfoCreditScore(),sd.getCompanyRegisteredInfo(),sd.getLegalPersonInfo()));
+					bcr.setLegalPersonInfo(iu.getRegulaInt(sd.getLegalPersonInfo()));
+					
+					if(bcr.getTendererId() != null){
+						biddeeCreditDao.updateByPrimaryKeySelective(bcr);
+					}else{
+						bcr.setTendererId(biddeeId);
+						biddeeCreditDao.insert(bcr);
+					}
+					
 				}else{//审核不通过
 					bca.setAuditStatus("FLS");
 					bc.setStatus("FLS");
@@ -622,27 +651,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 				bba.setTelephoneCertificateMsg(bankInfoCheck.getTelephone   ().getMsg());
 				biddeeBankAduitDao.removeAduitRecord(biddeeId);
 				biddeeBankAduitDao.insert(bba);
-//				5.插入积分信息
-//				 BiddeeCreditMapper biddeeCreditDao;
-//				 BiddeeCertificationCreditScoreMapper bccsDao;
-//				 BiddeeBidCreditScoreMapper bbcsDao;
-				BiddeeCredit bcr  = biddeeCreditDao.selectByPrimaryKey(biddeeId);
-				if(bcr == null){
-					bcr = new BiddeeCredit();
-				}
-//				这里积分规则未定出     暂时全部存入 0 
-				bcr.setBankInfo(20);
-				bcr.setBaseinfoCreditScore(40);
-				bcr.setCompanyRegisteredInfo(40);
-				bcr.setCreditScore(40);
-				bcr.setLegalPersonInfo(40);
-				
-				if(bcr.getTendererId() != null){
-					biddeeCreditDao.updateByPrimaryKeySelective(bcr);
-				}else{
-					bcr.setTendererId(biddeeId);
-					biddeeCreditDao.insert(bcr);
-				}
+
 				
 				
 //				6.修改临时表数据状态
@@ -666,7 +675,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 //		bc = getBiddeeCertificateAduitInfo(obj, bc)
 //		BiddeeCertificateAduit bc = this.getBiddeeCertificateAduitInfo(obj, bc);
 		
-		return flag;
+		return mscode;
 	}
 	
 	/**

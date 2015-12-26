@@ -28,8 +28,8 @@
                         <td><?= date('Y-m-d', strtotime($item['createTime'])) ?></td>
                         <td class="text-right"><?=price_format($item['amount'])?>元</td>
                         <td class="text-left"><?=$status?></td>
-                        <td class="text-left"><?= date('Y-m-d', strtotime($item['rechargeTime'])) ?></td>
-                        <td><?=$item['voucherNo']?></td>
+                        <td class="text-left"><?=time_format(strtotime($item['rechargeTime']),'Y-m-d')?></td>
+                        <td title="<?=$item['voucherNo']?>"><?=$item['voucherNo']?></td>
                         <td><?=$item['remark']?></td>
                     </tr>
                     <?php endforeach; ?>

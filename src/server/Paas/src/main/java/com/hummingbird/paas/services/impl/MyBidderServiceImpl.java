@@ -25,6 +25,7 @@ import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
+import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
@@ -35,6 +36,7 @@ import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.entity.BidderCredit;
+import com.hummingbird.paas.entity.ScoreDefine;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.exception.MaAccountException;
@@ -50,11 +52,13 @@ import com.hummingbird.paas.mapper.BidderCertificationCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCertificationMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
+import com.hummingbird.paas.mapper.ScoreDefineMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.util.CamelUtil;
+import com.hummingbird.paas.util.IntegerUtil;
 import com.hummingbird.paas.util.PhoneAndEmailUtil;
 import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
@@ -104,6 +108,8 @@ public class MyBidderServiceImpl implements MyBidderService {
 	protected BidderBidCreditScoreMapper bbcsDao;
 	@Autowired
 	protected BidderCertificationAuditMapper bcaDao;
+	@Autowired
+	protected ScoreDefineMapper sdDao;
 
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
@@ -585,8 +591,9 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public  Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer bidderId) throws BusinessException {
+	public  String checkApplication(String appId, BidderAuditBodyInfo body, Integer bidderId) throws BusinessException {
 		boolean flag = true;
+		String mscode = "4210";
 		try{
 			BidderCerticate bc = bidderCerticateDao.selectByPrimaryKey(bidderId);
 			ValidateUtil.assertNull(bc, "未找到投标人资质申请数据！");
@@ -607,6 +614,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 //			所有信息都OK#的表示认证审核通过，只要有一项FLS的表示认证审核不通过，需要申请人修订后重新提交。
 			if(baseInfoCheckflag == false || legalPersonCheckfalg == false || registeredInfoCheckflag == false || bankInfoCheckfalg == false){
 				flag = false;
+				mscode = "4211";
 			}
 //			baseInfoCheck.getCompany_name().getResult()
 			
@@ -661,6 +669,27 @@ public class MyBidderServiceImpl implements MyBidderService {
 						}
 					}
 
+//					5.插入积分信息
+					BidderCredit bcr  = bidderCreditDao.selectByPrimaryKey(bidderId);
+					ScoreDefine sd = sdDao.selectByPrimaryKey(1);//信用积分配置表信息
+					if(bcr == null){
+						bcr = new BidderCredit();
+					}
+					ValidateUtil.assertNull(sd, "积分配置信息");
+					IntegerUtil iu = new IntegerUtil();
+//					这里积分规则未定出     暂时全部存入 0 
+					bcr.setBankInfo(iu.getRegulaInt(sd.getBankInfo()));
+					bcr.setBaseinfoCreditScore(iu.getRegulaInt(sd.getBaseinfoCreditScore()));
+					bcr.setCompanyRegisteredInfo(iu.getRegulaInt(sd.getCompanyRegisteredInfo()));
+					bcr.setCreditScore(iu.getSum(sd.getBankInfo(),sd.getCompanyRegisteredInfo(),sd.getBaseinfoCreditScore(),sd.getLegalPersonInfo()));
+					bcr.setLegalPersonInfo(iu.getRegulaInt(sd.getLegalPersonInfo()));
+					
+					if(bcr.getBidderId() != null){
+						bidderCreditDao.updateByPrimaryKeySelective(bcr);
+					}else{
+						bcr.setBidderId(bidderId);
+						bidderCreditDao.insert(bcr);
+					}
 					
 				}else{//审核不通过
 					bca.setAuditStatus("FLS");
@@ -705,28 +734,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 				bba.setBankcardCertificateResult(bankpass?CommonStatusConst.STATUS_OK:CommonStatusConst.STATUS_FAIL);
 				bidderBankAduitDao.removeAduitRecord(bidderId);
 				bidderBankAduitDao.insert(bba);
-
-//				5.插入积分信息
-//				protected BiddeeCreditMapper biddeeCreditDao;
-//				protected BiddeeCertificationCreditScoreMapper bccsDao;
-//				protected BiddeeBidCreditScoreMapper bbcsDao;
-				BidderCredit bcr  = bidderCreditDao.selectByPrimaryKey(bidderId);
-				if(bcr == null){
-					bcr = new BidderCredit();
-				}
-//				这里积分规则未定出     暂时全部存入 0 
-				bcr.setBankInfo(20);
-				bcr.setBaseinfoCreditScore(40);
-				bcr.setCompanyRegisteredInfo(40);
-				bcr.setCreditScore(40);
-				bcr.setLegalPersonInfo(40);
 				
-				if(bcr.getBidderId() != null){
-					bidderCreditDao.updateByPrimaryKeySelective(bcr);
-				}else{
-					bcr.setBidderId(bidderId);
-					bidderCreditDao.insert(bcr);
-				}
 				
 //				6.修改临时表数据状态
 				
@@ -747,7 +755,7 @@ public class MyBidderServiceImpl implements MyBidderService {
 //		bc = getBidderCertificateAduitInfo(obj, bc)
 //		BidderCertificateAduit bc = this.getBidderCertificateAduitInfo(obj, bc);
 		
-		return flag;
+		return mscode;
 	}
 		  
 	/**

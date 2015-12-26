@@ -123,7 +123,7 @@ public interface MyBiddeeService {
 	 * @return 
 	 * @throws BusinessException
 	 */
-	public  Boolean checkApplication(String appId, BiddeeAuditBodyInfo body,Integer biddeeId) throws BusinessException;
+	public  String checkApplication(String appId, BiddeeAuditBodyInfo body,Integer biddeeId) throws BusinessException;
 	
 	
 }

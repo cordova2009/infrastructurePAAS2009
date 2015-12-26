@@ -2644,6 +2644,7 @@ public class TenderController extends BaseController {
 		RequestEvent qe=null ; 
 		int stairBiderNum = 0;
 		int secondBiderNum = 0;
+		int totalBidderNum = 0;
 		try {
 		
 			if(log.isDebugEnabled()){
@@ -2651,9 +2652,10 @@ public class TenderController extends BaseController {
 			}
 			stairBiderNum = bidderDao.countStairBiderNum();
 			secondBiderNum = bidderDao.countSecondBiderNum();
-			
+			totalBidderNum = bidderDao.selectTotalBidderNum();
 	        rm.put("stairBiderNum", stairBiderNum);
 	        rm.put("secondBiderNum", secondBiderNum);
+	        rm.put("totalBidderNum", totalBidderNum);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);
 			rm.mergeException(e1);

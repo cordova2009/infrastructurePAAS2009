@@ -73,6 +73,10 @@ public interface BidderMapper {
      * 查询二级承包商数量
      */
     int countSecondBiderNum();
+    /**
+     * 查询二级承包商数量
+     */
+    int selectTotalBidderNum();
     
     /**
      * 根据id查询概况信息

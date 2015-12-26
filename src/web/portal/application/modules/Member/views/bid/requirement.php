@@ -112,7 +112,7 @@ if(is_array($bidRequirementInfo)){
                             </li>
                             <?php endforeach;?>
                         </ul>
-                        <?php if(empty($missingList)):?>
+                        <?php if(!empty($missingList)):?>
                         <p class="tips2 red">
                             对不起，您当前证书不满足投标要求，缺少证书：
                             <?php foreach($missingList as $item):?>
@@ -213,6 +213,9 @@ if(is_array($bidRequirementInfo)){
                             《<?=$item['certificationName']?>》
                         <?php endforeach;?>
                     </p>
+                    <p class="tips2">
+                        <a href="<?=U('/member/bidder/applyfor')?>">请点击这里进行资质证书的提交！</a>
+                    </p>
                     <?php endif;?>
 
                     <div class="text-center padv30">
@@ -226,9 +229,6 @@ if(is_array($bidRequirementInfo)){
     </div>
     <!--list-->
 </div>
-<block>
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-</block>
 <block name="script">
 <script>
 $(function(){
@@ -314,7 +314,10 @@ function save_success(form,resp) {
 function step_toggle(step){
     $("#step-box li").removeClass('active').eq(step).addClass('active');
 }
+
+var my_97_custom_settings = {minDate:'<?=date('Y-m-d',strtotime('+1 day'))?>'};
 </script>
 <?php require_once __DIR__.'/../common/upload.js.php';?>
 <?php require_once __DIR__.'/../common/upload.pic.php';?>
+<script src="/js/My97DatePicker/WdatePicker.js"></script>
 </block>

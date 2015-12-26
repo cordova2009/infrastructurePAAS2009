@@ -41,13 +41,13 @@ public interface BiddeeServiceService {
 	*/
 	public List<QueryMyBidObjectListResultVO> queryMyBidObjectList(Integer user_id,Pagingnation page) throws BusinessException; 
 
-	/**
-	* 查询我的投标中项目列表接口【页面是项目竣工日期？】
-	*
-	* @return 
-	* @throws BusinessException 
-	*/
-	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectList(Integer user_id,Integer pageIndex,Integer pageSize) throws BusinessException; 
+//	/**
+//	* 查询我的投标中项目列表接口【页面是项目竣工日期？】
+//	*
+//	* @return 
+//	* @throws BusinessException 
+//	*/
+//	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectList(Integer user_id,Integer pageIndex,Integer pageSize) throws BusinessException; 
 
 	/**
 	* 查询我的已结束项目列表接口
@@ -62,7 +62,15 @@ public interface BiddeeServiceService {
 	* @return 
 	* @throws BusinessException 
 	*/
-	public List<QueryMyLoseObjectListResultVO> queryMyLoseObjectList(Integer user_id,Integer pageIndex,Integer pageSize) throws BusinessException; 
+	public List<QueryMyLoseObjectListResultVO> queryMyLoseObjectList(Integer user_id,Integer pageIndex,Integer pageSize) throws BusinessException;
+	
+	/**
+	 * 查询我的实施中的工程
+	 * @param userId
+	 * @param pagingnation
+	 * @return
+	 */
+	public List<QueryMyBuildingObjectListResultVO> queryMyBuildingObjectPage(Integer userId, Pagingnation pagingnation); 
 
 
 }

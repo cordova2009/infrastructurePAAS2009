@@ -1049,19 +1049,24 @@ public class BidController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
-			Integer pageIndex =transorder.getBody().getPageIndex();
-			Integer pageSize =transorder.getBody().getPageSize();
-			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
-				log.error(String.format(messagebase + "失败"));
-				rm.setErrmsg("参数错误");
-				return rm;
-			}
-			liq = beeServiceSer.queryMyBuildingObjectList(token.getUserId(), pageIndex, pageSize);
-			int total = obDao.getMyBuildingObjectProjectCount(token.getUserId());
-			rm.put("total", total);
-			rm.put("pageIndex", pageIndex);
-			rm.put("pageSize", pageSize);
-	        rm.put("list",liq);
+			Pagingnation pagingnation = transorder.getBody().toPagingnation();
+			liq = beeServiceSer.queryMyBuildingObjectPage(token.getUserId(),pagingnation);
+			super.mergeListOutput(rm, pagingnation, liq);
+			
+//			Integer pageIndex =transorder.getBody().getPageIndex();
+//			Integer pageSize =transorder.getBody().getPageSize();
+//			if(pageIndex==null||pageSize==null||pageIndex<=0||pageSize<=0){
+//				log.error(String.format(messagebase + "失败"));
+//				rm.setErrmsg("参数错误");
+//				return rm;
+//			}
+//			liq = beeServiceSer.queryMyBuildingObjectList(token.getUserId(), pageIndex, pageSize);
+//			int total = obDao.getMyBuildingObjectProjectCount(token.getUserId());
+//			rm.put("total", total);
+//			rm.put("pageIndex", pageIndex);
+//			rm.put("pageSize", pageSize);
+//	        rm.put("list",liq);
+			
 	        tokenSrv.postponeToken(token);
 		}catch (Exception e1) {
 			log.error(String.format(messagebase + "失败"), e1);

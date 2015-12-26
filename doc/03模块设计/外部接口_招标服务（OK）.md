@@ -2384,7 +2384,7 @@ POST数据格式：JSON
             "timeStamp":"TIMESTAMP", 
             "nonce":"NONCE",
             "signature":"SIGNATURE"
-        }
+        },
         "body":{
             
         }
@@ -2445,7 +2445,7 @@ POST数据格式：JSON
             "timeStamp":"TIMESTAMP", 
             "nonce":"NONCE",
             "signature":"SIGNATURE"
-        }
+        },
         "body":{
             "industryId":"TSF"
         }
@@ -2487,3 +2487,82 @@ industryId|是|工程id
 industryId|是|工程类别编号
 industryIcon|是|工程类别图标
 industryName|是|工程类别名称
+
+
+
+
+##查询招标中的附件列表(暂未开发)
+
+本接口用于查询查询招标中的附件列表,用于下载。
+
+1）请求说明
+
+http请求方式: post
+
+
+
+    http://ip:port/if/tender/getTenderFileList
+
+
+POST数据格式：JSON
+
+    {
+        "app":{
+            "appId":"zjhtwallet",
+            "timeStamp":"TIMESTAMP", 
+            "nonce":"NONCE",
+            "signature":"SIGNATURE"
+        },
+        "body":
+        {
+            "objectId":"BH2015012303454"
+        }
+    } 
+
+
+参数|是否必须|说明
+----|----|-----
+appId|是|应用ID
+timestamp|是|时间戳
+nonce|是|随机数
+signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
+objectId|是|招标编号
+
+2）返回说明
+
+正常时的返回JSON数据包示例：
+ 
+    {
+        "errcode":0,"errmsg":"查询投标中的附件列表成功",
+        "objectConstructionInfoFileList":[
+            { "fileName":"建设用地规划许可证附件","fileUrl":"http://xxxx.com/xdfjdsfjdsj"  },
+            { "fileName":"国有土地使用证附件","fileUrl":"http://xxxx.com/xdfjdsfjdsj"  },
+            { "fileName":"建设工程施工许可证附件","fileUrl":"http://xxxx.com/xdfjdsfjdsj"  },
+            { "fileName":"建设工程规划许可证附件","fileUrl":"http://xxxx.com/xdfjdsfjdsj"  },
+            { "fileName":"中标通知书附件","fileUrl":"http://xxxx.com/xdfjdsfjdsj"  }
+        ],
+        "objectFileList":[
+            { "fileName":"招标附件","fileUrl":"http://xxxx.com/xdfjdsfjdsj"  }
+        ]
+    }
+
+错误时的JSON数据包示例：
+
+    {
+        "errcode":10000,"errmsg":"查询投标中的附件列表失败，其它错误"
+    }
+
+参数|是否必须|说明
+----|----|-----
+appId|是|应用ID
+timestamp|是|时间戳
+nonce|是|随机数
+signature|是|签名值,MD5(按值的字典顺序排列组合成字符串(appId,appKey,app.nonce,app.timeStamp))
+objectConstructionInfoFileList|是|工程施工证明附件
+objectFileList|是|招标附件
+
+
+
+
+
+

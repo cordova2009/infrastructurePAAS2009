@@ -146,6 +146,9 @@ class TenderController extends MemberController{
         $data['QQtoken'] = I('QQtoken');
         $data['email'] = I('email');
         $data['telephone'] = I('telephone');
+        if(!empty($data['telephone']) && !regex($data['telephone'],'telephone')){
+            $this->error('电话格式不正确！');
+        }
         $data['address'] = I('address');
         $data['addressAnswerTime'] = I('addressAnswerTime');
         $data['addressAnswerDate'] = I('addressAnswerDate');

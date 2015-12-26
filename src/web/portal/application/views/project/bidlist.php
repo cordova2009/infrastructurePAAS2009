@@ -1,7 +1,7 @@
 <div class=" main">
     <!--search-->
     <div class="list-search-cont table ">
-        <form action="/search/project.html" method="get">
+        <form action="/project/list.html" method="get">
             <div class="cell search-box">
                 <input type="text" name="keyword" class="search" value="">
             </div>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.common.face.Pagingnation;
 import com.hummingbird.paas.entity.ProjectInfo;
+import com.hummingbird.paas.entity.ProjectInfoWithObjectAmount;
 
 public interface ProjectInfoMapper {
     /**
@@ -50,12 +51,12 @@ public interface ProjectInfoMapper {
      * @param pagingnation 
      * @return
      */
-    List<ProjectInfo> queryBeeProject(@Param("biddeeId")Integer biddeeId,@Param("page") Pagingnation pagingnation);
+    List<ProjectInfoWithObjectAmount> queryBeeProject(@Param("biddeeId")Integer biddeeId,@Param("page") Pagingnation pagingnation);
     
     /**
      * 查询中标的标的
      */
-    List<ProjectInfo> queryBerProject(@Param("bidderId")Integer bidderId,@Param("page")Pagingnation pagingnation);
+    List<ProjectInfoWithObjectAmount> queryBerProject(@Param("bidderId")Integer bidderId,@Param("page")Pagingnation pagingnation);
 
 	/**
 	 * 查询中标的标的记录条数

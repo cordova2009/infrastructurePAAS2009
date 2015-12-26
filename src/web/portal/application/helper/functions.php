@@ -182,6 +182,10 @@ function think_filter(&$value){
         $value .= ' ';
     }
 }
+
+function cms_url($path=''){
+    return U($path,[],false,Yaf\Registry::get('config')->url->api->cms);
+}
 /**
  * URL组装 支持不同URL模式
  * @param string $url URL表达式，格式：'[模块/控制器/操作#锚点@域名]?参数1=值1&参数2=值2...'
@@ -213,7 +217,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
     }
 
     if($domain) {
-        $url   =  (is_ssl()?'https://':'http://').$domain.$url;
+        $url   =  $domain.$url;
     }
     return $url;
 }

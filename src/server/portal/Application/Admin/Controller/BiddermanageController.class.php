@@ -115,8 +115,74 @@ class BiddermanageController extends AdminController {
             $this->error('投标人信息不存在');
         }
         $user = M("user a")->join('t_user_auth b on a.id=b.user_id')->where(['id'=>$item['user_id']])->find();
+
         $this->assign('item', $item);
+
         $this->assign('user', $user);
+        $cert_list = M('qyzz_bidder_certification_certification')
+                        ->where(['bidder_apply_id'=>$item['id']])
+                        ->select();
+
+        $table_list = [
+            '投标人基本信息'=>[
+                'company_name'=>'公司名称',
+                'short_name'=>'公司简称',
+                'contact_mobile_num'=>'联系方式',
+                'email'=>'EMail',
+                'description'=>'公司简介',
+                'logo'=>[
+                    'img'=>'公司LOGO'
+                ],
+                'registered_capital'=>'注册资本'
+            ],
+            '企业法人信息'=>[
+                'legal_person'=>'法人代表',
+                'legal_person_idcard'=>'身份证号',
+                'legal_person_idcard_front_url'=>[
+                    'img'=>'身份证扫描件正面'
+                ],
+                'legal_person_idcard_back_url'=>[
+                    'img'=>'身份证扫描件反面'
+                ],
+                'legal_person_authority_book'=>[
+                    'img'=>'法人授权书'
+                ]
+            ],
+            '企业注册信息'=>[
+                'business_license_type'=>'营业执照类型',
+                'unified_social_credit_code'=>'统一社会信用代码',
+                'unified_social_credit_code_url'=>[
+                    'img'=>'统一社会信用代码扫描件'
+                ],
+                'business_license'=>'营业执照',
+                'business_license_url'=>[
+                    'img'=>'营业执照扫描件'
+                ],
+                'tax_registration_certificate'=>'税务登记证编号',
+                'tax_registration_certificate_url'=>[
+                    'img'=>'税务登记证扫描件'
+                ],
+                'org_code_certificate'=>'组织机构代码证编号',
+                'org_code_certificate_url'=>[
+                    'img'=>'组织机构代码证扫描件'
+                ],
+                'business_license_expire_time'=>'营业期限',
+                'reg_time'=>'注册时间',
+                'business_scope'=>'经营范围',
+                'address'=>'注册地址'
+            ],
+            '企业银行信息'=>[
+                'bank_name'=>'开户行',
+                'account_no'=>'银行账号',
+                'account_name'=>'开户名',
+                'tax_no'=>'税号',
+                'telephone'=>'联系电话',
+                'address2'=>'公司地址'
+            ],
+            '资质列表'=>$cert_list
+        ];
+        $this->assign('table_list',$table_list);
+
         $this->meta_title = '投标人详情';
         $this->display();
     }
@@ -192,8 +258,22 @@ class BiddermanageController extends AdminController {
             $data['registeredInfoCheck']['unified_social_credit_code_url'] = ['result'=>'OK#','msg'=>''];
             $data['registeredInfoCheck']['unified_social_credit_code'] = ['result'=>'OK#','msg'=>''];
         }
+        $certificationsCheck = I('certificationsCheck',[]);
+        $certificationsCheck_msg = I('certificationsCheck_msg',[]);
+
+        foreach($certificationsCheck as $cer_id=>$item){
+            $data['certificationsCheck'][] = [
+                'certificationApplyId'=>$cer_id,
+                'certificationApply'=>[
+                    'result'=>($item == 'Y') ? 'OK#' : 'FLS',
+                    'msg'=>$certificationsCheck_msg[$cer_id],
+                ]
+            ];
+        }
         $data['baseInfoCheck']['bidder_id']=I('post.id');
-        var_dump($data);
+
+//        var_dump($certificationsCheck_msg);
+//        var_dump($data);die;
         return $data;
     }
 }

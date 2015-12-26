@@ -12,8 +12,8 @@ if(check_resp($resp)){
             <div class="item ">
                 <div class="lab"><span class="red">*</span>答疑时间</div>
                 <div class="value">
-                    <input type="text" class="input1 datepicker wid160" placeholder="" name="startTime" value="<?=isset($info)?$info['startTime']:''?>"> 到
-                    <input type="text" class="input1 datepicker wid160" placeholder="" name="endTime" value="<?=isset($info)?$info['endTime']:''?>">
+                    <input type="text" class="input1 datepicker wid160" placeholder="" id="startTime" name="startTime" value="<?=isset($info)?$info['startTime']:''?>"> 到
+                    <input type="text" class="input1 datepicker wid160 after_time" placeholder="" name="endTime" value="<?=isset($info)?$info['endTime']:''?>" minDate="startTime" alert_text="答疑开始时间">
                 </div>
             </div>
             <div class="txt1"><span class="red">*</span>答疑方式 <span class="fz14 color5">（必填一种）</span></div>

@@ -244,30 +244,8 @@
             });
             return ret;
         }
-        /*
-         $(function (){
-         var colorbox_params = {
-         reposition:true,
-         scalePhotos:true,
-         scrolling:false,
-         previous:'<i class="icon-arrow-left"></i>',
-         next:'<i class="icon-arrow-right"></i>',
-         close:'<i class="glyphicon glyphicon-remove-circle bigger-160"></i>',
-         current:'{current} of {total}',
-         maxWidth:'100%',
-         maxHeight:'100%',
-         onOpen:function(){
-         document.body.style.overflow = 'hidden';
-         },
-         onClosed:function(){
-         document.body.style.overflow = 'auto';
-         },
-         onComplete:function(){
-         $.colorbox.resize();
-         }
-         };
+        //导航高亮
+        highlight_subnav('{:U('biddeemanage/verify')}');
 
-         $('.ace-thumbnails').colorbox(colorbox_params);
-         });*/
     </script>
 </block>

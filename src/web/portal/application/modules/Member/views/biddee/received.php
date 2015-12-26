@@ -4,7 +4,7 @@
 			require_once APP_PATH.'modules/Member/views/common/nav.php';
 			?>
 				<div class=" auto content">
-					<div class="tit4">《<?=$detail['fundName']?>》已付款款详情</div>
+					<div class="tit4">《<?=$projectName?>》已付款详情</div>
 					<div class="table charge_table  ">
 						<table>
 							<tbody><tr class="bg2 thead">

@@ -51,7 +51,7 @@
                                 <dd><a href="<?=U('/member/vip/bidIndex')?>">投标人会员</a></dd>
                             </dl>
                         </li>
-                        <li><a href="#">关于我们</a></li>
+                        <li><a href="<?=cms_url('detail/32')?>">关于我们</a></li>
                     </ul>
                 </div>
             </div>
@@ -68,13 +68,13 @@
             <div class="clear foot-cont">
                 <div class="left">
                     <div class="footnav">
-                        <a href="#">公司介绍</a>
-                        <a href="#">安全保障</a>
-                        <a href="#">媒体报道</a>
-                        <a href="#">社会责任</a>
-                        <a href="#">招贤纳士</a>
-                        <a href="#">帮助中心</a>
-                        <a href="#">联系我们</a>
+                        <a href="<?=cms_url('detail/32')?>">公司介绍</a>
+                        <a href="<?=cms_url('detail/52')?>">安全保障</a>
+                        <a href="<?=cms_url('about/media_report')?>">媒体报道</a>
+                        <a href="<?=cms_url('detail/35')?>">社会责任</a>
+                        <a href="<?=cms_url('detail/34')?>">招贤纳士</a>
+                        <a href="<?=cms_url('detail/51')?>">帮助中心</a>
+                        <a href="<?=cms_url('detail/33')?>">联系我们</a>
                     </div>
                     <div class="footer-link">
                         <a href="#">客服电话</a>

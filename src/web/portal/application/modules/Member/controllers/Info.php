@@ -100,7 +100,7 @@ class InfoController extends MemberController {
             if(check_resp($resp)) {
                 $this->success('修改成功！');
             }else{
-                $this->ajaxReturn(['status'=>999,'msg'=>isset($resp['errmsg']) ? $resp['errmsg'] : '修改手机号码失败，请重新再试！']);
+                $this->ajaxReturn(['status'=>999,'url'=>'','msg'=>isset($resp['errmsg']) ? $resp['errmsg'] : '修改手机号码失败，请重新再试！']);
             }
         }
         $this->error('提交方式不正确！');

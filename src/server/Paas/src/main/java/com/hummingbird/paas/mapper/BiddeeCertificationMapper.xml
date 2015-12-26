@@ -27,7 +27,14 @@
   </delete>
   <delete id="removeAllByBiddeeId" parameterType="java.lang.Integer" >
     delete from t_qyzz_biddee_certification
-    where biddee_id = #{biddeed,jdbcType=INTEGER}
+    where tenderer_id in (
+    	select id from t_qyzz_biddee
+    	where user_id in (
+    		select user_id from t_qyzz_biddee_certicate 
+    		where id = #{applyId}
+    	)
+    ) 
+    
   </delete>
   <insert id="insert" parameterType="com.hummingbird.paas.entity.BiddeeCertification" >
     insert into t_qyzz_biddee_certification (id, tenderer_id, certification_id, 

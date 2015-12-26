@@ -40,7 +40,7 @@
                     <div class="item">
                         <span class="lab"><span class="red">*</span> 充值时间</span>
                         <div class="auto value " >
-                            <input type="text" class="input1 datepicker date2" id="transferTime" name="transferTime" >
+                            <input type="text" class="input1 datepicker date2" id="transferTime" name="transferTime" maxDate="<?=date('Y-m-d',strtotime('+1 day'))?>">
                         </div>
                     </div>
                     <div class="item">
@@ -93,12 +93,8 @@
         </div>
     </div>
 </div>
-<block name="style">
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-</block>
 <block name="script">
-<script src="/js/jquery.datetimepicker.js"></script>
-
+<script src="/js/My97DatePicker/WdatePicker.js"></script>
 <script>
 $(function(){
     $("#left-menu .submenu:eq(3),#left-menu .submenu:eq(3) a:eq(1)").addClass('active');

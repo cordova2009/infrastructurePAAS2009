@@ -79,6 +79,15 @@
    	<result column="bid_amount" property="bidAmount" jdbcType="BIGINT" />
    	<result column="bid_open_date" property="bidOpenDate" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="QueryMyBuildingObjectListResultVO" type="com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO"  >
+   	<result column="object_id" property="objectId" jdbcType="VARCHAR" />
+   	<result column="object_name" property="objectName" jdbcType="VARCHAR" />
+   	<result column="winBidAmount" property="winBidAmount" jdbcType="BIGINT" />
+   	<result column="receivedAmount" property="receivedAmount" jdbcType="BIGINT" />
+   	<result column="willReceiveAmount" property="willReceiveAmount" jdbcType="BIGINT" />
+   	<result column="projectExpectStartDate" property="projectExpectStartDate" jdbcType="VARCHAR" />
+   	<result column="projectExpectPeriod" property="projectExpectPeriod" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="bid_Column_List" >
     a.object_id,a.object_name,a.industry_id,b.bid_amount,a.bid_open_date
   </sql>
@@ -193,23 +202,32 @@
    	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
     where  b.user_id = #{userId} and a.object_status = 'PUB' or a.object_status = 'REV'
   </select>
-  <select id="getMyBuildingObjectProjectPages" resultMap="MyBuildingObjectResultMap" >
-    select 
-    <include refid="My_Building_Column_List" />
-    from t_ztgl_object a
-   	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id  and b.status = 'OK#'
-		inner join t_gcgl_project d on d.object_id = a.object_id and d.bidder_id = b.id and d.status = 'OK'
-   	left join t_gcgl_project_payment_pay c on a.object_id = c.project_id and c.`status` = 'OK#'
-    limit #{begin},#{limit}
-  </select>
    <select id="getMyBuildingObjectProjectCount" resultType="int" >
     select 
     count(1)
     from t_ztgl_object a
-   	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id 
-   	left join t_gcgl_project_payment_pay c on a.object_id = c.project_id and c.`status` = 'OK#'
+   	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id  and b.status = 'OK#'
+   	inner JOIN t_ztgl_object_project_info pi ON a.object_id = pi.object_id
+	inner join t_gcgl_project d on d.object_id = a.object_id and d.bidder_id = b.id and d.status = 'OK#'
+   	left join t_gcgl_project_payment_pay c on d.project_id = c.project_id and c.`status` = 'OK#'
     where  b.user_id = #{userId} and a.object_status = 'SEL' 
   </select>
+  <select id="getMyBuildingObjectProjectPages" resultMap="QueryMyBuildingObjectListResultVO" >
+    select 
+   	a.object_id, a.object_name, win_bid_amount winBidAmount,ifnull(receivedAmount,0) receivedAmount
+   	,win_bid_amount-ifnull(receivedAmount,0) willReceiveAmount,
+   	pi.project_expect_period projectExpectPeriod,pi.project_expect_start_date projectExpectStartDate
+    from t_ztgl_object a
+   	inner join t_qyzz_bidder b  on a.win_bidder_id = b.id  and b.status = 'OK#'
+   	inner JOIN t_ztgl_object_project_info pi ON a.object_id = pi.object_id
+	inner join t_gcgl_project d on d.object_id = a.object_id and d.bidder_id = b.id and d.status = 'OK#'
+   	left join (select c1.project_id,ifnull(sum(ifnull(c1.amount,0)),0) receivedAmount from t_gcgl_project_payment_pay c1 where  c1.`status` = 'OK#' GROUP BY project_id) c on c.project_id = d.project_id
+   	where  b.user_id = #{userId} and a.object_status = 'SEL' 
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+    </if> 
+  </select>
+  
   <select id="getMyEndedObjectProjectPages" resultMap="MyEndedObjectResultMap" >
     select  <include refid="My_Ended_Column_List" />  
     from t_ztgl_object a inner join t_qyzz_biddee b on a.biddee_id = b.id

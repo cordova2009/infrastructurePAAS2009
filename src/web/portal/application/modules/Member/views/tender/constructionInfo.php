@@ -259,4 +259,5 @@ $('#constructionInfo ul input[type=text]').blur(function(){
         checkbox.click();
     }
 });
+var my_97_custom_settings = {minDate:'<?=date('Y-m-d',strtotime('+1 day'))?>'};
 </script>

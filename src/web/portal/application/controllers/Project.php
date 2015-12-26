@@ -27,7 +27,7 @@ class ProjectController extends MallController
             $curl = new Curl($this->config->url->api->paas);
             $resp = $curl->setData($data)->send('report/submitReport');
             if(check_resp($resp)) {
-                $this->success('保存成功！',U('/project/tenderlist'));
+                $this->success('保存成功！',U('/project/list'));
             }else{
                 $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
             }
@@ -38,18 +38,19 @@ class ProjectController extends MallController
      * 招标项目列表
      */
     public function listAction(){
-        $keyword = $this->getRequest()->getQuery('keyword');
-        $pageIndex = $this->getRequest()->getQuery('page', 0);
 
-        $tmp = str_replace(array(',', '、', ' '), ',', $keyword);
-        $keywords = explode(',', $tmp);
+        $keyword    = $this->getRequest()->getQuery('keyword');
+        $pageIndex  = $this->getRequest()->getQuery('page', 0);
 
-        $curl = new Curl();
-        $resp = $curl->setData([
-            'keywords' => $keywords,
-            'pageIndex' => $pageIndex,
-            'pageSize'=>  $this->pageSize
-        ])->send('tender/queryObjectList_homepage');
+        $tmp        = str_replace(array(',', '、', ' '), ',', $keyword);
+        $keywords   = explode(',', $tmp);
+
+        $curl       = new Curl();
+        $resp       = $curl->setData([
+                                'keywords'  => $keywords,
+                                'pageIndex' => $pageIndex,
+                                'pageSize'  =>  $this->pageSize
+                            ])->send('tender/queryObjectList_homepage');
 
         $list = [];
         if(check_resp($resp)){
@@ -101,11 +102,10 @@ class ProjectController extends MallController
                                             'objectId'=> $objectId
                                         ])
                             ->send('bid/queryObjectDetail');
-
-
         if(!check_resp($resp)) {
             $this->error('项目不存在！');
         }
+
         $info                   = $resp['body'];
         $survey                 = $resp['body']['survey'];
         $baseInfo               = $resp['body']['detail']['baseInfo'];
@@ -141,6 +141,41 @@ class ProjectController extends MallController
         $this->assign('answerQuestion', $answerQuestion);
         $this->assign('dateRequirementInfo', $dateRequirementInfo);
         $this->assign('bidEvaluationTypeInfo', $bidEvaluationTypeInfo);
+
+        $resp = $curl->setData(new stdClass())->send('tender/getIndustryList');
+        if(!check_resp($resp)) {
+            $this->error($resp['errmsg']);
+        }
+        $industry_list = [];
+        foreach($resp['list'] as $v){
+            $industry_list[$v['industryId']] = ['icon'=>$v['industryIcon'],'name'=>$v['industryName']];
+        }
+        $this->assign('industry_list',$industry_list);
+
     }
-    
+    public function informationListAction(){
+        /*"body":{
+            "token":"12345",
+            "pageIndex":1,
+            "pageSize":10,
+            "status":"CRT"
+        }*/
+        $pageSize = 10;
+        $status = 'OK#';
+        $curl1 = new Curl($this->config->url->api->paas);
+        $pageIndex = $this->getRequest()->getQuery('page', 0);
+        $resp2 = $curl1->setData([
+            'pageSize'=> $pageSize,
+            'pageIndex' => ($pageIndex==0?1:$pageIndex),
+            'status'=> $status
+        ])->send('userInformation/queryUserInformationIndexPage');
+
+        if(check_resp($resp2)) {
+            $list = $resp2['list'];
+            $page = $this->getPagination($resp2['total'], $pageSize);
+            $this->assign('page', $page);
+        }
+        $this->assign('list',$list);
+        $this->meta_title = '项目信息列表';
+    }
 }

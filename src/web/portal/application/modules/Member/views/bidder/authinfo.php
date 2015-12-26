@@ -92,7 +92,7 @@
                                 </p>
                                 <p>
                                     <span class="right wid90">
-                                        <?=price_format($detail['tradeInfo']['tradeAmount']['status'])?>
+                                        <?=price_format($detail['tradeInfo']['tradeAmount']['status'])?>元
                                     </span>交易金额
                                 </p>
                             </td>

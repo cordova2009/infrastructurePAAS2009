@@ -151,4 +151,16 @@
       frozen_sum = #{frozenSum,jdbcType=BIGINT}
     where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
+  <insert id="createAccount" parameterType="com.hummingbird.capital.entity.ProjectPaymentAccount" >
+      insert into t_project_payment_account (account_id, user_id, signature, 
+      insert_time, update_time, remark, 
+      status, remaining_sum, frozen_sum
+      )
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remainingSum,jdbcType=BIGINT}, #{frozenSum,jdbcType=BIGINT}
+      )
+      
+      
+  </insert>
 </mapper>

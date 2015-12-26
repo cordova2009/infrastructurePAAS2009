@@ -239,6 +239,9 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .toubiaoren{color: #ff9b09;background: #fef6e8}
 .toubiaoren .tag-txt2{ width: 120px;text-align: center;font-size: 24px;line-height: 40px;vertical-align: middle;padding-top: 10px;}
 
+.projectinfo{color: #f02b2b;background: #ffe3e3}
+.projectinfo .tag-txt2{ width: 120px;text-align: center;font-size: 24px;line-height: 40px;vertical-align: middle;padding-top: 10px;}
+
 .table-bord .thead{border-bottom: none;}
 .table-bord tr{border-bottom: #ccc 1px solid;}
 .zhongbiao-result .txt1{font-size: 20px;color: #555;padding: 38px 0 5px;}
@@ -415,7 +418,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .charge_table td{padding-left:20px;padding-right: 20px;}
 .charge_table .toubiao{color: #fff;background: #5cbe5c;height: 25px;line-height: 25px;border-radius: 10px;width: 64px;font-size: 15px;display: inline-block;}
 
-.tab_tit ul  li{background: #e7e7e7;float: left;width: 50%;text-align: center;height: 52px;line-height: 52px;border-top: #e6e6e6 1px solid;}
+.tab_tit ul  li{background: #e7e7e7;float: left;width: 50%;text-align: center;height: 52px;line-height: 52px;border-top: #e6e6e6 1px solid; cursor: pointer;}
 .tab_tit ul  li.on{background: #fff;position: relative;}
 .tab_tit ul  li.on:before{position: absolute;content: "";left: 0;top:0;height: 5px;background: #1b8fff;width: 100%;}
 .card_info {padding: 70px 170px;}
@@ -611,6 +614,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .zhengshu ul li{padding-left: 70px;width: 220px;float: left;margin-top: 30px;}
 .i-check{width: 24px;height: 22px;background-position: 0 -321px;}
 .tips2{color: #ff9b09;padding-left: 5px;line-height: 30px;}
+.tips2 a{color: #ff9b09;}
 .on.i-check{width: 24px;height: 22px;background-position: -24px -321px;}
 
 .zhengshu2{padding: 30px 0;}
@@ -651,8 +655,7 @@ body{ font-size:14px;  font-family: "Microsoft Yahei", Arial, Helvetica, sans-se
 .gcjbxx .item{margin-top: 25px;line-height: 43px}
 .gcjbxx .input1{height: 41px;line-height: 41px;width: 350px;}
 
-.textarea2{border: #c5c5c5 1px solid;width: 370px;padding: 10px;height:110px;}
-.gcjbxx .textarea2{ width: 340px;}
+.textarea2{border: #c5c5c5 1px solid;width: 350px;padding: 5px;height:110px;}
 
 .gqyq .input1{width: 355px;}
 .gqyq .width330{width: 334px;background: #fff;}

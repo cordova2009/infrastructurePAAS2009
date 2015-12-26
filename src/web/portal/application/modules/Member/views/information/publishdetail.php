@@ -20,11 +20,11 @@
                 </tr>
                 <tr>
                     <td class="lab">工期</td>
-                    <td class="value"><?=isset($result['projectPeriod'])?$result['projectPeriod']:'未填写'?></td>
+                    <td class="value"><?=isset($result['projectPeriod'])?$result['projectPeriod'].'天':'未填写'?></td>
                 </tr>
                 <tr class="tr-bg1">
                     <td class="lab">造价</td>
-                    <td class="value"><?=isset($result['objectAmount'])?$result['objectAmount']:'未填写'?></td>
+                    <td class="value"><?=isset($result['objectAmount'])?$result['objectAmount'].'元':'未填写'?></td>
                 </tr>
                 <tr>
                     <td class="lab">阶段</td>
@@ -42,59 +42,10 @@
                     <td class="lab">甲方</td>
                     <td class="value"><?=isset($result['employer'])?$result['employer']:'未填写'?></td>
                 </tr>
-                <tr>
-                    <td class="lab">评论</td>
-                    <td class="value">
-                        <table>
-                            <?php foreach($result['comments'] as $item):  ?>
-                                <tr>
-                                    <td class="text-left"><?=$item['replierName']?>
 
-                                        <br> <?= date('Y-m-d', strtotime($item['replyTime'])) ?></td>
-                                    <td class="value"><?=$item['replyContent']?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="lab"></td>
-                    <td class="value">
-                        <div class="left clear">
-                            <?=$user['nickname']?>
-                            <br>
-                            <span >
-                            <?= date('Y-m-d',time()) ?>
-                            </span>
-                        </div>
-                        <div class="left">
-                            <form action="<?=U('/member/Information/publishDetail')?>" method="post" class="ajax-form">
-                            <input type="hidden" name="informationId" value="<?=$result['informationId']?>">
-                            <textarea id="" name="replyContent" class="textarea"></textarea>
-                            <br >
-                            <span class="right">
-                                <button type="submit" class="down" >发表评论</button>
-                            </span>
-                            </form>
-                        </div>
-                        <div class="right" style="width: 200px;">
-                    </td>
-                </tr>
 
             </table>
         </div>
     </div>
     <!--list-->
 </div>
-<block>
-    <link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-</block>
-<block name="script">
-    <script>
-        $(function(){
-
-        })
-
-    </script>
-
-</block>

@@ -12,6 +12,7 @@ import com.hummingbird.paas.vo.MyBuildingObjectProject;
 import com.hummingbird.paas.vo.MyEndedObjectProject;
 import com.hummingbird.paas.vo.MyLoseObjectProject;
 import com.hummingbird.paas.vo.QueryMyBidObjectListResultVO;
+import com.hummingbird.paas.vo.QueryMyBuildingObjectListResultVO;
 
 public interface ObjectProjectMapper {
     /**
@@ -51,7 +52,8 @@ public interface ObjectProjectMapper {
     List<ObjectProject> getMyObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
     int getMyObjectProjectCount(@Param("userId")Integer userId);
     
-    List<MyBuildingObjectProject> getMyBuildingObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);
+    List<QueryMyBuildingObjectListResultVO> getMyBuildingObjectProjectPages(@Param("userId")Integer userId,@Param("page") Pagingnation page);
+    
     int getMyBuildingObjectProjectCount(@Param("userId")Integer userId);
     
     List<MyEndedObjectProject> getMyEndedObjectProjectPages(@Param("userId")Integer userId,@Param("begin") int begin ,@Param("limit") int limit);

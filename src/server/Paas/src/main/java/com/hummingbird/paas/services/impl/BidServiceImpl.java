@@ -63,6 +63,7 @@ import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.FeeRateMapper;
 import com.hummingbird.paas.mapper.InviteBidderMapper;
 import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
+import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondRecordMapper;
 import com.hummingbird.paas.mapper.ObjectMapper;
@@ -183,7 +184,9 @@ public class BidServiceImpl implements BidService {
 	ProjectEvaluationBidderMapper evaluationBidderDao;
 	@Autowired
 	BidAttachmentMapper baDao;
-
+	@Autowired
+	ObjectAttachmentMapper objectAttachmentDao;
+	
 	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
 	// Exception.class, value = "txManager")
 	/**
@@ -481,6 +484,11 @@ public class BidServiceImpl implements BidService {
 		}
 		dv.setProjectRequirementInfo(qodpr);
 		qodr.setDetail(dv);
+		
+		List<ObjectAttachment> objectAttachmentList = objectAttachmentDao.selectTenderFileByObjectId(objectId);
+		if(CollectionUtils.isNotEmpty(objectAttachmentList)){
+			qodr.setTenderFile(objectAttachmentList.get(0).getAttachmentUrl());
+		}
 		if (log.isDebugEnabled()) {
 			log.debug("查询招标项目详情完成:" + qodr);
 		}

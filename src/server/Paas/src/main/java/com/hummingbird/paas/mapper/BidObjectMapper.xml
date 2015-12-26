@@ -75,6 +75,8 @@
     <result column="project_expect_end_date" property="projectExpectEndDate" jdbcType="VARCHAR" />
     <result column="project_expect_period" property="projectExpectPeriod" jdbcType="INTEGER" />
     <result column="evaluation_amount_visiable" property="evaluationAmountVisiable" jdbcType="VARCHAR" />
+    <result column="industry_name" property="industryName" jdbcType="VARCHAR" />
+    <result column="industry_icon" property="industryIcon" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="IndexObjectListResultMap" type="com.hummingbird.paas.vo.QueryIndexObjectListResult" >
     <result column="object_id" property="objectId" jdbcType="VARCHAR" />
@@ -100,6 +102,8 @@
     <result column="biddee" property="biddeeName" jdbcType="VARCHAR" />
     <result column="bidder" property="bidderName" jdbcType="VARCHAR" />
     <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
+    <result column="industry_name" property="industryName" jdbcType="VARCHAR" />
+    <result column="industry_icon" property="industryIcon" jdbcType="VARCHAR" />
     </resultMap>
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
@@ -183,6 +187,7 @@
      inner join t_ztgl_object_baseinfo d on d.object_id = a.object_id
      inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
      inner JOIN t_qyzz_biddee c on c.id = a.biddee_id
+     
       where c.user_id =#{user_id,jdbcType=INTEGER}  and (a.object_status = 'PUB' OR a.object_status = 'REV')
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
@@ -224,8 +229,15 @@
        </if>    
   </select>
   <select id="selectTenderObjectList" resultMap="TenderObjectListResultMap"  >
-    select a.object_id,a.object_name,a.evaluation_amount,a.evaluation_amount_visiable,IFNULL(e.level_name,'A')level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
-       inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
+    select a.object_id,a.object_name,a.evaluation_amount,a.evaluation_amount_visiable,IFNULL(e.level_name,'A')level_name,c.company_name,b.project_expect_period,b.project_expect_start_date,b.project_expect_end_date  
+    	,i.industry_icon ,i.industry_name
+       from t_ztgl_object a  
+       inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id 
+       
+       inner JOIN t_qyzz_biddee c on c.id = a.biddee_id 
+       left join t_base_industry i on i.id = a.industry_id 
+       LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
+       LEFT JOIN t_xyjf_score_level e on (d.score &gt;e.min_score and d.score &lt;e.max_score)
        where  a.object_status != 'CRT' 
        <if test="keywords != null">
             and 
@@ -234,8 +246,8 @@
 		  </foreach>
        </if>
        <if test="page != null" >
-    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
-    </if> 
+    		limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+    	</if> 
   </select>
    <select id="selectTotalIndexObjectList" resultType="int">
     select count(a.object_id) from t_ztgl_object a  inner JOIN t_ztgl_object_project_info b ON a.object_id = b.object_id inner JOIN t_qyzz_biddee c on c.id = a.biddee_id LEFT JOIN t_xyjf_biddee_bid_credit_score d on d.object_id = a.object_id 
@@ -279,9 +291,10 @@
 		 </if>
   </select>
    <select id="selectBidIndexList" resultMap="QueryBidIndexListResultMap">
-    select a.object_id,a.object_name,c.short_name biddee,d.short_name bidder,a.win_bid_amount 
+    select a.object_id,a.object_name,c.short_name biddee,d.short_name bidder,a.win_bid_amount ,i.industry_icon ,i.industry_name
     	from t_ztgl_object a 
 		INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id 
+		left join t_base_industry i on i.id = a.industry_id 
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 

@@ -39,6 +39,7 @@
    <resultMap id="InformationCountResultMap" type="com.hummingbird.paas.vo.QueryProjectSurveyResultVO" >
     <result column="published_count" property="publishedCount" jdbcType="INTEGER" />
     <result column="published_man_count" property="publishedManCount" jdbcType="INTEGER" />
+    <result column="sum_amount" property="sumAmount" jdbcType="DECIMAL" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -47,9 +48,10 @@
     auditor, audit_time
   </sql>
    <select id="queryUserInformationIndexSurvey" resultMap="InformationCountResultMap" >
-   select  count(*) as publishedCount,count( distinct user_id) as publishedManCount 
+   select  count(*) as publishedCount,count( distinct user_id) as publishedManCount ,
+    sum(cast(object_amount as DECIMAL(18))) as sumAmount
 	from t_zxgl_user_information 
-	where status = "OK#"
+	where status = "OK#"  
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

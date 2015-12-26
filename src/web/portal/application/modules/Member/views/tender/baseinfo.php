@@ -91,9 +91,6 @@
     </div>
     <!--list-->
 </div>
-<block>
-<link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
-</block>
 <block name="script">
 <script>
 $(function(){
@@ -195,6 +192,6 @@ function step_toggle(step){
 }
 </script>
 
-<script src="/js/jquery.datetimepicker.js"></script>
+<script src="/js/My97DatePicker/WdatePicker.js"></script>
 <?php require_once __DIR__.'/../common/upload.js.php';?>
 </block>

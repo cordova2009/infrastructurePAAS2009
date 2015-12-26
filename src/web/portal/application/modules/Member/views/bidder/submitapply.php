@@ -96,7 +96,7 @@
 					</tbody></table>
 			
 					<div class="text-center agreen">
-						<p class="checklist"><i class="ico i-check"></i> 我已阅读并同意《xxxxxx协议》</p>
+						<p class="checklist"><i class="ico i-check"></i> <a href="<?=cms_url('about/54')?>">我已阅读并同意《投标人认证协议》</a></p>
 						<div class="padv20">
 							<a href="<?=U('/member/bidder/applyfor')?>" class="btn-green2 bg-grey ">返回</a>
 							<input type="submit" class="btn-green2 marl150" value="确定">

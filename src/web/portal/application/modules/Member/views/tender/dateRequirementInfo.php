@@ -14,20 +14,20 @@ if(check_resp($resp)){
             <div class="item ">
                 <div class="lab"><span class="red">*</span>公告时间</div>
                 <div class="value">
-                    <input type="text" class="input1 datepicker wid160" placeholder="" name="announcementBeginTime" value="<?=isset($info)?$info['announcementBeginTime']:''?>"> 到
-                    <input type="text" class="input1 datepicker wid160" placeholder="" name="announcementEndTime" value="<?=isset($info)?$info['announcementEndTime']:''?>">
+                    <input type="text" class="input1 datepicker wid160" placeholder="" id="announcementBeginTime" name="announcementBeginTime" value="<?=isset($info)?$info['announcementBeginTime']:''?>"> 到
+                    <input type="text" class="input1 datepicker wid160 after_time" placeholder="" name="announcementEndTime" value="<?=isset($info)?$info['announcementEndTime']:''?>" minDate="announcementBeginTime" alert_text="公告开始时间">
                 </div>
             </div>
             <div class="item ">
                 <div class="lab"><span class="red">*</span>投标截止时间</div>
                 <div class="value">
-                    <input type="text" class="input1 datepicker" placeholder="" name="biddingEndTime" value="<?=isset($info)?$info['biddingEndTime']:''?>">
+                    <input type="text" class="input1 datepicker after_time" placeholder="" id="biddingEndTime" name="biddingEndTime" value="<?=isset($info)?$info['biddingEndTime']:''?>" minDate="announcementBeginTime" alert_text="公告开始时间">
                 </div>
             </div>
             <div class="item ">
                 <div class="lab"><span class="red">*</span>开标时间</div>
                 <div class="value">
-                    <input type="text" class="input1 datepicker" placeholder="" name="bidOpenDate" value="<?=isset($info)?$info['bidOpenDate']:''?>">
+                    <input type="text" class="input1 datepicker after_time" placeholder="" name="bidOpenDate" value="<?=isset($info)?$info['bidOpenDate']:''?>" minDate="biddingEndTime" alert_text="投标截止时间">
                 </div>
             </div>
 

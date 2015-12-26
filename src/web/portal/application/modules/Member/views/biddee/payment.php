@@ -30,6 +30,22 @@
 
 						<div class="padv40 charge_form">
 						<form action="<?=U('payment')?>" method="post" class="ajax-form" >
+                            <div class="item">
+                                <span class="lab"><span class="red">*</span> 付款项目名称</span>
+                                <div class="auto value ">
+									<span class="yuanbox">
+										<?=$objectName?>
+									</span>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <span class="lab"><span class="red">*</span> 当前付款期数</span>
+                                <div class="auto value ">
+									<span class="yuanbox">
+										<?=$nextPeriod?>
+									</span>
+                                </div>
+                            </div>
 							<div class="item">
 								<span class="lab"><span class="red">*</span> 付款金额</span>
 								<div class="auto value ">
@@ -86,14 +102,9 @@
 				</div>
 			</div>
 		</div>
-<link href="/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
 <block name="script">
-<script src="/js/jquery.datetimepicker.js"></script>
-<script src="/js/upload/vendor/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="/js/upload/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="/js/upload/jquery.fileupload.js"></script>
+<script src="/js/My97DatePicker/WdatePicker.js"></script>
+<?php require_once __DIR__.'/../common/upload.js.php';?>
 <script>
 $(function(){
     $("#left-menu .submenu:eq(1),#left-menu .submenu:eq(1) a:eq(2)").addClass('active');

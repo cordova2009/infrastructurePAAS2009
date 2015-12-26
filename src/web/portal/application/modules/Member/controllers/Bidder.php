@@ -90,21 +90,16 @@ class BidderController extends MemberController{
             $curl = new Curl($this->config->url->api->paas);
             $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/applay');
             if(check_resp($resp)) {
-                $this->success('保存成功！',U('/member/bidder/authInfo'));
+                $this->success($resp['errmsg'],U('/member/bidder/authInfo'));
             }else{
-                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '数据保存失败，请重新再试！');
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '提交投标人资质申请失败，请重新再试或联系客服客服人员！');
             }
         }
         $token = isset($this->user['token'])?$this->user['token']:'';
         $curl = new Curl($this->config->url->api->paas);
         $resp = $curl->setData(['token'=>$token])->send('myBidder/authInfo/getApplication');
         if(!check_resp($resp)) {
-            if($resp['errcode']==1)
-            {
-                $this->redirect(U('/login'));
-                return;
-            }
-            $this->error($resp['errmsg']);
+            $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '查询投标人信息失败，请重新再试或联系客服人员！');
         }
         $this->assign('bank',$resp['bankInfo']);
         $this->assign('base',$resp['baseInfo']);
@@ -393,6 +388,7 @@ class BidderController extends MemberController{
         $page = $this->getPagination(isset($resp['total'])?$resp['total']:'0', $this->pageSize);
         $ret = $this->getIndustrys();
         $html = $this->render($type,['page'=>$page,$type=>$resp['list'],'industry'=>$ret]);
+
         $this->ajaxReturn(['errcode'=>0,'errmsg'=>'OK','html'=>$html]);
     }
     private function getIndustrys()
@@ -463,11 +459,12 @@ class BidderController extends MemberController{
         $id = I('id');
         $token = $this->user['token'];
         $curl = new Curl($this->config->url->api->paas);
-        $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myIncome/queryWillReceiveAmountDetail');
+        $resp = $curl->setData(['token'=>$token,'objectId'=>$id])->send('myIncome/queryReceivedAmountDetail');
         if(!check_resp($resp)) {
             $this->error($resp['errmsg']);
         }
         $this->assign('list',$resp['list']);
+        $this->assign('projectName',$resp['projectName']);
     }
     public function willreceiveAction()
     {
@@ -479,6 +476,7 @@ class BidderController extends MemberController{
             $this->error($resp['errmsg']);
         }
         $this->assign('list',$resp['list']);
+        $this->assign('projectName',$resp['projectName']);
     }
     public function evaluateAction()
     {
@@ -505,4 +503,96 @@ class BidderController extends MemberController{
         }
         $this->assign('evaluate',$resp['evaluateInfo']);
     }
+
+    public function withdrawalsApplyAction(){
+
+        $curl1 = new Curl($this->config->url->api->capital);
+
+        $resp2 = $curl1->setData(['token'=>$this->user['token']])
+            ->send('capitalManage/queryProjectPaymentAccount');
+
+        if(check_resp($resp2)) {
+            $account = $resp2['account'];
+        }
+        $this->assign('account',$account);
+
+        $curl2 = new Curl($this->config->url->api->user);
+
+        $resp = $curl2->setData(['token'=>$this->user['token']])
+            ->send('userCenter/getBankInfoList');
+
+        $bankInfo = [
+            'BeebankInfo'=>[],
+            'BerbankInfo'=>[],
+        ];
+        if(check_resp($resp)) {
+            $bankInfo = $resp;
+        }
+        if(!empty($bankInfo['BerbankInfo'])){
+            $BerbankInfo = $bankInfo['BerbankInfo'][0]['bank'].' '.$bankInfo['BerbankInfo'][0]['accountId'];
+            $BerbankId = $bankInfo['BerbankInfo'][0]['bankId'];
+
+        }else{
+            $BerbankInfo = '您还没有认证投标人!';
+            $BerbankId = 0;
+        }
+        if(!empty($bankInfo['BeebankInfo'])){
+            $BeebankInfo = $bankInfo['BeebankInfo'][0]['bank'].' '.$bankInfo['BeebankInfo'][0]['accountId'];
+            $BeebankId = $bankInfo['BeebankInfo'][0]['bankId'];
+
+        }else{
+            $BeebankInfo = '您还没有认证招标人!';
+            $BeebankId = 0;
+        }
+        // var_dump($BeebankId); die;
+        $this->assign('BerbankInfo',$BerbankInfo);
+        $this->assign('BerbankId',$BerbankId);
+        $this->assign('BeebankInfo',$BeebankInfo);
+        $this->assign('BeebankId',$BeebankId);
+        $withdrewalsTime=date("Y-m-d", strtotime("+2 day"));
+        $this->assign('withdrewalsTime',$withdrewalsTime);
+        if(IS_POST){
+            /* {"app":{"appId":"paas","timeStamp":"TIMESTAMP",  "nonce":"NONCE", "signature":"21aa0011472249b4292e81504f3917bd"},
+                "body":{"token":"96c5f0e5e3c52fa0fc632aaa30d4fb85",
+                "amount":100000,
+                "bankId":23,
+                "tradePassword":"br99T8ulqDxiZ09g77KnmEd3sgNcwIZPWR87EKrFvcf+uVm31GQvyw=="
+            }}*/
+            $data = ['token'=>$this->user['token']];
+            $data['bankId'] = I('bankId');
+            if($data['bankId']==0){
+                $this->error('开户行不正确！');
+            }
+            $data['amount'] = I('amount');
+
+            if(empty($data['amount'])){
+                $this->error('提现金额不能为空！');
+            }
+            if( is_double($data['amount'])&&$data['amount']>0&&$data['amount']<=($account['remainingSum']/100)){
+                $this->error('提现金额必须大于0！小于等于可用余额');
+            }
+            $data['amount']=$data['amount']*100;
+            $data['tradePassword'] = encrypt(md5(I('tradePassword')),$this->config->api->app->appKey);
+            if(empty($data['tradePassword'])){
+                $this->error('交易密码不能为空！');
+            }
+
+            $curl3 = new Curl($this->config->url->api->capital);
+
+            $resp = $curl3->setData($data)->send('/capitalManage/projectPaymentWithdrawalsApply');
+
+            if(check_resp($resp)) {
+
+                $this->success('保存成功！',U('/member/capital/withdrawalsList'));
+            }else{
+                $this->error(isset($resp['errmsg']) ? $resp['errmsg'] : '提现申请失败，请重新再试！');
+            }
+
+            $this->error(var_export($data,true));
+        }
+
+        $this->meta_title = '提现申请';
+
+    }
+
 }

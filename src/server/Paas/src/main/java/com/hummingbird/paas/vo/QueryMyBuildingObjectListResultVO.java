@@ -15,7 +15,7 @@ public class QueryMyBuildingObjectListResultVO {
 //    "projectExpectStartDate":"2015-06-12",
 //    "projectExpectPeriod":300
 	private String objectId;
-	private String objetName;
+	private String objectName;
 	private Long winBidAmount;
 	private Long receivedAmount;
 	private Long willReceiveAmount;
@@ -28,10 +28,11 @@ public class QueryMyBuildingObjectListResultVO {
 		return objectId;
 	}
 	/**
+	 * 此方法写错了方法名,为了避免php调用出错,而保留这个
 	 * @return the objetName
 	 */
 	public String getObjetName() {
-		return objetName;
+		return objectName;
 	}
 	/**
 	 * @return the winBidAmount
@@ -70,12 +71,6 @@ public class QueryMyBuildingObjectListResultVO {
 		this.objectId = objectId;
 	}
 	/**
-	 * @param objetName the objetName to set
-	 */
-	public void setObjetName(String objetName) {
-		this.objetName = objetName;
-	}
-	/**
 	 * @param winBidAmount the winBidAmount to set
 	 */
 	public void setWinBidAmount(Long winBidAmount) {
@@ -104,6 +99,18 @@ public class QueryMyBuildingObjectListResultVO {
 	 */
 	public void setProjectExpectPeriod(Integer projectExpectPeriod) {
 		this.projectExpectPeriod = projectExpectPeriod;
+	}
+	/**
+	 * #{bare_field_comment} 
+	 */
+	public String getObjectName() {
+		return objectName;
+	}
+	/**
+	 * #{bare_field_comment} 
+	 */
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
 	}
 	
 	

@@ -149,6 +149,6 @@ public interface MyBidderService {
 	 * @throws BusinessException
 	 */
 	
-	public Boolean checkApplication(String appId, BidderAuditBodyInfo body, Integer bidder_id) throws BusinessException;
+	public String checkApplication(String appId, BidderAuditBodyInfo body, Integer bidder_id) throws BusinessException;
 	
 }

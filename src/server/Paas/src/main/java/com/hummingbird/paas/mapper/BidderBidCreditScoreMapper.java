@@ -32,4 +32,8 @@ public interface BidderBidCreditScoreMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidderBidCreditScore record);
+    /**
+     * 根据投标人id计算积分总和
+     */
+    int sumScoreByBidderId(Integer bidder_id);
 }

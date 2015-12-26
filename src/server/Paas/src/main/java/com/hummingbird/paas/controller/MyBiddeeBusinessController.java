@@ -38,6 +38,7 @@ import com.hummingbird.commonbiz.exception.TokenException;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
 import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.AppLog;
+import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeBankAduit;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
@@ -51,9 +52,11 @@ import com.hummingbird.paas.mapper.BiddeeBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
+import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.services.TokenService;
+import com.hummingbird.paas.util.IntegerUtil;
 import com.hummingbird.paas.vo.BiddeeAuditInfoVO;
 import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
@@ -86,6 +89,8 @@ public class MyBiddeeBusinessController extends BaseController  {
 	protected BidObjectMapper bidObjectDao;
 	@Autowired
 	protected ScoreLevelMapper scoreLevelDao;
+	@Autowired
+	protected BiddeeMapper biddeeDao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
@@ -131,7 +136,8 @@ public class MyBiddeeBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 				BiddeeCerticate   biddee = biddeeCerticateDao.selectByUserId(token.getUserId());
-				
+				Biddee   sbiddee = biddeeDao.selectByUserId(token.getUserId());
+				IntegerUtil ui = new IntegerUtil();
 				Map overall= new HashMap();//积分和信用等级信息
 				Map detail= new HashMap();//详细信息
 				Map baseInof= new HashMap();//基础信息
@@ -166,7 +172,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 					 bba = biddeeBankAduitDao.selectByBcId(biddee.getId());
 					 
 					//1.个人状态、积分信息
-					 personalInfo.setCreditScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					 personalInfo.setCreditScore(aa==null?0:ui.getRegulaInt(aa.getCreditScore()));
 					 if("APY".equalsIgnoreCase(biddee.getStatus())){
 						 personalInfo.setStatus("待审核");
 					 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
@@ -182,7 +188,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						baseInof.put("personalInfo", personalInfo);
 						detail.put("baseInof", baseInof);
 //						baseInof.clear();
-						baseInfo.setCreditScore(aa==null?0:(aa.getBaseinfoCreditScore()!=null?aa.getBaseinfoCreditScore():0));
+						baseInfo.setCreditScore(aa==null?0:ui.getRegulaInt(aa.getBaseinfoCreditScore()));
 						//2.基本状态、积分信息
 						if("APY".equalsIgnoreCase(biddee.getStatus())){
 							baseInfo.setStatus("待审核");
@@ -210,7 +216,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 								}
 						 }
 						
-						legalPersonInfo.setCreditScore(aa==null?0:(aa.getLegalPersonInfo()!=null?aa.getLegalPersonInfo():0));
+						legalPersonInfo.setCreditScore(aa==null?0:ui.getRegulaInt(aa.getLegalPersonInfo()));
 						myBiddeeInfo.put("legalPersonInfo", legalPersonInfo);
 						//4.公司注册状态、积分信息
 						if("APY".equalsIgnoreCase(biddee.getStatus())){
@@ -225,7 +231,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 								}
 						 }
 						
-						companyRegisteredInfo.setCreditScore(aa==null?0:(aa.getCompanyRegisteredInfo()!=null?aa.getCompanyRegisteredInfo():0));
+						companyRegisteredInfo.setCreditScore(aa==null?0:ui.getRegulaInt(aa.getCompanyRegisteredInfo()));
 						myBiddeeInfo.put("companyRegisteredInfo", companyRegisteredInfo);
 						//5.开户行 状态、积分信息
 						if("APY".equalsIgnoreCase(biddee.getStatus())){
@@ -248,19 +254,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 								}
 						 }
 						
-						bankInfo.setCreditScore(aa==null?0:(aa.getBankInfo()!=null?aa.getBankInfo():0));
+						bankInfo.setCreditScore(aa==null?0:ui.getRegulaInt(aa.getBankInfo()));
 						myBiddeeInfo.put("bankInfo", bankInfo);
-						QueryObjectIndexSurveyResult bis = bidObjectDao.selectObjectIndexSurvey();
-						if(bis != null){
-							biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
-							biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
-							tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
-							tradeAmount.setCreditScore(20);
-						}else{
-							biddeeNum.setStatus("0");
-							biddeeNum.setCreditScore(0);//按照次数乘以10
-							tradeAmount.setStatus("0");
-							tradeAmount.setCreditScore(0);
+						biddeeNum.setStatus("0");
+						biddeeNum.setCreditScore(0);//按照次数乘以10
+						tradeAmount.setStatus("0");
+						tradeAmount.setCreditScore(0);
+						
+						if(sbiddee != null){
+							QueryObjectIndexSurveyResult bis = bidObjectDao.selectMyObjectIndexSurvey(sbiddee.getId());
+							int objectScore = biddeeBidCreditScoreDao.sumScoreByBiddeeId(aa.getTendererId());
+							if(bis != null){
+								biddeeNum.setStatus(ObjectUtils.toString(ui.getRegulaInt(bis.getObjectNum())));
+								biddeeNum.setCreditScore(ui.getRegulaInt(objectScore));//按照次数乘以10
+								tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+								tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+							}
 						}
 						
 						tradeInfo.put("biddeeNum", biddeeNum);
@@ -270,7 +279,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						detail.put("myBiddeeInfo", myBiddeeInfo);
 						detail.put("tradeInfo", tradeInfo);
 					
-					overall.put("creditScore", aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
+					overall.put("creditScore", aa==null?0:ui.getRegulaInt(aa.getCreditScore()));
 					
 				if(bb!= null){
 					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
@@ -302,18 +311,22 @@ public class MyBiddeeBusinessController extends BaseController  {
 				
 				myBiddeeInfo.put("bankInfo", ba);
 //				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
-				QueryObjectIndexSurveyResult bis = bidObjectDao.selectObjectIndexSurvey();
-				if(bis != null){
-					biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
-					biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
-					tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
-					tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
-				}else{
-					biddeeNum.setStatus("0");
-					biddeeNum.setCreditScore(0);//按照次数乘以10
-					tradeAmount.setStatus("0");
-					tradeAmount.setCreditScore(0);
-				}
+				
+				biddeeNum.setStatus("0");
+				biddeeNum.setCreditScore(0);//按照次数乘以10
+				tradeAmount.setStatus("0");
+				tradeAmount.setCreditScore(0);
+				
+//				if(sbiddee != null){
+//					QueryObjectIndexSurveyResult bis = bidObjectDao.selectMyObjectIndexSurvey(sbiddee.getId());
+//					if(bis != null){
+//						biddeeNum.setStatus(ObjectUtils.toString(bis.getObjectNum()));
+//						biddeeNum.setCreditScore(bis.getObjectNum()*10);//按照次数乘以10
+//						tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
+//						tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
+//					}
+//				}
+				
 				
 				tradeInfo.put("biddeeNum", biddeeNum);
 				
@@ -1062,13 +1075,18 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 		
 		try {
-			boolean flag = false;
+//			boolean flag = false;
 			BiddeeBaseInfoCheck bic = transorder.getBody().getBaseInfoCheck();
 			
 			ValidateUtil.assertNull(bic, "参数baseInfoCheck不能为空!");
 			ValidateUtil.assertNull(bic.getBiddee_id(), "参数bidder_id不能为空!");
 			
-			flag = myBiddeeService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBiddee_id());
+			String flag = myBiddeeService.checkApplication(transorder.getApp().getAppId(), transorder.getBody(), transorder.getBody().getBaseInfoCheck().getBiddee_id());
+				if("4210".equals(flag)){
+					rm.setErrmsg("恭喜，审核通过！");
+				}else if("4211".equals(flag)){
+					rm.setErrmsg("审核完成，审核未通过！");
+				}
 				
 //				int i= 0;
 //				

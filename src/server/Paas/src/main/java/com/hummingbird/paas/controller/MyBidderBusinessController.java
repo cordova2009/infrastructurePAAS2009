@@ -51,6 +51,7 @@ import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
 import com.hummingbird.paas.entity.BidderCredit;
+import com.hummingbird.paas.entity.ScoreDefine;
 import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
@@ -62,6 +63,7 @@ import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
+import com.hummingbird.paas.mapper.ScoreDefineMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
@@ -105,6 +107,8 @@ public class MyBidderBusinessController extends BaseController  {
 	protected BidObjectMapper bidObjectDao;
 	@Autowired
 	protected BidderBidCreditScoreMapper bbsDao;
+	@Autowired
+	protected ScoreDefineMapper sdDao;
 	@Autowired
 	TokenService tokenSrv;
 	@Autowired(required = true)
@@ -156,6 +160,7 @@ public class MyBidderBusinessController extends BaseController  {
 			}
 			BidderCerticate   bidder = bcDao.selectByUserId(token.getUserId());
 			Bidder   sbidder = bDao.selectByUserId(token.getUserId());
+			ScoreDefine sd = sdDao.selectByPrimaryKey(1);//信用积分配置表信息
 			IntegerUtil ui = new IntegerUtil();
 			BidderCredit aa = new BidderCredit();
 			ScoreLevel bb = new ScoreLevel();
@@ -281,10 +286,13 @@ public class MyBidderBusinessController extends BaseController  {
 					tradeAmount.setCreditScore(0);
 					if(sbidder != null){
 						QueryBidIndexSurveyResult bis = bidObjectDao.selectMyBidIndexSurvey(sbidder.getId());
-						int obscore =  bbsDao.sumScoreByBidderId(sbidder.getId());
+//						int obscore =  bbsDao.sumScoreByBidderId(sbidder.getId());
+						int objectNum = ui.getRegulaInt(bis.getBidNum());
+						int objectScore = (sd != null?ui.getRegulaInt(sd.getBidInfo()):0)*objectNum;
+						
 						if(bis != null){
-							winNum.setStatus(ObjectUtils.toString(ui.getRegulaInt(bis.getBidNum())));
-							winNum.setCreditScore(ui.getRegulaInt(obscore));//按照次数乘以10
+							winNum.setStatus(ObjectUtils.toString(objectNum));
+							winNum.setCreditScore(objectScore);//按照次数乘以10
 							tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
 							tradeAmount.setCreditScore(bis.getAmount()==0?0:20);
 						}

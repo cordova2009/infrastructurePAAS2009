@@ -43,6 +43,7 @@ import com.hummingbird.paas.entity.BiddeeBankAduit;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCredit;
+import com.hummingbird.paas.entity.ScoreDefine;
 import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.mapper.AppLogMapper;
@@ -53,6 +54,7 @@ import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BiddeeCreditMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
+import com.hummingbird.paas.mapper.ScoreDefineMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.services.TokenService;
@@ -89,6 +91,8 @@ public class MyBiddeeBusinessController extends BaseController  {
 	protected BidObjectMapper bidObjectDao;
 	@Autowired
 	protected ScoreLevelMapper scoreLevelDao;
+	@Autowired
+	protected ScoreDefineMapper sdDao;
 	@Autowired
 	protected BiddeeMapper biddeeDao;
 	@Autowired
@@ -137,6 +141,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 			}
 				BiddeeCerticate   biddee = biddeeCerticateDao.selectByUserId(token.getUserId());
 				Biddee   sbiddee = biddeeDao.selectByUserId(token.getUserId());
+				ScoreDefine sd = sdDao.selectByPrimaryKey(1);//信用积分配置表信息
 				IntegerUtil ui = new IntegerUtil();
 				Map overall= new HashMap();//积分和信用等级信息
 				Map detail= new HashMap();//详细信息
@@ -263,9 +268,11 @@ public class MyBiddeeBusinessController extends BaseController  {
 						
 						if(sbiddee != null){
 							QueryObjectIndexSurveyResult bis = bidObjectDao.selectMyObjectIndexSurvey(sbiddee.getId());
-							int objectScore = biddeeBidCreditScoreDao.sumScoreByBiddeeId(aa.getTendererId());
+//							int objectScore = biddeeBidCreditScoreDao.sumScoreByBiddeeId(aa.getTendererId());
+							int objectNum = ui.getRegulaInt(bis.getObjectNum());
+							int objectScore = (sd != null?ui.getRegulaInt(sd.getTenderInfo()):0)*objectNum;
 							if(bis != null){
-								biddeeNum.setStatus(ObjectUtils.toString(ui.getRegulaInt(bis.getObjectNum())));
+								biddeeNum.setStatus(ObjectUtils.toString(objectNum));
 								biddeeNum.setCreditScore(ui.getRegulaInt(objectScore));//按照次数乘以10
 								tradeAmount.setStatus(ObjectUtils.toString(bis.getAmount()));
 								tradeAmount.setCreditScore(bis.getAmount()==0?0:20);

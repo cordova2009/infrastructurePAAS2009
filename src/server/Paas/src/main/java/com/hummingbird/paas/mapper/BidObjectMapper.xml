@@ -102,6 +102,8 @@
     <result column="biddee" property="biddeeName" jdbcType="VARCHAR" />
     <result column="bidder" property="bidderName" jdbcType="VARCHAR" />
     <result column="win_bid_amount" property="winBidAmount" jdbcType="BIGINT" />
+    <result column="industry_name" property="industryName" jdbcType="VARCHAR" />
+    <result column="industry_icon" property="industryIcon" jdbcType="VARCHAR" />
     </resultMap>
   <sql id="Base_Column_List" >
     object_id, biddee_id, object_no, object_name, object_amount, object_publish_type, 
@@ -282,9 +284,10 @@
 		 </if>
   </select>
    <select id="selectBidIndexList" resultMap="QueryBidIndexListResultMap">
-    select a.object_id,a.object_name,c.short_name biddee,d.short_name bidder,a.win_bid_amount 
+    select a.object_id,a.object_name,c.short_name biddee,d.short_name bidder,a.win_bid_amount ,i.industry_icon ,i.industry_name
     	from t_ztgl_object a 
 		INNER JOIN t_ztgl_object_project_info b on a.object_id = b.object_id 
+		left join t_base_industry i on i.id = a.industry_id 
 		LEFT JOIN t_qyzz_biddee c on a.biddee_id = c.id 
 		LEFT JOIN t_qyzz_bidder d on a.win_bidder_id = d.id 
 		 where a.object_status = 'SEL' 

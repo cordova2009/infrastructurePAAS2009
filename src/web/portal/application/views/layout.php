@@ -31,7 +31,7 @@
                     <a href="<?=U('/member/info/index')?>"  class="blue"><?=$user['nickname']?></a>你好
                     <a href="<?=U('/public/logout')?>"  class="blue2 marl20">[退出]</a>
                     <?php endif;?>
-                    <a href="#" class="colorf marl20">帮助</a>
+                    <a href="#" class="white marl20">帮助</a>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                         <li><a href="<?=U('/')?>">首页</a></li>
                         <li><a href="<?=U('/member/tender/baseinfo')?>">我要招标</a></li>
                         <li><a href="<?=U('/project/list')?>">我要投标</a></li>
-                        <li><a href="#">新手指引</a></li>
+                        <li><a href="<?=cms_url('detail/50')?>">新手指引</a></li>
                         <li  class="submenu">
                             <span>会员服务 <i class="i-down"></i></span>
                             <dl>

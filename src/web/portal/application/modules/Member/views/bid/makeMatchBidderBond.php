@@ -12,7 +12,7 @@ if(check_resp($resp)){
             <div class="text-center chongzhi">
                 <span class="orange "><?=isset($info)?price_format($info['makeMatchBidderBondAmount']):''?>元</span>
                 <?php if($account['remainingSum'] < $info['makeMatchBidderBondAmount']): ?>
-                    <a href="<?=U('/member/capital/rechargeApply')?>" class="btn-chongzhi bg-green2">充值</a>
+                    <a href="<?=U('/member/capital/rechargeApply')?>" class="btn-chongzhi bg-green2 white">充值</a>
                 <?php endif;?>
                 <span style="font-size:13px;">（账户余额：<?=price_format($account['remainingSum'])?>元）</span>
             </div>
@@ -20,7 +20,7 @@ if(check_resp($resp)){
             <div class="text-center checklist fz16">
                 <i class="ico i-check on"></i>
                 <input id="i-tongyi" checked type="checkbox" class="hide">
-                我已阅读并同意《xxxxx协议》
+                我已阅读并同意《<a target="_blank" href="<?=cms_url('detail/60')?>">xxxxx协议</a>》
             </div>
 
             <div class="charge_tips2">

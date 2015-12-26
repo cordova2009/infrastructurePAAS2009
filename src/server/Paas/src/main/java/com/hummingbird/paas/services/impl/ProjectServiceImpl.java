@@ -161,7 +161,7 @@ public class ProjectServiceImpl implements ProjectService{
 			allPaidAmount+=paidAmount;
 			allAmount+=project.getObjectAmount();
 //			allAmount+=objcet.getWinBidAmount();
-			allWillPayAmount+=lastPayInfo==null?(payDefine.getPaySum()==null?0:payDefine.getPaySum()):lastPayInfo.getLeftAmount();
+//			allWillPayAmount+=lastPayInfo==null?(payDefine.getPaySum()==null?0:payDefine.getPaySum()):lastPayInfo.getLeftAmount();
 			Long nextPeriodPayAmount=0l;
 			if(payDefine!=null){
 				
@@ -173,7 +173,7 @@ public class ProjectServiceImpl implements ProjectService{
 		overall.setAllAmount(ObjectUtils.toString(allAmount));
 		overall.setNextPeriodPayAmount(ObjectUtils.toString(allNextPeriodPayAmount));
 		overall.setPaidAmount(ObjectUtils.toString(allPaidAmount));
-		overall.setWillPayAmount(ObjectUtils.toString(allWillPayAmount));
+		overall.setWillPayAmount(ObjectUtils.toString(allAmount-allPaidAmount));
 		return overall;
 	}
 

@@ -50,7 +50,7 @@
    <select id="queryUserInformationIndexSurvey" resultMap="InformationCountResultMap" >
    select  count(*) as publishedCount,count( distinct user_id) as publishedManCount ,
     sum(cast(object_amount as DECIMAL(18))) as sumAmount
-	from t_zxgl_user_information 
+	from t_xxfb_user_information 
 	where status = "OK#"  
   </select>
   

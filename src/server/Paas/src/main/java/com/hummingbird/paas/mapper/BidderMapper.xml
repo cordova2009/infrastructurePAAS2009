@@ -607,6 +607,11 @@
     where a.status='OK#'
    
   </select>
+  
+  <select id="selectTotalBidderNum" resultType="int"  >
+    select count(distinct user_id) from t_qyzz_bidder  where status='OK#'
+  </select>
+  
   <insert id="insertSelectByBidderIdSuccess" parameterType="java.lang.Integer" >
    insert into t_qyzz_bidder(id, user_id, company_name, legal_person, reg_time, contact_name, contact_mobile_num, 
     business_license, org_code_certificate, tax_registration_certificate, new_business_license, 

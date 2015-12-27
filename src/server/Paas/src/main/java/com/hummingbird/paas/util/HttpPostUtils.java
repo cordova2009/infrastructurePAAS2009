@@ -66,7 +66,7 @@ public class HttpPostUtils {
      * @param urladdress  地址
      * @return
      */
-    public static String sendHttpPost(String urladdress, String param) throws Exception {
+    public static String sendHttpPost(String urladdress, String param, String charsetName) throws Exception {
         HttpURLConnection uc = null;
         try {
             URL url = new URL(urladdress);
@@ -78,11 +78,11 @@ public class HttpPostUtils {
             uc.setRequestMethod("POST");
             uc.setConnectTimeout(CONNECT_TIMEOUT); 
             uc.setReadTimeout(READ_TIMEOUT); 
-            uc.getOutputStream().write(param.getBytes());
+            uc.getOutputStream().write(param.getBytes(charsetName));//解决部分中文乱码问题  	YJY 2015年12月27日
             uc.connect();
             String lines = "";
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(uc.getInputStream(), "UTF-8"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(uc.getInputStream(), charsetName));
                 while (reader.ready()) {
                     lines += reader.readLine();
                 }

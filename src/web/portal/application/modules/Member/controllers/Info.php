@@ -66,6 +66,9 @@ class InfoController extends MemberController {
             if(empty($new_mobile)){
                 $this->error('新手机号码不能为空！');
             }
+            if($new_mobile==$this->user['mobileNum']){
+                $this->error('新旧手机号码不能相同！');
+            }
             $password = I('password');
             if(empty($password)){
                 $this->error('登录密码不能为空！');
@@ -89,6 +92,12 @@ class InfoController extends MemberController {
             $data['newMobileNum'] = $new_mobile;
 
             $curl = new Curl($this->config->url->api->user);
+            $resp = $curl->setData(['mobileNum'=>$data['newMobileNum']])
+                ->send('userCenter/getUserStatus');
+
+            if(!check_resp($resp)||!isset($resp['status'])||($resp['status']!='NEX'&&$resp['status']!='FLS')) {
+                $this->error('新手机号已经被注册！');
+            }
             $return = test_mobile_sms($data['newMobileNum'],$data['secondSmsCode']);
             if(!is_bool($return)){
                 $this->error($return);

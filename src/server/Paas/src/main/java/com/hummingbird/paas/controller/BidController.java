@@ -571,7 +571,7 @@ public class BidController extends BaseController {
 
 	}
 	/**
-	 * 查询未完成招标项目基础信息接口
+	 * 查询用户是否具有投标的资质
 	 * 
 	 * @return
 	 */

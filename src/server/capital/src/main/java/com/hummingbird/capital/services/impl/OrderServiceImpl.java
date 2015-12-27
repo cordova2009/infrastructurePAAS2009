@@ -524,6 +524,7 @@ public class OrderServiceImpl implements OrderService{
 		apply.setUserBankcardId(body.getBankId());
 		apply.setUserId(user.getId());
 		apply.setWithdrawAmount(body.getAmount());
+		apply.setRealWithdrawAmount(0l);
 		withdrawApplyDao.insert(apply);
 		
 		//冻结

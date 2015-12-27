@@ -1703,8 +1703,10 @@ public class TenderServiceImpl implements TenderService {
 		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
 		if (body.getTags() != null) {
 			for (String tag : body.getTags()) {
-				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info",
-						body.getObjectId());
+//				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info",
+//						body.getObjectId());
+				CallInterfaceUtil.addTag(tag, "0", "bidder_manager", "t_qyzz_bidder",
+						evaluationBiddee.getBidderId());
 			}
 		}
 		
@@ -1754,8 +1756,9 @@ public class TenderServiceImpl implements TenderService {
 		cei.setList(cedis);
 //		cei.set
 		
-		//标签 
-		String  tagJson = CallInterfaceUtil.searchTag("biddee_manager", "t_qyzz_biddee", mm.getCompanyId());
+		//标签
+//		CallInterfaceUtil.addTag(tag, "0", "biddee_evaluation_manager", "t_ztgl_object", project.getObjectId());
+		String  tagJson = CallInterfaceUtil.searchTag("biddee_evaluation_manager", "t_ztgl_object");
 		
 		
 		List<TagInfo> tagList = new ArrayList<TagInfo>();
@@ -1822,8 +1825,9 @@ public class TenderServiceImpl implements TenderService {
 		cei.setList(cedis);
 //		cei.set
 		
-		//标签 
-		String  tagJson = CallInterfaceUtil.searchTag("bidder_manager", "t_qyzz_bidder", mm.getCompanyId());
+		//标签
+//		String  tagJson = CallInterfaceUtil.searchTag("biddee_evaluation_manager", "t_ztgl_object");
+		String  tagJson = CallInterfaceUtil.searchTag("bidder_evaluation_manager", "t_ztgl_object");
 		
 		
 		List<TagInfo> tagList = new ArrayList<TagInfo>();
@@ -1901,8 +1905,10 @@ public class TenderServiceImpl implements TenderService {
 		// 调用接口时,如果数据库失败,这个标签也会保存进去
 		if (body.getTags() != null) {
 			for (String tag : body.getTags()) {
-				CallInterfaceUtil.addTag(tag, "0", "evaluation_manager", "t_ztgl_object_project_info",
-						body.getObjectId());
+//				CallInterfaceUtil.addTag(tag, "0", "biddee_manager", "t_qyzz_biddee", evaluationBidder.getBiddeeId());
+				CallInterfaceUtil.addTag(tag, "0", "bidder_evaluation_manager", "t_ztgl_object", body.getObjectId());
+//				CallInterfaceUtil.addTag(tag, "0", "bidder_evaluation_manager", "t_ztgl_object_project_info",
+//						body.getObjectId());
 			}
 		}
 

@@ -23,6 +23,7 @@ public class CallInterfaceUtil {
 	
 	private static final Log log = LogFactory.getLog(CallInterfaceUtil.class);
 	private static String root_url = "";
+	private static String charsetName = "UTF-8";//编码   add by YJY 2015年12月27日 
 	
 	static {
 		PropertiesUtil pu = new PropertiesUtil();
@@ -65,7 +66,7 @@ public class CallInterfaceUtil {
 		log.debug("查询标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("查询标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {
@@ -107,7 +108,7 @@ public class CallInterfaceUtil {
 		log.debug("查询标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("查询标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {
@@ -161,7 +162,7 @@ public class CallInterfaceUtil {
 		log.debug("移除标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("移除标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {
@@ -215,7 +216,7 @@ public class CallInterfaceUtil {
 		log.debug("添加标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, "");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = e.getMessage();
@@ -267,13 +268,49 @@ public class CallInterfaceUtil {
 		log.debug("添加标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = e.getMessage();
 		}
 		log.debug("添加标签接口返回值："+result);
 		return result;
+	}
+	
+	/**
+	 * 查询标签接口
+	 * @param tagGroupName  组名称
+	 * @param tagObjectCode   标签的所属业务编码
+	 * @param businessId  被打标签信息的ID
+	 * @return
+	 */
+	public static String searchTag(String tagGroupName, String tagObjectCode){
+		if(StringUtils.isBlank(tagGroupName)){
+			log.debug("标签的组名称为空");
+    		return "{\"errcode\":10000,\"errmsg\":\"标签的组名称为空\"}";	
+    	}
+		if(StringUtils.isBlank(tagObjectCode)){
+			log.debug("标签的所属业务编码为空");
+    		return "{\"errcode\":10000,\"errmsg\":\"标签的所属业务编码为空\"}";	
+    	}
+		String url = root_url+"/tag/searchTag";
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("tagGroupName", tagGroupName);
+		jsonObject.put("tagObjectCode", tagObjectCode);
+//		jsonObject.put("businessId", null);
+		
+		String param = jsonObject.toString();
+		log.debug("查询标签接口发送参数："+param);
+		String result = "";
+		try {
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
+			log.debug("查询标签接口返回值："+result);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = e.getMessage();
+			return "{\"errcode\":10000,\"errmsg\":\""+result+"\"}";	 //错误返回
+		}
 	}
 	
 }

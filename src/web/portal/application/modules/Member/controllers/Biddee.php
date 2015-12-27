@@ -412,7 +412,7 @@ class BiddeeController extends MemberController{
 
             $winBid = null;
             foreach($resp['list'] as $bid){
-                if($bid['bidderId'] == $winBidId){
+                if($bid['bidId'] == $winBidId){
                     $winBid = $bid;
                     break;
                 }

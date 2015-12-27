@@ -23,6 +23,7 @@ public class CallInterfaceUtil {
 	
 	private static final Log log = LogFactory.getLog(CallInterfaceUtil.class);
 	private static String root_url = "";
+	private static String charsetName = "UTF-8";//编码   add by YJY 2015年12月27日 
 	
 	static {
 		PropertiesUtil pu = new PropertiesUtil();
@@ -65,7 +66,7 @@ public class CallInterfaceUtil {
 		log.debug("查询标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("查询标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {
@@ -107,7 +108,7 @@ public class CallInterfaceUtil {
 		log.debug("查询标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("查询标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {
@@ -161,7 +162,7 @@ public class CallInterfaceUtil {
 		log.debug("移除标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("移除标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {
@@ -215,7 +216,7 @@ public class CallInterfaceUtil {
 		log.debug("添加标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, "");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = e.getMessage();
@@ -267,7 +268,7 @@ public class CallInterfaceUtil {
 		log.debug("添加标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = e.getMessage();
@@ -302,7 +303,7 @@ public class CallInterfaceUtil {
 		log.debug("查询标签接口发送参数："+param);
 		String result = "";
 		try {
-			result = HttpPostUtils.sendHttpPost(url, param);
+			result = HttpPostUtils.sendHttpPost(url, param, charsetName);
 			log.debug("查询标签接口返回值："+result);
 			return result;
 		} catch (Exception e) {

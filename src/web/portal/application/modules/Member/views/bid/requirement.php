@@ -178,7 +178,7 @@ if(is_array($bidRequirementInfo)){
                                 <div class="cell ">
                                     <span class="yuanbox ">
                                         <input type="text" class="input1 price_format" placeholder="" name="bankGuaranteeAmount" value="<?=isset($bankGuarantee) ? price_format($bankGuarantee['bankGuaranteeAmount']) : ''?>">
-                                        <span class="yuan">元</span>
+                                        <span class="yuan" style="position:initial;">元</span>
                                     </span>
                                     <span class="padm50">
                                         保函凭证扫描件

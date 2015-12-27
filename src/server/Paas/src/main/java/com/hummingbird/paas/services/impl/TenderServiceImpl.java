@@ -1732,6 +1732,9 @@ public class TenderServiceImpl implements TenderService {
 		// 1.概况
 		CompanyBaseInfo cb = new CompanyBaseInfo();
 		CompanySurvey cs = beDao.selectCompanySurveyById(mm.getCompanyId());
+		if(cs ==null){
+			cs = new CompanySurvey();
+		}
 		cc.setSurvey(cs);
 		// 2.基本信息
 		Biddee biddee = beDao.selectByPrimaryKey(mm.getCompanyId());
@@ -1810,6 +1813,9 @@ public class TenderServiceImpl implements TenderService {
 //		1.概况
 		CompanyBaseInfo cb = new CompanyBaseInfo();
 		CompanySurvey cs = berDao.selectCompanySurveyById(mm.getCompanyId());
+		if(cs ==null){
+			cs = new CompanySurvey();
+		}
 		cc.setSurvey(cs);
 //		2.基本信息
 		Bidder bidder = berDao.selectByPrimaryKey(mm.getCompanyId());

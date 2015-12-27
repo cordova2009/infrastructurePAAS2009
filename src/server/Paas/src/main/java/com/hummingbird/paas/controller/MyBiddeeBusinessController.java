@@ -292,7 +292,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
-					overall.put("creditRating", "A");
+					overall.put("creditRating", "B");
 					overall.put("creditRatingIcon", null);
 				}
 				
@@ -342,7 +342,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				detail.put("tradeInfo", tradeInfo);
 				
 				overall.put("creditScore", 0);
-				overall.put("creditRating", "A");
+				overall.put("creditRating", "B");
 				overall.put("creditRatingIcon", "");
 				
 				rm.put("overall", overall);

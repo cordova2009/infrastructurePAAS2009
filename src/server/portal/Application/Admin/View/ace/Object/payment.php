@@ -36,12 +36,12 @@
                 <thead>
                 <tr>
                     <th>项目名称</th>
-                    <th>工程总额</th>
+                    <th class="text-right">工程总额</th>
                     <th>总期数</th>
-                    <th>剩余金额</th>
+                    <th class="text-right">剩余金额</th>
                     <th>剩余期数</th>
                     <th>当前期数</th>
-                    <th>当前金额</th>
+                    <th class="text-right">当前金额</th>
                     <th>应付时间</th>
                     <th>实付时间</th>
                     <th>凭证号</th>
@@ -53,18 +53,32 @@
                 <notempty name="_list">
                     <volist name="_list" id="item">
                         <tr>
-                            <td>{$item.object_name}</td>
-                            <td>{$item.total_amount|price_format}</td>
+                            <td>
+                                <a href="{:U('paymentshow?id='.$item['id'])}">
+                                {$item.object_name}
+                                <br>
+                                (<?=$item['project_id']?>)
+                                </a>
+                            </td>
+                            <td class="text-right">{$item.total_amount|price_format}</td>
                             <td>{$item.total_period}</td>
-                            <td>{$item.left_amount|price_format}</td>
+                            <td class="text-right">{$item.left_amount|price_format}</td>
                             <td>{$item.left_period}</td>
                             <td>{$item.current_period}</td>
-                            <td>{$item.amount|price_format}</td>
-                            <td>{$item.should_pay_time}</td>
-                            <td>{$item.pay_time}</td>
-                            <td>{$item.voucher}</td>
+                            <td class="text-right"><a href="{:U('paymentshow?id='.$item['id'])}">{$item.amount|price_format}</a></td>
+                            <td><?=date('Y-m-d',strtotime($item['should_pay_time']))?></td>
+                            <td><?=date('Y-m-d',strtotime($item['pay_time']))?></td>
+                            <td>
+                                <a class="ace-thumbnails" href="<?=imageView2($item['voucher_pic'])?>">
+                                    {$item.voucher}
+                                </a>
+                            </td>
                             <td><?php echo $status[$item['status']];?></td>
-                            <td><a href="{:U('paymentshow?id='.$item['id'])}">查看</a></td>
+                            <td>
+                                <?php if($item['status'] == 'CRT'):?>
+                                <a href="{:U('paymentcheck?id='.$item['id'])}">审核</a>
+                                <?php endif;?>
+                            </td>
                         </tr>
                     </volist>
                     <else/>
@@ -81,4 +95,7 @@
             </div>
         </div>
     </div>
+</block>
+<block name="script">
+    <include file="Public/colorbox"/>
 </block>

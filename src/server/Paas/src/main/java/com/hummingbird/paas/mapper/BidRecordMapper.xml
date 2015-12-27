@@ -98,8 +98,9 @@
     where object_id = #{object_id,jdbcType=VARCHAR} 
   </select>
   <select id="selectTenderSurvey2selectByObjectId" resultMap="TenderSurveyResultMap"  parameterType="java.lang.String">
-    select b.object_name objectName,count(a.id) bidderNum,max(a.bid_amount) maxBidAmount,min(a.bid_amount) minBidAmount  from t_ztgl_bid_record a inner JOIN t_ztgl_object b on a.object_id = b.object_id  
-         where b.object_id = #{object_id,jdbcType=VARCHAR}
+    select b.object_name objectName,count(a.id) bidderNum,max(a.bid_amount) maxBidAmount,min(a.bid_amount) minBidAmount  from t_ztgl_bid_record a 
+    inner JOIN t_ztgl_object b on a.object_id = b.object_id  
+         where b.object_id = #{object_id,jdbcType=VARCHAR} and a. STATUS = 'OK#'
   </select>
   <select id="selectCountByObjectId" resultType="java.lang.Integer" parameterType="java.lang.String" >
     select count(1) 

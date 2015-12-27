@@ -48,6 +48,7 @@ import com.hummingbird.paas.vo.SaveProjectRequirementInfoBodyVO;
 import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
+import com.hummingbird.paas.vo.TenderObjectBodyVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
 import com.hummingbird.paas.vo.TenderSurveyReturnVO;
@@ -419,6 +420,7 @@ public interface TenderService {
 
 	/**
 	 * 查询招标项目列表接口
+	 * @param tenderObjectBodyVO 
 	 * 
 	 * @param appId
 	 *            应用id
@@ -427,7 +429,7 @@ public interface TenderService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
+	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page, TenderObjectBodyVO tenderObjectBodyVO)
 			throws BusinessException;
 
 	/**

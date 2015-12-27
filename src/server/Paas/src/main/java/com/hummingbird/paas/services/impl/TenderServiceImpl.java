@@ -46,12 +46,15 @@ import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.CertificationType;
 import com.hummingbird.paas.entity.Industry;
 import com.hummingbird.paas.entity.MakeMatchBondRecord;
+import com.hummingbird.paas.entity.MemberBiddee;
+import com.hummingbird.paas.entity.MemberBidder;
 import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectCertificationRequirement;
 import com.hummingbird.paas.entity.ObjectProjectInfo;
 import com.hummingbird.paas.entity.Project;
 import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
+import com.hummingbird.paas.entity.ProjectEvaluationBidder;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
@@ -73,6 +76,8 @@ import com.hummingbird.paas.mapper.BidderRecommendMapper;
 import com.hummingbird.paas.mapper.CertificationTypeMapper;
 import com.hummingbird.paas.mapper.IndustryMapper;
 import com.hummingbird.paas.mapper.MakeMatchBondRecordMapper;
+import com.hummingbird.paas.mapper.MemberBiddeeMapper;
+import com.hummingbird.paas.mapper.MemberBidderMapper;
 import com.hummingbird.paas.mapper.ObjectAttachmentMapper;
 import com.hummingbird.paas.mapper.ObjectBaseinfoMapper;
 import com.hummingbird.paas.mapper.ObjectBondSettingMapper;
@@ -150,6 +155,7 @@ import com.hummingbird.paas.vo.TenderMyBuildingObjectVO;
 import com.hummingbird.paas.vo.TenderMyEndedObjectVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnVO;
 import com.hummingbird.paas.vo.TenderMyObjectBidReturnWithCertificationVO;
+import com.hummingbird.paas.vo.TenderObjectBodyVO;
 import com.hummingbird.paas.vo.TenderObjectListReturnVO;
 import com.hummingbird.paas.vo.TenderPaymentDetailInfo;
 import com.hummingbird.paas.vo.TenderPaymentInfo;
@@ -216,6 +222,10 @@ public class TenderServiceImpl implements TenderService {
 	protected MakeMatchBondRecordMapper mmbondDao;
 	@Autowired
 	protected UserInformationMapper userInformationMapper;
+	@Autowired
+	protected MemberBiddeeMapper biddeeMembeeDao;
+	@Autowired
+	protected MemberBidderMapper biddeeMemberDao;
 	
 
 	/**
@@ -1474,7 +1484,7 @@ public class TenderServiceImpl implements TenderService {
 	}
 
 	@Override
-	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page)
+	public List<TenderObjectListReturnVO> getTenderObjectList(String[] keywords, Pagingnation page,TenderObjectBodyVO body)
 			throws BusinessException {
 		List<String> kwlist=new ArrayList<>();
 		if(keywords!=null&&keywords.length>0){
@@ -1490,11 +1500,11 @@ public class TenderServiceImpl implements TenderService {
 			kw = kwlist.toArray(new String[]{});
 		}
 		if (page != null && page.isCountsize()) {
-			int totalcount = dao.selectTotalTenderObjectList(kw);
+			int totalcount = dao.selectTotalTenderObjectList(kw,body.getStatus(),body.getPublishTime());
 			page.setTotalCount(totalcount);
 			page.calculatePageCount();
 		}
-		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(kw, page);
+		List<TenderObjectListReturnVO> ans = dao.selectTenderObjectList(kw, page,body.getStatus(),body.getPublishTime());
 
 		return ans;
 	}
@@ -1698,8 +1708,8 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBiddee.setInsertBy(token.getUserId().toString());
 		evaluationBiddee.setInsertTime(new Date());
 		evaluationBiddee.setProjectId(project.getProjectId());
-		evaluationBiddee.setScore(body.getEvaluateScore());
-		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
+		evaluationBiddee.setScore(body.getEvaluateScore()==null?0:(body.getEvaluateScore()*2));
+		evaluationBiddee.setStarCount(body.getEvaluateScore()==null?0:body.getEvaluateScore());
 		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
 		if (body.getTags() != null) {
 			for (String tag : body.getTags()) {
@@ -1737,8 +1747,8 @@ public class TenderServiceImpl implements TenderService {
 		cb.setRegTime(biddee.getRegTime());
 		cc.setBaseInfo(cb);
 		// 3.证书信息
-		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
-		cc.setCerticate(ccis);
+//		List<CompanyCerticateInfo> ccis = beDao.selectCompanyCerticateInfoById(mm.getCompanyId());
+//		cc.setCerticate(ccis);
 		// 4.招投标信息
 		CompanyBidInfo cbi = new CompanyBidInfo();
 		cbi.setTenderNum(dao.selectTenderNumbyBiddeeId(mm.getCompanyId()));
@@ -1755,6 +1765,15 @@ public class TenderServiceImpl implements TenderService {
 		List<CompanyEvaluationDetailInfo> cedis = evaluationBiddeeDao.selectEvaluationDetailByBiddeeId(mm.getCompanyId());
 		cei.setList(cedis);
 //		cei.set
+		//查询是否招标方会员
+		MemberBiddee mb = biddeeMembeeDao.selectByBiddeeId(biddee.getId());
+		cs.setIsMember("FLS");
+		if(mb!=null){
+			//判断时间有没有超出范围
+			if(mb.getEndTime().getTime()>System.currentTimeMillis()){
+				cs.setIsMember("OK#");
+			}
+		}
 		
 		//标签
 //		CallInterfaceUtil.addTag(tag, "0", "biddee_evaluation_manager", "t_ztgl_object", project.getObjectId());
@@ -1823,7 +1842,16 @@ public class TenderServiceImpl implements TenderService {
 		cei.setCompanyEvaluateScore(evaluationBidderDao.countEvaluationScoreByBidderId(mm.getCompanyId()));
 		List<CompanyEvaluationDetailInfo> cedis = evaluationBidderDao.selectEvaluationDetailByBidderId(mm.getCompanyId());
 		cei.setList(cedis);
-//		cei.set
+		
+		//查询是否招标方会员
+		MemberBidder mb = biddeeMemberDao.selectByBidderId(bidder.getId());
+		cs.setIsMember("FLS");
+		if(mb!=null){
+			//判断时间有没有超出范围
+			if(mb.getEndTime().getTime()>System.currentTimeMillis()){
+				cs.setIsMember("OK#");
+			}
+		}
 		
 		//标签
 //		String  tagJson = CallInterfaceUtil.searchTag("biddee_evaluation_manager", "t_ztgl_object");
@@ -1890,17 +1918,17 @@ public class TenderServiceImpl implements TenderService {
 		// PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败",
 		// body.getObjectId()));
 		// }
-		ProjectEvaluationBiddee evaluationBiddee = new ProjectEvaluationBiddee();
-		evaluationBiddee.setStarCount(0);
-		evaluationBiddee.setBiddeeId(project.getBiddeeId());
-		evaluationBiddee.setBidderId(project.getBidderId());
-		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
-		evaluationBiddee.setInsertBy(biddee.getUserId().toString());
-		evaluationBiddee.setInsertTime(new Date());
-		evaluationBiddee.setProjectId(project.getProjectId());
-		evaluationBiddee.setScore(body.getEvaluateScore());
-		evaluationBiddee.setStarCount(evaluationBiddee.getStarCount());
-		evaluationBiddeeDao.insert(evaluationBiddee);
+		ProjectEvaluationBidder evaluationBidder = new ProjectEvaluationBidder();
+		evaluationBidder.setStarCount(0);
+		evaluationBidder.setBiddeeId(project.getBiddeeId());
+		evaluationBidder.setBidderId(project.getBidderId());
+		evaluationBidder.setEvaluationContent(body.getEvaluateContent());
+		evaluationBidder.setInsertBy(biddee.getUserId().toString());
+		evaluationBidder.setInsertTime(new Date());
+		evaluationBidder.setProjectId(project.getProjectId());
+		evaluationBidder.setScore(body.getEvaluateScore()==null?0:body.getEvaluateScore()*2);
+		evaluationBidder.setStarCount(body.getEvaluateScore()==null?0:body.getEvaluateScore());
+		evaluationBidderDao.insert(evaluationBidder);
 		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
 		// 调用接口时,如果数据库失败,这个标签也会保存进去
 		if (body.getTags() != null) {

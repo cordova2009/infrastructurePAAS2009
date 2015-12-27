@@ -3,10 +3,6 @@
 <block name="body">
     <!-- 表单 -->
     <div class="space-10"></div>
-    <style>
-        .item-table td{width:50%;}
-        img{max-width:400px;}
-    </style>
     <form action="{:U('check')}" method="POST" class="form-horizontal check_data" id="form_submit" role="form">
         <input type="hidden" name="id"  value="{$item.id}">
         <div class="widget-header widget-header-small header-l-blue">
@@ -14,11 +10,11 @@
                 账号基本信息
             </h5>
         </div>
-        <table class="table table-striped table-bordered table-hover item-table ">
+        <table class="table table-striped table-bordered table-hover item-table">
             <tbody>
                 <tr>
-                    <td><span class="">昵称:</span>{$user.nick_name}</td>
-                    <td><span class="">电话:</span>{$user.mobile_num}</td>
+                    <td><span>昵称:</span>{$user.nick_name}</td>
+                    <td><span>电话:</span>{$user.mobile_num}</td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -131,22 +127,14 @@
         </table>
         <?php endforeach;?>
 
-        <div class="clearfix form-actions">
-            <div class="col-xs-12 center" style="margin-top:1em;">
-                <input type="hidden" name="business_license_type" value="<?=$item['business_license_type']?>" >
-                <button id="sub-btn" class="btn btn-success ajax-post no-refresh" target-form="form-horizontal" type="submit" before="subbef">
-                    <i class="icon-ok bigger-110"></i> 确认提交
-                </button>
-            </div>
-        </div>
+        <input type="hidden" name="business_license_type" value="<?=$item['business_license_type']?>" >
+        <?=ace_srbtn('确认审核','before="subbef"')?>
     </form>
 </block>
 
 <block name="script">
     <include file="Public/colorbox"/>
     <script type="text/javascript" charset="utf-8">
-        Think.setValue('type',{$type|default=1});
-
         $(function(){
             $("input[type=radio]").click(function(){
                 if(this.value == 'Y'){

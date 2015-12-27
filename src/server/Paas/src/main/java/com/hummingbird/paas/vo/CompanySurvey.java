@@ -26,6 +26,10 @@ public class CompanySurvey {
 	private String  evaluationRating;
 	private String  evaluationScore;
 	/**
+	 * 是否会员,OK# 是,FLS 否
+	 */
+	private String  isMember;
+	/**
 	 * @return the logoUrl
 	 */
 	public String getLogoUrl() {
@@ -105,6 +109,18 @@ public class CompanySurvey {
 		return "CompanySurvey [logoUrl=" + logoUrl + ", companyName=" + companyName + ", creditRating=" + creditRating
 				+ ", creditScore=" + creditScore + ", evaluationRating=" + evaluationRating + ", evaluationScore="
 				+ evaluationScore + "]";
+	}
+	/**
+	 * 是否会员OK# 是FLS 否 
+	 */
+	public String getIsMember() {
+		return isMember;
+	}
+	/**
+	 * 是否会员OK# 是FLS 否 
+	 */
+	public void setIsMember(String isMember) {
+		this.isMember = isMember;
 	}
 
 	

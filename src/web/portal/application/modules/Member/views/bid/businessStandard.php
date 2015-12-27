@@ -19,17 +19,17 @@ if(check_resp($resp)){
                 </div>
 
                 <div class="item">
-                    <div class="lab">项目报价</div>
+                    <div class="lab"><span class="red">*</span> 项目报价</div>
                     <div class="value">
                         <span class="yuanbox">
                         <span class="yuan">元</span>
-                        <input type="text" class="input1 price_format" placeholder="" name="bidAmount" value="<?=isset($info)?price_format($info['bidAmount']):''?>">
+                        <input type="text" class="input1 price_format" placeholder="" name="bidAmount" value="<?=isset($info)?price_convert($info['bidAmount']):''?>">
                         </span>
                     </div>
                 </div>
 
                 <div class="item">
-                    <div class="lab">项目报价表</div>
+                    <div class="lab"><span class="red">*</span> 项目报价表</div>
                     <div class="value">
                         <a class="btn-file2 wid110 <?php if(isset($info) && !empty($info['projectQuotationUrl'])) echo 'hide'?>" href="javascript:">
                             <span>上传附件</span>
@@ -38,14 +38,14 @@ if(check_resp($resp)){
                         </a>
 
                         <div class="uploaded <?php if(!isset($info) || empty($info['projectQuotationUrl'])) echo 'hide'?>">
-                            <a target="_blank" href="<?=isset($info)?imageView2($info['projectQuotationUrl']):''?>" class="btn-file2 view">查看</a>
+                            <a target="_blank" href="<?=isset($info)?get_qiniu_file_durl($info['projectQuotationUrl']):''?>" class="btn-file2 view">下载</a>
                             <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="item">
-                    <div class="lab">施工日期</div>
+                    <div class="lab"><span class="red">*</span> 施工日期</div>
                     <div class="value">
                         <input type="text" class="input1 datepicker" placeholder="" name="constructionStartDate" value="<?=isset($info)?$info['constructionStartDate']:''?>">
                         到
@@ -54,7 +54,7 @@ if(check_resp($resp)){
                 </div>
 
                 <div class="item">
-                    <div class="lab">商务标书</div>
+                    <div class="lab"><span class="red">*</span> 商务标书</div>
                     <div class="value">
                         <a class="btn-file2 wid110 <?php if(isset($info) && !empty($info['constructionCommitmentUrl'])) echo 'hide'?>" href="javascript:">
                             <span>上传附件</span>
@@ -62,7 +62,7 @@ if(check_resp($resp)){
                             <input type="hidden" name="constructionCommitmentUrl" value="<?=isset($info) ? $info['constructionCommitmentUrl'] : ''?>">
                         </a>
                         <div class="uploaded <?php if(!isset($info) || empty($info['constructionCommitmentUrl'])) echo 'hide'?>">
-                            <a target="_blank" href="<?=isset($info)?imageView2($info['constructionCommitmentUrl']):''?>" class="btn-file2 view">查看</a>
+                            <a target="_blank" href="<?=isset($info)?get_qiniu_file_durl($info['constructionCommitmentUrl']):''?>" class="btn-file2 view">下载</a>
                             <a class="btn-file2 bg-grey delete-pic-btn">删除</a>
                         </div>
                     </div>
@@ -84,4 +84,4 @@ if(check_resp($resp)){
         </form>
     </div>
 </div>
-<?php require_once __DIR__.'/../common/upload.pic.php';?>
+<?php require_once __DIR__.'/../common/upload.file.php';?>

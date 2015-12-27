@@ -44,6 +44,7 @@ import com.hummingbird.paas.entity.MakeMatchBondRecord;
 import com.hummingbird.paas.entity.ObjectAttachment;
 import com.hummingbird.paas.entity.ObjectBaseinfo;
 import com.hummingbird.paas.entity.ObjectProject;
+import com.hummingbird.paas.entity.ProjectEvaluationBiddee;
 import com.hummingbird.paas.entity.ProjectEvaluationBidder;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectInfos;
@@ -182,6 +183,8 @@ public class BidServiceImpl implements BidService {
 	InviteBidderMapper ibDao;
 	@Autowired
 	ProjectEvaluationBidderMapper evaluationBidderDao;
+	@Autowired
+	ProjectEvaluationBiddeeMapper evaluationBiddeeDao;
 	@Autowired
 	BidAttachmentMapper baDao;
 	@Autowired
@@ -1502,17 +1505,17 @@ public class BidServiceImpl implements BidService {
 //			}
 //			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION,String.format("根据项目编号【%s】查询项目信息失败", body.getObjectId()));
 //		}
-		ProjectEvaluationBidder evaluationBidder=new ProjectEvaluationBidder();
-		evaluationBidder.setStarCount(0);
-		evaluationBidder.setBiddeeId(project.getBiddeeId());
-		evaluationBidder.setBidderId(project.getBidderId());
-		evaluationBidder.setEvaluationContent(body.getEvaluateContent());
-		evaluationBidder.setInsertBy(bidder.getUserId().toString());
-		evaluationBidder.setInsertTime(new Date());
-		evaluationBidder.setProjectId(project.getProjectId());
-		evaluationBidder.setScore(body.getEvaluateScore());
+		ProjectEvaluationBiddee evaluationBiddee=new ProjectEvaluationBiddee();
+		evaluationBiddee.setStarCount(body.getEvaluateScore()==null?0:body.getEvaluateScore());
+		evaluationBiddee.setBiddeeId(project.getBiddeeId());
+		evaluationBiddee.setBidderId(project.getBidderId());
+		evaluationBiddee.setEvaluationContent(body.getEvaluateContent());
+		evaluationBiddee.setInsertBy(bidder.getUserId().toString());
+		evaluationBiddee.setInsertTime(new Date());
+		evaluationBiddee.setProjectId(project.getProjectId());
+		evaluationBiddee.setScore(body.getEvaluateScore()==null?0:(body.getEvaluateScore()*2));
 //		evaluationBidder.setStarCount(evaluationBidder.getStarCount());
-		evaluationBidderDao.insert(evaluationBidder);
+		evaluationBiddeeDao.insert(evaluationBiddee);
 		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
 		//调用接口时,如果数据库失败,这个标签也会保存进去
 		if(body.getTags()!=null){

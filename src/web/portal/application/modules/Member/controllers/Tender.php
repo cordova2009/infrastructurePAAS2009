@@ -504,7 +504,7 @@ class TenderController extends MemberController{
         $data['employerPrincipal'] = I('employerPrincipal');
 
         $data['employerTelephone'] = I('employerTelephone');
-        if(!regex($data['employerTelephone'],'telephone')){
+        if(!empty($data['employerTelephone'])&&!regex($data['employerTelephone'],'telephone')){
             $this->error('建设单位办公电话格式不正确！');
         }
 

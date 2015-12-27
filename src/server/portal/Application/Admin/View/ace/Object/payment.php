@@ -54,9 +54,11 @@
                     <volist name="_list" id="item">
                         <tr>
                             <td>
+                                <a href="{:U('paymentshow?id='.$item['id'])}">
                                 {$item.object_name}
                                 <br>
                                 (<?=$item['project_id']?>)
+                                </a>
                             </td>
                             <td class="text-right">{$item.total_amount|price_format}</td>
                             <td>{$item.total_period}</td>
@@ -66,7 +68,11 @@
                             <td class="text-right"><a href="{:U('paymentshow?id='.$item['id'])}">{$item.amount|price_format}</a></td>
                             <td><?=date('Y-m-d',strtotime($item['should_pay_time']))?></td>
                             <td><?=date('Y-m-d',strtotime($item['pay_time']))?></td>
-                            <td><a href="{:U('paymentshow?id='.$item['id'])}">{$item.voucher}</a></td>
+                            <td>
+                                <a class="ace-thumbnails" href="<?=imageView2($item['voucher_pic'])?>">
+                                    {$item.voucher}
+                                </a>
+                            </td>
                             <td><?php echo $status[$item['status']];?></td>
                             <td>
                                 <?php if($item['status'] == 'CRT'):?>
@@ -89,4 +95,7 @@
             </div>
         </div>
     </div>
+</block>
+<block name="script">
+    <include file="Public/colorbox"/>
 </block>

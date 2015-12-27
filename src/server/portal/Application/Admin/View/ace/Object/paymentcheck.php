@@ -31,9 +31,13 @@
                 <td><span>支付时间:</span>{$item.pay_time}</td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td>
+                    <span>凭证号:</span>
+                    <a class="ace-thumbnails" href="<?=imageView2($item['voucher_pic'])?>"><?=$item['voucher'];?></a>
+                </td>
+                <td>
                     <span>状态:</span>
-                    <?php echo $status[$item['status']];?>
+                    <?=$status[$item['status']];?>
                 </td>
             </tr>
             </tbody>
@@ -59,18 +63,18 @@
     </form>
 </block>
 <block name="script">
-    <script>
+    <include file="Public/colorbox"/>
+    <script type="text/javascript" charset="utf-8">
         function sb_before(){
             var ret = true;
             $("input[type=radio][value=Y]").each(function (i,e){
-                if(!e.checked && $('input[name=check_remark]').val()=='')
-        {
-            ret =false;
-            layer.alert('请先填写不通过原因!',{icon:2});
-            return false;
-        }
-        });
-        return ret;
+                if(!e.checked && $('input[name=check_remark]').val()=='') {
+                    ret =false;
+                    layer.alert('请先填写不通过原因!',{icon:2});
+                    return false;
+                }
+            });
+            return ret;
         }
         //导航高亮
         highlight_subnav('{:U('object/payment')}');

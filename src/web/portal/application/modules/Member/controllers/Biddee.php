@@ -133,7 +133,7 @@ class BiddeeController extends MemberController{
     {
         $name = I('name');
         if(empty($name)){
-            $this->error('法人名称不能为空！');
+            $this->error('法人姓名不能为空！');
         }
         $idCard = I('idCard');
         if(empty($idCard)){

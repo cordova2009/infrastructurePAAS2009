@@ -385,7 +385,7 @@
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
                     <div class=" charge_form padv40">
                         <div class="item">
-                            <span class="lab"><span class="red">*</span> 开户datepicker</span>
+                            <span class="lab"><span class="red">*</span> 开户人姓名</span>
                             <div class="auto value ">
                                 <input type="text" name="accountName" class="input1 wid350" value="<?=$bankInfo['accountName'];?>">
                             </div>

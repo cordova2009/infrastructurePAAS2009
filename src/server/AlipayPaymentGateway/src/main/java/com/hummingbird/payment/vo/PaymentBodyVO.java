@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.commons.lang.ObjectUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.util.JsonUtil;
@@ -95,6 +96,7 @@ implements PainttextAble, Notifiable {
 	 * 生成文本组装内容
 	 * @return
 	 */
+	@JsonIgnore
 	public String getPaintText(){
 		String pt = ValidateUtil.sortbyValues(
 				   
@@ -118,6 +120,7 @@ implements PainttextAble, Notifiable {
 	 * @see com.hummingbird.commonbiz.vo.Notifiable#toJson()
 	 */
 	@Override
+	@JsonIgnore
 	public String toJson() throws JSONException {
 		try {
 			return JsonUtil.convert2Json(this);
@@ -130,6 +133,7 @@ implements PainttextAble, Notifiable {
 	 * @see com.hummingbird.commonbiz.vo.Notifiable#getNotifyUrl()
 	 */
 	@Override
+	@JsonIgnore
 	public String getNotifyUrl() {
 		PropertiesUtil pu = new PropertiesUtil();
 		return pu.getProperty("notify.url");
@@ -139,6 +143,7 @@ implements PainttextAble, Notifiable {
 	 * @see com.hummingbird.commonbiz.vo.Notifiable#getDesc()
 	 */
 	@Override
+	@JsonIgnore
 	public String getDesc() {
 		return "支付宝通知";
 	}

@@ -34,15 +34,23 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tbody>
                     <tr>
-                        <th width="40%" class=""><span class="red" style="display: none">*</span>银行名称</th>
+                        <th width="40%" class=""><span class="red" style="display: none">*</span>公司名称</th>
 
-                        <td width="60%" class="bank_value" cloum_name="bank_name">
-                            <?=$item['bank_name']?>
+                        <td width="60%" class="bank_value" cloum_name="account_name">
+                            <?=$item['account_name']?>
                         </td>
                     </tr>
 
                     <tr>
-                        <th class=""><span class="red" style="display: none">*</span>支行名称</th>
+                        <th class=""><span class="red" style="display: none">*</span>公司地址</th>
+
+                        <td class="bank_value" cloum_name="address">
+                            <?=$item['address']?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class=""><span class="red" style="display: none">*</span>开户银行</th>
 
                         <td class="bank_value" cloum_name="bank_branch_name">
                             <?=$item['bank_branch_name']?>
@@ -58,28 +66,18 @@
                     </tr>
 
                     <tr>
-                        <th class=""><span class="red" style="display: none">*</span>省份</th>
-
-                        <td class="bank_value" cloum_name="province">
-                            <?=$item['province']?>
+                        <th class=""><span class="red" style="display: none">*</span>税号</th>
+                        <td class="bank_value" cloum_name="tax_no">
+                            <?=$item['tax_no']?>
                         </td>
                     </tr>
-
                     <tr>
-                        <th class=""><span class="red" style="display: none">*</span>城市</th>
-
-                        <td class="bank_value" cloum_name="city">
-                            <?=$item['city']?>
+                        <th class=""><span class="red" style="display: none">*</span>电话</th>
+                        <td class="bank_value" cloum_name="telephone">
+                            <?=$item['telephone']?>
                         </td>
                     </tr>
 
-                    <tr>
-                        <th class=""><span class="red" style="display: none">*</span>开户人名称</th>
-
-                        <td class="bank_value" cloum_name="account_name">
-                            <?=$item['account_name']?>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -114,7 +112,8 @@
             $("input").serializeArray(),
             function(resp){
                 if(resp.status == '1'){
-                    updateAlert(resp.info);
+                    //updateAlert(resp.info);
+		    updateAlert(resp.info,'alert-success');
                     item = resp.item;
                     $("#cancel_btn").click();
                 }else{

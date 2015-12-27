@@ -1741,7 +1741,7 @@ public class TenderController extends BaseController {
 					ter.setLogo(user.getHeadImage());
 //					{"tagGroupName":"biddee_manager","tagObjectCode":"t_qyzz_biddee","businessId":"1"}  
 					
-					String  tagJson = CallInterfaceUtil.searchTag("project_manager", "t_gcgl_project", ps.getProjectId());
+					String  tagJson = CallInterfaceUtil.searchTag("biddee_evaluation_manager", "t_ztgl_object", transorder.getBody().getObjectId());
 					
 					
 					List<TagInfo> tagList = new ArrayList<TagInfo>();

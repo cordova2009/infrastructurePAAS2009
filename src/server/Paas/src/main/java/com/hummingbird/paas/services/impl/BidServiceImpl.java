@@ -349,8 +349,12 @@ public class BidServiceImpl implements BidService {
 				sv.setBidderNum(count);
 			if (obi.getBiddingEndTime() != null)
 				sv.setBiddingEndTime(DateUtil.formatCommonDate(obi.getBiddingEndTime()));
-			if (ob.getEvaluationAmount() != null)
-				sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
+			if (ob.getEvaluationAmount() != null){
+				if(StringUtils.equals(ob.getEvaluationAmountVisiable(),"ENB")){
+					//如果是公开估价,才会显示
+					sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
+				}
+			}
 			sv.setObjectId(obi.getObjectId());
 //			if (ob.getProjectExpectPeriod() != null)
 //				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());

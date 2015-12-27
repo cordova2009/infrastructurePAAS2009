@@ -26,12 +26,12 @@
                 <div class="right">
                     <?php if(empty($user)):?>
                     <a href="<?=U('/public/register')?>" class="blue">快速注册</a>
-                    <a href="<?=U('/public/login')?>"  class="blue2 marl20">立即登录</a>
+                    <a href="<?=U('/public/login')?>"  class="blue2 marl5">立即登录</a>
                     <?php else:?>
                     <a href="<?=U('/member/info/index')?>"  class="blue"><?=$user['nickname']?></a>你好
-                    <a href="<?=U('/public/logout')?>"  class="blue2 marl20">[退出]</a>
+                    <a href="<?=U('/public/logout')?>"  class="blue2 marl5">[退出]</a>
                     <?php endif;?>
-                    <a href="#" class="white marl20">帮助</a>
+                    <a href="#" class="white marl5">帮助</a>
                 </div>
             </div>
         </div>

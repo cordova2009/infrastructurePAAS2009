@@ -5,7 +5,7 @@
 <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<!-- 表单 -->
 <style>
-td{width:50%;}
+.widget-body td{width:50%;}
 </style>
 <div class="widget-box" style="opacity: 1; z-index: 0;margin-bottom:1em;">
 <div class="widget-header" style="color:#999;">
@@ -89,6 +89,12 @@ td{width:50%;}
 	    </div>
     </div>
 <div class="form-group">
+        <label class="col-xs-12 col-sm-2 control-label no-padding-right">转账日期</label>
+        <div class="col-xs-12 col-sm-5">
+	<input type="text" class=" day-input" value="" name="transferTime" placeholder="请选择转账日期">
+	    </div>
+    </div>
+<div class="form-group">
         <label class="col-xs-12 col-sm-2 control-label no-padding-right">凭证号</label>
         <div class="col-xs-12 col-sm-5">
 	    <input type="text" name="voucher" value="" placeholder="请填写上传的凭证号">
@@ -115,7 +121,11 @@ td{width:50%;}
 </block>
 
 <block name="script">
+<script src="__ACE__/js/date-time/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 	Think.setValue('type',{$type|default=1});
+	    $('input.day-input').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+			    $(this).prev().focus();
+			    });
 </script>
 </block>

@@ -115,7 +115,7 @@
                         <div class="item">
                             <span class="lab">注册资本</span>
                             <div class="auto value ">
-                                <input type="text" class="input1 " name="registeredCapital" value="<?=$base['registeredCapital']?>" >
+                                <input type="text" class="input1 price_format" name="registeredCapital" value="<?=$base['registeredCapital']?>" >
                             </div>
                         </div>
                         <div class="item">
@@ -346,7 +346,7 @@
                     <div class="item">
                         <span class="lab"><span class="red">*</span> 成立时间</span>
                         <div class="auto value ">
-                            <input type="text" class="input1 datepicker" name="regTime" value="<?=$registered['regTime']?>">
+                            <input type="text" class="input1 datepicker" name="regTime" value="<?=$registered['regTime']?>" readonly maxDate="<?=date('Y-m-d')?>">
                         </div>
                     </div>
                     <div class="item">
@@ -385,9 +385,9 @@
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
                     <div class=" charge_form padv40">
                         <div class="item">
-                            <span class="lab"><span class="red">*</span> 开户人姓名</span>
+                            <span class="lab"><span class="red">*</span> 公司名称</span>
                             <div class="auto value ">
-                                <input type="text" name="accountName" class="input1 wid350" value="<?=$bankInfo['accountName'];?>">
+                                <input type="text" name="accountName" class="input1 wid350" value="<?=$bankInfo['accountName'];?>" id="accountName">
                             </div>
                         </div>
                         <div class="item">
@@ -582,7 +582,7 @@
             $(".side_menu li:eq(0) a").html('基本信息 <i class="ico i-right"></i>');
             $('#creditRating').html('20');
             $(".progressBox .progress span").css({'width':'20%'});
-            //$('#accountName').val($('#companyName').val());
+            $('#accountName').val($('#companyName').val());
         }
         function legal_sucess(){
 

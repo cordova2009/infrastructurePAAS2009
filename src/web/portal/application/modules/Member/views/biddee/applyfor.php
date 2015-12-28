@@ -385,9 +385,9 @@
                 <form action="<?=U('doapply')?>" method="post" class="ajax-form" success="bank_sucess">
                     <div class=" charge_form padv40">
                         <div class="item">
-                            <span class="lab"><span class="red">*</span> 开户人姓名</span>
+                            <span class="lab"><span class="red">*</span> 公司名称</span>
                             <div class="auto value ">
-                                <input type="text" class="input1 wid350" name="accountName" value="<?=$bankInfo['accountName']?>">
+                                <input type="text" class="input1 wid350" name="accountName" value="<?=$bankInfo['accountName']?>" id="accountName" >
                             </div>
                         </div>
                         <div class="item">
@@ -445,7 +445,7 @@
             $(".side_menu li:eq(0) a").html('基本信息 <i class="ico i-right"></i>');
             $('#creditRating').html('25');
             $(".progressBox .progress span").css({'width':'25%'});
-            //$('#accountName').val($('#companyName').val());
+            $('#accountName').val($('#companyName').val());
         }
         function legal_sucess()
         {
@@ -606,5 +606,6 @@
                     .find('.hidden-url').val('');
             });
         });
+    var my_97_custom_settings = {maxDate:'<?=date('Y-m-d',strtotime('-1 day'))?>'};
     </script>
 </block>

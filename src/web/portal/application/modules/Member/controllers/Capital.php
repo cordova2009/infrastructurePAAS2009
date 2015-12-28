@@ -13,7 +13,7 @@ class CapitalController extends MemberController {
      * 对于如下的例子, 当访问http://yourhost/y/index/index/index/name/yantze 的时候, 你就会发现不同
      */
     public function indexAction(){
-        $pageSize = 5;
+        $pageSize = 10;
         $curl2 = new Curl($this->config->url->api->capital);
         $pageIndex = $this->getRequest()->getQuery('page', 0);
         $resp2 = $curl2->setData([

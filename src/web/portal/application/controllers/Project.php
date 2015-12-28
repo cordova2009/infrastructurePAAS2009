@@ -7,7 +7,7 @@
 */
 class ProjectController extends MallController
 {
-    private $pageSize = 2;
+    private $pageSize = 10;
     
     public function init(){
         parent::init();

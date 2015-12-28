@@ -24,6 +24,7 @@ import com.hummingbird.common.util.ValidateUtil;
 import com.hummingbird.common.util.http.HttpRequester;
 import com.hummingbird.commonbiz.util.TransOrderBuilder;
 import com.hummingbird.commonbiz.vo.BaseTransVO;
+import com.hummingbird.paas.entity.BidObject;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.ProjectInfo;
@@ -32,6 +33,7 @@ import com.hummingbird.paas.entity.ProjectPaymentReceive;
 import com.hummingbird.paas.event.BidSelectedEvent;
 import com.hummingbird.paas.event.ConfirmPayEvent;
 import com.hummingbird.paas.exception.MaAccountException;
+import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ProjectInfoMapper;
@@ -59,6 +61,8 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 	ProjectPaymentReceiveMapper receivedao;
 	@Autowired
 	ProjectInfoMapper projectdao;
+	@Autowired
+	BidObjectMapper objDao;
 	@Autowired
 	BiddeeMapper biddeedao;
 	@Autowired
@@ -90,6 +94,19 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 			paydao.updateByPrimaryKey(pp);
 			//转帐到投标人
 			transPayment2Bidder(pp);
+			//如果是最后一期,且付款成功,则项目结束
+			if(pp.getLeftPeriod()==0){
+				String projectId = pp.getProjectId();
+				ProjectInfo projectInfo = projectdao.selectByPrimaryKey(projectId);
+				projectInfo.setEndTime(new Date());
+				projectInfo.setStatus("END");
+				projectdao.updateByPrimaryKey(projectInfo);
+				BidObject bidObject = objDao.selectByPrimaryKey(projectInfo.getObjectId());
+				bidObject.setUpdateTime(new Date());
+				bidObject.setObjectStatus("END");
+				objDao.updateByPrimaryKey(bidObject);
+				
+			}
 		}
 		else{
 			//失败
@@ -97,6 +114,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 			pp.setPayTime(new Date());
 			paydao.updateByPrimaryKey(pp);
 		}
+		
 		//资金帐户收款
 //		receivenPayment2platform(pp);
 		//add 付款通知   2015年12月20日
@@ -109,6 +127,7 @@ public class ProjectPaymentServiceImpl  implements ProjectPaymentService{
 			ConfirmPayEvent pay = new ConfirmPayEvent(pp.getProjectId(),biddee.getUserId(),bidder.getUserId());
 			EventListenerContainer.getInstance().fireEvent(pay);
 		}
+		
 		if(log.isDebugEnabled()){
 			log.debug("确认工程付款完成");
 		}

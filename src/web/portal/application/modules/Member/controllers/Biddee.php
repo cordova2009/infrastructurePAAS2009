@@ -215,6 +215,9 @@ class BiddeeController extends MemberController{
         if(empty($date['regTime'])){
             $this->error('成立时间不能为空！');
         }
+        if(strtotime($date['regTime']) >= strtotime('today')){
+            $this->error('哇塞，您这公司成立时间还没到呢吧！');
+        }
         $date['businessLicenseExpireTime']= intval(I('businessLicenseExpireTime'));
 
         $date['address'] = I('address');
@@ -412,7 +415,7 @@ class BiddeeController extends MemberController{
 
             $winBid = null;
             foreach($resp['list'] as $bid){
-                if($bid['bidderId'] == $winBidId){
+                if($bid['bidId'] == $winBidId){
                     $winBid = $bid;
                     break;
                 }

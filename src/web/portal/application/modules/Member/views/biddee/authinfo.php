@@ -96,7 +96,7 @@
 						</div>
 						<div class="padm20 ">
 							<div class="charge_tips2 mart40">
-								<p><i class="ico i-tips"></i> 温馨提示： 为了投标更快一步，建议您立即<a href="<?=U('/member/biddee/applyfor');?>" class="blue">申请招标人认证</a></p>
+								<p><i class="ico i-tips"></i> 温馨提示： 为了方便招标和吸引优秀的投标人，请你立即<a href="<?=U('/member/biddee/applyfor');?>" class="blue">填写招标人信息</a>入住平台</p>
 							</div>
 						</div>
 					</div>

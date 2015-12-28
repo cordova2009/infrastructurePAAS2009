@@ -103,4 +103,13 @@ public class CertificationRequirement {
     public void setIndustryId(String industryId) {
         this.industryId = industryId == null ? null : industryId.trim();
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CertificationRequirement [id=" + id + ", objectId=" + objectId + ", certificationId=" + certificationId
+				+ ", certificationName=" + certificationName + ", industryId=" + industryId + "]";
+	}
 }

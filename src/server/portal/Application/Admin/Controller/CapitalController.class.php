@@ -144,7 +144,7 @@ class CapitalController extends AdminController {
 			$checkWithdrawalsNo =I('post.voucher');
 			$voucherFileUrl =I('post.voucherFileUrl');
 			$amount =I('post.amount')*100;
-			$data = ['orderId'=>$id,'voucherNo'=>$checkWithdrawalsNo,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid,'amount'=>$amount,'voucherFileUrl'=>$voucherFileUrl];
+			$data = ['orderId'=>$id,'voucherNo'=>$checkWithdrawalsNo,'checkResult'=>$status,'remark'=>$remark,'operator'=>$uid,'amount'=>$amount,'voucherFileUrl'=>$voucherFileUrl,'transferTime'=>$transferTime];
 			$api = new ApiService();
 			$resp = $api->setApiUrl(C('APIURI.paas3'))
 				->setData($data)->send('capitalManage/checkWithdrawalsApply');

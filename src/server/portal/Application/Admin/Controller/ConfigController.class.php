@@ -106,14 +106,27 @@ class ConfigController extends AdminController {
 
         if(IS_POST){
             $data = I('post.');
-            if(empty($data['bank_name'])){
-                $this->error('银行名称不能为空！');
-            }
             if(empty($data['bank_branch_name'])){
-                $this->error('支行名称不能为空！');
+                $this->error('开户银行名称不能为空！');
             }
             if(empty($data['account_no'])){
                 $this->error('银行账号不能为空！');
+            }
+            if(empty($data['account_name'])){
+                $this->error('公司名称不能为空！');
+            }
+            if(empty($data['address'])){
+                $this->error('公司地址不能为空！');
+            }
+            if(empty($data['tax_no'])){
+                $this->error('税号不能为空！');
+            }
+            if(empty($data['telephone'])){
+                $this->error('电话不能为空！');
+            }
+/*
+            if(empty($data['bank_name'])){
+                $this->error('银行名称不能为空！');
             }
             if(empty($data['province'])){
                 $this->error('省份不能为空！');
@@ -124,6 +137,7 @@ class ConfigController extends AdminController {
             if(empty($data['account_name'])){
                 $this->error('开户人名称不能为空！');
             }
+*/
 
             if(M('platform_bankcard')->where(['id'=>1])->save($data)){
                 $return = ['status'=>1,'info'=>'修改成功！','item'=>$data];

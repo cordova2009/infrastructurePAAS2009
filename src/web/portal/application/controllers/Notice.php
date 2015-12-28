@@ -11,7 +11,7 @@ class NoticeController extends MallController
     public function listAction()
     {
         $pageIndex = $this->getRequest()->getQuery('page', 1);
-        $pageSize = 7;
+        $pageSize = 10;
         $curl = new Curl();
         $resp = $curl->setData([
             'pageIndex' => $pageIndex,

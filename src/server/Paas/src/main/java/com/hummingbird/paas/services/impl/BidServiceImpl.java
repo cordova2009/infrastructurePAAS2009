@@ -356,8 +356,12 @@ public class BidServiceImpl implements BidService {
 				sv.setBidderNum(count);
 			if (obi.getBiddingEndTime() != null)
 				sv.setBiddingEndTime(DateUtil.formatCommonDate(obi.getBiddingEndTime()));
-			if (ob.getEvaluationAmount() != null)
-				sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
+			if (ob.getEvaluationAmount() != null){
+				if(StringUtils.equals(ob.getEvaluationAmountVisiable(),"ENB")){
+					//如果是公开估价,才会显示
+					sv.setEvalutionAmount(ob.getEvaluationAmount().toString());
+				}
+			}
 			sv.setObjectId(obi.getObjectId());
 //			if (ob.getProjectExpectPeriod() != null)
 //				sv.setProjectExpectPeriod(ob.getProjectExpectPeriod().toString());
@@ -1323,24 +1327,24 @@ public class BidServiceImpl implements BidService {
 				} else
 					if (StringUtils.equals(targetcert.getCertificationGroupname(), cert.getCertificationGroupname())) {
 
-					if (targetcert.getCertificationLevel() >= cert.getCertificationLevel()) {
-						// 证书等级匹配
-						if (log.isDebugEnabled()) {
-							log.debug(String.format("证书等级匹配成功,匹配成功"));
+						if (targetcert.getCertificationLevel() >= cert.getCertificationLevel()) {
+							// 证书等级匹配
+							if (log.isDebugEnabled()) {
+								log.debug(String.format("证书等级匹配成功,匹配成功"));
+							}
+							matchvo.setReason("匹配成功");
+							matchvo.setMatch(true);
+							matchvo.setBidderCertificationId(bidderCertification.getId());
+							return matchvo;
+						} else {
+							// 证书等级不对
+							if (log.isDebugEnabled()) {
+								log.debug(String.format("证书等级匹配失败,匹配失败"));
+							}
+							matchvo.setReason("证书等级不匹配");
+							matchvo.setMatch(false);
 						}
-						matchvo.setReason("匹配成功");
-						matchvo.setMatch(true);
-						matchvo.setBidderCertificationId(bidderCertification.getId());
-					} else {
-						// 证书等级不对
-						if (log.isDebugEnabled()) {
-							log.debug(String.format("证书等级匹配失败,匹配失败"));
-						}
-						matchvo.setReason("证书等级不匹配");
-						matchvo.setMatch(false);
-					}
 
-					return matchvo;
 				} else {
 					// 证书不同,先跳过
 				}

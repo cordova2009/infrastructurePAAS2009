@@ -260,6 +260,14 @@ public interface BidService {
 	 * @throws BusinessException 
 	 */
 	public void evaluateBiddee(String appId, EvaluateBiddeeBodyVO body, Bidder bidder) throws BusinessException;
+	/**
+	 * 校验标签组
+	 * @param appId
+	 * @param body
+	 * @param bidder
+	 * @throws BusinessException 
+	 */
+	public void ValidEvaluateBiddee(String appId, EvaluateBiddeeBodyVO body, Bidder bidder) throws BusinessException;
 
 	/**
 	 * 查询未完成的投标信息(投标附件)

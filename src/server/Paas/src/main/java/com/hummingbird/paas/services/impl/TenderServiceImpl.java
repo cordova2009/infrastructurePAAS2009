@@ -60,6 +60,7 @@ import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.ProjectPaymentDefine;
 import com.hummingbird.paas.entity.ProjectPaymentDefineDetail;
 import com.hummingbird.paas.entity.Qanda;
+import com.hummingbird.paas.entity.TagGroup;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.User;
 import com.hummingbird.paas.event.InvBidEvent;
@@ -90,6 +91,7 @@ import com.hummingbird.paas.mapper.ProjectPaymentDefineDetailMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentDefineMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentPayMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
+import com.hummingbird.paas.mapper.TagGroupMapper;
 import com.hummingbird.paas.mapper.UserInformationMapper;
 import com.hummingbird.paas.mapper.UserMapper;
 import com.hummingbird.paas.services.TenderService;
@@ -110,6 +112,7 @@ import com.hummingbird.paas.vo.GetIndustryListBodyVOResult;
 import com.hummingbird.paas.vo.InviteTenderVO;
 import com.hummingbird.paas.vo.JsonResult;
 import com.hummingbird.paas.vo.JsonResultMsg;
+import com.hummingbird.paas.vo.JsonTagResult;
 import com.hummingbird.paas.vo.MyObjectTenderSurveyBodyVO;
 import com.hummingbird.paas.vo.MyTenderObjectListVO;
 import com.hummingbird.paas.vo.QueryAnswerMethodInfoBodyVOResult;
@@ -226,7 +229,8 @@ public class TenderServiceImpl implements TenderService {
 	protected MemberBiddeeMapper biddeeMembeeDao;
 	@Autowired
 	protected MemberBidderMapper biddeeMemberDao;
-	
+	@Autowired
+	protected TagGroupMapper tgDao;
 
 	/**
 	 * 我的招标评标概况接口
@@ -1780,7 +1784,9 @@ public class TenderServiceImpl implements TenderService {
 		
 		//标签
 //		CallInterfaceUtil.addTag(tag, "0", "biddee_evaluation_manager", "t_ztgl_object", project.getObjectId());
-		String  tagJson = CallInterfaceUtil.searchTag("biddee_evaluation_manager", "t_ztgl_object");
+		String tagGroupName = "biddee_evaluation_manager_"+mm.getCompanyId();
+		String  tagJson = CallInterfaceUtil.searchTag(tagGroupName, "t_ztgl_object");
+//		String  tagJson = CallInterfaceUtil.findTag(tagGroupName, "0");
 		
 		
 		List<TagInfo> tagList = new ArrayList<TagInfo>();
@@ -1800,6 +1806,8 @@ public class TenderServiceImpl implements TenderService {
 			}
 		} catch (JsonSyntaxException e) {
 			log.error(e.getMessage());
+		}catch(Exception e1){
+			throw new BusinessException(String.format("根据组名称【%s】查询标签信息失败", tagGroupName));
 		}
 
 		cei.setTag(tagList);
@@ -1861,7 +1869,9 @@ public class TenderServiceImpl implements TenderService {
 		
 		//标签
 //		String  tagJson = CallInterfaceUtil.searchTag("biddee_evaluation_manager", "t_ztgl_object");
-		String  tagJson = CallInterfaceUtil.searchTag("bidder_evaluation_manager", "t_ztgl_object");
+		String tagGroupName = "bidder_evaluation_manager_"+mm.getCompanyId();
+		String  tagJson = CallInterfaceUtil.searchTag(tagGroupName, "t_ztgl_object");
+//		String  tagJson = CallInterfaceUtil.findTag(tagGroupName, "0");
 		
 		
 		List<TagInfo> tagList = new ArrayList<TagInfo>();
@@ -1882,6 +1892,8 @@ public class TenderServiceImpl implements TenderService {
 		}catch(JsonSyntaxException e){
 			//转换失败  可能是没数据  期间   所得标签都是为空     
 			log.error(e.getMessage());
+		}catch(Exception e1){
+			throw new BusinessException(String.format("根据组名称【%s】查询标签信息失败", tagGroupName));
 		}
 		
 		cei.setTag(tagList);
@@ -1937,14 +1949,27 @@ public class TenderServiceImpl implements TenderService {
 		evaluationBidderDao.insert(evaluationBidder);
 		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
 		// 调用接口时,如果数据库失败,这个标签也会保存进去
-		if (body.getTags() != null) {
-			for (String tag : body.getTags()) {
-//				CallInterfaceUtil.addTag(tag, "0", "biddee_manager", "t_qyzz_biddee", evaluationBidder.getBiddeeId());
-				CallInterfaceUtil.addTag(tag, "0", "bidder_evaluation_manager", "t_ztgl_object", body.getObjectId());
-//				CallInterfaceUtil.addTag(tag, "0", "bidder_evaluation_manager", "t_ztgl_object_project_info",
-//						body.getObjectId());
+		if(evaluationBidder.getBidderId() != null){
+			String tagGroupName = "bidder_evaluation_manager_"+evaluationBidder.getBidderId();//
+			Gson gs = new Gson();
+			if (body.getTags() != null) {
+				for (String tag : body.getTags()) {
+//					CallInterfaceUtil.addTag(tag, "0", "biddee_manager", "t_qyzz_biddee", evaluationBidder.getBiddeeId());
+					String tagJson = CallInterfaceUtil.addTag(tag, "0", tagGroupName, "t_ztgl_object", body.getObjectId());
+					try {
+						JsonTagResult str = gs.fromJson(tagJson, JsonTagResult.class);
+						String msgcode = str.getErrcode();
+						if(!"0".equals(msgcode)){//调用接口未保存成功时
+							throw new BusinessException(str.getErrmsg());
+						}
+						
+						}catch(Exception e){
+							throw new BusinessException(e.getMessage());
+						}
+				}
 			}
 		}
+		
 
 	}
 
@@ -2196,6 +2221,44 @@ public class TenderServiceImpl implements TenderService {
 		QueryProjectSurveyResultVO projectSurvey = userInformationMapper.queryUserInformationIndexSurvey();
 		
 		return projectSurvey;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
+	public void ValidevaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException {
+		// TODO Auto-generated method stub
+		int i = 0;
+		String objectId = body.getObjectId();
+		BidObject bidObject = dao.selectByPrimaryKey(objectId);
+		if (bidObject == null) {
+			log.error("标的不存在:" + objectId);
+			throw ValidateException.ERROR_PARAM_NULL.clone(null, "标的不存在:");
+		}
+		if (StringUtils.equals(bidObject.getObjectStatus(), "END")) {
+			log.error("标的未结束:" + objectId);
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的未结束");
+		}
+		List<ProjectInfo> projects = projectInfoDao.selectByObjectId(objectId);
+		if (org.apache.commons.collections.CollectionUtils.isEmpty(projects)) {
+			log.error("标的工程不存在:" + objectId);
+			throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的工程不存在");
+		}
+		ProjectInfo project = projects.get(0);
+		// 标签部分缺少 add by YJY 2015年12月1日15:35:35 插入标签
+		// 调用接口时,如果数据库失败,这个标签也会保存进去
+		if(project.getBidderId() != null){
+			String tagGroupName = "bidder_evaluation_manager_"+project.getBidderId();//
+			String tagGroupRemark  = "投标人【"+project.getBidderId()+"】评价管理";
+			//add by YJY 先判断组名称是否存在  不存在则插入组名称记录  
+			TagGroup tg = tgDao.selectByTagGroupName(tagGroupName);
+			if(tg == null){
+				TagGroup ta = new TagGroup();
+				ta.setTagGroupCreateTime(new Date());
+				ta.setTagGroupName(tagGroupName);
+				ta.setTagGroupRemark(tagGroupRemark);
+				tgDao.insert(ta);
+			}
+		}
 	}
 
 }

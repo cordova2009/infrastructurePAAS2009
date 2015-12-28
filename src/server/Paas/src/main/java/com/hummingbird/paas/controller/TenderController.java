@@ -2797,7 +2797,10 @@ public class TenderController extends BaseController {
 			//业务数据逻辑校验
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
-			}
+			} 
+			//校验标签组
+			tenderService.ValidevaluateBidder(transorder.getApp().getAppId(),transorder.getBody(),biddee);
+			//
 			tenderService.evaluateBidder(transorder.getApp().getAppId(),transorder.getBody(),biddee);
 			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {

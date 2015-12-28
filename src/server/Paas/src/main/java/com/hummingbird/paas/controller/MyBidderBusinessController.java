@@ -303,7 +303,7 @@ public class MyBidderBusinessController extends BaseController  {
 					detail.put("tradeInfo", tradeInfo);
 				
 				if(bb!= null){
-					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
+					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "B"));
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
 					overall.put("creditRating", "B");

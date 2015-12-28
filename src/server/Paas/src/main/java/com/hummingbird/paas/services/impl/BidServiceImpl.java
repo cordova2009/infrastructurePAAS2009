@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gson.Gson;
 import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
@@ -49,6 +50,7 @@ import com.hummingbird.paas.entity.ProjectEvaluationBidder;
 import com.hummingbird.paas.entity.ProjectInfo;
 import com.hummingbird.paas.entity.ProjectInfos;
 import com.hummingbird.paas.entity.Qanda;
+import com.hummingbird.paas.entity.TagGroup;
 import com.hummingbird.paas.exception.MaAccountException;
 import com.hummingbird.paas.exception.PaasException;
 import com.hummingbird.paas.mapper.BidAttachmentMapper;
@@ -75,6 +77,7 @@ import com.hummingbird.paas.mapper.ProjectInfoMapper;
 import com.hummingbird.paas.mapper.ProjectInfosMapper;
 import com.hummingbird.paas.mapper.QandaMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
+import com.hummingbird.paas.mapper.TagGroupMapper;
 import com.hummingbird.paas.services.BidService;
 import com.hummingbird.paas.util.AccountGenerationUtil;
 import com.hummingbird.paas.util.CallInterfaceUtil;
@@ -86,6 +89,8 @@ import com.hummingbird.paas.vo.EvaluateBiddeeBodyVO;
 import com.hummingbird.paas.vo.FreezeBondBodyVO;
 import com.hummingbird.paas.vo.FreezeBondReturnVO;
 import com.hummingbird.paas.vo.FreezeVO;
+import com.hummingbird.paas.vo.JsonResult;
+import com.hummingbird.paas.vo.JsonTagResult;
 import com.hummingbird.paas.vo.QueryBidBodyVO;
 import com.hummingbird.paas.vo.QueryBidFileTypeInfoResult;
 import com.hummingbird.paas.vo.QueryBidRequirementInfoBodyVOResult;
@@ -189,6 +194,8 @@ public class BidServiceImpl implements BidService {
 	BidAttachmentMapper baDao;
 	@Autowired
 	ObjectAttachmentMapper objectAttachmentDao;
+	@Autowired
+	TagGroupMapper  tgDao;
 	
 	// @Transactional(propagation = Propagation.REQUIRED, rollbackFor =
 	// Exception.class, value = "txManager")
@@ -1518,12 +1525,28 @@ public class BidServiceImpl implements BidService {
 		evaluationBiddeeDao.insert(evaluationBiddee);
 		//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
 		//调用接口时,如果数据库失败,这个标签也会保存进去
-		if(body.getTags()!=null){
-			for(String tag : body.getTags()){
-//				CallInterfaceUtil.addTag(tag, "0", "biddee_manager", "t_qyzz_biddee", evaluationBidder.getBiddeeId());
-				CallInterfaceUtil.addTag(tag, "0", "biddee_evaluation_manager", "t_ztgl_object", project.getObjectId());
+		if(evaluationBiddee.getBiddeeId() != null){
+			String tagGroupName = "biddee_evaluation_manager_"+evaluationBiddee.getBiddeeId();//
+			Gson gs = new Gson();
+			if(body.getTags()!=null){
+				for(String tag : body.getTags()){
+//					CallInterfaceUtil.addTag(tag, "0", "biddee_manager", "t_qyzz_biddee", evaluationBidder.getBiddeeId());
+					String tagJson = CallInterfaceUtil.addTag(tag, "0", tagGroupName, "t_ztgl_object", project.getObjectId());
+
+					try {
+						JsonTagResult str = gs.fromJson(tagJson, JsonTagResult.class);
+						String msgcode = str.getErrcode();
+						if(!"0".equals(msgcode)){//调用接口未保存成功时
+							throw new BusinessException(str.getErrmsg());
+						}
+						
+						}catch(Exception e){
+							throw new BusinessException(e.getMessage());
+						}
+				}
 			}
 		}
+		
 		if(log.isDebugEnabled()){
 				log.debug("投标方给招标方评价接口完成");
 		}
@@ -1590,6 +1613,46 @@ public class BidServiceImpl implements BidService {
 			log.debug("查询未完成招标项目投标文件完成");
 		}
 		return result;
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,value="txManager")
+	public void ValidEvaluateBiddee(String appId, EvaluateBiddeeBodyVO body, Bidder bidder) throws BusinessException {
+		// TODO Auto-generated method stub
+		if(log.isDebugEnabled()){
+			log.debug("投标方给招标方评价接口开始");
+	}
+	String objectId = body.getObjectId();
+	BidObject bidObject = objectdao.selectByPrimaryKey(objectId);
+	if(bidObject==null){
+		log.error( "标的不存在:"+objectId);
+		throw ValidateException.ERROR_PARAM_NULL.clone(null, "标的不存在:");
+	}
+	if(StringUtils.equals(bidObject.getObjectStatus(),"END")){
+		log.error( "标的未结束:"+objectId);
+		throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的未结束");
+	}
+	List<ProjectInfo> projects = projectInfoDao.selectByObjectId(objectId);
+	if(org.apache.commons.collections.CollectionUtils.isEmpty(projects)){
+		log.error( "标的工程不存在:"+objectId);
+		throw new PaasException(PaasException.ERR_TENDER_INFO_EXCEPTION, "标的工程不存在");
+	}
+	ProjectInfo project=projects.get(0);
+	//标签部分缺少  add by YJY 2015年12月1日15:35:35 插入标签
+	//调用接口时,如果数据库失败,这个标签也会保存进去
+	if(project.getBiddeeId() != null){
+		String tagGroupName = "biddee_evaluation_manager_"+project.getBiddeeId();//
+		String tagGroupRemark  = "招标人【"+project.getBiddeeId()+"】评价管理";
+		//add by YJY 先判断组名称是否存在  不存在则插入组名称记录  
+		TagGroup tg = tgDao.selectByTagGroupName(tagGroupName);
+		if(tg == null){
+			TagGroup ta = new TagGroup();
+			ta.setTagGroupCreateTime(new Date());
+			ta.setTagGroupName(tagGroupName);
+			ta.setTagGroupRemark(tagGroupRemark);
+			tgDao.insert(ta);
+		}
+	}
 	}
 
 }

@@ -548,6 +548,15 @@ public interface TenderService {
 	 * @param biddee
 	 */
 	public void evaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException;
+	
+	/**
+	 * 校验标签组数据  
+	 * 
+	 * @param appId
+	 * @param body
+	 * @param biddee
+	 */
+	public void ValidevaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException;
 
 	/**
 	 * 查询工程类别列表

@@ -1284,6 +1284,7 @@ public class BidController extends BaseController {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");
 			}
+			bidService.ValidEvaluateBiddee(transorder.getApp().getAppId(),transorder.getBody(),bidder);
 			bidService.evaluateBiddee(transorder.getApp().getAppId(),transorder.getBody(),bidder);
 			tokenSrv.postponeToken(token);
 		}catch (Exception e1) {

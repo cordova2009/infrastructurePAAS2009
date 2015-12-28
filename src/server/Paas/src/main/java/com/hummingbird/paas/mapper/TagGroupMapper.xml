@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.paas.mapper.TagGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.paas.entity.TagGroup" >
+    <id column="tag_group_id" property="tagGroupId" jdbcType="INTEGER" />
+    <result column="tag_group_name" property="tagGroupName" jdbcType="VARCHAR" />
+    <result column="tag_group_create_time" property="tagGroupCreateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.paas.entity.TagGroup" extends="BaseResultMap" >
+    <result column="tag_group_remark" property="tagGroupRemark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tag_group_id, tag_group_name, tag_group_create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    tag_group_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_tag_group
+    where tag_group_id = #{tagGroupId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_tag_group
+    where tag_group_id = #{tagGroupId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.paas.entity.TagGroup" >
+    insert into t_tag_group (tag_group_id, tag_group_name, tag_group_create_time, 
+      tag_group_remark)
+    values (#{tagGroupId,jdbcType=INTEGER}, #{tagGroupName,jdbcType=VARCHAR}, #{tagGroupCreateTime,jdbcType=TIMESTAMP}, 
+      #{tagGroupRemark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.paas.entity.TagGroup" >
+    insert into t_tag_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tagGroupId != null" >
+        tag_group_id,
+      </if>
+      <if test="tagGroupName != null" >
+        tag_group_name,
+      </if>
+      <if test="tagGroupCreateTime != null" >
+        tag_group_create_time,
+      </if>
+      <if test="tagGroupRemark != null" >
+        tag_group_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tagGroupId != null" >
+        #{tagGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="tagGroupName != null" >
+        #{tagGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagGroupCreateTime != null" >
+        #{tagGroupCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tagGroupRemark != null" >
+        #{tagGroupRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.paas.entity.TagGroup" >
+    update t_tag_group
+    <set >
+      <if test="tagGroupName != null" >
+        tag_group_name = #{tagGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="tagGroupCreateTime != null" >
+        tag_group_create_time = #{tagGroupCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tagGroupRemark != null" >
+        tag_group_remark = #{tagGroupRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where tag_group_id = #{tagGroupId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.paas.entity.TagGroup" >
+    update t_tag_group
+    set tag_group_name = #{tagGroupName,jdbcType=VARCHAR},
+      tag_group_create_time = #{tagGroupCreateTime,jdbcType=TIMESTAMP},
+      tag_group_remark = #{tagGroupRemark,jdbcType=LONGVARCHAR}
+    where tag_group_id = #{tagGroupId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.paas.entity.TagGroup" >
+    update t_tag_group
+    set tag_group_name = #{tagGroupName,jdbcType=VARCHAR},
+      tag_group_create_time = #{tagGroupCreateTime,jdbcType=TIMESTAMP}
+    where tag_group_id = #{tagGroupId,jdbcType=INTEGER}
+  </update>
+   <select id="selectByTagGroupName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_tag_group
+    where tag_group_name = #{tagGroupName,jdbcType=VARCHAR}
+  </select>
+</mapper>

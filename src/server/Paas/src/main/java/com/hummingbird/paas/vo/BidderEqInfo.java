@@ -28,20 +28,54 @@ import com.hummingbird.paas.util.JacksonDateDeserializer;
 // }
 public class BidderEqInfo {
 
-	private String projectType;
+	protected String projectType;
 	/**
 	 * 工程类别名称
 	 */
-	private String projectTypeName;
-	private String eqName;
-	private String eqRating;
-	private Integer eqId;
-	private String certificationContent;
-	private String applicableRegion;
-	private String certificationNo;   
-	private Integer certificationId;   
+	protected String projectTypeName;
+	protected String eqName;
+	protected String eqRating;
+	protected Integer eqId;
+	protected String certificationContent;
+	protected String applicableRegion;
+	protected String certificationNo;   
+	protected Integer certificationId;   
 	
-	private Date expiryDate;
+	protected Date expiryDate;
+	
+	/**
+	 * 审核结果,为空表示未审核,FLS审核不通过,OK#审核通过
+	 */
+	protected String audit;
+	/**
+	 * 审核不通过的说明
+	 */
+	protected String auditMsg;
+
+	/**
+	 * 构造函数
+	 * @param bidderEqInfoWithAudit
+	 */
+	public BidderEqInfo(BidderEqInfoWithAudit bidderEqInfoWithAudit) {
+		this.projectType          = bidderEqInfoWithAudit.projectType;         
+		this.projectTypeName      = bidderEqInfoWithAudit.projectTypeName;     
+		this.eqName               = bidderEqInfoWithAudit.eqName;              
+		this.eqRating             = bidderEqInfoWithAudit.eqRating;            
+		this.eqId                 = bidderEqInfoWithAudit.eqId;                
+		this.certificationContent = bidderEqInfoWithAudit.certificationContent;
+		this.applicableRegion     = bidderEqInfoWithAudit.applicableRegion;    
+		this.certificationNo      = bidderEqInfoWithAudit.certificationNo;     
+		this.certificationId      = bidderEqInfoWithAudit.certificationId;     
+		this.expiryDate           = bidderEqInfoWithAudit.expiryDate;    
+	}
+	
+	
+
+	public BidderEqInfo() {
+		super();
+	}
+
+
 
 	/**
 	 * @return the projectType
@@ -180,7 +214,8 @@ public class BidderEqInfo {
 		return "BidderEqInfo [projectType=" + projectType + ", projectTypeName=" + projectTypeName + ", eqName="
 				+ eqName + ", eqRating=" + eqRating + ", eqId=" + eqId + ", certificationContent="
 				+ certificationContent + ", applicableRegion=" + applicableRegion + ", certificationNo="
-				+ certificationNo + ", expiryDate=" + expiryDate + "]";
+				+ certificationNo + ", certificationId=" + certificationId + ", expiryDate=" + expiryDate + ", audit="
+				+ audit + ", auditMsg=" + auditMsg + "]";
 	}
 
 	/**
@@ -195,6 +230,34 @@ public class BidderEqInfo {
 	 */
 	public void setCertificationId(Integer certificationId) {
 		this.certificationId = certificationId;
+	}
+
+	/**
+	 * 审核结果为空表示未审核FLS审核不通过OK#审核通过 
+	 */
+	public String getAudit() {
+		return audit;
+	}
+
+	/**
+	 * 审核结果为空表示未审核FLS审核不通过OK#审核通过 
+	 */
+	public void setAudit(String audit) {
+		this.audit = audit;
+	}
+
+	/**
+	 * 审核不通过的说明 
+	 */
+	public String getAuditMsg() {
+		return auditMsg;
+	}
+
+	/**
+	 * 审核不通过的说明 
+	 */
+	public void setAuditMsg(String auditMsg) {
+		this.auditMsg = auditMsg;
 	}
 
 	

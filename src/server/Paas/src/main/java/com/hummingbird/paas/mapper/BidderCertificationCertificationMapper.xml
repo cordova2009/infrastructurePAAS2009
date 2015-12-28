@@ -23,7 +23,20 @@
     <result column="applicable_region" property="applicableRegion" jdbcType="VARCHAR" />
     <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
     <result column="eqId" property="eqId" jdbcType="INTEGER" />
-    <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BidderEqInfoResultMapWithAudit" type="com.hummingbird.paas.vo.BidderEqInfoWithAudit" >
+<!--     <id column="id" property="id" jdbcType="INTEGER" /> -->
+    <result column="projectType" property="projectType" jdbcType="VARCHAR" />
+    <result column="projectTypeName" property="projectTypeName" jdbcType="VARCHAR" />
+    <result column="eqName" property="eqName" jdbcType="VARCHAR" />
+    <result column="eqRating" property="eqRating" jdbcType="VARCHAR" />
+    <result column="certification_content" property="certificationContent" jdbcType="VARCHAR" />
+    <result column="expiryDate" property="expiryDate" jdbcType="DATE" />
+    <result column="applicable_region" property="applicableRegion" jdbcType="VARCHAR" />
+    <result column="certification_no" property="certificationNo" jdbcType="VARCHAR" />
+    <result column="eqId" property="eqId" jdbcType="INTEGER" />
+    <result column="audit_status" property="audit" jdbcType="VARCHAR" />
+    <result column="audit_reason" property="auditMsg" jdbcType="VARCHAR" />
   </resultMap>
    <resultMap id="CertificationInfoResultMap" type="com.hummingbird.paas.vo.CertificationInfo" >
     <result column="certification_name" property="name" jdbcType="VARCHAR" />
@@ -46,12 +59,14 @@
       inner join t_base_industry i on i.id = m.industry_id
         where u.id = #{bidder_id,jdbcType=INTEGER} and and u.status != 'DIS'
   </select>
-  <select id="selectEqInfoByUserId"  resultMap="BidderEqInfoResultMap"  parameterType="java.lang.Integer" >
+  <select id="selectEqInfoByUserId"  resultMap="BidderEqInfoResultMapWithAudit"  parameterType="java.lang.Integer" >
     select  m.id eqId,m.certification_id,i.industry_name projectTypeName,m.applicable_region,m.certification_no,m.industry_id as projectType,m.certification_name as eqName,t.certification_level eqRating,m.certification_content,m.expire_time as expiryDate
+    ,a.audit_status ,a.audit_reason
       from t_qyzz_bidder_certification_certification m 
       INNER JOIN t_qyzz_bidder_certicate u ON m.bidder_apply_id = u.id
 	  LEFT JOIN t_base_certification_type t ON m.certification_id= t.id
 	  LEFT JOIN t_base_industry i ON i.id = m.industry_id
+	  left join t_qyzz_bidder_certification_audit a on a.certification_certicate_id = m.id
       where u.user_id = #{userId,jdbcType=INTEGER}  and u.status != 'DIS'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

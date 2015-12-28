@@ -5,13 +5,16 @@ package com.hummingbird.paas.controller;
  * 招标人业务
  * */
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -40,15 +43,19 @@ import com.hummingbird.commonbiz.vo.UserToken;
 import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.Biddee;
 import com.hummingbird.paas.entity.BiddeeBankAduit;
+import com.hummingbird.paas.entity.BiddeeBankCardCerticate;
 import com.hummingbird.paas.entity.BiddeeCerticate;
 import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.BiddeeCredit;
+import com.hummingbird.paas.entity.BidderBankAduit;
+import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.ScoreDefine;
 import com.hummingbird.paas.entity.ScoreLevel;
 import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
 import com.hummingbird.paas.mapper.BiddeeBankAduitMapper;
+import com.hummingbird.paas.mapper.BiddeeBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BiddeeCerticateMapper;
 import com.hummingbird.paas.mapper.BiddeeCertificateAduitMapper;
@@ -59,6 +66,7 @@ import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.services.MyBiddeeService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.IntegerUtil;
+import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.BiddeeAuditInfoVO;
 import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BiddeeBankInfo;
@@ -70,6 +78,7 @@ import com.hummingbird.paas.vo.BiddeeRegisteredInfo;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBiddeeAuthInfoBodyVO;
 import com.hummingbird.paas.vo.QueryObjectIndexSurveyResult;
+import com.hummingbird.tag.util.BeanUtil;
 @Controller
 @RequestMapping(value="/myBiddee/authInfo"
 		 ,method=RequestMethod.POST)
@@ -99,6 +108,8 @@ public class MyBiddeeBusinessController extends BaseController  {
 	TokenService tokenSrv;
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
+	@Autowired
+	protected BiddeeBankCardCerticateMapper beebccDao;
 	
 	
 	@RequestMapping(value="/getAuthInfo",method=RequestMethod.POST)
@@ -414,10 +425,30 @@ public class MyBiddeeBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			baseInfo = myBiddeeService.getBaseInfo_apply(token);
+//			baseInfo = myBiddeeService.getBaseInfo_apply(token);
+			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
+			baseInfo = new BiddeeBaseInfo();
+			if(aa!=null){
+				baseInfo.setLogoUrl(aa.getLogo());
+				baseInfo.setCompanyName(aa.getCompanyName());
+				baseInfo.setShortName(aa.getShortName());
+				baseInfo.setDescription(aa.getDescription());
+				baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
+				baseInfo.setTelephone(aa.getContactMobileNum());
+				baseInfo.setEmail(aa.getEmail());
+				//获取不通过的数据
+				BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(aa.getId());
+				Map checkresult = new HashMap<>();
+				setNoPassResult(checkresult,bca,"logo","companyName","shortName","description","registeredCapital","email");
+				if("FLS".equals(bca.getContactMobileNum())){
+					checkresult.put("telephone", bca.getContactMobileNumMsg());
+				}
+				rm.put("baseInfoCheck", checkresult);
+			}
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 			rm.put("baseInfo", baseInfo);
+			
 			tokenSrv.postponeToken(token);
 			
 		}catch (Exception e1) {
@@ -440,6 +471,28 @@ public class MyBiddeeBusinessController extends BaseController  {
 		
 	}
 	
+	/**
+	 * 设置不通过的数据
+	 * @param checkresult
+	 * @param bca
+	 * @param param
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws Exception 
+	 */
+	private void setNoPassResult(Map checkresult, Object bca, String ... params) throws Exception {
+		for (int i = 0; i < params.length; i++) {
+			String param = params[i];
+			String paramvalue = BeanUtils.getProperty(bca, param);
+			if(StringUtils.equals("FLS", paramvalue)){
+				String nopassreason =BeanUtils.getProperty(bca, param+"Msg");
+				checkresult.put(param, nopassreason);
+			}
+		}
+		
+	}
+
+
 	/**
 	 * 查询保存的招标人法人信息接口
 	 * @author YJY
@@ -485,10 +538,38 @@ public class MyBiddeeBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			legalPerson = myBiddeeService.getLegalPersonInfo_apply(token);
+//			legalPerson = myBiddeeService.getLegalPersonInfo_apply(token);
 			
 //						baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 //			rm.put("legalPerson", JsonUtil.convert2Json(legalPerson));
+			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
+			legalPerson = new BiddeeLegalPerson();
+			if(aa!=null){
+				legalPerson.setName(aa.getLegalPerson());
+				legalPerson.setIdCard(aa.getLegalPersonIdcard());
+				legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
+				legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
+				legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+				//获取不通过的数据
+				BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(aa.getId());
+				Map checkresult = new HashMap<>();
+				if("FLS".equals(bca.getLegalPerson())){
+					checkresult.put("name", bca.getLegalPersonMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonIdcard())){
+					checkresult.put("idCard", bca.getLegalPersonIdcardMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonIdcardFrontUrl())){
+					checkresult.put("idCardfrontUrl", bca.getLegalPersonIdcardFrontUrlMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonIdcardBackUrl())){
+					checkresult.put("idCardBackUrl", bca.getLegalPersonIdcardBackUrlMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonAuthorityBook())){
+					checkresult.put("authorityBookUrl", bca.getLegalPersonAuthorityBookMsg());
+				}
+				rm.put("legalPersonCheck", checkresult);
+			}
 	
 			rm.put("legalPerson", legalPerson);
 			tokenSrv.postponeToken(token);
@@ -558,7 +639,53 @@ public class MyBiddeeBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);	
+//			registeredInfo = myBiddeeService.getRegisteredInfo_apply(token);	
+			BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
+			registeredInfo = new BiddeeRegisteredInfo();
+
+			if(aa != null){
+				
+				registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+				registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+				registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+				registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+				registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+				registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+				registeredInfo.setBusinessScope(aa.getBusinessScope());
+				registeredInfo.setRegTime(aa.getRegTime());
+				registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+				registeredInfo.setAddress(aa.getAddress());
+				registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+				registeredInfo.setNewBusinessLicenseNum(aa.getUnifiedSocialCreditCode());
+				registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+				//获取不通过的数据
+				BiddeeCertificateAduit  bca = biddeeCertificateAduitDao.selectByBcid(aa.getId());
+				Map checkresult = new HashMap<>();
+				setNoPassResult(checkresult,bca,"businessLicenseUrl"
+						,"businessScope","regTime","businessLicenseExpireTime"
+						,"address");
+				
+				if("FLS".equals(bca.getBusinessLicense())){
+					checkresult.put("businessLicenseNum", bca.getBusinessLicenseMsg());
+				}
+				if("FLS".equals(bca.getTaxRegistrationCertificate())){
+					checkresult.put("taxRegistrationNum", bca.getTaxRegistrationCertificateMsg());
+				}
+				if("FLS".equals(bca.getOrgCodeCertificate())){
+					checkresult.put("organizationCodeNum", bca.getOrgCodeCertificateMsg());
+				}
+				if("FLS".equals(bca.getOrgCodeCertificateUrl())){
+					checkresult.put("organizationCodeUrl", bca.getOrgCodeCertificateUrlMsg());
+				}
+				if("FLS".equals(bca.getUnifiedSocialCreditCode())){
+					checkresult.put("newBusinessLicenseNum", bca.getUnifiedSocialCreditCodeMsg());
+				}
+				if("FLS".equals(bca.getUnifiedSocialCreditCodeUrl())){
+					checkresult.put("newBusinessLicenseUrl", bca.getUnifiedSocialCreditCodeUrlMsg());
+				}
+				
+				rm.put("registeredInfoCheck", checkresult);
+			}
 			rm.put("registeredInfo", registeredInfo);
 			tokenSrv.postponeToken(token);
 			
@@ -627,7 +754,45 @@ public class MyBiddeeBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			bankInfo = myBiddeeService.getBankInfo_apply(token);
+//			bankInfo = myBiddeeService.getBankInfo_apply(token);
+			List<BiddeeBankCardCerticate> aa = beebccDao.selectBiddeeBankInfoByToken(token.getToken());
+			bankInfo = new BiddeeBankInfo();
+			if(aa!=null&&aa.size()>0){
+				bankInfo.setBank(aa.get(0).getBankName());
+				bankInfo.setAccountId(aa.get(0).getAccountNo());
+				bankInfo.setAccountName(aa.get(0).getAccountName());
+				bankInfo.setTaxNo(aa.get(0).getTaxNo());
+				bankInfo.setTelephone(aa.get(0).getTelephone());
+				bankInfo.setAddress(aa.get(0).getAddress());
+				//处理不通过的银行卡信息
+				BiddeeCerticate bc = biddeeCerticateDao.selectByUserId(token.getUserId());
+				if(bc!=null){
+					BiddeeBankAduit bba = biddeeBankAduitDao.selectByBcId(bc.getId());
+					Map checkresult = new HashMap<>();
+					if("FLS".equals(bba.getAcccountNameCertificateResult())){
+						checkresult.put("acccountName", bba.getAcccountNameCertificateMsg());
+					}
+					if("FLS".equals(bba.getTaxNoCertificateResult())){
+						checkresult.put("taxNo", bba.getTaxNoCertificateMsg());
+					}
+					if("FLS".equals(bba.getTelephoneCertificateResult())){
+						checkresult.put("telephone", bba.getTelephoneCertificateMsg());
+					}
+					if("FLS".equals(bba.getAddressCertificateResult())){
+						checkresult.put("address", bba.getAddressCertificateMsg());
+					}
+					if("FLS".equals(bba.getBankCertificateResult())){
+						checkresult.put("bank", bba.getBankCertificateMsg());
+					}
+					if("FLS".equals(bba.getBankcardCertificateResult())){
+						checkresult.put("acccountId", bba.getBankcardCertificateMsg());
+					}
+					rm.put("baseInfoCheck", checkresult);
+				}
+			}
+			
+			
+			
 			rm.put("bankInfo", bankInfo);
 			
 			tokenSrv.postponeToken(token);

@@ -10,6 +10,7 @@ import com.hummingbird.paas.vo.BidderAuditBodyInfo;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderEqInfo;
+import com.hummingbird.paas.vo.BidderEqInfoWithAudit;
 import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
 import com.hummingbird.paas.vo.CertificationInfo;
@@ -126,6 +127,13 @@ public interface MyBidderService {
 	* @throws BusinessException 
 	*/
 	public List<BidderEqInfo> getEnterpriseQualification(Token token) throws BusinessException; 
+	
+	/**
+	 * 查询保存的招标人基本信息接口
+	 * @return 
+	 * @throws BusinessException 
+	 */
+	public List<BidderEqInfoWithAudit> getEnterpriseQualificationWithAudit(Token token) throws BusinessException; 
 	
 	/**
 	 *保存投标人企业资质接口

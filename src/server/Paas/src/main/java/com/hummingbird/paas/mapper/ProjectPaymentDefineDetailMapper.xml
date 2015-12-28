@@ -34,7 +34,7 @@
     from t_ztgl_project_payment_define_detail d  
     inner join t_ztgl_project_payment_define f on f.id = d.project_payment_define_id
     inner join t_gcgl_project j on j.object_id = f.object_id 
-    left join t_gcgl_project_payment_pay p on p.project_id = j.project_id and p.current_period = d.period and p.status='OK#'
+    left join t_gcgl_project_payment_pay p on p.project_id = j.project_id and p.current_period = d.period
     where f.object_id = #{objectId} 
     order by d.period desc
   </select>

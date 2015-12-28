@@ -18,6 +18,12 @@
     from t_qyzz_bidder_certification_audit
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByApplyId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qyzz_bidder_certification_audit
+    where certification_certicate_id = #{applyId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qyzz_bidder_certification_audit
     where id = #{id,jdbcType=INTEGER}

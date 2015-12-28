@@ -12,6 +12,8 @@ import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderEqInfo;
 import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
+import com.hummingbird.paas.vo.CertificationInfo;
+import com.sun.deploy.uitoolkit.impl.fx.ui.CertificateDialog.CertificateInfo;
 
 /**
  * 
@@ -150,5 +152,12 @@ public interface MyBidderService {
 	 */
 	
 	public String checkApplication(String appId, BidderAuditBodyInfo body, Integer bidder_id) throws BusinessException;
+	
+	/**
+	* 查询资质信息接口(用于认证详情)
+	* @return 
+	* @throws BusinessException 
+	*/
+	public List<CertificationInfo> getCertificationInfo(Integer bidderId) throws BusinessException; 
 	
 }

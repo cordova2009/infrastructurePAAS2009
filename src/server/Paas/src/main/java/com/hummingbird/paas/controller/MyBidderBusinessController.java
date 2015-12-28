@@ -80,6 +80,7 @@ import com.hummingbird.paas.vo.BidderCerticateSaveInfoVO;
 import com.hummingbird.paas.vo.BidderEqInfo;
 import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
+import com.hummingbird.paas.vo.CertificationInfo;
 import com.hummingbird.paas.vo.MyBidderAuthInfoApplyVO;
 import com.hummingbird.paas.vo.MyBidderAuthInfoBodyVO;
 import com.hummingbird.paas.vo.QueryBidIndexSurveyResult;
@@ -183,14 +184,11 @@ public class MyBidderBusinessController extends BaseController  {
 			BidderCertificateAduit lp = new BidderCertificateAduit();
 			BidderCertificateAduit cr = new BidderCertificateAduit();
 			BidderBankAduit bba = new BidderBankAduit();
+			List<CertificationInfo> ci = new ArrayList<CertificationInfo>();
 			if(bidder != null){
 				aa = bidderCreditDao.selectByPrimaryKey(bidder.getId());
 
-					 bb = scoreLevelDao.countLevelByScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
-					 p = bidderCertificateAduitDao.selectPersonalInfo(bidder.getId());
-					 bi = bidderCertificateAduitDao.selectBaseInfo(bidder.getId());
-					 lp = bidderCertificateAduitDao.selectLegalPersonInfo(bidder.getId());
-					 cr = bidderCertificateAduitDao.selectCompanyRegisteredInfo(bidder.getId());
+					 bb = scoreLevelDao.countLevelByScore(aa==null?0:ui.getRegulaInt(aa.getCreditScore()));
 					 bba = bidderBankAduitDao.selectByBcId(bidder.getId());
 					 overall.put("creditScore", aa==null?0:ui.getRegulaInt(aa.getCreditScore()));
 					//1.个人状态、积分信息
@@ -200,6 +198,7 @@ public class MyBidderBusinessController extends BaseController  {
 					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
 								personalInfo.setStatus("已认证");
 					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 p = bidderCertificateAduitDao.selectPersonalInfo(bidder.getId());
 						 if(p!=null){
 								personalInfo.setStatus("已认证");
 							}else{
@@ -217,6 +216,7 @@ public class MyBidderBusinessController extends BaseController  {
 					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
 								baseInfo.setStatus("已认证");
 					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 bi = bidderCertificateAduitDao.selectBaseInfo(bidder.getId());
 						 if(bi!=null){
 							 	baseInfo.setStatus("已认证");
 							}else{
@@ -231,6 +231,7 @@ public class MyBidderBusinessController extends BaseController  {
 					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
 								legalPersonInfo.setStatus("已认证");
 					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 lp = bidderCertificateAduitDao.selectLegalPersonInfo(bidder.getId());
 						 if(lp!=null){
 							 legalPersonInfo.setStatus("已认证");
 							}else{
@@ -246,6 +247,7 @@ public class MyBidderBusinessController extends BaseController  {
 					 }else if("OK#".equalsIgnoreCase(bidder.getStatus())){
 								companyRegisteredInfo.setStatus("已认证");
 					 }else if("FLS".equalsIgnoreCase(bidder.getStatus())){
+						 cr = bidderCertificateAduitDao.selectCompanyRegisteredInfo(bidder.getId());
 						 if(cr!=null){
 							 companyRegisteredInfo.setStatus("已认证");
 							}else{
@@ -279,6 +281,9 @@ public class MyBidderBusinessController extends BaseController  {
 
 					bankInfo.setCreditScore(aa==null?0:ui.getRegulaInt(aa.getBankInfo()));
 					myBidderInfo.put("bankInfo", bankInfo);
+					//资质信息
+					ci = myBidderService.getCertificationInfo(bidder.getId());
+					myBidderInfo.put("certificationInfo", ci);
 					
 					winNum.setStatus("0");
 					winNum.setCreditScore(0);//按照次数乘以10
@@ -330,6 +335,10 @@ public class MyBidderBusinessController extends BaseController  {
 				myBidderInfo.put("companyRegisteredInfo", ba);
 				
 				myBidderInfo.put("bankInfo", ba);
+				
+				//资质信息
+				myBidderInfo.put("certificationInfo", ci);
+				
 //				int num = biddeeBidCreditScoreDao.countNumByBid(aa.getTendererId());
 				winNum.setStatus("0");
 				winNum.setCreditScore(0);//按照次数乘以10

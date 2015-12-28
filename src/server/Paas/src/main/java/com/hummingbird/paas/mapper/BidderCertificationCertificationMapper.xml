@@ -25,6 +25,11 @@
     <result column="eqId" property="eqId" jdbcType="INTEGER" />
     <result column="certification_id" property="certificationId" jdbcType="INTEGER" />
   </resultMap>
+   <resultMap id="CertificationInfoResultMap" type="com.hummingbird.paas.vo.CertificationInfo" >
+    <result column="certification_name" property="name" jdbcType="VARCHAR" />
+    <result column="audit_status" property="status" jdbcType="VARCHAR" />
+    <result column="score" property="creditScore" jdbcType="INTEGER" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, bidder_apply_id, certification_id, certification_name, certification_content, 
     expire_time, applicable_region, certification_no, industry_id
@@ -175,4 +180,13 @@
       industry_id = #{industryId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectCertificationInfo" resultMap="CertificationInfoResultMap"  parameterType="java.lang.Integer" >
+   select  m.id,m.certification_name,IF(c.audit_status='OK#',"已认证","待认证")audit_status,s.score
+      from t_qyzz_bidder_certification_certification m 
+      INNER JOIN t_qyzz_bidder_certicate u ON m.bidder_apply_id = u.id
+			LEFT JOIN t_qyzz_bidder_certification_audit c on m.id = c.certification_certicate_id
+			LEFT JOIN t_qyzz_bidder_certification d on m.id = d.id
+			LEFT JOIN t_xyjf_bidder_certification_credit_score s on s.certificate_record_id = d.id
+     	 where u.id= #{bidder_id,jdbcType=INTEGER}  and u.status != 'DIS'
+  </select>
 </mapper>

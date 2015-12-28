@@ -2225,7 +2225,7 @@ public class TenderServiceImpl implements TenderService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
-	public void ValidevaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException {
+	public void ValidEvaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException {
 		// TODO Auto-generated method stub
 		int i = 0;
 		String objectId = body.getObjectId();

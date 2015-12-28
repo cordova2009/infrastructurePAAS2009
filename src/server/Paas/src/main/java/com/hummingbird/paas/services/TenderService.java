@@ -556,7 +556,7 @@ public interface TenderService {
 	 * @param body
 	 * @param biddee
 	 */
-	public void ValidevaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException;
+	public void ValidEvaluateBidder(String appId, EvaluateBidderBodyVO body, Biddee biddee) throws BusinessException;
 
 	/**
 	 * 查询工程类别列表

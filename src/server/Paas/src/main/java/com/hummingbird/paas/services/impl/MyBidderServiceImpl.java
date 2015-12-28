@@ -68,6 +68,7 @@ import com.hummingbird.paas.vo.BidderBaseInfoCheck;
 import com.hummingbird.paas.vo.BidderLegalPersonCheck;
 import com.hummingbird.paas.vo.BidderRegisteredInfoCheck;
 import com.hummingbird.paas.vo.CertificationCheck;
+import com.hummingbird.paas.vo.CertificationInfo;
 import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderEqInfo;
@@ -676,13 +677,13 @@ public class MyBidderServiceImpl implements MyBidderService {
 						bcr = new BidderCredit();
 					}
 					ValidateUtil.assertNull(sd, "积分配置信息");
-					IntegerUtil iu = new IntegerUtil();
+					IntegerUtil ui = new IntegerUtil();
 //					这里积分规则未定出     暂时全部存入 0 
-					bcr.setBankInfo(iu.getRegulaInt(sd.getBankInfo()));
-					bcr.setBaseinfoCreditScore(iu.getRegulaInt(sd.getBaseinfoCreditScore()));
-					bcr.setCompanyRegisteredInfo(iu.getRegulaInt(sd.getCompanyRegisteredInfo()));
-					bcr.setCreditScore(iu.getSum(sd.getBankInfo(),sd.getCompanyRegisteredInfo(),sd.getBaseinfoCreditScore(),sd.getLegalPersonInfo()));
-					bcr.setLegalPersonInfo(iu.getRegulaInt(sd.getLegalPersonInfo()));
+					bcr.setBankInfo(ui.getRegulaInt(sd.getBankInfo()));
+					bcr.setBaseinfoCreditScore(ui.getRegulaInt(sd.getBaseinfoCreditScore()));
+					bcr.setCompanyRegisteredInfo(ui.getRegulaInt(sd.getCompanyRegisteredInfo()));
+					bcr.setCreditScore(ui.getSum(sd.getBankInfo(),sd.getCompanyRegisteredInfo(),sd.getBaseinfoCreditScore(),sd.getLegalPersonInfo()));
+					bcr.setLegalPersonInfo(ui.getRegulaInt(sd.getLegalPersonInfo()));
 					
 					if(bcr.getBidderId() != null){
 						bidderCreditDao.updateByPrimaryKeySelective(bcr);
@@ -874,8 +875,16 @@ public class MyBidderServiceImpl implements MyBidderService {
 	    }
 		return flag;
 	}
-	
-		  
+
+	@Override
+	public List<CertificationInfo> getCertificationInfo(Integer bidderId) throws BusinessException {
+		// TODO Auto-generated method stub
+		List<CertificationInfo> ci = bidderCertificationCertificationDao.selectCertificationInfo(bidderId);
+		if(ci == null||(ci.size()==1 && ci.get(0)==null)){
+			ci = new ArrayList<CertificationInfo>(); 
+		}
+		return ci;
+		}
 	}
 
 

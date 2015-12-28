@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.vo.BidderEqInfo;
+import com.hummingbird.paas.vo.CertificationInfo;
 
 public interface BidderCertificationCertificationMapper {
     /**
@@ -50,4 +51,8 @@ public interface BidderCertificationCertificationMapper {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(BidderCertificationCertification record);
+    /**
+     * 根据bidderId查询记录 
+     */
+    List<CertificationInfo> selectCertificationInfo(Integer bidderId);
 }

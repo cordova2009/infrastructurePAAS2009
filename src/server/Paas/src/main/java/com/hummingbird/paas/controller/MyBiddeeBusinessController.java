@@ -169,11 +169,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 				BiddeeCredit aa = biddeeCreditDao.selectByUserId(biddee.getId());
 //				 bb = scoreLevelDao.countLevelByScore(aa.getCreditScore()!=null?aa.getCreditScore():0);
 				
-					 bb = scoreLevelDao.countLevelByScore(aa==null?0:(aa.getCreditScore()!=null?aa.getCreditScore():0));
-					 p = biddeeCertificateAduitDao.selectPersonalInfo(biddee.getId());
-					 bi = biddeeCertificateAduitDao.selectBaseInfo(biddee.getId());
-					 lp = biddeeCertificateAduitDao.selectLegalPersonInfo(biddee.getId());
-					 cr = biddeeCertificateAduitDao.selectCompanyRegisteredInfo(biddee.getId());
+					 bb = scoreLevelDao.countLevelByScore(aa==null?0:ui.getRegulaInt(aa.getCreditScore()));
 					 bba = biddeeBankAduitDao.selectByBcId(biddee.getId());
 					 
 					//1.个人状态、积分信息
@@ -183,6 +179,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 					 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
 								personalInfo.setStatus("已认证");
 					 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+						 p = biddeeCertificateAduitDao.selectPersonalInfo(biddee.getId());
 						 if(p!=null){
 								personalInfo.setStatus("已认证");
 							}else{
@@ -200,6 +197,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
 									baseInfo.setStatus("已认证");
 						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 bi = biddeeCertificateAduitDao.selectBaseInfo(biddee.getId());
 							 if(bi!=null){
 								 baseInfo.setStatus("已认证");
 								}else{
@@ -214,6 +212,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
 									legalPersonInfo.setStatus("已认证");
 						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 lp = biddeeCertificateAduitDao.selectLegalPersonInfo(biddee.getId());
 							 if(lp!=null){
 								 legalPersonInfo.setStatus("已认证");
 								}else{
@@ -229,6 +228,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 						 }else if("OK#".equalsIgnoreCase(biddee.getStatus())){
 									companyRegisteredInfo.setStatus("已认证");
 						 }else if("FLS".equalsIgnoreCase(biddee.getStatus())){
+							 cr = biddeeCertificateAduitDao.selectCompanyRegisteredInfo(biddee.getId());
 							 if(cr!=null){
 								 companyRegisteredInfo.setStatus("已认证");
 								}else{
@@ -289,7 +289,7 @@ public class MyBiddeeBusinessController extends BaseController  {
 					overall.put("creditScore", aa==null?0:ui.getRegulaInt(aa.getCreditScore()));
 					
 				if(bb!= null){
-					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "A"));
+					overall.put("creditRating", StringUtils.defaultIfEmpty(bb.getLevelName(), "B"));
 					overall.put("creditRatingIcon", bb.getIcon());
 				}else{
 					overall.put("creditRating", "B");

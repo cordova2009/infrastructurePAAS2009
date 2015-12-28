@@ -34,6 +34,7 @@ import com.hummingbird.paas.mapper.ProjectPaymentReceiveMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentRecordMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.util.FundNameUtil;
+import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.MyIncomeOverallReturnVO;
 import com.hummingbird.paas.vo.MyObjectPaymentBodyVO;
 import com.hummingbird.paas.vo.MyPaymentOverallReturnVO;
@@ -81,6 +82,7 @@ public class ProjectServiceImpl implements ProjectService{
 			boolean hadsetnextperiod = false;
 			int nextperiod =1;
 			ProjectPaymentDefineDetailAndPay shouldpay=null;
+			String status=null;
 			for (Iterator iterator = selectPayDefineByObjectId.iterator(); iterator.hasNext();) {
 				ProjectPaymentDefineDetailAndPay defineandpay = (ProjectPaymentDefineDetailAndPay) iterator
 						.next();
@@ -94,10 +96,11 @@ public class ProjectServiceImpl implements ProjectService{
 						hadsetnextperiod=true;
 					}
 				}
-				else if(StringUtils.equals(defineandpay.getStatus(), "CFM")){
+				else if(StringUtils.equals(defineandpay.getStatus(), "CRT")){
 					//待平台确认
 					shouldpay = defineandpay;
 					hadsetnextperiod=true;
+					status="CRT";
 				}
 				if(!hadsetnextperiod){//下一期应付的钱
 					shouldpay = defineandpay;
@@ -107,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			QueryMyPaymentListReturnVO query=new QueryMyPaymentListReturnVO();
 			query.setObjectId(project.getObjectId());
-			query.setObjectName(project.getProjectName());
+			query.setObjectName(project.getObjectName());
 			query.setPaidAmount(String.valueOf(hadpayamount));
 //			Long willPayAmount=0l;
 //			if(lastPayInfo!=null){
@@ -116,12 +119,23 @@ public class ProjectServiceImpl implements ProjectService{
 //				
 //				willPayAmount=objcet.getWinBidAmount();//-payDefine.getPaySum();
 //			}
-			query.setWillPayAmount(ObjectUtils.toString(projectamount));
-			query.setWinBidAmount(ObjectUtils.toString(projectamount-hadpayamount));
-			query.setNextPeriodPayAmount(ObjectUtils.toString(shouldpay.getPaySum()));
-			query.setNextPeriodPayTime(DateUtil.formatCommonDateorNull(shouldpay.getPayStartTime()));
-			query.setStatus(StringUtils.defaultIfEmpty(shouldpay.getStatus(),"NON"));
-			query.setNextPeriod(shouldpay.getPeriod());
+			if(status==null){
+				status=StringUtils.defaultIfEmpty(shouldpay.getStatus(),"NON");
+			}
+			Long willPayAmount=projectamount-hadpayamount;
+			query.setWillPayAmount(ObjectUtils.toString(willPayAmount));
+			query.setWinBidAmount(ObjectUtils.toString(projectamount));
+			if(willPayAmount<=0){
+				query.setNextPeriodPayAmount("0");
+				query.setNextPeriod(0);
+				query.setNextPeriodPayTime(null);
+			}else{
+				query.setNextPeriodPayAmount(ObjectUtils.toString(shouldpay.getPaySum()));
+				query.setNextPeriod(shouldpay.getPeriod());
+				query.setNextPeriodPayTime(DateUtil.formatCommonDateorNull(shouldpay.getPayStartTime()));
+			}
+			query.setStatus(status);
+			
 			list.add(query);
 		}
 		return list;

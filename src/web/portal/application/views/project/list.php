@@ -3,7 +3,7 @@
     <div class="list-search-cont table">
         <form action="<?=U('/project/list')?>" method="get">
             <div class="cell search-box">
-                <input type="text" class="search" name="keyword" value="<?php echo I('keyword'); ?>">
+                <input type="text" class="search" name="keyword" value="<?=I('keyword'); ?>">
             </div>
             <div class="cell search-btn">
                 <input type="submit" value="搜索工程项目" class="sub1 ">
@@ -21,7 +21,7 @@
     </div>
     <!--list-->
     <div class="result-list bgf">
-        <div class="tit1">搜索结果</div>
+        <div class="tit1"><?=empty(I('keyword')) ? '项目列表' : '搜索结果'?></div>
         <div class="table2">
             <table>
                 <tr class="thead bg1">

@@ -510,7 +510,7 @@
 	LEFT JOIN t_qyzz_bidder c on b.bidder_id = c.id and c.status = 'OK#'
     LEFT JOIN t_ztgl_object_project_info d on a.object_id = d.object_id
 	LEFT JOIN  t_ztgl_bid_attachment e on b.id = e.bid_id and e.attachment_type = 'BF#'
-    where  a.biddee_id = #{biddeeId}   and a.object_id =#{objectId,jdbcType=VARCHAR}
+    where  a.biddee_id = #{biddeeId}   and a.object_id =#{objectId,jdbcType=VARCHAR} and a.object_publish_type != 'INV'
     <if test="page != null" >
     limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
     </if> 

@@ -154,7 +154,7 @@
                 </tr>
                 <?php foreach($bid_list as $item):?>
                 <tr>
-                    <td  class="name"><span class="tag"><?=$v['industryIcon']?></span><?= $item['objectName'] ?></td>
+                    <td  class="name"><span class="tag"><?=$item['industryIcon']?></span><?= $item['objectName'] ?></td>
                     <td class="tende$bid_listree" class="tenderee"><?= $item['bidderName'] ?></td>
                     <td class="tenderee"><?= $item['biddeeName'] ?></td>
                     <td class="price"><?=price_format($item['winBidAmount'])?> <span class="fz12">元</span></td>

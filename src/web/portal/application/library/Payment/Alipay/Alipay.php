@@ -13,7 +13,7 @@ class Alipay extends AbstractPayment
 	//页面跳转同步通知页面路径
     const URL_REMOTE_RETURN = '/payment/callback';
 	//服务器异步通知页面路径
-    const URL_REMOTE_NOTIFY = 'http://112.124.6.88:8097/AlipayPaymentGateway/alipay/alipay_payment_notify';
+    const URL_REMOTE_NOTIFY = 'AlipayPaymentGateway/alipay/alipay_payment_notify';
     
     var $config = array();
     
@@ -45,8 +45,8 @@ class Alipay extends AbstractPayment
      * 支付前完成基本支付信息表单
      * @return multitype:boolean unknown
      */
-    public function beforePay()
-    {
+    public function beforePay(){
+
 		$alipaySubmit = new \Payment\Alipay\AlipaySubmit($this->config);
 		/**************************请求参数**************************/
 		//构造要请求的参数数组，无需改动
@@ -54,7 +54,7 @@ class Alipay extends AbstractPayment
 				"service" 		=> "create_direct_pay_by_user",
 				"partner" 		=> trim($this->account['mer_id']),
 				"payment_type"	=> 1,
-				"notify_url"	=> self::URL_REMOTE_NOTIFY,
+				"notify_url"	=> \Yaf\Registry::get('config')->url->api->payment.self::URL_REMOTE_NOTIFY,
 				"return_url"	=> 'http://'.$_SERVER['HTTP_HOST'].self::URL_REMOTE_RETURN,
 				"seller_email"	=> $this->account['mer_account'],
 				"out_trade_no"	=> $this->order['sn'],

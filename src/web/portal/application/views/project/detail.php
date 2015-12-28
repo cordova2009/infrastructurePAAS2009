@@ -48,7 +48,7 @@
                 <div class="time"><?=$daojishi?></div>
                 <div class="txt2">截止时间</div>
                 <div >
-                    <div class="txt3 blue fz36"><?=isset($survey['bidderNum'])?$survey['bidderNum']:'未填写'?>
+                    <div class="txt3 blue fz36"><?=isset($survey['bidderNum'])?$survey['bidderNum']:'未公开'?>
                         <?php if($info['status']=='PUB'){?>
                         <div class="text-center padt30 right">
                             <a href="<?=U('/member/bid/requirement',['objectId'=>$info['objectId']])?>" class="btn-green4">我要投标</a>

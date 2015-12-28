@@ -20,6 +20,7 @@
  */
 function regex($value,$rule) {
     $validate = array(
+        'chinese'   =>  '/^[\x7f-\xff]+$/',
         'require'   =>  '/\S+/',
         'email'     =>  '/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/',
         'url'       =>  '/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(:\d+)?(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/',

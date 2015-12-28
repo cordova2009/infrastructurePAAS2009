@@ -34,12 +34,14 @@ import com.hummingbird.paas.mapper.ProjectPaymentReceiveMapper;
 import com.hummingbird.paas.mapper.ProjectPaymentRecordMapper;
 import com.hummingbird.paas.services.ProjectService;
 import com.hummingbird.paas.util.FundNameUtil;
+import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.MyIncomeOverallReturnVO;
 import com.hummingbird.paas.vo.MyObjectPaymentBodyVO;
 import com.hummingbird.paas.vo.MyPaymentOverallReturnVO;
 import com.hummingbird.paas.vo.PaidAmountDetailReturnVO;
 import com.hummingbird.paas.vo.QueryMyIncomeListReturnVO;
 import com.hummingbird.paas.vo.QueryMyPaymentListReturnVO;
+import com.hummingbird.paas.vo.QueryMyPaymentReturnVO;
 import com.hummingbird.paas.vo.WillPayAmountDetailReturnVO;
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -81,6 +83,7 @@ public class ProjectServiceImpl implements ProjectService{
 			boolean hadsetnextperiod = false;
 			int nextperiod =1;
 			ProjectPaymentDefineDetailAndPay shouldpay=null;
+			String status=null;
 			for (Iterator iterator = selectPayDefineByObjectId.iterator(); iterator.hasNext();) {
 				ProjectPaymentDefineDetailAndPay defineandpay = (ProjectPaymentDefineDetailAndPay) iterator
 						.next();
@@ -94,10 +97,11 @@ public class ProjectServiceImpl implements ProjectService{
 						hadsetnextperiod=true;
 					}
 				}
-				else if(StringUtils.equals(defineandpay.getStatus(), "CFM")){
+				else if(StringUtils.equals(defineandpay.getStatus(), "CRT")){
 					//待平台确认
 					shouldpay = defineandpay;
 					hadsetnextperiod=true;
+					status="CRT";
 				}
 				if(!hadsetnextperiod){//下一期应付的钱
 					shouldpay = defineandpay;
@@ -107,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			QueryMyPaymentListReturnVO query=new QueryMyPaymentListReturnVO();
 			query.setObjectId(project.getObjectId());
-			query.setObjectName(project.getProjectName());
+			query.setObjectName(project.getObjectName());
 			query.setPaidAmount(String.valueOf(hadpayamount));
 //			Long willPayAmount=0l;
 //			if(lastPayInfo!=null){
@@ -116,12 +120,23 @@ public class ProjectServiceImpl implements ProjectService{
 //				
 //				willPayAmount=objcet.getWinBidAmount();//-payDefine.getPaySum();
 //			}
-			query.setWillPayAmount(ObjectUtils.toString(projectamount));
-			query.setWinBidAmount(ObjectUtils.toString(projectamount-hadpayamount));
-			query.setNextPeriodPayAmount(ObjectUtils.toString(shouldpay.getPaySum()));
-			query.setNextPeriodPayTime(DateUtil.formatCommonDateorNull(shouldpay.getPayStartTime()));
-			query.setStatus(StringUtils.defaultIfEmpty(shouldpay.getStatus(),"NON"));
-			query.setNextPeriod(shouldpay.getPeriod());
+			if(status==null){
+				status=StringUtils.defaultIfEmpty(shouldpay.getStatus(),"NON");
+			}
+			Long willPayAmount=projectamount-hadpayamount;
+			query.setWillPayAmount(ObjectUtils.toString(willPayAmount));
+			query.setWinBidAmount(ObjectUtils.toString(projectamount));
+			if(willPayAmount<=0){
+				query.setNextPeriodPayAmount("0");
+				query.setNextPeriod(0);
+				query.setNextPeriodPayTime(null);
+			}else{
+				query.setNextPeriodPayAmount(ObjectUtils.toString(shouldpay.getPaySum()));
+				query.setNextPeriod(shouldpay.getPeriod());
+				query.setNextPeriodPayTime(DateUtil.formatCommonDateorNull(shouldpay.getPayStartTime()));
+			}
+			query.setStatus(status);
+			
 			list.add(query);
 		}
 		return list;
@@ -438,5 +453,57 @@ public class ProjectServiceImpl implements ProjectService{
 		record.setVoucherPic(body.getVoucherFileUrl());
 		record.setOrderId(NoGenerationUtil.genNO("PP",6));
 		payRecordDao.insert(record);
+	}
+
+	@Override
+	public QueryMyPaymentReturnVO queryMyPayment(String objectId)
+			throws MaAccountException {
+		BidObject object=objectDao.selectByPrimaryKey(objectId);
+		if(object==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据标的记录号[%s]查询不到标的",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的记录号[%s]查询不到标的",objectId));
+		
+		}
+		List<ProjectInfo> selectByObjectId = projectDao.selectByObjectId(objectId);
+		if(selectByObjectId==null||selectByObjectId.isEmpty()){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据标的Id[%s]查询不到工程",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的Id[%s]查询不到工程",objectId));
+			
+		}
+		ProjectInfo projectInfo=selectByObjectId.get(0);
+		if(projectInfo==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("根据标的Id[%s]查询不到工程",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("根据标的Id[%s]查询不到工程",objectId));
+		
+		}
+		ProjectPaymentPay lastPayInfo=payRecordDao.getLastRecord(objectId);
+		ProjectPaymentDefine define=payDefDao.selectByObjectId(objectId);
+		int currentperiod =  lastPayInfo==null?1:(StringUtils.equals(lastPayInfo.getStatus(),CommonStatusConst.STATUS_FAIL)?lastPayInfo.getCurrentPeriod():(lastPayInfo.getCurrentPeriod()+1));
+		ProjectPaymentDefineDetail defines=payDefineDao.selectNextPayByObjectId(objectId,currentperiod);
+		if(define==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("项目【%s】查询付款定义失败",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("项目【%s】查询付款定义失败",objectId));
+		
+		}
+		if(defines==null){
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("项目【%s】付款已结束",objectId));
+			}
+			throw new MaAccountException(MaAccountException.ERR_ORDER_EXCEPTION,String.format("项目【%s】付款已结束",objectId));
+		
+		}
+		QueryMyPaymentReturnVO result=new QueryMyPaymentReturnVO();
+		result.setObjectName(object.getObjectName());
+		result.setPayAmount(String.valueOf(defines.getPaySum()));
+		result.setPayPeriod("第"+FundNameUtil.outCh(defines.getPeriod())+"期");
+		return result;
 	}
 }

@@ -10,9 +10,18 @@ import com.hummingbird.paas.vo.MyPaymentOverallReturnVO;
 import com.hummingbird.paas.vo.PaidAmountDetailReturnVO;
 import com.hummingbird.paas.vo.QueryMyIncomeListReturnVO;
 import com.hummingbird.paas.vo.QueryMyPaymentListReturnVO;
+import com.hummingbird.paas.vo.QueryMyPaymentReturnVO;
 import com.hummingbird.paas.vo.WillPayAmountDetailReturnVO;
 
 public interface ProjectService {
+	/**
+	 * 查询我的招标项目付款列表
+	 * @param pagingnation 
+	 * @param BeeId
+	 * @return
+	 * @throws MaAccountException
+	 */
+	public QueryMyPaymentReturnVO queryMyPayment(String objectId)throws MaAccountException;
 	/**
 	 * 查询我的招标项目付款列表
 	 * @param pagingnation 

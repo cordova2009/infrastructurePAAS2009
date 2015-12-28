@@ -62,7 +62,7 @@ if(check_resp($resp)){
             <div class="item ">
                 <div class="lab">建设单位办公电话</div>
                 <div class="value">
-                    <input type="text" class="input1 " placeholder="" name="employerTelephone" value="<?=isset($info)?$info['employerTelephone']:''?>">
+                    <input type="text" class="input1 " placeholder="区号+电话号码+分机号码" name="employerTelephone" value="<?=isset($info)?$info['employerTelephone']:''?>">
                 </div>
             </div>
 

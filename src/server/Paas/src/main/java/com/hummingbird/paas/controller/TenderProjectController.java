@@ -41,6 +41,7 @@ import com.hummingbird.paas.vo.MyObjectPaymentVO;
 import com.hummingbird.paas.vo.ObjectBodyVO;
 import com.hummingbird.paas.vo.ObjectVO;
 import com.hummingbird.paas.vo.QueryMyPaymentListReturnVO;
+import com.hummingbird.paas.vo.QueryMyPaymentReturnVO;
 import com.hummingbird.paas.vo.TokenBodyVO;
 import com.hummingbird.paas.vo.TokenPagingVO;
 import com.hummingbird.paas.vo.TokenVO;
@@ -68,6 +69,50 @@ public class TenderProjectController extends BaseController{
 	 * @param request
 	 * @return
 	 */
+	@RequestMapping(value = "/queryMyPayment", method = RequestMethod.POST)
+	@AccessRequered(methodName = "查询我的招标项目付款情况",codebase=250100,  appLog = true)
+	public @ResponseBody Object queryMyPayment(HttpServletRequest request) {
+		
+		ObjectVO transorder;
+		ResultModel rm = super.getResultModel();
+		try {
+			String jsonstr = RequestUtil.getRequestPostData(request);
+			request.setAttribute("rawjson", jsonstr);
+			transorder = RequestUtil.convertJson2Obj(jsonstr, ObjectVO.class);
+		} catch (Exception e) {
+			log.error(String.format("获取订单参数出错"),e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
+			return rm;
+		}
+		String messagebase = "查询我的招标项目付款情况";
+		try {
+			if(log.isDebugEnabled()){
+				log.debug("检验通过，获取请求");
+			}
+			
+			Token token = tokenSrv.getToken(transorder.getBody().getToken(), transorder.getApp().getAppId());
+			if (token == null) {
+				log.error(String.format("token[%s]验证失败,或已过期,请重新登录", transorder.getBody().getToken()));
+				throw new TokenException("token验证失败,或已过期,请重新登录");
+			}
+			Biddee biddee = validateWithBusiness(transorder.getBody().getToken(), transorder.getApp().getAppId(),token);
+			
+			QueryMyPaymentReturnVO result = projectSer.queryMyPayment(transorder.getBody().getObjectId());
+			rm.put("result", result);
+			tokenSrv.postponeToken(token);
+		} catch (Exception e1) {
+			log.error(String.format(messagebase+"失败"),e1);
+			rm.mergeException(e1);
+			rm.setErrmsg(messagebase+"失败,"+rm.getErrmsg());
+		}
+		return rm;
+	}
+	
+	/**
+	 * 查询我的招标项目付款情况
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/queryMyPaymentList", method = RequestMethod.POST)
 	@AccessRequered(methodName = "查询我的招标项目付款情况",codebase=250100,  appLog = true)
 	public @ResponseBody Object queryMyPaymentList(HttpServletRequest request) {
@@ -83,7 +128,7 @@ public class TenderProjectController extends BaseController{
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "订单参数"));
 			return rm;
 		}
-		String messagebase = "查询我的招标项目付款情况";
+		String messagebase = "查询我的招标项目付款列表情况";
 		try {
 			if(log.isDebugEnabled()){
 				log.debug("检验通过，获取请求");

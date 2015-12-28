@@ -1,9 +1,7 @@
 package com.hummingbird.paas.services.impl;
 
-import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,18 +20,14 @@ import com.hummingbird.common.constant.CommonStatusConst;
 import com.hummingbird.common.exception.BusinessException;
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.exception.ValidateException;
-import com.hummingbird.common.util.DateUtil;
-import com.hummingbird.common.util.Md5Util;
 import com.hummingbird.common.util.ValidateUtil;
-import com.hummingbird.paas.entity.BiddeeCredit;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankAduit;
 import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
-import com.hummingbird.paas.entity.BidderCertificateAduit;
-import com.hummingbird.paas.entity.BidderCertification;
-import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.BidderCerticate;
+import com.hummingbird.paas.entity.BidderCertificateAduit;
+import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.entity.BidderCredit;
 import com.hummingbird.paas.entity.ScoreDefine;
@@ -45,6 +39,7 @@ import com.hummingbird.paas.mapper.BidderBankAduitMapper;
 import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
+import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
 import com.hummingbird.paas.mapper.BidderCertificationAuditMapper;
 import com.hummingbird.paas.mapper.BidderCertificationCertificationMapper;
@@ -53,7 +48,6 @@ import com.hummingbird.paas.mapper.BidderCertificationMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ScoreDefineMapper;
-import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.ScoreLevelMapper;
 import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
@@ -63,16 +57,17 @@ import com.hummingbird.paas.util.PhoneAndEmailUtil;
 import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.AuditInfo;
 import com.hummingbird.paas.vo.BidderAuditBodyInfo;
+import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBankInfoCheck;
+import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderBaseInfoCheck;
+import com.hummingbird.paas.vo.BidderEqInfo;
+import com.hummingbird.paas.vo.BidderEqInfoWithAudit;
+import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderLegalPersonCheck;
+import com.hummingbird.paas.vo.BidderRegisteredInfo;
 import com.hummingbird.paas.vo.BidderRegisteredInfoCheck;
 import com.hummingbird.paas.vo.CertificationCheck;
-import com.hummingbird.paas.vo.BidderBankInfo;
-import com.hummingbird.paas.vo.BidderBaseInfo;
-import com.hummingbird.paas.vo.BidderEqInfo;
-import com.hummingbird.paas.vo.BidderLegalPerson;
-import com.hummingbird.paas.vo.BidderRegisteredInfo;
 @Service
 public class MyBidderServiceImpl implements MyBidderService {
 	
@@ -515,10 +510,30 @@ public class MyBidderServiceImpl implements MyBidderService {
 
 	@Override
 	public List<BidderEqInfo> getEnterpriseQualification(Token token) throws BusinessException {
-		List<BidderEqInfo> aa = bidderCertificationCertificationDao.selectEqInfoByUserId(token.getUserId());
-
+		List<BidderEqInfoWithAudit> aa = bidderCertificationCertificationDao.selectEqInfoByUserId(token.getUserId());
+		List<BidderEqInfo> list = new ArrayList<BidderEqInfo>();
 		if(aa==null){
-			aa = new ArrayList<BidderEqInfo>();
+			return list;
+		}
+		else{
+			
+			for (Iterator iterator = aa.iterator(); iterator.hasNext();) {
+				BidderEqInfoWithAudit bidderEqInfoWithAudit = (BidderEqInfoWithAudit) iterator.next();
+				BidderEqInfo be = new BidderEqInfo(bidderEqInfoWithAudit);
+				
+				list.add(be);
+			}
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<BidderEqInfoWithAudit> getEnterpriseQualificationWithAudit(Token token) throws BusinessException {
+		List<BidderEqInfoWithAudit> aa = bidderCertificationCertificationDao.selectEqInfoByUserId(token.getUserId());
+		
+		if(aa==null){
+			aa = new ArrayList<BidderEqInfoWithAudit>();
 		}
 		
 		return aa;
@@ -649,26 +664,6 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bca.setAuditStatus("OK#");
 					bc.setStatus("OK#");
 					
-					//添加 证书资质信息,只有通过的资质证书放过去
-					//删除所有证书
-					bcDao.removeAllByBidderId(bidderId);
-					if(CollectionUtils.isNotEmpty(certificationsCheck)){
-						for (Iterator iterator = certificationsCheck.iterator(); iterator.hasNext();) {
-							CertificationCheck certificationCheck = (CertificationCheck) iterator.next();
-							Integer certificationApplyId = certificationCheck.getCertificationApplyId();
-							if(StringUtils.equals(CommonStatusConst.STATUS_OK,certificationCheck.getCertificationApply().getResult())){
-								bcDao.insertByApplyId(certificationApplyId);
-							}
-							BidderCertificationAudit ca = new BidderCertificationAudit();
-							ca.setAuditor(bc.getUserId());
-							ca.setAuditStatus(certificationCheck.getCertificationApply().getResult());
-							ca.setAuditTime(new Date());
-							ca.setAuditReason(certificationCheck.getCertificationApply().getMsg());
-							ca.setCertificationCerticateId(certificationApplyId);
-							bcaDao.insert(ca);
-						}
-					}
-
 //					5.插入积分信息
 					BidderCredit bcr  = bidderCreditDao.selectByPrimaryKey(bidderId);
 					ScoreDefine sd = sdDao.selectByPrimaryKey(1);//信用积分配置表信息
@@ -696,15 +691,34 @@ public class MyBidderServiceImpl implements MyBidderService {
 					bc.setStatus("FLS");
 					
 				}
+				//添加 证书资质信息,只有通过的资质证书放过去
+				//删除所有证书
+				bcDao.removeAllByBidderId(bidderId);
+				if(CollectionUtils.isNotEmpty(certificationsCheck)){
+					for (Iterator iterator = certificationsCheck.iterator(); iterator.hasNext();) {
+						CertificationCheck certificationCheck = (CertificationCheck) iterator.next();
+						Integer certificationApplyId = certificationCheck.getCertificationApplyId();
+						if(StringUtils.equals(CommonStatusConst.STATUS_OK,certificationCheck.getCertificationApply().getResult())){
+							bcDao.insertByApplyId(certificationApplyId);
+						}
+						BidderCertificationAudit ca = new BidderCertificationAudit();
+						ca.setAuditor(bc.getUserId());
+						ca.setAuditStatus(certificationCheck.getCertificationApply().getResult());
+						ca.setAuditTime(new Date());
+						ca.setAuditReason(certificationCheck.getCertificationApply().getMsg());
+						ca.setCertificationCerticateId(certificationApplyId);
+						bcaDao.insert(ca);
+					}
+				}
 //				4.插入审核信息
 				
-					bca = this.getBidderCertificateAduitInfo(body.getBaseInfoCheck(), bca);
-					bca = getBidderCertificateAduitInfo(body.getLegalPersonCheck(), bca);
-					bca = getBidderCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
-					bca.setInsertTime(new Date());//首次插入时间
-					bca.setBidderCerticateId(bidderId);
-					bca.setAuditor(bc.getUserId());
-					bca.setAuditTime(new Date());
+				bca = this.getBidderCertificateAduitInfo(body.getBaseInfoCheck(), bca);
+				bca = getBidderCertificateAduitInfo(body.getLegalPersonCheck(), bca);
+				bca = getBidderCertificateAduitInfo(body.getRegisteredInfoCheck(), bca);
+				bca.setInsertTime(new Date());//首次插入时间
+				bca.setBidderCerticateId(bidderId);
+				bca.setAuditor(bc.getUserId());
+				bca.setAuditTime(new Date());
 				if(bca.getId()==null){
 					bca.setInsertTime(new Date());//首次插入时间
 					bidderCertificateAduitDao.insert(bca);

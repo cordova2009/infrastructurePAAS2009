@@ -112,13 +112,13 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	
 	@Override
 	public Boolean getAuthInfo(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public BiddeeBaseInfo getBaseInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
 		BiddeeBaseInfo baseInfo = new BiddeeBaseInfo();
 		
@@ -140,7 +140,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 
 	@Override
 	public BiddeeLegalPerson getLegalPersonInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
 		BiddeeLegalPerson legalPerson = new BiddeeLegalPerson();
 //		"legalPerson":{
@@ -169,7 +169,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 
 	@Override
 	public BiddeeRegisteredInfo getRegisteredInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
 		BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
 
@@ -196,7 +196,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 
 	@Override
 	public BiddeeRegisteredInfo getRegisteredInfo(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		BiddeeCerticate aa = biddeeCerticateDao.selectByUserId(token.getUserId());
 		BiddeeRegisteredInfo registeredInfo = new BiddeeRegisteredInfo();
 
@@ -228,7 +228,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	}
 	@Override
 	public BiddeeBankInfo getBankInfo_apply(Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 
 		List<BiddeeBankCardCerticate> aa = bbccDao.selectBiddeeBankInfoByToken(token.getToken());
 //		Map bankInfo= new HashMap();
@@ -257,7 +257,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBaseInfo_apply(String appId, BiddeeBaseInfo baseInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -319,7 +319,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveLegalPersonInfo_apply(String appId, BiddeeLegalPerson legalPerson, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
         int i = 0;
 		if(token.getUserId()!=null){
 			BiddeeCerticate biddee=biddeeCerticateDao.selectByUserId(token.getUserId());
@@ -452,7 +452,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int saveBankInfo(String appId, BiddeeBankInfo bankInfo, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -494,7 +494,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, value = "txManager")
 	public int applay(String appId, Token token) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		int i= 0;
 		if(token.getUserId() != null){
@@ -688,7 +688,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	 * @throws BusinessException
 	 */
 	public  <T> BiddeeCertificateAduit getBiddeeCertificateAduitInfo(T obj,BiddeeCertificateAduit bc) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		
 		Class clazz = obj.getClass();
 	    Field[] fields = obj.getClass().getDeclaredFields();//获得属性
@@ -751,7 +751,7 @@ public class MyBiddeeServiceImpl implements MyBiddeeService {
 	 * @throws BusinessException
 	 */
 	public  <T> Boolean checkIsOk(T obj,String type) throws BusinessException {
-		// TODO Auto-generated method stub
+		
 		boolean flag = true;
 //		BiddeeBaseInfoCheck baseInfoCheck = body.getBaseInfoCheck();
 		Class clazz = obj.getClass();

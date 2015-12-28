@@ -5,6 +5,7 @@ package com.hummingbird.paas.controller;
  * 投标人业务
  * */
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,10 +47,13 @@ import com.hummingbird.commonbiz.vo.BaseTransVO;
 
 import com.hummingbird.paas.entity.AppLog;
 import com.hummingbird.paas.entity.BiddeeCerticate;
+import com.hummingbird.paas.entity.BiddeeCertificateAduit;
 import com.hummingbird.paas.entity.Bidder;
 import com.hummingbird.paas.entity.BidderBankAduit;
+import com.hummingbird.paas.entity.BidderBankCardCerticate;
 import com.hummingbird.paas.entity.BidderCerticate;
 import com.hummingbird.paas.entity.BidderCertificateAduit;
+import com.hummingbird.paas.entity.BidderCertificationAudit;
 import com.hummingbird.paas.entity.BidderCredit;
 import com.hummingbird.paas.entity.ScoreDefine;
 import com.hummingbird.paas.entity.ScoreLevel;
@@ -57,10 +61,14 @@ import com.hummingbird.paas.entity.Token;
 import com.hummingbird.paas.entity.UserBankcard;
 import com.hummingbird.paas.mapper.AppLogMapper;
 import com.hummingbird.paas.mapper.BidObjectMapper;
+import com.hummingbird.paas.mapper.BiddeeBankAduitMapper;
+import com.hummingbird.paas.mapper.BiddeeBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBankAduitMapper;
+import com.hummingbird.paas.mapper.BidderBankCardCerticateMapper;
 import com.hummingbird.paas.mapper.BidderBidCreditScoreMapper;
 import com.hummingbird.paas.mapper.BidderCerticateMapper;
 import com.hummingbird.paas.mapper.BidderCertificateAduitMapper;
+import com.hummingbird.paas.mapper.BidderCertificationAuditMapper;
 import com.hummingbird.paas.mapper.BidderCreditMapper;
 import com.hummingbird.paas.mapper.BidderMapper;
 import com.hummingbird.paas.mapper.ScoreDefineMapper;
@@ -69,6 +77,7 @@ import com.hummingbird.paas.mapper.UserBankcardMapper;
 import com.hummingbird.paas.services.MyBidderService;
 import com.hummingbird.paas.services.TokenService;
 import com.hummingbird.paas.util.IntegerUtil;
+import com.hummingbird.paas.util.StringUtil;
 import com.hummingbird.paas.vo.BiddeeAuthInfo;
 import com.hummingbird.paas.vo.BidderAuditInfoVO;
 import com.hummingbird.paas.vo.BidderBaseInfoCheck;
@@ -78,6 +87,7 @@ import com.hummingbird.paas.vo.BidderBankInfo;
 import com.hummingbird.paas.vo.BidderBaseInfo;
 import com.hummingbird.paas.vo.BidderCerticateSaveInfoVO;
 import com.hummingbird.paas.vo.BidderEqInfo;
+import com.hummingbird.paas.vo.BidderEqInfoWithAudit;
 import com.hummingbird.paas.vo.BidderLegalPerson;
 import com.hummingbird.paas.vo.BidderRegisteredInfo;
 import com.hummingbird.paas.vo.MyBidderAuthInfoApplyVO;
@@ -113,6 +123,17 @@ public class MyBidderBusinessController extends BaseController  {
 	TokenService tokenSrv;
 	@Autowired(required = true)
 	protected AppLogMapper applogDao;
+	@Autowired
+	protected BidderCerticateMapper bidderCerticateDao;
+	@Autowired
+	protected BidderBankCardCerticateMapper berbccDao;
+	@Autowired
+	protected BiddeeBankCardCerticateMapper beebccDao;
+	@Autowired
+	protected BiddeeBankAduitMapper biddeeBankAduitDao;
+	@Autowired
+	protected BidderCertificationAuditMapper bcaDao;
+	
 	
 	/**
 	 * 查询我的投标人认证信息接口
@@ -426,7 +447,28 @@ public class MyBidderBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			baseInfo = myBidderService.getBaseInfo_apply(token);
+//			baseInfo = myBidderService.getBaseInfo_apply(token);
+			BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
+			baseInfo = new BidderBaseInfo();
+			
+			if(aa !=null){
+				baseInfo.setLogoUrl(aa.getLogo());
+				baseInfo.setCompanyName(aa.getCompanyName());
+				baseInfo.setShortName(aa.getShortName());
+				baseInfo.setDescription(aa.getDescription());
+				baseInfo.setRegisteredCapital(aa.getRegisteredCapital());
+				baseInfo.setTelephone(aa.getContactMobileNum());
+				baseInfo.setEmail(aa.getEmail());
+				//获取不通过的数据
+				BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(aa.getId());
+				Map checkresult = new HashMap<>();
+				setNoPassResult(checkresult,bca,"logo","companyName","shortName","description","registeredCapital","email");
+				if("FLS".equals(bca.getContactMobileNum())){
+					checkresult.put("telephone", bca.getContactMobileNumMsg());
+				}
+				rm.put("baseInfoCheck", checkresult);
+			}
+			
 			
 //			baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
 			rm.put("baseInfo", baseInfo);
@@ -496,11 +538,36 @@ public class MyBidderBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			legalPerson = myBidderService.getLegalPersonInfo_apply(token);
+//			legalPerson = myBidderService.getLegalPersonInfo_apply(token);
 			
-//						baseInfo.put("creditRatingIcon", aa.getUnified_social_credit_code_url());
-//			rm.put("legalPerson", JsonUtil.convert2Json(legalPerson));
-	
+			BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
+			legalPerson = new BidderLegalPerson();
+			if(aa !=null){
+				legalPerson.setName(aa.getLegalPerson());
+				legalPerson.setIdCard(aa.getLegalPersonIdcard());
+				legalPerson.setIdCardfrontUrl(aa.getLegalPersonIdcardFrontUrl());
+				legalPerson.setIdCardBackUrl(aa.getLegalPersonIdcardBackUrl());
+				legalPerson.setAuthorityBookUrl(aa.getLegalPersonAuthorityBook());
+				//获取不通过的数据
+				BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(aa.getId());
+				Map checkresult = new HashMap<>();
+				if("FLS".equals(bca.getLegalPerson())){
+					checkresult.put("name", bca.getLegalPersonMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonIdcard())){
+					checkresult.put("idCard", bca.getLegalPersonIdcardMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonIdcardFrontUrl())){
+					checkresult.put("idCardfrontUrl", bca.getLegalPersonIdcardFrontUrlMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonIdcardBackUrl())){
+					checkresult.put("idCardBackUrl", bca.getLegalPersonIdcardBackUrlMsg());
+				}
+				if("FLS".equals(bca.getLegalPersonAuthorityBook())){
+					checkresult.put("authorityBookUrl", bca.getLegalPersonAuthorityBookMsg());
+				}
+				rm.put("legalPersonCheck", checkresult);
+			}	
 			rm.put("legalPerson", legalPerson);
 			
 			
@@ -568,7 +635,55 @@ public class MyBidderBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			registeredInfo = myBidderService.getRegisteredInfo_apply(token);	
+//			registeredInfo = myBidderService.getRegisteredInfo_apply(token);
+			
+			BidderCerticate aa = bidderCerticateDao.selectByUserId(token.getUserId());
+			
+			registeredInfo = new BidderRegisteredInfo();
+			if(aa != null){
+				registeredInfo.setBusinessLicenseNum(aa.getBusinessLicense());
+				registeredInfo.setBusinessLicenseUrl(aa.getBusinessLicenseUrl());
+				registeredInfo.setTaxRegistrationNum(aa.getTaxRegistrationCertificate());
+				registeredInfo.setTaxRegistrationUrl(aa.getTaxRegistrationCertificateUrl());
+				registeredInfo.setOrganizationCodeNum(aa.getOrgCodeCertificate());
+				registeredInfo.setOrganizationCodeUrl(aa.getOrgCodeCertificateUrl());
+				registeredInfo.setBusinessScope(aa.getBusinessScope());
+				registeredInfo.setRegTime(aa.getRegTime());
+				registeredInfo.setBusinessLicenseExpireTime(aa.getBusinessLicenseExpireTime());
+					
+				registeredInfo.setAddress(aa.getAddress());
+				registeredInfo.setBusinessLicenseType(aa.getBusinessLicenseType());
+				registeredInfo.setNewBusinessLicenseNum(aa.getUnifiedSocialCreditCode());
+				registeredInfo.setNewBusinessLicenseUrl(aa.getUnifiedSocialCreditCodeUrl());
+				//获取不通过的数据
+				BidderCertificateAduit  bca = bidderCertificateAduitDao.selectByBcid(aa.getId());
+				Map checkresult = new HashMap<>();
+				setNoPassResult(checkresult,bca,"businessLicenseUrl"
+						,"businessScope","regTime","businessLicenseExpireTime"
+						,"address");
+				
+				if("FLS".equals(bca.getBusinessLicense())){
+					checkresult.put("businessLicenseNum", bca.getBusinessLicenseMsg());
+				}
+				if("FLS".equals(bca.getTaxRegistrationCertificate())){
+					checkresult.put("taxRegistrationNum", bca.getTaxRegistrationCertificateMsg());
+				}
+				if("FLS".equals(bca.getOrgCodeCertificate())){
+					checkresult.put("organizationCodeNum", bca.getOrgCodeCertificateMsg());
+				}
+				if("FLS".equals(bca.getOrgCodeCertificateUrl())){
+					checkresult.put("organizationCodeUrl", bca.getOrgCodeCertificateUrlMsg());
+				}
+				if("FLS".equals(bca.getUnifiedSocialCreditCode())){
+					checkresult.put("newBusinessLicenseNum", bca.getUnifiedSocialCreditCodeMsg());
+				}
+				if("FLS".equals(bca.getUnifiedSocialCreditCodeUrl())){
+					checkresult.put("newBusinessLicenseUrl", bca.getUnifiedSocialCreditCodeUrlMsg());
+				}
+				rm.put("registeredInfoCheck", checkresult);
+			}
+			
+			
 			rm.put("registeredInfo", registeredInfo);
 			tokenSrv.postponeToken(token);
 			
@@ -637,7 +752,42 @@ public class MyBidderBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			bankInfo = myBidderService.getBankInfo_apply(token);
+//			bankInfo = myBidderService.getBankInfo_apply(token);
+			List<BidderBankCardCerticate> aa = berbccDao.selectBidderBankInfoByToken(token.getToken());
+			bankInfo = new BidderBankInfo();
+			if(aa!=null&&aa.size()>0){
+				bankInfo.setBank(aa.get(0).getBankName());
+				bankInfo.setAccountId(aa.get(0).getAccountNo());
+				bankInfo.setAccountName(aa.get(0).getAccountName());
+				bankInfo.setTaxNo(aa.get(0).getTaxNo());
+				bankInfo.setTelephone(aa.get(0).getTelephone());
+				bankInfo.setAddress(aa.get(0).getAddress());
+				//处理不通过的银行卡信息
+				BidderCerticate bc = bidderCerticateDao.selectByUserId(token.getUserId());
+				if(bc!=null){
+					BidderBankAduit bba = bidderBankAduitDao.selectByBcId(bc.getId());
+					Map checkresult = new HashMap<>();
+					if("FLS".equals(bba.getAcccountNameCertificateResult())){
+						checkresult.put("acccountName", bba.getAcccountNameCertificateMsg());
+					}
+					if("FLS".equals(bba.getTaxNoCertificateResult())){
+						checkresult.put("taxNo", bba.getTaxNoCertificateMsg());
+					}
+					if("FLS".equals(bba.getTelephoneCertificateResult())){
+						checkresult.put("telephone", bba.getTelephoneCertificateMsg());
+					}
+					if("FLS".equals(bba.getAddressCertificateResult())){
+						checkresult.put("address", bba.getAddressCertificateMsg());
+					}
+					if("FLS".equals(bba.getBankCertificateResult())){
+						checkresult.put("bank", bba.getBankCertificateMsg());
+					}
+					if("FLS".equals(bba.getBankcardCertificateResult())){
+						checkresult.put("acccountId", bba.getBankcardCertificateMsg());
+					}
+					rm.put("baseInfoCheck", checkresult);
+				}
+			}
 			rm.put("bankInfo", bankInfo);
 			tokenSrv.postponeToken(token);
 			
@@ -706,7 +856,8 @@ public class MyBidderBusinessController extends BaseController  {
 				throw new TokenException("token验证失败,或已过期,请重新登录");
 			}
 			
-			List<BidderEqInfo> aa = myBidderService.getEnterpriseQualification(token);
+			List<BidderEqInfoWithAudit> aa = myBidderService.getEnterpriseQualificationWithAudit(token);
+			
 
 			rm.put("eqInfo", aa);
 			tokenSrv.postponeToken(token);
@@ -1257,7 +1408,28 @@ public class MyBidderBusinessController extends BaseController  {
 			rm.setErrmsg(e1.getMessage());
 		}
 		return rm;
-	}  
+	} 
+	
+	/**
+	 * 设置不通过的数据
+	 * @param checkresult
+	 * @param bca
+	 * @param param
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws Exception 
+	 */
+	private void setNoPassResult(Map checkresult, Object bca, String ... params) throws Exception {
+		for (int i = 0; i < params.length; i++) {
+			String param = params[i];
+			String paramvalue = BeanUtils.getProperty(bca, param);
+			if(StringUtils.equals("FLS", paramvalue)){
+				String nopassreason =BeanUtils.getProperty(bca, param+"Msg");
+				checkresult.put(param, nopassreason);
+			}
+		}
+		
+	}
 	
 	/**
 	 * 写日志,需要由子类实现

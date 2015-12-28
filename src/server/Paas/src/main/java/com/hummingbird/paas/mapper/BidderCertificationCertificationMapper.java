@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hummingbird.paas.entity.BidderCertificationCertification;
 import com.hummingbird.paas.vo.BidderEqInfo;
+import com.hummingbird.paas.vo.BidderEqInfoWithAudit;
 
 public interface BidderCertificationCertificationMapper {
     /**
@@ -40,7 +41,7 @@ public interface BidderCertificationCertificationMapper {
     /**
      * 根据userId查询记录 
      */
-    List<BidderEqInfo> selectEqInfoByUserId(Integer userId);
+    List<BidderEqInfoWithAudit> selectEqInfoByUserId(Integer userId);
     /**
      * 根据主键更新属性不为空的记录
      */

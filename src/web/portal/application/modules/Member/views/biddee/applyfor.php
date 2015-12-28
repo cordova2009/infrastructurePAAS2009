@@ -606,5 +606,6 @@
                     .find('.hidden-url').val('');
             });
         });
+    var my_97_custom_settings = {maxDate:'<?=date('Y-m-d',strtotime('-1 day'))?>'};
     </script>
 </block>

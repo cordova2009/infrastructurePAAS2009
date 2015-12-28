@@ -66,7 +66,11 @@ if(is_array($bidRequirementInfo)){
                     <div class="tit6">投标人资质证书</div>
                     <div class="yaoqiu">
                         <div class="txt1"><i class="ico i-paper"></i> 招标要求</div>
+
                         <?php
+                            if(empty($requirementList)){
+                                echo '<div class="clear txt2"><div class="li">暂无资质要求！</div></div>';
+                            }
                             $item = current($requirementList);
                             $i = 0;
                             $need_array = [];
@@ -188,8 +192,8 @@ if(is_array($bidRequirementInfo)){
                                             <input type="hidden" class="hidden-url" name="bankGuaranteeUrl" value="<?=isset($bankGuarantee) ? $bankGuarantee['bankGuaranteeUrl'] : ''?>">
                                         </a>
                                         <span class="uploaded <?php if(!isset($bankGuarantee) || empty($bankGuarantee['bankGuaranteeUrl'])) echo 'hide'?>">
-                                            <a target="_blank" href="<?=isset($bankGuarantee)?imageView2($bankGuarantee['bankGuaranteeUrl']):''?>" class="btn-file2 view" style="width: 50px;">查看</a>
-                                            <a class="btn-file2 bg-grey delete-pic-btn" style="width: 50px;">删除</a>
+                                            <a target="_blank" href="<?=isset($bankGuarantee)?imageView2($bankGuarantee['bankGuaranteeUrl']):''?>" class="btn-file2 view" style="width: 45px;">查看</a>
+                                            <a class="btn-file2 bg-grey delete-pic-btn" style="width: 45px;">删除</a>
                                         </span>
                                     </span>
                                 </div>

@@ -97,13 +97,23 @@ class TenderController extends MemberController{
         if(empty($data['announcementEndTime'])){
             $this->error('公告结束时间不能为空！');
         }
+        if(strtotime($data['announcementEndTime']) < strtotime($data['announcementBeginTime'])){
+            $this->error('公告结束时间不能早于公告开始时间！');
+        }
+
         $data['biddingEndTime'] = I('biddingEndTime');
         if(empty($data['biddingEndTime'])){
             $this->error('投标截止时间不能为空！');
         }
+        if(strtotime($data['biddingEndTime']) < strtotime($data['announcementBeginTime'])){
+            $this->error('投标截止时间不能早于公告结束时间！');
+        }
         $data['bidOpenDate'] = I('bidOpenDate');
         if(empty($data['bidOpenDate'])){
             $this->error('开标时间不能为空！');
+        }
+        if(strtotime($data['bidOpenDate']) < strtotime($data['biddingEndTime'])){
+            $this->error('开标时间不能早于投标截止时间！');
         }
 
         $curl = new Curl();
@@ -140,6 +150,10 @@ class TenderController extends MemberController{
         $data['endTime'] = I('endTime');
         if(empty($data['startTime'])){
             $this->error('答疑结束时间不能为空！');
+        }
+
+        if(strtotime($data['endTime']) < strtotime($data['startTime'])){
+            $this->error('答疑结束时间不能早于开始时间！');
         }
 
         $data['QQ'] = I('QQ');
@@ -528,6 +542,7 @@ class TenderController extends MemberController{
 
         $resp = $curl->setData($data)->send('tender/isInvitationOfTender');
         if(!check_resp($resp)){
+
             $this->error('<a href="'.U('/member/biddee/authInfo').'">您还没有招标人资格，请点击这里进行认证！</a>',U('/member/biddee/authInfo'));
         }
 
@@ -537,7 +552,7 @@ class TenderController extends MemberController{
         }
 
         if($resp['terMember'] != 'OK#'){
-            $this->error('<a href="'.U('/member/vip/terIndex').'">您还不是招标人会员，请先充值购买！</a>',U('/member/vip/terIndex'));
+            $this->redirect(U('/member/vip/terIndex'));
         }
 
         if(IS_POST){
